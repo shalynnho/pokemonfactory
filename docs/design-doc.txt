@@ -14,11 +14,53 @@ Try to phrase them in a clear and concise manner.
 ##Classes
 In our implementation, the following classes will be necessary.
 
-###Gantry Robot
-Some description of the robot.
+Classes
+########Gantry Robot - Chris
+    The gantry robot begins the simulation by bringing all of the parts bins onto the screen. The robot will move bins and dump them into the feeder. After dumping the bin into a feeder, the gantry robot will place the bin behind the feeder in the purge station. The robot will also take empty and purged bins into a storage room off of the screen.
 
-- Some method
-- Some other method
+Variables:
+	int currentX
+		- X coordinate that gantry robot is currently located at
+int currentY
+	-Y coordinate that gantry robot is currently located at
+
+int destinationX
+	-X coordinate that gantry robot is moving towards
+int destinationY
+	-Y coordinate that gantry robot is moving towards
+
+static int storageX
+	-X coordinate that storage is located at (located off screen)
+static int storageY
+	-Y coordinate that storage is located at (located off screen)
+
+static int startBinX
+	-Starting X coordinate of the line of bins
+static int  startBinY
+	-Starting Y coordinate of the line of bins
+
+Bin heldBin
+	-Bin being held by the feeder. Used to move the bin with the feeder
+
+Feeder destinationFeeder
+	-Feeder to drop heldBin at
+
+Arraylist <Bin> binList
+	-Arraylist to store the locations of each new bin
+
+Imageicon gantryImage
+	-Image for gantry robot
+
+Functions:
+receiveBin(Bin)
+	-Gantry robot takes a bin from offscreen and moves it to its correct position on screen. Uses binList to find correct location
+dropBin(Bin, Feeder)
+	-Gantry robot picks up the given bin and drops it into the specified feeder. After being emptied into the feeder, the bin is moved to the purge station.
+removeBin(Bin)
+	-Gantry robot takes a bin from the purge station and moves it off screen to the storage location
+
+moveTo(destinationX, destinationY)
+	-Moves gantry from current coordinates to the new destination coordinates
 
 ###Feeders
 Some description.
