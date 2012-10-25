@@ -84,6 +84,7 @@ Some description.
 
 
 ###Conveyor - Vansh and Neetu
+    The conveyor is going to used to bring empty kits into the factory and move completed ones out. After bringing empty kits into the factory, the kits will be moved by other robots. The conveyor will need to know how to move and stop based on its sensors and instructions from the factory agent.
     Methods:
         - bringEmptyKit(Kit) : Brings in an empty Kit from offscreen. Here we would be creating a new kit variable. Moves the conveyor belt and the kit together.
         - giveKitToKitRobot(Kit) : gives kit to the kit robot. Deletes the kit from the kitsOnConveyor. 
@@ -94,8 +95,9 @@ Some description.
         - arrayList<Kits> kitsOnConveyor : this will keep track of all the kits on the conveyor.
 
 ###Part - Vansh and Neetu
+    Parts are going to used to assemble the kits. The parts will have a respective image and sound associated to them.
     Methods:
-        - constructor(string): sets the name of the part. Based on the name, image and sound will be set to their correct values
+        - constructor(PartType): Based on the PartType, image and sound will be set to their correct values
         - getLocationX() : returns the x coordinate of the part
         - getLocationY() : returns the y coordinate of the part
         - getName() : returns the name
@@ -104,7 +106,6 @@ Some description.
     Variables:
         - locationX and locationY : location of the part
         - PartType type :  determines what kind of part it is
-        - name : name of the part
         - ImageIcon image : image of the part
         - sound (V2) : sound the part makes
 
@@ -116,7 +117,7 @@ Some description.
         - getLocationX() : returns the x coordinate of the part
         - getLocationY() : returns the y coordinate of the part
     Variables:
-        - <Part> parts : keeps track of all the parts in the kit
+        - ArrayList<Part> parts : keeps track of all the parts in the kit
         - ArrayList<PartType> partTypes : list of all the parts required in the kit
         - locationX and locationY : location of the kit
         - ImageIcon kitImage : image of the kit
@@ -128,11 +129,11 @@ Some description.
         - getPartType() : returns the part type
         - draw(int, int) : draws the bin at the location
         - getQuantity() : returns quantity of parts in the bin
-        - emptyBin() : empties the bin during a purge
+        - setEmpty() : empties the bin during a purge
     Variables:
         - locationX and locationY : location of the kit
         - ArrayList<Part> parts : ArrayList of all the parts that are currently in the bin
-        - Boolean isFull : determines if the bin is full so the respective ImageIcon can be drawn
+        - Public Boolean isEmpty : determines if the bin is empty so the respective ImageIcon can be drawn.
         - ImageIcon full : image of a full bin
         - ImageIcon empty : image of an empty bin
         - int partQuantity : quantity of parts in the bin
