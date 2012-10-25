@@ -1,0 +1,65 @@
+Factory Project - Team 9
+=====
+Design Document
+
+
+##Purpose / Overview
+Give a brief, high-level description of what this piece of software will do. This is pretty much you restating the problem as you understand it.
+
+##Requirements
+What are the functions that this software is supposed to perform?
+
+Try to phrase them in a clear and concise manner.
+
+##Classes
+In our implementation, the following classes will be necessary.
+
+###Gantry Robot
+Some description of the robot.
+
+- Some method
+- Some other method
+
+###Feeders
+Some description.
+
+- Some method
+- Some other method
+
+###Lane
+
+
+###Nest
+
+
+###Camera
+
+
+###Parts Robot
+
+
+###Kits Robot
+
+
+###Conveyor
+
+
+###Part
+
+
+###Kit
+
+
+###Bin
+
+
+##Global Functions / Data
+None
+
+##High Level Architecture
+
+##User Interface
+
+##Test Cases
+- Writing a main method full of instructions, see everything works without server instructions
+- Some might not require testing, because the server agents will guarantee valid outputs.
