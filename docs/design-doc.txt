@@ -41,17 +41,59 @@ Some description.
 ###Kits Robot
 
 
-###Conveyor
+###Conveyor - Vansh and Neetu
+    Methods:
+        - bringEmptyKit(Kit) : Brings in an empty Kit from offscreen. Here we would be creating a new kit variable. Moves the conveyor belt and the kit together.
+        - giveKitToKitRobot(Kit) : gives kit to the kit robot. Deletes the kit from the kitsOnConveyor. 
+        - receiveKit(Kit) : receive completed Kit from Kit Robot then move the Kit offscreen
+        - draw() : paints the conveyer belt with the kits at the right position
+    Variables:
+        - arrayList<ImageIcon> conveyorSquares : this will be the graphical representation of the conveyor. We will move the squares and this give the impression of the conveyor moving
+        - arrayList<Kits> kitsOnConveyor : this will keep track of all the kits on the conveyor.
 
+###Part - Vansh and Neetu
+    Methods:
+        - constructor(string): sets the name of the part. Based on the name, image and sound will be set to their correct values
+        - getLocationX() : returns the x coordinate of the part
+        - getLocationY() : returns the y coordinate of the part
+        - getName() : returns the name
+        - playSound() : plays the sound
+        - draw(int,int) : draws the part at the correct location
+    Variables:
+        - locationX and locationY : location of the part
+        - PartType type :  determines what kind of part it is
+        - name : name of the part
+        - ImageIcon image : image of the part
+        - sound (V2) : sound the part makes
 
-###Part
-
-
-###Kit
-
-
-###Bin
-
+###Kit - Vansh and Neetu
+    Methods:
+        - draw(int, int) : draws the kit at the location
+        - setPartTypes(ArrayList<PartType>) : sets partTypes
+        - addPart(Part) : adds the part to part ArrayList
+        - getLocationX() : returns the x coordinate of the part
+        - getLocationY() : returns the y coordinate of the part
+    Variables:
+        - <Part> parts : keeps track of all the parts in the kit
+        - ArrayList<PartType> partTypes : list of all the parts required in the kit
+        - locationX and locationY : location of the kit
+        - ImageIcon kitImage : image of the kit
+        
+###Bin - Vansh and Neetu
+    Methods:
+        - Constructor(Parts) : creates a bin containing numberous specified parts
+        - receiveParts(ArrayList<Part> parts): both from constructor, and from Feeders’ purge
+        - getPartType() : returns the part type
+        - draw(int, int) : draws the bin at the location
+        - getQuantity() : returns quantity of parts in the bin
+        - emptyBin() : empties the bin during a purge
+    Variables:
+        - locationX and locationY : location of the kit
+        - ArrayList<Part> parts : ArrayList of all the parts that are currently in the bin
+        - Boolean isFull : determines if the bin is full so the respective ImageIcon can be drawn
+        - ImageIcon full : image of a full bin
+        - ImageIcon empty : image of an empty bin
+        - int partQuantity : quantity of parts in the bin
 
 ##Global Functions / Data
 None
