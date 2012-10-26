@@ -78,8 +78,32 @@ Some description.
 
 
 ###Parts Robot
-
-
+	Variables:
+		-int robotInitialX, robotInitialY
+			-initial location of robot
+		-int robotCurrentX, robotCurrentY
+			-current location of robot
+		-boolean arm1, arm2, arm3, arm4
+			-whether the arm is full, initialized empty
+		-int ArrayList<Part> partArray
+			-an array of parts that allocates memory for 4 parts
+	Methods:
+		-pickUpPart(Part)
+			-pickup from nests
+			-goes to a location to pick up a part
+			-be able to hold 4 parts at a time
+		-givePartToKit(Kit, int)
+			-gives the part to the kit
+			-goes to a location to give a part
+			-puts part in a specific location inside the kit
+		-goHome()
+			-depends on specific graphics implementation
+			-sends the robot back to the initial location
+			-makes sure that the robot doesn't collide
+			-then send message that the action has been (either part is picked up or it's given to a kit)
+		-drawRobot(robotImage)
+			-draws the robot
+			-pass by reference robotImage to drawperformed 
 ###Kits Robot
 
 
