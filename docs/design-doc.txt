@@ -100,7 +100,7 @@ Some description.
 			-depends on specific graphics implementation
 			-sends the robot back to the initial location
 			-makes sure that the robot doesn't collide
-			-then send message that the action has been (either part is picked up or it's given to a kit)
+			-then send message that the action has been performed(either part is picked up or it's given to a kit)
 		-drawRobot(robotImage)
 			-draws the robot
 			-pass by reference robotImage to drawperformed 
