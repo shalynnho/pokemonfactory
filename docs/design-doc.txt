@@ -128,57 +128,87 @@ Some description.
 ###Conveyor - Vansh and Neetu
     The conveyor is going to used to bring empty kits into the factory and move completed ones out. After bringing empty kits into the factory, the kits will be moved by other robots. The conveyor will need to know how to move and stop based on its sensors and instructions from the factory agent.
     Methods:
+        - constructor() : creates a companion display object
+        - draw() : paints the conveyer belt with the kits at the right position
+    Variables:
+        - arrayList<ImageIcon> conveyorLines: 
+                This will be a part of the graphical representation of the conveyor. 
+                These lines will gradually move across the conveyor belt at a desired velocity.
+        - ImageIcon conveyorBelt : should be a long rectangle meant to simulate the conveyor belt
+
+###ConveyorLogic - Vansh and Neetu
+    Contains all non-graphic related functions still needed for the companion display class to display properly.
+    This class will contain a companion display object so said object can access any information when the graphic output changes
+    Methods:
+        - constructor() : creates a ConveyorLogic object
         - bringEmptyKit(Kit) : Brings in an empty Kit from offscreen. Here we would be creating a new kit variable. Moves the conveyor belt and the kit together.
         - giveKitToKitRobot(Kit) : gives kit to the kit robot. Deletes the kit from the kitsOnConveyor. 
         - receiveKit(Kit) : receive completed Kit from Kit Robot then move the Kit offscreen
-        - draw() : paints the conveyer belt with the kits at the right position
     Variables:
-        - arrayList<ImageIcon> conveyorSquares : this will be the graphical representation of the conveyor. We will move the squares and this give the impression of the conveyor moving
-        - arrayList<Kits> kitsOnConveyor : this will keep track of all the kits on the conveyor.
+        - Conveyor : reference to companion display object
+        - arrayList<Kits> kitsOnConveyor : this will keep track of all the kits on the conveyor. 
 
 ###Part - Vansh and Neetu
     Parts are going to used to assemble the kits. The parts will have a respective image and sound associated to them.
     Methods:
-        - constructor(PartType): Based on the PartType, image and sound will be set to their correct values
+        - constructor() : creates a companion display object
         - getLocationX() : returns the x coordinate of the part
         - getLocationY() : returns the y coordinate of the part
-        - getName() : returns the name
-        - playSound() : plays the sound
         - draw(int,int) : draws the part at the correct location
     Variables:
         - locationX and locationY : location of the part
-        - PartType type :  determines what kind of part it is
         - ImageIcon image : image of the part
+        
+###PartLogic - Vansh and Neetu
+    Methods:
+        - constructor(PartType): Based on the PartType, image and sound will be set to their correct values
+        - getName() : returns the name
+        - playSound() : plays the sound
+    Variables:
+        - Part : reference to companion display object
+        - PartType type :  determines what kind of part it is
         - sound (V2) : sound the part makes
 
 ###Kit - Vansh and Neetu
     Methods:
+        - constructor() : creates default empty companion display object
         - draw(int, int) : draws the kit at the location
-        - setPartTypes(ArrayList<PartType>) : sets partTypes
-        - addPart(Part) : adds the part to part ArrayList
         - getLocationX() : returns the x coordinate of the part
         - getLocationY() : returns the y coordinate of the part
     Variables:
-        - ArrayList<Part> parts : keeps track of all the parts in the kit
-        - ArrayList<PartType> partTypes : list of all the parts required in the kit
         - locationX and locationY : location of the kit
         - ImageIcon kitImage : image of the kit
+
+###KitLogic - Vansh and Neetu
+     Methods:
+        - constructor() : creates KitLogic to accompany companion display object
+        - setPartTypes(ArrayList<PartType>) : sets partTypes
+        - addPart(Part) : adds the part to part ArrayList
+     Variables:
+	- Kit : reference to companion display object
+        - ArrayList<Part> parts : keeps track of all the parts in the kit
+        - ArrayList<PartType> partTypes : list of all the parts required in the kit
         
 ###Bin - Vansh and Neetu
     Methods:
-        - Constructor(Parts) : creates a bin containing numberous specified parts
-        - receiveParts(ArrayList<Part> parts): both from constructor, and from Feeders’ purge
-        - getPartType() : returns the part type
         - draw(int, int) : draws the bin at the location
-        - getQuantity() : returns quantity of parts in the bin
-        - setEmpty() : empties the bin during a purge
     Variables:
         - locationX and locationY : location of the kit
         - ArrayList<Part> parts : ArrayList of all the parts that are currently in the bin
         - Public Boolean isEmpty : determines if the bin is empty so the respective ImageIcon can be drawn.
         - ImageIcon full : image of a full bin
         - ImageIcon empty : image of an empty bin
-        - int partQuantity : quantity of parts in the bin
+
+###BinLogic - Vansh and Neetu
+    Methods:
+        - Constructor(Parts, int) : creates a bin containing numberous specified parts
+        - receiveParts(ArrayList<Part> parts): both from constructor, and from Feeders’ purge
+        - getPartType() : returns the part type
+        - getQuantity() : returns quantity of parts in the bin
+        - setEmpty() : empties the bin during a purge
+    Variables: 
+        - Bin : reference to companion display object
+         - int partQuantity : quantity of parts in the bin
 
 ##Global Functions / Data
 None
