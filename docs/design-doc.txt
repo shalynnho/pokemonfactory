@@ -189,7 +189,6 @@ In our implementation, the following classes will be necessary.
 			-initial location of the arm
 		-int currentArmLocationX, currentArmLocationY
 			-location of the arm
-		-float tstep
 	Methods
 		
 		-pickUpKit(Kit)
