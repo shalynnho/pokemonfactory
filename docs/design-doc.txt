@@ -80,11 +80,34 @@ In our implementation, the following classes will be necessary.
 	moveTo(destinationX, destinationY)
 		-Moves gantry from current coordinates to the new destination coordinates
 
-###Feeders
-Some description.
+###Feeders - Harry
+	feederGraphicsLogic:
+		Methods:
+			- void receiveBin(Bin)
+				- this function receives a bin to process from the agents
+			- void purgeBin(Bin)
+				- this function purges the contents of the feeder into a bin received from the agents
+			- boolean isPartLow()
+				- this function returns true if part count is low (under X)
+			- void movePartToDiverter(Part)
+				- this function moves a part from the feeder to the diverter
+			- void movePartToLane(Part)
+				- this function moves a part from the diverter to the lane
+				// TODO: must figure out whether to divert left or right
+			- void toggleOn(boolean)
+				- this function turns the feeder on or off
+			- void toggleRearGate(boolean)
+				- this function lowers the rear gate
 
-- Some method
-- Some other method
+		Variables:
+			- boolean binReceived
+			- int partsFed
+			- Bin bin1
+	feederDisplay:
+		Methods:
+	
+		Variables:
+		
 
 ###Lane
 
@@ -92,7 +115,15 @@ Some description.
 ###Nest
 
 
-###Camera
+###Camera - Harry
+	cameraGraphicsLogic:
+		Methods:
+
+		Variables:
+	cameraDisplay:
+		Methods:
+
+		Variables:
 
 
 ###Parts Robot
