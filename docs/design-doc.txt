@@ -89,6 +89,7 @@ In our implementation, the following classes will be necessary.
 				- this function purges the contents of the feeder into a bin received from the agents
 			- boolean isPartLow()
 				- this function returns true if part count is low (under X)
+				// TODO
 			- void movePartToDiverter(Part)
 				- this function moves a part from the feeder to the diverter
 			- void movePartToLane(Part)
@@ -108,10 +109,18 @@ In our implementation, the following classes will be necessary.
 				- the current bin being processed
 	feederDisplay:
 		Methods:
+			- void setPartImage(String)
+				- this retrieves the part type from the server, parses it into a file path, and sets the image for ImageIcon part
 	
 		Variables:
+			- ImageIcon feederUnit
+				- this is the image of the stationary main feeder unit
+			- ImageIcon diverter
+				- this is the image of the diverter
+				- we will need several of these in different positions to animate the moving diverter
+			- ImageIcon part
+				- this is the image of the part which will travel down the diverter
 		
-
 ###Lane
 
 
@@ -121,12 +130,28 @@ In our implementation, the following classes will be necessary.
 ###Camera - Harry
 	cameraGraphicsLogic:
 		Methods:
+			- boolean takeNestPhoto(Nest, Nest)
+				- this function "takes a photo" of two nests simultaneously and returns true if they pass inspection
+				// TODO both nests simultaneously or return quality of each?
+				- first check to see that nest is full before taking photo
+			- boolean takeKitPhoto(Kit, KitConfig)
+				- this function "takes a photo" of a completed kit and compares it to the KitConfig, returning true if it matches and false if it does not
+				- KitConfig is the benchmark kit configuration (the way the kit should be)
 
 		Variables:
+			- Map<Part, boolean> qualityOfParts
+				- this map stores whether a nest part is good or damaged
+				- values will all be true for v.0
+			- Map<Part, xCoordinate>
+			- Map<Part, yCoordinate>
+			// boolean photo taken?
+
 	cameraDisplay:
 		Methods:
-
+			// retrieve center position of nest or kit to take photo of
 		Variables:
+			Ellipse2D.Double cameraFlash
+				- this circle simulates a camera flash/photo being taken
 
 
 ###Parts Robot
