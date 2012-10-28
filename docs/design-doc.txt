@@ -397,7 +397,7 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 				- this circle simulates a camera flash/photo being taken
 
 
-###Parts Robot
+###Parts Robot - James
 	Variables:
 		-int robotInitialX, robotInitialY
 			-initial location of robot
