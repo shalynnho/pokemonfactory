@@ -424,7 +424,7 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 		-drawRobot(robotImage)
 			-draws the robot
 			-pass by reference robotImage to drawperformed 
-###Kits Robot
+###Kits Robot --Adrian
 	Variables
 		-int robotLocationX, robotLocationY
 			-location of Kit Robot(doesn't change)
