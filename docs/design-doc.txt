@@ -1,10 +1,8 @@
-﻿Factory Project - Team 9
-=====
+#Factory Project - Team 9
 Design Document
 
-
 ##Purpose / Overview
-Give a brief, high-level description of what this piece of software will do. This is pretty much you restating the problem as you understand it.
+The goal of our project is to simulate a factory environment. In the factory, multiple devices will be interacting with each other to build "kits". These kits wlil be spcified by a user to contain specific "parts".
 
 ##Requirements
 In addition to the Kitting Cell requirements listed on this page: http://www-scf.usc.edu/~csci201/factory/TheKittingCell.htm, there are other requirements on the GUI side as well.
@@ -33,8 +31,47 @@ There needs to be 6 clients connecting to a central server:
 ##Classes
 In our implementation, the following classes will be necessary.
 
+###Server - Peter
+The Server is the "middleman" between Agents and the GUI clients. This is where constructors of the different Agents will be called, as well as establishing connections with the GUI clients. 
+
+Each client will have two connections to the server on two different ports. This is done so that reading/writing will not be conflicted. Two threads will be created per client, and will be run after establishing connections. One will implement ReadAClient, the other WriteAClient.
+
+Clients are identified as the first Request data received from them. Then, they will be referenced as appropriately. 
+
+	Data:
+		ClientReader partsMngrReader
+		ClientWriter partsMngrWriter
+		ClientReader kitsMngrReader
+		ClientWriter kitsMngrWriter
+		etc….
+
+###ClientReader - Peter
+This class implements Runnable.
+
+	Method:
+		run()
+			- composed of a continuous while loop, forwarding calls from the clients to the agents, so they can process user controls that took place in the GUI.
+
+###ClientWriter - Peter
+This class implements Runnable.
+
+	Method:
+		sendData(Request)
+			- sends the Request object, which includes commands and data associated with them, to the client.
+			
+###Request - Peter
+This class is used by ClientReader/Writer, as well as Clients. Stores commands and data associated with them.
+	
+	Method:
+		getters
+	Data:
+		String command
+			- e.g. "MoveKitRobot"
+		Object data
+			- e.g. { int newX = 50, int newY = 40 }
+
 ###Gantry Robot - Chris
-    The gantry robot begins the simulation by bringing all of the parts bins onto the screen. The robot will move bins and dump them into the feeder. After dumping the bin into a feeder, the gantry robot will place the bin behind the feeder in the purge station. The robot will also take empty and purged bins into a storage room off of the screen.
+The gantry robot begins the simulation by bringing all of the parts bins onto the screen. The robot will move bins and dump them into the feeder. After dumping the bin into a feeder, the gantry robot will place the bin behind the feeder in the purge station. The robot will also take empty and purged bins into a storage room off of the screen.
 
 	Variables:
 	int currentX
@@ -309,7 +346,6 @@ In our implementation, the following classes will be necessary.
 		-int currentArmLocationX, currentArmLocationY
 			-location of the arm
 	Methods
-		
 		-pickUpKit(Kit)
 			-picks up a Kit
 		-dropKit(Location)
