@@ -157,8 +157,31 @@ In our implementation, the following classes will be necessary.
 			-draws the robot
 			-pass by reference robotImage to drawperformed 
 ###Kits Robot
-
-
+	Variables
+		-int robotLocationX, robotLocationY
+			-location of Kit Robot(doesn't change)
+		-init initArmLocationX,initArmLocationY
+			-initial location of the arm
+		-int currentArmLocationX, currentArmLocationY
+			-location of the arm
+		-float tstep
+	Methods
+		
+		-pickUpKit(Kit)
+			-picks up a Kit
+		-dropKit(Location)
+			-put Kit at one of the tables
+			-2 spots on the stand for parts robot, and 1 for camera
+		-goHome()
+			-depends on specific graphics implementation
+		-drawRobot(robotImage,armImage)
+			-draws the robot
+			-pass by reference robotImage and armImage to drawperformed
+		-rotateArm(Location)
+			-rotates arm to a specific location(4 locations: empty kit location, 2 kit locations, camera location)
+			-will be part of the dropKit,goHome, and pickupKit method
+		
+	
 ###Conveyor - Vansh and Neetu
     The conveyor is going to used to bring empty kits into the factory and move completed ones out. After bringing empty kits into the factory, the kits will be moved by other robots. The conveyor will need to know how to move and stop based on its sensors and instructions from the factory agent.
     Methods:
