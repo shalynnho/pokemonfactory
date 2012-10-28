@@ -81,7 +81,7 @@ In our implementation, the following classes will be necessary.
 		-Moves gantry from current coordinates to the new destination coordinates
 
 ###Feeders - Harry
-	feederGraphicsLogic:
+	feederGraphicsLogic (this class processes graphics logic on the server side):
 		Methods:
 			- void receiveBin(Bin)
 				- this function receives a bin to process from the agents
@@ -101,8 +101,11 @@ In our implementation, the following classes will be necessary.
 
 		Variables:
 			- boolean binReceived
+				- has a bin been received and is waiting to be processed?
 			- int partsFed
+				- how many parts has the feeder fed to the diverter/lane?
 			- Bin bin1
+				- the current bin being processed
 	feederDisplay:
 		Methods:
 	
