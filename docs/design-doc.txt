@@ -1,10 +1,8 @@
-Factory Project - Team 9
-=====
+#Factory Project - Team 9
 Design Document
 
-
 ##Purpose / Overview
-Give a brief, high-level description of what this piece of software will do. This is pretty much you restating the problem as you understand it.
+The goal of our project is to simulate a factory environment. In the factory, multiple devices will be interacting with each other to build "kits". These kits wlil be spcified by a user to contain specific "parts".
 
 ##Requirements
 In addition to the Kitting Cell requirements listed on this page: http://www-scf.usc.edu/~csci201/factory/TheKittingCell.htm, there are other requirements on the GUI side as well.
@@ -33,98 +31,21 @@ There needs to be 6 clients connecting to a central server:
 ##Classes
 In our implementation, the following classes will be necessary.
 
-###Gantry Robot - Chris
-    The gantry robot begins the simulation by bringing all of the parts bins onto the screen. The robot will move bins and dump them into the feeder. After dumping the bin into a feeder, the gantry robot will place the bin behind the feeder in the purge station. The robot will also take empty and purged bins into a storage room off of the screen.
+###Server - Peter
+The Server is the "middleman" between Agents and the GUI clients. This is where constructors of the different Agents will be called, as well as establishing connections with the GUI clients. 
 
-	Variables:
-	int currentX
-		- X coordinate that gantry robot is currently located at
-	int currentY
-		-Y coordinate that gantry robot is currently located at
-	
-	int destinationX
-		-X coordinate that gantry robot is moving towards
-	int destinationY
-		-Y coordinate that gantry robot is moving towards
-	
-	static int storageX
-		-X coordinate that storage is located at (located off screen)
-	static int storageY
-		-Y coordinate that storage is located at (located off screen)
-	
-	static int startBinX
-		-Starting X coordinate of the line of bins
-	static int  startBinY
-		-Starting Y coordinate of the line of bins
-	
-	Bin heldBin
-		-Bin being held by the feeder. Used to move the bin with the feeder
-	
-	Feeder destinationFeeder
-		-Feeder to drop heldBin at
-	
-	Arraylist <Bin> binList
-		-Arraylist to store the locations of each new bin
-	
-	Imageicon gantryImage
-		-Image for gantry robot
-	
-	Functions:
-	receiveBin(Bin)
-		-Gantry robot takes a bin from offscreen and moves it to its correct position on screen. Uses binList to find correct location
-	dropBin(Bin, Feeder)
-		-Gantry robot picks up the given bin and drops it into the specified feeder. After being emptied into the feeder, the bin is moved to the purge station.
-	removeBin(Bin)
-		-Gantry robot takes a bin from the purge station and moves it off screen to the storage location
-	
-	moveTo(destinationX, destinationY)
-		-Moves gantry from current coordinates to the new destination coordinates
+Each client will have two connections to the server on two different ports. This is done so that reading/writing will not be conflicted. Two threads will be created per client, and will be run after establishing connections. One will implement ReadAClient, the other WriteAClient.
 
-###Feeders
-Some description.
+Clients are identified as the first Request data received from them. Then, they will be referenced as appropriately. 
 
-- Some method
-- Some other method
+	Data:
+		ClientReader partsMngrReader
+		ClientWriter partsMngrWriter
+		ClientReader kitsMngrReader
+		ClientWriter kitsMngrWriter
+		etc….
 
-###Lane
-
-
-###Nest
-
-
-###Camera
-
-
-###Parts Robot
-	Variables:
-		-int robotInitialX, robotInitialY
-			-initial location of robot
-		-int robotCurrentX, robotCurrentY
-			-current location of robot
-		-boolean arm1, arm2, arm3, arm4
-			-whether the arm is full, initialized empty
-		-int ArrayList<Part> partArray
-			-an array of parts that allocates memory for 4 parts
-	Methods:
-		-pickUpPart(Part)
-			-pickup from nests
-			-goes to a location to pick up a part
-			-be able to hold 4 parts at a time
-		-givePartToKit(Kit, int)
-			-gives the part to the kit
-			-goes to a location to give a part
-			-puts part in a specific location inside the kit
-		-goHome()
-			-depends on specific graphics implementation
-			-sends the robot back to the initial location
-			-makes sure that the robot doesn't collide
-			-then send message that the action has been performed(either part is picked up or it's given to a kit)
-		-drawRobot(robotImage)
-			-draws the robot
-			-pass by reference robotImage to drawperformed 
-###Kits Robot
-
-
+<<<<<<< HEAD
 ###Conveyor - Vansh and Neetu
     The conveyor is going to used to bring empty kits into the factory and move completed ones out. After bringing empty kits into the factory, the kits will be moved by other robots. The conveyor will need to know how to move and stop based on its sensors and instructions from the factory agent.
     Methods:
@@ -209,6 +130,378 @@ Some description.
     Variables: 
         - Bin : reference to companion display object
          - int partQuantity : quantity of parts in the bin
+=======
+###ClientReader - Peter
+This class implements Runnable.
+
+	Method:
+		run()
+			- composed of a continuous while loop, forwarding calls from the clients to the agents, so they can process user controls that took place in the GUI.
+
+###ClientWriter - Peter
+This class implements Runnable.
+>>>>>>> 267b1f82f700949726ec6356a861209c448fddba
+
+	Method:
+		sendData(Request)
+			- sends the Request object, which includes commands and data associated with them, to the client.
+			
+###Request - Peter
+This class is used by ClientReader/Writer, as well as Clients. Stores commands and data associated with them.
+	
+	Method:
+		getters
+	Data:
+		String command
+			- e.g. "MoveKitRobot"
+		Object data
+			- e.g. { int newX = 50, int newY = 40 }
+
+###Gantry Robot - Chris
+The gantry robot begins the simulation by bringing all of the parts bins onto the screen. The robot will move bins and dump them into the feeder. After dumping the bin into a feeder, the gantry robot will place the bin behind the feeder in the purge station. The robot will also take empty and purged bins into a storage room off of the screen.
+
+	Variables:
+	int currentX
+		- X coordinate that gantry robot is currently located at
+	int currentY
+		-Y coordinate that gantry robot is currently located at
+	
+	int destinationX
+		-X coordinate that gantry robot is moving towards
+	int destinationY
+		-Y coordinate that gantry robot is moving towards
+	
+	static int storageX
+		-X coordinate that storage is located at (located off screen)
+	static int storageY
+		-Y coordinate that storage is located at (located off screen)
+	
+	static int startBinX
+		-Starting X coordinate of the line of bins
+	static int  startBinY
+		-Starting Y coordinate of the line of bins
+	
+	Bin heldBin
+		-Bin being held by the feeder. Used to move the bin with the feeder
+	
+	Feeder destinationFeeder
+		-Feeder to drop heldBin at
+	
+	Arraylist <Bin> binList
+		-Arraylist to store the locations of each new bin
+	
+	Imageicon gantryImage
+		-Image for gantry robot
+	
+	Functions:
+	receiveBin(Bin)
+		-Gantry robot takes a bin from offscreen and moves it to its correct position on screen. Uses binList to find correct location
+	dropBin(Bin, Feeder)
+		-Gantry robot picks up the given bin and drops it into the specified feeder. After being emptied into the feeder, the bin is moved to the purge station.
+	removeBin(Bin)
+		-Gantry robot takes a bin from the purge station and moves it off screen to the storage location
+	
+	moveTo(destinationX, destinationY)
+		-Moves gantry from current coordinates to the new destination coordinates
+
+###Feeders - Harry
+	feederGraphicsLogic (this class processes graphics logic on the server side):
+		Methods:
+			- void receiveBin(Bin)
+				- this function receives a bin to process from the agents
+			- void purgeBin(Bin)
+				- this function purges the contents of the feeder into a bin received from the agents
+			- boolean isPartLow()
+				- this function returns true if part count is low (under X)
+				// TODO
+			- void movePartToDiverter(Part)
+				- this function moves a part from the feeder to the diverter
+			- void movePartToLane(Part)
+				- this function moves a part from the diverter to the lane
+				// TODO: must figure out whether to divert left or right
+			- void toggleOn(boolean)
+				- this function turns the feeder on or off
+			- void toggleRearGate(boolean)
+				- this function lowers the rear gate
+
+		Variables:
+			- boolean binReceived
+				- has a bin been received and is waiting to be processed?
+			- int partsFed
+				- how many parts has the feeder fed to the diverter/lane?
+			- Bin bin1
+				- the current bin being processed
+	feederDisplay:
+		Methods:
+			- void setPartImage(String)
+				- this retrieves the part type from the server, parses it into a file path, and sets the image for ImageIcon part
+	
+		Variables:
+			- ImageIcon feederUnit
+				- this is the image of the stationary main feeder unit
+			- ImageIcon diverter
+				- this is the image of the diverter
+				- we will need several of these in different positions to animate the moving diverter
+			- ImageIcon part
+				- this is the image of the part which will travel down the diverter
+		
+###Lane - Shay
+	LaneLogic
+		Methods:
+			- receivePart(Part)
+				- called when Part is delivered to Lane
+				- add to Lane queue
+			- givePartToNest(Part)
+				- at the end of the Lane, gives the Part to the Nest
+				- remove from Lane parts queue
+			- setAmplitude(int)
+				- sets how quickly parts vibrate down a Lane
+			- boolean isFull()
+				- returns true if Lane is full
+			- toggleSwitch(boolean)
+				- on/off switch (boolean laneOn)
+				- must be off before Nest is purged
+		Variables:
+			- static final int MAX_PARTS
+				- max number of parts that can be on a Lane
+			- ArrayList<Part> partsOnLane
+				- dynamically stores Parts currently on Lane
+			- int numPartsOnLane
+				- number of parts currently on Lane
+			- int amplitude	
+				- vibration setting; how quickly parts vibrate down Lane
+			- boolean laneOn
+				- true if Lane is on
+
+	LaneDisplay	- the display is broken up into MAX_PARTS sections
+			- 1 Part can be displayed for each section
+			- at least 2 images for each section to show animation
+		Methods:
+			- paintComponent(Graphics2D g2)
+			- receivePart(Part)
+				- called when Part is delivered to Lane
+				- add (and remove) appropriate images to laneImageQueue
+			- givePartToNest(Part)
+				- at the end of the Lane, gives the Part to the Nest
+				- remove (and add) appropriate images from laneImageQueue
+			- setAmplitude(int)
+				- adjusts animation to show appropriate change in amplitude
+			- toggleSwitch(boolean)
+				- on/off switch (boolean laneOn)
+				- must be off before Nest is purged - pause lane animation
+			- lineUpParts()
+				- if Nest is full, each step remove first emptyLaneImg
+				- parts line up behind a full Nest
+		Variables:
+			- static final int MAX_PARTS
+				- max number of parts that can be on a Lane
+			- static final int IMG_LENGTH
+				- horizontal length of the image
+			- static final int LANE_BEG_X, LANE_END_X
+				- x-coordinates of beginning and end of lane
+			- static ArrayList<ImageIcon> emptyLaneImg
+				- stores static ImageIcon emptyLane1, emptyLane2
+				- need at least 2 images to show animation
+			- static ArrayList<ImageIcon> partXXImg
+				- where XX is the part type
+				- stores static ImageIcon partXXLane1, partXXLane2
+				- need at least 2 images to show animation
+				- shift y-coordinates in 1 image to show vibration down Lane
+			- ArrayList<ImageIcon> imgsOnLane;
+				- dynamically stores images of Lane
+			- boolean laneOn	
+				- true if Lane is on
+
+###Nest - Shay
+	NestLogic
+		Methods:
+			- receivePart(Part)
+				- called when Part is delivered from Lane to Nest
+			- givePartToPartsRobot(Part)
+				- tells PartsRobot to take the Part; Nest is no longer concerned with that Part
+				- receive message when PartsRobot has taken Part
+			- void purge()
+				- called if no good parts can be located by the Camera
+				- must tell Lane to stop sending parts during Nest purge cycle
+				- clear list of parts in Nest
+			- boolean isFull()
+				- returns true if Nest is full
+			- boolean allPartsUnanalyzed()	// can do this on Camera end as well or instead
+				- returns true if all Parts in Nest are unanalyzed (Camera can take a picture)
+			- boolean allPartsBad()
+				- returns true if all Parts in Nest are bad (purge OK)
+			- ArrayList<Part> getPartsInNest()
+				- returns the parts in the nest
+		Variables:
+			- static final int MAX_PARTS
+				- max number of parts this Nest holds
+			- ArrayList<Part> partsInNest
+				- dynamically stores the parts currently in the Nest
+			- boolean purging
+				- true during Nest purge cycle, can't receive parts
+			- boolean isFull
+				- true if nest is full, can't receive parts
+
+	NestDisplay
+		Methods:
+			- paintComponent(Graphics2D g2)
+			- receivePart(Part)
+				- called when Part is delivered from Lane to Nest
+				- fill nest left to right, top to bottom
+			- givePartToPartsRobot(Part)
+				- tells PartsRobot to take the Part; Nest is no longer concerned with that Part
+				- remove that part, shift remaining parts up (or fill in empty spots)
+				- receive message when PartsRobot has taken Part
+			- void purge()
+				- called if no good parts can be located by the Camera
+				- Parts just fall on the floor
+			- movePartsUp()
+				- moves parts up into highest spot when filling the nest
+		Variables:
+			- static final int MAX_PARTS
+				- max number of parts this Nest holds
+			- static final int NEST_X
+				- x-coordinate of the Nests
+			- static final int NEST_WIDTH, NEST_HEIGHT
+				- width and height of the Nest images
+			- static final int PART_WIDTH, PART_HEIGHT
+				- width and height of the Part images
+			- static ImageIcon emptyNestImg1, emptyNestImg2
+				- images of an empty nest, 2 different colors (top/bottom)
+				- drawn after background, before Part
+
+###Camera - Harry
+	cameraGraphicsLogic:
+		Methods:
+			- boolean takeNestPhoto(Nest, Nest)
+				- this function "takes a photo" of two nests simultaneously and returns true if they pass inspection
+				// TODO both nests simultaneously or return quality of each?
+				- first check to see that nest is full before taking photo
+			- boolean takeKitPhoto(Kit, KitConfig)
+				- this function "takes a photo" of a completed kit and compares it to the KitConfig, returning true if it matches and false if it does not
+				- KitConfig is the benchmark kit configuration (the way the kit should be)
+
+		Variables:
+			- Map<Part, boolean> qualityOfParts
+				- this map stores whether a nest part is good or damaged
+				- values will all be true for v.0
+			- Map<Part, xCoordinate>
+			- Map<Part, yCoordinate>
+			// boolean photo taken?
+
+	cameraDisplay:
+		Methods:
+			// retrieve center position of nest or kit to take photo of
+		Variables:
+			Ellipse2D.Double cameraFlash
+				- this circle simulates a camera flash/photo being taken
+
+
+###Parts Robot
+	Variables:
+		-int robotInitialX, robotInitialY
+			-initial location of robot
+		-int robotCurrentX, robotCurrentY
+			-current location of robot
+		-boolean arm1, arm2, arm3, arm4
+			-whether the arm is full, initialized empty
+		-int ArrayList<Part> partArray
+			-an array of parts that allocates memory for 4 parts
+	Methods:
+		-pickUpPart(Part)
+			-pickup from nests
+			-goes to a location to pick up a part
+			-be able to hold 4 parts at a time
+		-givePartToKit(Kit, int)
+			-gives the part to the kit
+			-goes to a location to give a part
+			-puts part in a specific location inside the kit
+		-goHome()
+			-depends on specific graphics implementation
+			-sends the robot back to the initial location
+			-makes sure that the robot doesn't collide
+			-then send message that the action has been performed(either part is picked up or it's given to a kit)
+		-drawRobot(robotImage)
+			-draws the robot
+			-pass by reference robotImage to drawperformed 
+###Kits Robot
+	Variables
+		-int robotLocationX, robotLocationY
+			-location of Kit Robot(doesn't change)
+		-init initArmLocationX,initArmLocationY
+			-initial location of the arm
+		-int currentArmLocationX, currentArmLocationY
+			-location of the arm
+	Methods
+		-pickUpKit(Kit)
+			-picks up a Kit
+		-dropKit(Location)
+			-put Kit at one of the tables
+			-2 spots on the stand for parts robot, and 1 for camera
+		-goHome()
+			-depends on specific graphics implementation
+		-drawRobot(robotImage,armImage)
+			-draws the robot
+			-pass by reference robotImage and armImage to drawperformed
+		-rotateArm(Location)
+			-rotates arm to a specific location(4 locations: empty kit location, 2 kit locations, camera location)
+			-will be part of the dropKit,goHome, and pickupKit method
+		
+	
+###Conveyor - Vansh and Neetu
+    The conveyor is going to used to bring empty kits into the factory and move completed ones out. After bringing empty kits into the factory, the kits will be moved by other robots. The conveyor will need to know how to move and stop based on its sensors and instructions from the factory agent.
+    Methods:
+        - bringEmptyKit(Kit) : Brings in an empty Kit from offscreen. Here we would be creating a new kit variable. Moves the conveyor belt and the kit together.
+        - giveKitToKitRobot(Kit) : gives kit to the kit robot. Deletes the kit from the kitsOnConveyor. 
+        - receiveKit(Kit) : receive completed Kit from Kit Robot then move the Kit offscreen
+        - draw() : paints the conveyer belt with the kits at the right position
+    Variables:
+        - arrayList<ImageIcon> conveyorSquares : this will be the graphical representation of the conveyor. We will move the squares and this give the impression of the conveyor moving
+        - arrayList<Kits> kitsOnConveyor : this will keep track of all the kits on the conveyor.
+
+###Part - Vansh and Neetu
+    Parts are going to used to assemble the kits. The parts will have a respective image and sound associated to them.
+    Methods:
+        - constructor(PartType): Based on the PartType, image and sound will be set to their correct values
+        - getLocationX() : returns the x coordinate of the part
+        - getLocationY() : returns the y coordinate of the part
+        - getName() : returns the name
+        - playSound() : plays the sound
+        - draw(int,int) : draws the part at the correct location
+    Variables:
+        - locationX and locationY : location of the part
+        - PartType type :  determines what kind of part it is
+        - ImageIcon image : image of the part
+        - sound (V2) : sound the part makes
+
+###Kit - Vansh and Neetu
+    Methods:
+        - draw(int, int) : draws the kit at the location
+        - setPartTypes(ArrayList<PartType>) : sets partTypes
+        - addPart(Part) : adds the part to part ArrayList
+        - getLocationX() : returns the x coordinate of the part
+        - getLocationY() : returns the y coordinate of the part
+    Variables:
+        - ArrayList<Part> parts : keeps track of all the parts in the kit
+        - ArrayList<PartType> partTypes : list of all the parts required in the kit
+        - locationX and locationY : location of the kit
+        - ImageIcon kitImage : image of the kit
+        
+###Bin - Vansh and Neetu
+    Methods:
+        - Constructor(Parts) : creates a bin containing numberous specified parts
+        - receiveParts(ArrayList<Part> parts): both from constructor, and from Feeders’ purge
+        - getPartType() : returns the part type
+        - draw(int, int) : draws the bin at the location
+        - getQuantity() : returns quantity of parts in the bin
+        - setEmpty() : empties the bin during a purge
+    Variables:
+        - locationX and locationY : location of the kit
+        - ArrayList<Part> parts : ArrayList of all the parts that are currently in the bin
+        - Public Boolean isEmpty : determines if the bin is empty so the respective ImageIcon can be drawn.
+        - ImageIcon full : image of a full bin
+        - ImageIcon empty : image of an empty bin
+        - int partQuantity : quantity of parts in the bin
 
 ##Global Functions / Data
 None
