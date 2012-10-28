@@ -80,11 +80,37 @@ In our implementation, the following classes will be necessary.
 	moveTo(destinationX, destinationY)
 		-Moves gantry from current coordinates to the new destination coordinates
 
-###Feeders
-Some description.
+###Feeders - Harry
+	feederGraphicsLogic (this class processes graphics logic on the server side):
+		Methods:
+			- void receiveBin(Bin)
+				- this function receives a bin to process from the agents
+			- void purgeBin(Bin)
+				- this function purges the contents of the feeder into a bin received from the agents
+			- boolean isPartLow()
+				- this function returns true if part count is low (under X)
+			- void movePartToDiverter(Part)
+				- this function moves a part from the feeder to the diverter
+			- void movePartToLane(Part)
+				- this function moves a part from the diverter to the lane
+				// TODO: must figure out whether to divert left or right
+			- void toggleOn(boolean)
+				- this function turns the feeder on or off
+			- void toggleRearGate(boolean)
+				- this function lowers the rear gate
 
-- Some method
-- Some other method
+		Variables:
+			- boolean binReceived
+				- has a bin been received and is waiting to be processed?
+			- int partsFed
+				- how many parts has the feeder fed to the diverter/lane?
+			- Bin bin1
+				- the current bin being processed
+	feederDisplay:
+		Methods:
+	
+		Variables:
+		
 
 ###Lane
 
@@ -92,7 +118,15 @@ Some description.
 ###Nest
 
 
-###Camera
+###Camera - Harry
+	cameraGraphicsLogic:
+		Methods:
+
+		Variables:
+	cameraDisplay:
+		Methods:
+
+		Variables:
 
 
 ###Parts Robot
@@ -123,8 +157,31 @@ Some description.
 			-draws the robot
 			-pass by reference robotImage to drawperformed 
 ###Kits Robot
-
-
+	Variables
+		-int robotLocationX, robotLocationY
+			-location of Kit Robot(doesn't change)
+		-init initArmLocationX,initArmLocationY
+			-initial location of the arm
+		-int currentArmLocationX, currentArmLocationY
+			-location of the arm
+		-float tstep
+	Methods
+		
+		-pickUpKit(Kit)
+			-picks up a Kit
+		-dropKit(Location)
+			-put Kit at one of the tables
+			-2 spots on the stand for parts robot, and 1 for camera
+		-goHome()
+			-depends on specific graphics implementation
+		-drawRobot(robotImage,armImage)
+			-draws the robot
+			-pass by reference robotImage and armImage to drawperformed
+		-rotateArm(Location)
+			-rotates arm to a specific location(4 locations: empty kit location, 2 kit locations, camera location)
+			-will be part of the dropKit,goHome, and pickupKit method
+		
+	
 ###Conveyor - Vansh and Neetu
     The conveyor is going to used to bring empty kits into the factory and move completed ones out. After bringing empty kits into the factory, the kits will be moved by other robots. The conveyor will need to know how to move and stop based on its sensors and instructions from the factory agent.
     Methods:
