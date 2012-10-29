@@ -389,27 +389,31 @@ NestGraphicsDisplay via LaneManager via the Server
 ###Camera - Harry
 	cameraGraphicsLogic:
 		Methods:
-			- boolean takeNestPhoto(Nest, Nest)
-				- this function "takes a photo" of two nests simultaneously and returns true if they pass inspection
-				// TODO both nests simultaneously or return quality of each?
-				- first check to see that nest is full before taking photo
+			- cameraGraphicsLogic(int, Server)
+				- this is the default constructor
+				- it takes an integer camera ID as an argument
+				- it also takes a reference to the Server as an argument.
+			- Map takeNestPhoto(nestGraphics, nestGraphics)
+				- this function "takes a photo" of two nests simultaneously and returns a map (keys = parts, values = quality)
+				- it gets the location of the two nests and sends a message to the client to draw two white circles over the nests to simulate a flash
 			- boolean takeKitPhoto(Kit, KitConfig)
 				- this function "takes a photo" of a completed kit and compares it to the KitConfig, returning true if it matches and false if it does not
 				- KitConfig is the benchmark kit configuration (the way the kit should be)
+				- it gets the location of the kitting stand and sends a message to the client to draw a white circle over it to simulate a flash
 
 		Variables:
 			- Map<Part, boolean> qualityOfParts
 				- this map stores whether a nest part is good or damaged
 				- values will all be true for v.0
-			- Map<Part, xCoordinate>
-			- Map<Part, yCoordinate>
-			// boolean photo taken?
+			- Server server
+				- this variable is a reference to the server
 
 	cameraDisplay:
 		Methods:
-			// retrieve center position of nest or kit to take photo of
+			- void paintComponent(Graphics)
+
 		Variables:
-			Ellipse2D.Double cameraFlash
+			- Ellipse2D.Double cameraFlash
 				- this circle simulates a camera flash/photo being taken
 
 
