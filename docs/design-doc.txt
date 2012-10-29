@@ -487,15 +487,8 @@ NestGraphicsDisplay via LaneManager via the Server
 			-move a completed kit to inspection stand
 		
 		-void moveKitToConveyor(KitGraphicsLogic kgl);
-			-move the kit from the inspection stand and move it to the conveyor.  
+			-move the kit from the inspection stand and move it to the conveyor.  			
 		
-		-void dropKit(Location)
-			-put Kit at one of the tables
-			-2 spots on the stand for parts robot, and 1 for camera
-		
-		-void goHome()
-			-depends on specific graphics implementation				
-
 		-setLocation(location);
 			-changes the arm destination location
 			
@@ -566,6 +559,9 @@ NestGraphicsDisplay via LaneManager via the Server
 		-sendDoneMessage()
 			-if jobIsDoneIsTrue;
 			-sends the server that that the kitrobot is done;
+			
+			
+
 	
 ###Conveyor - Vansh and Neetu
     The conveyor is going to used to bring empty kits into the factory and move completed ones out. After bringing empty kits into the factory, the kits will be moved by other robots. The conveyor will need to know how to move and stop based on its sensors and instructions from the factory agent.
