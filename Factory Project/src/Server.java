@@ -10,5 +10,6 @@
 public class Server {
 	public static void main (String[] args) {
 		System.out.println("Dummy text.");
+		System.out.println("Just double checking that it works.");
 	}
 }
