@@ -365,27 +365,26 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 
 ###Kits Robot --Adrian
 	KitsRobotGraphicsLogic
-	Methods:
-		-void moveEmptyKitToLocation1(Kit);
+	Methods
+		-void receiveData(request)
+			-basically change jobisdone to true
+
+		-void moveEmptyKitToLocation1(KitGraphicsLogic kgl)
 			-move an empty kit to location1;
-			-changes rotating to 			
-		-void moveEmptyKitToLocation2(Kit);
+			-change job is not done;
+					
+		-void moveEmptyKitToLocation2(KitGraphicsLogic kgl)
 			-move an empty kit to location2;
 
-		-void moveKitToInspectionStand(Kit);
-			-move a completed kid to inspection stand;
+		-void moveKitToInspectionStand(KitGraphicsLogic kgl)
+			-move a completed kit to inspection stand
 		
-		-void moveKitToConveyor(Kit);
+		-void moveKitToConveyor(KitGraphicsLogic kgl);
 			-move the kit from the inspection stand and move it to the conveyor.  
 		
 		-void dropKit(Location)
 			-put Kit at one of the tables
 			-2 spots on the stand for parts robot, and 1 for camera
-		-void rotateArm();
-			-rotates arm to a specific location(4 locations: empty kit location, 2 kit locations, camera location)
-		
-		-void rotateArmWithKit();
-			-update robot arm and kit location
 		
 		-void goHome()
 			-depends on specific graphics implementation				
@@ -394,10 +393,10 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 			-changes the arm destination location
 			
 			
-	Variables:	
-		-boolean kitPickedUp;
-		-boolean rotatingAnimationDone;
-		-KitGraphicsLogic kitGraphicsLogic;
+	Variables
+	
+		-boolean jobIsDone; 
+			-if job is done, you can do another agent action
 		-Location location;
 		-int    currentLocationX and currentLocationY;
 		-int    finalLocationX and finalLocationY;	
@@ -405,28 +404,61 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 		-static int standLocation2X and standLocation2Y;
 		-static int standLocation1X and standLocation1Y;
 		-static int standInspectionX and standInspectionY;
+		-Server server;	
 	
 	KitsRobotDisplay
-	
+		
 	Variables
 		-int robotLocationX, robotLocationY
 			-location of Kit Robot(doesn't change)
-		-init initArmLocationX,initArmLocationY
+		
+		-int initArmLocationX,initArmLocationY
 			-initial location of the arm
+		
 		-int currentArmLocationX, currentArmLocationY
 			-location of the arm
+		
+		-int finalArmLocationX, finalArmLocationY
+		
+		-Server server;
+		
+		-ImageIcon robotImage, armImage;
+		
+		-boolean moveToInitialLocation;
+		-boolean moveToFinalLocation;
+		-boolean jobIsDone;
+		
+		-KitGraphicsLogic kitGraphicsLogic;
+		
+	
 	Methods
-		-receiveData(request);
-			-depends on the request, rotates arm to location 
+		-receiveData(request)
+			-depends on the request, rotates arm to location
+			-changes moveToInitialLocation to true;
+			-setsinitiallocations
+			-setsfinallocations
+		-void moveToInitialPickupLocation();
+			-if moveToInitialLocation then rotate there	
+			-change moveToFinalLocation to true
 		
-		-void rotateArm(Location)
+		-void moveToFinalLocation();			
+			-if moveToFinalLocation then rotate there
+			-then change jobIsDone to true
+		
+		-void rotateArm()
 			-rotates arm to a specific location(4 locations: empty kit location, 2 kit locations, camera location)
-			-will be part of the dropKit,goHome, and pickupKit method	
-		-drawRobot(robotImage,armImage)
-			-draws the robot
-			-pass by reference robotImage and armImage to drawperformed;
-
+			-will send message if job is done			
 		
+		-void rotateArmWithKit();
+			-update robot arm and kit location
+		
+			
+		-paintComponent(Graphics2D g2)
+			-paints the robotImage and armImage
+		
+		-sendDoneMessage()
+			-if jobIsDoneIsTrue;
+			-sends the server that that the kitrobot is done;
 	
 ###Conveyor - Vansh and Neetu
     The conveyor is going to used to bring empty kits into the factory and move completed ones out. After bringing empty kits into the factory, the kits will be moved by other robots. The conveyor will need to know how to move and stop based on its sensors and instructions from the factory agent.
