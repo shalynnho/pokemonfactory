@@ -311,6 +311,7 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 
 
 ###Parts Robot - James
+	robotLogic
 	Variables:
 		-int robotInitialX, robotInitialY
 			-initial location of robot
@@ -329,14 +330,39 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 			-gives the part to the kit
 			-goes to a location to give a part
 			-puts part in a specific location inside the kit
+		-rotateArm()
+			-rotates the arm
+		-isFullArm1(arm1)
+			-returns true if arm1 is full
+		-isFullArm2(arm2)
+			-returns true if arm2 is full
+		-isFullArm3(arm3)
+			-returns true if arm3 is full
+		-isFullArm4(arm4)
+			-returns true if arm4 is full
 		-goHome()
 			-depends on specific graphics implementation
 			-sends the robot back to the initial location
 			-makes sure that the robot doesn't collide
 			-then send message that the action has been performed(either part is picked up or it's given to a kit)
-		-drawRobot(robotImage)
+	
+	robotDisplay	
+	Variables:
+		-int robotInitialX, robotInitialY
+			-initial location of robot
+		-int robotCurrentX, robotCurrentY
+			-current location of robot
+		-int armInitialX, armInitialY
+			-initial location of the arm
+		-int armCurrentX, armCurrentY
+			-current location of arm
+	Methods:
+		-drawRobot(robotImage, armImage)
 			-draws the robot
-			-pass by reference robotImage to drawperformed 
+			-pass by reference robotImage to drawperformed
+		-rotateRobot(armLocation)
+			-rotates the robot so the arm is in a different position
+
 ###Kits Robot --Adrian
 	KitsRobotGraphicsLogic
 	Methods:
