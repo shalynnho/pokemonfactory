@@ -338,6 +338,50 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 			-draws the robot
 			-pass by reference robotImage to drawperformed 
 ###Kits Robot --Adrian
+	KitsRobotGraphicsLogic
+	Methods:
+		-void moveEmptyKitToLocation1(Kit);
+			-move an empty kit to location1;
+			-changes rotating to 			
+		-void moveEmptyKitToLocation2(Kit);
+			-move an empty kit to location2;
+
+		-void moveKitToInspectionStand(Kit);
+			-move a completed kid to inspection stand;
+		
+		-void moveKitToConveyor(Kit);
+			-move the kit from the inspection stand and move it to the conveyor.  
+		
+		-void dropKit(Location)
+			-put Kit at one of the tables
+			-2 spots on the stand for parts robot, and 1 for camera
+		-void rotateArm();
+			-rotates arm to a specific location(4 locations: empty kit location, 2 kit locations, camera location)
+		
+		-void rotateArmWithKit();
+			-update robot arm and kit location
+		
+		-void goHome()
+			-depends on specific graphics implementation				
+
+		-setLocation(location);
+			-changes the arm destination location
+			
+			
+	Variables:	
+		-boolean kitPickedUp;
+		-boolean rotatingAnimationDone;
+		-KitGraphicsLogic kitGraphicsLogic;
+		-Location location;
+		-int    currentLocationX and currentLocationY;
+		-int    finalLocationX and finalLocationY;	
+		-static	int conveyorX and conveyorY;
+		-static int standLocation2X and standLocation2Y;
+		-static int standLocation1X and standLocation1Y;
+		-static int standInspectionX and standInspectionY;
+	
+	KitsRobotDisplay
+	
 	Variables
 		-int robotLocationX, robotLocationY
 			-location of Kit Robot(doesn't change)
@@ -346,19 +390,16 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 		-int currentArmLocationX, currentArmLocationY
 			-location of the arm
 	Methods
-		-pickUpKit(Kit)
-			-picks up a Kit
-		-dropKit(Location)
-			-put Kit at one of the tables
-			-2 spots on the stand for parts robot, and 1 for camera
-		-goHome()
-			-depends on specific graphics implementation
+		-receiveData(request);
+			-depends on the request, rotates arm to location 
+		
+		-void rotateArm(Location)
+			-rotates arm to a specific location(4 locations: empty kit location, 2 kit locations, camera location)
+			-will be part of the dropKit,goHome, and pickupKit method	
 		-drawRobot(robotImage,armImage)
 			-draws the robot
-			-pass by reference robotImage and armImage to drawperformed
-		-rotateArm(Location)
-			-rotates arm to a specific location(4 locations: empty kit location, 2 kit locations, camera location)
-			-will be part of the dropKit,goHome, and pickupKit method
+			-pass by reference robotImage and armImage to drawperformed;
+
 		
 	
 ###Conveyor - Vansh and Neetu
