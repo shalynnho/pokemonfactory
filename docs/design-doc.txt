@@ -120,43 +120,62 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 ###Feeders - Harry
 	feederGraphicsLogic (this class processes graphics logic on the server side):
 		Methods:
-			- void receiveBin(Bin)
+			- feederGraphicsLogic(int, Server)
+				- this is the default constructor
+				- it takes an int which is the feederID and a Server which is a reference to the server
+				- location = new Location(200, 100*feederID) - set the location of the feeder
+				- Server.sendData(new Request("initGraphics", "Feeder" + ID, location) - tell the feederGraphicsDisplay to paint the feeder
+			- void receiveBin(BinGraphics aBinGraphics)
 				- this function receives a bin to process from the agents
-			- void purgeBin(Bin)
+				- we set the location of the BinGraphics object: aBinGraphics.setLocation(new Location(x,y))
+			- void purgeBin(BinGraphics)
 				- this function purges the contents of the feeder into a bin received from the agents
-			- boolean isPartLow()
-				- this function returns true if part count is low (under X)
-				// TODO
+				- parts coordinates are changed so that they "move" towards the purge bin
+			- void setPartLow(boolean)
+				- this function sets the value of "partLow"
 			- void movePartToDiverter(Part)
 				- this function moves a part from the feeder to the diverter
+				- part x and y coordinates are changed
+			- void flipDiverter()
+				- this function flips the diverter to the opposite lane
+				- Server.sendData(new Request("flipDiverter", "Feeder" + ID, null)
 			- void movePartToLane(Part)
 				- this function moves a part from the diverter to the lane
-				// TODO: must figure out whether to divert left or right
+				- part x and y coordinates are changed
 			- void toggleOn(boolean)
 				- this function turns the feeder on or off
-			- void toggleRearGate(boolean)
-				- this function lowers the rear gate
 
 		Variables:
-			- boolean binReceived
-				- has a bin been received and is waiting to be processed?
+			- boolean partLow
+				- determines whether a part is low
 			- int partsFed
 				- how many parts has the feeder fed to the diverter/lane?
-			- Bin bin1
+			- BinGraphics binGraphics
 				- the current bin being processed
-	feederDisplay:
+			- Location location
+				- this is the location of the feeder
+			- Server server
+				- references to the server
+			- int feederID
+				- this is the unique ID of the feeder because there will be 4 feeders in the factory
+
+	feederGraphicsDisplay:
 		Methods:
-			- void setPartImage(String)
-				- this retrieves the part type from the server, parses it into a file path, and sets the image for ImageIcon part
-	
+			- feederGraphicsDisplay(int)
+				- this is the default constructor
+				- it takes in an int ID to identify which feeder it is
+			- receiveData(Request)
+				- this function parses the request from the logic/server end and carries out the appropriate action
+			- paintComponent(Graphics)
+				- this will paint the feeder and diverter
 		Variables:
 			- ImageIcon feederUnit
 				- this is the image of the stationary main feeder unit
 			- ImageIcon diverter
 				- this is the image of the diverter
-				- we will need several of these in different positions to animate the moving diverter
-			- ImageIcon part
-				- this is the image of the part which will travel down the diverter
+				- this will be rotated when the diverter is flipped
+			- int feederID
+				- this is the unique ID of the feeder because there will be 4 feeders in the factory
 
 ###Lane - Shay
 	LaneGraphicsLogic
