@@ -157,16 +157,27 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 				- we will need several of these in different positions to animate the moving diverter
 			- ImageIcon part
 				- this is the image of the part which will travel down the diverter
-		
+
 ###Lane - Shay
-	LaneLogic
+	LaneGraphicsLogic
+			- will process info from Agents and send graphics instructions through Server
+			- for every method call to this LGL object, will need to send a message (Request object) to LaneGraphicsDisplay via LaneManager via the Server
+			- pass ID in target when sending Requests
+			- Server constructs this
+		Constructor:
+			- Server server, int laneID, Nest nest
 		Methods:
-			- receivePart(Part)
-				- called when Part is delivered to Lane
-				- add to Lane queue
-			- givePartToNest(Part)
+			- receivePart(PartGraphicsLogic)
+				- called when Part is delivered from Feeder/Diverter to Lane
+				- add Part to Lane queue
+				- set start Location of Part
+			- givePartToNest(PartGraphicsLogic)
 				- at the end of the Lane, gives the Part to the Nest
+				- receive message from LGD that Part is at end of Lane and Nest not full
+				- tell NestGraphicsLogic that we are passing Part
 				- remove from Lane parts queue
+			- purge()
+				- empty parts off the end of the lane
 			- setAmplitude(int)
 				- sets how quickly parts vibrate down a Lane
 			- boolean isFull()
@@ -174,9 +185,20 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 			- toggleSwitch(boolean)
 				- on/off switch (boolean laneOn)
 				- must be off before Nest is purged
+			- receiveData(Request)
+				- parse into local vars: target, command, data
+				- if/else statements to determine which method to call
 		Variables:
 			- static final int MAX_PARTS
 				- max number of parts that can be on a Lane
+			- static final Location PART_START, PART_END
+				- start and end locations of Part on the Lane
+			- Server server
+				- instructions to display graphics will be sent through the server
+			- int laneID
+				- the ID of this Lane
+			- Nest nest
+				- the Nest associated with this LaneGraphicsLogic object
 			- ArrayList<Part> partsOnLane
 				- dynamically stores Parts currently on Lane
 			- int numPartsOnLane
@@ -186,32 +208,50 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 			- boolean laneOn
 				- true if Lane is on
 
-	LaneDisplay	- the display is broken up into MAX_PARTS sections
-			- 1 Part can be displayed for each section
-			- at least 2 images for each section to show animation
+	LaneGraphicsDisplay
+			- at least 2 images to show Lane animation
+			- LaneManager constructs this
+			- pass ID in target when sending Requests to LaneManager
+		Constructor:
+			- LaneManager laneManager, int laneID
 		Methods:
 			- paintComponent(Graphics2D g2)
-			- receivePart(Part)
-				- called when Part is delivered to Lane
-				- add (and remove) appropriate images to laneImageQueue
-			- givePartToNest(Part)
+				- paints state of Lane
+				- tells parts where to draw themselves
+				- increments Location
+			- receiveData(Request)
+				- parse into local vars: target, command, data
+				- if/else statements to determine which method to call
+			- receivePart(PartGraphicsDisplay)
+				- called when Part is delivered from Feeder/Diverter to Lane
+				- call movePartsDownLane()
+			- givePartToNest(PartGraphicsDisplay)
+				- tells LaneManager to tell LaneGraphicsLogic that Part was given to Nest (pass back through Server)
+					- LGL tells NGL
 				- at the end of the Lane, gives the Part to the Nest
-				- remove (and add) appropriate images from laneImageQueue
+			- purge()
+				- empty parts off the end of the lane
+				- when all parts off lane, tell LM to tell LGL that lane finished purging (pass back through Server)
 			- setAmplitude(int)
 				- adjusts animation to show appropriate change in amplitude
 			- toggleSwitch(boolean)
 				- on/off switch (boolean laneOn)
-				- must be off before Nest is purged - pause lane animation
+				- (must be off before Nest is purged - pause lane animation)
+			- movePartDownLane()
+				- get Part Location, increment, then set new Part Location
 			- lineUpParts()
-				- if Nest is full, each step remove first emptyLaneImg
-				- parts line up behind a full Nest
+				- if Nest is full, parts line up behind a full Nest
 		Variables:
 			- static final int MAX_PARTS
 				- max number of parts that can be on a Lane
 			- static final int IMG_LENGTH
-				- horizontal length of the image
+				- horizontal length of the Lane image
 			- static final int LANE_BEG_X, LANE_END_X
 				- x-coordinates of beginning and end of lane
+			- static final int PART_WIDTH, PART_HEIGHT
+				- width and height of the part
+			- LaneManager laneManager
+				- the LaneManager (client) which talks to the Server
 			- static ArrayList<ImageIcon> emptyLaneImg
 				- stores static ImageIcon emptyLane1, emptyLane2
 				- need at least 2 images to show animation
@@ -220,68 +260,112 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 				- stores static ImageIcon partXXLane1, partXXLane2
 				- need at least 2 images to show animation
 				- shift y-coordinates in 1 image to show vibration down Lane
+			- int laneID
+				- the ID of this Lane
 			- ArrayList<ImageIcon> imgsOnLane;
 				- dynamically stores images of Lane
 			- boolean laneOn	
 				- true if Lane is on
 
 ###Nest - Shay
-	NestLogic
+	NestGraphicsLogic
+			- will process info from Agents and send graphics instructions through Server
+			- for every method call to this NGL object, will need to send a message (Request object) to 
+			- pass ID in target when sending Requests to Server
+NestGraphicsDisplay via LaneManager via the Server
+			- Server constructs this
+		Constructor:
+			- Server server, int nestID, PartsRobot partsRobot
 		Methods:
-			- receivePart(Part)
+			- receivePart(PartGraphicsLogic)
 				- called when Part is delivered from Lane to Nest
-			- givePartToPartsRobot(Part)
+			- givePartToPartsRobot(PartGraphicsLogic)
 				- tells PartsRobot to take the Part; Nest is no longer concerned with that Part
 				- receive message when PartsRobot has taken Part
 			- void purge()
 				- called if no good parts can be located by the Camera
-				- must tell Lane to stop sending parts during Nest purge cycle
+				- must tell LGL to stop sending parts during Nest purge cycle
 				- clear list of parts in Nest
 			- boolean isFull()
 				- returns true if Nest is full
 			- boolean allPartsUnanalyzed()	// can do this on Camera end as well or instead
 				- returns true if all Parts in Nest are unanalyzed (Camera can take a picture)
 			- boolean allPartsBad()
-				- returns true if all Parts in Nest are bad (purge OK)
+				- returns true if all Parts in Nest are bad (bad part purge OK)
+			- boolean allPartsGood()
+				- returns true if all Parts in Nest are good
 			- ArrayList<Part> getPartsInNest()
 				- returns the parts in the nest
+			- Map<Part,Boolean> getQualityOfParts()
+				- returns a map of Parts and the quality of each Part (good/bad)
+			- receiveData(Request)
+				- parse into local vars: target, command, data
+				- if/else statements to determine which method to call
+			- Location getLocation()
+				- returns Location of upper left corner of the Nest
 		Variables:
 			- static final int MAX_PARTS
 				- max number of parts this Nest holds
+			- Server server
+				- instructions to display graphics will be sent through the server
+			- int nestID
+				- the ID of this Nest
+			- Location location
+				- Location of upper left corner of this nest
 			- ArrayList<Part> partsInNest
 				- dynamically stores the parts currently in the Nest
 			- boolean purging
 				- true during Nest purge cycle, can't receive parts
 			- boolean isFull
 				- true if nest is full, can't receive parts
+			- ArrayList<Boolean> nestSpots
+				- true if spot is filled, false if not
 
-	NestDisplay
+	NestGraphicsDisplay
+			- LaneManager constructs this
+			- pass ID in target when sending Requests to LaneManager
+		Constructor: LaneManager laneManager, int nestID
 		Methods:
 			- paintComponent(Graphics2D g2)
-			- receivePart(Part)
+				- paints state of Nest
+				- tells parts where to draw themselves
+			- receiveData(Request)
+				- parse into local vars: target, command, data
+				- if/else statements to determine which method to call
+			- receivePart(PartGraphicsDisplay)
 				- called when Part is delivered from Lane to Nest
 				- fill nest left to right, top to bottom
-			- givePartToPartsRobot(Part)
+			- givePartToPartsRobot(PartGraphicsDisplay)
 				- tells PartsRobot to take the Part; Nest is no longer concerned with that Part
 				- remove that part, shift remaining parts up (or fill in empty spots)
 				- receive message when PartsRobot has taken Part
 			- void purge()
 				- called if no good parts can be located by the Camera
 				- Parts just fall on the floor
+				- when all parts out of Nest, tell LM to tell NGL that Nest finished purging (pass back through Server)
 			- movePartsUp()
 				- moves parts up into highest spot when filling the nest
 		Variables:
 			- static final int MAX_PARTS
 				- max number of parts this Nest holds
 			- static final int NEST_X
-				- x-coordinate of the Nests
+				- x-coordinate of the Nest
 			- static final int NEST_WIDTH, NEST_HEIGHT
-				- width and height of the Nest images
+				- width and height of the Nest
 			- static final int PART_WIDTH, PART_HEIGHT
 				- width and height of the Part images
 			- static ImageIcon emptyNestImg1, emptyNestImg2
 				- images of an empty nest, 2 different colors (top/bottom)
 				- drawn after background, before Part
+			- static ImageIcon partXXNestImg
+				- image of part in 1 unit of nest
+				- need an image for every possible Part
+			- LaneManager laneManager
+				- the LaneManager (client) which talks to the Server
+			- int nestID
+				- the ID of this nest
+			- ArrayList<Boolean> nestSpots
+				- true if spot is filled, false if not
 
 ###Camera - Harry
 	cameraGraphicsLogic:
