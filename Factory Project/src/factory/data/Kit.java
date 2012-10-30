@@ -1,4 +1,4 @@
-package factory;
+package factory.data;
 
 public class Kit {
 

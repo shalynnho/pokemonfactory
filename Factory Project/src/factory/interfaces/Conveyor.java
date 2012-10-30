@@ -1,5 +1,7 @@
 package factory.interfaces;
 
+import factory.data.Kit;
+
 public interface Conveyor {
 
 	public abstract void msgNeedKit();
@@ -13,5 +15,7 @@ public interface Conveyor {
 	public abstract void msgReceiveKitDone();
 
 	public abstract String getName();
+
+	public abstract boolean pickAndExecuteAnAction();
 
 }
