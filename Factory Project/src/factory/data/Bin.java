@@ -2,8 +2,9 @@ package factory.data;
 
 import java.util.ArrayList;
 
+import factory.dataGraphics.BinGraphics;
+
 public class Bin {
-	public GUIBin bin;
+	public BinGraphics bin;
 	public PartType type;
-	public ArrayList<Part> parts;
 }

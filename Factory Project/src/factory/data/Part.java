@@ -1,10 +1,10 @@
 package factory.data;
 
+import factory.dataGraphics.PartGraphics;
+
 public class Part {
 
-	public GUIPart part;
+	public PartGraphics part;
 	public PartType type;
-
-	public enum PartType {A,B,C,D,E,F,G,H};
 	
 }
