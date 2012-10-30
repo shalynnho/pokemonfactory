@@ -1,5 +1,5 @@
 package factory.interfaces;
 
-public class KitRobot {
+public interface KitRobot {
 
 }
