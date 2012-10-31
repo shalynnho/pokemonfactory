@@ -44,12 +44,12 @@ public class StandAgent extends Agent implements Stand {
 
 		public MyKit(Kit k) {
 			this.kit = k;
-			this.KS = KitStatus.PlacedOnStand;
+			this.KS = KitStatus.Received;
 		}
 	}
 
 	public enum KitStatus {
-		PlacedOnStand, Assembled, MarkedForInspection, AwaitingInspection, Inspected, Shipped;
+		Received, PlacedOnStand, Assembled, MarkedForInspection, AwaitingInspection, Inspected, Shipped;
 	};
 
 	/**
@@ -60,6 +60,7 @@ public class StandAgent extends Agent implements Stand {
 		super();
 
 		this.name = name;
+		numKitsToMake = 0;
 	}
 
 	/*
@@ -80,7 +81,13 @@ public class StandAgent extends Agent implements Stand {
 
 	@Override
 	public void msgKitAssembled(Kit k) {
-		// TODO Auto-generated method stub
+		for (MyKit mk : myKits.keySet()) {
+			if (mk.kit == kitsOnStand.get(0)) {
+				mk.KS = KitStatus.Assembled;
+				numKitsToMake--;
+				break;
+			}
+		}
 		stateChanged();
 	}
 
@@ -101,6 +108,47 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		synchronized (myKits) {
+			// Received a kit from kit robot
+			for (MyKit mk : myKits.keySet()) {
+				if (mk.KS == KitStatus.Received) {
+					placeKit(mk.kit);
+					return true;
+				}
+			}
+
+			// Kit robot shipped a kit
+			for (MyKit mk : myKits.keySet()) {
+				if (mk.KS == KitStatus.Shipped) {
+					kitsOnStand.remove(mk.kit);
+					myKits.remove(mk);
+					return true;
+				}
+			}
+		}
+
+		synchronized (kitsOnStand) {
+			// Stand has an empty position (does not check the inspection area
+			// of the stand)
+			if (kitsOnStand.get(1) == null || kitsOnStand.get(2) == null) {
+				requestKit(kitsOnStand.get(1) == null ? 1 : 2);
+				return true;
+			}
+		}
+
+		synchronized (myKits) {
+			// Kit needs to be inspected
+			for (MyKit mk : myKits.keySet()) {
+				if (mk.KS == KitStatus.Assembled) {
+					requestInspection(mk.kit);
+					return true;
+				}
+			}
+		}
+
+		if (numKitsToMake < 1) {
+			finalizeOrder();
+		}
 
 		/*
 		 * Tried all rules and found no actions to fire. Return false to the
@@ -119,6 +167,7 @@ public class StandAgent extends Agent implements Stand {
 	 * placed
 	 */
 	private void requestKit(int index) {
+		kitrobot.msgNeedKit(index);
 		stateChanged();
 	}
 
@@ -127,6 +176,17 @@ public class StandAgent extends Agent implements Stand {
 	 * @param k the kit being placed
 	 */
 	private void placeKit(Kit k) {
+		int spot = myKits.get(k);
+
+		for (MyKit mk : myKits.keySet()) {
+			if (mk.kit == k) {
+				mk.KS = KitStatus.PlacedOnStand;
+				break;
+			}
+		}
+
+		kitsOnStand.set(spot, k);
+		partsrobot.msgUseThisKit(k);
 		stateChanged();
 	}
 
@@ -135,15 +195,18 @@ public class StandAgent extends Agent implements Stand {
 	 * @param k the kit to be inspected.
 	 */
 	private void requestInspection(Kit k) {
+		kitrobot.msgMoveKitToInspectionArea(k);
 		stateChanged();
 	}
 
 	/**
-	 * Updates the FCS when a kit has been completed and is on its way out of
-	 * the kitting cell.
+	 * Updates the FCS when a batch of kits has been completed.
 	 */
 	private void finalizeOrder() {
-		stateChanged();
+		fcs.msgOrderFinished();
+
+		// No need to call stateChanged() here as presumably the kitting cell is
+		// idle (i.e., no queued orders)
 	}
 
 	/**
