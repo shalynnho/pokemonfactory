@@ -4,7 +4,7 @@ import Utils.Location;
 import Networking.Server;
 
 public class FeederGraphics extends DeviceGraphics  {
-	static final int partsLowThreshold = 5;
+	static final int partsLowThreshold = 2;
 
 	private Server server;
 	private Location location;
@@ -42,10 +42,11 @@ public class FeederGraphics extends DeviceGraphics  {
 	}
 	
 	boolean isPartLow() {
-		if (partsRemaining < partsLowThreshold)
+		if (partsRemaining < partsLowThreshold) {
 			return (true);
-		else
-			return (false);
+		} else {
+			return (false); 
+		}
 	}
 	
 	void movePartToLane() {
