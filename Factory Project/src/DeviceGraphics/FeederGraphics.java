@@ -1,6 +1,6 @@
 package DeviceGraphics;
 
-import til.Location;
+import Utils.Location;
 import Networking.Server;
 
 public class FeederGraphics extends DeviceGraphics  {
@@ -28,7 +28,7 @@ public class FeederGraphics extends DeviceGraphics  {
 		
 	}
 	
-	void movePartToLane(Part) {
+	void movePartToLane() {
 		
 	}
 	
