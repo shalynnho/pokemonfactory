@@ -45,8 +45,6 @@ public interface KitRobot {
 	 */
 	public abstract void msgPlaceKitOnStandDone();
 
-	public abstract String getName();
-
 	public abstract boolean pickAndExecuteAnAction();
 
 }
