@@ -1,3 +1,4 @@
+package Networking;
 
 /**
  * The Server is the "middleman" between Agents and the GUI clients. 
