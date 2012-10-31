@@ -1,9 +1,37 @@
-bin/
-source/
-*.class
-.DS_STORE
+# Editor Temporary Files #
+##########################
+.*.sw[a-z]
+*~
+\#*\#
 
-# Package Files #
+# Compiled source #
+###################
+*.class
+*.o
+*.so
+*.pyc
+*.exe
+source/
+
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
 *.jar
-*.war
-*.ear
+*.rar
+*.tar
+*.zip
+
+# Logs #
+########
+*.log
+
+# OS generated files #
+######################
+Thumbs.db
+Desktop.ini
+.DS_Store
+.Trashes
+.Trash
