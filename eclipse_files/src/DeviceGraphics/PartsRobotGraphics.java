@@ -13,15 +13,17 @@ public class PartsRobotGraphics {
 	boolean arm1, arm2, arm3, arm4; // whether the arm is full, initialized empty
 	ArrayList<Part> partArray; // an array of parts that allocates memory for 4 parts
 	
-	public void pickUpPart(Part){
-		/**pickup from nests
+	public void pickUpPart(Part part, Location location){
+		/**
+		 * pickup from nests
 		 * goes to a location to pick up a part
 		 * be able to hold 4 parts at a time
 		 */
 	}
 	
 	public void givePartToKit(Kit, int){
-		/**gives the part to the kit
+		/**
+		 * gives the part to the kit
 		 * goes to a location to give a part
 		 * puts part in a specific location inside the kit
 		 */
