@@ -1,4 +1,4 @@
-#Factory Project - Team 9
+﻿#Factory Project - Team 9
 Design Document
 
 ##Purpose / Overview
@@ -289,9 +289,8 @@ The gantry robot begins the simulation by bringing all of the parts bins onto th
 ###Nest - Shay
 	NestGraphicsLogic
 			- will process info from Agents and send graphics instructions through Server
-			- for every method call to this NGL object, will need to send a message (Request object) to 
+			- for every method call to this NGL object, will need to send a message (Request object) to the NGD
 			- pass ID in target when sending Requests to Server
-NestGraphicsDisplay via LaneManager via the Server
 			- Server constructs this
 		Constructor:
 			- Server server, int nestID, PartsRobot partsRobot
