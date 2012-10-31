@@ -2,7 +2,7 @@ package factory.interfaces;
 
 import java.util.List;
 
-import factory.Kit;
+import factory.data.Kit;
 import factory.NestAgent;
 
 public interface Camera {
