@@ -33,10 +33,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	// Name of the conveyor
 	private final String name;
 
-	public enum KitStatus {
-		MovingIn, AwaitingPickup, PickedUp, AwaitingDropOff, MovingOut, Delivered
-	};
-
 	/**
 	 * Inner class encapsulates kit and adds states relevant to the conveyor
 	 * @author dpaje
@@ -50,6 +46,10 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			this.KS = KitStatus.MovingIn;
 		}
 	}
+
+	public enum KitStatus {
+		MovingIn, AwaitingPickup, PickedUp, AwaitingDropOff, MovingOut, Delivered
+	};
 
 	/**
 	 * Constructor for ConveyorAgent class
@@ -69,6 +69,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void msgNeedKit() {
 		numKitsToDeliver++;
+		stateChanged();
 	}
 
 	@Override
@@ -76,21 +77,25 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		MyKit mk = new MyKit(k);
 		mk.KS = KitStatus.MovingOut;
 		kitsOnConveyor.add(mk);
+		stateChanged();
 	}
 
 	@Override
 	public void msgBringEmptyKitDone() {
 		animation.release();
+		stateChanged();
 	}
 
 	@Override
 	public void msgGiveKitToKitRobotDone() {
 		animation.release();
+		stateChanged();
 	}
 
 	@Override
 	public void msgReceiveKitDone() {
 		animation.release();
+		stateChanged();
 	}
 
 	/*
@@ -107,6 +112,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			for (MyKit mk : kitsOnConveyor) {
 				if (mk.KS == KitStatus.AwaitingPickup) {
 					sendKit(mk.kit);
+					return true;
 				}
 			}
 
@@ -115,6 +121,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			for (MyKit mk : kitsOnConveyor) {
 				if (mk.KS == KitStatus.AwaitingDropOff) {
 					deliverKit(mk.kit);
+					return true;
 				}
 			}
 
@@ -124,11 +131,16 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				// Default KS for MyKit is AwaitingPickup
 				if (numKitsToDeliver > 0) {
 					prepareKit();
+					return true;
 				}
 			}
 
 		}
 
+		/*
+		 * Tried all rules and found no actions to fire. Return false to the
+		 * main loop of abstract base class Agent and wait.
+		 */
 		return false;
 	}
 
@@ -144,6 +156,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		kitsOnConveyor.add(new MyKit(k));
 		animation.acquire();
 		guiConveyor.msgBringEmptyKit(k);
+		stateChanged();
 	}
 
 	/**
@@ -155,6 +168,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		kitrobot.msgHereIsKit(k);
 		animation.acquire();
 		guiConveyor.msgGiveKitToKitRobot(k);
+		stateChanged();
 	}
 
 	/**
@@ -164,6 +178,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private void deliverKit(Kit k) {
 		animation.acquire();
 		guiConveyor.msgReceiveKit(k);
+		stateChanged();
 	}
 
 	/**
@@ -172,6 +187,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 */
 	public void setPartsRobot(KitRobot kr) {
 		this.kitrobot = kr;
+		stateChanged();
 	}
 
 	/**
@@ -180,6 +196,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 */
 	public void setFCS(FCS fcs) {
 		this.FCS = fcs;
+		stateChanged();
 	}
 
 	/**
@@ -188,6 +205,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 */
 	public void setGraphicalRepresentation(GUIConveyor gc) {
 		this.guiConveyor = gc;
+		stateChanged();
 	}
 
 }

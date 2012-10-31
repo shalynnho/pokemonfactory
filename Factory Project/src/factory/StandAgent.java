@@ -1,10 +1,21 @@
 package factory;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import agent.Agent;
 import factory.data.Kit;
 import factory.interfaces.KitRobot;
 import factory.interfaces.Stand;
 
+/**
+ * Stand manages the kits that are placed on the kitting stand. Interacts with
+ * the Factory Control System (FCS), the Parts Robot and the Kit Robot.
+ * @author dpaje
+ */
 public class StandAgent extends Agent implements Stand {
 
 	// References to other agents
@@ -12,31 +23,76 @@ public class StandAgent extends Agent implements Stand {
 	private PartsRobot partsrobot;
 	private FCS fcs;
 
+	private final String name;
+
+	// Kits received but not yet placed. Should only have <= 2 keys at any given
+	// time.
+	private final Map<MyKit, Integer> myKits = Collections
+			.synchronizedMap(new HashMap<MyKit, Integer>());
+
+	private int numKitsToMake;
+	private final List<Kit> kitsOnStand = Collections
+			.synchronizedList(new ArrayList<Kit>());
+
+	/**
+	 * Inner class encapsulates kit and adds states relevant to the stand
+	 * @author dpaje
+	 */
+	private class MyKit {
+		public Kit kit;
+		public KitStatus KS;
+
+		public MyKit(Kit k) {
+			this.kit = k;
+			this.KS = KitStatus.PlacedOnStand;
+		}
+	}
+
+	public enum KitStatus {
+		PlacedOnStand, Assembled, MarkedForInspection, AwaitingInspection, Inspected, Shipped;
+	};
+
+	/**
+	 * Constructor for StandAgent class
+	 * @param name name of the stand
+	 */
+	public StandAgent(String name) {
+		super();
+
+		this.name = name;
+	}
+
 	/*
 	 * Messages
 	 */
 
 	@Override
-	public void msgShippedKit() {
-		// TODO Auto-generated method stub
+	public void msgMakeKits(int numKits) {
+		numKitsToMake = numKits;
+		stateChanged();
+	}
+
+	@Override
+	public void msgHereIsKit(Kit k, int destination) {
+		myKits.put(new MyKit(k), destination);
+		stateChanged();
 	}
 
 	@Override
 	public void msgKitAssembled(Kit k) {
 		// TODO Auto-generated method stub
-
+		stateChanged();
 	}
 
 	@Override
-	public void msgMakeKits(int numKits) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void msgHereIsKit(Kit k) {
-		// TODO Auto-generated method stub
-
+	public void msgShippedKit() {
+		for (MyKit mk : myKits.keySet()) {
+			if (mk.kit == kitsOnStand.get(0)) {
+				mk.KS = KitStatus.Shipped;
+				break;
+			}
+		}
+		stateChanged();
 	}
 
 	/*
@@ -45,7 +101,11 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
+
+		/*
+		 * Tried all rules and found no actions to fire. Return false to the
+		 * main loop of abstract base class Agent and wait.
+		 */
 		return false;
 	}
 
@@ -59,7 +119,7 @@ public class StandAgent extends Agent implements Stand {
 	 * placed
 	 */
 	private void requestKit(int index) {
-
+		stateChanged();
 	}
 
 	/**
@@ -67,7 +127,7 @@ public class StandAgent extends Agent implements Stand {
 	 * @param k the kit being placed
 	 */
 	private void placeKit(Kit k) {
-
+		stateChanged();
 	}
 
 	/**
@@ -75,7 +135,7 @@ public class StandAgent extends Agent implements Stand {
 	 * @param k the kit to be inspected.
 	 */
 	private void requestInspection(Kit k) {
-
+		stateChanged();
 	}
 
 	/**
@@ -83,7 +143,7 @@ public class StandAgent extends Agent implements Stand {
 	 * the kitting cell.
 	 */
 	private void finalizeOrder() {
-
+		stateChanged();
 	}
 
 	/**
@@ -92,6 +152,7 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	public void setPartsRobot(PartsRobot pr) {
 		this.partsrobot = pr;
+		stateChanged();
 	}
 
 	/**
@@ -100,6 +161,7 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	public void setKitRobot(KitRobot kr) {
 		this.kitrobot = kr;
+		stateChanged();
 	}
 
 	/**
@@ -108,5 +170,6 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	public void setFCS(FCS fcs) {
 		this.fcs = fcs;
+		stateChanged();
 	}
 }
