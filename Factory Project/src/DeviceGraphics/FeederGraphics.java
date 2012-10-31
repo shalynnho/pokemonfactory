@@ -4,19 +4,19 @@ import Utils.Location;
 import Networking.Server;
 
 public class FeederGraphics extends DeviceGraphics  {
-	Server server;
-	Location location;
-	int feederID;
-	int partsFed;
+	private Server server;
+	private Location location;
+	private int feederID;
+	private int partsFed;
 	// BinGraphics binGraphics;
 	// boolean partLow;
 	
 	/**
 	 * 
-	 * @param id
-	 * @param myServer
+	 * @param id the unique ID of the feeder (there will be 4 feeders so we need to uniquely identify them)
+	 * @param myServer a reference to the Server
 	 */
-	FeederGraphics(int id, Server myServer) {
+	public FeederGraphics(int id, Server myServer) {
 		id = feederID;
 		server = myServer;
 		partsFed = 0;
@@ -28,7 +28,23 @@ public class FeederGraphics extends DeviceGraphics  {
 		
 	}
 	
+	void receiveBin(BinGraphics bg) {
+		
+	}
+	
+	void purgeBin(BinGraphics bg) {
+		
+	}
+	
+	boolean isPartLow() {
+		if ()
+	}
+	
 	void movePartToLane() {
+		
+	}
+	
+	void movePartToDiverter(PartGraphics pg) {
 		
 	}
 	
