@@ -9,6 +9,7 @@ import java.util.Map;
 import agent.Agent;
 import factory.data.Kit;
 import factory.interfaces.KitRobot;
+import factory.interfaces.PartsRobot;
 import factory.interfaces.Stand;
 
 /**

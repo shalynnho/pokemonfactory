@@ -9,6 +9,7 @@ import java.util.concurrent.Semaphore;
 
 import agent.Agent;
 import factory.data.Kit;
+import factory.interfaces.Camera;
 import factory.interfaces.Conveyor;
 import factory.interfaces.KitRobot;
 import factory.interfaces.Stand;
@@ -38,7 +39,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	private Stand stand;
 	private Conveyor conveyor;
 	private Camera camera;
-	private GUIKitRobot guiKitRobot;
+	private KitRobotGraphics kitrobotGraphics;
 
 	private final String name;
 
@@ -200,7 +201,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		for (int loc : standPositions.keySet()) {
 			if (standPositions.get(loc) == true) {
 				animation.acquire();
-				guiKitRobot.msgPlaceKitOnStand(loc);
+				kitrobotGraphics.msgPlaceKitOnStand(loc);
 				standPositions.put(loc, false);
 				mk.KS = KitStatus.OnStand;
 				stand.msgHereIsKit(mk.kit, loc);
@@ -218,7 +219,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	private void placeKitInInspectionArea(MyKit mk) {
 		animation.acquire();
 		mk.KS = KitStatus.AwaitingInspection;
-		guiKitRobot.msgPlaceKitInInspectionArea(mk.kit);
+		kitrobotGraphics.msgPlaceKitInInspectionArea(mk.kit);
 		camera.msgInspectKit(mk.kit);
 		stateChanged();
 	}
@@ -229,7 +230,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 */
 	private void shipKit(Kit k) {
 		animation.acquire();
-		guiKitRobot.msgPlaceKitOnConveyor();
+		kitrobotGraphics.msgPlaceKitOnConveyor();
 		conveyor.msgTakeKitAway(k);
 		stand.msgShippedKit();
 		myKits.remove(k);
@@ -267,8 +268,8 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * GUI Hack to set the reference to this class' gui component
 	 * @param gc the gui representation of kit robot
 	 */
-	public void setGraphicalRepresentation(GUIKitRobot gkr) {
-		this.guiKitRobot = gkr;
+	public void setGraphicalRepresentation(KitRobotGraphics gkr) {
+		this.kitrobotGraphics = gkr;
 		stateChanged();
 	}
 

@@ -28,7 +28,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	// References to other agents
 	private KitRobot kitrobot;
 	private FCS fcs;
-	private GUIConveyor guiConveyor;
+	private ConveyorGraphics conveyorGraphics;
 
 	// Name of the conveyor
 	private final String name;
@@ -155,7 +155,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		Kit k = new Kit();
 		kitsOnConveyor.add(new MyKit(k));
 		animation.acquire();
-		guiConveyor.msgBringEmptyKit(k);
+		conveyorGraphics.msgBringEmptyKit(k);
 		stateChanged();
 	}
 
@@ -167,7 +167,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		numKitsToDeliver--;
 		kitrobot.msgHereIsKit(k);
 		animation.acquire();
-		guiConveyor.msgGiveKitToKitRobot(k);
+		conveyorGraphics.msgGiveKitToKitRobot(k);
 		stateChanged();
 	}
 
@@ -177,7 +177,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 */
 	private void deliverKit(Kit k) {
 		animation.acquire();
-		guiConveyor.msgReceiveKit(k);
+		conveyorGraphics.msgReceiveKit(k);
 		stateChanged();
 	}
 
@@ -203,8 +203,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * GUI Hack to set the reference to this class' gui component
 	 * @param gc the gui representation of conveyor
 	 */
-	public void setGraphicalRepresentation(GUIConveyor gc) {
-		this.guiConveyor = gc;
+	public void setGraphicalRepresentation(ConveyorGraphics gc) {
+		this.conveyorGraphics = gc;
 		stateChanged();
 	}
 
