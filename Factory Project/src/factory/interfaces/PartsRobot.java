@@ -12,7 +12,6 @@ public interface PartsRobot {
 	public abstract void msgUseThisKit(Kit k);
 	public abstract void msgPickUpPartDone();
 	public abstract void msgGivePartToKitDone();
-	
 	public abstract boolean pickAndExecuteAnAction();
 
 }
