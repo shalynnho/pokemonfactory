@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 
+import GraphicsInterfaces.KitRobotGraphics;
 import agent.Agent;
 import factory.data.Kit;
 import factory.interfaces.Camera;
@@ -200,8 +201,13 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	private void placeKitOnStand(MyKit mk) {
 		for (int loc : standPositions.keySet()) {
 			if (standPositions.get(loc) == true) {
-				animation.acquire();
-				kitrobotGraphics.msgPlaceKitOnStand(loc);
+				try {
+					animation.acquire();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				kitrobotGraphics.msgPlaceKitOnStand(mk.kit.kit,loc);
 				standPositions.put(loc, false);
 				mk.KS = KitStatus.OnStand;
 				stand.msgHereIsKit(mk.kit, loc);
@@ -217,9 +223,14 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * @param k the kit being placed.
 	 */
 	private void placeKitInInspectionArea(MyKit mk) {
-		animation.acquire();
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		mk.KS = KitStatus.AwaitingInspection;
-		kitrobotGraphics.msgPlaceKitInInspectionArea(mk.kit);
+		kitrobotGraphics.msgPlaceKitInInspectionArea(mk.kit.kit);
 		camera.msgInspectKit(mk.kit);
 		stateChanged();
 	}
@@ -229,7 +240,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * @param k the kit being shipped out of the kitting cell.
 	 */
 	private void shipKit(Kit k) {
-		animation.acquire();
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		kitrobotGraphics.msgPlaceKitOnConveyor();
 		conveyor.msgTakeKitAway(k);
 		stand.msgShippedKit();

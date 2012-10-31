@@ -22,7 +22,7 @@ public class StandAgent extends Agent implements Stand {
 	// References to other agents
 	private KitRobot kitrobot;
 	private PartsRobot partsrobot;
-	private FCS fcs;
+	private FCSAgent fcs;
 
 	private final String name;
 
@@ -233,7 +233,7 @@ public class StandAgent extends Agent implements Stand {
 	 * GUI Hack to set the reference to the FCS.
 	 * @param fcs the fcs
 	 */
-	public void setFCS(FCS fcs) {
+	public void setFCS(FCSAgent fcs) {
 		this.fcs = fcs;
 		stateChanged();
 	}

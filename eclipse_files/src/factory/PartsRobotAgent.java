@@ -7,6 +7,7 @@ import factory.data.*;
 import factory.interfaces.Nest;
 import factory.interfaces.PartsRobot;
 import factory.interfaces.Stand;
+import DeviceGraphics.PartsRobotGraphics;
 import agent.Agent;
 
 public class PartsRobotAgent extends Agent implements PartsRobot {
@@ -35,7 +36,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	
 	List<Kit> KitsOnStand;
 	Stand stand;
-	GUIPartsRobot guiPartsRobot;
+	PartsRobotGraphics guiPartsRobot;
 	
 	public Semaphore Animation = new Semaphore(1,true);
 	public Semaphore AccessKit = new Semaphore(1,true);

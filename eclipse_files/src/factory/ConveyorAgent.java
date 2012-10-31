@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import GraphicsInterfaces.ConveyorGraphics;
 import agent.Agent;
 import factory.data.Kit;
 import factory.interfaces.Conveyor;
@@ -20,14 +21,14 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	private final List<MyKit> kitsOnConveyor = Collections
 			.synchronizedList(new ArrayList<MyKit>());
-	private final int numKitsToDeliver;
+	private int numKitsToDeliver;
 
 	// Used to prevent animations from overlapping
 	Semaphore animation = new Semaphore(1);
 
 	// References to other agents
 	private KitRobot kitrobot;
-	private FCS fcs;
+	private FCSAgent fcs;
 	private ConveyorGraphics conveyorGraphics;
 
 	// Name of the conveyor
@@ -154,8 +155,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private void prepareKit() {
 		Kit k = new Kit();
 		kitsOnConveyor.add(new MyKit(k));
-		animation.acquire();
-		conveyorGraphics.msgBringEmptyKit(k);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		conveyorGraphics.msgBringEmptyKit(k.kit);
 		stateChanged();
 	}
 
@@ -166,8 +172,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private void sendKit(Kit k) {
 		numKitsToDeliver--;
 		kitrobot.msgHereIsKit(k);
-		animation.acquire();
-		conveyorGraphics.msgGiveKitToKitRobot(k);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		conveyorGraphics.msgGiveKitToKitRobot(k.kit);
 		stateChanged();
 	}
 
@@ -176,8 +187,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * @param k the kit being delivered.
 	 */
 	private void deliverKit(Kit k) {
-		animation.acquire();
-		conveyorGraphics.msgReceiveKit(k);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		conveyorGraphics.msgReceiveKit(k.kit);
 		stateChanged();
 	}
 
@@ -194,8 +210,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * GUI Hack to set the reference to the FCS.
 	 * @param fcs the FCS
 	 */
-	public void setFCS(FCS fcs) {
-		this.FCS = fcs;
+	public void setFCS(FCSAgent fcs) {
+		this.fcs = fcs;
 		stateChanged();
 	}
 

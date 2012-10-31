@@ -1,6 +1,6 @@
 package factory.data;
 
-import factory.dataGraphics.PartGraphics;
+import DeviceGraphics.PartGraphics;
 
 public class Part {
 

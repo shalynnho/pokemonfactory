@@ -1,4 +1,4 @@
-package factory.dataGraphics;
+package DeviceGraphics;
 
 public class PartGraphics {
 

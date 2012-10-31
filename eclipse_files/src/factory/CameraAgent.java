@@ -5,6 +5,8 @@ import java.util.*;
 import factory.data.Kit;
 import factory.data.PartType;
 import factory.interfaces.Camera;
+import DeviceGraphics.PartGraphics;
+import GraphicsInterfaces.CameraGraphics;
 import agent.Agent;
 
 public class CameraAgent extends Agent implements Camera {
@@ -14,14 +16,14 @@ public class CameraAgent extends Agent implements Camera {
 	private boolean kitDone;
 	private List<MyNest> nests = Collections.synchronizedList(new ArrayList<MyNest>());
 
-	public GUICamera guiCamera;
+	public CameraGraphics guiCamera;
 	
 	private enum NestStatus {NOT_READY,READY,PHOTOGRAPHED};
 	
 	private class MyNest{
 		NestAgent nest;
 		PartType type;
-		List<GUIPart> guiParts;
+		List<PartGraphics> guiParts;
 		NestStatus state;
 		MyNest(NestAgent nest, PartType type){
 			this.nest = nest;
