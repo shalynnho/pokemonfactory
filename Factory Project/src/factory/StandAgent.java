@@ -31,6 +31,7 @@ public class StandAgent extends Agent implements Stand {
 			.synchronizedMap(new HashMap<MyKit, Integer>());
 
 	private int numKitsToMake;
+
 	private final List<Kit> kitsOnStand = Collections
 			.synchronizedList(new ArrayList<Kit>());
 
