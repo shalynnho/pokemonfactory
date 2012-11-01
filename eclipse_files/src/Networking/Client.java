@@ -15,6 +15,6 @@ public abstract class Client extends JFrame{
 	 */
 	public abstract void receiveData(Request req);
 	
-	private StreamReader reader;
+	private ServerReader reader;
 	private StreamWriter writer;
 }
