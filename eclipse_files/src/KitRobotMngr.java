@@ -44,7 +44,8 @@ public class KitRobotMngr extends Client{
 	private class KitRobotManagerButton implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-						
+			//TODO: change the command.
+			writer.sendData(new Request("Some command", Constants.SERVER_TARGET, null));
 		}
 	}
 }
