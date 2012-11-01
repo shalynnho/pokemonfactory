@@ -16,6 +16,8 @@ public abstract class Constants {
 	// TARGET NAMES
 	//==================================
 	// Used so that we can create Request methods more easily.
+	// When the target has a specific ID, concatenate to the device target
+		// e.g. String target = Constants.LANE_TARGET+laneID;
 	
 	public static final String BIN_TARGET = "Bin";
 	public static final String CAMERA_TARGET = "Camera";
@@ -40,7 +42,12 @@ public abstract class Constants {
 	// Naming convention: DEVICENAME_ACTION
 	
 	public static final String IDENTIFY_COMMAND = "identify";
-	public static final String FEEDER_INIT_GRAPHICS_COMMAND = "feederinitg"; // initialize the feeder graphics
+	public static final String FEEDER_INIT_GRAPHICS_COMMAND = "feederinitg"; 	// initialize the feeder graphics
+	
+	public static final String LANE_RECEIVE_PART = "lane receive part";			// when a part is given to the lane
+	public static final String LANE_GIVE_PART_TO_NEST = "give part to nest";	// lane gives part to nest
+	public static final String LANE_PURGE = "purge lane";						// purge lane
+	public static final String LANE_SEND_ANIMATION = "lane animation";			// sends animation instructions to lane
 	
 	
 	// CLIENT NAMES

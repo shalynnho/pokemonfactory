@@ -35,10 +35,10 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	// true if spot is filled, false if not
 	private ArrayList<Boolean> nestSpots;
 	
-	public NestGraphics(Server s, int id, PartsRobotGraphics p) {
+	public NestGraphics(Server s, int nid, PartsRobotGraphics pr) {
 		server = s;
-		nestID = id;
-		partsRobot = p;
+		nestID = nid;
+		partsRobot = pr;
 		
 		partsInNest = new ArrayList<PartGraphics>();
 		nestSpots = new ArrayList<Boolean>();

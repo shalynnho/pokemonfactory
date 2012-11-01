@@ -18,7 +18,7 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 	private static final int MAX_PARTS;
 	// start and end locations of Part on the Lane
 	private static final Location PART_START = new Location(,);
-	private static final Location PART_END = new Location(,);
+	private static final Location PART_END = new Location(,);	// might not need this
 	
 	// instructions to display graphics will be sent through the server
 	private Server server;
@@ -30,8 +30,6 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 	// dynamically stores Parts currently on Lane
 	private ArrayList<PartGraphics> partsOnLane;
 	
-	// number of parts currently on Lane
-	private int numPartsOnLane = 0;
 	// vibration setting; how quickly parts vibrate down Lane
 	private int amplitude;
 	
@@ -50,7 +48,7 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 		nest = n;
 		
 		partsOnLane = new ArrayList<PartGraphics>();
-		amplitude = 1;	// WHAT IS DEFAULT AMP??????
+		amplitude = 1;	// WHAT IS DEFAULT AMP??????, also must set parameters for amp
 		laneOn = true;
 	}
 	
@@ -61,13 +59,24 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 	public void receivePart(PartGraphics pg) {
 		partsOnLane.add(pg);
 		pg.setLocation(PART_START);
+		server.sendData(new Request(Constants.LANE_RECEIVE_PART, Constants.LANE_TARGET+laneID, pg));
 	}
 	
 	/**
-	 * Called when part needs to be given to the nest associated with this lane
+	 * Called when part needs to be given to the nest associated with this lane.
+	 * Basically, this lane doesn't care about that part anymore.
 	 * @param pg - the part passed to the nest associated with this lane
 	 */
 	public void givePartToNest(PartGraphics pg) {
+		/* at the end of the Lane, gives the Part to the Nest
+		- receive message from LGD that Part is at end of Lane and Nest not full
+		- tell NestGraphicsLogic that we are passing Part
+		- remove from Lane parts queue */
+		// do i need to check if nest is full first? (or do agents do this?)
+		// just to double check, i don't call nest.receivePart(part) right?
+		
+		partsOnLane.remove(0); 	// this is kind of dangerous. check that correct part is removed.
+		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET+laneID, pg));
 		
 	}
 
@@ -75,7 +84,8 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 	 * 
 	 */
 	public void purge() {
-		
+		partsOnLane.clear();
+		server.sendData(new Request(Constants.LANE_PURGE, Constants.LANE_TARGET+laneID, null));
 	}
 	
 	/**
@@ -108,14 +118,17 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 	 */
 	public void receiveData(Request r) {
 		// must parse data request here
+		// if-else for every possible command
+		
+		// We want confirmation from Display each time an animation is completed.
 	}
 	
 	/**
 	 * Sends an instance of Animation through the server.
 	 * Tells the display class end Location of animation and duration allotted.
 	 */
-	private void sendAnimation() {
-		
+	private void sendAnimation(Animation ani) {
+		server.sendData(new Request(Constants.LANE_SEND_ANIMATION, Constants.LANE_TARGET+laneID, ani));
 	}
 	
 	
