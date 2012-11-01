@@ -17,21 +17,21 @@ public abstract class Constants {
 	//==================================
 	// Used so that we can create Request methods more easily.
 	
-	public static String BIN_TARGET = "Bin";
-	public static String CAMERA_TARGET = "Camera";
-	public static String CONVEYOR_TARGET = "Conveyor";
-	public static String FEEDER_TARGET = "Feeder";
-	public static String LANE_TARGET = "Lane";
+	public static final String BIN_TARGET = "Bin";
+	public static final String CAMERA_TARGET = "Camera";
+	public static final String CONVEYOR_TARGET = "Conveyor";
+	public static final String FEEDER_TARGET = "Feeder";
+	public static final String LANE_TARGET = "Lane";
 	
-	public static String KIT_ROBOT_TARGET = "KitRobot";
-	public static String GANTRY_ROBOT_TARGET = "GantryRobot";
-	public static String PARTS_ROBOT_TARGET = "PartsRobot";
+	public static final String KIT_ROBOT_TARGET = "KitRobot";
+	public static final String GANTRY_ROBOT_TARGET = "GantryRobot";
+	public static final String PARTS_ROBOT_TARGET = "PartsRobot";
 	
-	public static String PART_TARGET = "Part";
-	public static String NEST_TARGET = "Nest";
-	public static String KIT_TARGET = "Kit";
+	public static final String PART_TARGET = "Part";
+	public static final String NEST_TARGET = "Nest";
+	public static final String KIT_TARGET = "Kit";
 	
-	public static String SERVER_TARGET = "Server";
+	public static final String SERVER_TARGET = "Server";
 	
 	
 	// COMMAND NAMES
@@ -39,8 +39,8 @@ public abstract class Constants {
 	// Used so that we can create Request methods more easily.
 	// Naming convention: DEVICENAME_ACTION
 	
-	public static String IDENTIFY_COMMAND = "identify";
-	public static String FEEDER_INIT_GRAPHICS_COMMAND = "feederinitg"; // initialize the feeder graphics
+	public static final String IDENTIFY_COMMAND = "identify";
+	public static final String FEEDER_INIT_GRAPHICS_COMMAND = "feederinitg"; // initialize the feeder graphics
 	
 	
 	// CLIENT NAMES
@@ -48,8 +48,8 @@ public abstract class Constants {
 	// Used to identify clients.
 	
 	// V0 Config
-	public static String KIT_ROBOT_CLIENT = "KitsRobot";
-	public static String PARTS_ROBOT_CLIENT = "PartsRobot";
-	public static String LANE_CLIENT = "Lane";
+	public static final String KIT_ROBOT_CLIENT = "KitsRobot";
+	public static final String PARTS_ROBOT_CLIENT = "PartsRobot";
+	public static final String LANE_CLIENT = "Lane";
 	
 }
