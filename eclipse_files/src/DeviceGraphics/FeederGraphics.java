@@ -1,10 +1,13 @@
 package DeviceGraphics;
 
-import Utils.Location;
+import Networking.Request;
 import Networking.Server;
 
+import Utils.Constants;
+import Utils.Location;
+
 public class FeederGraphics extends DeviceGraphics  {
-	static final int partsLowThreshold = 2;
+	static final int PARTS_LOW_THRESHOLD = 2;
 
 	private Server server;
 	private Location location;
@@ -30,6 +33,7 @@ public class FeederGraphics extends DeviceGraphics  {
 		location = new Location(200, 100*feederID);
 		
 		// TODO send message to FeederGraphicsDisplay
+		server.sendData(new Request(Constants.FEEDER_INIT_GRAPHICS, Constants.FEEDER_TARGET, location));
 		
 	}
 	
@@ -42,7 +46,7 @@ public class FeederGraphics extends DeviceGraphics  {
 	}
 	
 	boolean isPartLow() {
-		return (partsRemaining < partsLowThreshold);
+		return (partsRemaining < PARTS_LOW_THRESHOLD);
 	}
 	
 	void movePartToLane() {

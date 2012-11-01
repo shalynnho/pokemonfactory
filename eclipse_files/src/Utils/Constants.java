@@ -37,8 +37,10 @@ public abstract class Constants {
 	// COMMAND NAMES
 	//==================================
 	// Used so that we can create Request methods more easily.
+	// Naming convention: DEVICENAME_ACTION
 	
 	public static String IDENTIFY_COMMAND = "identify";
+	public static String FEEDER_INIT_GRAPHICS = "feederinitg"; // initialize the feeder graphics
 	
 	
 	// CLIENT NAMES
