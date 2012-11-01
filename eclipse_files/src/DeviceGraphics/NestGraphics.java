@@ -6,7 +6,13 @@ import Utils.*;
 
 import java.util.*;
 
-public class NestGraphics extends DeviceGraphics {
+/**
+ * This class represents the graphics logic for a nest.
+ * 
+ * @author Shalynn Ho
+ *
+ */
+public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.NestGraphics {
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS;
 	

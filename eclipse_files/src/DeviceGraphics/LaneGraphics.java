@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author Shalynn Ho
  *
  */
-public class LaneGraphics extends DeviceGraphics {
+public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.LaneGraphics {
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS;
 	// start and end locations of Part on the Lane

@@ -4,11 +4,12 @@ import Networking.*;
 import GraphicsInterfaces.*;
 import Utils.*;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-public class NestGraphicsDislplay extends DeviceGraphicsDisplay {
+public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS;
 	// x-coordinate of the Nest
