@@ -1,10 +1,15 @@
 package DeviceGraphicsDisplay;
 
+import Networking.*;
+import GraphicsInterfaces.*;
+import Utils.*;
+
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
 /**
+ * This class contains the graphics display components for a lane.
  * 
  * @author Shalynn Ho
  *
