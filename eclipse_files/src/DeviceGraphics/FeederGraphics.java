@@ -11,9 +11,12 @@ public class FeederGraphics extends DeviceGraphics  {
 
 	private Server server;
 	private Location location;
+	
 	private int feederID;
 	private int partsFed;
 	private int partsRemaining;
+	
+	private String partType;
 	// BinGraphics binGraphics;
 	// boolean partLow;
 	
@@ -26,18 +29,21 @@ public class FeederGraphics extends DeviceGraphics  {
 		id = feederID;
 		server = myServer;
 		partsFed = 0;
-
-		// partsRemaining
+		partsRemaining = 0;
+		partType = "none";
 		
 		// TODO edit location coordinates later
 		location = new Location(200, 100*feederID);
 		
 		// TODO send message to FeederGraphicsDisplay
-		server.sendData(new Request(Constants.FEEDER_INIT_GRAPHICS, Constants.FEEDER_TARGET, location));
+		server.sendData(new Request(Constants.FEEDER_INIT_GRAPHICS_COMMAND, Constants.FEEDER_TARGET, location));
 		
 	}
 	
 	void receiveBin(BinGraphics bg) {
+		partsRemaining = bg.getQuantity();
+		partType = bg.getPartType();
+		
 		
 	}
 	
@@ -58,9 +64,8 @@ public class FeederGraphics extends DeviceGraphics  {
 	}
 	
 	void flipDiverter() {
-		
+		// TODO 
 	}
 	
 	
-
 }
