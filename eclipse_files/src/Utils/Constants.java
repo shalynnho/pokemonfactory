@@ -40,7 +40,7 @@ public abstract class Constants {
 	// Naming convention: DEVICENAME_ACTION
 	
 	public static String IDENTIFY_COMMAND = "identify";
-	public static String FEEDER_INIT_GRAPHICS = "feederinitg"; // initialize the feeder graphics
+	public static String FEEDER_INIT_GRAPHICS_COMMAND = "feederinitg"; // initialize the feeder graphics
 	
 	
 	// CLIENT NAMES
