@@ -1,7 +1,5 @@
 package Networking;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import javax.swing.JFrame;
@@ -30,11 +28,12 @@ public abstract class Client extends JFrame{
 	public void initStreams() {
 		try {
 		    socket = new Socket("localhost", Constants.SERVER_PORT);
-		    System.out.println("Client: got a connection");
+		    System.out.println("Client: connected to the server");
 		    
 		    reader = new ServerReader(socket, this);
 		    writer = new StreamWriter(socket);
 		    new Thread(reader).start();
+		    System.out.println("Client: streams ready");
 		} catch (Exception e) {
 		    System.out.println("Client: got an exception initing streams" + e.getMessage() );
 		    e.printStackTrace();
