@@ -29,7 +29,7 @@ public class StreamWriter {
 	 * Sends the Request variable to the Server. For example:
 	 * <code>writer.sendData(new Request("receiveBin", "feeder1", null));</code>
 	 * 
-	 * @param req - Request variable to be sent.
+	 * @param req Request variable to be sent.
 	 */
 	public void sendData(Request req) {
 		try {
