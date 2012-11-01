@@ -1,11 +1,14 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import Networking.Client;
 import Networking.Request;
+import Utils.Constants;
 
 
 public class KitRobotMngr extends Client{
@@ -14,6 +17,9 @@ public class KitRobotMngr extends Client{
 	private static final int WINDOW_HEIGHT = 600;
 	
 	public KitRobotMngr() {
+		clientName = Constants.KIT_ROBOT_MNGR_CLIENT;
+		initStreams();
+		
 		JLabel label = new JLabel("Kit Robot Manager");
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("SansSerif", Font.PLAIN, 40));
@@ -33,5 +39,12 @@ public class KitRobotMngr extends Client{
 		mngr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mngr.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		mngr.setVisible(true);
+	}
+	
+	private class KitRobotManagerButton implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+						
+		}
 	}
 }
