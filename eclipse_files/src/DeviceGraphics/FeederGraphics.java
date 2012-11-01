@@ -6,22 +6,28 @@ import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
 
+/**
+ * This class handles the logic for the feeder animation.
+ * @author Harry Trieu
+ *
+ */
+
 public class FeederGraphics extends DeviceGraphics  {
-	static final int PARTS_LOW_THRESHOLD = 2;
+	private static final int PARTS_LOW_THRESHOLD = 2;
 
 	private Server server;
 	private Location location;
+	
+	private boolean haveBin;
 	
 	private int feederID;
 	private int partsFed;
 	private int partsRemaining;
 	
-	private String partType;
-	// BinGraphics binGraphics;
-	// boolean partLow;
+	private PartGraphics partGraphics;
 	
 	/**
-	 * 
+	 * This is the constructor.
 	 * @param id the unique ID of the feeder (there will be 4 feeders so we need to uniquely identify them)
 	 * @param myServer a reference to the Server
 	 */
@@ -30,7 +36,6 @@ public class FeederGraphics extends DeviceGraphics  {
 		server = myServer;
 		partsFed = 0;
 		partsRemaining = 0;
-		partType = "none";
 		
 		// TODO edit location coordinates later
 		location = new Location(200, 100*feederID);
@@ -40,29 +45,52 @@ public class FeederGraphics extends DeviceGraphics  {
 		
 	}
 	
+	/**
+	 * This function receives a bin.
+	 * @param bg BinGraphics passed in by the Agent
+	 */
 	void receiveBin(BinGraphics bg) {
 		partsRemaining = bg.getQuantity();
-		partType = bg.getPartType();
-		
-		
+		partGraphics = bg.getPart();
+		haveBin = true;
 	}
 	
+	/**
+	 * This function purges the bin.
+	 * @param bg
+	 */
 	void purgeBin(BinGraphics bg) {
-		
+		partsFed = 0;
+		partsRemaining = 0;
+		haveBin = false;
 	}
 	
+	/**
+	 * This function determines if the part is low.
+	 * @return partsRemaining is less than PARTS_LOW_THRESHOLD
+	 */
 	boolean isPartLow() {
 		return (partsRemaining < PARTS_LOW_THRESHOLD);
 	}
 	
+	/**
+	 * This function moves a part to the lane.
+	 */
 	void movePartToLane() {
 		
 	}
 	
+	/**
+	 * This function moves a part to the diverter.
+	 * @param pg
+	 */
 	void movePartToDiverter(PartGraphics pg) {
 		
 	}
 	
+	/**
+	 * This function flips the diverter.
+	 */
 	void flipDiverter() {
 		// TODO 
 	}
