@@ -42,11 +42,7 @@ public class FeederGraphics extends DeviceGraphics  {
 	}
 	
 	boolean isPartLow() {
-		if (partsRemaining < partsLowThreshold) {
-			return (true);
-		} else {
-			return (false); 
-		}
+		return (partsRemaining < partsLowThreshold);
 	}
 	
 	void movePartToLane() {
