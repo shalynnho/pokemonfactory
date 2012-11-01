@@ -15,20 +15,18 @@ import Utils.Constants;
  *
  */
 public class Server {
-	
-	ServerSocket ss;
-	Socket s;
+	private ServerSocket ss;
+	private Socket s;
 	
 	// V0 Config
-	private ClientReader kitRobotReader;
-	private StreamWriter kitRobotWriter;
+	private ClientReader kitRobotMngrReader;
+	private StreamWriter kitRobotMngrWriter;
 	
-	private ClientReader partsRobotReader;
-	private StreamWriter partsRobotWriter;
+	private ClientReader partsRobotMngrReader;
+	private StreamWriter partsRobotMngrWriter;
 	
-	private ClientReader laneReader;
-	private StreamWriter laneWriter;
-	
+	private ClientReader laneMngrReader;
+	private StreamWriter laneMngrWriter;
 	
 	public Server() {
 		try {
@@ -59,18 +57,18 @@ public class Server {
 			Request req = (Request) ois.readObject();
 			if (req.getTarget() == Constants.SERVER_TARGET && req.getCommand() == Constants.IDENTIFY_COMMAND) {
 				String identity = (String) req.getData();
-				if (identity.equals(Constants.KIT_ROBOT_CLIENT)) {
-					kitRobotReader = new ClientReader(s, this);
-					kitRobotWriter = new StreamWriter(s);
-					new Thread(kitRobotReader).start();
-				} else if (identity.equals(Constants.PARTS_ROBOT_CLIENT)) {
-					partsRobotReader = new ClientReader(s, this);
-					partsRobotWriter = new StreamWriter(s);
-					new Thread(partsRobotReader). start();
-				} else if (identity.equals(Constants.LANE_CLIENT)) {
-					laneReader = new ClientReader(s, this);
-					laneWriter = new StreamWriter(s);
-					new Thread(laneReader). start();
+				if (identity.equals(Constants.KIT_ROBOT_MNGR_CLIENT)) {
+					kitRobotMngrReader = new ClientReader(s, this);
+					kitRobotMngrWriter = new StreamWriter(s);
+					new Thread(kitRobotMngrReader).start();
+				} else if (identity.equals(Constants.PARTS_ROBOT_MNGR_CLIENT)) {
+					partsRobotMngrReader = new ClientReader(s, this);
+					partsRobotMngrWriter = new StreamWriter(s);
+					new Thread(partsRobotMngrReader). start();
+				} else if (identity.equals(Constants.LANE_MNGR_CLIENT)) {
+					laneMngrReader = new ClientReader(s, this);
+					laneMngrWriter = new StreamWriter(s);
+					new Thread(laneMngrReader). start();
 				}
 			}
 		} catch (Exception e) {
@@ -81,7 +79,7 @@ public class Server {
 	public void receiveData(Request req) {
 		String target = req.getTarget();
 		
-		if(target.equals("server")) {
+		if(target.equals(Constants.SERVER_TARGET)) {
 			
 		}
 	}
@@ -105,27 +103,27 @@ public class Server {
 	}
 	
 	private void sendDataToConveyor(Request req) {
-		kitRobotWriter.sendData(req);
+		kitRobotMngrWriter.sendData(req);
 	}
 	
 	private void sendDataToKitRobot(Request req) {
-		kitRobotWriter.sendData(req);
+		kitRobotMngrWriter.sendData(req);
 	}
 	
 	private void sendDataToPartsRobot(Request req) {
-		partsRobotWriter.sendData(req);
+		partsRobotMngrWriter.sendData(req);
 	}
 	
 	private void sendDataToNest(Request req) {
-		partsRobotWriter.sendData(req);
+		partsRobotMngrWriter.sendData(req);
 	}
 	
 	private void sendDataToCamera(Request req) {
-		partsRobotWriter.sendData(req);
+		partsRobotMngrWriter.sendData(req);
 	}
 	
 	private void sendDataToLane(Request req) {
-		laneWriter.sendData(req);
+		laneMngrWriter.sendData(req);
 	}
 	
 	public static void main(String[] args) {

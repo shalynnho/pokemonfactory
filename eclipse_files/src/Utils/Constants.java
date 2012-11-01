@@ -10,14 +10,14 @@ public abstract class Constants {
 	// SERVER SETTINGS
 	//==================================
 	
-	public static int SERVER_PORT = 6889;
+	public static final int SERVER_PORT = 6889;
 	
 	
 	// TARGET NAMES
 	//==================================
 	// Used so that we can create Request methods more easily.
 	// When the target has a specific ID, concatenate to the device target
-		// e.g. String target = Constants.LANE_TARGET+laneID;
+	// e.g. String target = Constants.LANE_TARGET+laneID;
 	
 	public static final String BIN_TARGET = "Bin";
 	public static final String CAMERA_TARGET = "Camera";
@@ -39,9 +39,10 @@ public abstract class Constants {
 	// COMMAND NAMES
 	//==================================
 	// Used so that we can create Request methods more easily.
-	// Naming convention: DEVICENAME_ACTION
+	// Naming convention: DEVICENAME_ACTION_COMMAND
 	
-	public static final String IDENTIFY_COMMAND = "identify";
+	public static final String IDENTIFY_COMMAND = "identify";					// for servers to identify managers
+	
 	public static final String FEEDER_INIT_GRAPHICS_COMMAND = "feederinitg"; 	// initialize the feeder graphics
 	
 	public static final String LANE_RECEIVE_PART = "lane receive part";			// when a part is given to the lane
@@ -54,9 +55,9 @@ public abstract class Constants {
 	//==================================
 	// Used to identify clients.
 	
-	// V0 Config
-	public static final String KIT_ROBOT_CLIENT = "KitsRobot";
-	public static final String PARTS_ROBOT_CLIENT = "PartsRobot";
-	public static final String LANE_CLIENT = "Lane";
+	// V0 Config - temporary names
+	public static final String KIT_ROBOT_MNGR_CLIENT = "KitsRobotMngr";
+	public static final String PARTS_ROBOT_MNGR_CLIENT = "PartsRobotMngr";
+	public static final String LANE_MNGR_CLIENT = "LaneMngr";
 	
 }
