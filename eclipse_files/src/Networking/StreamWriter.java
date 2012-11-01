@@ -8,18 +8,18 @@ import java.net.Socket;
  * 
  * @author Peter Zhang
  */
-public class ServerWriter {
+public class StreamWriter {
 	private Socket socket;
 	private ObjectOutputStream oos;	
 	
-	public ServerWriter(Socket s){
+	public StreamWriter(Socket s){
 		socket = s;
 		try {
 			// Create the output stream for reading from the server
 			oos = new ObjectOutputStream(socket.getOutputStream());
-			System.out.println("ServerWriter: got stream");
+			System.out.println("StreamWriter: got stream");
 		} catch (Exception e) {
-			System.out.println("ServerWriter: Stream init fail");
+			System.out.println("StreamWriter: Stream init fail");
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -33,12 +33,12 @@ public class ServerWriter {
 	 */
 	public void sendData(Request req) {
 		try {
-			System.out.println("ServerWriter: requesting for \" " + req + " \"");
+			System.out.println("StreamWriter: requesting for \" " + req + " \"");
 			oos.writeObject(req);
 			oos.flush();
 			oos.reset();
 		} catch (Exception e) {
-			System.out.println("ServerWriter: request fail");
+			System.out.println("StreamWriter: request fail");
 			e.printStackTrace();
 		}
 	}

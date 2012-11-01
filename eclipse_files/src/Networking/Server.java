@@ -13,4 +13,8 @@ public class Server {
 		System.out.println("Dummy text.");
 		System.out.println("Just double checking that it works.");
 	}
+	
+	public void receiveData(Request req) {
+		//TODO
+	}
 }
