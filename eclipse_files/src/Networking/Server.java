@@ -4,6 +4,8 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import Utils.Constants;
+
 /**
  * The Server is the "middleman" between Agents and the GUI clients. 
  * This is where constructors of the different Agents will be called, 
@@ -30,7 +32,7 @@ public class Server {
 	
 	public Server() {
 		try {
-			ss = new ServerSocket(6889);
+			ss = new ServerSocket(Constants.SERVER_PORT);
 		} catch (Exception e) {
 			System.out.println("Server: cannot init server socket");
 			e.printStackTrace();
@@ -55,17 +57,17 @@ public class Server {
 		try {
 			ois = new ObjectInputStream(s.getInputStream());
 			Request req = (Request) ois.readObject();
-			if (req.getTarget() == "server" && req.getCommand() == "identify") {
+			if (req.getTarget() == Constants.SERVER_TARGET && req.getCommand() == Constants.IDENTIFY_COMMAND) {
 				String identity = (String) req.getData();
-				if (identity.equals("kitRobot")) {
+				if (identity.equals(Constants.KIT_ROBOT_CLIENT)) {
 					kitRobotReader = new ClientReader(s, this);
 					kitRobotWriter = new StreamWriter(s);
 					new Thread(kitRobotReader).start();
-				} else if (identity.equals("partsRobot")) {
+				} else if (identity.equals(Constants.PARTS_ROBOT_CLIENT)) {
 					partsRobotReader = new ClientReader(s, this);
 					partsRobotWriter = new StreamWriter(s);
 					new Thread(partsRobotReader). start();
-				} else if (identity.equals("lane")) {
+				} else if (identity.equals(Constants.LANE_CLIENT)) {
 					laneReader = new ClientReader(s, this);
 					laneWriter = new StreamWriter(s);
 					new Thread(laneReader). start();
@@ -87,17 +89,17 @@ public class Server {
 	public void sendData(Request req) {
 		String target = req.getTarget();
 		
-		if (target.contains("conveyor")) {
+		if (target.contains(Constants.CONVEYOR_TARGET)) {
 			sendDataToConveyor(req);
-		} else if (target.contains("kitRobot")) {
+		} else if (target.contains(Constants.KIT_ROBOT_TARGET)) {
 			sendDataToKitRobot(req);
-		} else if (target.contains("partsRobot")) {
+		} else if (target.contains(Constants.PARTS_ROBOT_TARGET)) {
 			sendDataToPartsRobot(req);
-		} else if (target.contains("nest")) {
+		} else if (target.contains(Constants.NEST_TARGET)) {
 			sendDataToNest(req);
-		} else if (target.contains("camera")) {
+		} else if (target.contains(Constants.CAMERA_TARGET)) {
 			sendDataToCamera(req);
-		} else if (target.contains("lane")) {
+		} else if (target.contains(Constants.LANE_TARGET)) {
 			sendDataToLane(req);
 		}
 	}
