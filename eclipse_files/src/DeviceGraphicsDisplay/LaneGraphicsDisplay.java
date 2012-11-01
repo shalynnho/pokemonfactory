@@ -44,38 +44,71 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 	}
 	
+	/**
+	 * 
+	 * @param g2
+	 */
 	public void paintComponent(Graphics2D g2) {
 		
 	}
 	
+	/**
+	 * 
+	 * @param r
+	 */
 	public void receiveData(Request r) {
 		
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 */
 	public void receivePart(PartGraphicsDisplay p) {
 		
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 */
 	public void givePartToNest(PartGraphicsDisplay p) {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void purge() {
 		
 	}
 	
+	/**
+	 * 
+	 * @param amp
+	 */
 	public void setAmplitude(int amp) {
 		
 	}
 	
+	/**
+	 * 
+	 * @param on
+	 */
 	public void toggleSwitch(boolean on) {
 		
 	}
-	
+
+	/**
+	 * 
+	 */
 	private void movePartDownLane() {
 		
 	}
 
+	/**
+	 * 
+	 */
 	private void lineUpParts() {
 		
 	}

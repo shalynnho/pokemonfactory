@@ -44,46 +44,86 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 		nestSpots = new ArrayList<Boolean>();
 	}
 
+	/**
+	 * @param - 
+	 */
 	public void receivePart(PartGraphics p) {
 		
 	}
 	
+	/**
+	 * @param
+	 */
 	public void givePartToPartsRobot(PartGraphics p) {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void purge() {
 		
 	}
 	
+	/**
+	 * 
+	 * @param r
+	 */
 	public void receiveData(Request r) {
 		
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isFull() {
 		
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean allPartsUnanalyzed() {
 		
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean allPartsGood() {
 		
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean allPartsBad() {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public Location getLocation() {
 		
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList<PartGraphics> getPartsInNest() {
 		
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Map<PartGraphics,Boolean> getQualityOfParts() {
 		
 	}
