@@ -3,8 +3,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -56,13 +54,5 @@ public class KitRobotManager extends Client{
 		Graphics2D g = (Graphics2D) gg;
 		
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
-	}
-	
-	private class KitRobotManagerButtonListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			//TODO: change the command.
-			writer.sendData(new Request("Some command", Constants.SERVER_TARGET, null));
-		}
 	}
 }
