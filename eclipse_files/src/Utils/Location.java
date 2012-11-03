@@ -48,4 +48,12 @@ public class Location {
 		incrementY(toAdd);
 		return y;
 	}
+	
+	public void setX(int newX) {
+		x = newX;
+	}
+	
+	public void setY(int newY) {
+		y = newY;
+	}
 }
