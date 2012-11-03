@@ -1,5 +1,8 @@
 package Utils;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+
 /**
  * Contains all the constants that we need in the project.
  * 
@@ -11,6 +14,11 @@ public abstract class Constants {
 	//==================================
 	
 	public static final int SERVER_PORT = 6889;
+	
+	// CLIENT SETTINGS
+	//==================================
+	
+	public static final Image bgImage = Toolkit.getDefaultToolkit().getImage("images/bg.jpg");
 	
 	
 	// TARGET NAMES
