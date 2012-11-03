@@ -1,6 +1,8 @@
 package Networking;
 
-public class Request {
+import java.io.Serializable;
+
+public class Request implements Serializable{
 	private String command;
 	private String target;
 	Object data;

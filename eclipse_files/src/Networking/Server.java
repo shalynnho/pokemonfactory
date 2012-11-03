@@ -1,6 +1,7 @@
 package Networking;
 
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -41,6 +42,7 @@ public class Server {
 			try {
 				s = ss.accept();
 				identifyClient(s);
+				System.out.println("Server: accepted client");
 			} catch (Exception e) {
 				System.out.println("Server: got an exception" + e.getMessage());
 			}
@@ -51,24 +53,30 @@ public class Server {
 	 * Organize incoming streams according to the first message that we receive
 	 */
 	private void identifyClient(Socket s) {
-		ObjectInputStream ois;
 		try {
-			ois = new ObjectInputStream(s.getInputStream());
+			ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+			ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+			
+			// initial identity read
 			Request req = (Request) ois.readObject();
-			if (req.getTarget() == Constants.SERVER_TARGET && req.getCommand() == Constants.IDENTIFY_COMMAND) {
+			System.out.println("Server: Received client");
+			
+			if (req.getTarget().equals(Constants.SERVER_TARGET) && req.getCommand().equals(Constants.IDENTIFY_COMMAND)) {
 				String identity = (String) req.getData();
+				System.out.println("Server: Received identity: " + identity);
+				
 				if (identity.equals(Constants.KIT_ROBOT_MNGR_CLIENT)) {
-					kitRobotMngrReader = new ClientReader(s, this);
-					kitRobotMngrWriter = new StreamWriter(s);
+					kitRobotMngrWriter = new StreamWriter(oos);
+					kitRobotMngrReader = new ClientReader(ois, this);
 					new Thread(kitRobotMngrReader).start();
 				} else if (identity.equals(Constants.PARTS_ROBOT_MNGR_CLIENT)) {
-					partsRobotMngrReader = new ClientReader(s, this);
-					partsRobotMngrWriter = new StreamWriter(s);
+					partsRobotMngrWriter = new StreamWriter(oos);
+					partsRobotMngrReader = new ClientReader(ois, this);
 					new Thread(partsRobotMngrReader). start();
 				} else if (identity.equals(Constants.LANE_MNGR_CLIENT)) {
-					laneMngrReader = new ClientReader(s, this);
-					laneMngrWriter = new StreamWriter(s);
-					new Thread(laneMngrReader). start();
+					laneMngrWriter = new StreamWriter(oos);
+					laneMngrReader = new ClientReader(ois, this);
+					new Thread(laneMngrReader).start();
 				}
 			}
 		} catch (Exception e) {

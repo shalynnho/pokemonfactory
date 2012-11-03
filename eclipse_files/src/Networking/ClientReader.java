@@ -1,6 +1,6 @@
 package Networking;
 
-import java.net.Socket;
+import java.io.ObjectInputStream;
 
 /**
  * Variant of StreamReader, used by the Server. 
@@ -11,8 +11,8 @@ public class ClientReader extends StreamReader {
 
 	private Server server;
 	
-	public ClientReader(Socket soc, Server s) {
-		super(soc);
+	public ClientReader(ObjectInputStream ois, Server s) {
+		super(ois);
 		server = s;
 	}
 
