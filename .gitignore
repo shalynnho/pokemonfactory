@@ -23,6 +23,7 @@ source/
 *.rar
 *.tar
 *.zip
+bin/
 
 # Logs #
 ########
