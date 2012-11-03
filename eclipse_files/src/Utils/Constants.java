@@ -21,6 +21,12 @@ public abstract class Constants {
 	public static final Image CLIENT_BG_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/bg.jpg");
 	
 	
+	//DEVICE SETTINGS
+	//==================================
+	
+	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Conveyor.jpg");
+	public static final Image CONVEYOR_LINES_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/ConveyorLines.png");
+	
 	// TARGET NAMES
 	//==================================
 	// Used so that we can create Request methods more easily.
@@ -66,10 +72,11 @@ public abstract class Constants {
 	public static final String LANE_SET_STARTLOC_COMMAND = "lane start loc";			// sets start loc for this lane
 	// end lane display to logic commands
 	
-	// conveyor logic to kit robot commands
-	public static final String CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND = "give kit to kit robot";
-	public static final String CONVEYOR_RECEIVE_KIT_COMMAND = "conveyor receive kit";
-	// end conveyor logic to kit robot commands
+	// conveyor logic to display commands
+	public static final String CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND = "give kit to kit robot";   //conveyor gives kit to kit robot
+	public static final String CONVEYOR_RECEIVE_KIT_COMMAND = "conveyor receive kit";              //conveyor receives a kit
+	public static final String CONVEYOR_SEND_ANIMATION_COMMAND = "conveyor animation";             //sends animation information to conveyor
+	// end conveyor logic to display commands
 	
 	
 	// CLIENT NAMES

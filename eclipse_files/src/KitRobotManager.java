@@ -3,20 +3,27 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import DeviceGraphics.ConveyorGraphics;
+import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import GUI.OverlayPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 
 
-public class KitRobotManager extends Client{
+public class KitRobotManager extends Client implements ActionListener{
 	// Temp values. Feel free to change
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
+	
+	ConveyorGraphics cg;                  //testing
+	ConveyorGraphicsDisplay cgd;          //testing
 	
 	public KitRobotManager() {
 		clientName = Constants.KIT_ROBOT_MNGR_CLIENT;
@@ -33,6 +40,11 @@ public class KitRobotManager extends Client{
 		panel.add(new JLabel("hello"));
 		add(panel, BorderLayout.SOUTH);
 		panel.setVisible(true);
+		
+		cg = new ConveyorGraphics();
+		cgd = new ConveyorGraphicsDisplay();
+		
+		new javax.swing.Timer(20,this).start();
 	}
 	
 	@Override
@@ -54,5 +66,12 @@ public class KitRobotManager extends Client{
 		Graphics2D g = (Graphics2D) gg;
 		
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
+		cgd.draw(this, g);
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		repaint();
 	}
 }

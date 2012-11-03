@@ -7,19 +7,22 @@ import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
 
-//factory imports
+/**
+ * Contains the logic for the Conveyor object 
+ * 
+ * @author neetugeo
+ */
 
 public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfaces.ConveyorGraphics {
 
-	//Variables
 	private ArrayList<KitGraphics> kitsOnConveyor; // all kits on conveyor
 	private Location location;
 	private Server server;
 	        
-	public ConveyorGraphics(Server s){
+	public ConveyorGraphics(/*Server s*/){
 		location = new Location(0,0);
 		kitsOnConveyor = new ArrayList<KitGraphics>();
-		server = s;
+		//server = s;
 	} 
 	
 	public void bringEmptyKit(KitGraphics kg){
@@ -27,7 +30,7 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 	} 
 
 	public void giveKitToKitRobot(KitGraphics kg){
-		// kg.setFull(true);
+		kg.setFull(true);
 		server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.KIT_ROBOT_TARGET, kg));
 		kitsOnConveyor.remove(kg);
 	} 
@@ -38,8 +41,12 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 	 * @param kit - a kit must be received from KitRobot before sending it away
 	 */
 	public void receiveKit(KitGraphics kg){
-		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, kg));
+		//server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, kg));
 		kitsOnConveyor.add(kg);
+	}
+	
+	public void receiveData(Request r){
+
 	}
 
 	@Override
