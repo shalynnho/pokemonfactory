@@ -11,12 +11,12 @@ import Networking.Request;
 import Utils.Constants;
 
 
-public class KitRobotMngr extends Client{
+public class KitRobotManager extends Client{
 	// Temp values. Feel free to change
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
 	
-	public KitRobotMngr() {
+	public KitRobotManager() {
 		clientName = Constants.KIT_ROBOT_MNGR_CLIENT;
 		initStreams();
 		
@@ -33,7 +33,7 @@ public class KitRobotMngr extends Client{
 	}
 
 	public static void main(String[] args) {
-		KitRobotMngr mngr = new KitRobotMngr();
+		KitRobotManager mngr = new KitRobotManager();
 		mngr.setBackground(Color.BLACK);
 		mngr.setTitle("Factory Project - Kit Robot Manager");
 		mngr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
