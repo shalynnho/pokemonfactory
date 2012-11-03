@@ -57,6 +57,12 @@ public abstract class Constants {
 	public static final String LANE_SET_STARTLOC_COMMAND = "lane start loc";					// sets start loc for this lane
 	// lane display to logic commands
 	
+	
+	// conveyor logic to kit robot commands
+	public static final String CONVEYOR_GIVE_PART_TO_KIT_ROBOT_COMMAND = "give part to kit robot";
+	public static final String CONVEYOR_RECEIVE_PART_COMMAND = "conveyor receive part";
+	
+	
 	// CLIENT NAMES
 	//==================================
 	// Used to identify clients.
