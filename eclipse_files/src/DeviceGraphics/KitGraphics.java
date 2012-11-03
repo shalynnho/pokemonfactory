@@ -11,10 +11,12 @@ public class KitGraphics {
 	ArrayList<PartGraphics> parts; // parts currently in the kit
 	ArrayList<PartType> partTypes; // part types required to make kit
 	Location kitLocation;
+	
+	Boolean isFull; //Says whether or not the kit is full
 
 	// ***********
 	public KitGraphics () {
-	
+	isFull = false;
 	}
 	
 	
@@ -40,5 +42,10 @@ public class KitGraphics {
 	
 	public Location getLocation () {
 		return kitLocation;
+	}
+	
+	//If true, set isFull boolean to true
+	public void setFull (Boolean full) {
+		isFull = full;
 	}
 }
