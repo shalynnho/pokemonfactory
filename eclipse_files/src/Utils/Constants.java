@@ -25,7 +25,7 @@ public abstract class Constants {
 	//==================================
 	// Used so that we can create Request methods more easily.
 	// When the target has a specific ID, concatenate to the device target
-	// e.g. String target = Constants.LANE_TARGET+laneID;
+	// e.g. String target = Constants.LANE_TARGET:laneID;
 	
 	public static final String BIN_TARGET = "Bin";
 	public static final String CAMERA_TARGET = "Camera";
@@ -51,9 +51,10 @@ public abstract class Constants {
 	
 	public static final String IDENTIFY_COMMAND = "identify";					// for servers to identify managers
 	
+	// feeder logic to display commands
 	public static final String FEEDER_INIT_GRAPHICS_COMMAND = "feederinitg"; 	// initialize the feeder graphics
 	public static final String FEEDER_FLIP_DIVERTER_COMMAND = "feederflipdiv";  // draw the diverter flipping
-	public static final String FEEDER_MOVE_TO_LANE = "feedermovlane";			// draw part moving to lane
+	// end feeder logic to display commands
 	
 	// lane logic to display commands
 	public static final String LANE_RECEIVE_PART_COMMAND = "lane receive part";			// when a part is given to the lane
@@ -62,13 +63,13 @@ public abstract class Constants {
 	public static final String LANE_SEND_ANIMATION_COMMAND = "lane animation";			// sends animation instructions to lane
 	public static final String LANE_SET_AMPLITUDE_COMMAND = "lane set amp";				// sets lane amplitude
 	public static final String LANE_TOGGLE_COMMAND = "lane toggle";						// turns lane on or off
-	public static final String LANE_SET_STARTLOC_COMMAND = "lane start loc";					// sets start loc for this lane
-	// lane display to logic commands
-	
+	public static final String LANE_SET_STARTLOC_COMMAND = "lane start loc";			// sets start loc for this lane
+	// end lane display to logic commands
 	
 	// conveyor logic to kit robot commands
 	public static final String CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND = "give kit to kit robot";
 	public static final String CONVEYOR_RECEIVE_KIT_COMMAND = "conveyor receive kit";
+	// end conveyor logic to kit robot commands
 	
 	
 	// CLIENT NAMES
