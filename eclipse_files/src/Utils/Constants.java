@@ -18,7 +18,7 @@ public abstract class Constants {
 	// CLIENT SETTINGS
 	//==================================
 	
-	public static final Image bgImage = Toolkit.getDefaultToolkit().getImage("images/bg.jpg");
+	public static final Image CLIENT_BG_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/bg.jpg");
 	
 	
 	// TARGET NAMES

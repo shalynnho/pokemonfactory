@@ -1,10 +1,11 @@
 package Networking;
 
+import java.awt.BorderLayout;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import Utils.Constants;
 
@@ -13,13 +14,17 @@ import Utils.Constants;
  * 
  * @author Peter Zhang
  */
-public abstract class Client extends JFrame{
+public abstract class Client extends JPanel{
 	
 	private Socket socket;
 	protected ServerReader reader;
 	protected StreamWriter writer;
 	
 	protected String clientName;
+	
+	protected Client() {
+		setLayout(new BorderLayout());
+	}
 	
 	/**
 	 * This is called by ServerReaders' receiveData(Object), taking in a Request variable casted from ObjectInput.

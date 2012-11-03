@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -5,13 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import DeviceGraphicsDisplay.FeederGraphicsDisplay;
 import Networking.Client;
@@ -28,6 +27,7 @@ public class LaneManager extends Client {
 	Image bgImage;
 	
 	public LaneManager() {
+		super();
 		clientName = Constants.LANE_MNGR_CLIENT;
 		//initStreams();
 		
@@ -37,16 +37,6 @@ public class LaneManager extends Client {
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setVisible(true);
 		add(label);
-		this.setVisible(true);
-		
-		//bgImage = Toolkit.getDefaultToolkit().createImage(("src/images/bg.jpeg"));
-		
-		try{
-		bgImage = ImageIO.read(new File("src/images/bg.jpeg"));
-		}
-		catch(IOException e){
-			System.out.println("Wat?");
-		}
 	}
 	
 	@Override
@@ -58,21 +48,25 @@ public class LaneManager extends Client {
 	}
 
 	public static void main(String[] args) {
+		JFrame frame = new JFrame();
+		frame.setBackground(Color.BLACK);
+		frame.setTitle("Factory Project - Lane Manager");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		frame.setVisible(true);
+		frame.setResizable(false);
+		
 		LaneManager mngr = new LaneManager();
-		mngr.setBackground(Color.BLACK);
-		mngr.setTitle("Factory Project - Lane Manager");
-		mngr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mngr.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		frame.add(mngr);
 		mngr.setVisible(true);
+		frame.validate();
 	}
 	
 	@Override
-	public void paint(Graphics gg) {
+	public void paintComponent(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
 		
-		g.drawImage(bgImage, 0, 0, this);
-		//super.paint(gg);
-		//Needed to comment this out in order for bg to show.
+		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
 	}
 	
 	private class LaneManagerButton implements ActionListener {
