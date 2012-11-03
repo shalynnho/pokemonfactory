@@ -41,7 +41,6 @@ public class LaneManager extends Client {
 		panel.add(new JLabel("hello"));
 		add(panel, BorderLayout.SOUTH);
 		panel.setVisible(true);
-		
 	}
 	
 	@Override
@@ -54,12 +53,7 @@ public class LaneManager extends Client {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		frame.setBackground(Color.BLACK);
-		frame.setTitle("Factory Project - Lane Manager");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		frame.setVisible(true);
-		frame.setResizable(false);
+		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT);
 		
 		LaneManager mngr = new LaneManager();
 		frame.add(mngr);

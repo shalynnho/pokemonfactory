@@ -1,11 +1,15 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import GUI.OverlayPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -18,7 +22,7 @@ public class KitRobotManager extends Client{
 	
 	public KitRobotManager() {
 		clientName = Constants.KIT_ROBOT_MNGR_CLIENT;
-		initStreams();
+		// initStreams();
 		
 		JLabel label = new JLabel("Kit Robot Manager");
 		label.setForeground(Color.WHITE);
@@ -26,6 +30,11 @@ public class KitRobotManager extends Client{
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setVisible(true);
 		add(label);
+		
+		OverlayPanel panel = new OverlayPanel();
+		panel.add(new JLabel("hello"));
+		add(panel, BorderLayout.SOUTH);
+		panel.setVisible(true);
 	}
 	
 	@Override
@@ -33,12 +42,20 @@ public class KitRobotManager extends Client{
 	}
 
 	public static void main(String[] args) {
+		JFrame frame = new JFrame();
+		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT);
+		
 		KitRobotManager mngr = new KitRobotManager();
-		mngr.setBackground(Color.BLACK);
-		mngr.setTitle("Factory Project - Kit Robot Manager");
-		mngr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mngr.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		frame.add(mngr);
 		mngr.setVisible(true);
+		frame.validate();
+	}
+	
+	@Override
+	public void paintComponent(Graphics gg) {
+		Graphics2D g = (Graphics2D) gg;
+		
+		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
 	}
 	
 	private class KitRobotManagerButton implements ActionListener {

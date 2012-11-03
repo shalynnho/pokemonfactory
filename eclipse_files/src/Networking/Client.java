@@ -1,10 +1,12 @@
 package Networking;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Utils.Constants;
@@ -52,5 +54,14 @@ public abstract class Client extends JPanel{
 		
 		// establish client identity with server
 		writer.sendData(new Request(Constants.IDENTIFY_COMMAND, Constants.SERVER_TARGET, clientName));
+	}
+	
+	public static void setUpJFrame(JFrame frame, int width, int height) {
+		frame.setBackground(Color.BLACK);
+		frame.setTitle("Factory Project - Lane Manager");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(width, height);
+		frame.setVisible(true);
+		frame.setResizable(false);
 	}
 }
