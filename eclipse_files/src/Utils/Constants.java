@@ -59,8 +59,8 @@ public abstract class Constants {
 	
 	
 	// conveyor logic to kit robot commands
-	public static final String CONVEYOR_GIVE_PART_TO_KIT_ROBOT_COMMAND = "give part to kit robot";
-	public static final String CONVEYOR_RECEIVE_PART_COMMAND = "conveyor receive part";
+	public static final String CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND = "give kit to kit robot";
+	public static final String CONVEYOR_RECEIVE_KIT_COMMAND = "conveyor receive kit";
 	
 	
 	// CLIENT NAMES

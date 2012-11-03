@@ -1,37 +1,60 @@
 package DeviceGraphics;
 
+import java.util.ArrayList;
+
+import Networking.Request;
+import Networking.Server;
+import Utils.Constants;
+import Utils.Location;
+
+//factory imports
+
 public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfaces.ConveyorGraphics {
 
-	    //Variables
-	    private ArrayList<KitGraphics> kitsOnConveyor; // all kits on conveyor
-	    private Location location;
-	    private ClientReader cr;
-	    private ClientWriter cw;
+	//Variables
+	private ArrayList<KitGraphics> kitsOnConveyor; // all kits on conveyor
+	private Location location;
+	private Server server;
 	        
-	    public ConveyorGraphics(){
-	        location = new Location(0,0);
-	        kitsOnConveyor = new ArrayList<KitGraphics>();
-	        cr = new ClientReader();
-	        cw = new ClientWriter();
-	    } 
+	public ConveyorGraphics(Server s){
+		location = new Location(0,0);
+		kitsOnConveyor = new ArrayList<KitGraphics>();
+		server = s;
+	} 
+	
+	public void bringEmptyKit(KitGraphics kg){
+		kitsOnConveyor.add(kg);
+	} 
 
-	    public void bringEmptyKit(){
-	        kitsOnConveyor.add(new KitGraphics());
-	    } 
+	public void giveKitToKitRobot(KitGraphics kg){
+		// kg.setFull(true);
+		server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.KIT_ROBOT_TARGET, kg));
+		kitsOnConveyor.remove(kg);
+	} 
 
-	    public void giveKitToKitRobot(KitGraphics kg){
-	        kg.setFull(true);
-	       // kitsOnConveyor.remove(kg); 
-	      
-	    } 
+	/**
+	 * send a completed kit off-screen
+	 *
+	 * @param kit - a kit must be received from KitRobot before sending it away
+	 */
+	public void receiveKit(KitGraphics kg){
+		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, kg));
+		kitsOnConveyor.add(kg);
+	}
 
-	    /**
-	     * send a completed kit offscreen
-	     *
-	     * @param kit - a kit must be received from KitRobot before sending it away
-	     */
+	@Override
+	public void msgBringEmptyKit(KitGraphics kit) {
+		// TODO Auto-generated method stub
+	}
 
-	    public void receiveKit(KitGraphics kg){
-	        kitsOnConveyor.add(kg);
-	    } 	
+	@Override
+	public void msgGiveKitToKitRobot(KitGraphics kit) {
+		// TODO Auto-generated method stub			
+	}
+
+	@Override
+	public void msgReceiveKit(KitGraphics kit) {
+		// TODO Auto-generated method stub			
+	} 	
+	
 }
