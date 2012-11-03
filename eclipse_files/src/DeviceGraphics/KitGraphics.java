@@ -48,4 +48,8 @@ public class KitGraphics {
 	public void setFull (Boolean full) {
 		isFull = full;
 	}
+	
+	public Boolean getFull () {
+		return isFull;
+	}
 }
