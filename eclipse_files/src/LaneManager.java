@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import DeviceGraphicsDisplay.FeederGraphicsDisplay;
+import GUI.OverlayPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -35,8 +35,13 @@ public class LaneManager extends Client {
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("SansSerif", Font.PLAIN, 40));
 		label.setHorizontalAlignment(JLabel.CENTER);
-		label.setVisible(true);
 		add(label);
+		
+		OverlayPanel panel = new OverlayPanel();
+		panel.add(new JLabel("hello"));
+		add(panel, BorderLayout.SOUTH);
+		panel.setVisible(true);
+		
 	}
 	
 	@Override
