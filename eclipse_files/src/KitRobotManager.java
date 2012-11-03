@@ -22,8 +22,8 @@ public class KitRobotManager extends Client implements ActionListener{
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
 	
-	ConveyorGraphics cg;                  //testing
-	ConveyorGraphicsDisplay cgd;          //testing
+	//ConveyorGraphics cg;                            //testing
+	//ConveyorGraphicsDisplay cgd;                    //testing
 	
 	public KitRobotManager() {
 		clientName = Constants.KIT_ROBOT_MNGR_CLIENT;
@@ -41,8 +41,8 @@ public class KitRobotManager extends Client implements ActionListener{
 		add(panel, BorderLayout.SOUTH);
 		panel.setVisible(true);
 		
-		cg = new ConveyorGraphics();
-		cgd = new ConveyorGraphicsDisplay();
+		//cg = new ConveyorGraphics();                //testing
+		//cgd = new ConveyorGraphicsDisplay();        //testing
 		
 		new javax.swing.Timer(20,this).start();
 	}
@@ -66,7 +66,7 @@ public class KitRobotManager extends Client implements ActionListener{
 		Graphics2D g = (Graphics2D) gg;
 		
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
-		cgd.draw(this, g);
+		//cgd.draw(this, g);                          //testing
 		
 	}
 

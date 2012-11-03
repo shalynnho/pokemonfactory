@@ -24,8 +24,12 @@ public abstract class Constants {
 	//DEVICE SETTINGS
 	//==================================
 	
+	// conveyor images
 	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Conveyor.jpg");
 	public static final Image CONVEYOR_LINES_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/ConveyorLines.png");
+	
+	// kit images
+	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Kit.jpg");
 	
 	// TARGET NAMES
 	//==================================
