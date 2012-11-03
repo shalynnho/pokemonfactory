@@ -49,6 +49,8 @@ public abstract class Constants {
 	public static final String LANE_GIVE_PART_TO_NEST = "give part to nest";	// lane gives part to nest
 	public static final String LANE_PURGE = "purge lane";						// purge lane
 	public static final String LANE_SEND_ANIMATION = "lane animation";			// sends animation instructions to lane
+	public static final String LANE_SET_AMPLITUDE = "lane set amp";				// sets lane amplitude
+	public static final String LANE_TOGGLE = "lane toggle";						// turns lane on or off
 	
 	
 	// CLIENT NAMES
