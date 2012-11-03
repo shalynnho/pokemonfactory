@@ -2,7 +2,6 @@ package Networking;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 /**
  * Contains connection to server. Sends data to the server at request.
@@ -11,10 +10,6 @@ import java.net.Socket;
  */
 public class StreamWriter {
 	private ObjectOutputStream oos;
-	
-	public StreamWriter(Socket socket) throws IOException{
-		this(new ObjectOutputStream(socket.getOutputStream()));
-	}
 	
 	public StreamWriter(ObjectOutputStream o) throws IOException{
 		oos = o;
