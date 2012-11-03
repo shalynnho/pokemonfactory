@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import Networking.Request;
 import Utils.Location;
 
 public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
@@ -17,25 +18,23 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	Location binLocation;
 	
-	int xCoordinate;
-	int yCoordinate;
-	
 	Boolean isFull;
 	
 	public void setLocation (Location newLocation) {
 		binLocation = newLocation;
-		xCoordinate = binLocation.getX();
-		yCoordinate = binLocation.getY();
 	}
 	
 	public void draw (JFrame myJFrame, Graphics2D g) {
 		if (isFull)
-			g.drawImage(fullBin, xCoordinate, yCoordinate, myJFrame);
+			g.drawImage(fullBin, binLocation.getX(), binLocation.getY(), myJFrame);
 		else
-			g.drawImage(emptyBin, xCoordinate, yCoordinate, myJFrame);
+			g.drawImage(emptyBin, binLocation.getX(), binLocation.getY(), myJFrame);
 	}
 	
 	public void setFull (Boolean full) {
 		isFull = full;
+	}
+
+	public void receiveData(Request req) {
 	}
 }
