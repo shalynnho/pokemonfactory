@@ -44,6 +44,8 @@ public abstract class Constants {
 	public static final String IDENTIFY_COMMAND = "identify";					// for servers to identify managers
 	
 	public static final String FEEDER_INIT_GRAPHICS_COMMAND = "feederinitg"; 	// initialize the feeder graphics
+	public static final String FEEDER_FLIP_DIVERTER_COMMAND = "feederflipdiv";  // draw the diverter flipping
+	public static final String FEEDER_MOVE_TO_LANE = "feedermovlane";			// draw part moving to lane
 	
 	public static final String LANE_RECEIVE_PART = "lane receive part";			// when a part is given to the lane
 	public static final String LANE_GIVE_PART_TO_NEST = "give part to nest";	// lane gives part to nest

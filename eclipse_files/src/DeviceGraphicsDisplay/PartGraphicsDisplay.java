@@ -26,5 +26,6 @@ public abstract class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void draw(JFrame myJFrame, Graphics2D g) {
 		g.drawImage(partImage, xCoordinate, yCoordinate, myJFrame);
-		
+	}
+	
 }
