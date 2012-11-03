@@ -3,11 +3,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -23,10 +25,11 @@ public class LaneManager extends Client {
 	private static final int WINDOW_HEIGHT = 600;
 	
 	ArrayList<FeederGraphicsDisplay> feeders = new ArrayList<FeederGraphicsDisplay>();
+	Image bgImage;
 	
 	public LaneManager() {
 		clientName = Constants.LANE_MNGR_CLIENT;
-		initStreams();
+		//initStreams();
 		
 		JLabel label = new JLabel("Lane Manager");
 		label.setForeground(Color.WHITE);
@@ -34,6 +37,16 @@ public class LaneManager extends Client {
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setVisible(true);
 		add(label);
+		this.setVisible(true);
+		
+		//bgImage = Toolkit.getDefaultToolkit().createImage(("src/images/bg.jpeg"));
+		
+		try{
+		bgImage = ImageIO.read(new File("src/images/bg.jpeg"));
+		}
+		catch(IOException e){
+			System.out.println("Wat?");
+		}
 	}
 	
 	@Override
@@ -57,9 +70,9 @@ public class LaneManager extends Client {
 	public void paint(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
 		
-		Image bgImage = Toolkit.getDefaultToolkit().getImage("images/bg.jpg");
-		g.drawImage(bgImage, 5, 5, this);
-		super.paint(gg);
+		g.drawImage(bgImage, 0, 0, this);
+		//super.paint(gg);
+		//Needed to comment this out in order for bg to show.
 	}
 	
 	private class LaneManagerButton implements ActionListener {
