@@ -3,6 +3,7 @@ package DeviceGraphics;
 import Networking.*;
 import GraphicsInterfaces.*;
 import Utils.*;
+import factory.data.*;
 
 import java.util.ArrayList;
 
@@ -76,9 +77,10 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 	 * @param pg - the part passed to this lane
 	 */
 	public void receivePart(PartGraphics pg) {
+//		PartGraphics pg = p.part;
 		partsOnLane.add(pg);
 		pg.setLocation(startLoc);
-		server.sendData(new Request(Constants.LANE_RECEIVE_PART, Constants.LANE_TARGET+laneID, pg));
+		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET+laneID, pg));
 	}
 	
 	/**
@@ -87,6 +89,7 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 	 * @param pg - the part passed to the nest associated with this lane
 	 */
 	public void givePartToNest(PartGraphics pg) {
+//		PartGraphics pg = p.part;
 		/* at the end of the Lane, gives the Part to the Nest
 		- receive message from LGD that Part is at end of Lane and Nest not full
 		- tell NestGraphicsLogic that we are passing Part
@@ -95,7 +98,7 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 		// just to double check, i don't call nest.receivePart(part) right?
 		
 		partsOnLane.remove(0); 	// this is kind of dangerous. check that correct part is removed.
-		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET+laneID, pg));
+		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST_COMMAND, Constants.LANE_TARGET+laneID, pg));
 	}
 
 	/**
@@ -103,7 +106,7 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 	 */
 	public void purge() {
 		partsOnLane.clear();
-		server.sendData(new Request(Constants.LANE_PURGE, Constants.LANE_TARGET+laneID, null));
+		server.sendData(new Request(Constants.LANE_PURGE_COMMAND, Constants.LANE_TARGET+laneID, null));
 	}
 	
 	/**
@@ -112,7 +115,7 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 	 */
 	public void setAmplitude(int amp) {
 		amplitude = amp;
-		server.sendData(new Request(Constants.LANE_SET_AMPLITUDE, Constants.LANE_TARGET+laneID, amp));
+		server.sendData(new Request(Constants.LANE_SET_AMPLITUDE_COMMAND, Constants.LANE_TARGET+laneID, amp));
 	}
 	
 	/**
@@ -129,7 +132,7 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 	 */
 	public void toggleSwitch(boolean on) {
 		laneOn = on;
-		server.sendData(new Request(Constants.LANE_TOGGLE, Constants.LANE_TARGET+laneID, laneOn));
+		server.sendData(new Request(Constants.LANE_TOGGLE_COMMAND, Constants.LANE_TARGET+laneID, laneOn));
 	}
 	
 	/**
@@ -141,6 +144,8 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 		// if-else for every possible command
 		
 		// We want confirmation from Display each time an animation is completed.
+		
+		
 	}
 	
 	/**
@@ -148,7 +153,7 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 	 * Tells the display class end Location of animation and duration allotted.
 	 */
 	private void sendAnimation(Animation ani) {
-		server.sendData(new Request(Constants.LANE_SEND_ANIMATION, Constants.LANE_TARGET+laneID, ani));
+		server.sendData(new Request(Constants.LANE_SEND_ANIMATION_COMMAND, Constants.LANE_TARGET+laneID, ani));
 	}
 	
 	private void setValues(int id) {
@@ -172,6 +177,8 @@ public class LaneGraphics extends DeviceGraphics implements GraphicsInterfaces.L
 				break;
 		default: System.out.println("id not recognized.");
 		}
+		
+		server.sendData(new Request(Constants.LANE_SET_STARTLOC_COMMAND, Constants.LANE_TARGET+laneID, startLoc));
 		
 	}
 	

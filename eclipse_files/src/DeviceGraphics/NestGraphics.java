@@ -3,6 +3,7 @@ package DeviceGraphics;
 import Networking.*;
 import GraphicsInterfaces.*;
 import Utils.*;
+import factory.data.*;
 
 import java.util.*;
 
@@ -47,15 +48,18 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	/**
 	 * @param - 
 	 */
-	public void receivePart(PartGraphics p) {
+	public void receivePart(Part p) {
+		PartGraphics pg = p.part;
+
 		
 	}
 	
 	/**
 	 * @param
 	 */
-	public void givePartToPartsRobot(PartGraphics p) {
-		
+	public void givePartToPartsRobot(Part p) {
+		PartGraphics pg = p.part;
+
 	}
 	
 	/**

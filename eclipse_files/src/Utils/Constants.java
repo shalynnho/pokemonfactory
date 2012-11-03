@@ -47,13 +47,15 @@ public abstract class Constants {
 	public static final String FEEDER_FLIP_DIVERTER_COMMAND = "feederflipdiv";  // draw the diverter flipping
 	public static final String FEEDER_MOVE_TO_LANE = "feedermovlane";			// draw part moving to lane
 	
-	public static final String LANE_RECEIVE_PART = "lane receive part";			// when a part is given to the lane
-	public static final String LANE_GIVE_PART_TO_NEST = "give part to nest";	// lane gives part to nest
-	public static final String LANE_PURGE = "purge lane";						// purge lane
-	public static final String LANE_SEND_ANIMATION = "lane animation";			// sends animation instructions to lane
-	public static final String LANE_SET_AMPLITUDE = "lane set amp";				// sets lane amplitude
-	public static final String LANE_TOGGLE = "lane toggle";						// turns lane on or off
-	
+	// lane logic to display commands
+	public static final String LANE_RECEIVE_PART_COMMAND = "lane receive part";			// when a part is given to the lane
+	public static final String LANE_GIVE_PART_TO_NEST_COMMAND = "give part to nest";	// lane gives part to nest
+	public static final String LANE_PURGE_COMMAND = "purge lane";						// purge lane
+	public static final String LANE_SEND_ANIMATION_COMMAND = "lane animation";			// sends animation instructions to lane
+	public static final String LANE_SET_AMPLITUDE_COMMAND = "lane set amp";				// sets lane amplitude
+	public static final String LANE_TOGGLE_COMMAND = "lane toggle";						// turns lane on or off
+	public static final String LANE_SET_STARTLOC_COMMAND = "lane start loc";					// sets start loc for this lane
+	// lane display to logic commands
 	
 	// CLIENT NAMES
 	//==================================

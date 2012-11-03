@@ -3,11 +3,14 @@ package DeviceGraphicsDisplay;
 import Networking.*;
 import GraphicsInterfaces.*;
 import Utils.*;
+import DeviceGraphics.PartGraphics;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 /**
  * This class contains the graphics display components for a lane.
@@ -24,10 +27,17 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// stores static ImageIcon emptyLane1, emptyLane2
 	private static ArrayList<ImageIcon> emptyLaneImgs = new ArrayList<ImageIcon>();
 	
+	// Location of this lane
+	private Location loc;
+	// start Location for a part on this lane
+	private Location startLoc;
+	
 	// the LaneManager (client) which talks to the Server
 	private Client laneManager;
 	// the ID of this Lane
 	private int laneID;
+	// the amplitude of this lane
+	private int amplitude = 1;
 	
 	// dynamically stores images of Lane
 	private ArrayList<ImageIcon> imgsOnLane;
@@ -42,13 +52,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		// load empty lane images, add to array list
 	}
 	
-	/**
-	 * 
-	 * @param g2
-	 */
-	public void paintComponent(Graphics g) {
-		
-		// would we use Animation info to calculate how far to increment after each paint call?
+	@Override
+	public void draw(JFrame myJFrame, Graphics2D g) {
+		// TODO Auto-generated method stub
 		
 	}
 	
@@ -57,25 +63,50 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param r
 	 */
 	public void receiveData(Request r) {
-		// parse data request here
-		// if-else for every possible command sent through server.........
+		String cmd = r.getCommand();
+		// parse data request here	
 		
-		
+		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
+			PartGraphics pg = (PartGraphics) r.getData();
+			receivePart(pg);
+			
+		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST_COMMAND)) {
+			PartGraphics pg = (PartGraphics) r.getData();
+			givePartToNest(pg);
+			
+		} else if (cmd.equals(Constants.LANE_PURGE_COMMAND)) {
+			purge();
+			
+		} else if (cmd.equals(Constants.LANE_SEND_ANIMATION_COMMAND)) {
+			Animation ani = (Animation) r.getData();
+			// TODO: DO SOMETHING WITH THIS ANIMATION
+			
+		} else if (cmd.equals(Constants.LANE_SET_AMPLITUDE_COMMAND)) {
+			amplitude = (Integer) r.getData();
+			
+		} else if (cmd.equals(Constants.LANE_TOGGLE_COMMAND)) {
+			laneOn = (Boolean) r.getData();
+			
+		} else if (cmd.equals(Constants.LANE_SET_STARTLOC_COMMAND)) {
+			startLoc = (Location) r.getData();
+		} else {
+			System.out.println("LANEGRAPHICSDISP: command not recognized.");
+		}
 	}
 	
 	/**
 	 * 
 	 * @param p
 	 */
-	public void receivePart(PartGraphicsDisplay p) {
-		
+	public void receivePart(PartGraphics pg) {
+		pg.setLocation(startLoc);
 	}
 	
 	/**
 	 * 
 	 * @param p
 	 */
-	public void givePartToNest(PartGraphicsDisplay p) {
+	public void givePartToNest(PartGraphics pg) {
 		
 	}
 	
@@ -94,6 +125,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 	}
 	
+	@Override
+	public void setLocation(Location newLocation) {
+		loc = newLocation;
+	}
+
 	/**
 	 * 
 	 * @param on
