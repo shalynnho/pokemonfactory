@@ -1,5 +1,8 @@
 package DeviceGraphics;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+
 import Utils.Location;
 import factory.data.PartType;
 
@@ -8,7 +11,7 @@ public class PartGraphics {
 	Location partLocation;
 	
 	// PartType????
-	public PartGraphics(PartType type) {
+	public void PartGraphics (PartType type) {
 		partType = type;
 	}
 	

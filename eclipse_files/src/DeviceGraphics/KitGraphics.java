@@ -13,7 +13,7 @@ public class KitGraphics {
 	Location kitLocation;
 
 	// ***********
-	public void KitGraphics () {
+	public KitGraphics () {
 	
 	}
 	
