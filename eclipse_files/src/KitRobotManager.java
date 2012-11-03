@@ -58,7 +58,7 @@ public class KitRobotManager extends Client{
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
 	}
 	
-	private class KitRobotManagerButton implements ActionListener {
+	private class KitRobotManagerButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			//TODO: change the command.

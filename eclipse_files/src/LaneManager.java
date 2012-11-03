@@ -3,15 +3,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import DeviceGraphicsDisplay.FeederGraphicsDisplay;
+import GUI.NetworkingButtonListener;
 import GUI.OverlayPanel;
 import Networking.Client;
 import Networking.Request;
@@ -23,13 +24,12 @@ public class LaneManager extends Client {
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
 	
-	ArrayList<FeederGraphicsDisplay> feeders = new ArrayList<FeederGraphicsDisplay>();
-	Image bgImage;
+	private ArrayList<FeederGraphicsDisplay> feeders = new ArrayList<FeederGraphicsDisplay>();
 	
 	public LaneManager() {
 		super();
 		clientName = Constants.LANE_MNGR_CLIENT;
-		//initStreams();
+		initStreams();
 		
 		JLabel label = new JLabel("Lane Manager");
 		label.setForeground(Color.WHITE);
@@ -38,9 +38,12 @@ public class LaneManager extends Client {
 		add(label);
 		
 		OverlayPanel panel = new OverlayPanel();
-		panel.add(new JLabel("hello"));
 		add(panel, BorderLayout.SOUTH);
 		panel.setVisible(true);
+		
+		JButton testButton = new JButton("Test button");
+		testButton.addActionListener(new NetworkingButtonListener("Testing", Constants.SERVER_TARGET, writer));
+		panel.add(testButton);
 	}
 	
 	@Override
@@ -66,13 +69,5 @@ public class LaneManager extends Client {
 		Graphics2D g = (Graphics2D) gg;
 		
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
-	}
-	
-	private class LaneManagerButton implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			//TODO: change the command.
-			writer.sendData(new Request("Some command", Constants.SERVER_TARGET, null));
-		}
 	}
 }
