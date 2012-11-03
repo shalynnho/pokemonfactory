@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 public abstract class DeviceGraphicsDisplay {
 
-	public void Draw (JFrame myJFrame, Graphics2D g)
+	public abstract void Draw (JFrame myJFrame, Graphics2D g);
 		
 	
 }

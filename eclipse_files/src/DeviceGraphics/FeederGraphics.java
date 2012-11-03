@@ -12,7 +12,8 @@ import Utils.Location;
  *
  */
 
-public class FeederGraphics extends DeviceGraphics  {
+public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces.FeederGraphics {
+	// TODO ask 201 team what should be the threshold
 	private static final int PARTS_LOW_THRESHOLD = 2;
 
 	private Server server;
@@ -49,7 +50,7 @@ public class FeederGraphics extends DeviceGraphics  {
 	 * This function receives a bin.
 	 * @param bg BinGraphics passed in by the Agent
 	 */
-	void receiveBin(BinGraphics bg) {
+	public void receiveBin(BinGraphics bg) {
 		partsRemaining = bg.getQuantity();
 		partGraphics = bg.getPart();
 		haveBin = true;
@@ -59,7 +60,7 @@ public class FeederGraphics extends DeviceGraphics  {
 	 * This function purges the bin.
 	 * @param bg
 	 */
-	void purgeBin(BinGraphics bg) {
+	public void purgeBin(BinGraphics bg) {
 		partsFed = 0;
 		partsRemaining = 0;
 		haveBin = false;
@@ -76,7 +77,7 @@ public class FeederGraphics extends DeviceGraphics  {
 	/**
 	 * This function moves a part to the lane.
 	 */
-	void movePartToLane() {
+	public void movePartToLane(PartGraphics pg) {
 		
 	}
 	
@@ -84,15 +85,15 @@ public class FeederGraphics extends DeviceGraphics  {
 	 * This function moves a part to the diverter.
 	 * @param pg
 	 */
-	void movePartToDiverter(PartGraphics pg) {
+	public void movePartToDiverter(PartGraphics pg) {
 		
 	}
 	
 	/**
 	 * This function flips the diverter.
 	 */
-	void flipDiverter() {
-		// TODO 
+	public void flipDiverter() {
+		// TODO do we need to animate this
 	}
 	
 	
