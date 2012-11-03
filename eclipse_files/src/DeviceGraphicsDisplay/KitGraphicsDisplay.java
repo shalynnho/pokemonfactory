@@ -16,7 +16,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	int yCoordinate;
 	
 	//NEED IMAGE NAMES
-	Image kitImage = Toolkit.getDefaultToolkit().getImage("PUT IMAGE NAME HERE");
+	Image kitImage = Toolkit.getDefaultToolkit().getImage("Kit.jpg");
 
 	
 	public void setLocation (Location newLocation) {
