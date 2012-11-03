@@ -1,5 +1,6 @@
 package Networking;
 
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
@@ -9,20 +10,18 @@ import java.net.Socket;
  * @author Peter Zhang
  */
 public class StreamWriter {
-	private Socket socket;
-	private ObjectOutputStream oos;	
+	private ObjectOutputStream oos;
 	
-	public StreamWriter(Socket s){
-		socket = s;
-		try {
-			// Create the output stream for reading from the server
-			oos = new ObjectOutputStream(socket.getOutputStream());
-			System.out.println("StreamWriter: got stream");
-		} catch (Exception e) {
-			System.out.println("StreamWriter: Stream init fail");
-			e.printStackTrace();
-			System.exit(1);
-		}
+	public StreamWriter(Socket socket) throws IOException{
+		this(new ObjectOutputStream(socket.getOutputStream()));
+	}
+	
+	public StreamWriter(ObjectOutputStream o) throws IOException{
+		oos = o;
+		System.out.println("StreamWriter: got stream");
+
+		// sanity check
+		oos.flush();
 	}
 	
 	/**
