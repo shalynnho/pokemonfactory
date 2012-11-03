@@ -29,6 +29,9 @@ public class Server {
 	private ClientReader laneMngrReader;
 	private StreamWriter laneMngrWriter;
 	
+	// See how many clients have connected
+	private int numClients = 0;
+	
 	public Server() {
 		try {
 			ss = new ServerSocket(Constants.SERVER_PORT);
@@ -69,14 +72,17 @@ public class Server {
 					kitRobotMngrWriter = new StreamWriter(oos);
 					kitRobotMngrReader = new ClientReader(ois, this);
 					new Thread(kitRobotMngrReader).start();
+					numClients++;
 				} else if (identity.equals(Constants.PARTS_ROBOT_MNGR_CLIENT)) {
 					partsRobotMngrWriter = new StreamWriter(oos);
 					partsRobotMngrReader = new ClientReader(ois, this);
 					new Thread(partsRobotMngrReader). start();
+					numClients++;
 				} else if (identity.equals(Constants.LANE_MNGR_CLIENT)) {
 					laneMngrWriter = new StreamWriter(oos);
 					laneMngrReader = new ClientReader(ois, this);
 					new Thread(laneMngrReader).start();
+					numClients++;
 				}
 			}
 		} catch (Exception e) {
