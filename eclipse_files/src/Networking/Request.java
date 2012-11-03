@@ -14,12 +14,21 @@ public class Request implements Serializable{
 	}
 	
 	public String getCommand() {
+		if(command == null) {
+			return "";
+		}
 		return command;
 	}
 	public String getTarget() {
+		if(target == null) {
+			return "";
+		}
 		return target;
 	}
 	public Object getData() {
+		if(data == null) {
+			return "";
+		}
 		return data;
 	}
 }
