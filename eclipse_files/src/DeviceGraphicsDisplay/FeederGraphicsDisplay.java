@@ -27,6 +27,11 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int DIVERTER_HEIGHT = 40;
 	private static final int DIVERTER_WIDTH = 120;
 	
+	private static final double DIVERTER_POINTING_TOP_ANGLE = 0.09;
+	private static final double DIVERTER_POINTING_BOTTOM_ANGLE = -0.09;
+	private static final double DIVERTER_STEP = Math.abs((DIVERTER_POINTING_TOP_ANGLE-DIVERTER_POINTING_BOTTOM_ANGLE)/2);
+	private static final int STEPS_TO_ROTATE_DIVERTER = (1000/Constants.TIMER_DELAY);
+	
 	// image of the diverter
 	private Image diverterImage;
 	// image of the feeder
@@ -34,11 +39,8 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	private boolean diverterTop;
 	
-	private boolean doRotation;
-	
 	private int animationCounter;
 	
-	private double rotationAngle;
 	
 	// location of the feeder
 	Location feederLocation;
@@ -63,10 +65,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		diverterLocation = new Location(feederLocation.getX()-90, feederLocation.getY()+(FEEDER_HEIGHT/2)-(DIVERTER_HEIGHT/2));
 		
 		diverterTop = true;
-		
-		doRotation = false;
-		
-		animationCounter = 20;
+		animationCounter = -1;
 		
 		// TODO rotate diverter to default to top lane
 				
@@ -79,10 +78,20 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		AffineTransform originalTransform = g.getTransform();
 		
-		if (diverterTop) {
-			g.rotate(0.09, diverterLocation.getX(), diverterLocation.getY());
+		if (animationCounter < 0) {
+			if (diverterTop) {
+				g.rotate(DIVERTER_POINTING_TOP_ANGLE, diverterLocation.getX(), diverterLocation.getY());
+			} else {
+				g.rotate(DIVERTER_POINTING_BOTTOM_ANGLE, diverterLocation.getX(), diverterLocation.getY());
+			}
 		} else {
-			g.rotate(0.09 + animationCounter * ROTATION_STEP, diverterLocation.getX(), diverterLocation.getY());
+			if (diverterTop) {
+				g.rotate(DIVERTER_POINTING_BOTTOM_ANGLE - ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP));
+				animationCounter--;
+			} else {
+				g.rotate(DIVERTER_POINTING_TOP_ANGLE + ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP));
+				animationCounter--;
+			}
 		}
 		
 		g.drawImage(diverterImage, diverterLocation.getX(), diverterLocation.getY(), c);
@@ -100,6 +109,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
+			animationCounter = 20;
 			diverterTop = !diverterTop;
 		}
 	}
