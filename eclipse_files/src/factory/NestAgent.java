@@ -7,6 +7,7 @@ import factory.LaneAgent.LaneStatus;
 import factory.data.Part;
 import factory.data.PartType;
 import factory.interfaces.Nest;
+import DeviceGraphics.NestGraphics;
 import agent.Agent;
 
 public class NestAgent extends Agent implements Nest {
@@ -17,6 +18,8 @@ public class NestAgent extends Agent implements Nest {
     int count = 0;  
     int full = 9;   
     boolean takingParts = false; 
+    
+    NestGraphics guiNest;
 	
     String name;
     

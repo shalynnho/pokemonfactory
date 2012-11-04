@@ -7,6 +7,7 @@ import factory.data.*;
 import factory.interfaces.Nest;
 import factory.interfaces.PartsRobot;
 import factory.interfaces.Stand;
+import DeviceGraphics.PartGraphics;
 import DeviceGraphics.PartsRobotGraphics;
 import agent.Agent;
 
@@ -31,7 +32,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	
 	private List<PartType> KitConfig = Collections.synchronizedList(new ArrayList<PartType>());
 	private List<MyKit> MyKits = Collections.synchronizedList(new ArrayList<MyKit>());;
-	private Map<Nest,List<Part>> GoodParts;
+	private Map<Nest,List<PartGraphics>> GoodParts;
 	private List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
 	
 	List<Kit> KitsOnStand;
@@ -54,8 +55,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 * 
 	 * From Camera
 	 */
-	public void msgHereAreGoodParts(Map<Nest, List<Part>> parts) {
-		// TODO Auto-generated method stub
+	public void msgHereAreGoodParts(Nest n, List<PartGraphics> parts) {
+		GoodParts.put(n, parts);
 		stateChanged();
 	}
 
