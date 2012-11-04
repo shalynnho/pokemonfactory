@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 
+import DeviceGraphics.ConveyorGraphics;
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.FeederGraphics;
 import Utils.Constants;
@@ -63,6 +64,7 @@ public class Server {
 	
 	private void initDevices() {
 		devices.put(Constants.FEEDER_TARGET, new FeederGraphics(0, this));
+		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this));
 	}
 	
 	/**

@@ -19,10 +19,10 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 	private Location location;
 	private Server server;
 	        
-	public ConveyorGraphics(/*Server s*/){
+	public ConveyorGraphics(Server s){
 		location = new Location(0,0);
 		kitsOnConveyor = new ArrayList<KitGraphics>();
-		//server = s;
+		server = s;
 	} 
 	
 	public void bringEmptyKit(KitGraphics kg){
