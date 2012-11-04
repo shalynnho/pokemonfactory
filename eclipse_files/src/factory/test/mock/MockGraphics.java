@@ -17,12 +17,12 @@ import GraphicsInterfaces.PartsRobotGraphics;
 import agent.Agent;
 import factory.CameraAgent;
 import factory.ConveyorAgent;
-import factory.FeederAgent;
-import factory.GantryAgent;
 import factory.KitRobotAgent;
-import factory.LaneAgent;
-import factory.NestAgent;
 import factory.PartsRobotAgent;
+import factory.interfaces.Feeder;
+import factory.interfaces.Gantry;
+import factory.interfaces.Lane;
+import factory.interfaces.Nest;
 
 ;
 
@@ -35,11 +35,11 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	// Agents
 	CameraAgent camera;
 	ConveyorAgent conveyor;
-	FeederAgent feeder;
-	GantryAgent gantry;
+	Feeder feeder;
+	Gantry gantry;
 	KitRobotAgent kitrobot;
-	LaneAgent lane;
-	NestAgent nest;
+	Lane lane;
+	Nest nest;
 	PartsRobotAgent partsrobot;
 
 	// Graphics
@@ -255,19 +255,19 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		this.conveyor = conveyor;
 	}
 
-	public FeederAgent getFeeder() {
+	public Feeder getFeeder() {
 		return feeder;
 	}
 
-	public void setFeeder(FeederAgent feeder) {
+	public void setFeeder(Feeder feeder) {
 		this.feeder = feeder;
 	}
 
-	public GantryAgent getGantry() {
+	public Gantry getGantry() {
 		return gantry;
 	}
 
-	public void setGantry(GantryAgent gantry) {
+	public void setGantry(Gantry gantry) {
 		this.gantry = gantry;
 	}
 
@@ -279,19 +279,19 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		this.kitrobot = kitrobot;
 	}
 
-	public LaneAgent getLane() {
+	public Lane getLane() {
 		return lane;
 	}
 
-	public void setLane(LaneAgent lane) {
+	public void setLane(Lane lane) {
 		this.lane = lane;
 	}
 
-	public NestAgent getNest() {
+	public Nest getNest() {
 		return nest;
 	}
 
-	public void setNest(NestAgent nest) {
+	public void setNest(Nest nest) {
 		this.nest = nest;
 	}
 

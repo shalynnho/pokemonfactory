@@ -6,6 +6,7 @@ import java.util.List;
 import factory.data.Part;
 import factory.data.PartType;
 import factory.interfaces.Feeder;
+import factory.interfaces.Lane;
 import agent.Agent;
 
 public class FeederAgent extends Agent implements Feeder {
@@ -13,7 +14,7 @@ public class FeederAgent extends Agent implements Feeder {
     List<MyPart> currentParts = new ArrayList<MyPart>();
     
     private GantryAgent gantry;
-    private LaneAgent lane;
+    private Lane lane;
     
     String name;
     
@@ -105,7 +106,7 @@ public class FeederAgent extends Agent implements Feeder {
     public void setGantry(GantryAgent gantry) {
     	this.gantry = gantry;
     }
-    public void setLane(LaneAgent lane) {
+    public void setLane(Lane lane) {
     	this.lane = lane;
     }
     

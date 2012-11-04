@@ -3,6 +3,7 @@ package factory;
 import java.util.ArrayList;
 import java.util.List;
 
+import factory.interfaces.Feeder;
 import factory.interfaces.Gantry;
 import agent.Agent;
 import factory.data.*;
@@ -15,7 +16,7 @@ public class GantryAgent extends Agent implements Gantry {
 	
     //WAITING FOR GANTRYGRAPHICS
     //private GantryGraphics gantryGraphic;
-    private FeederAgent feeder;
+    private Feeder feeder;
     
     
     private final String name;

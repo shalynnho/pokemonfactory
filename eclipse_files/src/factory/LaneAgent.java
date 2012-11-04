@@ -6,6 +6,7 @@ import java.util.List;
 import factory.FeederAgent.FeederStatus;
 import factory.data.Part;
 import factory.data.PartType;
+import factory.interfaces.Feeder;
 import factory.interfaces.Lane;
 import agent.Agent;
 
@@ -30,7 +31,7 @@ public class LaneAgent extends Agent implements Lane {
 		BEGINNING_LANE,IN_LANE, END_LANE
 	};
     
-    FeederAgent feeder;
+    Feeder feeder;
     
     public LaneAgent(String name) {
     	super();
