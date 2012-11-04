@@ -32,6 +32,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final double DIVERTER_STEP = Math.abs((DIVERTER_POINTING_TOP_ANGLE-DIVERTER_POINTING_BOTTOM_ANGLE)/2);
 	private static final int STEPS_TO_ROTATE_DIVERTER = (1000/Constants.TIMER_DELAY);
 	
+	//private int diverterAnchorX;
+	//private int diverterAnchorY;
+	
 	// image of the diverter
 	private Image diverterImage;
 	// image of the feeder
@@ -61,17 +64,14 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		// set the feeder's location
 		feederLocation = loc;
+		
 		// set the diverter's location
 		diverterLocation = new Location(feederLocation.getX()-90, feederLocation.getY()+(FEEDER_HEIGHT/2)-(DIVERTER_HEIGHT/2));
 		
-		diverterTop = true;
+		diverterTop = false;
 		animationCounter = -1;
-		
-		// TODO rotate diverter to default to top lane
-				
+					
 		client.repaint();
-		
-		
 	}
 	
 	@Override
@@ -80,9 +80,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		if (animationCounter < 0) {
 			if (diverterTop) {
-				g.rotate(DIVERTER_POINTING_TOP_ANGLE, diverterLocation.getX(), diverterLocation.getY());
+				g.rotate(DIVERTER_POINTING_TOP_ANGLE, diverterLocation.getX(), diverterLocation.getY() + (DIVERTER_HEIGHT)/2);
 			} else {
-				g.rotate(DIVERTER_POINTING_BOTTOM_ANGLE, diverterLocation.getX(), diverterLocation.getY());
+				g.rotate(DIVERTER_POINTING_BOTTOM_ANGLE, diverterLocation.getX(), (DIVERTER_HEIGHT/2));
 			}
 		} else {
 			if (diverterTop) {
