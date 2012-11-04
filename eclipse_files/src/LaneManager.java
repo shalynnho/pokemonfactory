@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
 import GUI.NetworkingButtonListener;
 import GUI.OverlayPanel;
 import Networking.Client;
@@ -70,5 +71,9 @@ public class LaneManager extends Client {
 		Graphics2D g = (Graphics2D) gg;
 		
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
+		
+		for(DeviceGraphicsDisplay device : devices.values()) {
+			device.draw(this, g);
+		}
 	}
 }
