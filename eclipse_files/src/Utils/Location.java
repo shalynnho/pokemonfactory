@@ -9,6 +9,13 @@ public class Location {
 		y = newY;
 	}
 	
+	/**
+	 * Find the distance from one Location object to another by passing in another Location object -Aaron
+	 */
+	public double distance(Location l) {
+		return Math.sqrt(Math.pow(l.getX()-getX(),2)+Math.pow(l.getY()-getY(),2));
+	}
+	
 	public int getX() {
 		return x;
 	}
