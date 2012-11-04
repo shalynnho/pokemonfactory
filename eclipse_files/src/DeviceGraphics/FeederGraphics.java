@@ -2,7 +2,6 @@ package DeviceGraphics;
 
 import Networking.Request;
 import Networking.Server;
-
 import Utils.Constants;
 import Utils.Location;
 
@@ -69,6 +68,8 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	public void purgeBin(BinGraphics bg) {
 		partsFed = 0;
 		partsRemaining = 0;
+	
+		// TODO animate?
 	}
 	
 	/**
@@ -85,7 +86,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 */
 	public void movePartToDiverter(PartGraphics pg) {
 		if (diverterPosition) { // if diverter is pointing to the top lane
-			
+			// TODO who draws the part moving? I change its coordinates
 		}
 	}
 	
@@ -94,6 +95,8 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 */
 	public void movePartToLane(PartGraphics pg) {
 		pg.getLocation().incrementX();
+		
+		// TODO who draws the part moving?  I change its coordinates
 		
 		// server.sendData(new Request(Constants.FEEDER_MOVE_TO_LANE, Constants.PART_TARGET + ":" + feederID, pg.getLocation()));
 	}
