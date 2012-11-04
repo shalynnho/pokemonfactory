@@ -31,6 +31,8 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		LaneGraphics, NestGraphics, PartsRobotGraphics {
 
 	Timer timer;
+
+	// Agents
 	CameraAgent camera;
 	ConveyorAgent conveyor;
 	FeederAgent feeder;
@@ -40,26 +42,16 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	NestAgent nest;
 	PartsRobotAgent partsrobot;
 
+	// Graphics
+	KitRobotGraphics kitrobotgraphics;
+	ConveyorGraphics conveyorgraphics;
+
 	public MockGraphics(String name) {
 		super();
 
-		camera = new CameraAgent();
-		conveyor = new ConveyorAgent("conveyor");
-		feeder = new FeederAgent("feeder");
-		gantry = new GantryAgent("gantry");
-		kitrobot = new KitRobotAgent("kitrobot");
-		lane = new LaneAgent("lane");
-		nest = new NestAgent();
-		partsrobot = new PartsRobotAgent();
-
-		camera.startThread();
-		conveyor.startThread();
-		feeder.startThread();
-		gantry.startThread();
-		kitrobot.startThread();
-		lane.startThread();
-		nest.startThread();
-		partsrobot.startThread();
+		// Set server to null
+		// kitrobotgraphics = new DeviceGraphics.KitRobotGraphics(null);
+		conveyorgraphics = new DeviceGraphics.ConveyorGraphics(null);
 	}
 
 	@Override
@@ -221,6 +213,90 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	/*
+	 * Accessors and mutators
+	 */
+
+	public CameraAgent getCamera() {
+		return camera;
+	}
+
+	public void setCamera(CameraAgent camera) {
+		this.camera = camera;
+	}
+
+	public ConveyorAgent getConveyor() {
+		return conveyor;
+	}
+
+	public void setConveyor(ConveyorAgent conveyor) {
+		this.conveyor = conveyor;
+	}
+
+	public FeederAgent getFeeder() {
+		return feeder;
+	}
+
+	public void setFeeder(FeederAgent feeder) {
+		this.feeder = feeder;
+	}
+
+	public GantryAgent getGantry() {
+		return gantry;
+	}
+
+	public void setGantry(GantryAgent gantry) {
+		this.gantry = gantry;
+	}
+
+	public KitRobotAgent getKitrobot() {
+		return kitrobot;
+	}
+
+	public void setKitrobot(KitRobotAgent kitrobot) {
+		this.kitrobot = kitrobot;
+	}
+
+	public LaneAgent getLane() {
+		return lane;
+	}
+
+	public void setLane(LaneAgent lane) {
+		this.lane = lane;
+	}
+
+	public NestAgent getNest() {
+		return nest;
+	}
+
+	public void setNest(NestAgent nest) {
+		this.nest = nest;
+	}
+
+	public PartsRobotAgent getPartsrobot() {
+		return partsrobot;
+	}
+
+	public void setPartsrobot(PartsRobotAgent partsrobot) {
+		this.partsrobot = partsrobot;
+	}
+
+	public KitRobotGraphics getKitrobotgraphics() {
+		return kitrobotgraphics;
+	}
+
+	public void setKitrobotgraphics(KitRobotGraphics kitrobotgraphics) {
+		this.kitrobotgraphics = kitrobotgraphics;
+	}
+
+	public ConveyorGraphics getConveyorgraphics() {
+		return conveyorgraphics;
+	}
+
+	public void setConveyorgraphics(ConveyorGraphics conveyorgraphics) {
+		this.conveyorgraphics = conveyorgraphics;
 	}
 
 }
