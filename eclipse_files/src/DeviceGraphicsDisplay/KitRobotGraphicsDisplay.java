@@ -11,11 +11,19 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class KitRobotGraphicsDisplay extends JPanel implements ActionListener {
+import Networking.Client;
+import Networking.Request;
+import Networking.Server;
+import Utils.Constants;
+import Utils.Location;
+import factory.data.Kit;
+
+public class KitRobotGraphicsDisplay implements ActionListener {
 	//double  x,y;
 	
 	//Rectangle2D.Double rectangle;
@@ -36,7 +44,6 @@ public class KitRobotGraphicsDisplay extends JPanel implements ActionListener {
 	boolean finalJob;
 	boolean jobIsDone;
 	
-	int location;
 	int degreeStep;
 	int currentDegree;
 	int finalDegree;
@@ -50,8 +57,13 @@ public class KitRobotGraphicsDisplay extends JPanel implements ActionListener {
 	AffineTransform trans;
 	Kit kit=new Kit();
 	
-	public KitRobotGraphicsDisplay(){
-		super();
+	Client client;
+	Location location;
+	
+	public KitRobotGraphicsDisplay(Client cli, Location loc){
+		//super();
+		location = loc;
+		client = cli;
 		moveToInitialPosition=Command.moveToConveyor;
 		moveToFinalPosition=Command.moveToConveyor;
 		position=Position.conveyorPosition;
@@ -283,10 +295,10 @@ public class KitRobotGraphicsDisplay extends JPanel implements ActionListener {
 		}
 	}
 	public void actionPerformed(ActionEvent ae){
-		removeAll();
+		//removeAll();
 		checkDegrees();
 		doJob();
-		repaint();
+		//repaint();
 	}
 	
 	public void doJob()
@@ -298,11 +310,28 @@ public class KitRobotGraphicsDisplay extends JPanel implements ActionListener {
 			System.out.println("currentDegree: "+ currentDegree);
 		}
 	}
+	
+	public void draw(JComponent c, Graphics2D g)
+	{
+		
+		Image image=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/resource/Square.jpg"));
+		g.drawImage(Constants., trans,null);
+	
+	}
+	
+	
+	/*
+	public void draw(JComponent c, Graphics2D g) {
+		g.drawImage(kitImage, kitLocation.getX(), kitLocation.getY(), c);
+		
+	}
+	*/
+	/*
 	public void paint(Graphics g){
 	
-		Graphics2D g2=(Graphics2D)g;
-		g2.setColor(Color.yellow);
-		g2.fill(rectangle1);
+		//Graphics2D g2=(Graphics2D)g;
+		//g2.setColor(Color.yellow);
+		//g2.fill(rectangle1);
 		//trans.rotate(Math.toRadians(1),-50,-50);
 		
 		//trans = g2.getTransform();
@@ -315,8 +344,8 @@ public class KitRobotGraphicsDisplay extends JPanel implements ActionListener {
 		kit.paint(g2);
 		g2.finalize();
 	}
-	
-	
+	*/
+	/*
 	public static void main(String args[]){
 		JFrame frame = new JFrame("RotateImage");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -328,6 +357,7 @@ public class KitRobotGraphicsDisplay extends JPanel implements ActionListener {
 		new javax.swing.Timer(100,rke).start();
 		
 	}
+	*/
 	
 	private class Kit implements ActionListener{
 		
@@ -383,7 +413,6 @@ public class KitRobotGraphicsDisplay extends JPanel implements ActionListener {
 		
 		public void actionPerformed(ActionEvent ae){
 			rotate();
-			repaint();
 		}
 		
 	}
