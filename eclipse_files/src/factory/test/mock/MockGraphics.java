@@ -17,8 +17,13 @@ import GraphicsInterfaces.PartsRobotGraphics;
 import agent.Agent;
 import factory.CameraAgent;
 import factory.ConveyorAgent;
+import factory.FeederAgent;
+import factory.GantryAgent;
 import factory.KitRobotAgent;
+import factory.LaneAgent;
+import factory.NestAgent;
 import factory.PartsRobotAgent;
+import factory.data.Part;
 import factory.interfaces.Feeder;
 import factory.interfaces.Gantry;
 import factory.interfaces.Lane;
@@ -35,11 +40,11 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	// Agents
 	CameraAgent camera;
 	ConveyorAgent conveyor;
-	Feeder feeder;
-	Gantry gantry;
+	FeederAgent feeder;
+	GantryAgent gantry;
 	KitRobotAgent kitrobot;
-	Lane lane;
-	Nest nest;
+	LaneAgent lane;
+	NestAgent nest;
 	PartsRobotAgent partsrobot;
 
 	// Graphics
@@ -49,11 +54,9 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public MockGraphics(String name) {
 		super();
 
-<<<<<<< HEAD
 		// Set server to null
 		// kitrobotgraphics = new DeviceGraphics.KitRobotGraphics(null);
 		conveyorgraphics = new DeviceGraphics.ConveyorGraphics(null);
-=======
 		camera = new CameraAgent();
 		conveyor = new ConveyorAgent("conveyor");
 		feeder = new FeederAgent("feeder");
@@ -71,7 +74,6 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		lane.startThread();
 		nest.startThread();
 		partsrobot.startThread();
->>>>>>> Updated NestAgent - Just need to add the graphics messages. Updated a
 	}
 
 	@Override
@@ -98,11 +100,6 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	}
 
-	@Override
-	public void givePartToNest(PartGraphics part) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void purge() {
@@ -259,7 +256,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		return feeder;
 	}
 
-	public void setFeeder(Feeder feeder) {
+	public void setFeeder(FeederAgent feeder) {
 		this.feeder = feeder;
 	}
 
@@ -267,7 +264,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		return gantry;
 	}
 
-	public void setGantry(Gantry gantry) {
+	public void setGantry(GantryAgent gantry) {
 		this.gantry = gantry;
 	}
 
@@ -283,7 +280,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		return lane;
 	}
 
-	public void setLane(Lane lane) {
+	public void setLane(LaneAgent lane) {
 		this.lane = lane;
 	}
 
@@ -291,7 +288,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		return nest;
 	}
 
-	public void setNest(Nest nest) {
+	public void setNest(NestAgent nest) {
 		this.nest = nest;
 	}
 
@@ -317,6 +314,18 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	public void setConveyorgraphics(ConveyorGraphics conveyorgraphics) {
 		this.conveyorgraphics = conveyorgraphics;
+	}
+
+	@Override
+	public void receivePart(Part part) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void givePartToNest(Part part) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

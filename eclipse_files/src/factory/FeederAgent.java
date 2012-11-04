@@ -14,7 +14,7 @@ public class FeederAgent extends Agent implements Feeder {
     List<MyPart> currentParts = new ArrayList<MyPart>();
     
     private GantryAgent gantry;
-    private Lane lane;
+    private LaneAgent lane;
     
     String name;
     
@@ -106,7 +106,7 @@ public class FeederAgent extends Agent implements Feeder {
     public void setGantry(GantryAgent gantry) {
     	this.gantry = gantry;
     }
-    public void setLane(Lane lane) {
+    public void setLane(LaneAgent lane) {
     	this.lane = lane;
     }
     
