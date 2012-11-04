@@ -14,6 +14,7 @@ import factory.interfaces.Camera;
 import factory.interfaces.Conveyor;
 import factory.interfaces.KitRobot;
 import factory.interfaces.Stand;
+import factory.test.mock.MockGraphics;
 
 /**
  * Kit Robot brings moves kits to and from the conveyor and arranges kits on the
@@ -41,6 +42,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	private Conveyor conveyor;
 	private Camera camera;
 	private KitRobotGraphics kitrobotGraphics;
+	private MockGraphics mockgraphics;
 
 	private final String name;
 
@@ -199,6 +201,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * Takes a kit from the conveyor and place it on the stand.
 	 */
 	private void placeKitOnStand(MyKit mk) {
+		System.out.println("placing kit on stand");
 		for (int loc : standPositions.keySet()) {
 			if (standPositions.get(loc) == true) {
 				try {
@@ -207,7 +210,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				kitrobotGraphics.msgPlaceKitOnStand(mk.kit.kit, loc);
+				// kitrobotGraphics.msgPlaceKitOnStand(mk.kit.kit, loc);
+				// This is for testing
+				mockgraphics.msgPlaceKitOnStand(mk.kit.kit, loc);
 				standPositions.put(loc, false);
 				mk.KS = KitStatus.OnStand;
 				stand.msgHereIsKit(mk.kit, loc);
@@ -223,6 +228,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * @param k the kit being placed.
 	 */
 	private void placeKitInInspectionArea(MyKit mk) {
+		System.out.println("placing kit in inspection area");
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -230,7 +236,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			e.printStackTrace();
 		}
 		mk.KS = KitStatus.AwaitingInspection;
-		kitrobotGraphics.msgPlaceKitInInspectionArea(mk.kit.kit);
+		// kitrobotGraphics.msgPlaceKitInInspectionArea(mk.kit.kit);
+		// This is for testing
+		mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kit);
 		camera.msgInspectKit(mk.kit);
 		stateChanged();
 	}
@@ -240,25 +248,19 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * @param k the kit being shipped out of the kitting cell.
 	 */
 	private void shipKit(MyKit mk) {
+		System.out.println("shipping kit");
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		kitrobotGraphics.msgPlaceKitOnConveyor();
+		// kitrobotGraphics.msgPlaceKitOnConveyor();
+		// This is for testing
+		mockgraphics.msgPlaceKitOnConveyor();
 		conveyor.msgTakeKitAway(mk.kit);
 		stand.msgShippedKit();
 		myKits.remove(mk);
-		stateChanged();
-	}
-
-	/**
-	 * GUI Hack to set the reference to the stand.
-	 * @param s the stand
-	 */
-	public void setConveyor(Stand s) {
-		this.stand = s;
 		stateChanged();
 	}
 
@@ -296,6 +298,14 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	public void setGraphicalRepresentation(KitRobotGraphics gkr) {
 		this.kitrobotGraphics = gkr;
 		stateChanged();
+	}
+
+	public MockGraphics getMockGraphics() {
+		return mockgraphics;
+	}
+
+	public void setMockGraphics(MockGraphics mockgraphics) {
+		this.mockgraphics = mockgraphics;
 	}
 
 	public Map<Integer, Boolean> getStandPositions() {

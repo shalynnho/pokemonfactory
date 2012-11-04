@@ -10,6 +10,7 @@ import agent.Agent;
 import factory.data.Kit;
 import factory.interfaces.Conveyor;
 import factory.interfaces.KitRobot;
+import factory.test.mock.MockGraphics;
 
 /**
  * Conveyor brings empty kits into and takes completed (i.e. assembled and
@@ -30,6 +31,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private KitRobot kitrobot;
 	private FCSAgent fcs;
 	private ConveyorGraphics conveyorGraphics;
+	private MockGraphics mockgraphics;
 
 	// Name of the conveyor
 	private final String name;
@@ -201,7 +203,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * GUI Hack to set the reference to the kitrobot.
 	 * @param kr the kitrobot
 	 */
-	public void setPartsRobot(KitRobot kr) {
+	public void setKitRobot(KitRobot kr) {
 		this.kitrobot = kr;
 		stateChanged();
 	}
@@ -222,6 +224,14 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	public void setGraphicalRepresentation(ConveyorGraphics gc) {
 		this.conveyorGraphics = gc;
 		stateChanged();
+	}
+
+	public MockGraphics getMockgraphics() {
+		return mockgraphics;
+	}
+
+	public void setMockgraphics(MockGraphics mockgraphics) {
+		this.mockgraphics = mockgraphics;
 	}
 
 }

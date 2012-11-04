@@ -63,6 +63,8 @@ public class StandAgent extends Agent implements Stand {
 
 		this.name = name;
 		numKitsToMake = 0;
+		kitsOnStand.add(null);
+		kitsOnStand.add(null);
 	}
 
 	/*
