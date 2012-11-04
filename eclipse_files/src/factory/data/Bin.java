@@ -13,4 +13,17 @@ public class Bin {
 		FULL, MOVING, OVER_FEEDER, FILLING_FEEDER, EMPTY, DISCARDING
 	};
 	public BinStatus binState = BinStatus.FULL;
+	
+	public Bin(){
+		
+	}
+	
+	public Bin(Part part){
+		this.part=part;
+	}
+	
+	public Bin(PartType type){
+		this.part=new Part(type);
+	}
+	
 }
