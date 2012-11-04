@@ -20,7 +20,7 @@ import Utils.Location;
 
 public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	// this will store a reference to the client
-	Client client;
+	private Client client;
 	
 	private static final int FEEDER_HEIGHT = 120;
 	private static final int FEEDER_WIDTH = 120;
@@ -32,23 +32,19 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final double DIVERTER_STEP = Math.abs((DIVERTER_POINTING_TOP_ANGLE-DIVERTER_POINTING_BOTTOM_ANGLE)/2);
 	private static final int STEPS_TO_ROTATE_DIVERTER = (1000/Constants.TIMER_DELAY);
 	
-	//private int diverterAnchorX;
-	//private int diverterAnchorY;
-	
 	// image of the diverter
 	private Image diverterImage;
 	// image of the feeder
 	private Image feederImage;
-	
+	// true if the diverter is pointing to the top lane
 	private boolean diverterTop;
-	
+	// number of steps remaining for the diverter to finish rotating
 	private int animationCounter;
 	
-	
 	// location of the feeder
-	Location feederLocation;
+	private Location feederLocation;
 	// location of the diverter
-	Location diverterLocation;
+	private Location diverterLocation;
 	
 	/**
 	 * constructor
@@ -62,15 +58,19 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		// set the path of the feeder image
 		feederImage = Toolkit.getDefaultToolkit().getImage("src/images/Feeder.png");
 		
-		// set the feeder's location
+		// set the feeder's default location
 		feederLocation = loc;
 		
-		// set the diverter's location
+		// set the diverter's default location
 		diverterLocation = new Location(feederLocation.getX()-90, feederLocation.getY()+(FEEDER_HEIGHT/2)-(DIVERTER_HEIGHT/2));
 		
+		// diverter initially points to the top lane
 		diverterTop = true;
+		
+		// do not animate the diverter rotating
 		animationCounter = -1;
 					
+		// force an initial repaint to display feeder and diverter
 		client.repaint();
 	}
 	
