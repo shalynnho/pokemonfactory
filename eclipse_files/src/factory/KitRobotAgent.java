@@ -34,7 +34,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	int numKitsToRequest;
 
 	// Used to prevent animations from overlapping
-	Semaphore animation = new Semaphore(1);
+	Semaphore animation = new Semaphore(1, true);
 
 	// References to other agents
 	private Stand stand;
@@ -48,7 +48,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * Inner class encapsulates kit and adds states relevant to the stand
 	 * @author dpaje
 	 */
-	private class MyKit {
+	public class MyKit {
 		public Kit kit;
 		public KitStatus KS;
 
@@ -164,7 +164,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			// Kit needs to be shipped out of the kitting cell
 			for (MyKit mk : myKits) {
 				if (mk.KS == KitStatus.Inspected) {
-					shipKit(mk.kit);
+					shipKit(mk);
 					return true;
 				}
 			}
@@ -207,7 +207,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				kitrobotGraphics.msgPlaceKitOnStand(mk.kit.kit,loc);
+				kitrobotGraphics.msgPlaceKitOnStand(mk.kit.kit, loc);
 				standPositions.put(loc, false);
 				mk.KS = KitStatus.OnStand;
 				stand.msgHereIsKit(mk.kit, loc);
@@ -239,7 +239,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * Places a completed kit on the conveyor for removal from the kitting cell.
 	 * @param k the kit being shipped out of the kitting cell.
 	 */
-	private void shipKit(Kit k) {
+	private void shipKit(MyKit mk) {
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -247,9 +247,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			e.printStackTrace();
 		}
 		kitrobotGraphics.msgPlaceKitOnConveyor();
-		conveyor.msgTakeKitAway(k);
+		conveyor.msgTakeKitAway(mk.kit);
 		stand.msgShippedKit();
-		myKits.remove(k);
+		myKits.remove(mk);
 		stateChanged();
 	}
 
@@ -281,12 +281,41 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	}
 
 	/**
+	 * GUI Hack to set the reference to the camera.
+	 * @param st the stand
+	 */
+	public void setStand(Stand st) {
+		this.stand = st;
+		stateChanged();
+	}
+
+	/**
 	 * GUI Hack to set the reference to this class' gui component
 	 * @param gc the gui representation of kit robot
 	 */
 	public void setGraphicalRepresentation(KitRobotGraphics gkr) {
 		this.kitrobotGraphics = gkr;
 		stateChanged();
+	}
+
+	public Map<Integer, Boolean> getStandPositions() {
+		return standPositions;
+	}
+
+	public void setStandPositions(Map<Integer, Boolean> standPositions) {
+		this.standPositions = standPositions;
+	}
+
+	public int getNumKitsToRequest() {
+		return numKitsToRequest;
+	}
+
+	public void setNumKitsToRequest(int numKitsToRequest) {
+		this.numKitsToRequest = numKitsToRequest;
+	}
+
+	public List<MyKit> getMyKits() {
+		return myKits;
 	}
 
 }
