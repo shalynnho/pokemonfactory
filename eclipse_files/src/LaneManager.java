@@ -3,13 +3,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import DeviceGraphicsDisplay.FeederGraphicsDisplay;
 import GUI.NetworkingButtonListener;
 import GUI.OverlayPanel;
 import Networking.Client;
@@ -22,13 +20,16 @@ public class LaneManager extends Client {
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
 	
-	private ArrayList<FeederGraphicsDisplay> feeders = new ArrayList<FeederGraphicsDisplay>();
-	
 	public LaneManager() {
 		super();
 		clientName = Constants.LANE_MNGR_CLIENT;
-		// initStreams();
 		
+		// initStreams();
+		initGUI();
+		initDevices();
+	}
+	
+	public void initGUI() {
 		JLabel label = new JLabel("Lane Manager");
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("SansSerif", Font.PLAIN, 40));
@@ -44,12 +45,14 @@ public class LaneManager extends Client {
 		panel.add(testButton);
 	}
 	
+	public void initDevices() {
+		// example:
+		// addDevice(Constants.FEEDER_TARGET, new FeederGraphicsDisplay(this, new Location(50, 100)));
+	}
+	
 	@Override
 	public void receiveData(Request req) {
-		if(req.getTarget().contains(Constants.FEEDER_TARGET)) {
-			int targetID = Integer.parseInt(req.getTarget().substring(req.getTarget().indexOf(':')+1));
-			feeders.get(targetID).receiveData(req);
-		}
+		devices.get(req.getTarget()).receiveData(req);
 	}
 
 	public static void main(String[] args) {

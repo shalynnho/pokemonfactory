@@ -5,10 +5,12 @@ import java.awt.Color;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
 import Utils.Constants;
 
 /**
@@ -22,7 +24,15 @@ public abstract class Client extends JPanel{
 	protected ServerReader reader;
 	protected StreamWriter writer;
 	
+	/**
+	 * To identify client with server. 
+	 */
 	protected String clientName;
+	
+	/**
+	 * To store devices based on device target.
+	 */
+	protected HashMap<String, DeviceGraphicsDisplay> devices = new HashMap<String, DeviceGraphicsDisplay>();
 	
 	protected Client() {
 		setLayout(new BorderLayout());
@@ -63,5 +73,9 @@ public abstract class Client extends JPanel{
 		frame.setSize(width, height);
 		frame.setVisible(true);
 		frame.setResizable(false);
+	}
+	
+	public void addDevice(String target, DeviceGraphicsDisplay device) {
+		devices.put(target, device);
 	}
 }
