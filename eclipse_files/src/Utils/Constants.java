@@ -76,6 +76,7 @@ public abstract class Constants {
 	public static final String LANE_SET_AMPLITUDE_COMMAND = "lane set amp";				// sets lane amplitude
 	public static final String LANE_TOGGLE_COMMAND = "lane toggle";						// turns lane on or off
 	public static final String LANE_SET_STARTLOC_COMMAND = "lane start loc";			// sets start loc for this lane
+	public static final String LANE_NEW_PART_COMMAND = "lane new part";					// new part added to lane
 	// lane display to logic responses
 	
 	// end lane commands & responses
