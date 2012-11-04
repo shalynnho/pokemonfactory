@@ -94,6 +94,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 */
 	public void movePartToLane(PartGraphics pg) {
 		pg.getLocation().incrementX();
+		
 		partsRemaining--;
 		partsFed++;
 		
