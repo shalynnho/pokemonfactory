@@ -66,6 +66,8 @@ public abstract class Constants {
 	// feeder logic to display commands
 	public static final String FEEDER_INIT_GRAPHICS_COMMAND = "feederinitg"; 	// initialize the feeder graphics
 	public static final String FEEDER_FLIP_DIVERTER_COMMAND = "feederflipdiv";  // draw the diverter flipping
+	public static final String FEEDER_RECEIVED_BIN_COMMAND = "feederrecbin"; 	// a bin has been received
+	public static final String FEEDER_PURGE_BIN_COMMAND = "feederpurgebin";		// the bin has been purged
 	// end feeder logic to display commands
 	
 	// lane logic to display commands

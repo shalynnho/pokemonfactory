@@ -55,7 +55,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		partsRemaining = bg.getQuantity();
 		partGraphics = bg.getPart();
 				
-		// TODO someone else draw bin on top of feeder
+		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET, null));
 	}
 	
 	
@@ -67,9 +67,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		partsFed = 0;
 		partsRemaining = 0;
 		
-		
-	
-		// TODO animate?
+		server.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND, Constants.FEEDER_TARGET, null));
 	}
 	
 	/**
