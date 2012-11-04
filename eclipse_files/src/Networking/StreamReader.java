@@ -2,6 +2,7 @@ package Networking;
 
 import java.io.EOFException;
 import java.io.ObjectInputStream;
+import java.net.SocketException;
 
 /**
  * Abstract class, so that client/server side can have their own implementation on how the data is handled.
@@ -24,6 +25,9 @@ public abstract class StreamReader implements Runnable{
 				System.out.println("StreamReader: received request = " + req.getCommand());
 				receiveData(req);
 			} catch(EOFException e) {
+				System.out.println("StreamReader: Connection lost. Other terminal has discnonected.");
+				break;
+			} catch(SocketException e) {
 				System.out.println("StreamReader: Connection lost. Other terminal has discnonected.");
 				break;
 			} catch(Exception e) {
