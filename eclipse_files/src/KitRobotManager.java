@@ -6,15 +6,18 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import DeviceGraphics.ConveyorGraphics;
 import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
+import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
+import GUI.NetworkingButtonListener;
 import GUI.OverlayPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
+import Utils.Location;
 
 
 public class KitRobotManager extends Client implements ActionListener{
@@ -22,13 +25,18 @@ public class KitRobotManager extends Client implements ActionListener{
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
 	
-	//ConveyorGraphics cg;                            //testing
-	//ConveyorGraphicsDisplay cgd;                    //testing
-	
 	public KitRobotManager() {
 		clientName = Constants.KIT_ROBOT_MNGR_CLIENT;
-		// initStreams();
 		
+		// initStreams();
+		initGUI();
+	
+		new javax.swing.Timer(20,this).start();
+		
+		initDevices();
+	}
+	
+	public void initGUI() {
 		JLabel label = new JLabel("Kit Robot Manager");
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("SansSerif", Font.PLAIN, 40));
@@ -41,10 +49,15 @@ public class KitRobotManager extends Client implements ActionListener{
 		add(panel, BorderLayout.SOUTH);
 		panel.setVisible(true);
 		
-		//cg = new ConveyorGraphics();                //testing
-		//cgd = new ConveyorGraphicsDisplay();        //testing
+		//unable to do test of NetworkingButtonListener
 		
-		new javax.swing.Timer(20,this).start();
+		/*JButton stop = new JButton("Stop");
+		stop.addActionListener(new NetworkingButtonListener("stop button", Constants.SERVER_TARGET, writer));
+		panel.add(stop);*/   
+	}
+	
+	public void initDevices() {
+		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this, new Location(0,0)));
 	}
 	
 	@Override
@@ -66,8 +79,10 @@ public class KitRobotManager extends Client implements ActionListener{
 		Graphics2D g = (Graphics2D) gg;
 		
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
-		//cgd.draw(this, g);                          //testing
 		
+		for(DeviceGraphicsDisplay device : devices.values()) {
+			device.draw(this, g);
+		}
 	}
 
 	@Override

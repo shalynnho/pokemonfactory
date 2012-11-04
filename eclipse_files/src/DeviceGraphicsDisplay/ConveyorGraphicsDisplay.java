@@ -22,9 +22,12 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location location;
 	ArrayList<Location> conveyorLines;
 	int velocity;
+	Client client;
 	
-	public ConveyorGraphicsDisplay() {
-		location = new Location(0,0);
+	
+	public ConveyorGraphicsDisplay(Client cli, Location loc) {
+		location = loc;
+		client = cli;
 		conveyorLines = new ArrayList<Location>();
 		for (int i = 0; i < 10; i++){
 			conveyorLines.add(new Location(location.getX(), i*40));   //creating an array list of conveyor line locations for painting
@@ -36,7 +39,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		location = newLocation;		
 	}
 	
-	public void draw(Client c, Graphics2D g2){
+	public void draw(JComponent c, Graphics2D g2){
 		g2.drawImage(Constants.CONVEYOR_IMAGE, location.getX(), location.getY(), c);
 		for(int i = 0; i < conveyorLines.size(); i++){
 			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i).getX(), conveyorLines.get(i).getY(), c);
@@ -74,12 +77,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)){
 			velocity = 0;
 		}
-		
-	}
-
-	@Override
-	public void draw(JComponent c, Graphics2D g) {
-		// TODO Auto-generated method stub
 		
 	}
 }
