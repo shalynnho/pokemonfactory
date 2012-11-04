@@ -48,7 +48,9 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 	}
 	
 	public void receiveData(Request r){
-
+     String target = r.getTarget();
+     String command = r.getCommand();
+     Object object = r.getData();
 	}
 
 	@Override
