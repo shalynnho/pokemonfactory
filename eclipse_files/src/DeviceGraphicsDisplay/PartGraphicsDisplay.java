@@ -29,6 +29,10 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(partImage, partLocation.getX(), partLocation.getY(), c);
 	}
 
+	public Location getLocation () {
+		return partLocation;
+	}
+	
 	public void receiveData(Request req) {
 	}
 	

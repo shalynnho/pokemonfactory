@@ -27,6 +27,10 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 		binLocation = newLocation;
 	}
 	
+	public Location getLocation () {
+		return binLocation;
+	}
+	
 	public void draw (JComponent c, Graphics2D g) {
 		if (isFull)
 			g.drawImage(fullBin, binLocation.getX(), binLocation.getY(), c);
