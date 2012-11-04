@@ -16,6 +16,9 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	//NEED IMAGE NAMES
 	Image kitImage = Toolkit.getDefaultToolkit().getImage("Kit.jpg");
 
+	public KitGraphicsDisplay () {
+		
+	}
 	
 	public void setLocation (Location newLocation) {
 		kitLocation = newLocation;
