@@ -41,7 +41,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		feederImage = Toolkit.getDefaultToolkit().getImage("src/images/Feeder.png"); // set the path of the feeder image
 		
 		feederLocation = loc; // set the feeder's location
-		diverterLocation = new Location(feederLocation.getX()-15, feederLocation.getY()+((FEEDER_HEIGHT/2)+(DIVERTER_HEIGHT)/2)); // set the diverter's location
+		diverterLocation = new Location(feederLocation.getX()-55, feederLocation.getY()+(FEEDER_HEIGHT/2)); // set the diverter's location
 		
 		// TODO rotate diverter to default to top lane
 		
