@@ -15,6 +15,8 @@ public class GantryAgent extends Agent implements Gantry {
 	
     //WAITING FOR GANTRYGRAPHICS
     //private GantryGraphics gantryGraphic;
+    private FeederAgent feeder;
+    
     
     private final String name;
     
@@ -45,21 +47,21 @@ public class GantryAgent extends Agent implements Gantry {
 		// TODO Auto-generated method stub
 		for(PartType requested : requestedParts) {
 			for(Bin bin : binList) {
-				if(bin.type == requested && bin.binState == BinStatus.FULL) {
+				if(bin.part.type == requested && bin.binState == BinStatus.FULL) {
 					moveToFeeder(bin);
 				}
 			}
 		}
 		for(PartType requested : requestedParts) {
 			for(Bin bin : binList) {
-				if(bin.type == requested && bin.binState == BinStatus.OVER_FEEDER) {
+				if(bin.part.type == requested && bin.binState == BinStatus.OVER_FEEDER) {
 					fillFeeder(bin);
 				}
 			}
 		}
 		for(PartType requested : requestedParts) {
 			for(Bin bin : binList) {
-				if(bin.type == requested && bin.binState == BinStatus.EMPTY) {
+				if(bin.part.type == requested && bin.binState == BinStatus.EMPTY) {
 					discardBin(bin);
 				}
 			}
@@ -73,7 +75,7 @@ public class GantryAgent extends Agent implements Gantry {
         //GUIGantry.receiveBin(bin);      
         stateChanged();}
 	public void fillFeeder(Bin bin) {       
-        FeederAgent.msgHereAreParts(bin.type);      
+        feeder.msgHereAreParts(bin.part);      
         bin.binState = BinStatus.FILLING_FEEDER;     
         //GUIGantry.dropBin(bin, bin.feeder);     
         stateChanged();}        
