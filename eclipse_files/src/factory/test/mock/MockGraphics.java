@@ -49,9 +49,29 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public MockGraphics(String name) {
 		super();
 
+<<<<<<< HEAD
 		// Set server to null
 		// kitrobotgraphics = new DeviceGraphics.KitRobotGraphics(null);
 		conveyorgraphics = new DeviceGraphics.ConveyorGraphics(null);
+=======
+		camera = new CameraAgent();
+		conveyor = new ConveyorAgent("conveyor");
+		feeder = new FeederAgent("feeder");
+		gantry = new GantryAgent("gantry");
+		kitrobot = new KitRobotAgent("kitrobot");
+		lane = new LaneAgent("lane");
+		nest = new NestAgent("nest");
+		partsrobot = new PartsRobotAgent();
+
+		camera.startThread();
+		conveyor.startThread();
+		feeder.startThread();
+		gantry.startThread();
+		kitrobot.startThread();
+		lane.startThread();
+		nest.startThread();
+		partsrobot.startThread();
+>>>>>>> Updated NestAgent - Just need to add the graphics messages. Updated a
 	}
 
 	@Override

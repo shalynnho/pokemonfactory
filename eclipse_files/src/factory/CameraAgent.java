@@ -43,7 +43,7 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	public void msgIAmFull(NestAgent n) {
-		MyNest nest = new MyNest(n, n.type);
+		MyNest nest = new MyNest(n, n.currentPartType);
 		nests.add(nest);
 		stateChanged();		
 	}
