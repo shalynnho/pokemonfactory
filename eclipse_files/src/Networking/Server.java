@@ -36,10 +36,13 @@ public class Server {
 	// See how many clients have connected
 	private int numClients = 0;
 	
-	private HashMap<String, DeviceGraphics> devices = new HashMap<String, DeviceGraphics>();
+	public volatile HashMap<String, DeviceGraphics> devices = new HashMap<String, DeviceGraphics>();
 	
 	public Server() {
+		initDevices();
 		initStreams();
+		
+		// will never run anything after init Streams
 	}
 	
 	private void initStreams() {
@@ -111,7 +114,7 @@ public class Server {
 		if(target.equals(Constants.SERVER_TARGET)) {
 			
 		} else {
-			devices.get(req.getTarget()).receiveData(req);
+			devices.get(target).receiveData(req);
 		}
 	}
 	
@@ -129,6 +132,8 @@ public class Server {
 		} else if (target.contains(Constants.CAMERA_TARGET)) {
 			sendDataToCamera(req);
 		} else if (target.contains(Constants.LANE_TARGET)) {
+			sendDataToLane(req);
+		} else if (target.contains(Constants.FEEDER_TARGET)) {
 			sendDataToLane(req);
 		}
 	}
