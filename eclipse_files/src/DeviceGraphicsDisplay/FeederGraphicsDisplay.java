@@ -29,6 +29,8 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	private Image diverterImage; // image of the diverter
 	private Image feederImage; // image of the feeder
 	
+	private boolean diverterPosition;
+	
 	Location feederLocation; // location of the feeder
 	Location diverterLocation; // location of the diverter
 	
@@ -42,7 +44,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		feederImage = Toolkit.getDefaultToolkit().getImage("src/images/Feeder.png"); // set the path of the feeder image
 		
 		feederLocation = loc; // set the feeder's location
-		diverterLocation = new Location(feederLocation.getX()-100, feederLocation.getY()+(FEEDER_HEIGHT/2)-(DIVERTER_HEIGHT/2)); // set the diverter's location
+		diverterLocation = new Location(feederLocation.getX()-90, feederLocation.getY()+(FEEDER_HEIGHT/2)-(DIVERTER_HEIGHT/2)); // set the diverter's location
+		
+		diverterPosition = true;
 		
 		// TODO rotate diverter to default to top lane
 				
@@ -53,7 +57,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		AffineTransform originalTransform = g.getTransform();
 		
-		g.rotate(0.06);
+		g.rotate(0.09, diverterLocation.getX(), diverterLocation.getY());
 		g.drawImage(diverterImage, diverterLocation.getX(), diverterLocation.getY(), c);
 		
 		g.setTransform(originalTransform);
