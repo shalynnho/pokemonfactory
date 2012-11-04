@@ -19,6 +19,10 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	Boolean isFull;
 	
+	public BinGraphicsDisplay (Location newLocation) {
+		binLocation = newLocation;
+	}
+	
 	public void setLocation (Location newLocation) {
 		binLocation = newLocation;
 	}
