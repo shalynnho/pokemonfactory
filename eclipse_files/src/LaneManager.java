@@ -49,7 +49,8 @@ public class LaneManager extends Client implements ActionListener{
 		panel.setVisible(true);
 		
 		JButton testButton = new JButton("Test button");
-		testButton.addActionListener(new NetworkingButtonListener("Testing", Constants.SERVER_TARGET, writer));
+		// test feeder command
+		testButton.addActionListener(new NetworkingButtonListener("Testing", Constants.FEEDER_TARGET, writer));
 		panel.add(testButton);
 		
 		timer = new Timer(Constants.TIMER_DELAY, this);

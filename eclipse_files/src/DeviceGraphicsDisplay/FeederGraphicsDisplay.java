@@ -68,7 +68,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		// set the diverter's location
 		diverterLocation = new Location(feederLocation.getX()-90, feederLocation.getY()+(FEEDER_HEIGHT/2)-(DIVERTER_HEIGHT/2));
 		
-		diverterTop = false;
+		diverterTop = true;
 		animationCounter = -1;
 					
 		client.repaint();
@@ -80,16 +80,16 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		if (animationCounter < 0) {
 			if (diverterTop) {
-				g.rotate(DIVERTER_POINTING_TOP_ANGLE, diverterLocation.getX(), diverterLocation.getY() + (DIVERTER_HEIGHT)/2);
+				g.rotate(DIVERTER_POINTING_TOP_ANGLE, feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
 			} else {
-				g.rotate(DIVERTER_POINTING_BOTTOM_ANGLE, diverterLocation.getX(), (DIVERTER_HEIGHT/2));
+				g.rotate(DIVERTER_POINTING_BOTTOM_ANGLE, feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
 			}
 		} else {
 			if (diverterTop) {
-				g.rotate(DIVERTER_POINTING_BOTTOM_ANGLE - ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP));
+				g.rotate(DIVERTER_POINTING_BOTTOM_ANGLE - ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP), feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
 				animationCounter--;
 			} else {
-				g.rotate(DIVERTER_POINTING_TOP_ANGLE + ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP));
+				g.rotate(DIVERTER_POINTING_TOP_ANGLE + ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP), feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
 				animationCounter--;
 			}
 		}
