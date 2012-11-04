@@ -14,16 +14,25 @@ import Utils.Location;
 public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces.FeederGraphics {
 	// TODO ask 201 team what should be the threshold
 	private static final int PARTS_LOW_THRESHOLD = 2;
-
+	
+	// a reference to the server
 	private Server server;
+	
 	// private Location location;
 		
-	private boolean diverterPosition;
+	// true if the diverter is pointing to the top lane
+	private boolean diverterTop;
 	
+	// the feeder's unique ID
 	private int feederID;
+	
+	// number of parts fed
 	private int partsFed;
+	
+	// number of parts left to be fed
 	private int partsRemaining;
 	
+	// a part
 	private PartGraphics partGraphics;
 	
 	/**
@@ -38,7 +47,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		partsRemaining = 0;
 		
 		// TODO diverter starts on the top lane
-		diverterPosition = true; // this means it is currently pointing at the top lane
+		diverterTop = true; // this means it is currently pointing at the top lane
 		
 		// TODO edit location coordinates later
 		// location = new Location(200, 100*feederID);
@@ -56,7 +65,6 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		partGraphics = bg.getPart();
 				
 		// TODO someone else draw bin on top of feeder
-				
 	}
 	
 	
@@ -84,7 +92,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 * @param pg
 	 */
 	public void movePartToDiverter(PartGraphics pg) {
-		if (diverterPosition) { // if diverter is pointing to the top lane
+		if (diverterTop) { // if diverter is pointing to the top lane
 			// TODO who draws the part moving? I change its coordinates
 		}
 	}
@@ -107,7 +115,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 * This function flips the diverter.
 	 */
 	public void flipDiverter() {
-		diverterPosition = !diverterPosition; 
+		diverterTop = !diverterTop; 
 		
 		// TODO do we need to animate this
 		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET + ":" + feederID, null));
@@ -115,7 +123,9 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 
 	@Override
 	public void receiveData(Request req) {
-		// TODO Auto-generated method stub
+		if (req.getCommand().equals("Testing")) {
+			flipDiverter();
+		}
 		
 	}
 }

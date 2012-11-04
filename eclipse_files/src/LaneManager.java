@@ -32,7 +32,7 @@ public class LaneManager extends Client implements ActionListener{
 		super();
 		clientName = Constants.LANE_MNGR_CLIENT;
 		
-		// initStreams();
+		initStreams();
 		initGUI();
 		initDevices();
 	}
