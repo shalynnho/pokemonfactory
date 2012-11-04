@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import junit.framework.TestCase;
 
@@ -56,9 +57,10 @@ public class KitRobotAgentTestNormativeScenario extends TestCase {
 	 * scenario are Conveyor, Camera and Stand. The graphics component of
 	 * KitRobot is also involved. Note that this scenario exhaustively tests the
 	 * messages sent/received and the data manipulation done by the KitRobot.
+	 * @throws InterruptedException
 	 */
 	@Test
-	public void testNormativeScenario() {
+	public void testNormativeScenario() throws InterruptedException {
 		MockConveyor conveyor = new MockConveyor("conveyor1");
 		MockCamera camera = new MockCamera("camera1");
 		MockStand stand = new MockStand("stand1");
@@ -74,6 +76,8 @@ public class KitRobotAgentTestNormativeScenario extends TestCase {
 		int cameraLogSize = 0;
 		int conveyorLogSize = 0;
 		int kitrobotGraphicsLogSize = 0;
+
+		final Semaphore MESSAGE = new Semaphore(0, true);
 
 		List<Kit> testKits = new ArrayList<Kit>();
 		for (int i = 0; i < TESTKITCOUNT; i++) {
@@ -106,7 +110,8 @@ public class KitRobotAgentTestNormativeScenario extends TestCase {
 		for (int i = 0; i < TESTKITCOUNT; i++) {
 			// Simulate a message to the kitrobot from stand. Pick between 1 and
 			// 2. It really doesn't matter so do a math.random()
-			int standLoc = (int) (Math.random() * 2) + 1;
+			final int standLoc = (int) (Math.random() * 2) + 1;
+
 			kitrobot.msgNeedKit(standLoc);
 
 			// After receiving the message, the kitrobot should have incremented
