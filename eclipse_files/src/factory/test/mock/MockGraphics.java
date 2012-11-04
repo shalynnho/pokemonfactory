@@ -49,7 +49,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		gantry = new GantryAgent("gantry");
 		kitrobot = new KitRobotAgent("kitrobot");
 		lane = new LaneAgent("lane");
-		nest = new NestAgent();
+		nest = new NestAgent("nest");
 		partsrobot = new PartsRobotAgent();
 
 		camera.startThread();
