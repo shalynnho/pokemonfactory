@@ -31,7 +31,9 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 
 	public void giveKitToKitRobot(KitGraphics kg){
 		kg.setFull(true);
-		server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.KIT_ROBOT_TARGET, kg));
+		server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.CONVEYOR_TARGET, kg));
+		//sending the kit to be taken away to KitRobotGraphics
+		server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.KIT_ROBOT_TARGET, kg)); 
 		kitsOnConveyor.remove(kg);
 	} 
 
