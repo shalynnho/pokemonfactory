@@ -87,11 +87,10 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else {
 			if (diverterTop) {
 				g.rotate(DIVERTER_POINTING_BOTTOM_ANGLE - ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP), feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
-				animationCounter--;
 			} else {
 				g.rotate(DIVERTER_POINTING_TOP_ANGLE + ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP), feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
-				animationCounter--;
 			}
+			animationCounter--;
 		}
 		
 		g.drawImage(diverterImage, diverterLocation.getX(), diverterLocation.getY(), c);
@@ -109,7 +108,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
-			animationCounter = 20;
+			animationCounter = STEPS_TO_ROTATE_DIVERTER;
 			diverterTop = !diverterTop;
 		}
 	}
