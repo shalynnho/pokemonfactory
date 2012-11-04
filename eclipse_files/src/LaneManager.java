@@ -9,11 +9,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
+import DeviceGraphicsDisplay.FeederGraphicsDisplay;
 import GUI.NetworkingButtonListener;
 import GUI.OverlayPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
+import Utils.Location;
 
 
 public class LaneManager extends Client {
@@ -48,7 +50,7 @@ public class LaneManager extends Client {
 	
 	public void initDevices() {
 		// example:
-		// addDevice(Constants.FEEDER_TARGET, new FeederGraphicsDisplay(this, new Location(50, 100)));
+		addDevice(Constants.FEEDER_TARGET, new FeederGraphicsDisplay(this, new Location(50, 100)));
 	}
 	
 	@Override
