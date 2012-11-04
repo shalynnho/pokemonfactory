@@ -22,11 +22,11 @@ public class CameraAgent extends Agent implements Camera {
 	private enum NestStatus {NOT_READY,READY,PHOTOGRAPHED};
 	
 	private class MyNest{
-		Nest nest;
+		NestAgent nest;
 		PartType type;
 		List<PartGraphics> guiParts;
 		NestStatus state;
-		MyNest(Nest nest, PartType type){
+		MyNest(NestAgent nest, PartType type){
 			this.nest = nest;
 			this.type = type;
 			this.state = NestStatus.NOT_READY;
@@ -49,7 +49,7 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();		
 	}
 	
-	public void msgTakePictureNestDone(List<GUIPart> parts, Nest nest) {
+	public void msgTakePictureNestDone(List<GUIPart> parts, NestAgent nest) {
 		for(MyNest n: nests)
 		{
 			if(n.nest == nest)
