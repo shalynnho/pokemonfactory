@@ -80,8 +80,8 @@ public class LaneGraphics extends DeviceGraphics implements
 	 * @param pg
 	 *            - the part passed to this lane
 	 */
-	public void receivePart(PartGraphics pg) {
-		// PartGraphics pg = p.part;
+	public void receivePart(Part p) {
+		PartGraphics pg = p.part;
 		partsOnLane.add(pg);
 		pg.setLocation(startLoc);
 	}
@@ -93,8 +93,8 @@ public class LaneGraphics extends DeviceGraphics implements
 	 * @param pg
 	 *            - the part passed to the nest associated with this lane
 	 */
-	public void givePartToNest(PartGraphics pg) {
-		// PartGraphics pg = p.part;
+	public void givePartToNest(Part p) {
+		 PartGraphics pg = p.part;
 		/*
 		 * at the end of the Lane, gives the Part to the Nest - receive message
 		 * from LGD that Part is at end of Lane and Nest not full - tell
