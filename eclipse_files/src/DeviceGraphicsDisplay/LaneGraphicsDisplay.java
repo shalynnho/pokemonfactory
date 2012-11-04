@@ -34,17 +34,26 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS = LANE_LENGTH/PART_WIDTH;
 	
+	// y-coordinates of Part on Lane, depending on laneID
+	private static final int LANE0_Y = 500;
+	private static final int LANE1_Y = 450;
+	private static final int LANE2_Y = 400;
+	private static final int LANE3_Y = 350;
+	private static final int LANE4_Y = 300;
+	private static final int LANE5_Y = 250;
+	private static final int LANE6_Y = 200;
+	private static final int LANE7_Y = 150;
+	
 	// stores static ImageIcon emptyLane1, emptyLane2
-	private static ArrayList<Image> LaneImgs = new ArrayList<Image>();
 	private static Image laneImg;
 	
 	// stores the parts on the lane
 	private ArrayList<PartGraphicsDisplay> partsOnLane;
 	
 	// Location of this lane
-	private Location loc;
-	// start Location for a part on this lane
-	private Location startLoc;
+	private Location laneLoc;
+	// start location of parts on this lane
+	private Location partStartLoc;
 	
 	// the LaneManager (client) which talks to the Server
 	private Client laneManager;
@@ -52,10 +61,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private int laneID;
 	// the amplitude of this lane
 	private int amplitude = 1;
-	
 	// true if Lane is on
 	private boolean laneOn;
-	// counter
 	
 	
 	public LaneGraphicsDisplay(Client lm, int lid) {
@@ -66,33 +73,39 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		laneImg = Toolkit.getDefaultToolkit().getImage("src/images/Lane.png");
 		
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
+		setLaneLoc(laneID);
+		partStartLoc = new Location(LANE_BEG_X, laneLoc.getY() + (PART_WIDTH/2));
 	}
 	
-	public LaneGraphicsDisplay(Client lm, Location l, int lid) {
+	public LaneGraphicsDisplay(Client lm, Location loc, int lid) {
 		laneManager = lm;
-		loc = l;
+		laneLoc = loc;
 		laneID = lid;
 				
 		//TODO: load empty lane images, add to array list (get image from CONSTANTS when added)
 		laneImg = Toolkit.getDefaultToolkit().getImage("src/images/Lane.png");
 		
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
+		partStartLoc = new Location(laneLoc.getX(), laneLoc.getY() + (PART_WIDTH/2));
 	}
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		// TODO animate lane movement & move parts down lane
 		if (laneOn) {
 			// need image(s) of lane and/or lane lines?
-			g.drawImage(laneImg, loc.getX(), loc.getY(), c);
+			g.drawImage(laneImg, laneLoc.getX(), laneLoc.getY(), c);
+			// TODO: animate lane movements, using lines??
 			
 			// TODO: animate parts moving down lane
-			
-			
-			
-			
+			for (int i = 0; i < MAX_PARTS; i++) {
+				PartGraphicsDisplay pgd = partsOnLane.get(i);
+				Location loc = pgd.getLocation();
+				
+				
+				
+			}
 		} else { // lane is off
-			g.drawImage(laneImg, startLoc.getX(), startLoc.getY(), c);
+			g.drawImage(laneImg, laneLoc.getX(), laneLoc.getY(), c);
 		}
 	}
 	
@@ -119,7 +132,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			laneOn = (Boolean) r.getData();
 			
 		} else if (cmd.equals(Constants.LANE_SET_STARTLOC_COMMAND)) {
-			startLoc = (Location) r.getData();
+			laneLoc = (Location) r.getData();
 		} else if (cmd.equals(Constants.LANE_NEW_PART_COMMAND)) {
 			// TODO: 
 			PartType partType = (PartType) r.getData();
@@ -148,7 +161,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	@Override
 	public void setLocation(Location newLocation) {
-		loc = newLocation;
+		laneLoc = newLocation;
 	}
 
 	/**
@@ -157,6 +170,38 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	public void toggleSwitch(boolean on) {
 		laneOn = on;
+	}
+	
+	private void setLaneLoc(int id) {
+
+		switch (id) {
+		case 0:
+			laneLoc = new Location(LANE_BEG_X, LANE0_Y);
+			break;
+		case 1:
+			laneLoc = new Location(LANE_BEG_X, LANE1_Y);
+			break;
+		case 2:
+			laneLoc = new Location(LANE_BEG_X, LANE2_Y);
+			break;
+		case 3:
+			laneLoc = new Location(LANE_BEG_X, LANE3_Y);
+			break;
+		case 4:
+			laneLoc = new Location(LANE_BEG_X, LANE4_Y);
+			break;
+		case 5:
+			laneLoc = new Location(LANE_BEG_X, LANE5_Y);
+			break;
+		case 6:
+			laneLoc = new Location(LANE_BEG_X, LANE6_Y);
+			break;
+		case 7:
+			laneLoc = new Location(LANE_BEG_X, LANE7_Y);
+			break;
+		default:
+			System.out.println("id not recognized.");
+		}
 	}
 
 	/**

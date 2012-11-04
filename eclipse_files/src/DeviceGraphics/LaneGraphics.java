@@ -22,17 +22,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	private static final int LANE_END_X = 450;
 	// horizontal length of the Lane image
 	private static final int LANE_LENGTH = 200;
-
-	// y-coordinates of Part on Lane, depending on laneID
-	private static final int LANE0_Y = 500;
-	private static final int LANE1_Y = 450;
-	private static final int LANE2_Y = 400;
-	private static final int LANE3_Y = 350;
-	private static final int LANE4_Y = 300;
-	private static final int LANE5_Y = 250;
-	private static final int LANE6_Y = 200;
-	private static final int LANE7_Y = 150;
-
+	
 	// width and height of the part
 	private static final int PART_WIDTH = 20, PART_HEIGHT = 20;
 
@@ -70,8 +60,6 @@ public class LaneGraphics extends DeviceGraphics implements
 		amplitude = 1; // WHAT IS DEFAULT AMP??????, also must set parameters
 						// for amp
 		laneOn = true;
-
-		setValues(laneID);
 	}
 
 	/**
@@ -134,13 +122,6 @@ public class LaneGraphics extends DeviceGraphics implements
 		amplitude = amp;
 		server.sendData(new Request(Constants.LANE_SET_AMPLITUDE_COMMAND,
 				Constants.LANE_TARGET + laneID, amp));
-	}
-
-	/**
-	 * Sets location of the lane lines to animate motion
-	 */
-	public void setLaneLocation() {
-		// TODO: implementation depends on how the lane images are drawn
 	}
 
 	public void setPartsLocation() {
@@ -228,42 +209,6 @@ public class LaneGraphics extends DeviceGraphics implements
 	private void sendAnimation(Animation ani) {
 		server.sendData(new Request(Constants.LANE_SEND_ANIMATION_COMMAND,
 				Constants.LANE_TARGET + laneID, ani));
-	}
-
-	private void setValues(int id) {
-
-		switch (id) {
-		case 0:
-			startLoc = new Location(LANE_BEG_X, LANE0_Y);
-			break;
-		case 1:
-			startLoc = new Location(LANE_BEG_X, LANE1_Y);
-			break;
-		case 2:
-			startLoc = new Location(LANE_BEG_X, LANE2_Y);
-			break;
-		case 3:
-			startLoc = new Location(LANE_BEG_X, LANE3_Y);
-			break;
-		case 4:
-			startLoc = new Location(LANE_BEG_X, LANE4_Y);
-			break;
-		case 5:
-			startLoc = new Location(LANE_BEG_X, LANE5_Y);
-			break;
-		case 6:
-			startLoc = new Location(LANE_BEG_X, LANE6_Y);
-			break;
-		case 7:
-			startLoc = new Location(LANE_BEG_X, LANE7_Y);
-			break;
-		default:
-			System.out.println("id not recognized.");
-		}
-
-		server.sendData(new Request(Constants.LANE_SET_STARTLOC_COMMAND,
-				Constants.LANE_TARGET + laneID, startLoc));
-
 	}
 
 	/**
