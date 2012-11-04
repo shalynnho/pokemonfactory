@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import Networking.Request;
@@ -20,8 +21,8 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 		partLocation = newLocation;
 	}
 
-	public void draw(JFrame myJFrame, Graphics2D g) {
-		g.drawImage(partImage, partLocation.getX(), partLocation.getY(), myJFrame);
+	public void draw(JComponent c, Graphics2D g) {
+		g.drawImage(partImage, partLocation.getX(), partLocation.getY(), c);
 	}
 
 	public void receiveData(Request req) {

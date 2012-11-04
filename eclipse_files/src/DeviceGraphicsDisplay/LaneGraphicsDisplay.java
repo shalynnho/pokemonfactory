@@ -1,16 +1,17 @@
 package DeviceGraphicsDisplay;
 
-import Networking.*;
-import GraphicsInterfaces.*;
-import Utils.*;
-import DeviceGraphics.PartGraphics;
-
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+import javax.swing.JComponent;
+
+import DeviceGraphics.PartGraphics;
+import Networking.Client;
+import Networking.Request;
+import Utils.Animation;
+import Utils.Constants;
+import Utils.Location;
 
 /**
  * This class contains the graphics display components for a lane.
@@ -53,7 +54,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	@Override
-	public void draw(JFrame myJFrame, Graphics2D g) {
+	public void draw(JComponent c, Graphics2D g) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-import javax.swing.JFrame;
+import javax.swing.JComponent;
 
 import Networking.Request;
 import Utils.Location;
@@ -21,8 +21,8 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitLocation = newLocation;
 	}
 
-	public void draw(JFrame myJFrame, Graphics2D g) {
-		g.drawImage(kitImage, kitLocation.getX(), kitLocation.getY(), myJFrame);
+	public void draw(JComponent c, Graphics2D g) {
+		g.drawImage(kitImage, kitLocation.getX(), kitLocation.getY(), c);
 		
 	}
 

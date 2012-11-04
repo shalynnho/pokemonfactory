@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-import javax.swing.JFrame;
+import javax.swing.JComponent;
 
 import Networking.Client;
 import Networking.Request;
@@ -43,10 +43,10 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	@Override
-	public void draw(JFrame myJFrame, Graphics2D g) {
+	public void draw(JComponent c, Graphics2D g) {
 		// TODO Auto-generated method stub
-		g.drawImage(feederImage, feederLocation.getX(), feederLocation.getY(), myJFrame);
-		g.drawImage(diverterImage, diverterLocation.getX(), diverterLocation.getY(), myJFrame);
+		g.drawImage(feederImage, feederLocation.getX(), feederLocation.getY(), c);
+		g.drawImage(diverterImage, diverterLocation.getX(), diverterLocation.getY(), c);
 		
 		
 	}

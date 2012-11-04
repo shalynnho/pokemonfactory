@@ -3,6 +3,7 @@ package DeviceGraphicsDisplay;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import Networking.Client;
@@ -77,7 +78,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	@Override
-	public void draw(JFrame myJFrame, Graphics2D g) {
+	public void draw(JComponent c, Graphics2D g) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,11 +1,10 @@
 package DeviceGraphicsDisplay;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-import javax.swing.JFrame;
+import javax.swing.JComponent;
 
 import Networking.Request;
 import Utils.Location;
@@ -24,11 +23,11 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 		binLocation = newLocation;
 	}
 	
-	public void draw (JFrame myJFrame, Graphics2D g) {
+	public void draw (JComponent c, Graphics2D g) {
 		if (isFull)
-			g.drawImage(fullBin, binLocation.getX(), binLocation.getY(), myJFrame);
+			g.drawImage(fullBin, binLocation.getX(), binLocation.getY(), c);
 		else
-			g.drawImage(emptyBin, binLocation.getX(), binLocation.getY(), myJFrame);
+			g.drawImage(emptyBin, binLocation.getX(), binLocation.getY(), c);
 	}
 	
 	public void setFull (Boolean full) {

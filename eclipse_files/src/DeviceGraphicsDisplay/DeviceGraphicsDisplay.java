@@ -2,7 +2,7 @@ package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
 
-import javax.swing.JFrame;
+import javax.swing.JComponent;
 
 import Networking.Client;
 import Networking.Request;
@@ -21,7 +21,7 @@ public abstract class DeviceGraphicsDisplay {
 	/**
 	 * Override this method to draw out your component.
 	 */
-	public abstract void draw (JFrame myJFrame, Graphics2D g);
+	public abstract void draw (JComponent c, Graphics2D g);
 	
 	/**
 	 * Override this method so to process any requests sent from Server. Will be called by Client as Requests arrive.
