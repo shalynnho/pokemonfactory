@@ -16,7 +16,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	private static final int PARTS_LOW_THRESHOLD = 2;
 
 	private Server server;
-	private Location location;
+	// private Location location;
 		
 	private boolean diverterPosition;
 	
@@ -41,11 +41,10 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		diverterPosition = true; // this means it is currently pointing at the top lane
 		
 		// TODO edit location coordinates later
-		location = new Location(200, 100*feederID);
+		// location = new Location(200, 100*feederID);
 		
 		// TODO send message to FeederGraphicsDisplay
-		server.sendData(new Request(Constants.FEEDER_INIT_GRAPHICS_COMMAND, Constants.FEEDER_TARGET, location));
-		
+		// server.sendData(new Request(Constants.FEEDER_INIT_GRAPHICS_COMMAND, Constants.FEEDER_TARGET, location));
 	}
 	
 	/**
@@ -95,6 +94,8 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 */
 	public void movePartToLane(PartGraphics pg) {
 		pg.getLocation().incrementX();
+		partsRemaining--;
+		partsFed++;
 		
 		// TODO who draws the part moving?  I change its coordinates
 		
@@ -110,6 +111,10 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		// TODO do we need to animate this
 		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET + ":" + feederID, null));
 	}
-	
-	
+
+	@Override
+	public void receiveData(Request req) {
+		// TODO Auto-generated method stub
+		
+	}
 }
