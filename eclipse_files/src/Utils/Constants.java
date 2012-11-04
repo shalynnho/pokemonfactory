@@ -80,8 +80,8 @@ public abstract class Constants {
 	public static final String CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND = "give kit to kit robot";   //conveyor gives kit to kit robot
 	public static final String CONVEYOR_RECEIVE_KIT_COMMAND = "conveyor receive kit";              //conveyor receives a kit
 	public static final String CONVEYOR_SEND_ANIMATION_COMMAND = "conveyor animation";             //sends animation information to conveyor
+	public static final String CONVEYOR_CHANGE_VELOCITY_COMMAND = "conveyor change velocity";      //need to change velocity
 	// end conveyor logic to display commands
-	
 	
 	// CLIENT NAMES
 	//==================================

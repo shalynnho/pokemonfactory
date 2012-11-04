@@ -32,7 +32,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		for (int i = 0; i < 10; i++){
 			conveyorLines.add(new Location(location.getX(), i*40));   //creating an array list of conveyor line locations for painting
 		}
-		velocity = 5;
+		velocity = 1;
 	}
 	
 	public void setLocation(Location newLocation) {
@@ -73,10 +73,31 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void receiveData(Request req) {
 		String command = req.getCommand();
+		String target = req.getTarget();
+		Object object = req.getData();
 		
-		if (command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)){
-			velocity = 0;
+		if (command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
+			if (object != null) {
+				KitGraphicsDisplay kgd = (KitGraphicsDisplay)object;
+				if (kgd.kitLocation.getY() >= 200) {                          // let it be known that 200 is the stop value
+					velocity = 0;                                             // conveyor stops for kit pick up
+				}                                                             // Kit robot should look for KIT location, not some point on conveyor             
+			}
 		}
 		
+		else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
+			//must take in int somehow
+		}
+		
+		else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
+			if(object != null) {
+				KitGraphicsDisplay kgd = (KitGraphicsDisplay)object;
+				kgd.setLocation(new Location(0,300));
+				
+				// NOTE: eventually need to make a function for conveyorgraphics display or kitgraphics display
+				//       that tells the server or relevant party that a kit has left the factory so conveyor
+				//       can get rid of the reference.
+			}
+		}
 	}
 }
