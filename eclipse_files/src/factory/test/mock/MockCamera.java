@@ -6,6 +6,7 @@ import DeviceGraphics.PartGraphics;
 import factory.NestAgent;
 import factory.data.Kit;
 import factory.interfaces.Camera;
+import factory.interfaces.Nest;
 
 /**
  * Mock camera. Messages received simply add an entry to the mock agent's log.
@@ -33,7 +34,7 @@ public class MockCamera extends MockAgent implements Camera {
 	}
 
 	@Override
-	public void msgTakePictureNestDone(List<PartGraphics> parts, NestAgent nest) {
+	public void msgTakePictureNestDone(List<PartGraphics> parts, Nest nest) {
 		// TODO Auto-generated method stub
 
 	}
