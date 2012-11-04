@@ -50,7 +50,7 @@ public class LaneManager extends Client {
 	
 	public void initDevices() {
 		// example:
-		addDevice(Constants.FEEDER_TARGET, new FeederGraphicsDisplay(this, new Location(50, 100)));
+		addDevice(Constants.FEEDER_TARGET, new FeederGraphicsDisplay(this, new Location(600, 100)));
 	}
 	
 	@Override
