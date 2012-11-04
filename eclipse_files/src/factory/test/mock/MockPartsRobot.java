@@ -9,6 +9,11 @@ import factory.data.PartType;
 import factory.interfaces.Nest;
 import factory.interfaces.PartsRobot;
 
+/**
+ * Mock partsrobot. Messages received simply add an entry to the mock agent's
+ * log.
+ * @author dpaje
+ */
 public class MockPartsRobot extends MockAgent implements PartsRobot {
 
 	public EventLog log;

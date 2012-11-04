@@ -3,6 +3,10 @@ package factory.test.mock;
 import factory.data.Kit;
 import factory.interfaces.KitRobot;
 
+/**
+ * Mock kitrobot. Messages received simply add an entry to the mock agent's log.
+ * @author dpaje
+ */
 public class MockKitRobot extends MockAgent implements KitRobot {
 
 	public EventLog log;

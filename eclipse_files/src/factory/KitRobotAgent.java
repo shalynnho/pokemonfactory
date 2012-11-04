@@ -281,7 +281,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	}
 
 	/**
-	 * GUI Hack to set the reference to the camera.
+	 * GUI Hack to set the reference to the stand.
 	 * @param st the stand
 	 */
 	public void setStand(Stand st) {

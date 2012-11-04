@@ -3,6 +3,10 @@ package factory.test.mock;
 import factory.data.Kit;
 import factory.interfaces.Conveyor;
 
+/**
+ * Mock conveyor. Messages received simply add an entry to the mock agent's log.
+ * @author dpaje
+ */
 public class MockConveyor extends MockAgent implements Conveyor {
 
 	public EventLog log;

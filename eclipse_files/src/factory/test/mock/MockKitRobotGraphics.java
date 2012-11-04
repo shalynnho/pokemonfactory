@@ -3,6 +3,11 @@ package factory.test.mock;
 import DeviceGraphics.KitGraphics;
 import GraphicsInterfaces.KitRobotGraphics;
 
+/**
+ * Mock graphical representation for the kitrobot. Messages received simply add
+ * an entry to the mock agent's log.
+ * @author dpaje
+ */
 public class MockKitRobotGraphics extends MockAgent implements KitRobotGraphics {
 
 	public EventLog log;

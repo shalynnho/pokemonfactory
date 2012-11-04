@@ -3,6 +3,10 @@ package factory.test.mock;
 import factory.data.Kit;
 import factory.interfaces.Stand;
 
+/**
+ * Mock stand. Messages received simply add an entry to the mock agent's log.
+ * @author dpaje
+ */
 public class MockStand extends MockAgent implements Stand {
 
 	public EventLog log;
