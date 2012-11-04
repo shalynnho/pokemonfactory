@@ -118,7 +118,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		diverterTop = !diverterTop; 
 		
 		// TODO do we need to animate this
-		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET + ":" + feederID, null));
+		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET, null));
 	}
 
 	@Override
