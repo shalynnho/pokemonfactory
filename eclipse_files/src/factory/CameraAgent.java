@@ -11,6 +11,8 @@ import GraphicsInterfaces.CameraGraphics;
 import agent.Agent;
 
 public class CameraAgent extends Agent implements Camera {
+	
+	
 	private Kit kit;
 	private enum KitStatus {NOT_READY,DONE,MESSAGED};
 	private KitStatus kitState = KitStatus.NOT_READY;
@@ -21,12 +23,15 @@ public class CameraAgent extends Agent implements Camera {
 	
 	private enum NestStatus {NOT_READY,READY,PHOTOGRAPHED};
 	
+	private class MyKit{
+		
+	}
 	private class MyNest{
-		NestAgent nest;
+		Nest nest;
 		PartType type;
 		List<PartGraphics> guiParts;
 		NestStatus state;
-		MyNest(NestAgent nest, PartType type){
+		MyNest(Nest nest, PartType type){
 			this.nest = nest;
 			this.type = type;
 			this.state = NestStatus.NOT_READY;
@@ -43,13 +48,13 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();		
 	}
 
-	public void msgIAmFull(NestAgent n) {
+	public void msgIAmFull(Nest n) {
 		MyNest nest = new MyNest(n, n.currentPartType);
 		nests.add(nest);
 		stateChanged();		
 	}
 	
-	public void msgTakePictureNestDone(List<GUIPart> parts, NestAgent nest) {
+	public void msgTakePictureNestDone(List<PartGraphics> parts, Nest nest) {
 		for(MyNest n: nests)
 		{
 			if(n.nest == nest)
@@ -105,7 +110,7 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	private void tellPartsRobot(MyNest n) {
-		List<GUIPart> goodParts = new ArrayList<GUIPart>();
+		List<GUIPart> goodParts = new ArrayList<PartGraphics>();
 		for(GUIPart part: n.guiParts)
 		{
 			if(part.isGood())
