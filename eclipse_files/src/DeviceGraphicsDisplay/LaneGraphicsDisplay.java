@@ -1,6 +1,8 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -21,12 +23,13 @@ import Utils.Location;
  */
 public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// max number of parts that can be on a Lane
-	private static final int MAX_PARTS = 4;
+	private static final int MAX_PARTS = 8;
 	// horizontal length of the Lane image
-	private static final int IMG_LENGTH = 200;
+	private static final int LANE_LENGTH = 200;
 	
 	// stores static ImageIcon emptyLane1, emptyLane2
-	private static ArrayList<ImageIcon> emptyLaneImgs = new ArrayList<ImageIcon>();
+	private static ArrayList<Image> LaneImgs = new ArrayList<Image>();
+	private static Image laneImg;
 	
 	// Location of this lane
 	private Location loc;
@@ -40,22 +43,28 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// the amplitude of this lane
 	private int amplitude = 1;
 	
-	// dynamically stores images of Lane
-	private ArrayList<ImageIcon> imgsOnLane;
 	// true if Lane is on
 	private boolean laneOn;
+	// counter
 	
 	
 	public LaneGraphicsDisplay(Client lm, int lid) {
 		laneManager = lm;
 		laneID = lid;
 				
-		// load empty lane images, add to array list
+		//TODO: load empty lane images, add to array list (get image from CONSTANTS when added)
+		laneImg = Toolkit.getDefaultToolkit().getImage("src/images/Lane.png");
 	}
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		// TODO Auto-generated method stub
+		// TODO animate lane movement & move parts down lane
+		if (laneOn) {
+			// need image(s) of lane and/or lane lines?
+			g.drawImage(laneImg, loc.getX(), loc.getY(), c);
+		} else { // lane is off
+			g.drawImage(laneImg, startLoc.getX(), startLoc.getY(), c);
+		}
 		
 	}
 	
@@ -67,15 +76,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		String cmd = r.getCommand();
 		// parse data request here	
 		
-		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
-			PartGraphics pg = (PartGraphics) r.getData();
-			receivePart(pg);
 			
-		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST_COMMAND)) {
-			PartGraphics pg = (PartGraphics) r.getData();
-			givePartToNest(pg);
-			
-		} else if (cmd.equals(Constants.LANE_PURGE_COMMAND)) {
+		if (cmd.equals(Constants.LANE_PURGE_COMMAND)) {
 			purge();
 			
 		} else if (cmd.equals(Constants.LANE_SEND_ANIMATION_COMMAND)) {
@@ -95,27 +97,12 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 	
-	/**
-	 * 
-	 * @param p
-	 */
-	public void receivePart(PartGraphics pg) {
-		pg.setLocation(startLoc);
-	}
-	
-	/**
-	 * 
-	 * @param p
-	 */
-	public void givePartToNest(PartGraphics pg) {
-		
-	}
 	
 	/**
 	 * 
 	 */
 	public void purge() {
-		
+		// lane should continue as is
 	}
 	
 	/**
@@ -123,7 +110,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param amp
 	 */
 	public void setAmplitude(int amp) {
-		
+		amplitude = amp;
 	}
 	
 	@Override
@@ -136,7 +123,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param on
 	 */
 	public void toggleSwitch(boolean on) {
-		
+		laneOn = on;
 	}
 
 	/**
