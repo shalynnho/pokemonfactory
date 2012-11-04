@@ -4,7 +4,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
+import DeviceGraphics.DeviceGraphics;
+import DeviceGraphics.FeederGraphics;
 import Utils.Constants;
 
 /**
@@ -32,7 +35,13 @@ public class Server {
 	// See how many clients have connected
 	private int numClients = 0;
 	
+	private HashMap<String, DeviceGraphics> devices = new HashMap<String, DeviceGraphics>();
+	
 	public Server() {
+		initStreams();
+	}
+	
+	private void initStreams() {
 		try {
 			ss = new ServerSocket(Constants.SERVER_PORT);
 		} catch (Exception e) {
@@ -50,6 +59,10 @@ public class Server {
 				System.out.println("Server: got an exception" + e.getMessage());
 			}
 		}
+	}
+	
+	private void initDevices() {
+		devices.put(Constants.FEEDER_TARGET, new FeederGraphics(0, this));
 	}
 	
 	/**
@@ -95,6 +108,8 @@ public class Server {
 		
 		if(target.equals(Constants.SERVER_TARGET)) {
 			
+		} else {
+			devices.get(req.getTarget()).receiveData(req);
 		}
 	}
 	

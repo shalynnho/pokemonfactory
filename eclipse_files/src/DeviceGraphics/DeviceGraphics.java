@@ -1,5 +1,6 @@
 package DeviceGraphics;
 
+import Networking.Request;
 import Networking.Server;
 import Utils.Location;
 
@@ -19,4 +20,6 @@ public abstract class DeviceGraphics {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
+	
+	public abstract void receiveData(Request req);
 }
