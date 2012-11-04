@@ -29,7 +29,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	private static final double DIVERTER_POINTING_TOP_ANGLE = 0.09;
 	private static final double DIVERTER_POINTING_BOTTOM_ANGLE = -0.09;
-	private static final double DIVERTER_STEP = Math.abs((DIVERTER_POINTING_TOP_ANGLE-DIVERTER_POINTING_BOTTOM_ANGLE)/2);
+	private static final double DIVERTER_STEP = Math.abs((DIVERTER_POINTING_TOP_ANGLE-DIVERTER_POINTING_BOTTOM_ANGLE)/20);
 	private static final int STEPS_TO_ROTATE_DIVERTER = (1000/Constants.TIMER_DELAY);
 	
 	// image of the diverter
@@ -40,6 +40,11 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	private boolean diverterTop;
 	// number of steps remaining for the diverter to finish rotating
 	private int animationCounter;
+	
+	// new bin to animate
+	private BinGraphicsDisplay bgd; 
+	
+	private boolean haveBin;
 	
 	// location of the feeder
 	private Location feederLocation;
@@ -93,6 +98,11 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 				animationCounter--;
 			}
 		}
+		 
+		if (haveBin) {
+			bgd.draw();
+		}
+		
 		
 		g.drawImage(diverterImage, diverterLocation.getX(), diverterLocation.getY(), c);
 		g.setTransform(originalTransform);
@@ -111,6 +121,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
 			animationCounter = 20;
 			diverterTop = !diverterTop;
+		} if (req.getCommand().equals(Constants.FEEDER_BIN_RECEIVED)) {
+			bgd = new BinGraphicsDisplay(new Location())
+			haveBin = true;
 		}
 	}
 
