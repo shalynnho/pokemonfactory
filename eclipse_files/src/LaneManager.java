@@ -11,8 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
-import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
-import DeviceGraphicsDisplay.FeederGraphicsDisplay;
+//import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
+import DeviceGraphicsDisplay.*;
 import GUI.NetworkingButtonListener;
 import GUI.OverlayPanel;
 import Networking.Client;
@@ -60,6 +60,8 @@ public class LaneManager extends Client implements ActionListener{
 	public void initDevices() {
 		// example:
 		addDevice(Constants.FEEDER_TARGET, new FeederGraphicsDisplay(this, new Location(600, 100)));
+		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 0));
+		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 1));
 	}
 	
 	@Override

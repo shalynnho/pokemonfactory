@@ -34,7 +34,7 @@ public class MockCamera extends MockAgent implements Camera {
 	}
 
 	@Override
-	public void msgTakePictureNestDone(List<PartGraphics> parts, Nest nest) {
+	public void msgTakePictureNestDone(List<PartGraphics> parts, NestAgent nest) {
 		// TODO Auto-generated method stub
 
 	}

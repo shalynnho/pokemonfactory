@@ -84,6 +84,11 @@ public class LaneGraphics extends DeviceGraphics implements
 		PartGraphics pg = p.part;
 		partsOnLane.add(pg);
 		pg.setLocation(startLoc);
+		PartType pt = p.type;
+		
+		server.sendData(new Request(Constants.LANE_NEW_PART_COMMAND, Constants.LANE_TARGET+laneID, pt));
+		
+		// later pass if good/bad part also
 	}
 
 	/**
@@ -113,6 +118,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	 */
 	public void purge() {
 		partsOnLane.clear();
+		// TODO: set location of parts to fall off lane
 		server.sendData(new Request(Constants.LANE_PURGE_COMMAND,
 				Constants.LANE_TARGET + laneID, null));
 	}
@@ -134,7 +140,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	 * Sets location of the lane lines to animate motion
 	 */
 	public void setLaneLocation() {
-		// implementation depends on how the lane images are drawn
+		// TODO: implementation depends on how the lane images are drawn
 	}
 
 	public void setPartsLocation() {
@@ -188,7 +194,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	 * @return true if this lane is full
 	 */
 	public boolean isFull() {
-		return partsOnLane.size() == MAX_PARTS;
+		return partsOnLane.size() >= MAX_PARTS;
 	}
 
 	/**

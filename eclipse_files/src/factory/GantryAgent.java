@@ -16,7 +16,7 @@ public class GantryAgent extends Agent implements Gantry {
 	
     //WAITING FOR GANTRYGRAPHICS
     //private GantryGraphics gantryGraphic;
-    private Feeder feeder;
+    private FeederAgent feeder;
     
     
     private final String name;

@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 
 import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
+import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
 import GUI.NetworkingButtonListener;
 import GUI.OverlayPanel;
 import Networking.Client;
@@ -58,6 +59,7 @@ public class KitRobotManager extends Client implements ActionListener{
 	
 	public void initDevices() {
 		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this, new Location(0,0)));
+		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this,new Location(0,0)));
 	}
 	
 	@Override
