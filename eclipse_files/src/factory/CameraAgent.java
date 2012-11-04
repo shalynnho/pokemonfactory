@@ -59,7 +59,8 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();		
 	}
 	
-	public void msgTakePictureNestDone(List<PartGraphics> parts, Nest nest) {
+	public void msgTakePictureNestDone(List<PartGraphics> parts, Nest nest) 
+	{
 		for(MyNest n: nests)
 		{
 			if(n.nest == nest)
@@ -129,10 +130,10 @@ public class CameraAgent extends Agent implements Camera {
 		List<PartGraphics> goodParts = new ArrayList<PartGraphics>();
 		for(PartGraphics part: n.guiParts)
 		{
-			if(part.isGood())
-			{
+			//if(part.isGood())
+			//{
 				goodParts.add(part);
-			}
+			//}
 		}
 		partRobot.msgHereAreGoodParts(n.nest,goodParts);
 		nests.remove(n);
@@ -141,7 +142,7 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	private void takePictureOfNest(MyNest n) {
-		guiCamera.takeNestPhoto(n.nest.);
+		guiCamera.takeNestPhoto(n.nest.guiNest);
 		n.state = NestStatus.READY;
 		stateChanged();		
 	}

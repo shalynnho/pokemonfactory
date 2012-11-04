@@ -19,7 +19,7 @@ public class NestAgent extends Agent implements Nest {
     int full = 9;   
     boolean takingParts = false; 
     
-    NestGraphics guiNest;
+    public NestGraphics guiNest;
 	
     String name;
     
