@@ -3,6 +3,7 @@ package factory;
 import java.util.*;
 
 import factory.data.Kit;
+import factory.data.Part;
 import factory.data.PartType;
 import factory.interfaces.Camera;
 import factory.interfaces.Nest;
@@ -35,7 +36,7 @@ public class CameraAgent extends Agent implements Camera {
 	private class MyNest{
 		Nest nest;
 		PartType type;
-		List<PartGraphics> guiParts;
+		List<Part> Parts;
 		NestStatus state;
 		MyNest(Nest nest, PartType type){
 			this.nest = nest;
@@ -59,13 +60,13 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();		
 	}
 	
-	public void msgTakePictureNestDone(List<PartGraphics> parts, Nest nest) 
+	public void msgTakePictureNestDone(List<Part> parts, Nest nest) 
 	{
 		for(MyNest n: nests)
 		{
 			if(n.nest == nest)
 			{
-				n.guiParts = parts;
+				n.Parts = parts;
 				n.state = NestStatus.PHOTOGRAPHED;
 				break;
 			}
@@ -127,13 +128,13 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	private void tellPartsRobot(MyNest n) {
-		List<PartGraphics> goodParts = new ArrayList<PartGraphics>();
-		for(PartGraphics part: n.guiParts)
+		List<Part> goodParts = new ArrayList<Part>();
+		for(Part part: n.Parts)
 		{
-			//if(part.isGood())
-			//{
+			if(part.isGood)
+			{
 				goodParts.add(part);
-			//}
+			}
 		}
 		partRobot.msgHereAreGoodParts(n.nest,goodParts);
 		nests.remove(n);
