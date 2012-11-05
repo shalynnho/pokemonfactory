@@ -23,6 +23,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	ArrayList<Location> conveyorLines;
 	ArrayList<KitGraphicsDisplay> kitsOnConveyor;
 	int velocity;
+	int counter;
 	Client client;
 	
 	
@@ -34,6 +35,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			conveyorLines.add(new Location(location.getX(), i*40));   //creating an array list of conveyor line locations for painting
 		}
 		velocity = 1;
+		counter = 0;
 		kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
 	}
 	
@@ -49,16 +51,21 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	public void draw(JComponent c, Graphics2D g2){
 		g2.drawImage(Constants.CONVEYOR_IMAGE, location.getX(), location.getY(), c);
+		counter++;
 		for(int i = 0; i < conveyorLines.size(); i++){
 			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i).getX(), conveyorLines.get(i).getY(), c);
 			conveyorMove(i);
 		}
 		
 		for(int j = 0; j < kitsOnConveyor.size(); j++) {
-			KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
-			tempKit.draw(c,g2);
-			Location temp = tempKit.kitLocation;
-			tempKit.setLocation(new Location(temp.getX(), temp.getY() + velocity));
+			if (kitsOnConveyor.get(0).kitLocation.getY() < 200) {
+				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
+				tempKit.draw(c,g2);
+				Location temp = tempKit.kitLocation;
+				tempKit.setLocation(new Location(temp.getX(), temp.getY() + velocity));
+			} else {
+				velocity = 0;
+			}
 		}
 	}
 	
@@ -92,12 +99,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		Object object = req.getData();
 		
 		if (command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
-			if (object != null) {
-				KitGraphicsDisplay kgd = (KitGraphicsDisplay)object;
-				if (kgd.kitLocation.getY() >= 200) {                          // let it be known that 200 is the stop value
-					velocity = 0;                                             // conveyor stops for kit pick up
-				}                                                             // Kit robot should look for KIT location, not some point on conveyor             
-			}
+				kitsOnConveyor.get(0).kitLocation.getY();             
 		} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
 			newKit();
 		} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {

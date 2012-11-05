@@ -53,7 +53,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	
 	int kitRobotPositionX;
 	int kitRobotPositionY;
-	ArrayList<Kit> kits =new ArrayList<Kit>();
+	//ArrayList<KitGraphicsDisplay> kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
 	AffineTransform trans;
 	//Kit kit=new Kit();
 	Client client;
@@ -293,10 +293,11 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		}
 	}
 	
-	public void sendData()
+/*	public void sendData()
 	{
 		client.
 	}
+*/	
 	public void receiveData(Request req){
 		String command = req.getCommand();
 		String target = req.getTarget();
