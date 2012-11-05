@@ -26,8 +26,8 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	private static final int FEEDER_HEIGHT = 120;
 	private static final int FEEDER_WIDTH = 120;
-	private static final int DIVERTER_HEIGHT = 40;
-	private static final int DIVERTER_WIDTH = 120;
+	private static final int DIVERTER_HEIGHT = 25;
+	private static final int DIVERTER_WIDTH = 98;
 	
 	private static final double DIVERTER_POINTING_TOP_ANGLE = 0.1;
 	private static final double DIVERTER_POINTING_BOTTOM_ANGLE = -0.1;
@@ -63,7 +63,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	// v0 stuff
 	private BinGraphicsDisplay bgd; 
-	private ArrayList<PartGraphicsDisplay> partGDList;
+	private ArrayList<PartGraphicsDisplay> partGDList = new ArrayList<PartGraphicsDisplay>();
+	private double xIncrements;
+	private double yIncrements;
 	
 	/**
 	 * constructor
@@ -91,7 +93,13 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		animationCounter = -1;
 		
 		haveBin = false;
-					
+		
+		
+		// temp V0
+		xIncrements = (finalPartLocation.getX() - startingPartLocation.getX())/STEPS_TO_MOVE_PART;
+		yIncrements = (finalPartLocation.getY() - startingPartLocation.getY())/STEPS_TO_MOVE_PART;
+		
+		
 		// force an initial repaint to display feeder and diverter
 		client.repaint();
 	}
@@ -115,16 +123,15 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			animationCounter--;
 		}		
 		
-		// need a boolean here
-		/*
-		for(PartGraphicsDisplay part : partGDList) {
-			if(!part.getLocation().equals(finalPartLocation)) {
-				double xIncrements = (finalPartLocation.getX() - startingPartLocation.getX())/STEPS_TO_MOVE_PART;
-				double yIncrements = (finalPartLocation.getY() - startingPartLocation.getY())/STEPS_TO_MOVE_PART;
+		if (partGDList.size() > 0) {
+			for(PartGraphicsDisplay part : partGDList) {
+				if(!part.getLocation().equals(finalPartLocation)) {			
 				
-				part.setLocation(new Location(part.getLocation().getX() + xIncrements, part.getLocation().getY() + yIncrements));
+					part.setLocation(new Location(part.getLocation().getX() + xIncrements, part.getLocation().getY() + yIncrements));
+					part.draw(c, g);
+				}
 			}
-		}*/
+		}
 		
 		g.drawImage(diverterImage, diverterLocation.getX(), diverterLocation.getY(), c);
 		g.setTransform(originalTransform);
@@ -172,10 +179,11 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND)) {
 			
 			PartGraphicsDisplay part = new PartGraphicsDisplay(bgd.getPartType());
+			
 			// where the part starts
 			part.setLocation(startingPartLocation);
 			partGDList.add(part);
-			
+						
 		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_LANE_COMMAND)) {
 			
 		}

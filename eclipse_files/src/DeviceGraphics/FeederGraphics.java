@@ -40,7 +40,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	private BinGraphics binGraphics;
 	
 	// temp ArrayList of parts
-	private ArrayList<PartGraphics> partList;
+	private ArrayList<PartGraphics> partList = new ArrayList<PartGraphics>();
 	
 	/**
 	 * This is the constructor.
@@ -126,7 +126,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 			partGraphics = new PartGraphics(PartType.B);
 			binGraphics = new BinGraphics(partGraphics, 10);
 			receiveBin(binGraphics);
-		} else if (req.getCommand().equals("feeddiv")) {
+		} else if (req.getCommand().equals("feeddiverter")) {
 			PartGraphics part = binGraphics.getPart();
 			
 			partList.add(part);

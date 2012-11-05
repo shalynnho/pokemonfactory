@@ -17,7 +17,11 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	Image partImage;
 
 	public PartGraphicsDisplay (PartType pt) {
-		String imageName = pt.toString();
+		//String imageName = pt.toString();
+		
+		// v0 hardcoded image name for testing
+		String imageName = "src/images/samplepart.png";
+		
 		partImage = Toolkit.getDefaultToolkit().getImage(imageName);
 	}
 	
