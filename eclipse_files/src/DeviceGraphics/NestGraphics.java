@@ -56,8 +56,12 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 		for (int i = 0; i < 8; i++) {
 			PartGraphics temp = new PartGraphics(PartType.A);
 			if(i<4){
-				temp.setLocation(new Location(200,200));
-			partsInNest.add(new PartGraphics(PartType.A));
+				temp.setLocation(new Location(200+i*20,20));
+			}
+			else{
+				temp.setLocation(new Location(222+(i-4)*20,20)); 
+			}
+			partsInNest.add(temp);
 			
 		}
 		
