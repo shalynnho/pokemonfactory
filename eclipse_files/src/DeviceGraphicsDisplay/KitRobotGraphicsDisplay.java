@@ -78,12 +78,6 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		trans.translate(kitRobotPositionX,kitRobotPositionY);		
 		rectangle1 = new Rectangle2D.Double(0,0,600,400);
 		
-		//for(int i=0; i<4; i++)
-		//{
-			//KitGraphicsDisplay kgd=new KitGraphicsDisplay();
-			//kgd=new KitGraphicsDisplay();
-	//}
-		
 	}
 	
 	public void changeKit(KitGraphicsDisplay k){
@@ -354,6 +348,11 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	
 	public void draw(JComponent c, Graphics2D g)
 	{
+		
+		for(int i=0;i<kits.size(); i++)
+		{
+			kits.get(i).draw(c, g);
+		}
 		
 		//Image image=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/resource/Square.jpg"));
 		g.drawImage(Constants.KIT_ROBOT_IMAGE, trans,null);
