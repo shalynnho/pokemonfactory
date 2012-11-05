@@ -1,5 +1,10 @@
 package DeviceGraphicsDisplay;
 
+import Networking.*;
+import DeviceGraphics.PartGraphics;
+import GraphicsInterfaces.*;
+import Utils.*;
+
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -8,8 +13,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
-import Networking.Request;
-import Utils.Location;
+import factory.data.PartType;
 
 /**
  * @author vanshjain
@@ -46,16 +50,36 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private int nestID;
 	// true if spot is filled, false if not
 	private ArrayList<Boolean> nestSpots;
-
+	//boolean if the nest is full
+	private boolean isFull;
+	// dynamically stores the parts currently in the Nest
+	private ArrayList<PartGraphics> partsInNest;
+	
+	
 	public NestGraphicsDisplay(LaneManager lm, int id) {
 		laneManager = lm;
 		nestID = id;
+		isFull=true;
 		nestImg = Toolkit.getDefaultToolkit().getImage("src/images/Nest.png");
 		if(nestID==0){
 			NEST_Y=100;
 		}
-		else
+		else{
 			NEST_Y=175;
+		}
+		// Begin V0 requirements
+		
+		for (int i = 0; i < 8; i++) {
+			PartGraphics temp = new PartGraphics(PartType.A);
+			if(i<4){
+				temp.setLocation(new Location((119+i*20),(NEST_Y+1)));
+			}
+			else{
+				temp.setLocation(new Location((119+(i-4)*20),(NEST_Y+23)); 
+			}
+			partsInNest.add(temp);
+			
+		}
 		
 	}
 	
@@ -93,7 +117,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		// TODO Auto-generated method stub
 		
-		g.drawImage(nestImg, NEST_X, NEST_Y, c)
+		g.drawImage(nestImg, NEST_X, NEST_Y, c);
+		for(int i=0; i<8; i++){
+			PartGraphics temp = partsInNest.get(i);
+			g.drawImage(temp,partsInNest.get(i).getX(),partsInNest.get(i).getY(),c);
 		
 	}
 
@@ -110,5 +137,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 
 }
