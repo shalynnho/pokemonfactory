@@ -13,14 +13,20 @@ import agent.Agent;
 
 public class CameraAgent extends Agent implements Camera {
 	
-	private List<MyNest> nests = Collections.synchronizedList(new ArrayList<MyNest>());
+	String name;
+	public CameraAgent(String name){
+		super();
+		this.name = name;
+	}
+	public List<MyNest> nests = Collections.synchronizedList(new ArrayList<MyNest>());
  	private List<MyKit> kits = Collections.synchronizedList(new ArrayList<MyKit>());
 	public CameraGraphics guiCamera;
 	
 	public KitRobotAgent kitRobot;
 	public PartsRobotAgent partRobot;
+	private NestAgent nest;
 	
-	private enum NestStatus {NOT_READY,READY,PHOTOGRAPHED};
+	public enum NestStatus {NOT_READY,READY,PHOTOGRAPHED};
 	private enum KitStatus {NOT_READY,DONE,MESSAGED, PICTURE_BEING_TAKEN};
 	
 	private class MyKit{
@@ -33,11 +39,11 @@ public class CameraAgent extends Agent implements Camera {
 			kitDone = false;
 		}
 	}
-	private class MyNest{
+	public class MyNest{
 		Nest nest;
 		PartType type;
 		List<Part> Parts;
-		NestStatus state;
+		public NestStatus state;
 		MyNest(Nest nest, PartType type){
 			this.nest = nest;
 			this.type = type;
@@ -143,9 +149,18 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	private void takePictureOfNest(MyNest n) {
-		guiCamera.takeNestPhoto(n.nest.guiNest);
+		//guiCamera.takeNestPhoto(n.nest.guiNest);
 		n.state = NestStatus.READY;
 		stateChanged();		
+	}
+
+	public void setNest(NestAgent nest) {
+		this.nest = nest;
+	}
+
+	public void setPartsRobot(PartsRobotAgent parts) {
+		this.partRobot = parts;
+		
 	}
 
 	

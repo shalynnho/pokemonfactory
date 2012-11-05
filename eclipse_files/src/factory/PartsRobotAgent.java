@@ -14,6 +14,14 @@ import agent.Agent;
 
 public class PartsRobotAgent extends Agent implements PartsRobot {
 
+	public PartsRobotAgent(String name) {
+    	super();
+    	
+    	this.name = name;
+    }
+	
+	String name;
+	
 	private class MyKit{
 		Kit kit;
 		MyKitStatus MKS;
@@ -25,16 +33,20 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}
 	}
 	private enum MyKitStatus{NotDone,Done};
-	private class Arm {
+	public class Arm {
 		Part part;
 		ArmStatus AS;
+		public Arm(){
+			part = null;
+			AS = null;
+		}
 	}
 	private enum ArmStatus{Empty,Full};
 	
 	private List<PartType> KitConfig = Collections.synchronizedList(new ArrayList<PartType>());
 	private List<MyKit> MyKits = Collections.synchronizedList(new ArrayList<MyKit>());;
-	private Map<Nest,List<Part>> GoodParts;
-	private List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
+	public Map<Nest,List<Part>> GoodParts;
+	public List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
 	
 	List<Kit> KitsOnStand;
 	List<Nest> nests;
@@ -130,7 +142,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	
 	/**********ACTIONS**************/
 	
-	//Wot?
 	private void PickUpPart(Arm a) {
 		Part pickUpPart = null;
 		
@@ -143,12 +154,14 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 					{
 						if(mk.kit.needPart(p))
 						{
-							nests.msgTakingPart(p);
+							nests.msgTakingPart(p);/*
 							try {
 								Animation.acquire();
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
+							*/
+							
 							nests.msgDoneTakingParts();
 							stateChanged();
 						}

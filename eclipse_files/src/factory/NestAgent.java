@@ -17,7 +17,7 @@ public class NestAgent extends Agent implements Nest {
     public List<MyPart> currentParts = new ArrayList<MyPart>();
     public int count = 0;  
     int full = 9;   
-    boolean takingParts = false; 
+    public boolean takingParts = false; 
     
     public NestGraphics guiNest;
 	
