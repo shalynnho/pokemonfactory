@@ -56,12 +56,18 @@ public class KitRobotManager extends Client implements ActionListener{
 		
 		JButton newKit = new JButton("New Kit");
 		newKit.addActionListener(new NetworkingButtonListener(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, writer));
+		JButton moveKitToLocation1 =new JButton("moveKitToLocation1");
+		moveKitToLocation1.addActionListener(new NetworkingButtonListener("moveKitToStand10", Constants.KIT_ROBOT_TARGET,writer));	
+		//moveKitToLocation2.addActionListener(new NetworkingButtonListener("moveKitToStand2", Constants.KIT_))
+		
 		panel.add(newKit);  
+		panel.add(moveKitToLocation1);
 	}
 	
 	public void initDevices() {
 		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this, new Location(0,0)));
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this,new Location(0,0)));
+		
 	}
 	
 	@Override

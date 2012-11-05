@@ -92,6 +92,10 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 		String command=req.getCommand();
 		Object object=req.getData();
 		
+		if(command.equals("moveKitToStand10"))
+		{
+			msgPlaceKitOnStand1(null);
+		}
 		//if()
 		// TODO Auto-generated method stub
 	}

@@ -68,6 +68,7 @@ public class Server {
 		devices.put(Constants.LANE_TARGET+":"+1, new LaneGraphics(this, 1));
 		devices.put(Constants.FEEDER_TARGET, new FeederGraphics(0, this));
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this));
+		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this));
 	}
 	
 	/**

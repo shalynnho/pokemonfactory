@@ -73,7 +73,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		rotationAxisX=25;
 		rotationAxisY=25;
 		kitRobotPositionX=275;
-		kitRobotPositionY=175;
+		kitRobotPositionY=215;
 		
 		trans.translate(kitRobotPositionX,kitRobotPositionY);		
 		rectangle1 = new Rectangle2D.Double(0,0,600,400);
@@ -241,7 +241,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 			}
 			else if(moveToFinalPosition.equals(Command.moveToConveyor))
 			{
-				finalDegree=270;
+				finalDegree=180;
 			}
 			
 		}
@@ -253,18 +253,18 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 			}
 			else if(moveToFinalPosition.equals(Command.moveToConveyor))
 			{
-				finalDegree=180;
+				finalDegree=90;
 			}
 			else if(moveToFinalPosition.equals(Command.moveToInspectionStand))
 			{
-				finalDegree=270;
+				finalDegree=180;
 			}
 		}
 		else if(position.equals(Position.location2Position))
 		{
 			if(moveToFinalPosition.equals(Command.moveToConveyor))
 			{
-				finalDegree=90;
+				finalDegree=0;
 			}
 			else if(moveToFinalPosition.equals(Command.moveToInspectionStand))
 			{
@@ -275,6 +275,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 				finalDegree=270;
 			}
 		}
+		currentKit.setFinalDegree(finalDegree);
 	}
 	
 	public void checkDegrees(){
@@ -302,29 +303,61 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		String command = req.getCommand();
 		String target = req.getTarget();
 		Object obj = req.getData();
-		if(jobIsDone)
+		if(target.equals(Constants.KIT_ROBOT_TARGET))
 		{
 			if(command.equals("moveKitToStand1"))
 			{	
+				KitGraphicsDisplay kit=new KitGraphicsDisplay();
+				kit.setPosition(3);
+				currentKit=kit;
+				kits.add(kit);
 				ConveyorToLocation1();
 			}
 			else if(command.equals("moveKitToStand2"))
 			{
+				KitGraphicsDisplay kit=new KitGraphicsDisplay();
+				kit.setPosition(4);
+				currentKit=kit;
+				kits.add(kit);
 				ConveyorToLocation2();
 			}
 			else if(command.equals("moveKitInLocation1ToInspection"))
 			{
+				for(int i=0; i<kits.size(); i++)
+				{
+					if(kits.get(i).getPosition()==3)
+					{
+						currentKit=kits.get(i);
+						kits.get(i).setPosition(2);
+					}
+				}
 				Location1ToInspectionStand();
 			}
 			else if(command.equals("moveKitInLocation2ToInspection"))
 			{
+				for(int i=0; i<kits.size(); i++)
+				{
+					if(kits.get(i).getPosition()==4)
+					{
+						currentKit=kits.get(i);
+						kits.get(i).setPosition(2);
+					}
+				}
 				Location2ToInspectionStand();
 			}
 			else if(command.equals("moveKitToConveyor"))
 			{
+				for(int i=0; i<kits.size(); i++)
+				{
+					if(kits.get(i).getPosition()==4)
+					{
+						currentKit=kits.get(i);
+						kits.get(i).setPosition(1);
+					}
+				}
+				
 				InspectionStandToConveyor();
 			}
-			else if(command.equals(""))
 		}
 		
 	}
@@ -352,10 +385,11 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	
 	public void draw(JComponent c, Graphics2D g)
 	{
-		
+		checkDegrees();
+		doJob();
 		for(int i=0;i<kits.size(); i++)
 		{
-			kits.get(i).draw(c,g);;
+			kits.get(i).drawRotate(c,g);;
 		}
 		
 		//Image image=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/resource/Square.jpg"));
