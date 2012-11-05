@@ -2,6 +2,7 @@ package DeviceGraphics;
 
 import java.awt.Toolkit;
 
+import Networking.Request;
 import Utils.Location;
 
 public class BinGraphics extends DeviceGraphics  {
@@ -15,7 +16,6 @@ public class BinGraphics extends DeviceGraphics  {
 		part = parts;
 		partNumber = partNum;
 	}
-	
 	
 	/**
 	 * Used in order to receive parts from a feeder's purge
@@ -54,5 +54,12 @@ public class BinGraphics extends DeviceGraphics  {
 	
 	public Location getLocation() {
 		return binLocation;
+	}
+
+
+	@Override
+	public void receiveData(Request req) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -116,5 +116,12 @@ public class NestAgent extends Agent implements Nest {
     public void updateParts() { 
         //GUINest.updatePartsList(); 
     }
+    
+    public void setLane(LaneAgent lane) {
+    	this.lane = lane;
+    }
+    public void setCamera(CameraAgent camera) {
+    	this.camera = camera;
+    }
 	
 }

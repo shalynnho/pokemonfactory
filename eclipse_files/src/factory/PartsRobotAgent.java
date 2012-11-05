@@ -55,8 +55,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 * 
 	 * From Camera
 	 */
-	public void msgHereAreGoodParts(Nest n, List<PartGraphics> parts) {
-		GoodParts.put(n, parts);
+	public void msgHereAreGoodParts(Nest n, List<Part> goodParts2) {
+		GoodParts.put(n, goodParts2);
 		stateChanged();
 	}
 
@@ -129,14 +129,16 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	
 	//Wot?
 	private void PickUpPart(Arm a) {
-		Part pickUpPart;
-		int nestIndex;
+		PartGraphics pickUpPart;
+		//int nestIndex;
+		SortedSet s = (SortedSet) GoodParts.entrySet();
+		
 		if(MyKits.size() < 1)
 		{
 			if(Arms.isEmpty())
 			{
-				nestIndex = GoodParts.first();
-				List<Part> available = GoodParts.get(nestIndex);
+				
+				List<PartGraphics> available = GoodParts.get(s.first());
 				pickUpPart = available.get(0);
 			} else {
 				for(Part p : GoodParts)
@@ -157,7 +159,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 					mk.kit.partsExpected.remove(p);
 					a.part = null;
 					Animation.acquire();
-					guiPartsRobot.givePartToKit(Part,mk.kit);
+					guiPartsRobot.givePartToKit(mk.kit.kit);
 				}
 			}
 			CheckMyKit(mk);
@@ -168,10 +170,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		if(mk.kit.partsExpected.size() == 0){
 			mk.MKS = MyKitStatus.Done;
 		}
-		stateChanged();
+		//stateChanged();
 	}
 	private void RequestInspection(MyKit mk) {
-		Stand.msgKitIsDone(mk.kit);
+		stand.msgKitAssembled(mk.kit);
 		MyKits.remove(mk);
 		stateChanged();
 		

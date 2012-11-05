@@ -1,5 +1,9 @@
 package DeviceGraphics;
 
+import java.util.ArrayList;
+
+import factory.data.PartType;
+
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
@@ -31,6 +35,12 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	
 	// a part
 	private PartGraphics partGraphics;
+	
+	// a bin
+	private BinGraphics binGraphics;
+	
+	// temp ArrayList of parts
+	private ArrayList<PartGraphics> partList;
 	
 	/**
 	 * This is the constructor.
@@ -83,9 +93,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 * @param pg
 	 */
 	public void movePartToDiverter(PartGraphics pg) {
-		if (diverterTop) { // if diverter is pointing to the top lane
-			// TODO who draws the part moving? I change its coordinates
-		}
+		server.sendData(new Request(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND, Constants.FEEDER_TARGET, null));
 	}
 	
 	/**
@@ -98,7 +106,6 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		partsFed++;
 		
 		// TODO who draws the part moving?  I change its coordinates
-		
 		// server.sendData(new Request(Constants.FEEDER_MOVE_TO_LANE, Constants.PART_TARGET + ":" + feederID, pg.getLocation()));
 	}
 	
@@ -107,15 +114,27 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 */
 	public void flipDiverter() {
 		diverterTop = !diverterTop; 
-		
-		// TODO do we need to animate this
 		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET, null));
 	}
 
 	@Override
 	public void receiveData(Request req) {
-		if (req.getCommand().equals("Testing")) {
+		// v0 test commands
+		if (req.getCommand().equals("flipdiv")) {
 			flipDiverter();
+		} else if (req.getCommand().equals("getbin")) {
+			partGraphics = new PartGraphics(PartType.B);
+			binGraphics = new BinGraphics(partGraphics, 10);
+			receiveBin(binGraphics);
+		} else if (req.getCommand().equals("feeddiv")) {
+			PartGraphics part = binGraphics.getPart();
+			
+			partList.add(part);
+			
+			movePartToDiverter(part);
+		} else if (req.getCommand().equals("feedlane")) {
+			partList.remove(0);
+			
 		}
 	}
 }

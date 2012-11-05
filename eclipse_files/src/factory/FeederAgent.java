@@ -84,7 +84,8 @@ public class FeederAgent extends Agent implements Feeder {
     }
 	
     public void giveToDiverter(Part part) {  
-        //GUIDiverter.face(part.laneOrientation); 
+        //GUIDiverter.face(part.laneOrientation);
+    	//SEMAPHORE GOES HERE
         //GUIFeeder.givePartToDiverter(part); 
         for(MyPart currentPart:currentParts) {
         	if(currentPart.part==part)

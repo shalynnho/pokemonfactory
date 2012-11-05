@@ -53,16 +53,15 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	
 	int kitRobotPositionX;
 	int kitRobotPositionY;
-	//ArrayList<KitGraphicsDisplay> kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
 	AffineTransform trans;
 	//Kit kit=new Kit();
 	Client client;
 	Location location;
-	
-	public KitRobotGraphicsDisplay(Client cli, Location loc){
+	public KitRobotGraphicsDisplay(Client cli,  Location loc){
 		//super();
 		location = loc;
 		client = cli;
+		
 		moveToInitialPosition=Command.moveToConveyor;
 		moveToFinalPosition=Command.moveToConveyor;
 		position=Position.conveyorPosition;
@@ -75,7 +74,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		
 		trans= new AffineTransform();
 		
-		image =new ImageIcon(this.getClass().getResource("/resource/Square.jpg"));
+		//image =new ImageIcon(this.getClass().getResource("/resource/Square.jpg"));
 		rotationAxisX=25;
 		rotationAxisY=25;
 		kitRobotPositionX=275;
@@ -293,11 +292,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		}
 	}
 	
-/*	public void sendData()
-	{
-		client.
-	}
-*/	
+
 	public void receiveData(Request req){
 		String command = req.getCommand();
 		String target = req.getTarget();
@@ -328,6 +323,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		}
 		
 	}
+	
 	public void actionPerformed(ActionEvent ae){
 		//removeAll();
 		checkDegrees();
