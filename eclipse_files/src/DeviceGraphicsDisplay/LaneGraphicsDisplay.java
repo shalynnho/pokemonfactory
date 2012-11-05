@@ -28,7 +28,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int LANE_LENGTH = 400;
 	// start and end x-coordinates of Part on the Lane
 	private static final int LANE_BEG_X = 599;
-	private static final int LANE_END_X = 399;
+	private static final int LANE_END_X = 199;
 	// width and height of the part
 	private static final int PART_WIDTH = 20, PART_HEIGHT = 20;
 	// max number of parts that can be on a Lane
@@ -97,6 +97,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	public LaneGraphicsDisplay(Client lm, Location loc, int lid) {
 		laneManager = lm;
 		laneLoc = loc;
+		
+		System.out.println("lane loc, x: "+laneLoc.getX()+", y: "+laneLoc.getY());
 		laneID = lid;
 
 		// TODO: load empty lane images, add to array list (get image from
@@ -105,7 +107,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		laneLine = Toolkit.getDefaultToolkit().getImage("src/images/laneline.png");
 
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
-		partStartLoc = new Location(laneLoc.getX(), laneLoc.getY()
+		partStartLoc = new Location(laneLoc.getX() + LANE_LENGTH, laneLoc.getY()
 				+ (PART_WIDTH / 2));
 		
 		// create array list of location for lane lines
@@ -145,8 +147,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 							loc.incrementX(-amplitude);
 						}
 					}
-					vibrateParts(i, loc);
+					vibrateParts(counter, loc);
 					pgd.setLocation(loc);
+					
+					pgd.draw(c,g); //TODO: remove later, for v0 testing purposes only
 				}
 			}
 		} else { // lane is off
@@ -194,6 +198,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
 			pgd.setLocation(partStartLoc);
 			partsOnLane.add(pgd);
+			System.out.println("partsOnLane size: "+partsOnLane.size());
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 			
 
@@ -288,7 +293,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		int startLineX = LANE_BEG_X - LINE_WIDTH;
 		for (int i = 0; i < NUMLINES; i++) {
 			laneLines.add(new Location(startLineX, laneLoc.getY()));
-			startLineX -= PART_WIDTH + LINE_WIDTH;
+			startLineX -= (PART_WIDTH + LINE_WIDTH);
 		}
 	}
 	
@@ -298,9 +303,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void vibrateParts(int i, Location loc) {
 		// to show vibration down lane (may have to adjust values)
 		if (i % 2 == 0) {
-			loc.incrementY();
+			loc.incrementY(2);
 		} else {
-			loc.incrementY(-1);
+			loc.incrementY(-2);
 		}
 	}
 

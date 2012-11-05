@@ -35,6 +35,8 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	private boolean isFull;
 	// true if spot is filled, false if not
 	private ArrayList<Boolean> nestSpots;
+	// y-coordinate of the Nest
+	private static int NEST_Y;
 	
 	public NestGraphics(Server s, int nid, PartsRobotGraphics pr) {
 		server = s;
@@ -43,11 +45,26 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 		
 		partsInNest = new ArrayList<PartGraphics>();
 		nestSpots = new ArrayList<Boolean>();
+		if(nestID==0){
+			NEST_Y=100;
+		}
+		else{
+			NEST_Y=175;
+		}
 		// Begin V0 requirements
 		isFull = true;
 		for (int i = 0; i < 8; i++) {
-			partsInNest.add(new PartGraphics(PartType.A));
+			PartGraphics temp = new PartGraphics(PartType.A);
+			if(i<4){
+				temp.setLocation(new Location((119+i*20),(NEST_Y+1)));
+			}
+			else{
+				temp.setLocation(new Location((119+(i-4)*20),(NEST_Y+23)); 
+			}
+			partsInNest.add(temp);
+			
 		}
+		
 	}
 
 	/**

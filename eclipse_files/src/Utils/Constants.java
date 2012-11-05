@@ -97,6 +97,11 @@ public abstract class Constants {
 	public static final String CONVEYOR_MAKE_NEW_KIT_COMMAND = "make new kit";
 	// end conveyor logic to display
 	
+	//partsrobot logic to display commands
+	public static final String PARTS_ROBOT_MOVE_TO_NEST1_COMMAND = "nest1"; //parts robot moves to nest1
+	public static final String PARTS_ROBOT_MOVE_TO_NEST2_COMMAND = "nest2"; //parts robot moves to nest2
+	public static final String PARTS_ROBOT_ROTATE_COMMAND = "rotate"; //parts robot rotate
+	
 	// CLIENT NAMES
 	//==================================
 	// Used to identify clients.

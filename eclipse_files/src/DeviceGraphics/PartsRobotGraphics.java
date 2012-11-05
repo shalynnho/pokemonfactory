@@ -2,6 +2,9 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
+import Networking.Request;
+import Networking.Server;
+import Utils.Constants;
 import Utils.Location;
 
 import factory.data.Kit;
@@ -21,9 +24,11 @@ public class PartsRobotGraphics {
 	ArrayList<PartGraphics> partArray; // an array of parts that allocates memory for 4 parts
 	KitGraphics kit;
 	int i;
+	boolean nest1, nest2;
+	private Server server;
 	
-	public PartsRobotGraphics() {
-		initialLocation = new Location(0,0);
+	public PartsRobotGraphics(Server s) {
+		initialLocation = new Location(250,450);
 		currentLocation = initialLocation;
 		arm1 = false;
 		arm2 = false;
@@ -31,9 +36,22 @@ public class PartsRobotGraphics {
 		arm4 = false;
 		partArray = new ArrayList<PartGraphics>();
 		i = 0;
+		nest1 = false;
+		nest2 = false;
+		server = s;
 	}
 	
+	public void goToNest1(){
+		nest1 = true;
+		nest2 = false;
+		server.sendData(new Request(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
+	}
 	
+	public void goToNest2(){
+		nest1 = false;
+		nest2 = true;
+		server.sendData(new Request(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
+	}
 	public void pickUpPart(Part part, Location location){
 		currentLocation = location;
 		//Animation(currentLocation, 10);
@@ -134,5 +152,12 @@ public class PartsRobotGraphics {
 		 */
 	}
 	
+	public void receiveData(Request req) {
+		if (req.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND)){
+			goToNest1();
+		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND)){
+			goToNest2();
+		}
+	}
 	
 }

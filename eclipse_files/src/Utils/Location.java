@@ -75,4 +75,22 @@ public class Location {
 	public boolean equals(Location otherLoc) {
 		return x == otherLoc.getX() && y == otherLoc.getY(); 
 	}
+	
+	/**
+	 * Compares this locaiton's X coordinate with another location's X coordinate. 
+	 * @param: l - Location object to be compared
+	 * @return: a negative integer, zero, or a positive integer if this location's X-coord is less than, equal to, or greater than the other location's X-coord.  
+	 */
+	public int compareToX(Location l) {
+		return getX() - l.getX();
+	}
+	
+	/**
+	 * Compares this locaiton's Y coordinate with another location's Y coordinate. 
+	 * @param: l - Location object to be compared
+	 * @return: a negative integer, zero, or a positive integer if this location's Y-coord is less than, equal to, or greater than the other location's Y-coord.  
+	 */
+	public int compareToY(Location l) {
+		return getY() - l.getY();
+	}
 }

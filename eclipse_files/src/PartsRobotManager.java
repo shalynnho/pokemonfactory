@@ -52,6 +52,10 @@ public class PartsRobotManager extends Client implements ActionListener{
 		testButton.addActionListener(new NetworkingButtonListener("Testing", Constants.FEEDER_TARGET, writer));
 		panel.add(testButton);
 		
+		JButton nest1 = new JButton("Nest1");
+		nest1.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
+		panel.add(nest1);
+		
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
 	}
@@ -60,6 +64,7 @@ public class PartsRobotManager extends Client implements ActionListener{
 		// example:
 //		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 0));
 //		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 1));
+		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this, new Location(250,450)));
 	}
 	
 	@Override

@@ -16,7 +16,7 @@ import factory.data.PartType;
 
 /**
  * This class handles drawing of the feeder and diverter.
- * @author Harry Trieu
+ * @author Harry Trieu, Aaron Harris
  *
  */
 
@@ -85,7 +85,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		diverterTop = true;
 		
 		// TODO change this later - end of the diverter when it's pointing to the top lane
-		finalPartLocation = new Location(feederLocation.getX() - 100, feederLocation.getY());
+		finalPartLocation = new Location(diverterLocation.getX(), diverterLocation.getY());
 		
 		// TODO change this later - starting location for parts
 		startingPartLocation = new Location(feederLocation.getX(), feederLocation.getY()+(FEEDER_HEIGHT/2)-(DIVERTER_HEIGHT/2));
@@ -128,7 +128,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		if (partGDList.size() > 0) {
 			for(PartGraphicsDisplay part : partGDList) {
-				if(!part.getLocation().equals(finalPartLocation)) {			
+				if(part.getLocation().compareToX(diverterLocation) > 0) {			
 				
 					part.setLocation(new Location(part.getLocation().getX() + xIncrements, part.getLocation().getY() + yIncrements));
 					part.draw(c, g);
