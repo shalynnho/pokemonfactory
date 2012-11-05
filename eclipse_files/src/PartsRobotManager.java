@@ -51,6 +51,18 @@ public class PartsRobotManager extends Client implements ActionListener{
 		nest1.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
 		panel.add(nest1);
 		
+		JButton nest2 = new JButton("Nest2");
+		nest2.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
+		panel.add(nest2);
+		
+		JButton gohome = new JButton("Go Home");
+		gohome.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_GO_HOME_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
+		panel.add(gohome);
+		
+		JButton pickup = new JButton("Pick Up");
+		pickup.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
+		panel.add(pickup);
+		
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
 	}
@@ -59,7 +71,7 @@ public class PartsRobotManager extends Client implements ActionListener{
 		// example:
 //		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 0));
 //		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 1));
-	//	addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this, new Location(250,450)));
+		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this, new Location(250,450)));
 		addDevice(Constants.NEST_TARGET, new NestGraphicsDisplay(this, 0));
 		addDevice(Constants.NEST_TARGET, new NestGraphicsDisplay(this, 1));
 	}

@@ -108,6 +108,9 @@ public abstract class Constants {
 	public static final String PARTS_ROBOT_MOVE_TO_NEST1_COMMAND = "nest1"; //parts robot moves to nest1
 	public static final String PARTS_ROBOT_MOVE_TO_NEST2_COMMAND = "nest2"; //parts robot moves to nest2
 	public static final String PARTS_ROBOT_ROTATE_COMMAND = "rotate"; //parts robot rotate
+	public static final String PARTS_ROBOT_PICKUP_COMMAND = "pickup"; //pick up part
+	public static final String PARTS_ROBOT_GIVE_COMMAND = "give"; //give part to kit
+	public static final String PARTS_ROBOT_GO_HOME_COMMAND ="gohome"; //parts robot goes back to initial location
 	
 	//kitrobot logic to display commands
 	

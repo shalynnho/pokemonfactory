@@ -7,16 +7,12 @@ import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
 
-import factory.data.Kit;
+//import factory.data.Kit;
 import factory.data.Part;
 
-/**
- * The parts robot will be used to move 
- * @author vanshjain
- *
- */
 
-public class PartsRobotGraphics {
+
+public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterfaces.PartsRobotGraphics  {
 
 	Location initialLocation; // initial location of robot
 	Location currentLocation; // current location of robot
@@ -52,12 +48,13 @@ public class PartsRobotGraphics {
 		nest2 = true;
 		server.sendData(new Request(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
 	}
-	public void pickUpPart(Part part, Location location){
-		currentLocation = location;
+	public void pickUpPart(Part part){
+		//currentLocation = location;
 		//Animation(currentLocation, 10);
 		PartGraphics pg = part.part;
 		partArray.add(pg);
 		rotateArm();
+		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
 		/**
 		 * pickup from nests
 		 * goes to a location to pick up a part
@@ -65,16 +62,23 @@ public class PartsRobotGraphics {
 		 */
 	}
 	
-	public void givePartToKit(Kit k){
+	public void pickUpPart(PartGraphics pg) {
+		// TODO Auto-generated method stub
+		partArray.add(pg);
+		//pg.setLocation()
+	}
+	
+	/*public void givePartToKit(Kit k){
 		//Animation(k.location, 10);
 		partArray.remove(i-1);
 		derotateArm();
+		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
 		/**
 		 * gives the part to the kit
 		 * goes to a location to give a part
 		 * puts part in a specific location inside the kit
-		 */
-	}
+		 
+	}*/
 	
 	public void rotateArm(){
 		if (!isFullArm1())
@@ -86,6 +90,7 @@ public class PartsRobotGraphics {
 		else if (!isFullArm4())
 			arm4 = true;
 		i++;
+		
 		/**
 		 * rotates the arm
 		 */
@@ -143,6 +148,8 @@ public class PartsRobotGraphics {
 		 * makes sure that the robot doesn't collide
 		 * then send message that the action has been performed(either part is picked up or it's given to a kit)
 		 */
+		System.out.println("gohome");
+		server.sendData(new Request(Constants.PARTS_ROBOT_GO_HOME_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
 	}
 	
 	public Location getLocation(){
@@ -154,10 +161,27 @@ public class PartsRobotGraphics {
 	
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND)){
+			System.out.println("got to NEST1");
 			goToNest1();
+			//System.out.println("got to NEST1");
 		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND)){
 			goToNest2();
+		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_PICKUP_COMMAND)){
+			//pickUpPart();
+		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND)){
+			//givePartToKit();
+		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GO_HOME_COMMAND)){
+			goHome();
+			System.out.println("gohome");
 		}
 	}
+
+	
+
+	@Override
+	public void givePartToKit(KitGraphics kit) {
+		// TODO Auto-generated method stub
+		
+	}	
 	
 }

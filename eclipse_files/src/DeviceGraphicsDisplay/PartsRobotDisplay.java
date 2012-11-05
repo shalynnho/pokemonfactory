@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
+import factory.data.PartType;
+
 import Networking.*;
 import Utils.Constants;
 import Utils.Location;
@@ -15,6 +17,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
 	private static Image partsRobotImage;
 	private static Image armImage;
+	
 	
 	private ArrayList<PartGraphicsDisplay> partArrayGraphics;
 	
@@ -33,6 +36,9 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
 	private boolean rotate;
 	private boolean nest1, nest2;
+	private boolean arm1, arm2, arm3, arm4;
+	
+	private Location partStartLoc1,partStartLoc2,partStartLoc3,partStartLoc4;
 	
 	public PartsRobotDisplay(Client prc, Location loc){
 		partsRobotClient = prc;
@@ -56,18 +62,41 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		rotate = false;
 		nest1 = false;
 		nest2 = false;
+		
+		partStartLoc1 = new Location(325,495);
+		partStartLoc2 = new Location(286,450);
+		partStartLoc3 = new Location(250,495);
+		partStartLoc4 = new Location(286,540);
+		
+		arm1 = false;
+		arm2 = false;
+		arm3 = false;
+		arm4 = false;
+				
 	}
 	
 	public void draw(JComponent c, Graphics2D g){
 		if(nest1){
-			//for (i=0;i<95;i++)
-			g.drawImage(partsRobotImage, 300, 300, c);
+			int i;
+			for (i=0;i<10;i++)
+			g.drawImage(partsRobotImage, initialLocation.getX()+i, initialLocation.getY(), c);
+			int j;
+			for (j=0;j<10;j++)
+				g.drawImage(partsRobotImage, initialLocation.getX(), initialLocation.getY()+j, c);
 		}
 		else if(nest2){
-			//g.drawImage(partsRobotImage, 340, 300, c);
+			g.drawImage(partsRobotImage, 340, 300, c);
 		}else if(!nest1 && !nest2){
 			g.drawImage(partsRobotImage, initialLocation.getX(), initialLocation.getY(), c);
 		}
+		
+		for (int i = 0; i < partArrayGraphics.size(); i++){
+			PartGraphicsDisplay pgd = partArrayGraphics.get(i);
+			pgd.draw(c, g );
+		}
+			
+		
+		
 		/*AffineTransform originalTransform = g.getTransform();
 		if(getRotate()){
 			
@@ -89,10 +118,23 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		
 	}
 	
-
+	public void goHome(){
+		nest1 = false;
+		nest2 = false;
+	}
 	
-	public void pickUpPart(PartGraphicsDisplay pgd){
-		partArrayGraphics.add(pgd);
+	public void pickUpPart(){
+		//partArrayGraphics.add(pgd);
+		if (!arm1)
+			arm1 = true;
+		else if (!arm2)
+			arm2 = true;
+		else if (!arm3)
+			arm3 = true;
+		else if (!arm4)
+			arm4 = true;
+		else
+			System.out.println("Can't pick up more parts.");
 	}
 	
 	/*public void givePartToKit(PartGraphicsDisplay part){
@@ -117,8 +159,25 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	public void receiveData(Request r) {
 		if (r.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND)) {
 			goToNest1();
+			System.out.println("got to nest1");
 		} else if (r.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND)) {
 			goToNest2();
+		} else if (r.getCommand().equals(Constants.PARTS_ROBOT_GO_HOME_COMMAND)){
+			goHome();
+			System.out.println("GOHOME");
+		} else if (r.getCommand().equals(Constants.PARTS_ROBOT_PICKUP_COMMAND)){
+			pickUpPart();
+			PartType partType = (PartType) r.getData();
+			PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
+			if(arm1)
+				pgd.setLocation(partStartLoc1);
+			else if (arm2)
+				pgd.setLocation(partStartLoc2);
+			else if (arm3)
+				pgd.setLocation(partStartLoc3);
+			else if (arm4)
+				pgd.setLocation(partStartLoc4);
+			partArrayGraphics.add(pgd);
 		}
 	}
 
