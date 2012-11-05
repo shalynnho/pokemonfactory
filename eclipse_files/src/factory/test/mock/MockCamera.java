@@ -2,9 +2,9 @@ package factory.test.mock;
 
 import java.util.List;
 
-import DeviceGraphics.PartGraphics;
 import factory.NestAgent;
 import factory.data.Kit;
+import factory.data.Part;
 import factory.interfaces.Camera;
 import factory.interfaces.Nest;
 
@@ -34,21 +34,21 @@ public class MockCamera extends MockAgent implements Camera {
 	}
 
 	@Override
-	public void msgTakePictureNestDone(List<PartGraphics> parts, NestAgent nest) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void msgTakePictureKitDone(boolean done) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void msgTakePictureNestDone(List<Part> parts, Nest nest) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgTakePictureKitDone(Kit kit, boolean done) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -57,7 +57,7 @@ public class LaneGraphics extends DeviceGraphics implements
 		nest = n;
 
 		partsOnLane = new ArrayList<PartGraphics>();
-		amplitude = 1; // WHAT IS DEFAULT AMP??????, also must set parameters
+		amplitude = 5; // WHAT IS DEFAULT AMP??????, also must set parameters
 						// for amp
 		laneOn = true;
 	}

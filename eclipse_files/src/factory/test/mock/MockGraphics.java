@@ -36,6 +36,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		LaneGraphics, NestGraphics, PartsRobotGraphics {
 
 	Timer timer;
+	String name;
 
 	// Agents
 	CameraAgent camera;
@@ -54,9 +55,11 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public MockGraphics(String name) {
 		super();
 
+		timer = new Timer();
+		this.name = name;
 		// Set server to null
-		// kitrobotgraphics = new DeviceGraphics.KitRobotGraphics(null);
 		conveyorgraphics = new DeviceGraphics.ConveyorGraphics(null);
+
 		camera = new CameraAgent();
 		conveyor = new ConveyorAgent("conveyor");
 		feeder = new FeederAgent("feeder");
@@ -64,7 +67,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		kitrobot = new KitRobotAgent("kitrobot");
 		lane = new LaneAgent("lane");
 		nest = new NestAgent("nest");
-		partsrobot = new PartsRobotAgent();
+		// partsrobot = new PartsRobotAgent();
 
 		camera.startThread();
 		conveyor.startThread();
@@ -73,7 +76,9 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		kitrobot.startThread();
 		lane.startThread();
 		nest.startThread();
-		partsrobot.startThread();
+		// partsrobot.startThread();
+		// kitrobotgraphics = new DeviceGraphics.KitRobotGraphics(null);
+
 	}
 
 	@Override
@@ -100,7 +105,6 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	}
 
-
 	@Override
 	public void purge() {
 		// TODO Auto-generated method stub
@@ -109,49 +113,43 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	@Override
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
-		System.out
-				.println("KitRobotGraphics received message msgPlaceKitOnStand");
+		print("KitRobotGraphics received message msgPlaceKitOnStand");
 		timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
-				System.out
-						.println("KitRobotGraphics sending message msgPlaceKitOnStandDone() to KitRobot after 3000ms");
+				print("KitRobotGraphics sending message msgPlaceKitOnStandDone() to KitRobot after 100ms");
 				kitrobot.msgPlaceKitOnStandDone();
 			}
-		}, 3000);
+		}, 100);
 
 	}
 
 	@Override
 	public void msgPlaceKitInInspectionArea(KitGraphics kit) {
-		System.out
-				.println("KitRobotGraphics received message placeKitInInspectionArea");
+		print("KitRobotGraphics received message placeKitInInspectionArea");
 		timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
-				System.out
-						.println("KitRobotGraphics sending message placeKitInInspectionAreaDone() to KitRobot after 3000ms");
-				kitrobot.msgPlaceKitOnStandDone();
+				print("KitRobotGraphics sending message placeKitInInspectionAreaDone() to KitRobot after 100ms");
+				kitrobot.msgPlaceKitInInspectionAreaDone();
 			}
-		}, 3000);
+		}, 100);
 	}
 
 	@Override
 	public void msgPlaceKitOnConveyor() {
-		System.out
-				.println("KitRobotGraphics received message msgPlaceKitOnConveyor");
+		print("KitRobotGraphics received message msgPlaceKitOnConveyor");
 
 		timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
-				System.out
-						.println("KitRobotGraphics sending message placeKitOnConveyorDone() to KitRobot after 3000ms");
-				kitrobot.msgPlaceKitOnStandDone();
+				print("KitRobotGraphics sending message placeKitOnConveyorDone() to KitRobot after 100ms");
+				kitrobot.msgPlaceKitOnConveyorDone();
 			}
-		}, 3000);
+		}, 100);
 	}
 
 	@Override
@@ -198,25 +196,46 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	@Override
 	public void msgBringEmptyKit(KitGraphics kit) {
-		// TODO Auto-generated method stub
+		print("ConveyorGraphics received message msgBringEmptyKit");
+
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				print("ConveyorGraphics sending message msgBringEmptyKitDone() to conveyor after 100ms");
+				conveyor.msgBringEmptyKitDone();
+			}
+		}, 100);
 
 	}
 
 	@Override
 	public void msgGiveKitToKitRobot(KitGraphics kit) {
-		// TODO Auto-generated method stub
+		print("ConveyorGraphics received message msgGiveKitToKitRobot");
+
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				print("ConveyorGraphics sending message msgGiveKitToKitRobotDone() to conveyor after 100ms");
+				conveyor.msgGiveKitToKitRobotDone();
+			}
+		}, 100);
 
 	}
 
 	@Override
 	public void msgReceiveKit(KitGraphics kit) {
-		// TODO Auto-generated method stub
+		print("ConveyorGraphics received message msgReceiveKit");
 
-	}
+		timer.schedule(new TimerTask() {
 
-	@Override
-	public void takeNestPhoto(NestGraphics nest1, NestGraphics nest2) {
-		// TODO Auto-generated method stub
+			@Override
+			public void run() {
+				print("ConveyorGraphics sending message msgReceiveKitDone() to conveyor after 100ms");
+				conveyor.msgReceiveKitDone();
+			}
+		}, 100);
 
 	}
 
@@ -319,13 +338,24 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	@Override
 	public void receivePart(Part part) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void givePartToNest(Part part) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void takeNestPhoto(NestGraphics nest1) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -1,10 +1,10 @@
 package Utils;
 
 public class Location {
-	private int x;
-	private int y;
+	private double x;
+	private double y;
 	
-	public Location(int newX, int newY) {
+	public Location(double newX, double newY) {
 		x = newX;
 		y = newY;
 	}
@@ -17,17 +17,25 @@ public class Location {
 	}
 	
 	public int getX() {
-		return x;
+		return (int) x;
 	}
 	
 	public int getY() {
+		return (int) y;
+	}
+	
+	public double getXDouble() {
+		return x;
+	}
+	
+	public double getYDouble() {
 		return y;
 	}
 	
 	/**
 	 * Call this with no params to increment x by 1. Returns x after increment.
 	 */
-	public int incrementX() {
+	public double incrementX() {
 		incrementX(1);
 		return x;
 	}
@@ -35,15 +43,15 @@ public class Location {
 	/**
 	 * Specify how much to increase to x. Can be negative. Returns x after increment. 
 	 */
-	public int incrementX(int toAdd) {
-		incrementX(toAdd);
+	public double incrementX(double toAdd) {
+		x += toAdd;
 		return x;
 	}
 	
 	/**
 	 * Call this with no params to increment y by 1. Returns y after increment.
 	 */
-	public int incrementY() {
+	public double incrementY() {
 		incrementY(1);
 		return y;
 	}
@@ -51,16 +59,20 @@ public class Location {
 	/**
 	 * Specify how much to increase to y. Can be negative. Returns y after increment. 
 	 */
-	public int incrementY(int toAdd) {
-		incrementY(toAdd);
+	public double incrementY(double toAdd) {
+		y += toAdd;
 		return y;
 	}
 	
-	public void setX(int newX) {
+	public void setX(double newX) {
 		x = newX;
 	}
 	
-	public void setY(int newY) {
+	public void setY(double newY) {
 		y = newY;
+	}
+	
+	public boolean equals(Location otherLoc) {
+		return x == otherLoc.getX() && y == otherLoc.getY(); 
 	}
 }

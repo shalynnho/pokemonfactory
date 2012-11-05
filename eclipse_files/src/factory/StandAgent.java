@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.TreeMap;
 
 import agent.Agent;
 import factory.data.Kit;
@@ -32,7 +35,16 @@ public class StandAgent extends Agent implements Stand {
 			.synchronizedMap(new HashMap<MyKit, Integer>());
 
 	private int numKitsToMake;
+	private boolean start;
+	private int incomingKits;
+	private final Timer timer;
 
+	// Tracks stand positions and whether or not they are open (false indicates
+	// 'not occupied')
+	// Note that this is the inverse of what the KitRobot uses in its
+	// standPositions
+	private final Map<Integer, Boolean> standPositions = Collections
+			.synchronizedMap(new TreeMap<Integer, Boolean>());
 	private final List<Kit> kitsOnStand = Collections
 			.synchronizedList(new ArrayList<Kit>());
 
@@ -63,8 +75,16 @@ public class StandAgent extends Agent implements Stand {
 
 		this.name = name;
 		numKitsToMake = 0;
+		start = false;
+		incomingKits = 0;
 		kitsOnStand.add(null);
 		kitsOnStand.add(null);
+		kitsOnStand.add(null);
+
+		// What about inspection location?
+		standPositions.put(1, false);
+		standPositions.put(2, false);
+		timer = new Timer();
 	}
 
 	/*
@@ -73,22 +93,25 @@ public class StandAgent extends Agent implements Stand {
 
 	@Override
 	public void msgMakeKits(int numKits) {
+		print("Received msgMakeKits");
 		numKitsToMake = numKits;
+		start = true;
 		stateChanged();
 	}
 
 	@Override
 	public void msgHereIsKit(Kit k, int destination) {
+		print("Received msgHereIsKit with destination " + destination);
 		myKits.put(new MyKit(k), destination);
 		stateChanged();
 	}
 
 	@Override
 	public void msgKitAssembled(Kit k) {
+		print("Received msgKitAssembled");
 		for (MyKit mk : myKits.keySet()) {
-			if (mk.kit == kitsOnStand.get(0)) {
+			if (mk.kit == k) {
 				mk.KS = KitStatus.Assembled;
-				numKitsToMake--;
 				break;
 			}
 		}
@@ -96,10 +119,21 @@ public class StandAgent extends Agent implements Stand {
 	}
 
 	@Override
+	public void msgMovedToInspectionArea(Kit k, int oldLocation) {
+		print("Received msgMovedToInspectionArea");
+		standPositions.put(oldLocation, false);
+		kitsOnStand.set(0, k);
+		stateChanged();
+	}
+
+	@Override
 	public void msgShippedKit() {
+		print("Received msgShippedKit");
 		for (MyKit mk : myKits.keySet()) {
 			if (mk.kit == kitsOnStand.get(0)) {
 				mk.KS = KitStatus.Shipped;
+				numKitsToMake--;
+				print(numKitsToMake + " kits left to make");
 				break;
 			}
 		}
@@ -112,45 +146,50 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		synchronized (myKits) {
-			// Received a kit from kit robot
-			for (MyKit mk : myKits.keySet()) {
-				if (mk.KS == KitStatus.Received) {
-					placeKit(mk.kit);
+
+		if (numKitsToMake > 0) {
+			synchronized (myKits) {
+				// Received a kit from kit robot
+				for (MyKit mk : myKits.keySet()) {
+					if (mk.KS == KitStatus.Received) {
+						placeKit(mk.kit);
+						return true;
+					}
+				}
+
+				// Kit robot shipped a kit
+				for (MyKit mk : myKits.keySet()) {
+					if (mk.KS == KitStatus.Shipped) {
+						kitsOnStand.set(0, null);
+						myKits.remove(mk);
+						return true;
+					}
+				}
+			}
+
+			synchronized (kitsOnStand) {
+				// Stand has an empty position (does not check the inspection
+				// area
+				// of the stand)
+				if (standPositions.get(1) == false
+						|| standPositions.get(2) == false) {
+					int loc;
+					requestKit(loc = standPositions.get(1) == false ? 1 : 2);
+					print("I'm requesting a new kit at position " + loc);
 					return true;
 				}
 			}
 
-			// Kit robot shipped a kit
-			for (MyKit mk : myKits.keySet()) {
-				if (mk.KS == KitStatus.Shipped) {
-					kitsOnStand.remove(mk.kit);
-					myKits.remove(mk);
-					return true;
+			synchronized (myKits) {
+				// Kit needs to be inspected
+				for (MyKit mk : myKits.keySet()) {
+					if (mk.KS == KitStatus.Assembled) {
+						requestInspection(mk);
+						return true;
+					}
 				}
 			}
-		}
-
-		synchronized (kitsOnStand) {
-			// Stand has an empty position (does not check the inspection area
-			// of the stand)
-			if (kitsOnStand.get(1) == null || kitsOnStand.get(2) == null) {
-				requestKit(kitsOnStand.get(1) == null ? 1 : 2);
-				return true;
-			}
-		}
-
-		synchronized (myKits) {
-			// Kit needs to be inspected
-			for (MyKit mk : myKits.keySet()) {
-				if (mk.KS == KitStatus.Assembled) {
-					requestInspection(mk.kit);
-					return true;
-				}
-			}
-		}
-
-		if (numKitsToMake < 1) {
+		} else if (start) {
 			finalizeOrder();
 		}
 
@@ -172,6 +211,7 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	private void requestKit(int index) {
 		kitrobot.msgNeedKit(index);
+		standPositions.put(index, true);
 		stateChanged();
 	}
 
@@ -179,18 +219,31 @@ public class StandAgent extends Agent implements Stand {
 	 * Places a kit into the list of kits on the stand
 	 * @param k the kit being placed
 	 */
-	private void placeKit(Kit k) {
-		int spot = myKits.get(k);
+	private void placeKit(final Kit k) {
+		int spot = 5;
+		incomingKits--;
 
 		for (MyKit mk : myKits.keySet()) {
 			if (mk.kit == k) {
 				mk.KS = KitStatus.PlacedOnStand;
+				spot = myKits.get(mk);
+				print("Found a spot at " + spot);
 				break;
 			}
 		}
 
 		kitsOnStand.set(spot, k);
-		partsrobot.msgUseThisKit(k);
+		// partsrobot.msgUseThisKit(k); THIS DOESN'T WORK YET
+
+		// For testing, assume parts robot finishes after 1s
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				print("Faking partsrobot finishing kit assembly");
+				msgKitAssembled(k);
+			}
+		}, 1000);
 		stateChanged();
 	}
 
@@ -198,8 +251,9 @@ public class StandAgent extends Agent implements Stand {
 	 * Requests inspection of an assembled kit.
 	 * @param k the kit to be inspected.
 	 */
-	private void requestInspection(Kit k) {
-		kitrobot.msgMoveKitToInspectionArea(k);
+	private void requestInspection(MyKit mk) {
+		mk.KS = KitStatus.AwaitingInspection;
+		kitrobot.msgMoveKitToInspectionArea(mk.kit);
 		stateChanged();
 	}
 
@@ -208,7 +262,10 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	private void finalizeOrder() {
 		fcs.msgOrderFinished();
-
+		start = false;
+		System.out.println("====================");
+		print("I FINISHED HURRAY");
+		System.out.println("====================");
 		// No need to call stateChanged() here as presumably the kitting cell is
 		// idle (i.e., no queued orders)
 	}
@@ -238,5 +295,10 @@ public class StandAgent extends Agent implements Stand {
 	public void setFCS(FCSAgent fcs) {
 		this.fcs = fcs;
 		stateChanged();
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 }

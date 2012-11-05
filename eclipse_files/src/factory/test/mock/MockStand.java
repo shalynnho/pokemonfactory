@@ -46,4 +46,10 @@ public class MockStand extends MockAgent implements Stand {
 		return false;
 	}
 
+	@Override
+	public void msgMovedToInspectionArea(Kit k, int oldLocation) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
