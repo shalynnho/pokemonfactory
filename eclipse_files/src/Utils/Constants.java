@@ -111,7 +111,7 @@ public abstract class Constants {
 	public static final String PARTS_ROBOT_PICKUP_COMMAND = "pickup"; //pick up part
 	public static final String PARTS_ROBOT_GIVE_COMMAND = "give"; //give part to kit
 	public static final String PARTS_ROBOT_GO_HOME_COMMAND ="gohome"; //parts robot goes back to initial location
-	
+	public static final String PARTS_ROBOT_GO_KIT_COMMAND = "gokit"; //go to kit
 	//kitrobot logic to display commands
 	
 	// CLIENT NAMES

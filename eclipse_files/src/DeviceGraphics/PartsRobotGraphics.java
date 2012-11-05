@@ -61,7 +61,10 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 		 * be able to hold 4 parts at a time
 		 */
 	}
-	
+	public void pickUpPart(){
+		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
+		System.out.println("pickup");
+	}
 	public void pickUpPart(PartGraphics pg) {
 		// TODO Auto-generated method stub
 		partArray.add(pg);
@@ -79,6 +82,11 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 		 * puts part in a specific location inside the kit
 		 
 	}*/
+	
+	public void givesPartToKit(){
+		System.out.println("kit");
+	server.sendData(new Request(Constants.PARTS_ROBOT_GO_KIT_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
+	}
 	
 	public void rotateArm(){
 		if (!isFullArm1())
@@ -167,9 +175,10 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND)){
 			goToNest2();
 		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_PICKUP_COMMAND)){
-			//pickUpPart();
-		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND)){
-			//givePartToKit();
+			pickUpPart();
+		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GO_KIT_COMMAND)){
+			givesPartToKit();
+			System.out.println("gives part to kit");
 		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GO_HOME_COMMAND)){
 			goHome();
 			System.out.println("gohome");
@@ -177,7 +186,7 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 	}
 
 	
-
+	
 	@Override
 	public void givePartToKit(KitGraphics kit) {
 		// TODO Auto-generated method stub

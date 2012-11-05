@@ -59,6 +59,10 @@ public class PartsRobotManager extends Client implements ActionListener{
 		gohome.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_GO_HOME_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
 		panel.add(gohome);
 		
+		JButton gokit = new JButton("Go Kit");
+		gokit.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_GO_KIT_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
+		panel.add(gokit);
+		
 		JButton pickup = new JButton("Pick Up");
 		pickup.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
 		panel.add(pickup);

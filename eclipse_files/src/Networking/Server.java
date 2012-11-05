@@ -69,6 +69,7 @@ public class Server {
 		devices.put(Constants.FEEDER_TARGET, new FeederGraphics(0, this));
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this));
 		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this));
+		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this) );
 	}
 	
 	/**
@@ -136,7 +137,7 @@ public class Server {
 			sendDataToLane(req);
 		} else if (target.contains(Constants.FEEDER_TARGET)) {
 			sendDataToLane(req);
-		}
+		} 
 	}
 	
 	private void sendDataToConveyor(Request req) {
