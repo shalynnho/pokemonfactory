@@ -93,7 +93,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 * @param pg
 	 */
 	public void movePartToDiverter(PartGraphics pg) {
-		server.sendData(new Request(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND, Constants.FEEDER_TARGET, null));
+		server.sendData(new Request(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND, Constants.FEEDER_TARGET, pg.getPartType()));
 	}
 	
 	/**
@@ -113,7 +113,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 * This function flips the diverter.
 	 */
 	public void flipDiverter() {
-		diverterTop = !diverterTop; 
+		diverterTop = !diverterTop;
 		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET, null));
 	}
 
@@ -133,7 +133,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 			
 			movePartToDiverter(part);
 		} else if (req.getCommand().equals("feedlane")) {
-			partList.remove(0);
+			// partList.remove(0);
 			
 		}
 	}
