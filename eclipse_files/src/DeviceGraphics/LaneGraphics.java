@@ -1,7 +1,6 @@
 package DeviceGraphics;
 
 import Networking.*;
-import GraphicsInterfaces.*;
 import Utils.*;
 import factory.data.*;
 
@@ -17,14 +16,6 @@ public class LaneGraphics extends DeviceGraphics implements
 		GraphicsInterfaces.LaneGraphics {
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS = 8;
-	// start and end x-coordinates of Part on the Lane
-	private static final int LANE_BEG_X = 650;
-	private static final int LANE_END_X = 450;
-	// horizontal length of the Lane image
-	private static final int LANE_LENGTH = 200;
-	
-	// width and height of the part
-	private static final int PART_WIDTH = 20, PART_HEIGHT = 20;
 
 	// start location of the part
 	private Location startLoc;
@@ -57,8 +48,7 @@ public class LaneGraphics extends DeviceGraphics implements
 //		nest = n;
 
 		partsOnLane = new ArrayList<PartGraphics>();
-		amplitude = 5; // WHAT IS DEFAULT AMP??????, also must set parameters
-						// for amp
+		amplitude = 5;
 		laneOn = true;
 	}
 
@@ -146,7 +136,7 @@ public class LaneGraphics extends DeviceGraphics implements
 		// must parse data request here
 		// if-else for every possible command
 	
-		// We want confirmation from Display each time an animation is
+		// TODO: We want confirmation from Display each time an animation is
 		// completed.
 		
 		if (cmd.equals(Constants.LANE_RECEIVE_PART)) {	// testing purposes only, remove later

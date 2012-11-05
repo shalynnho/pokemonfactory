@@ -28,7 +28,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int LANE_BEG_X = 599;
 	private static final int LANE_END_X = 199;
 	// width and height of the part
-	private static final int PART_WIDTH = 20, PART_HEIGHT = 20;
+	private static final int PART_WIDTH = 20;
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
 	// space in between lane lines (from upper left to upper left)
@@ -37,6 +37,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int LINE_WIDTH = 3;
 	
 	// y-coordinates of Part on Lane, depending on laneID
+	// TODO: ADJUST THESE LATER. NOT FOR V0, NOT IN DESIGN
 	private static final int LANE0_Y = 500;
 	private static final int LANE1_Y = 450;
 	private static final int LANE2_Y = 400;
@@ -49,8 +50,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// stores static ImageIcon emptyLane1, emptyLane2
 	private static Image laneImg;
 	private static Image laneLine;
-
-
+	
 	// stores the parts on the lane
 	private ArrayList<PartGraphicsDisplay> partsOnLane;
 
@@ -72,17 +72,22 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// counter
 	private int counter = 0;
 
+	/**
+	 * Constructor
+	 * @param lm - lane manager
+	 * @param lid - lane id
+	 */
 	public LaneGraphicsDisplay(Client lm, int lid) {
 		laneManager = lm;
 		laneID = lid;
 
-		// TODO: load empty lane images, add to array list (get image from
-		// CONSTANTS when added)
+		// load lane images, add to array list
 		laneImg = Toolkit.getDefaultToolkit().getImage("src/images/lane.png");
 		laneLine = Toolkit.getDefaultToolkit().getImage("src/images/laneline.png");
 
-
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
+		
+		// set start locations
 		setLaneLoc(laneID);
 		partStartLoc = new Location(LANE_BEG_X, laneLoc.getY()
 				+ (PART_WIDTH / 2));
@@ -92,6 +97,12 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 	}
 
+	/**
+	 * Constructor for V0 - testing 
+	 * @param lm - lane manager
+	 * @param loc - location of the lane
+	 * @param lid - lane id
+	 */
 	public LaneGraphicsDisplay(Client lm, Location loc, int lid) {
 		laneManager = lm;
 		laneLoc = loc;
@@ -105,25 +116,29 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
 		partStartLoc = new Location(laneLoc.getX() + LANE_LENGTH, laneLoc.getY()
 				+ (PART_WIDTH / 2));
-		System.out.println("partStartLoc x: "+partStartLoc.getX()+", y: "+partStartLoc.getY());
 
 		// create array list of location for lane lines
 		resetLaneLineLocs();
 	}
 
+	/**
+	 * draw method
+	 * @param c - component on which this is drawn
+	 * @param g - the graphics component on which this draws
+	 */
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
 		if (laneOn) {
 			// need image(s) of lane and/or lane lines?
 			g.drawImage(laneImg, laneLoc.getX(), laneLoc.getY(), c);
 
-			// TODO: animate lane movements, using lines??
+			// animate lane movements using lines
 			for(int i = 0; i < laneLines.size(); i++){
 				g.drawImage(laneLine, laneLines.get(i).getX(), laneLines.get(i).getY(), c);
 			}
 			laneMove();
 
-			// TODO: animate parts moving down lane
+			// animate parts moving down lane
 			if (partsOnLane != null) {
 				int min = (MAX_PARTS < partsOnLane.size()) ? MAX_PARTS
 						: partsOnLane.size(); // whichever is less
@@ -147,7 +162,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					}
 					vibrateParts(counter, loc);
 					pgd.setLocation(loc);
-					pgd.draw(c,g); //TODO: remove later, for v0 testing purposes only
+					pgd.draw(c,g); //TODO: remove later, for v0 only
 				}
 			}
 		} else { // lane is off
@@ -155,20 +170,23 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 
+	/**
+	 * Give parts to nest
+	 */
 	public void givePartToNest() {
 		partsOnLane.remove(0);
 	}
 
 	/**
-	 * 
+	 * Purge lane
 	 */
 	public void purge() {
 		// lane should continue as is
 	}
 
 	/**
-	 * 
-	 * @param r
+	 * Receives data from the server
+	 * @param r -  the request to be parsed
 	 */
 	public void receiveData(Request r) {
 		String cmd = r.getCommand();
@@ -190,7 +208,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (cmd.equals(Constants.LANE_SET_STARTLOC_COMMAND)) {
 			laneLoc = (Location) r.getData();
 		} else if (cmd.equals(Constants.LANE_NEW_PART_COMMAND)) {
-			// TODO:
 			PartType partType = (PartType) r.getData();
 			PartGraphicsDisplay pg = new PartGraphicsDisplay(partType);
 			Location newLoc = new Location(laneLoc.getX() + LANE_LENGTH, laneLoc.getY()
@@ -207,26 +224,32 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * 
-	 * @param amp
+	 * Set amplitude of this lane
+	 * @param amp - the amplitude
 	 */
 	public void setAmplitude(int amp) {
 		amplitude = amp;
 	}
 
+	/**
+	 * Set location of this lane
+	 */
 	@Override
 	public void setLocation(Location newLocation) {
 		laneLoc = newLocation;
 	}
 	
 	/**
-	 * 
-	 * @param on
+	 * On/Off switch
+	 * @param on - true if lane is on
 	 */
 	public void toggleSwitch(boolean on) {
 		laneOn = on;
 	}
 
+	/**
+	 * animates the lane lines
+	 */
 	private void laneMove() {
 		counter++;
 		if (counter % (PART_WIDTH/amplitude) == 0) {	// reset lane lines
@@ -240,20 +263,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * 
+	 * sets lane location
+	 * @param id - id of this lane
 	 */
-	private void lineUpParts() {
-		// depends on if we're moving parts in logic or display side
-	
-	}
-
-	/**
-	 * 
-	 */
-	private void movePartDownLane() {
-		// depends on if we're moving parts in logic or display side
-	}
-
 	private void setLaneLoc(int id) {
 
 		switch (id) {
@@ -286,6 +298,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 
+	/**
+	 * resets lane lines, animation
+	 */
 	private void resetLaneLineLocs() {
 		// create array list of location for lane lines
 		laneLines = new ArrayList<Location>();
@@ -298,6 +313,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	/**
 	 * change y-coords to show vibration down lane (may have to adjust values)
+	 * @param i - counter, increments every call to draw
+	 * @param loc - location of the current part
 	 */
 	private void vibrateParts(int i, Location loc) {
 		// to show vibration down lane (may have to adjust values)
