@@ -19,7 +19,7 @@ import factory.data.PartType;
 import factory.test.mock.MockAgent;
 import junit.framework.TestCase;
 
-public class v0GantryFeederLaneNestNormativeScenario extends TestCase {
+public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 
 	static GantryAgent gantry;
 	static FeederAgent feeder;
