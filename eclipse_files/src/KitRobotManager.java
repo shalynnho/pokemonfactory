@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
@@ -25,13 +26,16 @@ public class KitRobotManager extends Client implements ActionListener{
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
 	
+	private Timer timer;
+	
 	public KitRobotManager() {
 		clientName = Constants.KIT_ROBOT_MNGR_CLIENT;
 		
-		// initStreams();
+		initStreams();
 		initGUI();
 	
-		new javax.swing.Timer(20,this).start();
+		timer = new Timer(Constants.TIMER_DELAY,this);
+		timer.start();
 		
 		initDevices();
 	}
@@ -49,11 +53,9 @@ public class KitRobotManager extends Client implements ActionListener{
 		add(panel, BorderLayout.SOUTH);
 		panel.setVisible(true);
 		
-		//unable to do test of NetworkingButtonListener
-		
-		/*JButton stop = new JButton("Stop");
-		stop.addActionListener(new NetworkingButtonListener("stop button", Constants.SERVER_TARGET, writer));
-		panel.add(stop);*/   
+		JButton newKit = new JButton("New Kit");
+		newKit.addActionListener(new NetworkingButtonListener(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, writer));
+		panel.add(newKit);  
 	}
 	
 	public void initDevices() {
@@ -62,6 +64,7 @@ public class KitRobotManager extends Client implements ActionListener{
 	
 	@Override
 	public void receiveData(Request req) {
+		devices.get(req.getTarget()).receiveData(req);
 	}
 
 	public static void main(String[] args) {

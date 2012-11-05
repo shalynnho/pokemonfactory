@@ -35,7 +35,7 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 	public void giveKitToKitRobot(KitGraphics kg){
 		
 		//sending the kit to be taken away to KitRobotGraphics
-		server.sendData(new Request("Kit Robot Take Kit", Constants.KIT_ROBOT_TARGET, kg));  //temporary command name until Kit Robot finalized
+		server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.KIT_ROBOT_TARGET, null));  //temporary command name until Kit Robot finalized
 		kitsOnConveyor.remove(kg);
 	} 
 
@@ -69,14 +69,13 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 					KitGraphics kg = (KitGraphics)object;
 					receiveKit(kg);
 				}
-			}
-			
-			else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
+			} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
 				//need to somehow send an integer to change the velocity
-			}
-			
-			else if (command.equals(Constants.CONVEYOR_SEND_ANIMATION_COMMAND)) {
+			} else if (command.equals(Constants.CONVEYOR_SEND_ANIMATION_COMMAND)) {
 				//still not quite sure how to implement this yet
+			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
+				bringEmptyKit(new KitGraphics());
+				server.sendData(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
 			}
 		}
 	}

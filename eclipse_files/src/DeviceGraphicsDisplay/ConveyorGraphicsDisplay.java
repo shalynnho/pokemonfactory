@@ -21,6 +21,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	Location location;
 	ArrayList<Location> conveyorLines;
+	ArrayList<KitGraphicsDisplay> kitsOnConveyor;
 	int velocity;
 	Client client;
 	
@@ -33,10 +34,17 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			conveyorLines.add(new Location(location.getX(), i*40));   //creating an array list of conveyor line locations for painting
 		}
 		velocity = 1;
+		kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
 	}
 	
 	public void setLocation(Location newLocation) {
 		location = newLocation;		
+	}
+	
+	public void newKit() {
+			KitGraphicsDisplay temp = new KitGraphicsDisplay();
+			temp.setLocation(new Location(0,0));
+			kitsOnConveyor.add(temp);
 	}
 	
 	public void draw(JComponent c, Graphics2D g2){
@@ -44,6 +52,13 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		for(int i = 0; i < conveyorLines.size(); i++){
 			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i).getX(), conveyorLines.get(i).getY(), c);
 			conveyorMove(i);
+		}
+		
+		for(int j = 0; j < kitsOnConveyor.size(); j++) {
+			KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
+			tempKit.draw(c,g2);
+			Location temp = tempKit.kitLocation;
+			tempKit.setLocation(new Location(temp.getX(), temp.getY() + velocity));
 		}
 	}
 	
@@ -53,10 +68,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param i
 	 */
 	public void conveyorMove(int i) {
-		if(conveyorLines.get(i).getY() < 383){                                  //if bottom of black conveyor line is less than this y position
+		if(conveyorLines.get(i).getY() < 380){                                  //if bottom of black conveyor line is less than this y position
 			conveyorLines.get(i).setY(conveyorLines.get(i).getY() + velocity);  //when a conveyor is done being painted, move the location for next repaint
 		    }
-			else if(conveyorLines.get(i).getY() >= 383){                        //if bottom of black conveyor line is greater than or equal to this y position
+			else if(conveyorLines.get(i).getY() >= 380){                        //if bottom of black conveyor line is greater than or equal to this y position
 				conveyorLines.get(i).setY(0);
 			}
 	}
@@ -83,21 +98,12 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 					velocity = 0;                                             // conveyor stops for kit pick up
 				}                                                             // Kit robot should look for KIT location, not some point on conveyor             
 			}
-		}
-		
-		else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
+		} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
+			newKit();
+		} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
 			//must take in int somehow
-		}
-		
-		else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
-			if(object != null) {
-				KitGraphicsDisplay kgd = (KitGraphicsDisplay)object;
-				kgd.setLocation(new Location(0,300));
-				
-				// NOTE: eventually need to make a function for conveyorgraphics display or kitgraphics display
-				//       that tells the server or relevant party that a kit has left the factory so conveyor
-				//       can get rid of the reference.
-			}
+		} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
+			//make this later
 		}
 	}
 }
