@@ -20,7 +20,7 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 	
 	public KitRobotGraphics(Server s)
 	{
-		
+		//qw
 		positions=new KitGraphics[4];
 		
 		for(int i=0; i<4; i++)
