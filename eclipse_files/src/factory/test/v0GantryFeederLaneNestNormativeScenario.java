@@ -27,7 +27,7 @@ public class v0GantryFeederLaneNestNormativeScenario extends TestCase {
 	static NestAgent nest;
 	protected Date date;
 
-	private final URL URL = KitRobotAgentTestNormativeScenario.class
+	private final URL URL = V0_JUnit_KitRobotAgent_Test_NormativeScenario.class
 			.getResource(".");
 	private final String FILEPATH = URL.toString().replace("file:", "");
 	

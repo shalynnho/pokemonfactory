@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * This class represents the graphics logic for a nest.
  * 
- * @author Shalynn Ho
+ * @author Shalynn Ho, Aaron Harris
  *
  */
 public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.NestGraphics {
@@ -43,6 +43,11 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 		
 		partsInNest = new ArrayList<PartGraphics>();
 		nestSpots = new ArrayList<Boolean>();
+		// Begin V0 requirements
+		isFull = true;
+		for (int i = 0; i < 8; i++) {
+			partsInNest.add(new PartGraphics(PartType.A));
+		}
 	}
 
 	/**
@@ -50,8 +55,7 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	 */
 	public void receivePart(Part p) {
 		PartGraphics pg = p.part;
-
-		
+		//after v0: if (!isFull()) partsInNest.add(pg);
 	}
 	
 	/**
