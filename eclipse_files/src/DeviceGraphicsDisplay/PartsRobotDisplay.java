@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 
 import Networking.*;
+import Utils.Constants;
 import Utils.Location;
 
 public class PartsRobotDisplay extends DeviceGraphicsDisplay {
@@ -31,11 +32,12 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	private Client partsRobotClient;
 	
 	private boolean rotate;
+	private boolean nest1, nest2;
 	
-	public PartsRobotDisplay(Client prc){
+	public PartsRobotDisplay(Client prc, Location loc){
 		partsRobotClient = prc;
 		
-		initialLocation = new Location(250,450);
+		initialLocation = loc; //new Location(250,450);
 		currentLocation = initialLocation;
 		
 		arm1InitialLocation = new Location(325, 495);
@@ -47,49 +49,55 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		arm3CurrentLocation = arm3InitialLocation;
 		arm4CurrentLocation = arm4InitialLocation;
 		
-		partsRobotImage = Toolkit.getDefaultToolkit().getImage("src/images/PartsRobot.png");
+		partsRobotImage = Toolkit.getDefaultToolkit().getImage("src/images/Square.jpg");
 		armImage = Toolkit.getDefaultToolkit().getImage("src/image/Arm.png");
 		partArrayGraphics = new ArrayList<PartGraphicsDisplay>();
 		
 		rotate = false;
+		nest1 = false;
+		nest2 = false;
 	}
 	
-	public void paintComponent(JComponent c, Graphics2D g){
-		g.drawImage(partsRobotImage, initialLocation.getX(), initialLocation.getY(), c);
-		AffineTransform originalTransform = g.getTransform();
+	public void draw(JComponent c, Graphics2D g){
+		if(nest1){
+			//for (i=0;i<95;i++)
+			g.drawImage(partsRobotImage, 300, 300, c);
+		}
+		else if(nest2){
+			//g.drawImage(partsRobotImage, 340, 300, c);
+		}else if(!nest1 && !nest2){
+			g.drawImage(partsRobotImage, initialLocation.getX(), initialLocation.getY(), c);
+		}
+		/*AffineTransform originalTransform = g.getTransform();
 		if(getRotate()){
 			
 		}
 			//how to rotate on axis
+		int i = 0;*/
 		
-		if(goToNest1()){
-			g.drawImage(partsRobotImage, 340, 210, c);
-		}
-		else if(goToNest2()){
-			g.drawImage(partsRobotImage, 340, 300, c);
-		}
 	}
-	public boolean goToNest1(){
+	public void goToNest1(){
+		nest1 = true;
+		nest2 = !nest1;
 		
-		return true;
 	}
 	
-	public boolean goToNest2(){
+	public void goToNest2(){
 		
-		return true;
+		nest2 = true;
+		nest1 = !nest2;
+		
 	}
 	
-	public void requestData(Request r){
-		
-	}
+
 	
 	public void pickUpPart(PartGraphicsDisplay pgd){
 		partArrayGraphics.add(pgd);
 	}
 	
-	public void givePartToKit(PartGraphicsDisplay part){
+	/*public void givePartToKit(PartGraphicsDisplay part){
 		partArrayGraphics.remove();
-	}
+	}*/
 	
 	public void rotateArm(){
 		rotate = true;
@@ -103,16 +111,15 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		
 	}
 
-	@Override
-	public void draw(JComponent c, Graphics2D g) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
-	public void receiveData(Request req) {
-		// TODO Auto-generated method stub
-		
+	public void receiveData(Request r) {
+		if (r.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND)) {
+			goToNest1();
+		} else if (r.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND)) {
+			goToNest2();
+		}
 	}
 
 	@Override
