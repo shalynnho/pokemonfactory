@@ -108,8 +108,6 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		partsRemaining--;
 		partsFed++;
 		
-		// TODO who draws the part moving?  I change its coordinates
-		// server.sendData(new Request(Constants.FEEDER_MOVE_TO_LANE, Constants.PART_TARGET + ":" + feederID, pg.getLocation()));
 	}
 	
 	/**
