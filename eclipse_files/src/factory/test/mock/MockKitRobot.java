@@ -24,19 +24,19 @@ public class MockKitRobot extends MockAgent implements KitRobot {
 
 	@Override
 	public void msgNeedKit(int standLocation) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Received message msgNeedKit"));
 
 	}
 
 	@Override
 	public void msgMoveKitToInspectionArea(Kit k) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Received message msgMoveKitToInspectionArea"));
 
 	}
 
 	@Override
 	public void msgKitPassedInspection() {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Received message msgKitPassedInspection"));
 
 	}
 

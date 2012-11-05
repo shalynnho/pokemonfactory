@@ -11,6 +11,7 @@ import java.util.TreeMap;
 
 import agent.Agent;
 import factory.data.Kit;
+import factory.interfaces.FCS;
 import factory.interfaces.KitRobot;
 import factory.interfaces.PartsRobot;
 import factory.interfaces.Stand;
@@ -25,7 +26,7 @@ public class StandAgent extends Agent implements Stand {
 	// References to other agents
 	private KitRobot kitrobot;
 	private PartsRobot partsrobot;
-	private FCSAgent fcs;
+	private FCS fcs;
 
 	private final String name;
 
@@ -168,16 +169,22 @@ public class StandAgent extends Agent implements Stand {
 			}
 
 			synchronized (kitsOnStand) {
-				// Stand has an empty position (does not check the inspection
-				// area
-				// of the stand)
+				// Stand has an empty position (does not check the
+				// inspection
+				// area of the stand)
+				int loc;
 				if (standPositions.get(1) == false
-						|| standPositions.get(2) == false) {
-					int loc;
+						&& standPositions.get(2) == false) {
+					requestKit(loc = 1);
+					print("I'm requesting a new kit at position 1");
+					return true;
+				} else if (standPositions.get(1) == false
+						|| standPositions.get(2) == false && numKitsToMake > 1) {
 					requestKit(loc = standPositions.get(1) == false ? 1 : 2);
 					print("I'm requesting a new kit at position " + loc);
 					return true;
 				}
+
 			}
 
 			synchronized (myKits) {
@@ -292,7 +299,7 @@ public class StandAgent extends Agent implements Stand {
 	 * GUI Hack to set the reference to the FCS.
 	 * @param fcs the fcs
 	 */
-	public void setFCS(FCSAgent fcs) {
+	public void setFCS(FCS fcs) {
 		this.fcs = fcs;
 		stateChanged();
 	}
@@ -301,4 +308,69 @@ public class StandAgent extends Agent implements Stand {
 	public String getName() {
 		return name;
 	}
+
+	public KitRobot getKitrobot() {
+		return kitrobot;
+	}
+
+	public void setKitrobot(KitRobot kitrobot) {
+		this.kitrobot = kitrobot;
+	}
+
+	public PartsRobot getPartsrobot() {
+		return partsrobot;
+	}
+
+	public void setPartsrobot(PartsRobot partsrobot) {
+		this.partsrobot = partsrobot;
+	}
+
+	public FCS getFcs() {
+		return fcs;
+	}
+
+	public void setFcs(FCS fcs) {
+		this.fcs = fcs;
+	}
+
+	public int getNumKitsToMake() {
+		return numKitsToMake;
+	}
+
+	public void setNumKitsToMake(int numKitsToMake) {
+		this.numKitsToMake = numKitsToMake;
+	}
+
+	public boolean isStart() {
+		return start;
+	}
+
+	public void setStart(boolean start) {
+		this.start = start;
+	}
+
+	public int getIncomingKits() {
+		return incomingKits;
+	}
+
+	public void setIncomingKits(int incomingKits) {
+		this.incomingKits = incomingKits;
+	}
+
+	public Map<MyKit, Integer> getMyKits() {
+		return myKits;
+	}
+
+	public Timer getTimer() {
+		return timer;
+	}
+
+	public Map<Integer, Boolean> getStandPositions() {
+		return standPositions;
+	}
+
+	public List<Kit> getKitsOnStand() {
+		return kitsOnStand;
+	}
+
 }
