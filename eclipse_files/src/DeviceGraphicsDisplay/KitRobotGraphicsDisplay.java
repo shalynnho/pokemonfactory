@@ -50,7 +50,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	Client client;
 	Location location;
 	ArrayList<KitGraphicsDisplay> kits=new ArrayList<KitGraphicsDisplay>();
-	KitGraphicsDisplay currentKit =new KitGraphicsDisplay(); 
+	KitGraphicsDisplay currentKit =new KitGraphicsDisplay(client, new Location(0,0)); 
 	
 	public KitRobotGraphicsDisplay(Client cli,  Location loc){
 		//super();
@@ -307,7 +307,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		{
 			if(command.equals("moveKitToStand1"))
 			{	
-				KitGraphicsDisplay kit=new KitGraphicsDisplay();
+				KitGraphicsDisplay kit=new KitGraphicsDisplay(client, new Location(0,0));
 				kit.setPosition(3);
 				currentKit=kit;
 				kits.add(kit);
@@ -315,7 +315,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 			}
 			else if(command.equals("moveKitToStand2"))
 			{
-				KitGraphicsDisplay kit=new KitGraphicsDisplay();
+				KitGraphicsDisplay kit=new KitGraphicsDisplay(client, new Location(0,0));
 				kit.setPosition(4);
 				currentKit=kit;
 				kits.add(kit);

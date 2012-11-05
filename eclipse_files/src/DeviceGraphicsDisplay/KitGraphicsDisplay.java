@@ -24,7 +24,6 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	int position;
 	AffineTransform trans=new AffineTransform();
 	
-
 	public KitGraphicsDisplay (Client c, Location newLocation) {
 		kitLocation = newLocation;
 		
