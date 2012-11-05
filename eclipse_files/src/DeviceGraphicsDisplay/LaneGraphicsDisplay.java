@@ -59,7 +59,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// Location of this lane
 	private Location laneLoc;
 	// start location of parts on this lane
-	private Location partStartLoc;
+	private final Location partStartLoc;
 	// array list of locations of the lane lines
 	private ArrayList<Location> laneLines;
 
@@ -97,8 +97,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	public LaneGraphicsDisplay(Client lm, Location loc, int lid) {
 		laneManager = lm;
 		laneLoc = loc;
-		
-		System.out.println("lane loc, x: "+laneLoc.getX()+", y: "+laneLoc.getY());
 		laneID = lid;
 
 		// TODO: load empty lane images, add to array list (get image from
@@ -142,6 +140,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 						// part in front of i
 						PartGraphicsDisplay pgdInFront = partsOnLane.get(i - 1);
 						Location locInFront = pgdInFront.getLocation();
+						System.out.println("part x: "+loc.getX()+", y: "+loc.getY());
+						System.out.println("partinfront x: "+locInFront.getX()+", y: "+locInFront.getY());
+						
 						// makes sure parts are spaced out as they appear on lane, but don't overlap part in front
 						if (locInFront.getX() <= (LANE_BEG_X - (2 * PART_WIDTH)) && (loc.getX() > (locInFront.getX() + PART_WIDTH))) {
 							loc.incrementX(-amplitude);
@@ -149,7 +150,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					}
 					vibrateParts(counter, loc);
 					pgd.setLocation(loc);
-					
 					pgd.draw(c,g); //TODO: remove later, for v0 testing purposes only
 				}
 			}
@@ -195,10 +195,15 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (cmd.equals(Constants.LANE_NEW_PART_COMMAND)) {
 			// TODO:
 			PartType partType = (PartType) r.getData();
-			PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
-			pgd.setLocation(partStartLoc);
-			partsOnLane.add(pgd);
+			PartGraphicsDisplay pg = new PartGraphicsDisplay(partType);
+			pg.setLocation(partStartLoc);
+			partsOnLane.add(pg);
+			
 			System.out.println("partsOnLane size: "+partsOnLane.size());
+			for (int i = 0; i < partsOnLane.size(); i++) {
+			System.out.println("part"+i+" x: "+partsOnLane.get(i).getLocation().getX()+", y: "+partsOnLane.get(i).getLocation().getY());
+			}
+
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 			
 
