@@ -34,7 +34,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	// the ID of this Lane
 	private int laneID;
 	// the Nest associated with this LaneGraphics object
-	private NestGraphics nest;
+//	private NestGraphics nest;
 
 	// dynamically stores Parts currently on Lane
 	private ArrayList<PartGraphics> partsOnLane;
@@ -51,10 +51,10 @@ public class LaneGraphics extends DeviceGraphics implements
 	 * @param id
 	 * @param n
 	 */
-	public LaneGraphics(Server s, int id, NestGraphics n) {
+	public LaneGraphics(Server s, int id) {
 		server = s;
 		laneID = id;
-		nest = n;
+//		nest = n;
 
 		partsOnLane = new ArrayList<PartGraphics>();
 		amplitude = 5; // WHAT IS DEFAULT AMP??????, also must set parameters
