@@ -28,13 +28,13 @@ import factory.test.mock.MockStand;
  * necessary.
  * @author dpaje
  */
-public class KitRobotAgentTestNormativeScenario extends TestCase {
+public class V0_JUnit_KitRobotAgentTestNormativeScenario extends TestCase {
 	private static final int TESTKITCOUNT = 100;
 
 	protected KitRobotAgent kitrobot;
 	protected Date date;
 
-	private final URL URL = KitRobotAgentTestNormativeScenario.class
+	private final URL URL = V0_JUnit_KitRobotAgentTestNormativeScenario.class
 			.getResource(".");
 	private final String FILEPATH = URL.toString().replace("file:", "");
 
@@ -232,6 +232,24 @@ public class KitRobotAgentTestNormativeScenario extends TestCase {
 					camera.log.getLastLoggedEvent().getMessage()
 							.equals("Received message msgInspectKit"));
 
+			assertEquals("Stand should have " + (standLogSize + 3)
+					+ " event(s) in its log", standLogSize + 2,
+					stand.log.size());
+
+			assertTrue(
+					"Stand should have received a message stating a kit was placed into the inspection area. Last logged event(s): "
+							+ conveyor.log.getLastLoggedEvent().getMessage(),
+					stand.log
+							.getLastLoggedEvent()
+							.getMessage()
+							.equals("Received message msgMovedToInspectionArea"));
+
+			assertTrue(
+					"Camera should have received a request to inspect the kit. Last logged event(s): "
+							+ camera.log.getLastLoggedEvent().getMessage(),
+					camera.log.getLastLoggedEvent().getMessage()
+							.equals("Received message msgInspectKit"));
+
 			// Simulate a successful inspection. Camera messages the KitRobot
 			kitrobot.msgKitPassedInspection();
 
@@ -267,8 +285,8 @@ public class KitRobotAgentTestNormativeScenario extends TestCase {
 					conveyor.log.getLastLoggedEvent().getMessage()
 							.equals("Received message msgTakeKitAway"));
 
-			assertEquals("Stand should have " + (standLogSize + 2)
-					+ " event(s) in its log", standLogSize + 2,
+			assertEquals("Stand should have " + (standLogSize + 3)
+					+ " event(s) in its log", standLogSize + 3,
 					stand.log.size());
 
 			assertTrue(

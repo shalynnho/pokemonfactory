@@ -48,8 +48,7 @@ public class MockStand extends MockAgent implements Stand {
 
 	@Override
 	public void msgMovedToInspectionArea(Kit k, int oldLocation) {
-		// TODO Auto-generated method stub
-
+		log.add(new LoggedEvent("Received message msgMovedToInspectionArea"));
 	}
 
 }
