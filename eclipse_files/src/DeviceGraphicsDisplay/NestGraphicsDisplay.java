@@ -9,6 +9,12 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+/**
+ * @author vanshjain
+ * 
+ */
+
+
 public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS;
