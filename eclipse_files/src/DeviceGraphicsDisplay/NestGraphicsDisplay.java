@@ -137,5 +137,9 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	
+	public void static main (String[] args){
+		
+	}
+	
 
 }
