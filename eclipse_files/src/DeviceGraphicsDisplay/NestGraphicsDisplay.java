@@ -37,19 +37,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// width and height of a part
 	private static final int PART_WIDTH=20, PART_HEIGHT=21;
 	
-	// images of an empty nest (top/bottom)
-	private static ImageIcon emptyNestImg1, emptyNestImg2;
-	
-	// image of partXX in 1 unit of nest
-	// need 1 for every possible part
-	private static ImageIcon partXXNestImg;
-	
 	// the LaneManager (client) which talks to the Server
 	private Client client;
 	// the id of this nest
 	private int nestID;
-	// true if spot is filled, false if not
-	private ArrayList<Boolean> nestSpots;
 	//boolean if the nest is full
 	private boolean isFull;
 	// dynamically stores the parts currently in the Nest
@@ -133,11 +124,6 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void setLocation(Location newLocation) {
 		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	public void static main (String[] args){
 		
 	}
 	

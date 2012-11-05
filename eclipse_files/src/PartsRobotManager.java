@@ -47,11 +47,6 @@ public class PartsRobotManager extends Client implements ActionListener{
 		add(panel, BorderLayout.SOUTH);
 		panel.setVisible(true);
 		
-		JButton testButton = new JButton("Test button");
-		// test feeder command
-		testButton.addActionListener(new NetworkingButtonListener("Testing", Constants.FEEDER_TARGET, writer));
-		panel.add(testButton);
-		
 		JButton nest1 = new JButton("Nest1");
 		nest1.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
 		panel.add(nest1);
