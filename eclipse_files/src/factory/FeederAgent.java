@@ -43,7 +43,9 @@ public class FeederAgent extends Agent implements Feeder {
         requestList.add(type);       
         stateChanged(); 
     }       
-    public void msgHereAreParts(Part p) {            
+    public void msgHereAreParts(Part p) {   
+    	//Changing this to PartType in V1, then feeder will just generate a new part whenever you need one 
+    	//per Prof W. saying bins carry thousands of parts in class
         currentParts.add(new MyPart(p));        
         stateChanged(); 
     }       
@@ -63,15 +65,18 @@ public class FeederAgent extends Agent implements Feeder {
 		// TODO Auto-generated method stub
 		for(PartType requestedType : requestList) {
 			getParts(requestedType);
-		}
-		for(MyPart currentPart:currentParts) {
-			if(currentPart.status==FeederStatus.IN_DIVERTER) {
-				giveToDiverter(currentPart.part);
-			}
+			return true;
 		}
 		for(MyPart currentPart:currentParts) {
 			if(currentPart.status==FeederStatus.END_DIVERTER) {
 				giveToLane(currentPart.part);
+				return true;
+			}
+		}
+		for(MyPart currentPart:currentParts) {
+			if(currentPart.status==FeederStatus.IN_FEEDER) {
+				giveToDiverter(currentPart.part);
+				return true;
 			}
 		}
 		return false;
