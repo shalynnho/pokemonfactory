@@ -16,11 +16,19 @@ public class Location {
 		return Math.sqrt(Math.pow(l.getX()-getX(),2)+Math.pow(l.getY()-getY(),2));
 	}
 	
-	public double getX() {
+	public int getX() {
+		return (int) x;
+	}
+	
+	public int getY() {
+		return (int) y;
+	}
+	
+	public double getXDouble() {
 		return x;
 	}
 	
-	public double getY() {
+	public double getYDouble() {
 		return y;
 	}
 	
