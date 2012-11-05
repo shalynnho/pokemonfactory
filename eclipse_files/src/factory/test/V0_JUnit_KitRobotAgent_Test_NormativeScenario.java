@@ -23,18 +23,18 @@ import factory.test.mock.MockStand;
 
 /**
  * This tests the normative scenario for the kitrobot in the kitting cell. The
- * first test the creation of a single kit. The second tests for 100 kits in
- * succession. Logs for all agents can be printed at the end of each test if
- * necessary.
+ * UUT is the KitRobotAgent. The first test the creation of a single kit. The
+ * second tests for 100 kits in succession. Logs for all agents can be printed
+ * at the end of each test if necessary.
  * @author dpaje
  */
-public class V0_JUnit_KitRobotAgentTestNormativeScenario extends TestCase {
+public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
 	private static final int TESTKITCOUNT = 100;
 
 	protected KitRobotAgent kitrobot;
 	protected Date date;
 
-	private final URL URL = V0_JUnit_KitRobotAgentTestNormativeScenario.class
+	private final URL URL = V0_JUnit_KitRobotAgent_Test_NormativeScenario.class
 			.getResource(".");
 	private final String FILEPATH = URL.toString().replace("file:", "");
 

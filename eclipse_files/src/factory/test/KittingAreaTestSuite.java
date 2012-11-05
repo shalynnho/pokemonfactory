@@ -11,7 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author dpaje
  */
 @RunWith(Suite.class)
-@SuiteClasses({ V0_JUnit_KitRobotAgentTestNormativeScenario.class, })
+@SuiteClasses({ V0_JUnit_KitRobotAgent_Test_NormativeScenario.class, })
 public class KittingAreaTestSuite {
 
 	/**
