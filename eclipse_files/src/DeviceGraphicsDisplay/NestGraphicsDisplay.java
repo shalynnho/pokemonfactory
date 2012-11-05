@@ -5,6 +5,7 @@ import GraphicsInterfaces.*;
 import Utils.*;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -16,6 +17,9 @@ import javax.swing.ImageIcon;
 
 
 public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
+	
+	private static Image nestImg;
+	
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS=8;
 	// x-coordinate of the Nest
