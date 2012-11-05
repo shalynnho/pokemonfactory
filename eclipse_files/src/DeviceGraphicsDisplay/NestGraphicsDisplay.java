@@ -59,10 +59,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		for (int i = 0; i < 8; i++) {
 			PartGraphicsDisplay temp = new PartGraphicsDisplay(PartType.A);
 			if(i<4){
-				temp.setLocation(new Location((119+i*20),(NEST_Y+1)));
+				temp.setLocation(new Location((NEST_X+i*20),(NEST_Y+1)));
 			}
 			else{
-				temp.setLocation(new Location((119+(i-4)*20),(NEST_Y+23))); 
+				temp.setLocation(new Location((NEST_X+(i-4)*20),(NEST_Y+23))); 
 			}
 			partsInNest.add(temp);
 			
