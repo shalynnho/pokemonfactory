@@ -75,8 +75,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 	}
 	
-//	public void givePartToPartsRobot(PartGraphicsDisplay) {		
-//	}
+/	public void givePartToPartsRobot(PartGraphicsDisplay) {		
+/	}
 	
 	public void purge() {
 		
@@ -88,13 +88,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 
 
 	@Override
-	public void draw(JComponent c, Graphics2D g) {
-		// TODO Auto-generated method stub
-		
+	public void draw(JComponent c, Graphics2D g) {		
 		g.drawImage(Constants.NEST_IMAGE, nestLocation.getX(), nestLocation.getY(), c);
-		for(int i=0; i<8; i++){
-			PartGraphicsDisplay temp = partsInNest.get(i);
-			temp.draw(c,g);
+		for(PartGraphicsDisplay part : partsInNest) {
+			part.draw(c,g);
 		}
 	}
 
