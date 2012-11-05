@@ -48,7 +48,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private ArrayList<PartGraphicsDisplay> partsInNest = new ArrayList<PartGraphicsDisplay>();
 	
 	
-	public NestGraphicsDisplay(Client x, int id) {
+	public NestGraphicsDisplay(Client x, int id, int y_axis) {
 		Client client = x;
 		nestID = id;
 		isFull=true;
