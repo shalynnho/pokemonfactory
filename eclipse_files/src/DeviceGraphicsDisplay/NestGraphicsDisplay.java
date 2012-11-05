@@ -5,6 +5,8 @@ import GraphicsInterfaces.*;
 import Utils.*;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -16,10 +18,15 @@ import javax.swing.ImageIcon;
 
 
 public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
+	
+	private static Image nestImg;
+	
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS=8;
 	// x-coordinate of the Nest
-	private static final int NEST_X;
+	private static final int NEST_X=119;
+	// y-coordinate of the Nest
+	private static int NEST_Y;
 	// width and height of the nest
 	private static final int NEST_WIDTH=45; 
 	private static final int NEST_HEIGHT=80;
@@ -43,9 +50,12 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public NestGraphicsDisplay(LaneManager lm, int id) {
 		laneManager = lm;
 		nestID = id;
+		nestImg = Toolkit.getDefaultToolkit().getImage("src/images/lane.png");
 		if(nestID==0){
-			
+			NEST_Y=100;
 		}
+		else
+			NEST_Y=175;
 		
 	}
 	

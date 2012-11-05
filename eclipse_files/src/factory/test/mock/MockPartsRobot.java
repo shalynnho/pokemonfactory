@@ -2,8 +2,8 @@ package factory.test.mock;
 
 import java.util.List;
 
-import DeviceGraphics.PartGraphics;
 import factory.data.Kit;
+import factory.data.Part;
 import factory.data.PartType;
 import factory.interfaces.Nest;
 import factory.interfaces.PartsRobot;
@@ -53,7 +53,7 @@ public class MockPartsRobot extends MockAgent implements PartsRobot {
 	}
 
 	@Override
-	public void msgHereAreGoodParts(Nest n, List<PartGraphics> goodparts) {
+	public void msgHereAreGoodParts(Nest n, List<Part> goodparts) {
 		// TODO Auto-generated method stub
 
 	}

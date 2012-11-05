@@ -168,8 +168,12 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mockgraphics.msgBringEmptyKit(k.kit);
-		// conveyorGraphics.msgBringEmptyKit(k.kit);
+		if (mockgraphics != null) {
+			mockgraphics.msgBringEmptyKit(k.kit);
+		}
+		if (conveyorGraphics != null) {
+			conveyorGraphics.msgBringEmptyKit(k.kit);
+		}
 		stateChanged();
 	}
 
@@ -186,9 +190,14 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mockgraphics.msgGiveKitToKitRobot(mk.kit.kit);
 		mk.KS = KitStatus.PickedUp;
-		// conveyorGraphics.msgGiveKitToKitRobot(k.kit);
+		if (mockgraphics != null) {
+			mockgraphics.msgGiveKitToKitRobot(mk.kit.kit);
+		}
+		if (conveyorGraphics != null) {
+			conveyorGraphics.msgGiveKitToKitRobot(mk.kit.kit);
+		}
+
 		stateChanged();
 	}
 
@@ -203,8 +212,12 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mockgraphics.msgReceiveKit(k.kit);
-		// conveyorGraphics.msgReceiveKit(k.kit);
+		if (mockgraphics != null) {
+			mockgraphics.msgReceiveKit(k.kit);
+		}
+		if (conveyorGraphics != null) {
+			conveyorGraphics.msgReceiveKit(k.kit);
+		}
 		stateChanged();
 	}
 
@@ -246,6 +259,58 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	public MyKit getIncomingKit() {
+		return incomingKit;
+	}
+
+	public void setIncomingKit(MyKit incomingKit) {
+		this.incomingKit = incomingKit;
+	}
+
+	public int getNumKitsToDeliver() {
+		return numKitsToDeliver;
+	}
+
+	public void setNumKitsToDeliver(int numKitsToDeliver) {
+		this.numKitsToDeliver = numKitsToDeliver;
+	}
+
+	public Semaphore getAnimation() {
+		return animation;
+	}
+
+	public void setAnimation(Semaphore animation) {
+		this.animation = animation;
+	}
+
+	public KitRobot getKitrobot() {
+		return kitrobot;
+	}
+
+	public void setKitrobot(KitRobot kitrobot) {
+		this.kitrobot = kitrobot;
+	}
+
+	public FCSAgent getFcs() {
+		return fcs;
+	}
+
+	public void setFcs(FCSAgent fcs) {
+		this.fcs = fcs;
+	}
+
+	public ConveyorGraphics getConveyorGraphics() {
+		return conveyorGraphics;
+	}
+
+	public void setConveyorGraphics(ConveyorGraphics conveyorGraphics) {
+		this.conveyorGraphics = conveyorGraphics;
+	}
+
+	public List<MyKit> getKitsOnConveyor() {
+		return kitsOnConveyor;
 	}
 
 }
