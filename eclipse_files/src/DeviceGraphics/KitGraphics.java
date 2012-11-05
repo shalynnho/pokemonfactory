@@ -2,11 +2,12 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
+import Networking.Request;
 import Utils.Location;
 
 import factory.data.PartType;
 
-public class KitGraphics {
+public class KitGraphics extends DeviceGraphics {
 	
 	ArrayList<PartGraphics> parts; // parts currently in the kit
 	ArrayList<PartType> partTypes; // part types required to make kit
@@ -64,6 +65,15 @@ public class KitGraphics {
 	
 	public Boolean getFull () {
 		return isFull;
+	}
+
+
+	@Override
+	public void receiveData(Request req) {
+		if (req.getCommand().equals("Testing")) {
+			addPart(new PartGraphics (PartType.A));
+		}
+		
 	}
 	
 }
