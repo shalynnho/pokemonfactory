@@ -44,9 +44,13 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void newKit() {
-			KitGraphicsDisplay temp = new KitGraphicsDisplay();
-			temp.setLocation(new Location(0,0));
-			kitsOnConveyor.add(temp);
+		KitGraphicsDisplay temp = new KitGraphicsDisplay();
+		temp.setLocation(new Location(0,0));
+		kitsOnConveyor.add(temp);
+	}
+	
+	public void giveKitAway() {
+		kitsOnConveyor.remove(0);
 	}
 	
 	public void draw(JComponent c, Graphics2D g2){
@@ -65,6 +69,12 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				tempKit.setLocation(new Location(temp.getX(), temp.getY() + velocity));
 			} else {
 				velocity = 0;
+				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
+				tempKit.draw(c,g2);
+				Location temp = tempKit.kitLocation;
+				tempKit.setLocation(new Location(temp.getX(), temp.getY() + velocity));
+				kitsOnConveyor.remove(0);
+				velocity = 1;
 			}
 		}
 	}
@@ -99,7 +109,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		Object object = req.getData();
 		
 		if (command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
-				kitsOnConveyor.get(0).kitLocation.getY();             
+				             
 		} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
 			newKit();
 		} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
