@@ -58,6 +58,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	// the final location of the part before it leaves the diverter
 	private Location finalPartLocation;
 	
+	
+	private Location startingPartLocation;
+	
 	// v0 stuff
 	private BinGraphicsDisplay bgd; 
 	private ArrayList<PartGraphicsDisplay> partGDList;
@@ -80,6 +83,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		// TODO change this later - end of the diverter when it's pointing to the top lane
 		finalPartLocation = new Location(feederLocation.getX() - 100, feederLocation.getY());
+		
+		// TODO change this later - starting location for parts
+		startingPartLocation = new Location(feederLocation.getX(), feederLocation.getY());
 		
 		// do not animate the diverter rotating
 		animationCounter = -1;
@@ -109,11 +115,14 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			animationCounter--;
 		}		
 		
+		// need a boolean here
 		/*
 		for(PartGraphicsDisplay part : partGDList) {
 			if(!part.getLocation().equals(finalPartLocation)) {
-				(finalPartLocation.getX() - part.getLocation().getX())/STEPS_TO_MOVE_PART;
-				(finalPartLocation.getY() - part.getLocation().getY())/STEPS_TO_MOVE_PART;
+				double xIncrements = (finalPartLocation.getX() - startingPartLocation.getX())/STEPS_TO_MOVE_PART;
+				double yIncrements = (finalPartLocation.getY() - startingPartLocation.getY())/STEPS_TO_MOVE_PART;
+				
+				part.setLocation(new Location(part.getLocation().getX() + xIncrements, part.getLocation().getY() + yIncrements));
 			}
 		}*/
 		
@@ -150,7 +159,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			// TODO fix bin coordinates
 			
-			bgd = new BinGraphicsDisplay(new Location(feederLocation.getX() + FEEDER_WIDTH - 50, feederLocation.getY() + FEEDER_HEIGHT/2), (PartType)req.getData());
+			bgd = new BinGraphicsDisplay(new Location(feederLocation.getX() + FEEDER_WIDTH - 50, feederLocation.getY() + FEEDER_HEIGHT/2), PartType.B);
 			bgd.setFull(true);
 			
 			haveBin = true;
@@ -161,9 +170,10 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			bgd.setFull(false); // could be problematic if called when bin has not been received
 			haveBin = false;
 		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND)) {
+			
 			PartGraphicsDisplay part = new PartGraphicsDisplay(bgd.getPartType());
 			// where the part starts
-			part.setLocation(new Location(feederLocation.getX(), feederLocation.getY()));
+			part.setLocation(startingPartLocation);
 			partGDList.add(part);
 			
 		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_LANE_COMMAND)) {
