@@ -96,18 +96,30 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 		// TODO Auto-generated method stub
 	}
 
-	@Override
 	public void msgPlaceKitOnStand1(KitGraphics kit) {
 		// TODO Auto-generated method stub
 		positions[3]=kit;
 		server.sendData(new Request("moveKitToStand1", Constants.KIT_ROBOT_TARGET, null));	
 	}
 
-	@Override
+
 	public void msgPlaceKitOnStand2(KitGraphics kit) {
 		// TODO Auto-generated method stub
 		positions[4]=kit;
 		server.sendData(new Request("moveKitToStand2", Constants.KIT_ROBOT_TARGET, null));
+	}
+
+	@Override
+	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
+		if(location==1)
+		{
+			msgPlaceKitOnStand1(kit); 
+		}
+		else if(location==2)
+		{
+			msgPlaceKitOnStand2(kit); 	
+		}
+		
 	}
 	
 	
