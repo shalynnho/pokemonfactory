@@ -23,7 +23,7 @@ import Utils.Constants;
 import Utils.Location;
 import factory.data.Kit;
 
-public class KitRobotGraphicsDisplay implements ActionListener {
+public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	//double  x,y;
 	
 	//Rectangle2D.Double rectangle;
@@ -53,10 +53,9 @@ public class KitRobotGraphicsDisplay implements ActionListener {
 	
 	int kitRobotPositionX;
 	int kitRobotPositionY;
-	
+	ArrayList<Kit> kits =new ArrayList<Kit>();
 	AffineTransform trans;
-	Kit kit=new Kit();
-	
+	//Kit kit=new Kit();
 	Client client;
 	Location location;
 	
@@ -85,7 +84,7 @@ public class KitRobotGraphicsDisplay implements ActionListener {
 		trans.translate(kitRobotPositionX,kitRobotPositionY);		
 		rectangle1 = new Rectangle2D.Double(0,0,600,400);
 	}
-	
+
 	
 	public void placeKitOnStand(int i){
 		if(i==1)
@@ -272,7 +271,6 @@ public class KitRobotGraphicsDisplay implements ActionListener {
 				finalDegree=270;
 			}
 		}
-		kit.setFinalDegree(finalDegree);
 	}
 	
 	public void checkDegrees(){
@@ -294,6 +292,41 @@ public class KitRobotGraphicsDisplay implements ActionListener {
 			}
 		}
 	}
+	
+	public void sendData()
+	{
+		client.
+	}
+	public void receiveData(Request req){
+		String command = req.getCommand();
+		String target = req.getTarget();
+		Object obj = req.getData();
+		if(jobIsDone)
+		{
+			if(command.equals("moveKitToStand1"))
+			{	
+				ConveyorToLocation1();
+			}
+			else if(command.equals("moveKitToStand2"))
+			{
+				ConveyorToLocation2();
+			}
+			else if(command.equals("moveKitInLocation1ToInspection"))
+			{
+				Location1ToInspectionStand();
+			}
+			else if(command.equals("moveKitInLocation2ToInspection"))
+			{
+				Location2ToInspectionStand();
+			}
+			else if(command.equals("moveKitToConveyor"))
+			{
+				InspectionStandToConveyor();
+			}
+			
+		}
+		
+	}
 	public void actionPerformed(ActionEvent ae){
 		//removeAll();
 		checkDegrees();
@@ -314,8 +347,8 @@ public class KitRobotGraphicsDisplay implements ActionListener {
 	public void draw(JComponent c, Graphics2D g)
 	{
 		
-		Image image=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/resource/Square.jpg"));
-		g.drawImage(Constants., trans,null);
+		//Image image=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/resource/Square.jpg"));
+		g.drawImage(Constants.KIT_ROBOT_IMAGE, trans,null);
 	
 	}
 	
@@ -359,61 +392,11 @@ public class KitRobotGraphicsDisplay implements ActionListener {
 	}
 	*/
 	
-	private class Kit implements ActionListener{
-		
-		Image image;
-		int finalDegree;
-		int currentDegree;
-		int degreeStep;
-		int rotationAxisX;
-		int rotationAxisY;
-		AffineTransform trans=new AffineTransform();
-		
-		
-		Kit(){
-			
-			finalDegree=100;
-			currentDegree=0;
-			degreeStep=1;
-			rotationAxisX=200;
-			rotationAxisY=25;
-			trans.translate(100, 175);	
-		}
-		
-	
-
-		public void resetcurrentDegree(){
-			currentDegree=0;
-		}
-		
-		public void setFinalDegree(int finalDegree) {
-			this.finalDegree = finalDegree;
-		}
-		
-		public void rotate(){
-			if(currentDegree!=finalDegree)
-			{
-				trans.rotate(Math.toRadians(1),rotationAxisX,rotationAxisY);
-				currentDegree++;
-			}
-			else
-			{
-				currentDegree=0;
-				finalDegree=0;
-			}
-		}
-		
-		public void paint(Graphics2D g){
-			Graphics2D g2=g;
-			Image image=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/resource/Square.jpg"));
-			rotate();
-			g.drawImage(image, trans, null);
-			
-		}
-		
-		public void actionPerformed(ActionEvent ae){
-			rotate();
-		}
-		
+	@Override
+	public void setLocation(Location newLocation) {
+		location=newLocation;
+		// TODO Auto-generated method stub
 	}
+	
+	
 }
