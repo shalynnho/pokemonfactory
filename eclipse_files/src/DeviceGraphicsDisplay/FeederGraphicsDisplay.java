@@ -88,7 +88,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		finalPartLocation = new Location(feederLocation.getX() - 100, feederLocation.getY());
 		
 		// TODO change this later - starting location for parts
-		startingPartLocation = new Location(feederLocation.getX(), feederLocation.getY());
+		startingPartLocation = new Location(feederLocation.getX(), feederLocation.getY()+(FEEDER_HEIGHT/2)-(DIVERTER_HEIGHT/2));
 		
 		// do not animate the diverter rotating
 		animationCounter = -1;
@@ -124,6 +124,8 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			animationCounter--;
 		}		
 		
+		g.drawImage(diverterImage, diverterLocation.getX(), diverterLocation.getY(), c);
+		
 		if (partGDList.size() > 0) {
 			for(PartGraphicsDisplay part : partGDList) {
 				if(!part.getLocation().equals(finalPartLocation)) {			
@@ -134,7 +136,6 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 		}
 		
-		g.drawImage(diverterImage, diverterLocation.getX(), diverterLocation.getY(), c);
 		g.setTransform(originalTransform);
 		g.drawImage(feederImage, feederLocation.getX(), feederLocation.getY(), c);
 		
