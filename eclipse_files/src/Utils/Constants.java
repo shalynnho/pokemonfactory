@@ -42,7 +42,7 @@ public abstract class Constants {
 	//==================================
 	// Used so that we can create Request methods more easily.
 	// When the target has a specific ID, concatenate to the device target
-	// e.g. String target = Constants.LANE_TARGET+laneID;
+	// e.g. String target = Constants.LANE_TARGET+":"+laneID;
 	
 	public static final String BIN_TARGET = "Bin";
 	public static final String CAMERA_TARGET = "Camera";
