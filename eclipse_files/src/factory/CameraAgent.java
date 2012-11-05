@@ -11,16 +11,27 @@ import GraphicsInterfaces.CameraGraphics;
 import agent.Agent;
 
 public class CameraAgent extends Agent implements Camera {
-	private Kit kit;
-	private enum KitStatus {NOT_READY,DONE,MESSAGED};
-	private KitStatus kitState = KitStatus.NOT_READY;
-	private boolean kitDone;
+	
 	private List<MyNest> nests = Collections.synchronizedList(new ArrayList<MyNest>());
-
+ 	private List<MyKit> kits = Collections.synchronizedList(new ArrayList<MyKit>());
 	public CameraGraphics guiCamera;
 	
-	private enum NestStatus {NOT_READY,READY,PHOTOGRAPHED};
+	public KitRobotAgent kitRobot;
+	public PartsRobotAgent partRobot;
 	
+	private enum NestStatus {NOT_READY,READY,PHOTOGRAPHED};
+	private enum KitStatus {NOT_READY,DONE,MESSAGED, PICTURE_BEING_TAKEN};
+	
+	private class MyKit{
+		Kit kit;
+		KitStatus ks;
+		boolean kitDone;
+		MyKit(Kit k){
+			kit = k;
+			ks = KitStatus.NOT_READY;
+			kitDone = false;
+		}
+	}
 	private class MyNest{
 		Nest nest;
 		PartType type;
@@ -38,8 +49,7 @@ public class CameraAgent extends Agent implements Camera {
 	 * 
 	 */
 	public void msgInspectKit(Kit kit) {
-		this.kit = kit;
-		kitState = KitStatus.NOT_READY;
+		kits.add(new MyKit(kit));
 		stateChanged();		
 	}
 
@@ -49,7 +59,8 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();		
 	}
 	
-	public void msgTakePictureNestDone(List<GUIPart> parts, Nest nest) {
+	public void msgTakePictureNestDone(List<PartGraphics> parts, Nest nest) 
+	{
 		for(MyNest n: nests)
 		{
 			if(n.nest == nest)
@@ -62,9 +73,13 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();
 	}
 
-	public void msgTakePictureKitDone(boolean done) {
-		kitDone = done;
-		kitState = KitStatus.DONE;
+	public void msgTakePictureKitDone(Kit k, boolean done) {
+		for(MyKit kit: kits){
+			if(k.equals(kit)){
+				kit.kitDone = done;
+				kit.ks = KitStatus.DONE;
+			}
+		}
 		stateChanged();
 	}
 	
@@ -83,44 +98,51 @@ public class CameraAgent extends Agent implements Camera {
 				tellPartsRobot(n);
 			}
 		}
-		if(kit != null && kitState == KitStatus.NOT_READY){
-			takePictureOfKit(kit);
+		for(MyKit k: kits)
+		{
+			if(k != null && k.ks == KitStatus.NOT_READY){
+				takePictureOfKit(k);
+			}
 		}
-		if(kit != null && kitState == KitStatus.DONE){
-			tellKitRobot();
+		for(MyKit k: kits)
+		{
+			if(k != null && k.ks == KitStatus.DONE){
+				tellKitRobot(k);
+			}
 		}
 		return false;
 	}
 
 	/***********ACTIONS*******************/
-	private void tellKitRobot() {
-		KitRobotAgent.msgKitPassedInspection(done);
-		kitState = KitStatus.MESSAGED;
+	private void tellKitRobot(MyKit k) {
+		k.ks = KitStatus.MESSAGED;
+		kitRobot.msgKitPassedInspection();
 		stateChanged();
 	}
 
-	private void takePictureOfKit(Kit kit2) {
-		guiCamera.takePicture(kit);
+	private void takePictureOfKit(MyKit kit) {
+		kit.ks = KitStatus.PICTURE_BEING_TAKEN;
+		guiCamera.takeKitPhoto(kit.kit.kit);
 		stateChanged();		
 	}
 
 	private void tellPartsRobot(MyNest n) {
-		List<GUIPart> goodParts = new ArrayList<GUIPart>();
-		for(GUIPart part: n.guiParts)
+		List<PartGraphics> goodParts = new ArrayList<PartGraphics>();
+		for(PartGraphics part: n.guiParts)
 		{
-			if(part.isGood())
-			{
+			//if(part.isGood())
+			//{
 				goodParts.add(part);
-			}
+			//}
 		}
-		PartsRobotAgent.msgHereAreGoodParts(new Map<n.nest,goodParts>);
+		partRobot.msgHereAreGoodParts(n.nest,goodParts);
 		nests.remove(n);
 		stateChanged();
 		
 	}
 
 	private void takePictureOfNest(MyNest n) {
-		guiCamera.takePicture(n);
+		guiCamera.takeNestPhoto(n.nest.guiNest);
 		n.state = NestStatus.READY;
 		stateChanged();		
 	}

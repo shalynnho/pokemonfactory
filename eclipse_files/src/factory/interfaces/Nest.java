@@ -1,9 +1,12 @@
 package factory.interfaces;
 
+import GraphicsInterfaces.NestGraphics;
 import factory.data.Part;
 import factory.data.PartType;
 
 public interface Nest {
+
+	NestGraphics guiNest = null;
 
 	//MESSAGES
 	public abstract void msgHereIsPartType(PartType type);

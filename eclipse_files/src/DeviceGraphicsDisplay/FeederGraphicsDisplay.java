@@ -29,7 +29,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	private static final double DIVERTER_POINTING_TOP_ANGLE = 0.09;
 	private static final double DIVERTER_POINTING_BOTTOM_ANGLE = -0.09;
-	private static final double DIVERTER_STEP = Math.abs((DIVERTER_POINTING_TOP_ANGLE-DIVERTER_POINTING_BOTTOM_ANGLE)/2);
+	private static final double DIVERTER_STEP = Math.abs((DIVERTER_POINTING_TOP_ANGLE-DIVERTER_POINTING_BOTTOM_ANGLE)/20);
 	private static final int STEPS_TO_ROTATE_DIVERTER = (1000/Constants.TIMER_DELAY);
 	
 	// image of the diverter
@@ -40,6 +40,14 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	private boolean diverterTop;
 	// number of steps remaining for the diverter to finish rotating
 	private int animationCounter;
+	
+	// new bin to animate
+	private BinGraphicsDisplay bgd; 
+	
+	// true if a bin has been received
+	private boolean haveBin;
+	
+	// TODO what if a bin is purged?
 	
 	// location of the feeder
 	private Location feederLocation;
@@ -69,6 +77,8 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		// do not animate the diverter rotating
 		animationCounter = -1;
+		
+		haveBin = false;
 					
 		// force an initial repaint to display feeder and diverter
 		client.repaint();
@@ -91,12 +101,15 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 				g.rotate(DIVERTER_POINTING_TOP_ANGLE + ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP), feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
 			}
 			animationCounter--;
-		}
+		}		
 		
 		g.drawImage(diverterImage, diverterLocation.getX(), diverterLocation.getY(), c);
 		g.setTransform(originalTransform);
 		g.drawImage(feederImage, feederLocation.getX(), feederLocation.getY(), c);
 		
+		if (haveBin) {
+			bgd.draw(c, g);
+		}
 	}
 
 	@Override
@@ -110,6 +123,13 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
 			animationCounter = STEPS_TO_ROTATE_DIVERTER;
 			diverterTop = !diverterTop;
+		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
+			// TODO calculate exact coordinates of the bin
+			
+			bgd = new BinGraphicsDisplay(new Location(5,10));
+			haveBin = true;
+		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND)) {
+			
 		}
 	}
 

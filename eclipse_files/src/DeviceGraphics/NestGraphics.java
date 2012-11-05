@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.NestGraphics {
 	// max number of parts this Nest holds
-	private static final int MAX_PARTS;
+	private static final int MAX_PARTS = 8;
 	
 	// instructions to display graphics will be sent through the server
 	private Server server;
@@ -82,7 +82,7 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	 * @return
 	 */
 	public boolean isFull() {
-		
+		return partsInNest.size() == MAX_PARTS;
 	}
 	
 	/**

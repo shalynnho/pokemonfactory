@@ -31,7 +31,7 @@ public class LaneAgent extends Agent implements Lane {
 		BEGINNING_LANE,IN_LANE, END_LANE
 	};
     
-    Feeder feeder;
+    FeederAgent feeder;
     
     public LaneAgent(String name) {
     	super();

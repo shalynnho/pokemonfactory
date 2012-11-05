@@ -19,11 +19,11 @@ import factory.test.mock.MockGraphics;
 public class v0KittingAreaTest {
 	static CameraAgent camera;
 	static ConveyorAgent conveyor;
-	static Feeder feeder;
-	static Gantry gantry;
+	static FeederAgent feeder;
+	static GantryAgent gantry;
 	static KitRobotAgent kitrobot;
-	static Lane lane;
-	static Nest nest;
+	static LaneAgent lane;
+	static NestAgent nest;
 	static PartsRobotAgent partsrobot;
 	static StandAgent stand;
 	static FCSAgent fcs;
@@ -36,7 +36,7 @@ public class v0KittingAreaTest {
 		gantry = new GantryAgent("gantry");
 		kitrobot = new KitRobotAgent("kitrobot");
 		lane = new LaneAgent("lane");
-		nest = new NestAgent();
+		nest = new NestAgent("nest");
 		partsrobot = new PartsRobotAgent();
 		stand = new StandAgent("stand");
 		fcs = new FCSAgent();
@@ -78,19 +78,19 @@ public class v0KittingAreaTest {
 		v0KittingAreaTest.conveyor = conveyor;
 	}
 
-	public static Feeder getFeeder() {
+	public static FeederAgent getFeeder() {
 		return feeder;
 	}
 
-	public static void setFeeder(Feeder feeder) {
+	public static void setFeeder(FeederAgent feeder) {
 		v0KittingAreaTest.feeder = feeder;
 	}
 
-	public static Gantry getGantry() {
+	public static GantryAgent getGantry() {
 		return gantry;
 	}
 
-	public static void setGantry(Gantry gantry) {
+	public static void setGantry(GantryAgent gantry) {
 		v0KittingAreaTest.gantry = gantry;
 	}
 
@@ -102,19 +102,19 @@ public class v0KittingAreaTest {
 		v0KittingAreaTest.kitrobot = kitrobot;
 	}
 
-	public static Lane getLane() {
+	public static LaneAgent getLane() {
 		return lane;
 	}
 
-	public static void setLane(Lane lane) {
+	public static void setLane(LaneAgent lane) {
 		v0KittingAreaTest.lane = lane;
 	}
 
-	public static Nest getNest() {
+	public static NestAgent getNest() {
 		return nest;
 	}
 
-	public static void setNest(Nest nest) {
+	public static void setNest(NestAgent nest) {
 		v0KittingAreaTest.nest = nest;
 	}
 

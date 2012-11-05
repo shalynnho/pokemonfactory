@@ -12,8 +12,16 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	Location kitLocation;
 
+	public KitGraphicsDisplay () {
+		
+	}
+
 	public void setLocation (Location newLocation) {
 		kitLocation = newLocation;
+	}
+	
+	public Location getLocation () {
+		return kitLocation;
 	}
 
 	public void draw(JComponent c, Graphics2D g) {

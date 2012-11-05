@@ -3,7 +3,6 @@ package DeviceGraphics;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
-import Utils.Location;
 
 /**
  * This class handles the logic for the feeder animation.
@@ -17,8 +16,6 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	
 	// a reference to the server
 	private Server server;
-	
-	// private Location location;
 		
 	// true if the diverter is pointing to the top lane
 	private boolean diverterTop;
@@ -48,12 +45,6 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		
 		// TODO diverter starts on the top lane
 		diverterTop = true; // this means it is currently pointing at the top lane
-		
-		// TODO edit location coordinates later
-		// location = new Location(200, 100*feederID);
-		
-		// TODO send message to FeederGraphicsDisplay
-		// server.sendData(new Request(Constants.FEEDER_INIT_GRAPHICS_COMMAND, Constants.FEEDER_TARGET, location));
 	}
 	
 	/**
@@ -64,7 +55,7 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		partsRemaining = bg.getQuantity();
 		partGraphics = bg.getPart();
 				
-		// TODO someone else draw bin on top of feeder
+		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET, null));
 	}
 	
 	
@@ -75,8 +66,8 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	public void purgeBin(BinGraphics bg) {
 		partsFed = 0;
 		partsRemaining = 0;
-	
-		// TODO animate?
+		
+		server.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND, Constants.FEEDER_TARGET, null));
 	}
 	
 	/**
@@ -126,6 +117,5 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		if (req.getCommand().equals("Testing")) {
 			flipDiverter();
 		}
-		
 	}
 }

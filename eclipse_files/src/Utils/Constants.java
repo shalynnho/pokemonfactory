@@ -29,6 +29,8 @@ public abstract class Constants {
 	// conveyor images
 	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Conveyor.jpg");
 	public static final Image CONVEYOR_LINES_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/ConveyorLines.png");
+	// Kit Robot Images
+	public static final Image KIT_ROBOT_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Square.jpg");
 	
 	// kit images
 	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Kit.jpg");
@@ -66,6 +68,9 @@ public abstract class Constants {
 	// feeder logic to display commands
 	public static final String FEEDER_INIT_GRAPHICS_COMMAND = "feederinitg"; 	// initialize the feeder graphics
 	public static final String FEEDER_FLIP_DIVERTER_COMMAND = "feederflipdiv";  // draw the diverter flipping
+	public static final String FEEDER_RECEIVED_BIN_COMMAND = "feederrecbin";	// a bin has been received
+	public static final String FEEDER_PURGE_BIN_COMMAND = "feederpurgebin";		// purge the bin
+	
 	// end feeder logic to display commands
 	
 	// lane logic to display commands
@@ -74,6 +79,8 @@ public abstract class Constants {
 	public static final String LANE_SET_AMPLITUDE_COMMAND = "lane set amp";				// sets lane amplitude
 	public static final String LANE_TOGGLE_COMMAND = "lane toggle";						// turns lane on or off
 	public static final String LANE_SET_STARTLOC_COMMAND = "lane start loc";			// sets start loc for this lane
+	public static final String LANE_NEW_PART_COMMAND = "lane new part";					// new part added to lane
+	public static final String LANE_GIVE_PART_TO_NEST = "lane give part to nest";		// gives part to nest
 	// lane display to logic responses
 	
 	// end lane commands & responses

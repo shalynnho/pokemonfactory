@@ -5,7 +5,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
+import factory.data.PartType;
 
 import Networking.Request;
 import Utils.Location;
@@ -14,8 +14,12 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location partLocation;
 	
 	//NEED IMAGE NAMES
-	Image partImage = Toolkit.getDefaultToolkit().getImage("PUT IMAGE NAME HERE");
+	Image partImage;
 
+	public PartGraphicsDisplay (PartType pt) {
+		String imageName = pt.toString();
+		partImage = Toolkit.getDefaultToolkit().getImage(imageName);
+	}
 	
 	public void setLocation (Location newLocation) {
 		partLocation = newLocation;
@@ -25,6 +29,10 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(partImage, partLocation.getX(), partLocation.getY(), c);
 	}
 
+	public Location getLocation () {
+		return partLocation;
+	}
+	
 	public void receiveData(Request req) {
 	}
 	
