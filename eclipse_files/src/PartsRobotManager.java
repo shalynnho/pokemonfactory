@@ -20,16 +20,16 @@ import Utils.Constants;
 import Utils.Location;
 
 
-public class LaneManager extends Client implements ActionListener{
+public class PartsRobotManager extends Client implements ActionListener{
 	// Temp values. Feel free to change
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
 	
 	private Timer timer;
 	
-	public LaneManager() {
+	public PartsRobotManager() {
 		super();
-		clientName = Constants.LANE_MNGR_CLIENT;
+		clientName = Constants.PARTS_ROBOT_MNGR_CLIENT;
 		
 		initStreams();
 		initGUI();
@@ -37,7 +37,7 @@ public class LaneManager extends Client implements ActionListener{
 	}
 	
 	public void initGUI() {
-		JLabel label = new JLabel("Lane Manager");
+		JLabel label = new JLabel("Parts Robot Manager");
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("SansSerif", Font.PLAIN, 40));
 		label.setHorizontalAlignment(JLabel.CENTER);
@@ -58,7 +58,6 @@ public class LaneManager extends Client implements ActionListener{
 	
 	public void initDevices() {
 		// example:
-		addDevice(Constants.FEEDER_TARGET, new FeederGraphicsDisplay(this, new Location(600, 100)));
 //		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 0));
 //		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 1));
 	}
@@ -72,7 +71,7 @@ public class LaneManager extends Client implements ActionListener{
 		JFrame frame = new JFrame();
 		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT);
 		
-		LaneManager mngr = new LaneManager();
+		PartsRobotManager mngr = new PartsRobotManager();
 		frame.add(mngr);
 		mngr.setVisible(true);
 		frame.validate();
