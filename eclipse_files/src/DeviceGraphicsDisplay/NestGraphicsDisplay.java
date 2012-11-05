@@ -53,12 +53,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		nestID = id;
 		isFull=true;
 		nestImg = Toolkit.getDefaultToolkit().getImage("src/images/Nest.png");
-		if(nestID==0){
-			NEST_Y=100;
-		}
-		else if (nestID==1){
-			NEST_Y=175;
-		}
+		NEST_Y=y_axis;
 		// Begin V0 requirements
 		
 		for (int i = 0; i < 8; i++) {
