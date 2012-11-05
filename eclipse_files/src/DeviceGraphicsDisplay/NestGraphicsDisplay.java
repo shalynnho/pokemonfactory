@@ -1,19 +1,18 @@
 
 package DeviceGraphicsDisplay;
 
-import Networking.*;
-import DeviceGraphics.PartGraphics;
-import GraphicsInterfaces.*;
-import Utils.*;
-
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import DeviceGraphics.DeviceGraphics;
+import Networking.Client;
+import Networking.Request;
+import Utils.Constants;
+import Utils.Location;
 import factory.data.PartType;
 
 /**
