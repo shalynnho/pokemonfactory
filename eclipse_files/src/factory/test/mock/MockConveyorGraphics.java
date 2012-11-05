@@ -3,6 +3,10 @@ package factory.test.mock;
 import DeviceGraphics.KitGraphics;
 import GraphicsInterfaces.ConveyorGraphics;
 
+/**
+ * Mock graphical representation of the conveyor.
+ * @author Daniel Paje
+ */
 public class MockConveyorGraphics extends MockAgent implements ConveyorGraphics {
 
 	public EventLog log;

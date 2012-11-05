@@ -5,7 +5,7 @@ import factory.interfaces.Conveyor;
 
 /**
  * Mock conveyor. Messages received simply add an entry to the mock agent's log.
- * @author dpaje
+ * @author Daniel Paje
  */
 public class MockConveyor extends MockAgent implements Conveyor {
 

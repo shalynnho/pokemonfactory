@@ -5,7 +5,7 @@ import factory.interfaces.Stand;
 
 /**
  * Mock stand. Messages received simply add an entry to the mock agent's log.
- * @author dpaje
+ * @author Daniel Paje
  */
 public class MockStand extends MockAgent implements Stand {
 

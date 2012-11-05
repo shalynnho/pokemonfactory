@@ -10,7 +10,7 @@ import factory.interfaces.Nest;
 
 /**
  * Mock camera. Messages received simply add an entry to the mock agent's log.
- * @author dpaje
+ * @author Daniel Paje
  */
 public class MockCamera extends MockAgent implements Camera {
 

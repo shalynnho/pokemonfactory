@@ -19,7 +19,7 @@ import factory.interfaces.Stand;
 /**
  * Stand manages the kits that are placed on the kitting stand. Interacts with
  * the Factory Control System (FCS), the Parts Robot and the Kit Robot.
- * @author dpaje
+ * @author Daniel Paje
  */
 public class StandAgent extends Agent implements Stand {
 

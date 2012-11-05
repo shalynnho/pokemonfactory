@@ -8,10 +8,11 @@ import factory.StandAgent;
 import factory.test.mock.MockGraphics;
 
 /**
- * Tests the kitting area (Kit robot, conveyor, stand) Messages are manually
- * sent from classes not part of this area of the cell. These messages assume
- * the other agents/graphics objects completed successfully.
- * @author dpaje
+ * Tests the kitting area (Kit robot, conveyor, stand). This is not a JUnit
+ * test. Messages are manually sent from classes not part of this area of the
+ * cell. These messages assume the other agents/graphics objects completed
+ * successfully.
+ * @author Daniel Paje
  */
 public class V0_KitRobot_Conveyor_Stand_Test {
 	static ConveyorAgent conveyor;
@@ -24,7 +25,7 @@ public class V0_KitRobot_Conveyor_Stand_Test {
 	public V0_KitRobot_Conveyor_Stand_Test() {
 
 		conveyor = new ConveyorAgent("conveyor");
-		camera = new CameraAgent();
+		camera = new CameraAgent("camera1");
 		kitrobot = new KitRobotAgent("kitrobot");
 		stand = new StandAgent("stand");
 		fcs = new FCSAgent();

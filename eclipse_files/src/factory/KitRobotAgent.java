@@ -23,7 +23,7 @@ import factory.test.mock.MockGraphics;
  * kitting stand. It is responsible for moving the assembled kits on the stand
  * into the inspection area for the Camera. Interacts with the Parts Robot,
  * Conveyor and Camera.
- * @author dpaje
+ * @author Daniel Paje
  */
 public class KitRobotAgent extends Agent implements KitRobot {
 

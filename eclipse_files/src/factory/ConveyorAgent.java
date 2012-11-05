@@ -16,7 +16,7 @@ import factory.test.mock.MockGraphics;
  * Conveyor brings empty kits into and takes completed (i.e. assembled and
  * inspected) kits out of the kitting cell. Interacts with the Factory Control
  * System (FCS) and the Kit Robot.
- * @author dpaje
+ * @author Daniel Paje
  */
 public class ConveyorAgent extends Agent implements Conveyor {
 

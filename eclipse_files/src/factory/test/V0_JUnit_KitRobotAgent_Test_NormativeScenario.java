@@ -25,7 +25,7 @@ import factory.test.mock.MockStand;
  * This tests the normative scenario for the kitrobot in the kitting cell. The
  * UUT is the KitRobotAgent. The second tests for 100 kits in succession. Logs
  * for all agents can be printed at the end of each test if necessary.
- * @author dpaje
+ * @author Daniel Paje
  */
 public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
 	private static final int TESTKITCOUNT = 100;

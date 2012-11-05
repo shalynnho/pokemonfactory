@@ -5,7 +5,7 @@ import factory.interfaces.KitRobot;
 
 /**
  * Mock kitrobot. Messages received simply add an entry to the mock agent's log.
- * @author dpaje
+ * @author Daniel Paje
  */
 public class MockKitRobot extends MockAgent implements KitRobot {
 

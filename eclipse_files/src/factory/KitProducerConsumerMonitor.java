@@ -5,7 +5,8 @@ import java.util.Vector;
 import factory.data.Kit;
 
 /**
- * Monitor that protects the shared Kits.
+ * Monitor that protects the shared Kits. Unused in v0.
+ * @author Daniel Paje
  */
 public class KitProducerConsumerMonitor extends Object {
 	// Since there can only be 3 kits on the stand at any given time.

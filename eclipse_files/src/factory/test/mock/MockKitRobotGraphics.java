@@ -6,7 +6,7 @@ import GraphicsInterfaces.KitRobotGraphics;
 /**
  * Mock graphical representation for the kitrobot. Messages received simply add
  * an entry to the mock agent's log.
- * @author dpaje
+ * @author Daniel Paje
  */
 public class MockKitRobotGraphics extends MockAgent implements KitRobotGraphics {
 

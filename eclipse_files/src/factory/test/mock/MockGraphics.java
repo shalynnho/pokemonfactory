@@ -31,6 +31,10 @@ import factory.interfaces.Nest;
 
 ;
 
+/**
+ * A mock of the graphics server
+ * @author Daniel Paje
+ */
 public class MockGraphics extends Agent implements CameraGraphics,
 		ConveyorGraphics, FeederGraphics, GantryGraphics, KitRobotGraphics,
 		LaneGraphics, NestGraphics, PartsRobotGraphics {
@@ -60,7 +64,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		// Set server to null
 		conveyorgraphics = new DeviceGraphics.ConveyorGraphics(null);
 
-		camera = new CameraAgent();
+		camera = new CameraAgent("camera");
 		conveyor = new ConveyorAgent("conveyor");
 		feeder = new FeederAgent("feeder");
 		gantry = new GantryAgent("gantry");

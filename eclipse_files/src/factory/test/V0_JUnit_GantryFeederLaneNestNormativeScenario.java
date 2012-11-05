@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
 import factory.FeederAgent;
@@ -17,8 +19,11 @@ import factory.data.Bin;
 import factory.data.Part;
 import factory.data.PartType;
 import factory.test.mock.MockAgent;
-import junit.framework.TestCase;
 
+/**
+ * This tests the Gantry, Feeder, Lane and Nest in the normative scenario
+ * @author Arjun Bhargava
+ */
 public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 
 	static GantryAgent gantry;
@@ -30,7 +35,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 	private final URL URL = V0_JUnit_KitRobotAgent_Test_NormativeScenario.class
 			.getResource(".");
 	private final String FILEPATH = URL.toString().replace("file:", "");
-	
+
 	@Test
 	public void testNormativeScenario() throws InterruptedException {
 		gantry = new GantryAgent("Test Gantry");
@@ -43,7 +48,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		lane.setFeeder(feeder);
 		lane.setNest(nest);
 		nest.setLane(lane);
-		
+
 		nest.msgHereIsPartType(PartType.A);
 		assertEquals("Nest Agent should have 1 requested type", 1,
 				nest.requestList.size());
@@ -59,19 +64,21 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		Part part = new Part(PartType.A);
 		Bin bin = new Bin(part);
 		gantry.msgHereIsBinConfig(bin);
-		assertEquals("Gantry Agent should have 1 bin", 1,
-				gantry.binList.size());
+		assertEquals("Gantry Agent should have 1 bin", 1, gantry.binList.size());
 		gantry.pickAndExecuteAnAction();
-		System.out.println("Gantry gui doing receive bin and messaging agent receiveBinDone");
+		System.out
+				.println("Gantry gui doing receive bin and messaging agent receiveBinDone");
 		gantry.msgreceiveBinDone(bin);
 		gantry.pickAndExecuteAnAction();
-		System.out.println("Gantry gui doing dropbin and messaging agent dropBinDone");
+		System.out
+				.println("Gantry gui doing dropbin and messaging agent dropBinDone");
 		gantry.msgdropBinDone(bin);
 		gantry.pickAndExecuteAnAction();
 		assertEquals("Feeder Agent should have 1 currentPart", 1,
 				feeder.currentParts.size());
 		feeder.pickAndExecuteAnAction();
-		System.out.println("Feeder gui doing give part to diverter and messaging agent givePartToDiverterDone");
+		System.out
+				.println("Feeder gui doing give part to diverter and messaging agent givePartToDiverterDone");
 		feeder.msgGivePartToDiverterDone(part);
 		feeder.pickAndExecuteAnAction();
 		assertEquals("Lane Agent should have 1 currentPart", 1,
@@ -80,16 +87,13 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		assertEquals("Nest Agent should have 1 currentPart", 1,
 				nest.currentParts.size());
 		nest.pickAndExecuteAnAction();
-		System.out.println("Parts Robot Agent taking part from nest and messaging TakingPart");
+		System.out
+				.println("Parts Robot Agent taking part from nest and messaging TakingPart");
 		nest.msgTakingPart(part);
 		assertEquals("Nest Agent should have 0 currentPart", 0,
 				nest.currentParts.size());
-		
-		
+
 	}
-	
-	
-	
 
 	/**
 	 * This is a modified version of Sean Turner's helper function which prints
@@ -142,6 +146,5 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 			ex.printStackTrace(System.err);
 		}
 	}
-	
-	
+
 }

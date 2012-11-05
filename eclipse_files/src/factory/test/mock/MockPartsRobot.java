@@ -11,7 +11,7 @@ import factory.interfaces.PartsRobot;
 /**
  * Mock partsrobot. Messages received simply add an entry to the mock agent's
  * log.
- * @author dpaje
+ * @author Daniel Paje
  */
 public class MockPartsRobot extends MockAgent implements PartsRobot {
 

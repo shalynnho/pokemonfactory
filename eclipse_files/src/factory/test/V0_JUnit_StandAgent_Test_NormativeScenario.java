@@ -23,7 +23,7 @@ import factory.test.mock.MockPartsRobot;
  * is the StandAgent. This tests the creation of a single kit. Since the stand
  * is mainly responsible for manipulating lists for the kits, results of data
  * manipulation instead of messages are asserted.
- * @author dpaje
+ * @author Daniel Paje
  */
 public class V0_JUnit_StandAgent_Test_NormativeScenario extends TestCase {
 	protected StandAgent stand;
