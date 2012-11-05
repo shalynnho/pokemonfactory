@@ -32,6 +32,19 @@ public class KitGraphics {
 	
 	public void addPart (PartGraphics newPart) {
 		parts.add(newPart);
+		
+		if ((parts.size() % 2) == 1) {
+			newPart.getLocation().setX(kitLocation.getX() + 5);
+			newPart.getLocation().setY(kitLocation.getY() + (20 * (parts.size() -1) / 2));
+		}
+		else {
+			newPart.getLocation().setX(kitLocation.getX() + 34);
+			newPart.getLocation().setY(kitLocation.getY() + (20 * parts.size() / 2));
+		}		
+		
+		if (parts.size() == 8) {
+			parts.clear();
+		}
 	}
 	
 	
@@ -52,4 +65,5 @@ public class KitGraphics {
 	public Boolean getFull () {
 		return isFull;
 	}
+	
 }
