@@ -50,6 +50,7 @@ public class GantryAgent extends Agent implements Gantry {
 			for(Bin bin : binList) {
 				if(bin.part.type == requested && bin.binState == BinStatus.FULL) {
 					moveToFeeder(bin);
+					return true;
 				}
 			}
 		}
@@ -57,6 +58,7 @@ public class GantryAgent extends Agent implements Gantry {
 			for(Bin bin : binList) {
 				if(bin.part.type == requested && bin.binState == BinStatus.OVER_FEEDER) {
 					fillFeeder(bin);
+					return true;
 				}
 			}
 		}
@@ -64,6 +66,7 @@ public class GantryAgent extends Agent implements Gantry {
 			for(Bin bin : binList) {
 				if(bin.part.type == requested && bin.binState == BinStatus.EMPTY) {
 					discardBin(bin);
+					return true;
 				}
 			}
 		}

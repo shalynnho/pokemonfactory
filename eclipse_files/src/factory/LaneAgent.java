@@ -61,10 +61,12 @@ public class LaneAgent extends Agent implements Lane {
 		// TODO Auto-generated method stub
 		for(PartType requestedType : requestList) {
 			getParts(requestedType);
+			return true;
 		}
 		for(MyPart part: currentParts) {
 			if(part.status==LaneStatus.BEGINNING_LANE) {
 				giveToNest(part.part);
+				return true;
 			}
 		}
 		return false;

@@ -48,6 +48,7 @@ public class v0GantryFeederLaneNestNormativeScenario extends TestCase {
 		gantry.msgHereIsBinConfig(bin);
 		assertEquals("Gantry Agent should have 1 bin", 1,
 				gantry.binList.size());
+		gantry.pickAndExecuteAnAction();
 		
 		
 	}

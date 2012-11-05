@@ -78,18 +78,22 @@ public class NestAgent extends Agent implements Nest {
 		for(PartType requestedPart : requestList) {
 			if(count < full) {
 				getParts(requestedPart);
+				return true;
 			}
 		}
 		for(MyPart currentPart : currentParts) {
 			if(currentPart.status == NestStatus.IN_NEST) {
 				moveToPosition(currentPart.part);
+				return true;
 			}
 		}
 		if(count == full) {
 			nestFull();
+			return true;
 		}
 		if(takingParts == true) {
 			updateParts();
+			return true;
 		}
 		return false;
 	}
