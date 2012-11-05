@@ -36,7 +36,7 @@ public class Location {
 	 * Specify how much to increase to x. Can be negative. Returns x after increment. 
 	 */
 	public int incrementX(int toAdd) {
-		incrementX(toAdd);
+		x += toAdd;
 		return x;
 	}
 	
@@ -52,7 +52,7 @@ public class Location {
 	 * Specify how much to increase to y. Can be negative. Returns y after increment. 
 	 */
 	public int incrementY(int toAdd) {
-		incrementY(toAdd);
+		y += toAdd;
 		return y;
 	}
 	
