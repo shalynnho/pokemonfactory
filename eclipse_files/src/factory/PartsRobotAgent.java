@@ -32,10 +32,12 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	
 	private List<PartType> KitConfig = Collections.synchronizedList(new ArrayList<PartType>());
 	private List<MyKit> MyKits = Collections.synchronizedList(new ArrayList<MyKit>());;
-	private Map<Nest,List<PartGraphics>> GoodParts;
+	private Map<Nest,List<Part>> GoodParts;
 	private List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
 	
 	List<Kit> KitsOnStand;
+	List<Nest> nests;
+	
 	Stand stand;
 	PartsRobotGraphics guiPartsRobot;
 	
@@ -129,21 +131,36 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	
 	//Wot?
 	private void PickUpPart(Arm a) {
-		PartGraphics pickUpPart;
-		//int nestIndex;
+		Part pickUpPart;
+		Nest nestKey;
 		SortedSet s = (SortedSet) GoodParts.entrySet();
+		nestKey = (Nest) s.first();
+		List<Part> available = GoodParts.get(nestKey);
+		//pickUpPart = available.get(0);
 		
-		if(MyKits.size() < 1)
+			 
+		for (MyKit mk : MyKits)
 		{
-			if(Arms.isEmpty())
+			for(Part p: available)
 			{
+				if(mk.kit.needPart(p))
+				{
+					pickUpPart = p;
+					break 2;
+				}
 				
-				List<PartGraphics> available = GoodParts.get(s.first());
-				pickUpPart = available.get(0);
-			} else {
-				for(Part p : GoodParts)
+			nestIndex = GoodParts.indexOf(p);
+			pickUpPart = p 
+			 
 			}
-		}
+			} 
+			// else don’t pick up anything as the kits don’t need anything from the current batch of parts
+
+			nestKey.msgTakingPart(pickUpPart); 
+			Animation.acquire();
+			guiPartsRobot.pickUpPart(pickUpPart);
+			nestKey.msgDoneTakingParts();
+
 		stateChanged();
 		
 	}
@@ -154,12 +171,17 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			for(Arm a : Arms)
 			{
 				Part p = a.part;
-				if(mk.kit.isNeeded(a.part)){
-					mk.kit.parts.put(p);
-					mk.kit.partsExpected.remove(p);
+				if(mk.kit.needPart(a.part)){
+					mk.kit.parts.add(p);
+					mk.kit.partsExpected.remove(p.type);
 					a.part = null;
-					Animation.acquire();
-					guiPartsRobot.givePartToKit(mk.kit.kit);
+					try {
+						Animation.acquire();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					//guiPartsRobot.givePartToKit(mk.kit.kit);
 				}
 			}
 			CheckMyKit(mk);
