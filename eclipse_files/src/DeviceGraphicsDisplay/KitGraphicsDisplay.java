@@ -16,7 +16,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location kitLocation;
 	
 	//RotationPart
-	int finalDegree;
+	public int finalDegree;
 	int currentDegree;
 	int degreeStep;
 	int rotationAxisX;
@@ -28,7 +28,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitLocation = newLocation;
 		
 		position=0;
-		finalDegree=0;
+		finalDegree=270;
 		currentDegree=0;
 		degreeStep=1;
 		rotationAxisX=160;

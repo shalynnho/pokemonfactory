@@ -17,6 +17,7 @@ import factory.data.Kit;
 public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfaces.ConveyorGraphics {
 
 	private ArrayList<KitGraphics> kitsOnConveyor; // all kits on conveyor
+	private ArrayList<KitGraphics> kitsToLeave;
 	private Location location;
 	private Server server;
 	private int velocity;
@@ -24,6 +25,7 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 	public ConveyorGraphics(Server s){
 		location = new Location(0,0);
 		kitsOnConveyor = new ArrayList<KitGraphics>();
+		kitsToLeave = new ArrayList<KitGraphics>();
 		server = s;
 		velocity = 1;
 	} 
@@ -62,11 +64,8 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 			}
 			
 			else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
-				//parsing object to kit object
-				if(object != null) {
-					KitGraphics kg = (KitGraphics)object;
-					receiveKit(kg);
-				}
+				kitsToLeave.add(new KitGraphics());
+				server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
 			} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
 				//need to somehow send an integer to change the velocity
 			} else if (command.equals(Constants.CONVEYOR_SEND_ANIMATION_COMMAND)) {
@@ -76,7 +75,7 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 				server.sendData(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
 			}
 		}
-	}
+}
 
 	@Override
 	public void msgBringEmptyKit(KitGraphics kit) {
