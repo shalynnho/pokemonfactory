@@ -29,7 +29,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS=8;
 	// x-coordinate of the Nest
-	private static final int NEST_X=119;
+	private static final int NEST_X=400;
 	// y-coordinate of the Nest
 	private static int NEST_Y;
 	// width and height of the nest
