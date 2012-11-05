@@ -82,8 +82,7 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 		positions[1]=positions[2];
 		positions[2]=null;
 		server.sendData(new Request("moveKitToConveyor", Constants.KIT_ROBOT_TARGET, null ));
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	@Override
@@ -95,6 +94,7 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 		if(command.equals("moveKitToStand10"))
 		{
 			msgPlaceKitOnStand1(null);
+			server.sendData(new Request(Constants.CONVEYOR_RECEIVES_KIT_ROBOT_PICK_COMMAND,Constants.CONVEYOR_TARGET,null));
 		}
 		//if()
 		// TODO Auto-generated method stub
