@@ -32,6 +32,7 @@ public class LaneAgent extends Agent implements Lane {
 	};
     
     FeederAgent feeder;
+    NestAgent nest;
     
     public LaneAgent(String name) {
     	super();
@@ -76,12 +77,19 @@ public class LaneAgent extends Agent implements Lane {
     }   
     public void giveToNest(Part part) {
         //GUILane.givePartToNest(part);  
-        //NestAgent.msgHereIsPart(part);
+        nest.msgHereIsPart(part);
     	for(MyPart currentPart : currentParts) {
     		if(currentPart.part == part) {
     			currentParts.remove(currentPart);
     		}
     	}
         stateChanged(); 
-   }
+    }
+    public void setFeeder(FeederAgent feeder) {
+    	this.feeder = feeder;
+    }
+    public void setNest(NestAgent nest) {
+    	this.nest = nest;
+    }
+    
 }
