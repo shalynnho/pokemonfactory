@@ -95,6 +95,7 @@ public abstract class Constants {
 	public static final String CONVEYOR_SEND_ANIMATION_COMMAND = "conveyor animation";             //sends animation information to conveyor
 	public static final String CONVEYOR_CHANGE_VELOCITY_COMMAND = "conveyor change velocity";      //need to change velocity
 	public static final String CONVEYOR_MAKE_NEW_KIT_COMMAND = "make new kit";
+	public static final String CONVEYOR_RECEIVES_KIT_ROBOT_PICK_COMMAND= "robot moves kit from conveyor";
 	// end conveyor logic to display
 	
 	//partsrobot logic to display commands
@@ -102,7 +103,11 @@ public abstract class Constants {
 	public static final String PARTS_ROBOT_MOVE_TO_NEST2_COMMAND = "nest2"; //parts robot moves to nest2
 	public static final String PARTS_ROBOT_ROTATE_COMMAND = "rotate"; //parts robot rotate
 	
+	//kitrobot logic to display commands
+	
 	// CLIENT NAMES
+	
+	
 	//==================================
 	// Used to identify clients.
 	
