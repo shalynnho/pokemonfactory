@@ -47,13 +47,10 @@ public class V0_JUnit_StandAgent_Test_NormativeScenario extends TestCase {
 
 	/**
 	 * This tests the stand's role in kit creation. The other agents involved in
-	 * this scenario are Conveyor, Camera and Stand. The graphics component of
-	 * KitRobot is also involved. Note that this scenario exhaustively tests the
-	 * messages sent/received and the data manipulation done by the KitRobot.
-	 * @throws InterruptedException
+	 * this scenario are PartsRobot, KitRobot and FCS.
 	 */
 	@Test
-	public void testNormativeScenario() throws InterruptedException {
+	public void testNormativeScenario() {
 		MockPartsRobot partsrobot = new MockPartsRobot("partsrobot1");
 		MockKitRobot kitrobot = new MockKitRobot("kitrobot1");
 		MockFCS fcs = new MockFCS("fcs1");
@@ -74,13 +71,14 @@ public class V0_JUnit_StandAgent_Test_NormativeScenario extends TestCase {
 		assertEquals(
 				"Mock Kit Robot should have an empty event(s) log before the stand's scheduler is called. "
 						+ "Instead, the stand's event(s) log reads: "
-						+ fcs.log.toString(), 0, fcs.log.size());
+						+ kitrobot.log.toString(), 0, fcs.log.size());
 
 		assertEquals(
 				"Mock Parts Robot should have an empty event(s) log before the stand's scheduler is called. "
 						+ "Instead, the stand's event(s) log reads: "
-						+ fcs.log.toString(), 0, fcs.log.size());
+						+ partsrobot.log.toString(), 0, fcs.log.size());
 
+		// Start the test
 		stand.msgMakeKits(1);
 
 		assertEquals("Stand should have updated the number of kits to make",
