@@ -45,7 +45,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	//boolean if the nest is full
 	private boolean isFull;
 	// dynamically stores the parts currently in the Nest
-	private ArrayList<PartGraphicsDisplay> partsInNest;
+	private ArrayList<PartGraphicsDisplay> partsInNest = new ArrayList<PartGraphicsDisplay>();
 	
 	
 	public NestGraphicsDisplay(Client x, int id) {
