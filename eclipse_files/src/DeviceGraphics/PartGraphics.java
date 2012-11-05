@@ -11,10 +11,9 @@ public class PartGraphics {
 	Location partLocation;
 	
 	// PartType????
-	public void PartGraphics (PartType type) {
+	public PartGraphics (PartType type) {
 		partType = type;
 	}
-	
 	
 	public void setLocation (Location newLocation) {
 		partLocation = newLocation;

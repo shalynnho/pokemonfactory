@@ -27,15 +27,14 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int DIVERTER_HEIGHT = 40;
 	private static final int DIVERTER_WIDTH = 120;
 	
-	private static final double DIVERTER_POINTING_TOP_ANGLE = 0.09;
-	private static final double DIVERTER_POINTING_BOTTOM_ANGLE = -0.09;
+	private static final double DIVERTER_POINTING_TOP_ANGLE = 0.1;
+	private static final double DIVERTER_POINTING_BOTTOM_ANGLE = -0.1;
 	private static final double DIVERTER_STEP = Math.abs((DIVERTER_POINTING_TOP_ANGLE-DIVERTER_POINTING_BOTTOM_ANGLE)/20);
 	private static final int STEPS_TO_ROTATE_DIVERTER = (1000/Constants.TIMER_DELAY);
 	
-	// image of the diverter
-	private Image diverterImage;
-	// image of the feeder
-	private Image feederImage;
+	private static Image diverterImage = Toolkit.getDefaultToolkit().getImage("src/images/Diverter.png");
+	private static Image feederImage = Toolkit.getDefaultToolkit().getImage("src/images/Feeder.png");
+	
 	// true if the diverter is pointing to the top lane
 	private boolean diverterTop;
 	// number of steps remaining for the diverter to finish rotating
@@ -60,11 +59,6 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	public FeederGraphicsDisplay(Client cli, Location loc) {
 		// store a reference to the client
 		client = cli;
-		
-		// set the path of the diverter image
-		diverterImage = Toolkit.getDefaultToolkit().getImage("src/images/Diverter.png");
-		// set the path of the feeder image
-		feederImage = Toolkit.getDefaultToolkit().getImage("src/images/Feeder.png");
 		
 		// set the feeder's default location
 		feederLocation = loc;
@@ -96,9 +90,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 		} else {
 			if (diverterTop) {
-				g.rotate(DIVERTER_POINTING_BOTTOM_ANGLE - ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP), feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
+				g.rotate(DIVERTER_POINTING_BOTTOM_ANGLE + ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP), feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
 			} else {
-				g.rotate(DIVERTER_POINTING_TOP_ANGLE + ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP), feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
+				g.rotate(DIVERTER_POINTING_TOP_ANGLE - ((STEPS_TO_ROTATE_DIVERTER-animationCounter)*DIVERTER_STEP), feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
 			}
 			animationCounter--;
 		}		
@@ -126,10 +120,16 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			// TODO calculate exact coordinates of the bin
 			
-			bgd = new BinGraphicsDisplay(new Location(5,10));
+			bgd = new BinGraphicsDisplay(new Location(feederLocation.getX() + FEEDER_WIDTH - 50, feederLocation.getY() + FEEDER_HEIGHT/2));
+			bgd.setFull(true);
+			
 			haveBin = true;
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND)) {
+			// TODO future: move bin to purge area
+			// cannot purge bin unless there is a bin
 			
+			bgd.setFull(false); // could be problematic if called when bin has not been received
+			haveBin = false;
 		}
 	}
 
