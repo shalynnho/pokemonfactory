@@ -17,6 +17,14 @@ public interface Stand {
 	public abstract void msgKitAssembled(Kit k);
 
 	/**
+	 * KitRobot sends this indicating the kit was moved and its old location is
+	 * now free
+	 * @param k kit moved
+	 * @param oldLocation kit's former location on the stand
+	 */
+	public abstract void msgMovedToInspectionArea(Kit k, int oldLocation);
+
+	/**
 	 * KitRobot sends this when it has placed a kit on the stand.
 	 * @param k kit placed on the stand.
 	 * @param dest the list index where the kit should be placed
