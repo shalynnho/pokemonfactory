@@ -25,7 +25,7 @@ import Utils.Location;
  */
 public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// horizontal length of the Lane image
-	private static final int LANE_LENGTH = 200;
+	private static final int LANE_LENGTH = 400;
 	// start and end x-coordinates of Part on the Lane
 	private static final int LANE_BEG_X = 650;
 	private static final int LANE_END_X = 450;
@@ -33,7 +33,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int PART_WIDTH = 20, PART_HEIGHT = 20;
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
-
+	// space in between lane lines (from upper left to upper left)
+	private static final int NUMLINES = LANE_LENGTH/(PART_WIDTH) - 1; // may need to change this, don't have images yet
+	// width of lane lines
+	private static final int LINE_WIDTH = 3;
+	
 	// y-coordinates of Part on Lane, depending on laneID
 	private static final int LANE0_Y = 500;
 	private static final int LANE1_Y = 450;
@@ -46,6 +50,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	// stores static ImageIcon emptyLane1, emptyLane2
 	private static Image laneImg;
+	private static Image laneLine;
+
 
 	// stores the parts on the lane
 	private ArrayList<PartGraphicsDisplay> partsOnLane;
@@ -54,15 +60,19 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private Location laneLoc;
 	// start location of parts on this lane
 	private Location partStartLoc;
+	// array list of locations of the lane lines
+	private ArrayList<Location> laneLines;
 
 	// the LaneManager (client) which talks to the Server
 	private Client laneManager;
 	// the ID of this Lane
 	private int laneID;
 	// the amplitude of this lane
-	private int amplitude = 1;
+	private int amplitude = 5;
 	// true if Lane is on
 	private boolean laneOn;
+	// counter
+	private int counter = 0;
 
 	public LaneGraphicsDisplay(Client lm, int lid) {
 		laneManager = lm;
@@ -70,12 +80,18 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		// TODO: load empty lane images, add to array list (get image from
 		// CONSTANTS when added)
-		laneImg = Toolkit.getDefaultToolkit().getImage("src/images/Lane.png");
+		laneImg = Toolkit.getDefaultToolkit().getImage("src/images/lane.png");
+		laneLine = Toolkit.getDefaultToolkit().getImage("src/images/laneline.png");
+
 
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
 		setLaneLoc(laneID);
 		partStartLoc = new Location(LANE_BEG_X, laneLoc.getY()
 				+ (PART_WIDTH / 2));
+		
+		// create array list of location for lane lines
+		resetLaneLineLocs();
+		
 	}
 
 	public LaneGraphicsDisplay(Client lm, Location loc, int lid) {
@@ -90,6 +106,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
 		partStartLoc = new Location(laneLoc.getX(), laneLoc.getY()
 				+ (PART_WIDTH / 2));
+		
+		// create array list of location for lane lines
+		resetLaneLineLocs();
 	}
 
 	@Override
@@ -98,7 +117,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			// need image(s) of lane and/or lane lines?
 			g.drawImage(laneImg, laneLoc.getX(), laneLoc.getY(), c);
 			// TODO: animate lane movements, using lines??
-
+			for(int i = 0; i < laneLines.size(); i++){
+				g.drawImage(laneLine, laneLines.get(i).getX(), laneLines.get(i).getY(), c);
+			}
+			laneMove();
+			
 			// TODO: animate parts moving down lane
 			if (partsOnLane != null) {
 				int min = (MAX_PARTS < partsOnLane.size()) ? MAX_PARTS
@@ -255,6 +278,28 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void lineUpParts() {
 		// depends on if we're moving parts in logic or display side
 
+	}
+	
+	private void resetLaneLineLocs() {
+		// create array list of location for lane lines
+		laneLines = new ArrayList<Location>();
+		int startLineX = LANE_BEG_X + PART_WIDTH + LINE_WIDTH;
+		for (int i = 0; i < NUMLINES; i++) {
+			laneLines.add(new Location(startLineX, laneLoc.getY()));
+			startLineX += PART_WIDTH + LINE_WIDTH;
+		}
+	}
+	
+	private void laneMove() {
+		counter++;
+		if (counter % (PART_WIDTH/amplitude) == 0) {	// reset lane lines
+			resetLaneLineLocs();
+		} else {
+			for (int i = 0; i < laneLines.size(); i++) {
+				laneLines.get(i).incrementX(-amplitude);
+			}
+		}
+		
 	}
 
 	/**

@@ -63,4 +63,8 @@ public class Location {
 	public void setY(int newY) {
 		y = newY;
 	}
+	
+	public boolean equals(Location otherLoc) {
+		return x == otherLoc.getX() && y == otherLoc.getY(); 
+	}
 }
