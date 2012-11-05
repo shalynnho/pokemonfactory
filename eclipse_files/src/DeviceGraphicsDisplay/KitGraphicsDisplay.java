@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.JComponent;
 
+import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
@@ -24,7 +25,9 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	AffineTransform trans=new AffineTransform();
 	
 
-	public KitGraphicsDisplay () {
+	public KitGraphicsDisplay (Client c, Location newLocation) {
+		kitLocation = newLocation;
+		
 		position=0;
 		finalDegree=0;
 		currentDegree=0;
