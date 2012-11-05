@@ -1,10 +1,9 @@
 package factory.test.mock;
 
 import java.util.List;
-import java.util.Map;
 
+import DeviceGraphics.PartGraphics;
 import factory.data.Kit;
-import factory.data.Part;
 import factory.data.PartType;
 import factory.interfaces.Nest;
 import factory.interfaces.PartsRobot;
@@ -25,12 +24,6 @@ public class MockPartsRobot extends MockAgent implements PartsRobot {
 
 	@Override
 	public void msgHereIsKitConfiguration(List<PartType> config) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void msgHereAreGoodParts(Map<Nest, List<Part>> parts) {
 		// TODO Auto-generated method stub
 
 	}
@@ -57,6 +50,12 @@ public class MockPartsRobot extends MockAgent implements PartsRobot {
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void msgHereAreGoodParts(Nest n, List<PartGraphics> goodparts) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
