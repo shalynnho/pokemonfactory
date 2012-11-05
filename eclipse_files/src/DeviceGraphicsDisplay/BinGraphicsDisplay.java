@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JComponent;
 
+import factory.data.PartType;
+
 import Networking.Request;
 import Utils.Location;
 
@@ -16,11 +18,13 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 	Image emptyBin = Toolkit.getDefaultToolkit().getImage("PUT IMAGE NAME HERE");
 	
 	Location binLocation;
+	PartType partType;
 	
 	Boolean isFull;
 	
-	public BinGraphicsDisplay (Location newLocation) {
+	public BinGraphicsDisplay (Location newLocation, PartType pt) {
 		binLocation = newLocation;
+		partType = pt;
 	}
 	
 	public void setLocation (Location newLocation) {
@@ -29,6 +33,10 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	public Location getLocation () {
 		return binLocation;
+	}
+	
+	public PartType getPartType() {
+		return partType;
 	}
 	
 	public void draw (JComponent c, Graphics2D g) {
