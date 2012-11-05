@@ -29,8 +29,8 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int DIVERTER_HEIGHT = 25;
 	private static final int DIVERTER_WIDTH = 98;
 	
-	private static final double DIVERTER_POINTING_TOP_ANGLE = 0.1;
-	private static final double DIVERTER_POINTING_BOTTOM_ANGLE = -0.1;
+	private static final double DIVERTER_POINTING_TOP_ANGLE = 0.18;
+	private static final double DIVERTER_POINTING_BOTTOM_ANGLE = -0.18;
 	private static final double DIVERTER_STEP = Math.abs((DIVERTER_POINTING_TOP_ANGLE-DIVERTER_POINTING_BOTTOM_ANGLE)/20);
 	private static final int STEPS_TO_ROTATE_DIVERTER = (1000/Constants.TIMER_DELAY);
 	
@@ -64,6 +64,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	// v0 stuff
 	private BinGraphicsDisplay bgd; 
 	private ArrayList<PartGraphicsDisplay> partGDList = new ArrayList<PartGraphicsDisplay>();
+	
 	private double xIncrements;
 	private double yIncrements;
 	

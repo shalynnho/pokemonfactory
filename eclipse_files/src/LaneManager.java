@@ -49,22 +49,22 @@ public class LaneManager extends Client implements ActionListener{
 		
 		// test flip diverter command
 		JButton testButton = new JButton("Flip Diverter");
-		testButton.addActionListener(new NetworkingButtonListener("flipdiv", Constants.FEEDER_TARGET, writer));
+		testButton.addActionListener(new NetworkingButtonListener(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET, writer));
 		panel.add(testButton);
 		
 		// test bin on feeder
 		JButton haveBin = new JButton("Get Bin");
-		haveBin.addActionListener(new NetworkingButtonListener("getbin", Constants.FEEDER_TARGET, writer));
+		haveBin.addActionListener(new NetworkingButtonListener(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET, writer));
 		panel.add(haveBin);
 		
 		// test feed parts to div
 		JButton feedDiv = new JButton("Feed Diverter");
-		feedDiv.addActionListener(new NetworkingButtonListener("feeddiverter", Constants.FEEDER_TARGET, writer));
+		feedDiv.addActionListener(new NetworkingButtonListener(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND, Constants.FEEDER_TARGET, writer));
 		panel.add(feedDiv);
 		
 		// test feed parts to lane
 		JButton feedLane = new JButton("Feed Lane");
-		feedLane.addActionListener(new NetworkingButtonListener("feedlane", Constants.FEEDER_TARGET, writer));
+		feedLane.addActionListener(new NetworkingButtonListener(Constants.FEEDER_MOVE_TO_LANE_COMMAND, Constants.FEEDER_TARGET, writer));
 		panel.add(feedLane);
 		
 		timer = new Timer(Constants.TIMER_DELAY, this);

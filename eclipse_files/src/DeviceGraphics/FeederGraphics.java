@@ -120,19 +120,19 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	@Override
 	public void receiveData(Request req) {
 		// v0 test commands
-		if (req.getCommand().equals("flipdiv")) {
+		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
 			flipDiverter();
-		} else if (req.getCommand().equals("getbin")) {
+		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			partGraphics = new PartGraphics(PartType.B);
 			binGraphics = new BinGraphics(partGraphics, 10);
 			receiveBin(binGraphics);
-		} else if (req.getCommand().equals("feeddiverter")) {
+		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND)) {
 			PartGraphics part = binGraphics.getPart();
 			
 			partList.add(part);
 			
 			movePartToDiverter(part);
-		} else if (req.getCommand().equals("feedlane")) {
+		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_LANE_COMMAND)) {
 			// partList.remove(0);
 			
 		}
