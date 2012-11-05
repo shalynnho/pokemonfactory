@@ -1,10 +1,10 @@
 package Utils;
 
 public class Location {
-	private int x;
-	private int y;
+	private double x;
+	private double y;
 	
-	public Location(int newX, int newY) {
+	public Location(double newX, double newY) {
 		x = newX;
 		y = newY;
 	}
@@ -16,18 +16,18 @@ public class Location {
 		return Math.sqrt(Math.pow(l.getX()-getX(),2)+Math.pow(l.getY()-getY(),2));
 	}
 	
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 	
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 	
 	/**
 	 * Call this with no params to increment x by 1. Returns x after increment.
 	 */
-	public int incrementX() {
+	public double incrementX() {
 		incrementX(1);
 		return x;
 	}
@@ -35,7 +35,7 @@ public class Location {
 	/**
 	 * Specify how much to increase to x. Can be negative. Returns x after increment. 
 	 */
-	public int incrementX(int toAdd) {
+	public double incrementX(double toAdd) {
 		x += toAdd;
 		return x;
 	}
@@ -43,7 +43,7 @@ public class Location {
 	/**
 	 * Call this with no params to increment y by 1. Returns y after increment.
 	 */
-	public int incrementY() {
+	public double incrementY() {
 		incrementY(1);
 		return y;
 	}
@@ -51,16 +51,16 @@ public class Location {
 	/**
 	 * Specify how much to increase to y. Can be negative. Returns y after increment. 
 	 */
-	public int incrementY(int toAdd) {
+	public double incrementY(double toAdd) {
 		y += toAdd;
 		return y;
 	}
 	
-	public void setX(int newX) {
+	public void setX(double newX) {
 		x = newX;
 	}
 	
-	public void setY(int newY) {
+	public void setY(double newY) {
 		y = newY;
 	}
 	
