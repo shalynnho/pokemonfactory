@@ -87,11 +87,13 @@ public class CameraAgent extends Agent implements Camera {
 
 	@Override
 	public void msgTakePictureNestDone(List<Part> parts, Nest nest) {
-		for (MyNest n : nests) {
-			if (n.nest == nest) {
-				n.Parts = parts;
-				n.state = NestStatus.PHOTOGRAPHED;
-				break;
+		synchronized (nests) {
+			for (MyNest n : nests) {
+				if (n.nest == nest) {
+					n.Parts = parts;
+					n.state = NestStatus.PHOTOGRAPHED;
+					break;
+				}
 			}
 		}
 		stateChanged();
@@ -111,24 +113,30 @@ public class CameraAgent extends Agent implements Camera {
 	/*********** SCHEDULER **************/
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		for (MyNest n : nests) {
-			if (n.state == NestStatus.NOT_READY) {
-				takePictureOfNest(n);
+		synchronized (nests) {
+			for (MyNest n : nests) {
+				if (n.state == NestStatus.NOT_READY) {
+					takePictureOfNest(n);
+					return true;
+				} else if (n.state == NestStatus.PHOTOGRAPHED) {
+					tellPartsRobot(n);
+					return true;
+				}
 			}
 		}
-		for (MyNest n : nests) {
-			if (n.state == NestStatus.PHOTOGRAPHED) {
-				tellPartsRobot(n);
+
+		synchronized (kits) {
+			for (MyKit k : kits) {
+				if (k != null && k.ks == KitStatus.NOT_READY) {
+					takePictureOfKit(k);
+					return true;
+				}
 			}
-		}
-		for (MyKit k : kits) {
-			if (k != null && k.ks == KitStatus.NOT_READY) {
-				takePictureOfKit(k);
-			}
-		}
-		for (MyKit k : kits) {
-			if (k != null && k.ks == KitStatus.DONE) {
-				tellKitRobot(k);
+			for (MyKit k : kits) {
+				if (k != null && k.ks == KitStatus.DONE) {
+					tellKitRobot(k);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -154,6 +162,7 @@ public class CameraAgent extends Agent implements Camera {
 				goodParts.add(part);
 			}
 		}
+		print("good parts count: " + goodParts.size());
 		partRobot.msgHereAreGoodParts(n.nest, goodParts);
 		nests.remove(n);
 		stateChanged();

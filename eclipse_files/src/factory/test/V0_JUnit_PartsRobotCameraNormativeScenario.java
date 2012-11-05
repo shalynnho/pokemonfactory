@@ -37,7 +37,8 @@ public class V0_JUnit_PartsRobotCameraNormativeScenario extends TestCase {
 			partsList.add(p);
 		}
 
-		assertEquals("Nest Agent should have 9 parts inside", 9, nest.count);
+		assertEquals("Nest Agent should have 9 parts inside", 9,
+				nest.currentParts.size());
 		camera.msgIAmFull(nest);
 		assertEquals(
 				"Camera Agent should have 1 nest agent in its NestAgents List",
@@ -56,7 +57,7 @@ public class V0_JUnit_PartsRobotCameraNormativeScenario extends TestCase {
 				parts.GoodParts.size());
 		parts.pickAndExecuteAnAction();
 		assertEquals("Nest Agent should have a part removed by Parts Robot", 8,
-				nest.count);
+				nest.currentParts.size());
 		assertEquals(
 				"Nest Agent's state should change from TakingParts to Not TakingParts",
 				false, nest.takingParts);

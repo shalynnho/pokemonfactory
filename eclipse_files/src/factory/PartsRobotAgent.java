@@ -2,6 +2,7 @@ package factory;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
@@ -27,6 +28,9 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		super();
 
 		this.name = name;
+		for (int i = 0; i < 4; i++) {
+			this.Arms.add(new Arm());
+		}
 	}
 
 	String name;
@@ -53,7 +57,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 		public Arm() {
 			part = null;
-			AS = null;
+			AS = ArmStatus.Empty;
 		}
 	}
 
@@ -65,7 +69,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			.synchronizedList(new ArrayList<PartType>());
 	private final List<MyKit> MyKits = Collections
 			.synchronizedList(new ArrayList<MyKit>());;
-	public Map<Nest, List<Part>> GoodParts;
+	public Map<Nest, List<Part>> GoodParts = new HashMap<Nest, List<Part>>();
 	public List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
 
 	List<Kit> KitsOnStand;
@@ -91,8 +95,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 * From Camera
 	 */
 	@Override
-	public void msgHereAreGoodParts(Nest n, List<Part> goodParts2) {
-		GoodParts.put(n, goodParts2);
+	public void msgHereAreGoodParts(Nest n, List<Part> goodParts) {
+		GoodParts.put(n, goodParts);
 		stateChanged();
 	}
 
@@ -131,6 +135,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		if (MyKits.size() > 0) {
+			print("Have kits");
 			for (MyKit mk : MyKits) {
 				if (mk.MKS == MyKitStatus.Done) {
 					RequestInspection(mk);
@@ -145,13 +150,16 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			}
 		}
 		if (GoodParts.size() > 0) {
+			print("Have good parts");
 			for (Arm a : Arms) {
 				if (a.AS == ArmStatus.Empty) {
 					PickUpPart(a);
+					return true;
 				}
 			}
 
 		}
+		print("returning false");
 		return false;
 	}
 
@@ -160,22 +168,28 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private void PickUpPart(Arm a) {
 		Part pickUpPart = null;
 
-		loop: for (MyKit mk : MyKits) {
-			for (Nest nests : GoodParts.keySet()) {
-				for (Part p : GoodParts.get(nests)) {
-					if (mk.kit.needPart(p)) {
-						nests.msgTakingPart(p);/*
-												 * try { Animation.acquire(); }
-												 * catch (InterruptedException
-												 * e) { e.printStackTrace(); }
-												 */
+		// for (MyKit mk : MyKits) {
+		for (Nest nests : GoodParts.keySet()) {
+			// TODO: Fix this since you never set what the kit needs
+			// for (Part p : GoodParts.get(nests)) {
+			print("Picking up part");
+			// if (mk.kit.needPart(p)) {
+			nests.msgTakingPart(GoodParts.get(nests).get(0));/*
+															 * try { Animation
+															 * .acquire(); }
+															 * catch (
+															 * InterruptedException
+															 * e) {
+															 * e.printStackTrace
+															 * (); }
+															 */
 
-						nests.msgDoneTakingParts();
-						stateChanged();
-					}
-				}
-			}
+			nests.msgDoneTakingParts();
+			stateChanged();
+			// }
 		}
+		// }
+		// }
 
 	}
 

@@ -6,16 +6,15 @@ public class Part {
 
 	public PartGraphics part;
 	public PartType type;
-	public boolean isGood = true;
-	
-	public Part(){
-		
-	}
-	
-	public Part(PartType type){
-		this.type=type;
+	public boolean isGood;
+
+	public Part() {
+		isGood = true;
 	}
 
-	
-	
+	public Part(PartType type) {
+		this.type = type;
+		isGood = true;
+	}
+
 }
