@@ -238,9 +238,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// kitrobotGraphics.msgPlaceKitOnStand(mk.kit.kit, loc);
-				// This is for testing
-				mockgraphics.msgPlaceKitOnStand(mk.kit.kit, loc);
+				if (kitrobotGraphics != null) {
+					kitrobotGraphics.msgPlaceKitOnStand(mk.kit.kit, loc);
+				}
+				if (mockgraphics != null) {
+					mockgraphics.msgPlaceKitOnStand(mk.kit.kit, loc);
+				}
 				standPositions.put(loc, false);
 				mk.location = loc;
 				stand.msgHereIsKit(mk.kit, loc);
@@ -263,9 +266,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			e.printStackTrace();
 		}
 		mk.KS = KitStatus.AwaitingInspection;
-		// kitrobotGraphics.msgPlaceKitInInspectionArea(mk.kit.kit);
-		// This is for testing
-		mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kit);
+		if (kitrobotGraphics != null) {
+			kitrobotGraphics.msgPlaceKitInInspectionArea(mk.kit.kit);
+		}
+		if (mockgraphics != null) {
+			mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kit);
+		}
 
 		// TODO This can't happen until the kit is placed
 		camera.msgInspectKit(mk.kit);
@@ -295,9 +301,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// kitrobotGraphics.msgPlaceKitOnConveyor();
-		// This is for testing
-		mockgraphics.msgPlaceKitOnConveyor();
+		if (kitrobotGraphics != null) {
+			kitrobotGraphics.msgPlaceKitOnConveyor();
+		}
+		if (mockgraphics != null) {
+			mockgraphics.msgPlaceKitOnConveyor();
+		}
 		conveyor.msgTakeKitAway(mk.kit);
 		stand.msgShippedKit();
 		myKits.remove(mk);
