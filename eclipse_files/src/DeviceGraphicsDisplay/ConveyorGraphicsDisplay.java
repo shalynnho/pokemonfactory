@@ -19,23 +19,27 @@ import Utils.Location;
 
 public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
-	Location location;
+	Location locationIn, locationOut;
 	ArrayList<Location> conveyorLines;
+	ArrayList<Location> exitLines;
 	ArrayList<KitGraphicsDisplay> kitsOnConveyor;
 	int velocity;
-	int counter;
 	Client client;
 	
 	
 	public ConveyorGraphicsDisplay(Client cli, Location loc) {
-		location = loc;
+		locationIn = loc;                                               //location for input lane
+		locationOut = new Location(loc.getX(),loc.getY() + 400);        //location for exit lane, based off of input lane
 		client = cli;
 		conveyorLines = new ArrayList<Location>();
-		for (int i = 0; i < 10; i++){
-			conveyorLines.add(new Location(location.getX(), i*40));   //creating an array list of conveyor line locations for painting
+		for (int i = 0; i < 10; i++) {
+			conveyorLines.add(new Location(locationIn.getX(), i*40));   //creating an array list of conveyor line locations for painting
+		}
+		exitLines = new ArrayList<Location>();
+		for(int i = 0; i < 20; i++) {
+			exitLines.add(new Location(i*40, locationOut.getY()));
 		}
 		velocity = 1;
-		counter = 0;
 		kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
 	}
 	
@@ -51,14 +55,22 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	public void giveKitAway() {
 		kitsOnConveyor.remove(0);
+		velocity = 1;
 	}
 	
 	public void draw(JComponent c, Graphics2D g2){
-		g2.drawImage(Constants.CONVEYOR_IMAGE, location.getX(), location.getY(), c);
-		counter++;
-		for(int i = 0; i < conveyorLines.size(); i++){
+		g2.drawImage(Constants.CONVEYOR_IMAGE, locationIn.getX(), locationIn.getY(), c);
+		
+		for(int i = 0; i < conveyorLines.size(); i++) {
 			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i).getX(), conveyorLines.get(i).getY(), c);
-			conveyorMove(i);
+			moveIn(i);
+		}
+		
+		g2.drawImage(Constants.EXIT_IMAGE,locationOut.getX(), locationOut.getY(), c);
+		
+		for(int i = 0; i < exitLines.size(); i++) {
+			g2.drawImage(Constants.EXIT_LINES_IMAGE, exitLines.get(i).getX(), exitLines.get(i).getY(),c);
+			moveOut(i);
 		}
 		
 		for(int j = 0; j < kitsOnConveyor.size(); j++) {
@@ -73,8 +85,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				tempKit.draw(c,g2);
 				Location temp = tempKit.kitLocation;
 				tempKit.setLocation(new Location(temp.getX(), temp.getY() + velocity));
-				kitsOnConveyor.remove(0);
-				velocity = 1;
 			}
 		}
 	}
@@ -84,13 +94,20 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * 
 	 * @param i
 	 */
-	public void conveyorMove(int i) {
-		if(conveyorLines.get(i).getY() < 380){                                  //if bottom of black conveyor line is less than this y position
+	public void moveIn(int i) {
+		if(conveyorLines.get(i).getY() < 385) {                                  //if bottom of black conveyor line is less than this y position
 			conveyorLines.get(i).setY(conveyorLines.get(i).getY() + velocity);  //when a conveyor is done being painted, move the location for next repaint
-		    }
-			else if(conveyorLines.get(i).getY() >= 380){                        //if bottom of black conveyor line is greater than or equal to this y position
-				conveyorLines.get(i).setY(0);
-			}
+		} else if(conveyorLines.get(i).getY() >= 385){                        //if bottom of black conveyor line is greater than or equal to this y position
+			conveyorLines.get(i).setY(0);
+		}
+	}
+	
+	public void moveOut(int i) {
+		if(exitLines.get(i).getX() < 800) {
+			exitLines.get(i).setX(exitLines.get(i).getX() + 1);
+		} else if(exitLines.get(i).getX() >= 793) {
+			exitLines.get(i).setX(0);
+		}
 	}
 	
 	/**
@@ -109,7 +126,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		Object object = req.getData();
 		
 		if (command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
-				             
+			giveKitAway();    
 		} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
 			newKit();
 		} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {

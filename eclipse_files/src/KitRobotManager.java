@@ -32,7 +32,7 @@ public class KitRobotManager extends Client implements ActionListener{
 	public KitRobotManager() {
 		clientName = Constants.KIT_ROBOT_MNGR_CLIENT;
 		
-		//initStreams();
+		initStreams();
 		initGUI();
 	
 		timer = new Timer(Constants.TIMER_DELAY,this);
