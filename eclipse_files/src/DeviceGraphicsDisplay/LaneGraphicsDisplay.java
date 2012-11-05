@@ -5,12 +5,10 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import factory.data.PartType;
 
-import DeviceGraphics.PartGraphics;
 import Networking.Client;
 import Networking.Request;
 import Utils.Animation;
@@ -107,7 +105,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
 		partStartLoc = new Location(laneLoc.getX() + LANE_LENGTH, laneLoc.getY()
 				+ (PART_WIDTH / 2));
-		
+		System.out.println("partStartLoc x: "+partStartLoc.getX()+", y: "+partStartLoc.getY());
+
 		// create array list of location for lane lines
 		resetLaneLineLocs();
 	}
@@ -140,8 +139,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 						// part in front of i
 						PartGraphicsDisplay pgdInFront = partsOnLane.get(i - 1);
 						Location locInFront = pgdInFront.getLocation();
-						System.out.println("part x: "+loc.getX()+", y: "+loc.getY());
-						System.out.println("partinfront x: "+locInFront.getX()+", y: "+locInFront.getY());
 						
 						// makes sure parts are spaced out as they appear on lane, but don't overlap part in front
 						if (locInFront.getX() <= (LANE_BEG_X - (2 * PART_WIDTH)) && (loc.getX() > (locInFront.getX() + PART_WIDTH))) {
@@ -196,14 +193,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			// TODO:
 			PartType partType = (PartType) r.getData();
 			PartGraphicsDisplay pg = new PartGraphicsDisplay(partType);
-			pg.setLocation(partStartLoc);
+			Location newLoc = new Location(laneLoc.getX() + LANE_LENGTH, laneLoc.getY()
+					+ (PART_WIDTH / 2));
+			pg.setLocation(newLoc);
 			partsOnLane.add(pg);
 			
-			System.out.println("partsOnLane size: "+partsOnLane.size());
-			for (int i = 0; i < partsOnLane.size(); i++) {
-			System.out.println("part"+i+" x: "+partsOnLane.get(i).getLocation().getX()+", y: "+partsOnLane.get(i).getLocation().getY());
-			}
-
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 			
 
