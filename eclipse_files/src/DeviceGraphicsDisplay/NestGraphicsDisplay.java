@@ -17,14 +17,14 @@ import javax.swing.ImageIcon;
 
 public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// max number of parts this Nest holds
-	private static final int MAX_PARTS;
+	private static final int MAX_PARTS=8;
 	// x-coordinate of the Nest
 	private static final int NEST_X;
 	// width and height of the nest
-	private static final int NEST_WIDTH; 
-	private static final int NEST_HEIGHT;
+	private static final int NEST_WIDTH=45; 
+	private static final int NEST_HEIGHT=80;
 	// width and height of a part
-	private static final int PART_WIDTH, PART_HEIGHT;
+	private static final int PART_WIDTH=21, PART_HEIGHT=21;
 	
 	// images of an empty nest (top/bottom)
 	private static ImageIcon emptyNestImg1, emptyNestImg2;
@@ -43,6 +43,9 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public NestGraphicsDisplay(LaneManager lm, int id) {
 		laneManager = lm;
 		nestID = id;
+		if(nestID==0){
+			
+		}
 		
 	}
 	
