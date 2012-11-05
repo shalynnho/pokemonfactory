@@ -54,7 +54,8 @@ public class KitRobotManager extends Client implements ActionListener{
 		
 		/*JButton stop = new JButton("Stop");
 		stop.addActionListener(new NetworkingButtonListener("stop button", Constants.SERVER_TARGET, writer));
-		panel.add(stop);*/   
+		panel.add(stop); */
+		
 	}
 	
 	public void initDevices() {
