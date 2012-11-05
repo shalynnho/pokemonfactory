@@ -23,6 +23,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private final List<MyKit> kitsOnConveyor = Collections
 			.synchronizedList(new ArrayList<MyKit>());
 	private MyKit incomingKit;
+	private MyKit outgoingKit;
 	private int numKitsToDeliver;
 
 	// Used to prevent animations from overlapping
@@ -81,6 +82,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	public void msgTakeKitAway(Kit k) {
 		print("Received msgTakeKitAway");
 		MyKit mk = new MyKit(k);
+		outgoingKit = mk;
 		mk.KS = KitStatus.MovingOut;
 		kitsOnConveyor.add(mk);
 		stateChanged();
@@ -104,6 +106,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void msgReceiveKitDone() {
 		print("Received msgReceiveKitDone");
+		kitsOnConveyor.remove(outgoingKit);
 		animation.release();
 		stateChanged();
 	}
@@ -192,11 +195,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		}
 		mk.KS = KitStatus.PickedUp;
 		if (mockgraphics != null) {
-			mockgraphics.msgGiveKitToKitRobot(mk.kit.kit);
+			mockgraphics.msgReceiveKit(mk.kit.kit);
 		}
 		if (conveyorGraphics != null) {
-			conveyorGraphics.msgGiveKitToKitRobot(mk.kit.kit);
+			conveyorGraphics.msgReceiveKit(mk.kit.kit);
 		}
+
+		kitsOnConveyor.remove(mk);
 
 		stateChanged();
 	}

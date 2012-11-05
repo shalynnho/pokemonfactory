@@ -54,6 +54,7 @@ public class V0_JUnit_ConveyorAgent_Test_NormativeScenario extends TestCase {
 				"conveyorgraphics1");
 
 		conveyor.setKitRobot(kitrobot);
+		conveyor.setGraphicalRepresentation(conveyorGraphics);
 
 		Kit kit = new Kit();
 
@@ -79,6 +80,71 @@ public class V0_JUnit_ConveyorAgent_Test_NormativeScenario extends TestCase {
 		// Scheduler should have fired prepareKit()
 		assertEquals("Conveyor should have added 1 MyKit object", 1, conveyor
 				.getKitsOnConveyor().size());
+
+		/*
+		 * If the scheduler fires now, the code blocks if the previous animation
+		 * isn't complete, so simulate completing the placeKitOnStand animation
+		 * and releasing the animation permit. In this test case, we do this
+		 * before invoking the scheduler as this test runs in a single thread
+		 * (and will get stuck if kitrobot attempts to acquire a permit) whereas
+		 * in the factory, the KitRobotGraphics will be running in another
+		 * thread.
+		 */
+		conveyor.msgBringEmptyKitDone();
+
+		assertEquals("ConveyorGraphics should have 1 event(s) in its log", 1,
+				conveyorGraphics.log.size());
+
+		assertTrue(
+				"ConveyorGraphics should have received a request to animate moving the kit into the cell. Last logged event(s): "
+						+ conveyorGraphics.log.getLastLoggedEvent()
+								.getMessage(),
+				conveyorGraphics.log.getLastLoggedEvent().getMessage()
+						.equals("Received message msgBringEmptyKit"));
+
+		// Now it's safe to invoke the scheduler
+		conveyor.pickAndExecuteAnAction();
+
+		// Scheduler should have fired sendKit()
+		assertEquals("Conveyor should have no kits left to deliver", 0,
+				conveyor.getNumKitsToDeliver());
+
+		assertEquals(
+				"Conveyor should have 0 MyKit objects on its list of objects on the conveyor",
+				0, conveyor.getKitsOnConveyor().size());
+
+		// Release the animation semaphore permit
+		conveyor.msgGiveKitToKitRobotDone();
+
+		/*
+		 * At this point the conveyor sleeps until the kit is completed and the
+		 * kitrobot sends a message asking conveyor to take the kit out of the
+		 * cell.
+		 */
+		conveyor.msgTakeKitAway(kit);
+
+		assertEquals("Conveyor should have added 1 MyKit object", 1, conveyor
+				.getKitsOnConveyor().size());
+
+		conveyor.pickAndExecuteAnAction();
+
+		// Scheduler should have fired deliverKit()
+		assertEquals("ConveyorGraphics should have 2 event(s) in its log", 2,
+				conveyorGraphics.log.size());
+
+		assertTrue(
+				"ConveyorGraphics should have received a request to animate moving the kit out of the cell. Last logged event(s): "
+						+ conveyorGraphics.log.getLastLoggedEvent()
+								.getMessage(),
+				conveyorGraphics.log.getLastLoggedEvent().getMessage()
+						.equals("Received message msgReceiveKit"));
+
+		conveyor.msgReceiveKitDone();
+
+		// At this point the conveyor is done.
+		assertEquals(
+				"Conveyor should have added 0 MyKit objects left on the conveyor",
+				0, conveyor.getKitsOnConveyor().size());
 
 		// Write logs to file. Don't do this for now.
 		// List<MockAgent> MockAgents = new ArrayList<MockAgent>();

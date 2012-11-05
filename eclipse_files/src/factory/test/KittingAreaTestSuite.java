@@ -6,8 +6,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * This test suite will run all JUnit tests for agents in the Kitting Area
- * including the KitRobot, Stand and Conveyor agents.
+ * This test suite will run all JUnit tests for agents in the Kitting Cell. The
+ * following test classes will be run in this suite:
  * @author dpaje
  */
 @RunWith(Suite.class)
