@@ -16,7 +16,7 @@ import javax.swing.JComponent;
 import factory.data.PartType;
 
 /**
- * @author vanshjain
+ * @author Vansh Jain
  * 
  */
 
@@ -53,7 +53,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	//boolean if the nest is full
 	private boolean isFull;
 	// dynamically stores the parts currently in the Nest
-	private ArrayList<PartGraphics> partsInNest;
+	private ArrayList<PartGraphicsDisplay> partsInNest;
 	
 	
 	public NestGraphicsDisplay(Client x, int id) {
@@ -70,7 +70,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		// Begin V0 requirements
 		
 		for (int i = 0; i < 8; i++) {
-			PartGraphics temp = new PartGraphics(PartType.A);
+			PartGraphicsDisplay temp = new PartGraphicsDisplay(PartType.A);
 			if(i<4){
 				temp.setLocation(new Location((119+i*20),(NEST_Y+1)));
 			}
@@ -91,9 +91,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 	}
 	
-	public void givePartToPartsRobot(PartGraphicsDisplay) {
-			
-	}
+//	public void givePartToPartsRobot(PartGraphicsDisplay) {		
+//	}
 	
 	public void purge() {
 		
@@ -119,11 +118,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		g.drawImage(nestImg, NEST_X, NEST_Y, c);
 		for(int i=0; i<8; i++){
-			PartGraphics temp = partsInNest.get(i);
-			g.drawImage(temp,partsInNest.get(i).getX(),partsInNest.get(i).getY(),c);
-		
+			PartGraphicsDisplay temp = partsInNest.get(i);
+			temp.draw(c,g);
+		}
 	}
-
 
 	@Override
 	public void receiveData(Request req) {
