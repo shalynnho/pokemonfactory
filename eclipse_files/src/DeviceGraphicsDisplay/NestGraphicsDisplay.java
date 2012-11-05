@@ -56,7 +56,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		if(nestID==0){
 			NEST_Y=100;
 		}
-		else{
+		else if (nestID==1){
 			NEST_Y=175;
 		}
 		// Begin V0 requirements
