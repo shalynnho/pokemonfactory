@@ -20,6 +20,7 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 	
 	public KitRobotGraphics(Server s)
 	{
+		
 		positions=new KitGraphics[4];
 		
 		for(int i=0; i<4; i++)
@@ -28,8 +29,7 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 		}
 		
 		location = new Location(0,0);
-		server=s;
-		
+		server=s;	
 	}
 	
 	public Integer Search(KitGraphics kit){

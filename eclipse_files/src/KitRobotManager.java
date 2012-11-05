@@ -58,11 +58,7 @@ public class KitRobotManager extends Client implements ActionListener{
 		newKit.addActionListener(new NetworkingButtonListener(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, writer));
 		panel.add(newKit);  
 
-		//unable to do test of NetworkingButtonListener
 		
-		/*JButton stop = new JButton("Stop");
-		stop.addActionListener(new NetworkingButtonListener("stop button", Constants.SERVER_TARGET, writer));
-		panel.add(stop); */
 		
 	}
 	
