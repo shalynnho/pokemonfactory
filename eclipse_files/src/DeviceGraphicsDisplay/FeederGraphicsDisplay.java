@@ -24,19 +24,20 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	// this will store a reference to the client
 	private Client client;
 	
+	// part image dimensions
 	private static final int FEEDER_HEIGHT = 120;
 	private static final int FEEDER_WIDTH = 120;
 	private static final int DIVERTER_HEIGHT = 25;
 	private static final int DIVERTER_WIDTH = 98;
 	
+	// calculate diverter animation data
 	private static final double DIVERTER_POINTING_TOP_ANGLE = 0.18;
 	private static final double DIVERTER_POINTING_BOTTOM_ANGLE = -0.18;
 	private static final double DIVERTER_STEP = Math.abs((DIVERTER_POINTING_TOP_ANGLE-DIVERTER_POINTING_BOTTOM_ANGLE)/20);
 	private static final int STEPS_TO_ROTATE_DIVERTER = (1000/Constants.TIMER_DELAY);
-	
-	// v0 stuff
 	private static final int STEPS_TO_MOVE_PART = 50;
 	
+	// define image sources
 	private static Image diverterImage = Toolkit.getDefaultToolkit().getImage("src/images/Diverter.png");
 	private static Image feederImage = Toolkit.getDefaultToolkit().getImage("src/images/Feeder.png");
 	
@@ -47,9 +48,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	// true if a bin has been received
 	private boolean haveBin;
-	
-	// TODO what if a bin is purged?
-	
+		
 	// location of the feeder
 	private Location feederLocation;
 	// location of the diverter
@@ -57,14 +56,12 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	// the final location of the part before it leaves the diverter
 	private Location finalPartLocation;
-	
-	
+	// the starting location of the part
 	private Location startingPartLocation;
 	
 	// v0 stuff
 	private BinGraphicsDisplay bgd; 
 	private ArrayList<PartGraphicsDisplay> partGDList = new ArrayList<PartGraphicsDisplay>();
-	
 	private double xIncrements;
 	private double yIncrements;
 	
@@ -95,17 +92,17 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		haveBin = false;
 		
-		
 		// temp V0
 		xIncrements = (finalPartLocation.getX() - startingPartLocation.getX())/STEPS_TO_MOVE_PART;
 		yIncrements = (finalPartLocation.getY() - startingPartLocation.getY())/STEPS_TO_MOVE_PART;
-		
 		
 		// force an initial repaint to display feeder and diverter
 		client.repaint();
 	}
 	
-	@Override
+	/**
+	 * this function handles drawing
+	 */
 	public void draw(JComponent c, Graphics2D g) {
 		// we decided to scrap this last minute because the physical diverter looks cumbersome
 		
@@ -180,10 +177,11 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			haveBin = true;
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND)) {
 			// TODO future: move bin to purge area
-			// cannot purge bin unless there is a bin
 			
-			bgd.setFull(false); // could be problematic if called when bin has not been received
-			haveBin = false;
+			if (haveBin) {
+				bgd.setFull(false); // could be problematic if called when bin has not been received
+				haveBin = false;
+			}
 		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND)) {
 			
 			PartGraphicsDisplay part = new PartGraphicsDisplay(bgd.getPartType());
@@ -196,5 +194,4 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			
 		}
 	}
-
 }

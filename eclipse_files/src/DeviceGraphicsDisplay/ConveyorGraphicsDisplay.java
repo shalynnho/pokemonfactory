@@ -48,7 +48,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void newKit() {
-		KitGraphicsDisplay temp = new KitGraphicsDisplay();
+		KitGraphicsDisplay temp = new KitGraphicsDisplay(client, new Location(0,0));
 		temp.setLocation(new Location(0,0));
 		kitsOnConveyor.add(temp);
 	}

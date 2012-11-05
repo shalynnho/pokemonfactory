@@ -3,6 +3,7 @@
 .*.sw[a-z]
 *~
 \#*\#
+*.ctxt
 
 # Compiled source #
 ###################
