@@ -53,6 +53,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		nestID = id;
 		isFull=true;
 		nestImg = Toolkit.getDefaultToolkit().getImage("src/images/Nest.png");
+
 		// Begin V0 requirements
 		
 		for (int i = 0; i < 8; i++) {
