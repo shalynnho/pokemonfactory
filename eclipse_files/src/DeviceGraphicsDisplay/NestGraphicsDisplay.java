@@ -50,7 +50,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		nestID = id;
 		isFull=true;
 		nestImg = Toolkit.getDefaultToolkit().getImage("src/images/Nest.png");
-		nestLocation = new Location(119, 100 + nestID * 75);
+		nestLocation = new Location(600, 100 + nestID * 75);
 		
 		// Begin V0 requirements
 		for (int i = 0; i < 8; i++) {
