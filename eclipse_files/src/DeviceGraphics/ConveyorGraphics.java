@@ -32,11 +32,11 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 		kitsOnConveyor.add(kg);
 	} 
 
-	public void giveKitToKitRobot(KitGraphics kg){
+	public void giveKitToKitRobot(){
 		
 		//sending the kit to be taken away to KitRobotGraphics
-		server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.KIT_ROBOT_TARGET, null));  //temporary command name until Kit Robot finalized
-		kitsOnConveyor.remove(kg);
+		server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.CONVEYOR_TARGET, null));  //temporary command name until Kit Robot finalized
+		kitsOnConveyor.remove(0);
 	} 
 
 	/**
@@ -57,10 +57,7 @@ public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfac
 		if(target.equals(Constants.CONVEYOR_TARGET)) {
 			if(command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
 				//parsing object to kit object
-				if(object != null) {
-					KitGraphics kg = (KitGraphics)object;
-					giveKitToKitRobot(kg);
-				}	
+					giveKitToKitRobot();	
 			}
 			
 			else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {

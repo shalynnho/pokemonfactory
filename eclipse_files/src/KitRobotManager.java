@@ -32,7 +32,7 @@ public class KitRobotManager extends Client implements ActionListener{
 	public KitRobotManager() {
 		clientName = Constants.KIT_ROBOT_MNGR_CLIENT;
 		
-		initStreams();
+		//initStreams();
 		initGUI();
 	
 		timer = new Timer(Constants.TIMER_DELAY,this);
@@ -57,9 +57,6 @@ public class KitRobotManager extends Client implements ActionListener{
 		JButton newKit = new JButton("New Kit");
 		newKit.addActionListener(new NetworkingButtonListener(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, writer));
 		panel.add(newKit);  
-
-		
-		
 	}
 	
 	public void initDevices() {

@@ -29,6 +29,9 @@ public abstract class Constants {
 	// conveyor images
 	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Conveyor.jpg");
 	public static final Image CONVEYOR_LINES_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/ConveyorLines.png");
+	public static final Image EXIT_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/ExitBelt.png");
+	public static final Image EXIT_LINES = Toolkit.getDefaultToolkit().getImage("src/images/ExitLines.png");
+	
 	// Kit Robot Images
 	public static final Image KIT_ROBOT_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Square.jpg");
 	
