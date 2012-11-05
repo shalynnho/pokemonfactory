@@ -12,7 +12,7 @@ import agent.Agent;
 
 public class LaneAgent extends Agent implements Lane {
 	
-	List<PartType> requestList = new ArrayList<PartType>(); 
+	public List<PartType> requestList = new ArrayList<PartType>(); 
     List<MyPart> currentParts = new ArrayList<MyPart>();
 	
     String name;
@@ -51,8 +51,7 @@ public class LaneAgent extends Agent implements Lane {
     public void msgReceivePartDone(Part part) { 
         stateChanged(); 
     }   
-    public void msgGivePartToNestDone(Part part) {  
-        currentParts.remove(part);  
+    public void msgGivePartToNestDone(Part part) {    
         stateChanged(); 
     }
 
@@ -61,21 +60,25 @@ public class LaneAgent extends Agent implements Lane {
 		// TODO Auto-generated method stub
 		for(PartType requestedType : requestList) {
 			getParts(requestedType);
+			return true;
 		}
 		for(MyPart part: currentParts) {
 			if(part.status==LaneStatus.BEGINNING_LANE) {
 				giveToNest(part.part);
+				return true;
 			}
 		}
 		return false;
 	}
 
-	public void getParts(PartType requestedType) {   
+	public void getParts(PartType requestedType) { 
+		print("Telling Feeder that it needs a part");
         feeder.msgINeedPart(requestedType);
         requestList.remove(requestedType);
         stateChanged(); 
     }   
     public void giveToNest(Part part) {
+    	print("Giving part to Nest");
         //GUILane.givePartToNest(part);  
         nest.msgHereIsPart(part);
     	for(MyPart currentPart : currentParts) {
@@ -84,6 +87,9 @@ public class LaneAgent extends Agent implements Lane {
     		}
     	}
         stateChanged(); 
+    }
+    public String getName() {
+    	return name;
     }
     public void setFeeder(FeederAgent feeder) {
     	this.feeder = feeder;

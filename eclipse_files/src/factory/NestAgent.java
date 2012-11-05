@@ -12,7 +12,7 @@ import agent.Agent;
 
 public class NestAgent extends Agent implements Nest {
 
-	List<PartType> requestList = new ArrayList<PartType>();
+	public List<PartType> requestList = new ArrayList<PartType>();
 	PartType currentPartType;
     List<MyPart> currentParts = new ArrayList<MyPart>();
     int count = 0;  
@@ -78,29 +78,35 @@ public class NestAgent extends Agent implements Nest {
 		for(PartType requestedPart : requestList) {
 			if(count < full) {
 				getParts(requestedPart);
+				return true;
 			}
 		}
 		for(MyPart currentPart : currentParts) {
 			if(currentPart.status == NestStatus.IN_NEST) {
 				moveToPosition(currentPart.part);
+				return true;
 			}
 		}
 		if(count == full) {
 			nestFull();
+			return true;
 		}
 		if(takingParts == true) {
 			updateParts();
+			return true;
 		}
 		return false;
 	}
 
 	//ACTIONS
 	public void getParts(PartType requestedType) {   
-        count++;
+        print("Telling lane it need a part and incrementing count");
+		count++;
 		lane.msgINeedPart(requestedType);  
         stateChanged();
 	}    
-    public void moveToPosition(Part part) {  
+    public void moveToPosition(Part part) {
+    	print("Moving part to proper nest location");
         //GUINest.receivePart(part);
     	for(MyPart currentPart : currentParts) {
     		if(currentPart.part == part)
@@ -108,7 +114,8 @@ public class NestAgent extends Agent implements Nest {
     	}  
         stateChanged();
     }
-    public void nestFull() {    
+    public void nestFull() {  
+    	print("Telling camera that this nest is full");
         camera.msgIAmFull(this);  
         takingParts = true; 
         stateChanged();
@@ -117,6 +124,10 @@ public class NestAgent extends Agent implements Nest {
         //GUINest.updatePartsList(); 
     }
     
+    
+    public String getName() {
+    	return name;
+    }
     public void setLane(LaneAgent lane) {
     	this.lane = lane;
     }

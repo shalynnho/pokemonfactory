@@ -12,7 +12,7 @@ import factory.data.Bin.BinStatus;
 public class GantryAgent extends Agent implements Gantry {
 
 	public List<Bin> binList = new ArrayList<Bin>();   
-    private List<PartType> requestedParts = new ArrayList<PartType>();
+    public List<PartType> requestedParts = new ArrayList<PartType>();
 	
     //WAITING FOR GANTRYGRAPHICS
     //private GantryGraphics gantryGraphic;
@@ -50,6 +50,7 @@ public class GantryAgent extends Agent implements Gantry {
 			for(Bin bin : binList) {
 				if(bin.part.type == requested && bin.binState == BinStatus.FULL) {
 					moveToFeeder(bin);
+					return true;
 				}
 			}
 		}
@@ -57,6 +58,7 @@ public class GantryAgent extends Agent implements Gantry {
 			for(Bin bin : binList) {
 				if(bin.part.type == requested && bin.binState == BinStatus.OVER_FEEDER) {
 					fillFeeder(bin);
+					return true;
 				}
 			}
 		}
@@ -64,6 +66,7 @@ public class GantryAgent extends Agent implements Gantry {
 			for(Bin bin : binList) {
 				if(bin.part.type == requested && bin.binState == BinStatus.EMPTY) {
 					discardBin(bin);
+					return true;
 				}
 			}
 		}
@@ -71,24 +74,29 @@ public class GantryAgent extends Agent implements Gantry {
 		return false;
 	}
 	
-	public void moveToFeeder(Bin bin) {     
+	public void moveToFeeder(Bin bin) {
+		print("Moving bin to over feeder");
         bin.binState = BinStatus.MOVING;     
         //GUIGantry.receiveBin(bin);      
         stateChanged();
 	}
-	public void fillFeeder(Bin bin) {       
+	public void fillFeeder(Bin bin) { 
+		print("Placing bin in feeder and filling feeder");
         feeder.msgHereAreParts(bin.part);      
         bin.binState = BinStatus.FILLING_FEEDER;     
         //GUIGantry.dropBin(bin, bin.feeder);     
         stateChanged();
 	}        
-    public void discardBin(Bin bin) {       
+    public void discardBin(Bin bin) {
+    	print("Discarding bin");
         bin.binState = BinStatus.DISCARDING;     
         //GUIGangry.removeBin(bin);       
         stateChanged();
     }   
 	
-	
+	public String getName() {
+		return name;
+	}
 	public void setFeeder(FeederAgent feeder) {
 		this.feeder = feeder;
 	}
