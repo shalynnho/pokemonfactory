@@ -21,8 +21,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	int rotationAxisX;
 	int rotationAxisY;
 	int position;
-	
-	AffineTransform trans=new AffineTransform();	
+	AffineTransform trans=new AffineTransform();
 	
 
 	public KitGraphicsDisplay () {
@@ -30,13 +29,17 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		finalDegree=0;
 		currentDegree=0;
 		degreeStep=1;
-		rotationAxisX=200;
-		rotationAxisY=25;	
-		trans.translate(0, 60);
+		rotationAxisX=175;
+		rotationAxisY=25;
+		trans.translate(0, 200);
 	}
 
-	public int getFinalDegree() {
-		return finalDegree;
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 	public void setLocation (Location newLocation) {
@@ -83,14 +86,6 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 			currentDegree=0;
 			finalDegree=0;
 		}
-	}
-	
-	public int getPosition() {
-		return position;
-	}
-
-	public void setPosition(int position) {
-		this.position = position;
 	}
 	
 }
