@@ -47,6 +47,8 @@ public class LaneManager extends Client implements ActionListener{
 		add(panel, BorderLayout.SOUTH);
 		panel.setVisible(true);
 		
+		// TODO: scrap all of this as we will not need buttons in V1
+		
 		// test flip diverter command
 		// JButton testButton = new JButton("Flip Diverter");
 		// testButton.addActionListener(new NetworkingButtonListener(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET, writer));
@@ -82,6 +84,8 @@ public class LaneManager extends Client implements ActionListener{
 	}
 	
 	public void initDevices() {
+		// TODO add all devices (4) feeders, (8) lanes
+		
 		// example:
 		addDevice(Constants.LANE_TARGET+":"+0, new LaneGraphicsDisplay(this, new Location(199, 100), 0));
 		addDevice(Constants.LANE_TARGET+":"+1, new LaneGraphicsDisplay(this, new Location(199, 175), 1));
