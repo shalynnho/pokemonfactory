@@ -70,7 +70,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// the amplitude of this lane
 	private int amplitude = 5;
 	// true if Lane is on
-	private boolean laneOn;
+	private boolean laneOn = true;
 	// counter
 	private int counter = 0;
 
