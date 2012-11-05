@@ -73,8 +73,8 @@ public class LaneManager extends Client implements ActionListener{
 	
 	public void initDevices() {
 		// example:
-		addDevice(Constants.LANE_TARGET+":"+0, new LaneGraphicsDisplay(this, new Location(200, 100), 0));
-		addDevice(Constants.LANE_TARGET+":"+1, new LaneGraphicsDisplay(this, new Location(200, 180), 1));
+		addDevice(Constants.LANE_TARGET+":"+0, new LaneGraphicsDisplay(this, new Location(199, 100), 0));
+		addDevice(Constants.LANE_TARGET+":"+1, new LaneGraphicsDisplay(this, new Location(199, 175), 1));
 		addDevice(Constants.FEEDER_TARGET, new FeederGraphicsDisplay(this, new Location(600, 100)));
 	}
 	

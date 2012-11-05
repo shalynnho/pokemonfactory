@@ -27,14 +27,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// horizontal length of the Lane image
 	private static final int LANE_LENGTH = 400;
 	// start and end x-coordinates of Part on the Lane
-	private static final int LANE_BEG_X = 650;
-	private static final int LANE_END_X = 450;
+	private static final int LANE_BEG_X = 599;
+	private static final int LANE_END_X = 399;
 	// width and height of the part
 	private static final int PART_WIDTH = 20, PART_HEIGHT = 20;
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
 	// space in between lane lines (from upper left to upper left)
-	private static final int NUMLINES = LANE_LENGTH/(PART_WIDTH) - 1; // may need to change this, don't have images yet
+	private static final int NUMLINES = LANE_LENGTH/(PART_WIDTH) - 2; // may need to change this, don't have images yet
 	// width of lane lines
 	private static final int LINE_WIDTH = 3;
 	
@@ -102,6 +102,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		// TODO: load empty lane images, add to array list (get image from
 		// CONSTANTS when added)
 		laneImg = Toolkit.getDefaultToolkit().getImage("src/images/Lane.png");
+		laneLine = Toolkit.getDefaultToolkit().getImage("src/images/laneline.png");
 
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
 		partStartLoc = new Location(laneLoc.getX(), laneLoc.getY()
@@ -116,12 +117,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (laneOn) {
 			// need image(s) of lane and/or lane lines?
 			g.drawImage(laneImg, laneLoc.getX(), laneLoc.getY(), c);
+
 			// TODO: animate lane movements, using lines??
 			for(int i = 0; i < laneLines.size(); i++){
 				g.drawImage(laneLine, laneLines.get(i).getX(), laneLines.get(i).getY(), c);
-				System.out.println("drawing lane lines x:"+laneLines.get(i).getX()+", y:"+ laneLines.get(i).getY());
 			}
 			laneMove();
+			
+			
 			
 			// TODO: animate parts moving down lane
 			if (partsOnLane != null) {
@@ -284,7 +287,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void resetLaneLineLocs() {
 		// create array list of location for lane lines
 		laneLines = new ArrayList<Location>();
-		int startLineX = LANE_BEG_X - PART_WIDTH - LINE_WIDTH;
+		int startLineX = LANE_BEG_X - LINE_WIDTH;
 		for (int i = 0; i < NUMLINES; i++) {
 			laneLines.add(new Location(startLineX, laneLoc.getY()));
 			startLineX -= PART_WIDTH + LINE_WIDTH;
