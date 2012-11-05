@@ -1,9 +1,5 @@
 package DeviceGraphicsDisplay;
 
-import Networking.*;
-import GraphicsInterfaces.*;
-import Utils.*;
-
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -11,6 +7,9 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+
+import Networking.Request;
+import Utils.Location;
 
 /**
  * @author vanshjain
