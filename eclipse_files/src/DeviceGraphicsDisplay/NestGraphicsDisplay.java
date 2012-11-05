@@ -75,8 +75,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 	}
 	
-/	public void givePartToPartsRobot(PartGraphicsDisplay) {		
-/	}
+//	public void givePartToPartsRobot(PartGraphicsDisplay) {		
+//	}
 	
 	public void purge() {
 		
