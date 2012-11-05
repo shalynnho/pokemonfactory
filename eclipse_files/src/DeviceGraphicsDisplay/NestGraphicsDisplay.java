@@ -45,7 +45,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static ImageIcon partXXNestImg;
 	
 	// the LaneManager (client) which talks to the Server
-	private LaneManager laneManager;
+	private Client client;
 	// the id of this nest
 	private int nestID;
 	// true if spot is filled, false if not
@@ -56,8 +56,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private ArrayList<PartGraphics> partsInNest;
 	
 	
-	public NestGraphicsDisplay(LaneManager lm, int id) {
-		laneManager = lm;
+	public NestGraphicsDisplay(Client x, int id) {
+		Client client = x;
 		nestID = id;
 		isFull=true;
 		nestImg = Toolkit.getDefaultToolkit().getImage("src/images/Nest.png");
@@ -75,7 +75,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				temp.setLocation(new Location((119+i*20),(NEST_Y+1)));
 			}
 			else{
-				temp.setLocation(new Location((119+(i-4)*20),(NEST_Y+23)); 
+				temp.setLocation(new Location((119+(i-4)*20),(NEST_Y+23))); 
 			}
 			partsInNest.add(temp);
 			
@@ -92,7 +92,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void givePartToPartsRobot(PartGraphicsDisplay) {
-		
+			
 	}
 	
 	public void purge() {
