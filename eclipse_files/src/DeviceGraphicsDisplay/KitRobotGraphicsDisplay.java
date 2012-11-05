@@ -50,7 +50,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	Client client;
 	Location location;
 	ArrayList<KitGraphicsDisplay> kits=new ArrayList<KitGraphicsDisplay>();
-	
+	KitGraphicsDisplay currentKit =new KitGraphicsDisplay(); 
 	
 	public KitRobotGraphicsDisplay(Client cli,  Location loc){
 		//super();
@@ -324,7 +324,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 			{
 				InspectionStandToConveyor();
 			}
-			
+			else if(command.equals(""))
 		}
 		
 	}
@@ -346,12 +346,16 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		}
 	}
 	
+	public void rotateKit(){
+		
+	}
+	
 	public void draw(JComponent c, Graphics2D g)
 	{
 		
 		for(int i=0;i<kits.size(); i++)
 		{
-			kits.get(i).draw(c, g);
+			kits.get(i).draw(c,g);;
 		}
 		
 		//Image image=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/resource/Square.jpg"));

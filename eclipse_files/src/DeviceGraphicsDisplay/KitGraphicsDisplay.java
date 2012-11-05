@@ -1,6 +1,8 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.JComponent;
 
@@ -11,9 +13,23 @@ import Utils.Location;
 public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	Location kitLocation;
+	
+	//RotationPart
+	int finalDegree;
+	int currentDegree;
+	int degreeStep;
+	int rotationAxisX;
+	int rotationAxisY;
+	AffineTransform trans=new AffineTransform();
+	
 
 	public KitGraphicsDisplay () {
-		
+		finalDegree=0;
+		currentDegree=0;
+		degreeStep=1;
+		rotationAxisX=200;
+		rotationAxisY=25;
+		trans.translate(0, 60);
 	}
 
 	public void setLocation (Location newLocation) {
@@ -28,10 +44,38 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(Constants.KIT_IMAGE, kitLocation.getX(), kitLocation.getY(), c);
 		
 	}
+	
+
 
 	public void receiveData(Request req) {
 		
 	}
 
+	//Drawing using AffineTransform part
+	public void resetcurrentDegree(){
+		currentDegree=0;
+	}
+	
+	public void setFinalDegree(int finalDegree) {
+		this.finalDegree = finalDegree;
+	}
+	
+	public void drawRotate(JComponent c, Graphics2D g){
+		rotate();
+		g.drawImage(Constants.KIT_IMAGE,trans, null );
+		
+	}
+	public void rotate(){
+		if(currentDegree!=finalDegree)
+		{
+			trans.rotate(Math.toRadians(1),rotationAxisX,rotationAxisY);
+			currentDegree++;
+		}
+		else
+		{
+			currentDegree=0;
+			finalDegree=0;
+		}
+	}
 	
 }
