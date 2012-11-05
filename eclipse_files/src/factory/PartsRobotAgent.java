@@ -3,6 +3,7 @@ package factory;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+//import factory.StandAgent.MyKit;
 import factory.data.*;
 import factory.interfaces.Nest;
 import factory.interfaces.PartsRobot;
@@ -131,37 +132,30 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	
 	//Wot?
 	private void PickUpPart(Arm a) {
-		Part pickUpPart;
-		Nest nestKey;
-		SortedSet s = (SortedSet) GoodParts.entrySet();
-		nestKey = (Nest) s.first();
-		List<Part> available = GoodParts.get(nestKey);
-		//pickUpPart = available.get(0);
+		Part pickUpPart = null;
 		
-			 
-		for (MyKit mk : MyKits)
-		{
-			for(Part p: available)
+	loop: 
+			for (MyKit mk : MyKits)
 			{
-				if(mk.kit.needPart(p))
+				for (Nest nests:  GoodParts.keySet())
 				{
-					pickUpPart = p;
-					break 2;
+					for(Part p: GoodParts.get(nests))
+					{
+						if(mk.kit.needPart(p))
+						{
+							nests.msgTakingPart(p);
+							try {
+								Animation.acquire();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							nests.msgDoneTakingParts();
+							stateChanged();
+						}
+					}
 				}
-				
-			nestIndex = GoodParts.indexOf(p);
-			pickUpPart = p 
-			 
 			}
-			} 
-			// else don’t pick up anything as the kits don’t need anything from the current batch of parts
-
-			nestKey.msgTakingPart(pickUpPart); 
-			Animation.acquire();
-			guiPartsRobot.pickUpPart(pickUpPart);
-			nestKey.msgDoneTakingParts();
-
-		stateChanged();
+		
 		
 	}
 	
