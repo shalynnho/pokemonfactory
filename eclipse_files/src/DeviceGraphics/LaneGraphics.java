@@ -99,6 +99,7 @@ public class LaneGraphics extends DeviceGraphics implements
 
 		partsOnLane.remove(0); // this is kind of dangerous. check that correct
 								// part is removed.
+		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET, null));
 	}
 
 	/**
@@ -122,52 +123,6 @@ public class LaneGraphics extends DeviceGraphics implements
 		amplitude = amp;
 		server.sendData(new Request(Constants.LANE_SET_AMPLITUDE_COMMAND,
 				Constants.LANE_TARGET + laneID, amp));
-	}
-
-	public void setPartsLocation() {
-		
-		// TODO: calculate timer delay to move parts down lane
-		
-		if (nest.isFull()) { // parts start backing up
-			for (int i = 0; i < partsOnLane.size(); i++) {
-				PartGraphics pg = partsOnLane.get(i);
-				Location loc = pg.getLocation();
-				if (i == 0) {
-					loc.setX(LANE_END_X);
-				} else {
-					loc.setX(LANE_END_X + (i * PART_WIDTH));
-				}
-				
-				vibrateParts(i, loc);
-				pg.setLocation(loc);
-			}
-		} else { // nest is not full
-			for (int i = 0; i < partsOnLane.size(); i++) {
-
-				PartGraphics pg = partsOnLane.get(i);
-				Location loc = pg.getLocation();
-				if (i == 0) {
-					loc.setX(LANE_END_X);
-				} else {
-					loc.setX(LANE_END_X + (i * 2 * PART_WIDTH));
-				}
-				vibrateParts(i, loc);
-				pg.setLocation(loc);
-
-			}
-		}
-	}
-	
-	/**
-	 * change y-coords to show vibration down lane (may have to adjust values)
-	 */
-	private void vibrateParts(int i, Location loc) {
-		// to show vibration down lane (may have to adjust values)
-		if (i % 2 == 0) {
-			loc.incrementY();
-		} else {
-			loc.incrementY(-1);
-		}
 	}
 
 	/**
