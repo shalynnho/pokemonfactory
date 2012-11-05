@@ -1,3 +1,4 @@
+
 package DeviceGraphicsDisplay;
 
 import Networking.*;
@@ -107,7 +108,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		// TODO Auto-generated method stub
 		
-		g.drawImage(nestImg, NEST_X, NEST_Y, c);
+		g.drawImage(Constants.NEST_IMAGE, NEST_X, NEST_Y, c);
 		for(int i=0; i<8; i++){
 			PartGraphicsDisplay temp = partsInNest.get(i);
 			temp.draw(c,g);
@@ -129,3 +130,4 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 
 }
+
