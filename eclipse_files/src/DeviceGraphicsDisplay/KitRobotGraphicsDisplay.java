@@ -292,12 +292,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		}
 	}
 	
-	/*public void sendJobDone()
-	{
-		server.sendData(new Request("JobDone", Constants.KIT_ROBOT_TARGET,  null)); 
-	}
-	*/
-	
+
 	public void receiveData(Request req){
 		String command = req.getCommand();
 		String target = req.getTarget();

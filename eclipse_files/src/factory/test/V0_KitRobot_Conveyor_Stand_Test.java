@@ -5,10 +5,6 @@ import factory.ConveyorAgent;
 import factory.FCSAgent;
 import factory.KitRobotAgent;
 import factory.StandAgent;
-import factory.interfaces.Feeder;
-import factory.interfaces.Gantry;
-import factory.interfaces.Lane;
-import factory.interfaces.Nest;
 import factory.test.mock.MockGraphics;
 
 /**
@@ -17,7 +13,7 @@ import factory.test.mock.MockGraphics;
  * the other agents/graphics objects completed successfully.
  * @author dpaje
  */
-public class v0KittingAreaTest {
+public class V0_KitRobot_Conveyor_Stand_Test {
 	static ConveyorAgent conveyor;
 	static CameraAgent camera;
 	static KitRobotAgent kitrobot;
@@ -25,15 +21,11 @@ public class v0KittingAreaTest {
 	static FCSAgent fcs;
 	static MockGraphics mockgraphics;
 
-	public v0KittingAreaTest() {
+	public V0_KitRobot_Conveyor_Stand_Test() {
 
 		conveyor = new ConveyorAgent("conveyor");
 		camera = new CameraAgent();
 		kitrobot = new KitRobotAgent("kitrobot");
-		lane = new LaneAgent("lane");
-		nest = new NestAgent("nest");
-		partsrobot = new PartsRobotAgent();
-
 		stand = new StandAgent("stand");
 		fcs = new FCSAgent();
 
@@ -67,7 +59,7 @@ public class v0KittingAreaTest {
 	}
 
 	public static void setConveyor(ConveyorAgent conveyor) {
-		v0KittingAreaTest.conveyor = conveyor;
+		V0_KitRobot_Conveyor_Stand_Test.conveyor = conveyor;
 	}
 
 	public static KitRobotAgent getKitrobot() {
@@ -75,7 +67,7 @@ public class v0KittingAreaTest {
 	}
 
 	public static void setKitrobot(KitRobotAgent kitrobot) {
-		v0KittingAreaTest.kitrobot = kitrobot;
+		V0_KitRobot_Conveyor_Stand_Test.kitrobot = kitrobot;
 	}
 
 	public static StandAgent getStand() {
@@ -83,7 +75,7 @@ public class v0KittingAreaTest {
 	}
 
 	public static void setStand(StandAgent stand) {
-		v0KittingAreaTest.stand = stand;
+		V0_KitRobot_Conveyor_Stand_Test.stand = stand;
 	}
 
 	public static FCSAgent getFcs() {
@@ -91,7 +83,7 @@ public class v0KittingAreaTest {
 	}
 
 	public static void setFcs(FCSAgent fcs) {
-		v0KittingAreaTest.fcs = fcs;
+		V0_KitRobot_Conveyor_Stand_Test.fcs = fcs;
 	}
 
 	public static MockGraphics getMockgraphics() {
@@ -99,12 +91,14 @@ public class v0KittingAreaTest {
 	}
 
 	public static void setMockgraphics(MockGraphics mockgraphics) {
-		v0KittingAreaTest.mockgraphics = mockgraphics;
+		V0_KitRobot_Conveyor_Stand_Test.mockgraphics = mockgraphics;
 	}
 
 	public static void main(String[] args) {
-		v0KittingAreaTest test = new v0KittingAreaTest();
-		System.out.println("Starting kit area test");
+		V0_KitRobot_Conveyor_Stand_Test test = new V0_KitRobot_Conveyor_Stand_Test();
+		System.out.println("=========================");
+		System.out.println("  Starting kit area test");
+		System.out.println("=========================");
 		test.getStand().msgMakeKits(5);
 	}
 

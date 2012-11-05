@@ -27,7 +27,7 @@ public class v0GantryFeederLaneNestNormativeScenario extends TestCase {
 	static NestAgent nest;
 	protected Date date;
 
-	private final URL URL = KitRobotAgentTestNormativeScenario.class
+	private final URL URL = V0_JUnit_KitRobotAgent_Test_NormativeScenario.class
 			.getResource(".");
 	private final String FILEPATH = URL.toString().replace("file:", "");
 	
@@ -56,12 +56,34 @@ public class v0GantryFeederLaneNestNormativeScenario extends TestCase {
 		feeder.pickAndExecuteAnAction();
 		assertEquals("Gantry Agent should have 1 requested type", 1,
 				gantry.requestedParts.size());
-		
-		Bin bin = new Bin(new Part(PartType.A));
+		Part part = new Part(PartType.A);
+		Bin bin = new Bin(part);
 		gantry.msgHereIsBinConfig(bin);
 		assertEquals("Gantry Agent should have 1 bin", 1,
 				gantry.binList.size());
 		gantry.pickAndExecuteAnAction();
+		System.out.println("Gantry gui doing receive bin and messaging agent receiveBinDone");
+		gantry.msgreceiveBinDone(bin);
+		gantry.pickAndExecuteAnAction();
+		System.out.println("Gantry gui doing dropbin and messaging agent dropBinDone");
+		gantry.msgdropBinDone(bin);
+		gantry.pickAndExecuteAnAction();
+		assertEquals("Feeder Agent should have 1 currentPart", 1,
+				feeder.currentParts.size());
+		feeder.pickAndExecuteAnAction();
+		System.out.println("Feeder gui doing give part to diverter and messaging agent givePartToDiverterDone");
+		feeder.msgGivePartToDiverterDone(part);
+		feeder.pickAndExecuteAnAction();
+		assertEquals("Lane Agent should have 1 currentPart", 1,
+				lane.currentParts.size());
+		lane.pickAndExecuteAnAction();
+		assertEquals("Nest Agent should have 1 currentPart", 1,
+				nest.currentParts.size());
+		nest.pickAndExecuteAnAction();
+		System.out.println("Parts Robot Agent taking part from nest and messaging TakingPart");
+		nest.msgTakingPart(part);
+		assertEquals("Nest Agent should have 0 currentPart", 0,
+				nest.currentParts.size());
 		
 		
 	}

@@ -70,7 +70,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// the amplitude of this lane
 	private int amplitude = 5;
 	// true if Lane is on
-	private boolean laneOn;
+	private boolean laneOn = true;
 	// counter
 	private int counter = 0;
 
@@ -119,6 +119,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			// TODO: animate lane movements, using lines??
 			for(int i = 0; i < laneLines.size(); i++){
 				g.drawImage(laneLine, laneLines.get(i).getX(), laneLines.get(i).getY(), c);
+				System.out.println("drawing lane lines x:"+laneLines.get(i).getX()+", y:"+ laneLines.get(i).getY());
 			}
 			laneMove();
 			
@@ -283,10 +284,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void resetLaneLineLocs() {
 		// create array list of location for lane lines
 		laneLines = new ArrayList<Location>();
-		int startLineX = LANE_BEG_X + PART_WIDTH + LINE_WIDTH;
+		int startLineX = LANE_BEG_X - PART_WIDTH - LINE_WIDTH;
 		for (int i = 0; i < NUMLINES; i++) {
 			laneLines.add(new Location(startLineX, laneLoc.getY()));
-			startLineX += PART_WIDTH + LINE_WIDTH;
+			startLineX -= PART_WIDTH + LINE_WIDTH;
 		}
 	}
 	

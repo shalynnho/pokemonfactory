@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -32,7 +32,7 @@ public abstract class Client extends JPanel{
 	/**
 	 * To store devices based on device target.
 	 */
-	protected HashMap<String, DeviceGraphicsDisplay> devices = new HashMap<String, DeviceGraphicsDisplay>();
+	protected LinkedHashMap<String, DeviceGraphicsDisplay> devices = new LinkedHashMap<String, DeviceGraphicsDisplay>();
 	
 	protected Client() {
 		setLayout(new BorderLayout());

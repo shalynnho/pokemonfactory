@@ -4,11 +4,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
-import DeviceGraphics.ConveyorGraphics;
-import DeviceGraphics.DeviceGraphics;
-import DeviceGraphics.FeederGraphics;
+import DeviceGraphics.*;
 import Utils.Constants;
 
 /**
@@ -36,7 +34,7 @@ public class Server {
 	// See how many clients have connected
 	private int numClients = 0;
 	
-	public volatile HashMap<String, DeviceGraphics> devices = new HashMap<String, DeviceGraphics>();
+	public volatile LinkedHashMap<String, DeviceGraphics> devices = new LinkedHashMap<String, DeviceGraphics>();
 	
 	public Server() {
 		initDevices();
@@ -66,6 +64,8 @@ public class Server {
 	}
 	
 	private void initDevices() {
+		devices.put(Constants.LANE_TARGET+":"+0, new LaneGraphics(this, 0));
+		devices.put(Constants.LANE_TARGET+":"+0, new LaneGraphics(this, 1));
 		devices.put(Constants.FEEDER_TARGET, new FeederGraphics(0, this));
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this));
 	}

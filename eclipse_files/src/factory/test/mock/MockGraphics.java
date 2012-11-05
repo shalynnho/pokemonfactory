@@ -29,7 +29,6 @@ import factory.interfaces.Gantry;
 import factory.interfaces.Lane;
 import factory.interfaces.Nest;
 
-
 ;
 
 public class MockGraphics extends Agent implements CameraGraphics,
@@ -68,7 +67,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		kitrobot = new KitRobotAgent("kitrobot");
 		lane = new LaneAgent("lane");
 		nest = new NestAgent("nest");
-		partsrobot = new PartsRobotAgent();
+		// partsrobot = new PartsRobotAgent();
 
 		camera.startThread();
 		conveyor.startThread();
@@ -77,7 +76,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		kitrobot.startThread();
 		lane.startThread();
 		nest.startThread();
-		partsrobot.startThread();
+		// partsrobot.startThread();
 		// kitrobotgraphics = new DeviceGraphics.KitRobotGraphics(null);
 
 	}
@@ -241,12 +240,6 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	}
 
 	@Override
-	public void takeNestPhoto(NestGraphics nest1, NestGraphics nest2) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void takeKitPhoto(KitGraphics kit) {
 		// TODO Auto-generated method stub
 
@@ -352,12 +345,17 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public void givePartToNest(Part part) {
 		// TODO Auto-generated method stub
 
-
 	}
 
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public void takeNestPhoto(NestGraphics nest1) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -263,7 +263,9 @@ public class StandAgent extends Agent implements Stand {
 	private void finalizeOrder() {
 		fcs.msgOrderFinished();
 		start = false;
+		System.out.println("====================");
 		print("I FINISHED HURRAY");
+		System.out.println("====================");
 		// No need to call stateChanged() here as presumably the kitting cell is
 		// idle (i.e., no queued orders)
 	}

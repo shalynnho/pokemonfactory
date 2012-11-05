@@ -46,4 +46,9 @@ public class MockStand extends MockAgent implements Stand {
 		return false;
 	}
 
+	@Override
+	public void msgMovedToInspectionArea(Kit k, int oldLocation) {
+		log.add(new LoggedEvent("Received message msgMovedToInspectionArea"));
+	}
+
 }
