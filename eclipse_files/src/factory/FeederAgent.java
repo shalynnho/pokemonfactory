@@ -11,7 +11,7 @@ import agent.Agent;
 
 public class FeederAgent extends Agent implements Feeder {
 	public List<PartType> requestList = new ArrayList<PartType>();     
-    List<MyPart> currentParts = new ArrayList<MyPart>();
+    public List<MyPart> currentParts = new ArrayList<MyPart>();
     
     private GantryAgent gantry;
     private LaneAgent lane;
@@ -102,16 +102,21 @@ public class FeederAgent extends Agent implements Feeder {
     }   
     public void giveToLane(Part part) {  
     	print("Giving part to lane");
-        //lane.msgHereIsPart(part);  
-        //GUIDiverter.givePartToLane(part);   
+        lane.msgHereIsPart(part);  
+        //GUIDiverter.givePartToLane(part);
     	for(MyPart currentPart:currentParts) {
-        	if(currentPart.part==part)
+        	if(currentPart.part==part) {
         		currentParts.remove(currentPart);
+        		return;
+        	}
     	}
         stateChanged();
     }
 	
     //GETTERS AND SETTERS
+    public String getName() {
+    	return name;
+    }
     public void setGantry(GantryAgent gantry) {
     	this.gantry = gantry;
     }

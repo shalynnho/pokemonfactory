@@ -14,8 +14,8 @@ public class NestAgent extends Agent implements Nest {
 
 	public List<PartType> requestList = new ArrayList<PartType>();
 	PartType currentPartType;
-    List<MyPart> currentParts = new ArrayList<MyPart>();
-    int count = 0;  
+    public List<MyPart> currentParts = new ArrayList<MyPart>();
+    public int count = 0;  
     int full = 9;   
     boolean takingParts = false; 
     
@@ -60,7 +60,12 @@ public class NestAgent extends Agent implements Nest {
     }   
     public void msgTakingPart(Part p) {    
         //GUINest.givePartToPartsRobot(p);    
-        currentParts.remove(p);
+        for(MyPart part: currentParts) {
+        	if(part.part == p) {
+        		currentParts.remove(part);
+        		return;
+        	}	
+        }
         count --;
         stateChanged(); 
     }
