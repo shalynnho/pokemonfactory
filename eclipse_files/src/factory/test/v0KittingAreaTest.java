@@ -3,44 +3,38 @@ package factory.test;
 import factory.CameraAgent;
 import factory.ConveyorAgent;
 import factory.FCSAgent;
-import factory.FeederAgent;
-import factory.GantryAgent;
 import factory.KitRobotAgent;
-import factory.LaneAgent;
-import factory.NestAgent;
-import factory.PartsRobotAgent;
 import factory.StandAgent;
 import factory.test.mock.MockGraphics;
 
+/**
+ * Tests the kitting area (Kit robot, conveyor, stand) Messages are manually
+ * sent from classes not part of this area of the cell. These messages assume
+ * the other agents/graphics objects completed successfully.
+ * @author dpaje
+ */
 public class v0KittingAreaTest {
-	static CameraAgent camera;
 	static ConveyorAgent conveyor;
-	static FeederAgent feeder;
-	static GantryAgent gantry;
+	static CameraAgent camera;
 	static KitRobotAgent kitrobot;
-	static LaneAgent lane;
-	static NestAgent nest;
-	static PartsRobotAgent partsrobot;
 	static StandAgent stand;
 	static FCSAgent fcs;
 	static MockGraphics mockgraphics;
 
 	public v0KittingAreaTest() {
-		camera = new CameraAgent();
+
 		conveyor = new ConveyorAgent("conveyor");
-		feeder = new FeederAgent("feeder");
-		gantry = new GantryAgent("gantry");
+		camera = new CameraAgent();
 		kitrobot = new KitRobotAgent("kitrobot");
-		lane = new LaneAgent("lane");
-		nest = new NestAgent();
-		partsrobot = new PartsRobotAgent();
+		// partsrobot = new PartsRobotAgent();
 		stand = new StandAgent("stand");
 		fcs = new FCSAgent();
 
 		mockgraphics = new MockGraphics("mockgraphics");
 
 		stand.setKitRobot(kitrobot);
-		stand.setPartsRobot(partsrobot);
+		// stand.setPartsRobot(partsrobot);
+		stand.setFCS(fcs);
 
 		kitrobot.setCamera(camera);
 		kitrobot.setConveyor(conveyor);
@@ -52,18 +46,13 @@ public class v0KittingAreaTest {
 		// conveyor.setGraphicalRepresentation(mockgraphics.getConveyorgraphics());
 		conveyor.setMockgraphics(mockgraphics);
 
+		mockgraphics.setConveyor(conveyor);
+		mockgraphics.setKitrobot(kitrobot);
+
 		conveyor.startThread();
 		kitrobot.startThread();
 		stand.startThread();
 		mockgraphics.startThread();
-	}
-
-	public static CameraAgent getCamera() {
-		return camera;
-	}
-
-	public static void setCamera(CameraAgent camera) {
-		v0KittingAreaTest.camera = camera;
 	}
 
 	public static ConveyorAgent getConveyor() {
@@ -74,52 +63,12 @@ public class v0KittingAreaTest {
 		v0KittingAreaTest.conveyor = conveyor;
 	}
 
-	public static FeederAgent getFeeder() {
-		return feeder;
-	}
-
-	public static void setFeeder(FeederAgent feeder) {
-		v0KittingAreaTest.feeder = feeder;
-	}
-
-	public static GantryAgent getGantry() {
-		return gantry;
-	}
-
-	public static void setGantry(GantryAgent gantry) {
-		v0KittingAreaTest.gantry = gantry;
-	}
-
 	public static KitRobotAgent getKitrobot() {
 		return kitrobot;
 	}
 
 	public static void setKitrobot(KitRobotAgent kitrobot) {
 		v0KittingAreaTest.kitrobot = kitrobot;
-	}
-
-	public static LaneAgent getLane() {
-		return lane;
-	}
-
-	public static void setLane(LaneAgent lane) {
-		v0KittingAreaTest.lane = lane;
-	}
-
-	public static NestAgent getNest() {
-		return nest;
-	}
-
-	public static void setNest(NestAgent nest) {
-		v0KittingAreaTest.nest = nest;
-	}
-
-	public static PartsRobotAgent getPartsrobot() {
-		return partsrobot;
-	}
-
-	public static void setPartsrobot(PartsRobotAgent partsrobot) {
-		v0KittingAreaTest.partsrobot = partsrobot;
 	}
 
 	public static StandAgent getStand() {
@@ -148,7 +97,8 @@ public class v0KittingAreaTest {
 
 	public static void main(String[] args) {
 		v0KittingAreaTest test = new v0KittingAreaTest();
-
-		test.getStand().msgMakeKits(100);
+		System.out.println("Starting kit area test");
+		test.getStand().msgMakeKits(5);
 	}
+
 }
