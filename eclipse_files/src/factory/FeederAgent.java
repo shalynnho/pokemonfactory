@@ -10,7 +10,7 @@ import factory.interfaces.Lane;
 import agent.Agent;
 
 public class FeederAgent extends Agent implements Feeder {
-	List<PartType> requestList = new ArrayList<PartType>();     
+	public List<PartType> requestList = new ArrayList<PartType>();     
     List<MyPart> currentParts = new ArrayList<MyPart>();
     
     private GantryAgent gantry;
@@ -82,13 +82,15 @@ public class FeederAgent extends Agent implements Feeder {
 		return false;
 	}
 	
-	public void getParts(PartType requestedType) {   
+	public void getParts(PartType requestedType) {
+		print("Telling gantry that it needs parts");
         gantry.msgINeedParts(requestedType);
         requestList.remove(requestedType);
         stateChanged(); 
     }
 	
     public void giveToDiverter(Part part) {  
+    	print("Giving parts to diverter");
         //GUIDiverter.face(part.laneOrientation);
     	//SEMAPHORE GOES HERE
         //GUIFeeder.givePartToDiverter(part); 
@@ -99,6 +101,7 @@ public class FeederAgent extends Agent implements Feeder {
         stateChanged(); 
     }   
     public void giveToLane(Part part) {  
+    	print("Giving part to lane");
         //lane.msgHereIsPart(part);  
         //GUIDiverter.givePartToLane(part);   
     	for(MyPart currentPart:currentParts) {
