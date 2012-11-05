@@ -1,5 +1,10 @@
 package DeviceGraphics;
 
+import java.util.ArrayList;
+
+import Utils.Location;
+
+import factory.data.Kit;
 import factory.data.Part;
 
 /**
@@ -12,33 +17,29 @@ public class PartsRobotGraphics {
 
 	Location initialLocation; // initial location of robot
 	Location currentLocation; // current location of robot
-	boolean arm1, arm2, arm3, arm4; // whether the arm is full,Parttialized empty
-	ArrayList<Part> partArray; // an array of parts that allocates memory for 4 parts
+	boolean arm1, arm2, arm3, arm4; // whether the arm is full, initialized empty
+	ArrayList<PartGraphics> partArray; // an array of parts that allocates memory for 4 parts
 	KitGraphics kit;
+	int i;
 	
-	public PartsRobotGraphics {
-		initialLocation = new Location();
+	public PartsRobotGraphics() {
+		initialLocation = new Location(0,0);
 		currentLocation = initialLocation;
 		arm1 = false;
 		arm2 = false;
 		arm3 = false;
 		arm4 = false;
-		partArray = new ArrayList<Part>();
+		partArray = new ArrayList<PartGraphics>();
+		i = 0;
 	}
 	
 	
 	public void pickUpPart(Part part, Location location){
 		currentLocation = location;
-		Animation(currentLocation, 10);
-		partArray.add(part);
-		if (!isFullArm1)
-			arm1 = true;
-		else if (!isFullArm2)
-			arm2 = true;
-		else if (!isFullArm3)
-			arm3 = true;
-		else if (!isFullArm4)
-			arm4 = true;	
+		//Animation(currentLocation, 10);
+		PartGraphics pg = part.part;
+		partArray.add(pg);
+		rotateArm();
 		/**
 		 * pickup from nests
 		 * goes to a location to pick up a part
@@ -46,21 +47,10 @@ public class PartsRobotGraphics {
 		 */
 	}
 	
-	public void givePartToKit(Kit, int){
-		Animation(Kit.location, 10);
-		while (isFullArm1){
-			partArray.remove(add);
-			if (isFullArm4)
-				arm4 = false;
-			else if (isFullArm3)
-				arm3 = false;
-			else if (isFullArm2)
-				arm2 = false;
-			else if (isFullArm1)
-				arm1 = false;
-		}
-		
-		goHome();
+	public void givePartToKit(Kit k){
+		//Animation(k.location, 10);
+		partArray.remove(i-1);
+		derotateArm();
 		/**
 		 * gives the part to the kit
 		 * goes to a location to give a part
@@ -69,11 +59,32 @@ public class PartsRobotGraphics {
 	}
 	
 	public void rotateArm(){
+		if (!isFullArm1())
+			arm1 = true;
+		else if (!isFullArm2())
+			arm2 = true;
+		else if (!isFullArm3())
+			arm3 = true;
+		else if (!isFullArm4())
+			arm4 = true;
+		i++;
 		/**
 		 * rotates the arm
 		 */
 	}
 	
+	public void derotateArm(){
+		if (isFullArm4())
+			arm4 = false;
+		else if (isFullArm3())
+			arm3 = false;
+		else if (isFullArm2())
+			arm2 = false;
+		else if (isFullArm1())
+			arm1 = false;
+		
+		i--;
+	}
 	
 	 
 	public boolean isFullArm1(){
@@ -106,7 +117,7 @@ public class PartsRobotGraphics {
 	}
 	
 	public void goHome(){
-		Animation(initialLocation, 10);
+		//Animation(initialLocation, 10);
 		currentLocation = initialLocation;
 		/**
 		 * depends on specific graphics implementation
