@@ -13,7 +13,7 @@ import agent.Agent;
 public class LaneAgent extends Agent implements Lane {
 	
 	public List<PartType> requestList = new ArrayList<PartType>(); 
-    List<MyPart> currentParts = new ArrayList<MyPart>();
+    public List<MyPart> currentParts = new ArrayList<MyPart>();
 	
     String name;
     
@@ -84,6 +84,7 @@ public class LaneAgent extends Agent implements Lane {
     	for(MyPart currentPart : currentParts) {
     		if(currentPart.part == part) {
     			currentParts.remove(currentPart);
+    			return;
     		}
     	}
         stateChanged(); 
