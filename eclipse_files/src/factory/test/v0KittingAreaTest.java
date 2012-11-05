@@ -5,10 +5,6 @@ import factory.ConveyorAgent;
 import factory.FCSAgent;
 import factory.KitRobotAgent;
 import factory.StandAgent;
-import factory.interfaces.Feeder;
-import factory.interfaces.Gantry;
-import factory.interfaces.Lane;
-import factory.interfaces.Nest;
 import factory.test.mock.MockGraphics;
 
 /**
@@ -30,10 +26,6 @@ public class v0KittingAreaTest {
 		conveyor = new ConveyorAgent("conveyor");
 		camera = new CameraAgent();
 		kitrobot = new KitRobotAgent("kitrobot");
-		lane = new LaneAgent("lane");
-		nest = new NestAgent("nest");
-		partsrobot = new PartsRobotAgent();
-
 		stand = new StandAgent("stand");
 		fcs = new FCSAgent();
 
@@ -104,7 +96,9 @@ public class v0KittingAreaTest {
 
 	public static void main(String[] args) {
 		v0KittingAreaTest test = new v0KittingAreaTest();
-		System.out.println("Starting kit area test");
+		System.out.println("=========================");
+		System.out.println("  Starting kit area test");
+		System.out.println("=========================");
 		test.getStand().msgMakeKits(5);
 	}
 
