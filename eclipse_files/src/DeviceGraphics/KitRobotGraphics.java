@@ -68,6 +68,7 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 		else if(tempI==4)
 		{
 			server.sendData(new Request("moveKitInLocation2ToInspection", Constants.KIT_ROBOT_TARGET, null));
+			
 			positions[2]=kit;
 		}
 		else
@@ -86,6 +87,7 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 	}
 
 	@Override
+	
 	public void receiveData(Request req) {
 		String target=req.getTarget();
 		String command=req.getCommand();
@@ -96,6 +98,13 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 			msgPlaceKitOnStand1(null);
 			server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,Constants.CONVEYOR_TARGET,null));
 		}
+		else if(command.equals("moveKitFromLocation1ToConveyor"))
+		{
+			
+			server.sendData(new Request("moveit", Constants.KIT_ROBOT_TARGET, null));
+			server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET,null));
+		}
+		
 		//else if(command.equals())
 		
 		//if()
@@ -108,7 +117,9 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 		server.sendData(new Request("moveKitToStand1", Constants.KIT_ROBOT_TARGET, null));	
 	}
 
-
+    public void sendMessageBack(Server s) {
+    	s.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
+    }
 	public void msgPlaceKitOnStand2(KitGraphics kit) {
 		// TODO Auto-generated method stub
 		positions[4]=kit;

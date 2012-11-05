@@ -56,12 +56,17 @@ public class KitRobotManager extends Client implements ActionListener{
 		
 		JButton newKit = new JButton("New Kit");
 		newKit.addActionListener(new NetworkingButtonListener(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, writer));
+		
 		JButton moveKitToLocation1 =new JButton("moveKitToLocation1");
 		moveKitToLocation1.addActionListener(new NetworkingButtonListener("moveKitToStand10", Constants.KIT_ROBOT_TARGET,writer));	
-		//moveKitToLocation2.addActionListener(new NetworkingButtonListener("moveKitToStand2", Constants.KIT_))
+		
+		JButton moveKitFromLocation1ToConveyor= new JButton("moveKitFromLoc1ToConveyor");
+		
+		moveKitFromLocation1ToConveyor.addActionListener(new NetworkingButtonListener("moveKitFromLocation1ToConveyor", Constants.KIT_ROBOT_TARGET,writer));
 		
 		panel.add(newKit);  
 		panel.add(moveKitToLocation1);
+		panel.add(moveKitFromLocation1ToConveyor);
 	}
 	
 	public void initDevices() {
@@ -93,6 +98,7 @@ public class KitRobotManager extends Client implements ActionListener{
 		
 		for(DeviceGraphicsDisplay device : devices.values()) {
 			device.draw(this, g);
+			
 		}
 	}
 
