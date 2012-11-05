@@ -81,7 +81,7 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 	public void msgPlaceKitOnConveyor() {
 		positions[1]=positions[2];
 		positions[2]=null;
-		server.sendData(new Request("moveKitToConveyor", Constants.KIT_ROBOT_TARGET, null ));
+		server.sendData(new Request(Constants.CONVEYOR_RECEIVES_KIT_ROBOT_PICK_COMMAND, Constants.KIT_ROBOT_TARGET, null ));
 		// TODO Auto-generated method stub		
 	}
 
