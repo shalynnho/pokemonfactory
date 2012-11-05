@@ -38,6 +38,9 @@ public abstract class Constants {
 	// kit images
 	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Kit.jpg");
 	
+	//nest images
+	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Nest.png");
+	
 	// TARGET NAMES
 	//==================================
 	// Used so that we can create Request methods more easily.
