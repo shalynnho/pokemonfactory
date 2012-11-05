@@ -6,8 +6,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedHashMap;
 
-import DeviceGraphics.*;
-import DeviceGraphicsDisplay.NestGraphicsDisplay;
+import DeviceGraphics.ConveyorGraphics;
+import DeviceGraphics.DeviceGraphics;
+import DeviceGraphics.FeederGraphics;
+import DeviceGraphics.KitRobotGraphics;
+import DeviceGraphics.LaneGraphics;
+import DeviceGraphics.NestGraphics;
 import Utils.Constants;
 
 /**

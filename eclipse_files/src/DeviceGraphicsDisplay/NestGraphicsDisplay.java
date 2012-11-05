@@ -1,19 +1,18 @@
 
 package DeviceGraphicsDisplay;
 
-import Networking.*;
-import DeviceGraphics.PartGraphics;
-import GraphicsInterfaces.*;
-import Utils.*;
-
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import DeviceGraphics.DeviceGraphics;
+import Networking.Client;
+import Networking.Request;
+import Utils.Constants;
+import Utils.Location;
 import factory.data.PartType;
 
 /**
@@ -28,10 +27,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS=8;
-	// x-coordinate of the Nest
-	private static final int NEST_X=119;
-	// y-coordinate of the Nest
-	private static int NEST_Y;
+	
+	private Location nestLocation;
 	// width and height of the nest
 	private static final int NEST_WIDTH=45; 
 	private static final int NEST_HEIGHT=80;
@@ -53,21 +50,16 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		nestID = id;
 		isFull=true;
 		nestImg = Toolkit.getDefaultToolkit().getImage("src/images/Nest.png");
-		if(nestID==0){
-			NEST_Y=100;
-		}
-		else if (nestID==1){
-			NEST_Y=175;
-		}
-		// Begin V0 requirements
+		nestLocation = new Location(600, 100 + nestID * 75);
 		
+		// Begin V0 requirements
 		for (int i = 0; i < 8; i++) {
 			PartGraphicsDisplay temp = new PartGraphicsDisplay(PartType.A);
 			if(i<4){
-				temp.setLocation(new Location((NEST_X+i*20),(NEST_Y+1)));
+				temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY()+1)));
 			}
 			else{
-				temp.setLocation(new Location((NEST_X+(i-4)*20),(NEST_Y+23))); 
+				temp.setLocation(new Location((nestLocation.getX()+(i-4)*20),(nestLocation.getY()+23))); 
 			}
 			partsInNest.add(temp);
 			
@@ -94,21 +86,12 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 	}
 
-	
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
 		// TODO Auto-generated method stub
 		
-		g.drawImage(Constants.NEST_IMAGE, NEST_X, NEST_Y, c);
+		g.drawImage(Constants.NEST_IMAGE, nestLocation.getX(), nestLocation.getY(), c);
 		for(int i=0; i<8; i++){
 			PartGraphicsDisplay temp = partsInNest.get(i);
 			temp.draw(c,g);
