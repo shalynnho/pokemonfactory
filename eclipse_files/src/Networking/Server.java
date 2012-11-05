@@ -70,8 +70,8 @@ public class Server {
 		devices.put(Constants.FEEDER_TARGET, new FeederGraphics(0, this));
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this));
 		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this));
-		devices.put(Constants.NEST_TARGET+":0", new NestGraphicsDisplay(this, 0));
-		devices.put(Constants.NEST_TARGET+":1", new NestGraphicsDisplay(this, 1));
+		devices.put(Constants.NEST_TARGET+":"+0, new NestGraphicsDisplay(this, 0));
+		devices.put(Constants.NEST_TARGET+":"+1, new NestGraphicsDisplay(this, 1));
 	}
 	
 	/**
