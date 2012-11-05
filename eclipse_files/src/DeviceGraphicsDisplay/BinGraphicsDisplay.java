@@ -16,7 +16,7 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 	//NEED IMAGE NAMES
 	
 	// TODO temp fullBin image name. change later
-	Image fullBin = Toolkit.getDefaultToolkit().getImage("src/images/Square.jpg");
+	Image fullBin = Toolkit.getDefaultToolkit().getImage("src/images/samplebin.png");
 	Image emptyBin = Toolkit.getDefaultToolkit().getImage("PUT IMAGE NAME HERE");
 	
 	Location binLocation;
