@@ -13,6 +13,9 @@ import factory.FeederAgent;
 import factory.GantryAgent;
 import factory.LaneAgent;
 import factory.NestAgent;
+import factory.data.Bin;
+import factory.data.Part;
+import factory.data.PartType;
 import factory.test.mock.MockAgent;
 import junit.framework.TestCase;
 
@@ -41,6 +44,10 @@ public class v0GantryFeederLaneNestNormativeScenario extends TestCase {
 		lane.setNest(nest);
 		nest.setLane(lane);
 		
+		Bin bin = new Bin(new Part(PartType.A));
+		gantry.msgHereIsBinConfig(bin);
+		assertEquals("Gantry Agent should have 1 bin", 1,
+				gantry.binList.size());
 		
 		
 	}

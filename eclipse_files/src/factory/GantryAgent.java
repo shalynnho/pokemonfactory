@@ -11,7 +11,7 @@ import factory.data.Bin.BinStatus;
 
 public class GantryAgent extends Agent implements Gantry {
 
-	private List<Bin> binList = new ArrayList<Bin>();   
+	public List<Bin> binList = new ArrayList<Bin>();   
     private List<PartType> requestedParts = new ArrayList<PartType>();
 	
     //WAITING FOR GANTRYGRAPHICS
