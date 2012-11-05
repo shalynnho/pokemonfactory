@@ -67,6 +67,12 @@ public class LaneManager extends Client implements ActionListener{
 		feedLane.addActionListener(new NetworkingButtonListener(Constants.FEEDER_MOVE_TO_LANE_COMMAND, Constants.FEEDER_TARGET, writer));
 		panel.add(feedLane);
 		
+		
+		// test lane receive part
+		JButton laneRecPart = new JButton("Rec.Part");
+		laneRecPart.addActionListener(new NetworkingButtonListener(Constants.LANE_RECEIVE_PART, Constants.LANE_TARGET+":"+0, writer));
+		panel.add(laneRecPart);
+		
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
 	}

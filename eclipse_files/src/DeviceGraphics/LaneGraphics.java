@@ -63,20 +63,11 @@ public class LaneGraphics extends DeviceGraphics implements
 	}
 
 	/**
-	 * Called when part is delivered to this lane
 	 * 
-	 * @param pg
-	 *            - the part passed to this lane
+	 * @return true if this lane is full
 	 */
-	public void receivePart(Part p) {
-		PartGraphics pg = p.part;
-		partsOnLane.add(pg);
-		pg.setLocation(startLoc);
-		PartType pt = p.type;
-		
-		server.sendData(new Request(Constants.LANE_NEW_PART_COMMAND, Constants.LANE_TARGET+laneID, pt));
-		
-		// later pass if good/bad part also
+	public boolean isFull() {
+		return partsOnLane.size() >= MAX_PARTS;
 	}
 
 	/**
@@ -99,7 +90,7 @@ public class LaneGraphics extends DeviceGraphics implements
 
 		partsOnLane.remove(0); // this is kind of dangerous. check that correct
 								// part is removed.
-		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET, null));
+		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET +":"+ laneID, null));
 	}
 
 	/**
@@ -109,7 +100,61 @@ public class LaneGraphics extends DeviceGraphics implements
 		partsOnLane.clear();
 		// TODO: set location of parts to fall off lane
 		server.sendData(new Request(Constants.LANE_PURGE_COMMAND,
-				Constants.LANE_TARGET + laneID, null));
+				Constants.LANE_TARGET  +":"+  laneID, null));
+	}
+
+	/**
+	 * Called when part is delivered to this lane
+	 * 
+	 * @param pg
+	 *            - the part passed to this lane
+	 */
+	public void receivePart(Part p) {
+		PartGraphics pg = p.part;
+		partsOnLane.add(pg);
+		pg.setLocation(startLoc);
+		PartType pt = p.type;
+		
+		server.sendData(new Request(Constants.LANE_NEW_PART_COMMAND, Constants.LANE_TARGET+laneID, pt));
+		
+		// later pass if good/bad part also
+	}
+	
+	/**
+	 * TODO: OVERLOADED TEST METHOD FOR V0, REMOVE LATER
+	 * 
+	 * @param pg
+	 *            - the part passed to this lane
+	 */
+	public void receivePart(PartGraphics pg) {
+		partsOnLane.add(pg);
+		pg.setLocation(startLoc);
+		PartType pt = pg.getPartType();
+		
+		server.sendData(new Request(Constants.LANE_NEW_PART_COMMAND, Constants.LANE_TARGET +":"+ laneID, pt));
+		
+		// later pass if good/bad part also
+	}
+
+	/**
+	 * 
+	 * @param r
+	 */
+	public void receiveData(Request r) {
+		String cmd = r.getCommand();
+	
+		// must parse data request here
+		// if-else for every possible command
+	
+		// We want confirmation from Display each time an animation is
+		// completed.
+		
+		if (cmd.equals(Constants.LANE_RECEIVE_PART)) {	// testing purposes only, remove later
+			receivePart(new PartGraphics(PartType.A));
+		}
+		
+		
+	
 	}
 
 	/**
@@ -122,15 +167,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	public void setAmplitude(int amp) {
 		amplitude = amp;
 		server.sendData(new Request(Constants.LANE_SET_AMPLITUDE_COMMAND,
-				Constants.LANE_TARGET + laneID, amp));
-	}
-
-	/**
-	 * 
-	 * @return true if this lane is full
-	 */
-	public boolean isFull() {
-		return partsOnLane.size() >= MAX_PARTS;
+				Constants.LANE_TARGET +":"+ laneID, amp));
 	}
 
 	/**
@@ -141,20 +178,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	public void toggleSwitch(boolean on) {
 		laneOn = on;
 		server.sendData(new Request(Constants.LANE_TOGGLE_COMMAND,
-				Constants.LANE_TARGET + laneID, laneOn));
-	}
-
-	/**
-	 * 
-	 * @param r
-	 */
-	public void receiveData(Request r) {
-		// must parse data request here
-		// if-else for every possible command
-
-		// We want confirmation from Display each time an animation is
-		// completed.
-
+				Constants.LANE_TARGET +":"+  laneID, laneOn));
 	}
 
 	/**
@@ -163,7 +187,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	 */
 	private void sendAnimation(Animation ani) {
 		server.sendData(new Request(Constants.LANE_SEND_ANIMATION_COMMAND,
-				Constants.LANE_TARGET + laneID, ani));
+				Constants.LANE_TARGET  +":"+  laneID, ani));
 	}
 
 	/**

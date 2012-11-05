@@ -101,7 +101,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		// TODO: load empty lane images, add to array list (get image from
 		// CONSTANTS when added)
-		laneImg = Toolkit.getDefaultToolkit().getImage("src/images/Lane.png");
+		laneImg = Toolkit.getDefaultToolkit().getImage("src/images/lane.png");
 		laneLine = Toolkit.getDefaultToolkit().getImage("src/images/laneline.png");
 
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
@@ -123,9 +123,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				g.drawImage(laneLine, laneLines.get(i).getX(), laneLines.get(i).getY(), c);
 			}
 			laneMove();
-			
-			
-			
+
 			// TODO: animate parts moving down lane
 			if (partsOnLane != null) {
 				int min = (MAX_PARTS < partsOnLane.size()) ? MAX_PARTS
@@ -156,16 +154,15 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 
+	public void givePartToNest() {
+		partsOnLane.remove(0);
+	}
+
 	/**
-	 * change y-coords to show vibration down lane (may have to adjust values)
+	 * 
 	 */
-	private void vibrateParts(int i, Location loc) {
-		// to show vibration down lane (may have to adjust values)
-		if (i % 2 == 0) {
-			loc.incrementY();
-		} else {
-			loc.incrementY(-1);
-		}
+	public void purge() {
+		// lane should continue as is
 	}
 
 	/**
@@ -207,13 +204,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	/**
 	 * 
-	 */
-	public void purge() {
-		// lane should continue as is
-	}
-
-	/**
-	 * 
 	 * @param amp
 	 */
 	public void setAmplitude(int amp) {
@@ -225,16 +215,39 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		laneLoc = newLocation;
 	}
 	
-	public void givePartToNest() {
-		partsOnLane.remove(0);
-	}
-
 	/**
 	 * 
 	 * @param on
 	 */
 	public void toggleSwitch(boolean on) {
 		laneOn = on;
+	}
+
+	private void laneMove() {
+		counter++;
+		if (counter % (PART_WIDTH/amplitude) == 0) {	// reset lane lines
+			resetLaneLineLocs();
+		} else {
+			for (int i = 0; i < laneLines.size(); i++) {
+				laneLines.get(i).incrementX(-amplitude);
+			}
+		}
+		
+	}
+
+	/**
+	 * 
+	 */
+	private void lineUpParts() {
+		// depends on if we're moving parts in logic or display side
+	
+	}
+
+	/**
+	 * 
+	 */
+	private void movePartDownLane() {
+		// depends on if we're moving parts in logic or display side
 	}
 
 	private void setLaneLoc(int id) {
@@ -269,21 +282,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 
-	/**
-	 * 
-	 */
-	private void movePartDownLane() {
-		// depends on if we're moving parts in logic or display side
-	}
-
-	/**
-	 * 
-	 */
-	private void lineUpParts() {
-		// depends on if we're moving parts in logic or display side
-
-	}
-	
 	private void resetLaneLineLocs() {
 		// create array list of location for lane lines
 		laneLines = new ArrayList<Location>();
@@ -294,16 +292,16 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 	
-	private void laneMove() {
-		counter++;
-		if (counter % (PART_WIDTH/amplitude) == 0) {	// reset lane lines
-			resetLaneLineLocs();
+	/**
+	 * change y-coords to show vibration down lane (may have to adjust values)
+	 */
+	private void vibrateParts(int i, Location loc) {
+		// to show vibration down lane (may have to adjust values)
+		if (i % 2 == 0) {
+			loc.incrementY();
 		} else {
-			for (int i = 0; i < laneLines.size(); i++) {
-				laneLines.get(i).incrementX(-amplitude);
-			}
+			loc.incrementY(-1);
 		}
-		
 	}
 
 	/**
