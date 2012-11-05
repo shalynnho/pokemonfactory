@@ -66,6 +66,9 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		partGraphics = bg.getPart();
 				
 		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET, null));
+		
+		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.LANE_TARGET + ":" + 0, null));
+		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.LANE_TARGET + ":" + 1, null));
 	}
 	
 	

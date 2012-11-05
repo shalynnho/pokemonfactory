@@ -53,5 +53,6 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void receiveData(Request req) {
+		
 	}
 }

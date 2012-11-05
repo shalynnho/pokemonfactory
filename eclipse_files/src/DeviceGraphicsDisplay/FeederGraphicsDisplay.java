@@ -107,8 +107,11 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		AffineTransform originalTransform = g.getTransform();
+		// we decided to scrap this last minute because the physical diverter looks cumbersome
 		
+		/*
+		AffineTransform originalTransform = g.getTransform();
+	
 		if (animationCounter < 0) {
 			if (diverterTop) {
 				g.rotate(DIVERTER_POINTING_TOP_ANGLE, feederLocation.getX(), diverterLocation.getY() + DIVERTER_HEIGHT/2);
@@ -126,6 +129,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		g.drawImage(diverterImage, diverterLocation.getX(), diverterLocation.getY(), c);
 		
+		
 		if (partGDList.size() > 0) {
 			for(PartGraphicsDisplay part : partGDList) {
 				if(part.getLocation().compareToX(diverterLocation) > 0) {			
@@ -137,6 +141,8 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		
 		g.setTransform(originalTransform);
+		*/
+		
 		g.drawImage(feederImage, feederLocation.getX(), feederLocation.getY(), c);
 		
 		if (haveBin) {

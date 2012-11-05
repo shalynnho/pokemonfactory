@@ -48,32 +48,32 @@ public class LaneManager extends Client implements ActionListener{
 		panel.setVisible(true);
 		
 		// test flip diverter command
-		JButton testButton = new JButton("Flip Diverter");
-		testButton.addActionListener(new NetworkingButtonListener(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET, writer));
-		panel.add(testButton);
+		// JButton testButton = new JButton("Flip Diverter");
+		// testButton.addActionListener(new NetworkingButtonListener(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET, writer));
+		// panel.add(testButton);
+		
+		// test feed parts to div
+		// JButton feedDiv = new JButton("Feed Diverter");
+		// feedDiv.addActionListener(new NetworkingButtonListener(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND, Constants.FEEDER_TARGET, writer));
+		// panel.add(feedDiv);
+		
+		// test feed parts to lane
+		// JButton feedLane = new JButton("Feed Lane");
+		// feedLane.addActionListener(new NetworkingButtonListener(Constants.FEEDER_MOVE_TO_LANE_COMMAND, Constants.FEEDER_TARGET, writer));
+		// panel.add(feedLane);
 		
 		// test bin on feeder
 		JButton haveBin = new JButton("Get Bin");
 		haveBin.addActionListener(new NetworkingButtonListener(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET, writer));
 		panel.add(haveBin);
 		
-		// test feed parts to div
-		JButton feedDiv = new JButton("Feed Diverter");
-		feedDiv.addActionListener(new NetworkingButtonListener(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND, Constants.FEEDER_TARGET, writer));
-		panel.add(feedDiv);
-		
-		// test feed parts to lane
-		JButton feedLane = new JButton("Feed Lane");
-		feedLane.addActionListener(new NetworkingButtonListener(Constants.FEEDER_MOVE_TO_LANE_COMMAND, Constants.FEEDER_TARGET, writer));
-		panel.add(feedLane);
-		
-		
 		// test lane 0 receive part
-		JButton laneRecPart0 = new JButton("Rec.Part(0)");
+		JButton laneRecPart0 = new JButton("Send Part Top");
 		laneRecPart0.addActionListener(new NetworkingButtonListener(Constants.LANE_RECEIVE_PART, Constants.LANE_TARGET+":"+0, writer));
 		panel.add(laneRecPart0);
+		
 		// test lane 1 receive part
-		JButton laneRecPart1 = new JButton("Rec.Part(1)");
+		JButton laneRecPart1 = new JButton("Send Part Bottom");
 		laneRecPart1.addActionListener(new NetworkingButtonListener(Constants.LANE_RECEIVE_PART, Constants.LANE_TARGET+":"+1, writer));
 		panel.add(laneRecPart1);
 		
