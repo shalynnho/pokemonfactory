@@ -16,7 +16,7 @@ import factory.data.PartType;
 
 /**
  * This class handles drawing of the feeder and diverter.
- * @author Harry Trieu
+ * @author Harry Trieu, Aaron Harris
  *
  */
 
