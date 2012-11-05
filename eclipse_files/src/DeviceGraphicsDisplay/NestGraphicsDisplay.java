@@ -6,6 +6,7 @@ import Utils.*;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -49,6 +50,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public NestGraphicsDisplay(LaneManager lm, int id) {
 		laneManager = lm;
 		nestID = id;
+		nestImg = Toolkit.getDefaultToolkit().getImage("src/images/lane.png");
 		if(nestID==0){
 			NEST_Y=100;
 		}
