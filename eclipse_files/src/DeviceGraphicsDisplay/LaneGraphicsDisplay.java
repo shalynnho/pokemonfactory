@@ -71,6 +71,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private boolean laneOn = true;
 	// counter
 	private int counter = 0;
+	// V0 only, stops parts from going down lane without bin
+	private boolean binIsHere = false;
 
 	/**
 	 * Constructor
@@ -139,7 +141,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			laneMove();
 
 			// animate parts moving down lane
-			if (partsOnLane != null) {
+			if (partsOnLane != null && binIsHere) {
 				int min = (MAX_PARTS < partsOnLane.size()) ? MAX_PARTS
 						: partsOnLane.size(); // whichever is less
 				for (int i = 0; i < min; i++) {
@@ -208,16 +210,19 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (cmd.equals(Constants.LANE_SET_STARTLOC_COMMAND)) {
 			laneLoc = (Location) r.getData();
 		} else if (cmd.equals(Constants.LANE_NEW_PART_COMMAND)) {
-			PartType partType = (PartType) r.getData();
-			PartGraphicsDisplay pg = new PartGraphicsDisplay(partType);
-			Location newLoc = new Location(laneLoc.getX() + LANE_LENGTH, laneLoc.getY()
-					+ (PART_WIDTH / 2));
-			pg.setLocation(newLoc);
-			partsOnLane.add(pg);
-			
+			if (binIsHere) {
+				PartType partType = (PartType) r.getData();
+				PartGraphicsDisplay pg = new PartGraphicsDisplay(partType);
+				Location newLoc = new Location(laneLoc.getX() + LANE_LENGTH, laneLoc.getY()
+						+ (PART_WIDTH / 2));
+				pg.setLocation(newLoc);
+				partsOnLane.add(pg);
+			}
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 			
 
+		} else if (cmd.equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
+			binIsHere = true;
 		} else {
 			System.out.println("LANEGRAPHICSDISP: command not recognized.");
 		}
