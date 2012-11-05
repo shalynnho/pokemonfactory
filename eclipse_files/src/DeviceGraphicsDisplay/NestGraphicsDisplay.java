@@ -29,7 +29,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS=8;
 	// x-coordinate of the Nest
-	private static final int NEST_X=600;
+	private static final int NEST_X=119;
 	// y-coordinate of the Nest
 	private static int NEST_Y;
 	// width and height of the nest
@@ -48,12 +48,17 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private ArrayList<PartGraphicsDisplay> partsInNest = new ArrayList<PartGraphicsDisplay>();
 	
 	
-	public NestGraphicsDisplay(Client x, int id, int y_axis) {
+	public NestGraphicsDisplay(Client x, int id) {
 		Client client = x;
 		nestID = id;
 		isFull=true;
 		nestImg = Toolkit.getDefaultToolkit().getImage("src/images/Nest.png");
-		NEST_Y=y_axis;
+		if(nestID==0){
+			NEST_Y=100;
+		}
+		else if (nestID==1){
+			NEST_Y=175;
+		}
 		// Begin V0 requirements
 		
 		for (int i = 0; i < 8; i++) {

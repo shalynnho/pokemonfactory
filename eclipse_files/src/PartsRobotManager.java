@@ -72,8 +72,8 @@ public class PartsRobotManager extends Client implements ActionListener{
 //		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 0));
 //		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 1));
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this, new Location(250,450)));
-		addDevice(Constants.NEST_TARGET, new NestGraphicsDisplay(this, 1, 450));
-		addDevice(Constants.NEST_TARGET, new NestGraphicsDisplay(this, 1, 100));
+		addDevice(Constants.NEST_TARGET+":0", new NestGraphicsDisplay(this, 0));
+		addDevice(Constants.NEST_TARGET+":1", new NestGraphicsDisplay(this, 1));
 		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay(this, new Location (20, 200)));
 	}
 	
