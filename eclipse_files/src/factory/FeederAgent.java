@@ -23,7 +23,9 @@ public class FeederAgent extends Agent implements Feeder {
 	private GantryAgent gantry;
 	private LaneAgent lane;
 	private LaneAgent lane1;
+	private PartType type1;
 	private LaneAgent lane2;
+	private PartType type2;
 	private FeederGraphics feederGUI;
 	
 	private boolean currentOrientation = true;

@@ -20,6 +20,10 @@ public class LaneAgent extends Agent implements Lane {
 	public List<PartType> requestList = new ArrayList<PartType>();
 	public List<MyPart> currentParts = new ArrayList<MyPart>();
 
+	public int currentNum = 0;
+	public int topLimit = 9;
+	public int lowerThreshold = 3;
+	
 	String name;
 	
 	public Semaphore animation = new Semaphore(0, true);
@@ -56,6 +60,7 @@ public class LaneAgent extends Agent implements Lane {
 
 	@Override
 	public void msgHereIsPart(Part p) {
+		currentNum++;
 		currentParts.add(new MyPart(p));
 		if(laneGUI !=null) {
 			laneGUI.receivePart(p);
@@ -118,7 +123,7 @@ public class LaneAgent extends Agent implements Lane {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		currentNum--;
 		nest.msgHereIsPart(part);
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
