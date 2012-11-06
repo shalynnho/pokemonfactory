@@ -15,6 +15,7 @@ import DeviceGraphics.PartsRobotGraphics;
 import Utils.Constants;
 import agent.Agent;
 import factory.FeederAgent;
+import factory.LaneAgent;
 
 /**
  * The Server is the "middleman" between Agents and the GUI clients. 
@@ -73,8 +74,8 @@ public class Server {
 	
 	private void initAgents() {
 		agents.put(Constants.FEEDER_TARGET, new FeederAgent(Constants.FEEDER_TARGET));
-		agents.put(Constants.LANE_TARGET+":"+0, new FeederAgent(Constants.LANE_TARGET+":"+0));
-		agents.put(Constants.LANE_TARGET+":"+1, new FeederAgent(Constants.LANE_TARGET+":"+1));
+		agents.put(Constants.LANE_TARGET+":"+0, new LaneAgent(Constants.LANE_TARGET+":"+0));
+		agents.put(Constants.LANE_TARGET+":"+1, new LaneAgent(Constants.LANE_TARGET+":"+1));
 	}
 	
 	private void initDevices() {

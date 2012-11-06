@@ -209,7 +209,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (cmd.equals(Constants.LANE_SET_STARTLOC_COMMAND)) {
 			laneLoc = (Location) r.getData();
-		} else if (cmd.equals(Constants.LANE_NEW_PART_COMMAND)) {
+		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
 			if (binIsHere) {
 				PartType partType = (PartType) r.getData();
 				PartGraphicsDisplay pg = new PartGraphicsDisplay(partType);

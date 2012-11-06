@@ -26,7 +26,7 @@ public class NestAgent extends Agent implements Nest {
 
 	public NestGraphics guiNest;
 	
-	Semaphore animation = new Semaphore(1, true);
+	Semaphore animation = new Semaphore(0, true);
 
 	String name;
 

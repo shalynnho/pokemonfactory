@@ -88,11 +88,9 @@ public abstract class Constants {
 	public static final String LANE_SET_AMPLITUDE_COMMAND = "lane set amp";				// sets lane amplitude
 	public static final String LANE_TOGGLE_COMMAND = "lane toggle";						// turns lane on or off
 	public static final String LANE_SET_STARTLOC_COMMAND = "lane start loc";			// sets start loc for this lane
-	public static final String LANE_NEW_PART_COMMAND = "lane new part";					// new part added to lane
+	public static final String LANE_RECEIVE_PART_COMMAND = "lane new part";					// new part added to lane
 	public static final String LANE_GIVE_PART_TO_NEST = "lane give part to nest";		// gives part to nest
-	// lane display to logic commands/responses
-	public static final String LANE_RECEIVE_PART = "receive part";						// v0 test: lane receive part
-	// end lane commands & responses
+	// end lane commands
 	
 	// conveyor logic to display commands
 	public static final String CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND = "give kit to kit robot";   //conveyor gives kit to kit robot

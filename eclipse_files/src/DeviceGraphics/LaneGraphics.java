@@ -110,7 +110,7 @@ public class LaneGraphics extends DeviceGraphics implements
 		pg.setLocation(startLoc);
 		PartType pt = p.type;
 		
-		server.sendData(new Request(Constants.LANE_NEW_PART_COMMAND, Constants.LANE_TARGET+laneID, pt));
+		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET+laneID, pt));
 		
 		// later pass if good/bad part also
 	}
@@ -126,7 +126,7 @@ public class LaneGraphics extends DeviceGraphics implements
 		pg.setLocation(startLoc);
 		PartType pt = pg.getPartType();
 		
-		server.sendData(new Request(Constants.LANE_NEW_PART_COMMAND, Constants.LANE_TARGET +":"+ laneID, pt));
+		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET +":"+ laneID, pt));
 		
 		// later pass if good/bad part also
 	}
@@ -144,7 +144,7 @@ public class LaneGraphics extends DeviceGraphics implements
 		// TODO: We want confirmation from Display each time an animation is
 		// completed.
 		
-		if (cmd.equals(Constants.LANE_RECEIVE_PART)) {	// testing purposes only, remove later
+		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {	// testing purposes only, remove later
 			receivePart(new PartGraphics(PartType.A));
 		}
 		

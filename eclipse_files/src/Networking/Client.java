@@ -78,4 +78,8 @@ public abstract class Client extends JPanel{
 	public void addDevice(String target, DeviceGraphicsDisplay device) {
 		devices.put(target, device);
 	}
+	
+	public void sendData(Request req) {
+		writer.sendData(req);
+	}
 }

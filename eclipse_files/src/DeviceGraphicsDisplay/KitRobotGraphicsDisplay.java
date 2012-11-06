@@ -53,6 +53,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	KitGraphicsDisplay currentKit =new KitGraphicsDisplay(client, new Location(0,0)); 
 	
 	public KitRobotGraphicsDisplay(Client cli,  Location loc){
+		
 		//super();
 		location = loc;
 		client = cli;
@@ -106,6 +107,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		initialJob=true;
 		moveToInitialPosition=Command.moveToConveyor;
 		moveToFinalPosition=Command.moveToLocation1;
+		position=Position.conveyorPosition;
 		moveToInitial();
 	}
 	
@@ -138,6 +140,18 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		moveToFinalPosition=Command.moveToConveyor;
 		moveToInitial();
 	}
+	
+	public void Location1ToLocation2(){
+		jobIsDone=false;
+		initialJob=true;
+		moveToInitialPosition=Command.moveToLocation1;
+		moveToFinalPosition=Command.moveToLocation2;
+		
+		moveToInitial();
+	}
+
+	
+	
 	public void moveToInitial(){
 			if(position.equals(Position.conveyorPosition))
 			{
@@ -174,7 +188,6 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 					finalDegree=270;
 					position=Position.conveyorPosition;
 				}
-
 			}
 			else if(position.equals(Position.location1Position))
 			{
@@ -220,14 +233,17 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 			if(moveToFinalPosition.equals(Command.moveToInspectionStand))
 			{
 				finalDegree=90;
+				position=Position.inspectionPosition;
 			}
 			else if(moveToFinalPosition.equals(Command.moveToLocation1))
 			{
 				finalDegree=180;
+				position=Position.location1Position;
 			}
 			else if(moveToFinalPosition.equals(Command.moveToLocation2))
 			{
 				finalDegree=270;
+				position=Position.location2Position;
 			}
 		}
 		else if(position.equals(Position.inspectionPosition))
@@ -235,14 +251,17 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 			if(moveToFinalPosition.equals(Command.moveToLocation1))
 			{
 				finalDegree=90;
+				position=Position.location1Position;
 			}
 			else if(moveToFinalPosition.equals(Command.moveToLocation2))
 			{
 				finalDegree=180;
+				position=Position.location2Position;
 			}
 			else if(moveToFinalPosition.equals(Command.moveToConveyor))
 			{
-				finalDegree=180;
+				finalDegree=270;
+				position=Position.conveyorPosition;
 			}
 			
 		}
@@ -251,29 +270,35 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 			if(moveToFinalPosition.equals(Command.moveToLocation2))
 			{
 				finalDegree=90;
+				position=Position.location2Position;
 			}
 			else if(moveToFinalPosition.equals(Command.moveToConveyor))
 			{
-				finalDegree=90;
+				finalDegree=180;
+				position=Position.conveyorPosition;
 			}
 			else if(moveToFinalPosition.equals(Command.moveToInspectionStand))
 			{
-				finalDegree=180;
+				finalDegree=270;
+				position=Position.inspectionPosition;
 			}
 		}
 		else if(position.equals(Position.location2Position))
 		{
 			if(moveToFinalPosition.equals(Command.moveToConveyor))
 			{
-				finalDegree=0;
+				finalDegree=90;
+				position=Position.conveyorPosition;
 			}
 			else if(moveToFinalPosition.equals(Command.moveToInspectionStand))
 			{
 				finalDegree=180;
+				position=Position.inspectionPosition;
 			}
 			else if(moveToFinalPosition.equals(Command.moveToLocation1))
 			{
 				finalDegree=270;
+				position=Position.location1Position;
 			}
 		}
 		currentKit.setFinalDegree(finalDegree);
@@ -318,14 +343,14 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 			{
 				for(int i=0; i<kits.size(); i++)
 				{
-					if(kits.get(i).getPosition()==4)
+					if(kits.get(i).getPosition()==3)
 					{
 						currentKit=kits.get(i);
-						kits.get(i).setPosition(1);
+						kits.get(i).setPosition(4);
 					}
 				}
 				
-				InspectionStandToConveyor();
+				Location1ToLocation2();
 			}
 			else if(command.equals("moveKitToStand2"))
 			{
