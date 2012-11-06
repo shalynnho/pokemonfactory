@@ -1,5 +1,8 @@
 package factory.test.mock;
 
+import GraphicsInterfaces.NestGraphics;
+import factory.CameraAgent;
+import factory.LaneAgent;
 import factory.data.Part;
 import factory.data.PartType;
 import factory.interfaces.Nest;
@@ -88,6 +91,24 @@ public class MockNest extends MockAgent implements Nest {
 	public void updateParts() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void setLane(LaneAgent lane) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setCamera(CameraAgent camera) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setGraphicalRepresentation(NestGraphics nest) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -63,7 +63,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(Constants.FEEDER_IMAGE, feederLocation.getX(), feederLocation.getY(), c);
 		
 		if (diverterTop) {
-			g.drawImage(Constants.LANE_LED_IMAGE, feederLocation.getX()+20, feederLocation.getY()+20, c);
+			g.drawImage(Constants.LANE_LED_IMAGE, feederLocation.getX()+32, feederLocation.getY()+7, c);
 		}
 		
 		if (haveBin) {
