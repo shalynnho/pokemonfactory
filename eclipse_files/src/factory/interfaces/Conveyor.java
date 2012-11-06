@@ -1,6 +1,9 @@
 package factory.interfaces;
 
+import java.util.ArrayList;
+
 import factory.data.Kit;
+import factory.data.PartType;
 
 public interface Conveyor {
 
@@ -15,6 +18,12 @@ public interface Conveyor {
 	 * @param k completed kit
 	 */
 	public abstract void msgTakeKitAway(Kit k);
+	
+	/**
+	 * Conveyor is sent this by the FCS and it is used to set the configuration for new kits
+	 * @param config the configuration for new kits
+	 */
+	public abstract void msgHereIsKitConfiguration(ArrayList<PartType> config);
 
 	/**
 	 * GUI Conveyor sends this when the Empty Kit to initial position animation
