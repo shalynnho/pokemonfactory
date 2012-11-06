@@ -27,7 +27,6 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		return AnimationToConveyorDone;
 	}
 	AffineTransform trans=new AffineTransform();
-	
 	public KitGraphicsDisplay (Client c, Location newLocation) {
 		AnimationToConveyorDone=false;
 		kitLocation = newLocation;
