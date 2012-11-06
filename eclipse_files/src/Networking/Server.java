@@ -6,8 +6,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedHashMap;
 
-import DeviceGraphics.*;
+import DeviceGraphics.ConveyorGraphics;
+import DeviceGraphics.DeviceGraphics;
+import DeviceGraphics.FeederGraphics;
+import DeviceGraphics.KitRobotGraphics;
+import DeviceGraphics.LaneGraphics;
+import DeviceGraphics.PartsRobotGraphics;
 import Utils.Constants;
+import agent.Agent;
+import factory.FeederAgent;
 
 /**
  * The Server is the "middleman" between Agents and the GUI clients. 
@@ -35,11 +42,12 @@ public class Server {
 	private int numClients = 0;
 	
 	public volatile LinkedHashMap<String, DeviceGraphics> devices = new LinkedHashMap<String, DeviceGraphics>();
+	public volatile LinkedHashMap<String, Agent> agents = new LinkedHashMap<String, Agent>();
 	
 	public Server() {
+		initAgents();
 		initDevices();
 		initStreams();
-		
 		// will never run anything after init Streams
 	}
 	
@@ -61,6 +69,12 @@ public class Server {
 				System.out.println("Server: got an exception" + e.getMessage());
 			}
 		}
+	}
+	
+	private void initAgents() {
+		agents.put(Constants.FEEDER_TARGET, new FeederAgent(Constants.FEEDER_TARGET));
+		agents.put(Constants.LANE_TARGET+":"+0, new FeederAgent(Constants.LANE_TARGET+":"+0));
+		agents.put(Constants.LANE_TARGET+":"+1, new FeederAgent(Constants.LANE_TARGET+":"+1));
 	}
 	
 	private void initDevices() {
