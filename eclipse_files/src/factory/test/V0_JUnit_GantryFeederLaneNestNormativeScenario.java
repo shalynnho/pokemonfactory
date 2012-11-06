@@ -93,22 +93,6 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 				nest.currentParts.size());
 		nest.animation.release();
 		nest.pickAndExecuteAnAction();
-		nest.pickAndExecuteAnAction();
-		nest.pickAndExecuteAnAction();
-		nest.pickAndExecuteAnAction();
-		nest.pickAndExecuteAnAction();
-		nest.pickAndExecuteAnAction();
-		nest.pickAndExecuteAnAction();
-		lane.pickAndExecuteAnAction();
-		lane.pickAndExecuteAnAction();
-		lane.pickAndExecuteAnAction();
-		lane.pickAndExecuteAnAction();
-		lane.pickAndExecuteAnAction();
-		feeder.pickAndExecuteAnAction();
-		feeder.pickAndExecuteAnAction();
-		feeder.pickAndExecuteAnAction();
-		feeder.pickAndExecuteAnAction();
-		feeder.pickAndExecuteAnAction();
 		System.out
 				.println("Parts Robot Agent taking part from nest and messaging TakingPart");
 		nest.msgTakingPart(part);
@@ -129,6 +113,56 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		lane.setFeeder(feeder);
 		lane.setNest(nest);
 		nest.setLane(lane);
+		
+		nest.msgHereIsPartType(PartType.A);
+		assertEquals("Nest Agent should have 1 requested type", 1,
+				nest.requestList.size());
+		nest.pickAndExecuteAnAction();
+		assertEquals("Lane Agent should have 1 requested type", 1,
+				lane.requestList.size());
+		lane.pickAndExecuteAnAction();
+		assertEquals("Feeder Agent should have 1 requested type", 1,
+				feeder.requestList.size());
+		feeder.pickAndExecuteAnAction();
+		assertEquals("Gantry Agent should have 1 requested type", 1,
+				gantry.requestedParts.size());
+		Part part = new Part(PartType.A);
+		Bin bin = new Bin(part);
+		gantry.msgHereIsBinConfig(bin);
+		assertEquals("Gantry Agent should have 1 bin", 1, gantry.binList.size());
+		gantry.animation.release();
+		gantry.pickAndExecuteAnAction();
+		System.out
+				.println("Gantry gui doing receive bin and messaging agent receiveBinDone");
+		gantry.msgreceiveBinDone(bin);
+		gantry.pickAndExecuteAnAction();
+		System.out
+				.println("Gantry gui doing dropbin and messaging agent dropBinDone");
+		gantry.msgdropBinDone(bin);
+		gantry.pickAndExecuteAnAction();
+		assertEquals("Feeder Agent should have 1 currentPart", 1,
+				feeder.currentParts.size());
+		feeder.animation.release();
+		feeder.animation.release();
+		feeder.pickAndExecuteAnAction();
+		System.out
+				.println("Feeder gui doing give part to diverter and messaging agent givePartToDiverterDone");
+		feeder.msgGivePartToDiverterDone(part);
+		lane.animation.release();
+		feeder.pickAndExecuteAnAction();
+		assertEquals("Lane Agent should have 1 currentPart", 1,
+				lane.currentParts.size());
+		lane.animation.release();
+		lane.pickAndExecuteAnAction();
+		assertEquals("Nest Agent should have 1 currentPart", 1,
+				nest.currentParts.size());
+		nest.animation.release();
+		nest.pickAndExecuteAnAction();
+		System.out
+				.println("Parts Robot Agent taking part from nest and messaging TakingPart");
+		nest.msgTakingPart(part);
+		assertEquals("Nest Agent should have 0 currentPart", 0,
+				nest.currentParts.size());
 		
 		
 	}
