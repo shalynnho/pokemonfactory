@@ -22,7 +22,7 @@ public class FeederAgent extends Agent implements Feeder {
 
 	String name;
 	
-	Semaphore animation = new Semaphore(1, true);
+	Semaphore animation = new Semaphore(0, true);
 
 	public class MyPart {
 		Part part;

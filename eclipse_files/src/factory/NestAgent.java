@@ -20,6 +20,7 @@ public class NestAgent extends Agent implements Nest {
 	PartType currentPartType;
 	public List<MyPart> currentParts = new ArrayList<MyPart>();
 	public int count = 0;
+	public int countRequest = 0;
 	int full = 9;
 	public boolean takingParts = false;
 
@@ -57,6 +58,8 @@ public class NestAgent extends Agent implements Nest {
 	public void msgHereIsPartType(PartType type) {
 		// GUINest.purge();
 		currentPartType = type;
+		countRequest = 0;
+		count = 0;
 		requestList.clear();
 		requestList.add(type);
 		stateChanged();
@@ -64,6 +67,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgHereIsPart(Part p) {
+		count++;
 		currentParts.add(new MyPart(p));
 		stateChanged();
 	}
@@ -78,6 +82,7 @@ public class NestAgent extends Agent implements Nest {
 			}
 		}
 		count--;
+		countRequest--;
 		stateChanged();
 	}
 
@@ -98,7 +103,7 @@ public class NestAgent extends Agent implements Nest {
 		///animation.release(); //This message is never sent
 		stateChanged();
 	}
-
+ 
 	@Override
 	public void msgPurgingDone() {
 		animation.release();
@@ -109,7 +114,7 @@ public class NestAgent extends Agent implements Nest {
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		for (PartType requestedPart : requestList) {
-			if (count < full) {
+			if (countRequest < full) {
 				getParts(requestedPart);
 				return true;
 			}
@@ -135,7 +140,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void getParts(PartType requestedType) {
 		print("Telling lane it need a part and incrementing count");
-		count++;
+		countRequest++;
 		lane.msgINeedPart(requestedType);
 		stateChanged();
 	}
