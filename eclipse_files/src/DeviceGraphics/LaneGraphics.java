@@ -151,10 +151,12 @@ public class LaneGraphics extends DeviceGraphics implements
 		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {	// testing purposes only, remove later
 			receivePart(new PartGraphics(PartType.A));			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND+Constants.DONE_SUFFIX)) {
-			laneAgent.msgReceivePartDone(agentPartsOnLane.get(agentPartsOnLane.size()-1));
+			// add these back later
+			//laneAgent.msgReceivePartDone(agentPartsOnLane.get(agentPartsOnLane.size()-1));
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
-			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
-			agentPartsOnLane.remove(0);
+			// add these back later
+			//laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
+			//agentPartsOnLane.remove(0);
 		}
 	
 	}
