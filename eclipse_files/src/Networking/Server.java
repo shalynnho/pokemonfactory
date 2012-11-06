@@ -86,13 +86,14 @@ public class Server {
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this));
 		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this));
+		//devices.put(Constants.NEST_TARGET+":"+0, new NestGraphicsDisplay(this, 0));
+		//devices.put(Constants.NEST_TARGET+":"+1, new NestGraphicsDisplay(this, 1));
 	}
 	
 	private void connectAgentsWithDevices() {
-		//agent.setGraphicalRepresentation(devices.get());
-		for(Entry<String, Agent> entry : agents.entrySet()) {
+		/* for(Entry<String, Agent> entry : agents.entrySet()) {
 			// entry.getValue().setGraphicRepresentation(devices.get(entry.getKey()));
-		}
+		} */
 	}
 	
 	/**
