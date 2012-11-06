@@ -48,8 +48,7 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 		
 		if(nestID==0){
 			NEST_Y=100;
-		}
-		else{
+		} else {
 			NEST_Y=175;
 		}
 		
@@ -57,16 +56,14 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 		isFull = true;
 		for (int i = 0; i < 8; i++) {
 			PartGraphics temp = new PartGraphics(PartType.A);
-			if(i<4){
+			
+			if(i < 4) {
 				temp.setLocation(new Location((119+i*20),(NEST_Y+1)));
-			}
-			else{
+			} else {
 				temp.setLocation(new Location((119+(i-4)*20),(NEST_Y+23))); 
 			}
 			partsInNest.add(temp);
-			
 		}
-		
 	}
 
 	/**
@@ -181,5 +178,4 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 		// TODO Auto-generated method stub
 		
 	}
-
 }
