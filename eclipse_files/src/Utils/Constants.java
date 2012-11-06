@@ -23,7 +23,7 @@ public abstract class Constants {
 	public static final Image CLIENT_BG_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/bg.jpg");
 	
 	
-	//DEVICE SETTINGS
+	// DEVICE SETTINGS
 	//==================================
 	
 	// Feeder Images
@@ -82,7 +82,6 @@ public abstract class Constants {
 	public static final String IDENTIFY_COMMAND = "identify";					// for servers to identify managers
 	
 	// feeder logic to display commands
-	public static final String FEEDER_INIT_GRAPHICS_COMMAND = "feederinitg"; 		// initialize the feeder graphics
 	public static final String FEEDER_FLIP_DIVERTER_COMMAND = "feederflipdiv";  	// draw the diverter flipping
 	public static final String FEEDER_RECEIVED_BIN_COMMAND = "feederrecbin";		// a bin has been received
 	public static final String FEEDER_PURGE_BIN_COMMAND = "feederpurgebin";			// purge the bin
