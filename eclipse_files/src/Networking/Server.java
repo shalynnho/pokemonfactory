@@ -78,9 +78,9 @@ public class Server {
 	}
 	
 	private void initDevices() {
-		devices.put(Constants.LANE_TARGET+":"+0, new LaneGraphics(this, 0));
-		devices.put(Constants.LANE_TARGET+":"+1, new LaneGraphics(this, 1));
-		devices.put(Constants.FEEDER_TARGET, new FeederGraphics(0, this));
+		devices.put(Constants.LANE_TARGET+":"+0, new LaneGraphics(this, 0, agents.get(Constants.LANE_TARGET+":"+0)));
+		devices.put(Constants.LANE_TARGET+":"+1, new LaneGraphics(this, 1, agents.get(Constants.LANE_TARGET+":"+1)));
+		devices.put(Constants.FEEDER_TARGET, new FeederGraphics(0, this, agents.get(Constants.FEEDER_TARGET)));
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this));
 		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this) );
