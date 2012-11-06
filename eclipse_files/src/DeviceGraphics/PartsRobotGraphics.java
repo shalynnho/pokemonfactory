@@ -82,8 +82,10 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 		 * puts part in a specific location inside the kit
 		 
 	}*/
-	
 	public void givesPartToKit(){
+		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
+	}
+	public void goesToKit(){
 		System.out.println("kit");
 	server.sendData(new Request(Constants.PARTS_ROBOT_GO_KIT_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
 	}
@@ -177,11 +179,13 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_PICKUP_COMMAND)){
 			pickUpPart();
 		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GO_KIT_COMMAND)){
-			givesPartToKit();
+			goesToKit();
 			System.out.println("gives part to kit");
 		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GO_HOME_COMMAND)){
 			goHome();
 			System.out.println("gohome");
+		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND)){
+			givesPartToKit();
 		}
 	}
 
