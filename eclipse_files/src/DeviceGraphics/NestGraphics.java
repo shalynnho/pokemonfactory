@@ -46,7 +46,7 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
 		nestSpots = new ArrayList<Boolean>(MAX_PARTS);
 		
-		if(nestID==0){
+		if(nestID==0) {
 			NEST_Y=100;
 		} else {
 			NEST_Y=175;
