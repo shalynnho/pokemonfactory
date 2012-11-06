@@ -4,6 +4,7 @@ import Networking.*;
 import Utils.*;
 import factory.data.*;
 import factory.*;
+import agent.Agent;
 
 import java.util.ArrayList;
 
@@ -45,10 +46,10 @@ public class LaneGraphics extends DeviceGraphics implements
 	 * @param id - ID of this lane
 	 * @param la - the LaneAgent
 	 */
-	public LaneGraphics(Server s, int id, LaneAgent la) {
+	public LaneGraphics(Server s, int id, Agent la) {
 		server = s;
 		laneID = id;
-		laneAgent = la;
+		laneAgent = (LaneAgent) la;
 //		nest = n;
 
 		partsOnLane = new ArrayList<PartGraphics>();
