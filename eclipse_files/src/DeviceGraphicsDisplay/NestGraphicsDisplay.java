@@ -32,6 +32,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// the id of this nest
 	private int nestID;
 	
+	// location of the nest
 	private Location nestLocation;
 	
 	//boolean if the nest is full
