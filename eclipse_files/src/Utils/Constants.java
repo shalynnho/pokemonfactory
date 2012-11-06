@@ -74,7 +74,6 @@ public abstract class Constants {
 	// Naming convention: DEVICENAME_ACTION_COMMAND
 	
 	public static final String DONE_SUFFIX = "done";
-	
 	public static final String IDENTIFY_COMMAND = "identify";					// for servers to identify managers
 	
 	// feeder logic to display commands
@@ -92,7 +91,7 @@ public abstract class Constants {
 	public static final String LANE_SET_AMPLITUDE_COMMAND = "lane set amp";				// sets lane amplitude
 	public static final String LANE_TOGGLE_COMMAND = "lane toggle";						// turns lane on or off
 	public static final String LANE_SET_STARTLOC_COMMAND = "lane start loc";			// sets start loc for this lane
-	public static final String LANE_RECEIVE_PART_COMMAND = "lane receive part";					// new part added to lane
+	public static final String LANE_RECEIVE_PART_COMMAND = "lane receive part";			// new part added to lane
 	public static final String LANE_GIVE_PART_TO_NEST = "lane give part to nest";		// gives part to nest
 	// end lane commands
 	
@@ -105,10 +104,11 @@ public abstract class Constants {
 	// end conveyor logic to display
 	
 	// kitrobot logic
-	public static final String KIT_ROBOT_PICKS_CONVEYOR= "robot moves kit from conveyor";
-	public static final String KIT_ROBOT_PICKS_lOCATION1_TO_CONVEYOR="";
+	public static final String KIT_ROBOT_PICKS_CONVEYOR = "robot moves kit from conveyor";
+	public static final String KIT_ROBOT_PICKS_lOCATION1_TO_CONVEYOR = "krmoveloc1conv";
+	// end kitrobot logic
 	
-	//partsrobot logic to display commands
+	// partsrobot logic to display commands
 	public static final String PARTS_ROBOT_MOVE_TO_NEST1_COMMAND = "nest1"; //parts robot moves to nest1
 	public static final String PARTS_ROBOT_MOVE_TO_NEST2_COMMAND = "nest2"; //parts robot moves to nest2
 	public static final String PARTS_ROBOT_ROTATE_COMMAND = "rotate"; //parts robot rotate
@@ -116,7 +116,13 @@ public abstract class Constants {
 	public static final String PARTS_ROBOT_GIVE_COMMAND = "give"; //give part to kit
 	public static final String PARTS_ROBOT_GO_HOME_COMMAND ="gohome"; //parts robot goes back to initial location
 	public static final String PARTS_ROBOT_GO_KIT_COMMAND = "gokit"; //go to kit
-	//kitrobot logic to display commands
+	// end partsrobot logic to display commands
+	
+	// nestgraphics logic to display commands
+	public static final String NEST_RECEIVE_PART_COMMAND = "nestrecpart";
+	public static final String NEST_GIVE_TO_PART_ROBOT_COMMAND = "nestgivetopr";
+	public static final String NEST_PURGING_DONE_COMMAND = "nestpurgdone";
+	// end nestgraphics logic to display commands
 	
 	// CLIENT NAMES
 	

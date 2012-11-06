@@ -95,9 +95,14 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	 * Receives message data from the Server
 	 * @param r - the request to be parsed
 	 */
-	public void receiveData(Request r) {
-		String cmd = r.getCommand();
-		// TODO: parse data request here
+	public void receiveData(Request req) {
+		if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
+			
+		} else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX)) {
+			
+		} else if (req.getCommand().equals(Constants.NEST_PURGING_DONE_COMMAND + Constants.DONE_SUFFIX)) {
+			
+		}
 	}
 	
 	/**
