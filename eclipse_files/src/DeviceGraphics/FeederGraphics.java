@@ -15,7 +15,7 @@ import factory.data.PartType;
  * @author Harry Trieu
  *
  */
-public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces.FeederGraphics {
+public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, DeviceGraphics {
 	// TODO ask 201 team what should be the threshold
 	private static final int PARTS_LOW_THRESHOLD = 2;
 	// a reference to the server

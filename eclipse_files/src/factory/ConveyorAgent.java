@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.ConveyorGraphics;
 import agent.Agent;
 import factory.data.Kit;
@@ -315,8 +316,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		return conveyorGraphics;
 	}
 
-	public void setConveyorGraphics(ConveyorGraphics conveyorGraphics) {
-		this.conveyorGraphics = conveyorGraphics;
+	public void setGraphicalRepresentation(DeviceGraphics conveyorGraphics) {
+		this.conveyorGraphics = (ConveyorGraphics) conveyorGraphics;
 	}
 
 	public List<MyKit> getKitsOnConveyor() {

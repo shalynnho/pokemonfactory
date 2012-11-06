@@ -1,6 +1,6 @@
 package factory.test.mock;
 
-import GraphicsInterfaces.LaneGraphics;
+import DeviceGraphics.DeviceGraphics;
 import factory.data.Part;
 import factory.data.PartType;
 import factory.interfaces.Lane;
@@ -61,8 +61,7 @@ public class MockLane extends MockAgent implements Lane {
 
 	}
 
-	@Override
-	public void setGraphicalRepresentation(LaneGraphics lane) {
+	public void setGraphicalRepresentation(DeviceGraphics lane) {
 		// TODO Auto-generated method stub
 		
 	}

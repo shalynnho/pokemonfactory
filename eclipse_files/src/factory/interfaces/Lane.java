@@ -20,6 +20,4 @@ public interface Lane {
 
 	public abstract void giveToNest(Part part);
 
-	void setGraphicalRepresentation(LaneGraphics lane);
-
 }

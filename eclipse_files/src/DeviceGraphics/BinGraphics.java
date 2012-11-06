@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 import Networking.Request;
 import Utils.Location;
 
-public class BinGraphics extends DeviceGraphics  {
+public class BinGraphics implements DeviceGraphics  {
 	
 	PartGraphics part; // Type of part found in bin
 	int partNumber; // Number of parts in bin

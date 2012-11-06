@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
+import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.PartsRobotGraphics;
 import agent.Agent;
 import factory.data.Kit;
@@ -325,8 +326,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		return partsrobotGraphics;
 	}
 
-	public void setPartsrobotGraphics(PartsRobotGraphics partsrobotGraphics) {
-		this.partsrobotGraphics = partsrobotGraphics;
+	public void setGraphicalRepresentation(DeviceGraphics partsrobotGraphics) {
+		this.partsrobotGraphics = (PartsRobotGraphics) partsrobotGraphics;
 	}
 
 	public Semaphore getAnimation() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.FeederGraphics;
 import agent.Agent;
 import factory.data.Part;
@@ -182,9 +183,10 @@ public class FeederAgent extends Agent implements Feeder {
 	}
 
 	// GETTERS AND SETTERS
-	public void setGraphicalRepresentation(FeederGraphics feeder) {
-		this.feederGUI = feeder;
+	public void setGraphicalRepresentation(DeviceGraphics feeder) {
+		this.feederGUI = (FeederGraphics)feeder;
 	}
+
 	@Override
 	public String getName() {
 		return name;

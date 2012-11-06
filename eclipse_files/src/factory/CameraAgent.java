@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.CameraGraphics;
 import agent.Agent;
 import factory.data.Kit;
@@ -235,8 +236,8 @@ public class CameraAgent extends Agent implements Camera {
 		return guiCamera;
 	}
 
-	public void setGuiCamera(CameraGraphics guiCamera) {
-		this.guiCamera = guiCamera;
+	public void setGraphicalRepresentation(DeviceGraphics guiCamera) {
+		this.guiCamera = (CameraGraphics) guiCamera;
 	}
 
 	public KitRobotAgent getKitRobot() {

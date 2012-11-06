@@ -2,6 +2,8 @@ package agent;
 
 import java.util.concurrent.Semaphore;
 
+import DeviceGraphics.DeviceGraphics;
+
 /** Base class for simple agents */
 public abstract class Agent {
 	Semaphore stateChange = new Semaphore(1, true);// binary semaphore, fair
@@ -56,6 +58,8 @@ public abstract class Agent {
 		}
 		System.out.print(sb.toString());
 	}
+	
+	public abstract void setGraphicalRepresentation(DeviceGraphics dg);
 
 	/** Start agent scheduler thread. Should be called once at init time. */
 	public synchronized void startThread() {

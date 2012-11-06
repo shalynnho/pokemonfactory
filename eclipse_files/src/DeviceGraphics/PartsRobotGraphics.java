@@ -12,7 +12,7 @@ import factory.data.Part;
 
 
 
-public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterfaces.PartsRobotGraphics  {
+public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics, DeviceGraphics {
 
 	Location initialLocation; // initial location of robot
 	Location currentLocation; // current location of robot

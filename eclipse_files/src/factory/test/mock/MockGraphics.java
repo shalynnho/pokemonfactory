@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import DeviceGraphics.BinGraphics;
+import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.KitGraphics;
 import DeviceGraphics.PartGraphics;
 import GraphicsInterfaces.CameraGraphics;
@@ -360,6 +361,12 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public void givePartToKit(PartGraphics part, KitGraphics kit) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void setGraphicalRepresentation(DeviceGraphics dg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

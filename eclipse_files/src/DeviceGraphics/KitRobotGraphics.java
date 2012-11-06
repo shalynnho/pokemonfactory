@@ -8,7 +8,7 @@ import Utils.Constants;
 import Utils.Location;
 import factory.data.Kit;
 
-public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfaces.KitRobotGraphics {
+public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics, DeviceGraphics {
 
 	private Kit kit;
 	private Location location;

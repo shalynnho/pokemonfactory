@@ -14,8 +14,7 @@ import java.util.ArrayList;
  * @author Shalynn Ho
  * 
  */
-public class LaneGraphics extends DeviceGraphics implements
-		GraphicsInterfaces.LaneGraphics {
+public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGraphics {
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS = 8;
 

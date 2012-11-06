@@ -9,6 +9,7 @@ import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 
+import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.KitRobotGraphics;
 import agent.Agent;
 import factory.data.Kit;
@@ -344,8 +345,8 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * GUI Hack to set the reference to this class' gui component
 	 * @param gc the gui representation of kit robot
 	 */
-	public void setGraphicalRepresentation(KitRobotGraphics gkr) {
-		this.kitrobotGraphics = gkr;
+	public void setGraphicalRepresentation(DeviceGraphics gkr) {
+		this.kitrobotGraphics = (KitRobotGraphics) gkr;
 		stateChanged();
 	}
 

@@ -1,6 +1,6 @@
 package factory.test.mock;
 
-import GraphicsInterfaces.NestGraphics;
+import DeviceGraphics.DeviceGraphics;
 import factory.CameraAgent;
 import factory.LaneAgent;
 import factory.data.Part;
@@ -105,8 +105,7 @@ public class MockNest extends MockAgent implements Nest {
 		
 	}
 
-	@Override
-	public void setGraphicalRepresentation(NestGraphics nest) {
+	public void setGraphicalRepresentation(DeviceGraphics nest) {
 		// TODO Auto-generated method stub
 		
 	}
