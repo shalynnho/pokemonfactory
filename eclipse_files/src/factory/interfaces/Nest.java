@@ -1,6 +1,8 @@
 package factory.interfaces;
 
 import GraphicsInterfaces.NestGraphics;
+import factory.CameraAgent;
+import factory.LaneAgent;
 import factory.data.Part;
 import factory.data.PartType;
 
@@ -33,5 +35,11 @@ public interface Nest {
 	public abstract void nestFull();
 
 	public abstract void updateParts();
+	
+	public void setLane(LaneAgent lane);
+	
+	public void setCamera(CameraAgent camera);
+	
+	public void setGraphicalRepresentation(NestGraphics nest);
 
 }
