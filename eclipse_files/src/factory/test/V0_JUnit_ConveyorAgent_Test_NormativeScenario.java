@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -147,13 +146,13 @@ public class V0_JUnit_ConveyorAgent_Test_NormativeScenario extends TestCase {
 				0, conveyor.getKitsOnConveyor().size());
 
 		// Write logs to file. Don't do this for now.
-		List<MockAgent> MockAgents = new ArrayList<MockAgent>();
-		MockAgents.add(conveyorGraphics);
-		MockAgents.add(kitrobot);
+		// List<MockAgent> MockAgents = new ArrayList<MockAgent>();
+		// MockAgents.add(conveyorGraphics);
+		// MockAgents.add(kitrobot);
 		// MockAgents.add(stand);
 		// MockAgents.add(kitrobotGraphics);
-		generateLogFile("ConveyorAgent_Test_Normative",
-				this.getLogs(MockAgents));
+		// generateLogFile("ConveyorAgent_Test_Normative",
+		// this.getLogs(MockAgents));
 	}
 
 	/**

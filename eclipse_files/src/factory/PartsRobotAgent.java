@@ -18,7 +18,7 @@ import factory.interfaces.Stand;
 
 /**
  * Parts robot picks parts from nests and places them in kits
- * @author Ross Newman
+ * @author Ross Newman, Michael Gendotti, Daniel Paje
  */
 public class PartsRobotAgent extends Agent implements PartsRobot {
 

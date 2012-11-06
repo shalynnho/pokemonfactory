@@ -13,7 +13,7 @@ import factory.interfaces.Nest;
 
 /**
  * Camera is responsible for inspecting full nests and assembled kits.
- * @author Ross Newman
+ * @author Ross Newman, Michael Gendotti
  */
 public class CameraAgent extends Agent implements Camera {
 
