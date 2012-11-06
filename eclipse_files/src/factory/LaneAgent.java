@@ -2,6 +2,7 @@ package factory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import agent.Agent;
 import factory.data.Part;
@@ -18,6 +19,8 @@ public class LaneAgent extends Agent implements Lane {
 	public List<MyPart> currentParts = new ArrayList<MyPart>();
 
 	String name;
+	
+	Semaphore animation = new Semaphore(1, true);
 
 	public class MyPart {
 		Part part;
@@ -56,11 +59,13 @@ public class LaneAgent extends Agent implements Lane {
 
 	@Override
 	public void msgReceivePartDone(Part part) {
+		//animation.release(); //This message is never sent to the LaneGraphics
 		stateChanged();
 	}
 
 	@Override
 	public void msgGivePartToNestDone(Part part) {
+		animation.release();
 		stateChanged();
 	}
 
@@ -91,7 +96,15 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public void giveToNest(Part part) {
 		print("Giving part to Nest");
+		
 		// GUILane.givePartToNest(part);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		nest.msgHereIsPart(part);
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
