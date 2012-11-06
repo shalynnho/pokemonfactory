@@ -15,7 +15,7 @@ import Utils.Location;
 import factory.data.PartType;
 
 /**
- * @author Vansh Jain
+ * @author Vansh Jain, Shalynn Ho, Harry Trieu
  * 
  */
 public class NestGraphicsDisplay extends DeviceGraphicsDisplay {	
@@ -99,10 +99,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 			// TODO code to handle command
 			// send a request back to the server saying done
 			client.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
-		} else if (req.getCommand().equals(Constants.NEST_PURGING_DONE_COMMAND + Constants.DONE_SUFFIX)) {
+		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
 			// TODO code to handle command
 			// send a request back to the server saying done
-			client.sendData(new Request(Constants.NEST_PURGING_DONE_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
+			client.sendData(new Request(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
 		}
 		
 	}

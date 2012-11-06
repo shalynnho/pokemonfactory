@@ -126,7 +126,7 @@ public abstract class Constants {
 	// nestgraphics logic to display commands
 	public static final String NEST_RECEIVE_PART_COMMAND = "nestrecpart";
 	public static final String NEST_GIVE_TO_PART_ROBOT_COMMAND = "nestgivetopr";
-	public static final String NEST_PURGING_DONE_COMMAND = "nestpurgdone";
+	public static final String NEST_PURGE_COMMAND = "nestpurge";
 	// end nestgraphics logic to display commands
 	
 	// CLIENT NAMES

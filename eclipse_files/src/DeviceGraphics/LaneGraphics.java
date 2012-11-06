@@ -117,7 +117,7 @@ public class LaneGraphics extends DeviceGraphics implements
 		
 		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET+laneID, pt));
 		
-		// later pass if good/bad part also
+		// later pass if good/bad part
 	}
 	
 	/**

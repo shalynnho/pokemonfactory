@@ -1,16 +1,21 @@
 package DeviceGraphics;
 
-import Networking.*;
-import GraphicsInterfaces.*;
-import Utils.*;
-import factory.data.*;
+import java.util.ArrayList;
+import java.util.Map;
 
-import java.util.*;
+import Networking.Request;
+import Networking.Server;
+import Utils.Constants;
+import Utils.Location;
+import agent.Agent;
+import factory.NestAgent;
+import factory.data.Part;
+import factory.data.PartType;
 
 /**
  * This class represents the graphics logic for a nest.
  * 
- * @author Shalynn Ho, Aaron Harris
+ * @author Shalynn Ho, Aaron Harris, Harry Trieu
  *
  */
 public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.NestGraphics {
@@ -21,8 +26,8 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	private Server server;
 	// the ID of this Nest
 	private int nestID;
-	// the PartsRobot
-	private PartsRobotGraphics partsRobot;
+	// the NestAgent
+	private NestAgent nestAgent;
 	
 	// Location of upper left corner of this nest
 	private Location location;
@@ -38,10 +43,10 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	// y-coordinate of the Nest
 	private static int NEST_Y;
 	
-	public NestGraphics(Server s, int nid, PartsRobotGraphics pr) {
+	public NestGraphics(Server s, int nid, Agent agent) {
 		server = s;
 		nestID = nid;
-		partsRobot = pr;
+		nestAgent = (NestAgent) agent;
 		
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
 		nestSpots = new ArrayList<Boolean>(MAX_PARTS);
@@ -70,25 +75,31 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	 * @param - 
 	 */
 	public void receivePart(Part p) {
-		PartGraphics pg = p.part;
-		//after v0: if (!isFull()) partsInNest.add(pg);
+//		PartGraphics pg = p.part;
+//		(!isFull()) partsInNest.add(pg);
+//		pg.setLocation(newLocation); // set part location to next empty spot
+//		PartType pt = p.type;
+//		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+nestID, pt));
 	}
 	
 	/**
 	 * @param
 	 */
 	public void givePartToPartsRobot(Part p) {
-		PartGraphics pg = p.part;
-
+//		PartGraphics pg = p.part;
+//		int i = partsInNest.indexOf(pg); // this might not work. depends on if part passed in matches what is already in nest
+//										// otherwise, must find a way to figure out which part is being taken from which spot in the nest
+//		partsInNest.remove(i);
+//		server.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
 	}
 	
 	/**
 	 * 
 	 */
 	public void purge() {
-		purging = true;
-		partsInNest.clear();
-		
+//		purging = true;
+//		partsInNest.clear();
+//		server.sendData(new Request(Constants.NEST_PURGE_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
 	}
 	
 	/**
@@ -97,11 +108,11 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	 */
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
-			
+//			nestAgent.msgReceivePartDone();
 		} else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX)) {
-			
-		} else if (req.getCommand().equals(Constants.NEST_PURGING_DONE_COMMAND + Constants.DONE_SUFFIX)) {
-			
+//			nestAgent.msgGivePartToPartsRobotDone();
+		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
+//			nestAgent.msgPurgingDone();
 		}
 	}
 	
@@ -169,16 +180,19 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
+	// V0 ONLY
 	public void receivePart(PartGraphics part) {
 		// TODO Auto-generated method stub
-		
+//		partsInNest.add(part);
+//		part.setLocation(newLocation);
+//		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+nestID, part.getPartType()));
 	}
 
 	@Override
+	// V0 ONLY
 	public void givePartToPartsRobot(PartGraphics part) {
 		// TODO Auto-generated method stub
 		
