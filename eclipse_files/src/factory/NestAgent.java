@@ -210,5 +210,17 @@ public class NestAgent extends Agent implements Nest {
 	public void setCamera(CameraAgent camera) {
 		this.camera = camera;
 	}
+	
+	public void setGraphicalRepresentation(NestGraphics nest) {
+		this.guiNest=nest;
+	}
+	
+	public List<Part> getParts() {
+		List<Part> parts = new ArrayList<Part>();
+		for(MyPart p:currentParts){
+			parts.add(p.part);
+		}
+		return parts;
+	}
 
 }
