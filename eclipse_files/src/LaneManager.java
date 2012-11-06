@@ -49,11 +49,6 @@ public class LaneManager extends Client implements ActionListener{
 		
 		// TODO: scrap all of this as we will not need buttons in V1
 		
-		// test flip diverter command
-		// JButton testButton = new JButton("Flip Diverter");
-		// testButton.addActionListener(new NetworkingButtonListener(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET, writer));
-		// panel.add(testButton);
-		
 		// test feed parts to div
 		// JButton feedDiv = new JButton("Feed Diverter");
 		// feedDiv.addActionListener(new NetworkingButtonListener(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND, Constants.FEEDER_TARGET, writer));
@@ -63,6 +58,11 @@ public class LaneManager extends Client implements ActionListener{
 		// JButton feedLane = new JButton("Feed Lane");
 		// feedLane.addActionListener(new NetworkingButtonListener(Constants.FEEDER_MOVE_TO_LANE_COMMAND, Constants.FEEDER_TARGET, writer));
 		// panel.add(feedLane);
+
+		// test flip diverter command
+		JButton testButton = new JButton("Flip Diverter");
+		testButton.addActionListener(new NetworkingButtonListener(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET, writer));
+		panel.add(testButton);
 		
 		// test bin on feeder
 		JButton haveBin = new JButton("Get Bin");
