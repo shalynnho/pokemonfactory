@@ -52,6 +52,12 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	ArrayList<KitGraphicsDisplay> kits=new ArrayList<KitGraphicsDisplay>();
 	KitGraphicsDisplay currentKit =new KitGraphicsDisplay(client, new Location(0,0)); 
 	
+	// just for v0
+	boolean AnimationToConveyorDone;
+	public boolean isAnimationToConveyorDone() {
+		return AnimationToConveyorDone;
+	}
+
 	public KitRobotGraphicsDisplay(Client cli,  Location loc){
 		
 		//super();
@@ -426,10 +432,17 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	{
 		checkDegrees();
 		doJob();
-		
+		AnimationToConveyorDone=false;
 		for(int i=0;i<kits.size(); i++)
 		{
-			kits.get(i).drawRotate(c,g);;
+			kits.get(i).drawRotate(c,g);
+			if(kits.get(i).getPosition()==4)
+			{
+				if(kits.get(i).isAnimationToConveyorDone())
+				{
+					AnimationToConveyorDone=true;
+				}
+			}
 		}
 		
 		//Image image=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/resource/Square.jpg"));
