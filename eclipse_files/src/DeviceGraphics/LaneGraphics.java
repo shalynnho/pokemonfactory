@@ -52,8 +52,8 @@ public class LaneGraphics extends DeviceGraphics implements
 		server = s;
 		laneID = id;
 		laneAgent = (LaneAgent) la;
-//		nest = n;
-
+		
+		// initialize lane components
 		partsOnLane = new ArrayList<PartGraphics>();
 		agentPartsOnLane = new ArrayList<Part>();
 		amplitude = 5;
@@ -76,23 +76,14 @@ public class LaneGraphics extends DeviceGraphics implements
 	 *            - the part passed to the nest associated with this lane
 	 */
 	public void givePartToNest(Part p) {
-		 PartGraphics pg = p.part;
-		/*
-		 * at the end of the Lane, gives the Part to the Nest - receive message
-		 * from LGD that Part is at end of Lane and Nest not full - tell
-		 * NestGraphicsLogic that we are passing Part - remove from Lane parts
-		 * queue
-		 */
-		// do i need to check if nest is full first? (or do agents do this?)
-		// just to double check, i don't call nest.receivePart(part) right?
+		PartGraphics pg = p.part;
 
-		partsOnLane.remove(0); // this is kind of dangerous. check that correct
-								// part is removed.
+		partsOnLane.remove(0); // make sure to check that correct part is removed
 		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET +":"+ laneID, null));
 	}
 
 	/**
-	 * 
+	 * Purges this lane of all parts
 	 */
 	public void purge() {
 		partsOnLane.clear();
@@ -133,18 +124,15 @@ public class LaneGraphics extends DeviceGraphics implements
 		
 		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET +":"+ laneID, pt));
 		
-		// later pass if good/bad part also
+		// later pass if good/bad part
 	}
 
 	/**
-	 * 
-	 * @param r
+	 * Sorts data and messages sent to this lane via the server
+	 * @param r - the request
 	 */
 	public void receiveData(Request r) {
-		String cmd = r.getCommand();
-	
-		// must parse data request here
-	
+		String cmd = r.getCommand();	
 		// TODO: We want confirmation from Display each time an animation is
 		// completed.
 		
@@ -175,7 +163,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	}
 
 	/**
-	 * 
+	 * Turns lane on or off
 	 * @param on
 	 *            - on/off switch for this lane
 	 */

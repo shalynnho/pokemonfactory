@@ -49,7 +49,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	// stores the parts on the lane
 	private ArrayList<PartGraphicsDisplay> partsOnLane;
-
 	// Location of this lane
 	private Location laneLoc;
 	// start location of parts on this lane
@@ -71,12 +70,12 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private boolean binIsHere = false;
 
 	/**
-	 * Constructor
+	 * LGD constructor
 	 * 
 	 * @param lm
-	 *            - lane manager
+	 *            - the lane manager (client)
 	 * @param lid
-	 *            - lane id
+	 *            - lane ID
 	 */
 	public LaneGraphicsDisplay(Client lm, int lid) {
 		laneManager = lm;
@@ -95,14 +94,15 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * Constructor for V0 - testing
+	 * Constructor for V0 - testing purposes only
+	 * REMOVE FOR V0 INTEGRATION
 	 * 
 	 * @param lm
-	 *            - lane manager
+	 *            - the lane manager (client)
 	 * @param loc
 	 *            - location of the lane
 	 * @param lid
-	 *            - lane id
+	 *            - lane ID
 	 */
 	public LaneGraphicsDisplay(Client lm, Location loc, int lid) {
 		laneManager = lm;
@@ -118,7 +118,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * draw method
+	 * Animates lane movement and sets location of parts moving down lane
 	 * 
 	 * @param c
 	 *            - component on which this is drawn
@@ -179,21 +179,21 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * Give parts to nest
+	 * Give part to nest, removes from this lane
 	 */
 	public void givePartToNest() {
 		partsOnLane.remove(0);
 	}
 
 	/**
-	 * Purge lane
+	 * Purges lane of all parts
 	 */
 	public void purge() {
-		// lane should continue as is
+		// TODO: lane should continue as is, parts fall off the lane
 	}
 
 	/**
-	 * Receives data from the server
+	 * Receives and sorts messages/data from the server
 	 * 
 	 * @param r
 	 *            - the request to be parsed
@@ -207,7 +207,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (cmd.equals(Constants.LANE_SEND_ANIMATION_COMMAND)) {
 			Animation ani = (Animation) r.getData();
-			// TODO: DO SOMETHING WITH THIS ANIMATION
+			// TODO: DO SOMETHING WITH THIS ANIMATION?
 
 		} else if (cmd.equals(Constants.LANE_SET_AMPLITUDE_COMMAND)) {
 			amplitude = (Integer) r.getData();
@@ -239,7 +239,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (cmd.equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			binIsHere = true;
 		} else {
-			System.out.println("LANEGRAPHICSDISP: command not recognized.");
+			System.out.println("LANE_GD: command not recognized.");
 		}
 	}
 
@@ -262,7 +262,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * On/Off switch
+	 * On/Off switch for this lane
 	 * 
 	 * @param on
 	 *            - true if lane is on
@@ -272,7 +272,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * animates the lane lines
+	 * Animates the lane lines
 	 */
 	private void laneMove() {
 		counter++;
@@ -287,7 +287,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * sets lane location
+	 * Sets lane location depending on ID assigned
 	 * 
 	 * @param id
 	 *            - id of this lane
@@ -338,7 +338,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * change y-coords to show vibration down lane (may have to adjust values)
+	 * Changes y-coords to show vibration down lane (may have to adjust values)
 	 * 
 	 * @param i
 	 *            - counter, increments every call to draw
