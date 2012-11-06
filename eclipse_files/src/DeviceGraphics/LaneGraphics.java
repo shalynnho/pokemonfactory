@@ -3,6 +3,7 @@ package DeviceGraphics;
 import Networking.*;
 import Utils.*;
 import factory.data.*;
+import factory.*;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,8 @@ public class LaneGraphics extends DeviceGraphics implements
 	private Server server;
 	// the ID of this Lane
 	private int laneID;
+	// the lane agent
+	private LaneAgent laneAgent;
 	// the Nest associated with this LaneGraphics object
 //	private NestGraphics nest;
 
@@ -38,13 +41,14 @@ public class LaneGraphics extends DeviceGraphics implements
 
 	/**
 	 * 
-	 * @param s
-	 * @param id
-	 * @param n
+	 * @param s - the Server
+	 * @param id - ID of this lane
+	 * @param la - the LaneAgent
 	 */
-	public LaneGraphics(Server s, int id) {
+	public LaneGraphics(Server s, int id, LaneAgent la) {
 		server = s;
 		laneID = id;
+		laneAgent = la;
 //		nest = n;
 
 		partsOnLane = new ArrayList<PartGraphics>();
