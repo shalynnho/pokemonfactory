@@ -2,11 +2,11 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
-import factory.data.PartType;
-
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
+import factory.FeederAgent;
+import factory.data.PartType;
 
 /**
  * This class handles the logic for the feeder animation.
@@ -17,25 +17,22 @@ import Utils.Constants;
 public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces.FeederGraphics {
 	// TODO ask 201 team what should be the threshold
 	private static final int PARTS_LOW_THRESHOLD = 2;
-	
 	// a reference to the server
 	private Server server;
+	// the feeder's unique ID
+	private int feederID;
+	// a reference to the FeederAgent
+	private FeederAgent feederAgent;
 		
 	// true if the diverter is pointing to the top lane
 	private boolean diverterTop;
-	
-	// the feeder's unique ID
-	private int feederID;
-	
 	// number of parts fed
 	private int partsFed;
-	
 	// number of parts left to be fed
 	private int partsRemaining;
 	
 	// a part
 	private PartGraphics partGraphics;
-	
 	// a bin
 	private BinGraphics binGraphics;
 	
@@ -47,14 +44,16 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 * @param id the unique ID of the feeder (there will be 4 feeders so we need to uniquely identify them)
 	 * @param myServer a reference to the Server
 	 */
-	public FeederGraphics(int id, Server myServer) {
+	public FeederGraphics(int id, Server myServer, FeederAgent fa) {
 		id = feederID;
 		server = myServer;
+		feederAgent = fa;
+		
 		partsFed = 0;
 		partsRemaining = 0;
 		
-		// TODO diverter starts on the top lane
-		diverterTop = true; // this means it is currently pointing at the top lane
+		// diverter defaults to the top lane
+		diverterTop = true;
 	}
 	
 	/**
@@ -118,7 +117,9 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET, null));
 	}
 
-	@Override
+	/**
+	 * This function handles requests sent to the server
+	 */
 	public void receiveData(Request req) {
 		// v0 test commands
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
