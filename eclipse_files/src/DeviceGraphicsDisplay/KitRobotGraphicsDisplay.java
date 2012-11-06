@@ -141,7 +141,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		moveToInitial();
 	}
 	
-	public void Location1ToConveyor(){
+	public void Location1ToLocation2(){
 		jobIsDone=false;
 		initialJob=true;
 		moveToInitialPosition=Command.moveToLocation1;
@@ -343,14 +343,14 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 			{
 				for(int i=0; i<kits.size(); i++)
 				{
-					if(kits.get(i).getPosition()==4)
+					if(kits.get(i).getPosition()==3)
 					{
 						currentKit=kits.get(i);
-						kits.get(i).setPosition(1);
+						kits.get(i).setPosition(4);
 					}
 				}
 				
-				InspectionStandToConveyor();
+				Location1ToLocation2();
 			}
 			else if(command.equals("moveKitToStand2"))
 			{
