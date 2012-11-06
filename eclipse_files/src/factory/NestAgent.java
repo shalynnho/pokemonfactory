@@ -81,12 +81,10 @@ public class NestAgent extends Agent implements Nest {
 		if (nestGUI != null) {
 			nestGUI.givePartToPartsRobot(p.part);
 		}
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		/*
+		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
 		for (MyPart part : currentParts) {
 			if (part.part == p) {
 				currentParts.remove(part);
@@ -112,7 +110,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgGivePartToPartsRobotDone() {
-		animation.release();
+		// animation.release();
 		stateChanged();
 	}
 
