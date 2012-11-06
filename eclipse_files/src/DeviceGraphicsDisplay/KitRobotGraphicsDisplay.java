@@ -442,10 +442,10 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	{
 		checkDegrees();
 		doJob();
-		
+		AnimationToConveyorDone=false;
 		for(int i=0;i<kits.size(); i++)
 		{
-			AnimationToConveyorDone=false;
+		
 			kits.get(i).drawRotate(c,g);
 			if(kits.get(i).getPosition()==4)
 			{
@@ -453,6 +453,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 				{
 					System.out.println("Sends conveyor receives kit command");
 					AnimationToConveyorDone=true;
+					kits.remove(0);
 					//client.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
 				}
 			}
@@ -460,7 +461,9 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		
 		//Image image=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/resource/Square.jpg"));
 		g.drawImage(Constants.KIT_ROBOT_IMAGE, trans,null);
-	
+
+			
+		
 	}
 	
 	
