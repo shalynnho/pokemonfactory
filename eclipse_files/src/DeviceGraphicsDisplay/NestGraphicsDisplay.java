@@ -94,17 +94,29 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND)) {
 			// TODO code to handle command
 			// send a request back to the server saying done
-			client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
+			if(partsInNest.size()>=MAX_PARTS){
+				System.out.println("Nest is full");
+			} else{
+				PartGraphicsDisplay temp = new PartGraphicsDisplay(PartType.A);
+				addPartToCorrectLocation(temp, partsInNest.size());
+				//choosing the correct location of the part
+				client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
+			}
+			
 		} else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX)) {
 			// TODO code to handle command
 			// send a request back to the server saying done
+			partsInNest.remove(0);
+			updateLocationOfParts(partsInNest);
 			client.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
 		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
 			// TODO code to handle command
 			// send a request back to the server saying done
+			for(int i=0; i<partsInNest.size();i++){
+				partsInNest.remove(0);
+			}
 			client.sendData(new Request(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
-		}
-		
+		}	
 	}
 
 	/**
@@ -114,4 +126,21 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	//add part to the correct location
+	public void addPartToCorrectLocation(PartGraphicsDisplay temp, int i){
+		if(i < 4) {
+			temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY()+1)));
+		} else {
+			temp.setLocation(new Location((nestLocation.getX()+(i-4)*20),(nestLocation.getY()+23))); 
+		}
+	}
+	
+	//update location of parts
+	public void updateLocationOfParts(ArrayList<PartGraphicsDisplay> x){
+		for(int i=0; i<x.size(); i++){
+			addPartToCorrectLocation(x.get(i),i);
+		}
+	}
+	
 }
