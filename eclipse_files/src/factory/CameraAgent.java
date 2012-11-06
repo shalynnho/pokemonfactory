@@ -8,7 +8,6 @@ import GraphicsInterfaces.CameraGraphics;
 import agent.Agent;
 import factory.data.Kit;
 import factory.data.Part;
-import factory.data.PartType;
 import factory.interfaces.Camera;
 import factory.interfaces.Nest;
 
@@ -55,11 +54,11 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	public class MyNest {
-		Nest nest;
-		List<Part> Parts;
+		public Nest nest;
+		public List<Part> Parts;
 		public NestStatus state;
 
-		MyNest(Nest nest) {
+		public MyNest(Nest nest) {
 			this.nest = nest;
 			this.state = NestStatus.NOT_READY;
 		}
@@ -77,20 +76,22 @@ public class CameraAgent extends Agent implements Camera {
 
 	@Override
 	public void msgIAmFull(Nest nest) {
-		for(MyNest n : nests){
-			if(n.nest == nest){
-				n.state=NestStatus.READY;
+		for (MyNest n : nests) {
+			if (n.nest == nest) {
+				n.state = NestStatus.READY;
 			}
 		}
 		stateChanged();
 	}
 
 	@Override
-	public void msgTakePictureNestDone(List<Part> parts, Nest nest) {
+	public void msgTakePictureNestDone(NestAgent nest) {
+		print("CameraGraphics finished animating nest photographs");
 		synchronized (nests) {
 			for (MyNest n : nests) {
 				if (n.nest == nest) {
-					n.Parts = parts;
+					// In v0 all parts are good parts
+					n.Parts = nest.getParts();
 					n.state = NestStatus.PHOTOGRAPHED;
 					break;
 				}
@@ -114,11 +115,15 @@ public class CameraAgent extends Agent implements Camera {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		synchronized (nests) {
-			for (int i=0;i<nests.size();i+=2) {
-				if(nests.size()>=i+1){ //Quick check to make sure there is a nest paired with this one
-					if (nests.get(i).state == NestStatus.READY && nests.get(i+1).state == NestStatus.READY) {
+			for (int i = 0; i < nests.size(); i += 2) {
+				if (nests.size() > i + 1) { // Quick check to make sure there
+											// is a nest paired with this
+											// one
+					if (nests.get(i).state == NestStatus.READY
+							&& nests.get(i + 1).state == NestStatus.READY) {
+						print("Taking photos of nests");
 						takePictureOfNest(nests.get(i));
-						takePictureOfNest(nests.get(i+1));
+						takePictureOfNest(nests.get(i + 1));
 						return true;
 					}
 				} else {
@@ -129,9 +134,9 @@ public class CameraAgent extends Agent implements Camera {
 				}
 			}
 		}
-		
+
 		synchronized (nests) {
-			for (MyNest n:nests) {
+			for (MyNest n : nests) {
 				if (n.state == NestStatus.PHOTOGRAPHED) {
 					tellPartsRobot(n);
 					return true;
@@ -153,6 +158,7 @@ public class CameraAgent extends Agent implements Camera {
 				}
 			}
 		}
+		print("no rule match.");
 		return false;
 	}
 
@@ -178,7 +184,7 @@ public class CameraAgent extends Agent implements Camera {
 		}
 		print("good parts count: " + goodParts.size());
 		partRobot.msgHereAreGoodParts(n.nest, goodParts);
-		n.state=NestStatus.NOT_READY;
+		n.state = NestStatus.NOT_READY;
 		stateChanged();
 
 	}
@@ -197,11 +203,56 @@ public class CameraAgent extends Agent implements Camera {
 		this.partRobot = parts;
 
 	}
-	
+
 	public void setNests(ArrayList<NestAgent> nests) {
-		for(NestAgent nest:nests){
+		for (NestAgent nest : nests) {
 			this.nests.add(new MyNest(nest));
 		}
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<MyNest> getNests() {
+		return nests;
+	}
+
+	public void setNests(List<MyNest> nests) {
+		this.nests = nests;
+	}
+
+	public CameraGraphics getGuiCamera() {
+		return guiCamera;
+	}
+
+	public void setGuiCamera(CameraGraphics guiCamera) {
+		this.guiCamera = guiCamera;
+	}
+
+	public KitRobotAgent getKitRobot() {
+		return kitRobot;
+	}
+
+	public void setKitRobot(KitRobotAgent kitRobot) {
+		this.kitRobot = kitRobot;
+	}
+
+	public PartsRobotAgent getPartRobot() {
+		return partRobot;
+	}
+
+	public void setPartRobot(PartsRobotAgent partRobot) {
+		this.partRobot = partRobot;
+	}
+
+	public List<MyKit> getKits() {
+		return kits;
 	}
 
 }

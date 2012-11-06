@@ -25,7 +25,7 @@ public class NestAgent extends Agent implements Nest {
 	public boolean takingParts = false;
 
 	public NestGraphics guiNest;
-	
+
 	public Semaphore animation = new Semaphore(0, true);
 
 	String name;
@@ -58,9 +58,9 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgHereIsPartType(PartType type) {
 		// GUINest.purge();
-		/*if(nestGUI != null) {
-			guiNest.purge();
-		}*/
+		/*
+		 * if(nestGUI != null) { guiNest.purge(); }
+		 */
 		currentPartType = type;
 		countRequest = 0;
 		count = 0;
@@ -78,15 +78,13 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgTakingPart(Part p) {
-		if(nestGUI != null) {
+		if (nestGUI != null) {
 			nestGUI.givePartToPartsRobot(p.part);
 		}
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		/*
+		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
 		for (MyPart part : currentParts) {
 			if (part.part == p) {
 				currentParts.remove(part);
@@ -112,10 +110,10 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgGivePartToPartsRobotDone() {
-		animation.release();
+		// animation.release();
 		stateChanged();
 	}
- 
+
 	@Override
 	public void msgPurgingDone() {
 		animation.release();
@@ -160,7 +158,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void moveToPosition(Part part) {
 		print("Moving part to proper nest location");
-		if(nestGUI!=null) {
+		if (nestGUI != null) {
 			nestGUI.receivePart(part.part);
 		}
 		try {
@@ -169,7 +167,7 @@ public class NestAgent extends Agent implements Nest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
 				currentPart.status = NestStatus.IN_NEST_POSITION;
@@ -189,13 +187,10 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void updateParts() {
 		// GUINest.updatePartsList();
-		/*try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		stateChanged();*/
+		/*
+		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); } stateChanged();
+		 */
 	}
 
 	@Override
@@ -203,24 +198,35 @@ public class NestAgent extends Agent implements Nest {
 		return name;
 	}
 
+	@Override
 	public void setLane(LaneAgent lane) {
 		this.lane = lane;
 	}
 
+	@Override
 	public void setCamera(CameraAgent camera) {
 		this.camera = camera;
 	}
-	
+
+	@Override
 	public void setGraphicalRepresentation(NestGraphics nest) {
-		this.guiNest=nest;
+		this.guiNest = nest;
 	}
-	
+
 	public List<Part> getParts() {
 		List<Part> parts = new ArrayList<Part>();
-		for(MyPart p:currentParts){
+		for (MyPart p : currentParts) {
 			parts.add(p.part);
 		}
 		return parts;
+	}
+
+	public ArrayList<PartType> getTypesOfParts() {
+		ArrayList<PartType> types = new ArrayList<PartType>();
+		for (MyPart p : currentParts) {
+			types.add(p.part.type);
+		}
+		return types;
 	}
 
 }

@@ -35,11 +35,11 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	String name;
 
-	private class MyKit {
-		Kit kit;
-		MyKitStatus MKS;
+	public class MyKit {
+		public Kit kit;
+		public MyKitStatus MKS;
 
-		MyKit(Kit k) {
+		public MyKit(Kit k) {
 			kit = k;
 			MKS = MyKitStatus.NotDone;
 		}
@@ -100,7 +100,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	/**
-	 * From Kit Robot
+	 * From Stand
 	 */
 	@Override
 	public void msgUseThisKit(Kit k) {
@@ -153,7 +153,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				synchronized (GoodParts) {
 					for (Nest nest : GoodParts.keySet()) {
 						// Going through all the good parts
-						for (Part part : GoodParts.get(nests)) {
+						for (Part part : GoodParts.get(nest)) {
 							for (MyKit mk : MyKits) {
 								// Checking if the good part is needed by
 								// either kit
@@ -259,4 +259,80 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		return false;
 	}
 
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<PartType> getKitConfig() {
+		return KitConfig;
+	}
+
+	public void setKitConfig(List<PartType> kitConfig) {
+		KitConfig = kitConfig;
+	}
+
+	public Map<Nest, List<Part>> getGoodParts() {
+		return GoodParts;
+	}
+
+	public void setGoodParts(Map<Nest, List<Part>> goodParts) {
+		GoodParts = goodParts;
+	}
+
+	public List<Arm> getArms() {
+		return Arms;
+	}
+
+	public void setArms(List<Arm> arms) {
+		Arms = arms;
+	}
+
+	public List<Kit> getKitsOnStand() {
+		return KitsOnStand;
+	}
+
+	public void setKitsOnStand(List<Kit> kitsOnStand) {
+		KitsOnStand = kitsOnStand;
+	}
+
+	public List<Nest> getNests() {
+		return nests;
+	}
+
+	public void setNests(List<Nest> nests) {
+		this.nests = nests;
+	}
+
+	public Stand getStand() {
+		return stand;
+	}
+
+	public void setStand(Stand stand) {
+		this.stand = stand;
+	}
+
+	public PartsRobotGraphics getPartsrobotGraphics() {
+		return partsrobotGraphics;
+	}
+
+	public void setPartsrobotGraphics(PartsRobotGraphics partsrobotGraphics) {
+		this.partsrobotGraphics = partsrobotGraphics;
+	}
+
+	public Semaphore getAnimation() {
+		return animation;
+	}
+
+	public void setAnimation(Semaphore animation) {
+		this.animation = animation;
+	}
+
+	public List<MyKit> getMyKits() {
+		return MyKits;
+	}
 }

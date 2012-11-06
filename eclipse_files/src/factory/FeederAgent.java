@@ -20,6 +20,8 @@ public class FeederAgent extends Agent implements Feeder {
 
 	private GantryAgent gantry;
 	private LaneAgent lane;
+	private LaneAgent lane1;
+	private LaneAgent lane2;
 	private FeederGraphics feederGUI;
 	
 	private boolean currentOrientation = true;
@@ -114,9 +116,13 @@ public class FeederAgent extends Agent implements Feeder {
 	@Override
 	public void giveToDiverter(Part part) {
 		print("Giving parts to diverter");
-		
+		lane = lane1;
 		if(feederGUI !=null) {
 			if(part.up != currentOrientation) {
+				if(lane == lane1)
+					lane = lane2;
+				else
+					lane=lane1;
 				currentOrientation = part.up;
 				feederGUI.flipDiverter();
 			}

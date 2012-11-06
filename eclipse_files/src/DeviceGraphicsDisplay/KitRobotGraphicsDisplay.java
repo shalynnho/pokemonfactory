@@ -357,12 +357,12 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 			}
 			else if(command.equals("moveit"))
 			{
-				System.out.println("goes through moveit command");
+				
 				for(int i=0; i<kits.size(); i++)
 				{
 					if(kits.get(i).getPosition()==3)
 					{
-						
+						System.out.println("goes through moveit command");
 						currentKit=kits.get(i);
 						kits.get(i).setPosition(4);
 					}

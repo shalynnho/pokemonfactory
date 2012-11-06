@@ -245,14 +245,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				partsOnLane.add(pg);
 				laneManager.sendData(new Request(
 						Constants.LANE_RECEIVE_PART_COMMAND
-								+ Constants.DONE_SUFFIX, Constants.LANE_TARGET,
+								+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+":"+laneID,
 						null));
 			}
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 			partsOnLane.remove(0);
 			laneManager.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
-					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET, null));
+					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+":"+laneID, null));
 
 		} else if (cmd.equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			binIsHere = true;

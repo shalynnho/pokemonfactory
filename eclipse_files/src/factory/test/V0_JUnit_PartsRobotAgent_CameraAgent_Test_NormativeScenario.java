@@ -88,7 +88,7 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 		// Start the test
 		camera.msgIAmFull(nest);
 
-		// Invoke the scheduler
+		// Invoke Camera's scheduler
 		camera.pickAndExecuteAnAction();
 
 		// No rules should have passed as only 1 nest is full
@@ -96,12 +96,40 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 
 		camera.pickAndExecuteAnAction();
 
-		// Camera should have fired takePictureOfNest()
+		// Camera's scheduler should have fired takePictureOfNest()
 		assertEquals("Camera should have set nest's status to 'photographing'",
 				NestStatus.PHOTOGRAPHING, MyNest.state);
 		assertEquals(
 				"Camera should have set nest2's status to 'photographing'",
 				NestStatus.PHOTOGRAPHING, MyNest2.state);
+
+		// CameraGraphics sends this when the camera has taken a photograph of
+		// both nests.
+		camera.msgTakePictureNestDone(nest);
+		camera.msgTakePictureNestDone(nest2);
+
+		assertEquals("Camera should have set nest's status to 'photographed'",
+				NestStatus.PHOTOGRAPHED, MyNest.state);
+		assertEquals("Camera should have set nest2's status to 'photographed'",
+				NestStatus.PHOTOGRAPHED, MyNest2.state);
+
+		camera.pickAndExecuteAnAction();
+
+		// Camera's scheduler should have fired tellPartsRobot()
+		assertEquals("Camera should have set nest's status to 'not ready'",
+				NestStatus.NOT_READY, MyNest.state);
+		assertEquals("Nest2's status should still be 'photographed'",
+				NestStatus.PHOTOGRAPHED, MyNest2.state);
+
+		camera.pickAndExecuteAnAction();
+
+		// Camera's scheduler should have again fired tellPartsRobot()
+		assertEquals("Nest2's status should still be 'not ready'",
+				NestStatus.NOT_READY, MyNest2.state);
+		assertEquals("Camera should have set nest2's status to 'not ready'",
+				NestStatus.NOT_READY, MyNest2.state);
+
+		// Camera now sleeps until the kit is assembled
 
 	}
 }

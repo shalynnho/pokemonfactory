@@ -1,5 +1,6 @@
 package factory.interfaces;
 
+import GraphicsInterfaces.FeederGraphics;
 import factory.GantryAgent;
 import factory.LaneAgent;
 import factory.data.Part;
@@ -27,5 +28,6 @@ public interface Feeder {
 	public abstract void setGantry(GantryAgent gantry);
 
 	public abstract void setLane(LaneAgent lane);
+	public abstract void setGraphicalRepresentation(FeederGraphics feeder);
 
 }
