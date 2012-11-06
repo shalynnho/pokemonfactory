@@ -2,6 +2,7 @@ package factory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.NestGraphics;
 import agent.Agent;
@@ -23,6 +24,8 @@ public class NestAgent extends Agent implements Nest {
 	public boolean takingParts = false;
 
 	public NestGraphics guiNest;
+	
+	Semaphore animation = new Semaphore(1, true);
 
 	String name;
 
@@ -86,14 +89,20 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgReceivePartDone() {
+		animation.release();
+		stateChanged();
 	}
 
 	@Override
 	public void msgGivePartToPartsRobotDone() {
+		///animation.release(); //This message is never sent
+		stateChanged();
 	}
 
 	@Override
 	public void msgPurgingDone() {
+		animation.release();
+		stateChanged();
 	}
 
 	@Override
@@ -134,7 +143,15 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void moveToPosition(Part part) {
 		print("Moving part to proper nest location");
+		
 		// GUINest.receivePart(part);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
 				currentPart.status = NestStatus.IN_NEST_POSITION;
@@ -154,6 +171,13 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void updateParts() {
 		// GUINest.updatePartsList();
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		stateChanged();
 	}
 
 	@Override
