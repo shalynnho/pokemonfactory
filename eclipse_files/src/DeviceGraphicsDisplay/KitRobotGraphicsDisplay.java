@@ -73,7 +73,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		//image =new ImageIcon(this.getClass().getResource("/resource/Square.jpg"));
 		rotationAxisX=25;
 		rotationAxisY=25;
-		kitRobotPositionX=135;
+		kitRobotPositionX=195;
 		kitRobotPositionY=215;
 		
 		trans.translate(kitRobotPositionX,kitRobotPositionY);		
