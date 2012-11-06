@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.LaneGraphics;
 import agent.Agent;
 import factory.data.Part;
@@ -129,8 +130,8 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	@Override
-	public void setGraphicalRepresentation(LaneGraphics lane) {
-		this.laneGUI = lane;
+	public void setGraphicalRepresentation(DeviceGraphics lane) {
+		this.laneGUI = (LaneGraphics) lane;
 	}
 	public String getName() {
 		return name;

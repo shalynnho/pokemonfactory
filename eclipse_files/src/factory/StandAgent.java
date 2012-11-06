@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
+import DeviceGraphics.DeviceGraphics;
 import agent.Agent;
 import factory.data.Kit;
 import factory.interfaces.FCS;
@@ -373,4 +374,7 @@ public class StandAgent extends Agent implements Stand {
 		return kitsOnStand;
 	}
 
+	public void setGraphicalRepresentation(DeviceGraphics dg) {
+		
+	}
 }

@@ -1,6 +1,6 @@
 package factory.test.mock;
 
-import GraphicsInterfaces.FeederGraphics;
+import DeviceGraphics.DeviceGraphics;
 import factory.GantryAgent;
 import factory.LaneAgent;
 import factory.data.Part;
@@ -80,9 +80,8 @@ public class MockFeeder extends MockAgent implements Feeder {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void setGraphicalRepresentation(FeederGraphics feeder) {
+	
+	public void setGraphicalRepresentation(DeviceGraphics feeder) {
 		// TODO Auto-generated method stub
 		
 	}

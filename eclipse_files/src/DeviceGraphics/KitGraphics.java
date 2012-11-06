@@ -7,7 +7,7 @@ import Utils.Location;
 
 import factory.data.PartType;
 
-public class KitGraphics extends DeviceGraphics {
+public class KitGraphics implements DeviceGraphics {
 	
 	ArrayList<PartGraphics> parts; // parts currently in the kit
 	ArrayList<PartType> partTypes; // part types required to make kit

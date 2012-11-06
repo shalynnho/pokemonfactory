@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import DeviceGraphics.DeviceGraphics;
 import agent.Agent;
 import factory.data.Bin;
 import factory.data.Bin.BinStatus;
@@ -156,6 +157,10 @@ public class GantryAgent extends Agent implements Gantry {
 
 	public void setFeeder(FeederAgent feeder) {
 		this.feeder = feeder;
+	}
+	
+	public void setGraphicalRepresentation(DeviceGraphics dg) {
+		
 	}
 
 }

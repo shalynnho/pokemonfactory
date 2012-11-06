@@ -18,7 +18,7 @@ import factory.data.PartType;
  * @author Shalynn Ho, Aaron Harris, Harry Trieu
  *
  */
-public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.NestGraphics {
+public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGraphics {
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS = 8;
 	
@@ -35,7 +35,7 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	private ArrayList<PartGraphics> partsInNest;
 	
 	// true during Nest purge cycle, can't receive parts
-	private boolean purging;
+	private boolean isPurging;
 	// true if nest is full, can't receive parts
 	private boolean isFull;
 	// true if spot is filled, false if not

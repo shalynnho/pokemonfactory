@@ -1,5 +1,6 @@
 package factory;
 
+import DeviceGraphics.DeviceGraphics;
 import agent.Agent;
 import factory.interfaces.FCS;
 
@@ -17,6 +18,10 @@ public class FCSAgent extends Agent implements FCS {
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public void setGraphicalRepresentation(DeviceGraphics dg) {
+		
 	}
 
 }

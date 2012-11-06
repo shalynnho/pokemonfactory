@@ -39,7 +39,5 @@ public interface Nest {
 	public void setLane(LaneAgent lane);
 	
 	public void setCamera(CameraAgent camera);
-	
-	public void setGraphicalRepresentation(NestGraphics nest);
 
 }

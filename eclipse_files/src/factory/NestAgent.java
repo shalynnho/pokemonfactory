@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.NestGraphics;
 import agent.Agent;
 import factory.data.Part;
@@ -209,8 +210,8 @@ public class NestAgent extends Agent implements Nest {
 	}
 
 	@Override
-	public void setGraphicalRepresentation(NestGraphics nest) {
-		this.guiNest = nest;
+	public void setGraphicalRepresentation(DeviceGraphics nest) {
+		this.guiNest = (NestGraphics) nest;
 	}
 
 	public List<Part> getParts() {

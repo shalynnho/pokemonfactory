@@ -28,6 +28,5 @@ public interface Feeder {
 	public abstract void setGantry(GantryAgent gantry);
 
 	public abstract void setLane(LaneAgent lane);
-	public abstract void setGraphicalRepresentation(FeederGraphics feeder);
 
 }

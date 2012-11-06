@@ -1,14 +1,16 @@
 package factory.test.mock;
 
+import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.KitGraphics;
 import GraphicsInterfaces.KitRobotGraphics;
+import Networking.Request;
 
 /**
  * Mock graphical representation for the kitrobot. Messages received simply add
  * an entry to the mock agent's log.
  * @author Daniel Paje
  */
-public class MockKitRobotGraphics extends MockAgent implements KitRobotGraphics {
+public class MockKitRobotGraphics extends MockAgent implements KitRobotGraphics, DeviceGraphics {
 
 	public EventLog log;
 
@@ -33,6 +35,11 @@ public class MockKitRobotGraphics extends MockAgent implements KitRobotGraphics 
 	public void msgPlaceKitOnConveyor() {
 		log.add(new LoggedEvent("Received message msgPlaceKitOnConveyor"));
 
+	}
+
+	@Override
+	public void receiveData(Request req) {
+		// does nothing. requirement of DeviceGraphics
 	}
 
 }

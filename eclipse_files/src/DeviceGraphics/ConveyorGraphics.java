@@ -14,7 +14,7 @@ import factory.data.Kit;
  * @author neetugeo
  */
 
-public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfaces.ConveyorGraphics {
+public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics, DeviceGraphics {
 
 	private ArrayList<KitGraphics> kitsOnConveyor; // all kits on conveyor
 	private ArrayList<KitGraphics> kitsToLeave;
