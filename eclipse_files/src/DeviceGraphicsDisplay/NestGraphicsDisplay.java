@@ -103,13 +103,13 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
 			}
 			
-		} else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX)) {
+		} else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)) {
 			// TODO code to handle command
 			// send a request back to the server saying done
 			partsInNest.remove(0);
 			updateLocationOfParts(partsInNest);
 			client.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
-		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
+		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND)) {
 			// TODO code to handle command
 			// send a request back to the server saying done
 			for(int i=0; i<partsInNest.size();i++){
