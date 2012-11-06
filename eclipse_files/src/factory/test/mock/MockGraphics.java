@@ -92,12 +92,6 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	}
 
 	@Override
-	public void givePartToKit(KitGraphics kit) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void givePartToPartsRobot(PartGraphics part) {
 		// TODO Auto-generated method stub
 
@@ -358,6 +352,12 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	@Override
 	public void takeNestPhoto(NestGraphics nest1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void givePartToKit(PartGraphics part, KitGraphics kit) {
 		// TODO Auto-generated method stub
 
 	}

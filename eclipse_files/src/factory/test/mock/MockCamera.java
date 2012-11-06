@@ -2,7 +2,6 @@ package factory.test.mock;
 
 import java.util.List;
 
-import factory.NestAgent;
 import factory.data.Kit;
 import factory.data.Part;
 import factory.interfaces.Camera;
@@ -28,12 +27,6 @@ public class MockCamera extends MockAgent implements Camera {
 	}
 
 	@Override
-	public void msgIAmFull(NestAgent nest) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;
@@ -47,6 +40,12 @@ public class MockCamera extends MockAgent implements Camera {
 
 	@Override
 	public void msgTakePictureKitDone(Kit kit, boolean done) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgIAmFull(Nest nest) {
 		// TODO Auto-generated method stub
 
 	}

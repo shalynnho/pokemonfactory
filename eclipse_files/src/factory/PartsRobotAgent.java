@@ -16,8 +16,6 @@ import factory.interfaces.Nest;
 import factory.interfaces.PartsRobot;
 import factory.interfaces.Stand;
 
-// import factory.StandAgent.MyKit;
-
 /**
  * Parts robot picks parts from nests and places them in kits
  * @author Ross Newman
@@ -28,6 +26,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		super();
 
 		this.name = name;
+
+		// Add arms
 		for (int i = 0; i < 4; i++) {
 			this.Arms.add(new Arm());
 		}
@@ -38,11 +38,9 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private class MyKit {
 		Kit kit;
 		MyKitStatus MKS;
-		List<PartType> config = new ArrayList<PartType>();
 
-		MyKit(Kit k, List<PartType> newConfig) {
+		MyKit(Kit k) {
 			kit = k;
-			config = newConfig;
 			MKS = MyKitStatus.NotDone;
 		}
 	}
@@ -65,8 +63,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		Empty, Full
 	};
 
-	private List<PartType> KitConfig = Collections.synchronizedList(new ArrayList<PartType>());
-	private final List<MyKit> MyKits = Collections.synchronizedList(new ArrayList<MyKit>());;
+	private List<PartType> KitConfig = Collections
+			.synchronizedList(new ArrayList<PartType>());
+	private final List<MyKit> MyKits = Collections
+			.synchronizedList(new ArrayList<MyKit>());;
 	public Map<Nest, List<Part>> GoodParts = new HashMap<Nest, List<Part>>();
 	public List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
 
@@ -74,10 +74,11 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	List<Nest> nests;
 
 	Stand stand;
-	PartsRobotGraphics guiPartsRobot;
+	PartsRobotGraphics partsrobotGraphics;
 
-	public Semaphore Animation = new Semaphore(1, true);
-	public Semaphore AccessKit = new Semaphore(1, true);
+	public Semaphore animation = new Semaphore(0, true);
+
+	// public Semaphore accessKit = new Semaphore(0, true);
 
 	/***** MESSAGES ***************************************/
 	/**
@@ -103,7 +104,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgUseThisKit(Kit k) {
-		MyKit mk = new MyKit(k, KitConfig);
+		MyKit mk = new MyKit(k);
 		MyKits.add(mk);
 		stateChanged();
 	}
@@ -114,7 +115,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgPickUpPartDone() {
-		Animation.release();
+		animation.release();
 		stateChanged();
 	}
 
@@ -124,7 +125,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgGivePartToKitDone() {
-		Animation.release();
+		animation.release();
 		stateChanged();
 	}
 
@@ -132,28 +133,39 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		
-		//Checks if a kit is done and inspects it if it is
-		if (MyKits.size() > 0) {
-			print("Have kits");
-			for (MyKit mk : MyKits) {
-				if (mk.MKS == MyKitStatus.Done) {
-					RequestInspection(mk);
-					return true;
-				} 
+
+		// Checks if a kit is done and inspects it if it is
+		synchronized (MyKits) {
+			if (MyKits.size() > 0) {
+				print("Have kits");
+				for (MyKit mk : MyKits) {
+					if (mk.MKS == MyKitStatus.Done) {
+						RequestInspection(mk);
+						return true;
+					}
+				}
 			}
-		}
-		
-		//Checks if there is an empty arm, if there is it fills it with a good part that the kit needs
-		if(IsAnyArmEmpty()){ 
-			for (Nest nest : GoodParts.keySet()) { 
-				for (Part part : GoodParts.get(nests)) { //Going through all the good parts
-					for (MyKit mk : MyKits) { 
-						if(mk.kit.needPart(part)){ //Checking if the good part is needed by either kit
-							for (Arm arm : Arms) {
-								if (arm.AS == ArmStatus.Empty) { //Find the empty arm 
-									PickUpPart(arm,part,nest);
-									return true;
+
+			// Checks if there is an empty arm, if there is it fills it with a
+			// good part that the kit needs
+			if (IsAnyArmEmpty()) {
+				print("Arm empty");
+				synchronized (GoodParts) {
+					for (Nest nest : GoodParts.keySet()) {
+						// Going through all the good parts
+						for (Part part : GoodParts.get(nests)) {
+							for (MyKit mk : MyKits) {
+								// Checking if the good part is needed by
+								// either kit
+								if (mk.kit.needPart(part)) {
+									print("Found a part I need");
+									for (Arm arm : Arms) {
+										if (arm.AS == ArmStatus.Empty) {
+											// Find the empty arm
+											PickUpPart(arm, part, nest);
+											return true;
+										}
+									}
 								}
 							}
 						}
@@ -161,15 +173,15 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				}
 			}
 		}
-		
-		//Checks if any arm is holding a part and places it if there is one
+
+		// Checks if any arm is holding a part and places it if there is one
 		for (Arm arm : Arms) {
 			if (arm.AS == ArmStatus.Full) {
 				PlacePart(arm);
 				return true;
 			}
 		}
-		print("returning false");
+
 		return false;
 	}
 
@@ -179,43 +191,43 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 		print("Picking up part");
 		GoodParts.remove(nest);
-		
-		//Tells the graphics to pickup the part
-		//guiPartsRobot.pickUpPart(part.part);
+
+		// Tells the graphics to pickup the part
+		// guiPartsRobot.pickUpPart(part.part);
 		try {
-			Animation.acquire();
+			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//Only takes 1 part from a nest at a time
-		nest.msgTakingPart(part);											
+
+		// Only takes 1 part from a nest at a time
+		nest.msgTakingPart(part);
 		nest.msgDoneTakingParts();
-		
+
 		stateChanged();
 	}
 
 	private void PlacePart(Arm arm) {
 		for (MyKit mk : MyKits) {
 			if (mk.kit.needPart(arm.part)) {
-				
+
 				// guiPartsRobot.givePartToKit(mk.kit.kit);
 				try {
-					Animation.acquire();
+					animation.acquire();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				//Tells the kit it has the part now
+
+				// Tells the kit it has the part now
 				mk.kit.parts.add(arm.part);
-				mk.kit.partsExpected.remove(arm.part);
+				// mk.kit.partsExpected.remove(arm.part);
 				arm.part = null;
-				
-				//Checks if the kit is done
+
+				// Checks if the kit is done
 				CheckMyKit(mk);
-				
+
 				break;
 			}
 		}
@@ -223,7 +235,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void CheckMyKit(MyKit mk) {
-		if (mk.kit.partsExpected.size() == 0) {
+		if (mk.kit.parts.size() == mk.kit.partsExpected.size()) {
 			mk.MKS = MyKitStatus.Done;
 		}
 		// stateChanged();
@@ -233,13 +245,12 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		stand.msgKitAssembled(mk.kit);
 		MyKits.remove(mk);
 		stateChanged();
-
 	}
-	
-	//Helper methods
-	
-	//Checks if any of the arms are empty 
-	private boolean IsAnyArmEmpty(){
+
+	// Helper methods
+
+	// Checks if any of the arms are empty
+	private boolean IsAnyArmEmpty() {
 		for (Arm a : Arms) {
 			if (a.AS == ArmStatus.Empty) {
 				return true;

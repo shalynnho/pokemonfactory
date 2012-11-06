@@ -21,8 +21,8 @@ import factory.test.mock.MockGraphics;
 /**
  * Kit Robot brings moves kits to and from the conveyor and arranges kits on the
  * kitting stand. It is responsible for moving the assembled kits on the stand
- * into the inspection area for the Camera. Interacts with the Parts Robot,
- * Conveyor and Camera.
+ * into the inspection area for the Camera. Interacts with the stand, Conveyor
+ * and Camera.
  * @author Daniel Paje
  */
 public class KitRobotAgent extends Agent implements KitRobot {
@@ -38,7 +38,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	private boolean kitRequested;
 
 	// Used to prevent animations from overlapping
-	Semaphore animation = new Semaphore(1, true);
+	Semaphore animation = new Semaphore(0, true);
 
 	// References to other agents
 	private Stand stand;

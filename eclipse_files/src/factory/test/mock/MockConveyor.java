@@ -1,6 +1,9 @@
 package factory.test.mock;
 
+import java.util.ArrayList;
+
 import factory.data.Kit;
+import factory.data.PartType;
 import factory.interfaces.Conveyor;
 
 /**
@@ -49,6 +52,12 @@ public class MockConveyor extends MockAgent implements Conveyor {
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void msgHereIsKitConfiguration(ArrayList<PartType> config) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.concurrent.Semaphore;
 import GraphicsInterfaces.ConveyorGraphics;
 import agent.Agent;
 import factory.data.Kit;
+import factory.data.PartType;
 import factory.interfaces.Conveyor;
 import factory.interfaces.KitRobot;
 import factory.test.mock.MockGraphics;
@@ -22,12 +23,15 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	private final List<MyKit> kitsOnConveyor = Collections
 			.synchronizedList(new ArrayList<MyKit>());
+
+	private final List<PartType> kitConfig = new ArrayList<PartType>();
+
 	private MyKit incomingKit;
 	private MyKit outgoingKit;
 	private int numKitsToDeliver;
 
 	// Used to prevent animations from overlapping
-	Semaphore animation = new Semaphore(1);
+	Semaphore animation = new Semaphore(0, true);
 
 	// References to other agents
 	private KitRobot kitrobot;
@@ -53,7 +57,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	}
 
 	public enum KitStatus {
-		MovingIn, AwaitingPickup, PickedUp, AwaitingDropOff, MovingOut, Delivered
+		MovingIn, AwaitingPickup, PickedUp, AwaitingDelivery, MovingOut, Delivered
 	};
 
 	/**
@@ -83,7 +87,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		print("Received msgTakeKitAway");
 		MyKit mk = new MyKit(k);
 		outgoingKit = mk;
-		mk.KS = KitStatus.MovingOut;
+		mk.KS = KitStatus.AwaitingDelivery;
 		kitsOnConveyor.add(mk);
 		stateChanged();
 	}
@@ -132,8 +136,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			// Place kit onto conveyor and start moving it out of the cell if
 			// the kit robot has dropped off a completed kit
 			for (MyKit mk : kitsOnConveyor) {
-				if (mk.KS == KitStatus.AwaitingDropOff) {
-					deliverKit(mk.kit);
+				if (mk.KS == KitStatus.AwaitingDelivery) {
+					deliverKit(mk);
 					return true;
 				}
 			}
@@ -195,10 +199,10 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		}
 		mk.KS = KitStatus.PickedUp;
 		if (mockgraphics != null) {
-			mockgraphics.msgReceiveKit(mk.kit.kit);
+			mockgraphics.msgGiveKitToKitRobot(mk.kit.kit);
 		}
 		if (conveyorGraphics != null) {
-			conveyorGraphics.msgReceiveKit(mk.kit.kit);
+			conveyorGraphics.msgGiveKitToKitRobot(mk.kit.kit);
 		}
 
 		kitsOnConveyor.remove(mk);
@@ -210,18 +214,19 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * Send a finished kit out of the cell.
 	 * @param k the kit being delivered.
 	 */
-	private void deliverKit(Kit k) {
+	private void deliverKit(MyKit mk) {
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		mk.KS = KitStatus.MovingOut;
 		if (mockgraphics != null) {
-			mockgraphics.msgReceiveKit(k.kit);
+			mockgraphics.msgReceiveKit(mk.kit.kit);
 		}
 		if (conveyorGraphics != null) {
-			conveyorGraphics.msgReceiveKit(k.kit);
+			conveyorGraphics.msgReceiveKit(mk.kit.kit);
 		}
 		stateChanged();
 	}
@@ -316,6 +321,11 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	public List<MyKit> getKitsOnConveyor() {
 		return kitsOnConveyor;
+	}
+
+	@Override
+	public void msgHereIsKitConfiguration(ArrayList<PartType> config) {
+
 	}
 
 }

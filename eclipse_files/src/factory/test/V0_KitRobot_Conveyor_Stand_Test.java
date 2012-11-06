@@ -4,7 +4,9 @@ import factory.CameraAgent;
 import factory.ConveyorAgent;
 import factory.FCSAgent;
 import factory.KitRobotAgent;
+import factory.PartsRobotAgent;
 import factory.StandAgent;
+import factory.interfaces.PartsRobot;
 import factory.test.mock.MockGraphics;
 
 /**
@@ -21,6 +23,7 @@ public class V0_KitRobot_Conveyor_Stand_Test {
 	static StandAgent stand;
 	static FCSAgent fcs;
 	static MockGraphics mockgraphics;
+	static PartsRobot partsrobot;
 
 	public V0_KitRobot_Conveyor_Stand_Test() {
 
@@ -29,11 +32,12 @@ public class V0_KitRobot_Conveyor_Stand_Test {
 		kitrobot = new KitRobotAgent("kitrobot");
 		stand = new StandAgent("stand");
 		fcs = new FCSAgent();
+		partsrobot = new PartsRobotAgent("partsrobot");
 
 		mockgraphics = new MockGraphics("mockgraphics");
 
 		stand.setKitRobot(kitrobot);
-		// stand.setPartsRobot(partsrobot);
+		stand.setPartsRobot(partsrobot);
 		stand.setFCS(fcs);
 
 		kitrobot.setCamera(camera);
