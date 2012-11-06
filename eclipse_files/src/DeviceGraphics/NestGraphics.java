@@ -43,14 +43,16 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 		nestID = nid;
 		partsRobot = pr;
 		
-		partsInNest = new ArrayList<PartGraphics>();
-		nestSpots = new ArrayList<Boolean>();
+		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
+		nestSpots = new ArrayList<Boolean>(MAX_PARTS);
+		
 		if(nestID==0){
 			NEST_Y=100;
 		}
 		else{
 			NEST_Y=175;
 		}
+		
 		// Begin V0 requirements
 		isFull = true;
 		for (int i = 0; i < 8; i++) {
@@ -87,15 +89,18 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	 * 
 	 */
 	public void purge() {
+		purging = true;
+		partsInNest.clear();
 		
 	}
 	
 	/**
-	 * 
-	 * @param r
+	 * Receives message data from the Server
+	 * @param r - the request to be parsed
 	 */
 	public void receiveData(Request r) {
-		
+		String cmd = r.getCommand();
+		// TODO: parse data request here
 	}
 	
 	/**
