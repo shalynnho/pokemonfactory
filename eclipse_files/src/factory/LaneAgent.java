@@ -129,7 +129,7 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	@Override
-	public void setLaneGraphics(LaneGraphics lane) {
+	public void setGraphicalRepresentation(LaneGraphics lane) {
 		this.laneGUI = lane;
 	}
 	public String getName() {

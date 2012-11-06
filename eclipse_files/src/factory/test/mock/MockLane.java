@@ -62,7 +62,7 @@ public class MockLane extends MockAgent implements Lane {
 	}
 
 	@Override
-	public void setLaneGraphics(LaneGraphics lane) {
+	public void setGraphicalRepresentation(LaneGraphics lane) {
 		// TODO Auto-generated method stub
 		
 	}

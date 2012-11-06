@@ -93,6 +93,22 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 				nest.currentParts.size());
 		nest.animation.release();
 		nest.pickAndExecuteAnAction();
+		nest.pickAndExecuteAnAction();
+		nest.pickAndExecuteAnAction();
+		nest.pickAndExecuteAnAction();
+		nest.pickAndExecuteAnAction();
+		nest.pickAndExecuteAnAction();
+		nest.pickAndExecuteAnAction();
+		lane.pickAndExecuteAnAction();
+		lane.pickAndExecuteAnAction();
+		lane.pickAndExecuteAnAction();
+		lane.pickAndExecuteAnAction();
+		lane.pickAndExecuteAnAction();
+		feeder.pickAndExecuteAnAction();
+		feeder.pickAndExecuteAnAction();
+		feeder.pickAndExecuteAnAction();
+		feeder.pickAndExecuteAnAction();
+		feeder.pickAndExecuteAnAction();
 		System.out
 				.println("Parts Robot Agent taking part from nest and messaging TakingPart");
 		nest.msgTakingPart(part);
