@@ -168,13 +168,14 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
 			flipDiverter();
+			
 		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			// TODO fix bin coordinates
 			
 			bgd = new BinGraphicsDisplay(new Location(feederLocation.getX() + FEEDER_WIDTH - 50, feederLocation.getY() + FEEDER_HEIGHT/2), PartType.B);
 			bgd.setFull(true);
-			
 			haveBin = true;
+			
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND)) {
 			// TODO future: move bin to purge area
 			
@@ -182,6 +183,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 				bgd.setFull(false); // could be problematic if called when bin has not been received
 				haveBin = false;
 			}
+			
 		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND)) {
 			
 			PartGraphicsDisplay part = new PartGraphicsDisplay(bgd.getPartType());
@@ -189,9 +191,11 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			// where the part starts
 			part.setLocation(startingPartLocation);
 			partGDList.add(part);
-						
+			
+			client.sendData(new Request(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET, null));
 		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_LANE_COMMAND)) {
 			
+			client.sendData(new Request(Constants.FEEDER_MOVE_TO_LANE_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET, null));
 		}
 	}
 }

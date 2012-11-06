@@ -15,7 +15,6 @@ import factory.data.PartType;
  * @author Harry Trieu
  *
  */
-
 public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces.FeederGraphics {
 	// TODO ask 201 team what should be the threshold
 	private static final int PARTS_LOW_THRESHOLD = 2;
@@ -108,7 +107,6 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 		
 		partsRemaining--;
 		partsFed++;
-		
 	}
 	
 	/**
@@ -132,13 +130,16 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 			receiveBin(binGraphics);
 		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND)) {
 			PartGraphics part = binGraphics.getPart();
-			
 			partList.add(part);
-			
 			movePartToDiverter(part);
 		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_LANE_COMMAND)) {
 			// partList.remove(0);
 			
+		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND + Constants.DONE_SUFFIX)) {
+			// send message to agent saying part moved to diverter done
+		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_LANE_COMMAND + Constants.DONE_SUFFIX)) {
+			// send message to agent saying part moved to lane done
 		}
+		
 	}
 }
