@@ -59,7 +59,7 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 				temp.setLocation(new Location((119+i*20),(NEST_Y+1)));
 			}
 			else{
-				temp.setLocation(new Location((119+(i-4)*20),(NEST_Y+23)); 
+				temp.setLocation(new Location((119+(i-4)*20),(NEST_Y+23))); 
 			}
 			partsInNest.add(temp);
 			
@@ -107,50 +107,54 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	}
 	
 	/**
-	 * 
+	 * V2 ONLY
 	 * @return
 	 */
 	public boolean allPartsUnanalyzed() {
-		
+		// TODO: IMPLEMENT THIS METHOD FOR V2
+		return false;
 	}
 	
 	/**
-	 * 
+	 * V2 ONLY
 	 * @return
 	 */
 	public boolean allPartsGood() {
-		
+		// TODO: IMPLEMENT THIS METHOD FOR V2
+		return false;
 	}
 	
 	/**
-	 * 
+	 * V2 ONLY
 	 * @return
 	 */
 	public boolean allPartsBad() {
-		
+		// TODO: IMPLEMENT THIS METHOD FOR V2
+		return false;
 	}
 	
 	/**
-	 * 
+	 * @return location of this nest
 	 */
 	public Location getLocation() {
-		
+		return location;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @returns an array list of the parts in nest
 	 */
 	public ArrayList<PartGraphics> getPartsInNest() {
-		
+		return partsInNest;
 	}
 	
 	/**
-	 * 
+	 * V2 ONLY, no bad parts in V1.
 	 * @return
 	 */
 	public Map<PartGraphics,Boolean> getQualityOfParts() {
-		
+		// TODO: IMPLEMENT THIS METHOD FOR V2
+		return null;
 	}
 	
 	/**
@@ -159,6 +163,18 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void receivePart(PartGraphics part) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void givePartToPartsRobot(PartGraphics part) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
