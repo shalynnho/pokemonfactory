@@ -31,7 +31,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		finalDegree=270;
 		currentDegree=0;
 		degreeStep=1;
-		rotationAxisX=160;
+		rotationAxisX=220;
 		rotationAxisY=40;
 		trans.translate(0, 200);
 	}

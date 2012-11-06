@@ -73,7 +73,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		//image =new ImageIcon(this.getClass().getResource("/resource/Square.jpg"));
 		rotationAxisX=25;
 		rotationAxisY=25;
-		kitRobotPositionX=135;
+		kitRobotPositionX=195;
 		kitRobotPositionY=215;
 		
 		trans.translate(kitRobotPositionX,kitRobotPositionY);		
@@ -170,6 +170,10 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 					finalDegree=270;
 					position=Position.location2Position;
 				}
+				else
+				{
+					finalDegree=0;
+				}
 			}
 			else if(position.equals(Position.inspectionPosition))
 			{
@@ -187,6 +191,10 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 				{
 					finalDegree=270;
 					position=Position.conveyorPosition;
+				}
+				else
+				{
+					finalDegree=0;
 				}
 			}
 			else if(position.equals(Position.location1Position))
@@ -206,6 +214,10 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 					finalDegree=270;
 					position=Position.inspectionPosition;
 				}
+				else
+				{
+					finalDegree=0;
+				}
 			}
 			else if(position.equals(Position.location2Position))
 			{
@@ -223,6 +235,10 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 				{
 					finalDegree=270;
 					position=Position.location1Position;
+				}
+				else
+				{
+					finalDegree=0;
 				}
 			}
 	}
@@ -341,10 +357,12 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 			}
 			else if(command.equals("moveit"))
 			{
+				System.out.println("goes through moveit command");
 				for(int i=0; i<kits.size(); i++)
 				{
 					if(kits.get(i).getPosition()==3)
 					{
+						
 						currentKit=kits.get(i);
 						kits.get(i).setPosition(4);
 					}

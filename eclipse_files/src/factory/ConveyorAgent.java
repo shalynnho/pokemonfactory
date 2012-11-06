@@ -24,7 +24,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private final List<MyKit> kitsOnConveyor = Collections
 			.synchronizedList(new ArrayList<MyKit>());
 
-	private final List<PartType> kitConfig = new ArrayList<PartType>();
+	private final ArrayList<PartType> kitConfig = new ArrayList<PartType>();
 
 	private MyKit incomingKit;
 	private MyKit outgoingKit;
@@ -166,7 +166,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * Generate a new kit to move into the kitting cell.
 	 */
 	private void prepareKit() {
-		Kit k = new Kit();
+		Kit k = new Kit(kitConfig);
 		incomingKit = new MyKit(k);
 		kitsOnConveyor.add(incomingKit);
 		try {

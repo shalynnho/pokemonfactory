@@ -21,7 +21,7 @@ public class LaneAgent extends Agent implements Lane {
 
 	String name;
 	
-	Semaphore animation = new Semaphore(0, true);
+	public Semaphore animation = new Semaphore(0, true);
 
 	public class MyPart {
 		Part part;
@@ -129,7 +129,7 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	@Override
-	public void setLaneGraphics(LaneGraphics lane) {
+	public void setGraphicalRepresentation(LaneGraphics lane) {
 		this.laneGUI = lane;
 	}
 	public String getName() {

@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import DeviceGraphics.ConveyorGraphics;
 import DeviceGraphics.DeviceGraphics;
@@ -85,6 +86,13 @@ public class Server {
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this));
 		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this) );
+	}
+	
+	private void connectAgentsWithDevices() {
+		//agent.setGraphicalRepresentation(devices.get());
+		for(Entry<String, Agent> entry : agents.entrySet()) {
+			// entry.getValue().setGraphicRepresentation(devices.get(entry.getKey()));
+		}
 	}
 	
 	/**

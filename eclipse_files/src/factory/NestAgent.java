@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import DeviceGraphics.NestGraphics;
+import GraphicsInterfaces.NestGraphics;
 import agent.Agent;
 import factory.data.Part;
 import factory.data.PartType;
@@ -26,12 +26,13 @@ public class NestAgent extends Agent implements Nest {
 
 	public NestGraphics guiNest;
 	
-	Semaphore animation = new Semaphore(0, true);
+	public Semaphore animation = new Semaphore(0, true);
 
 	String name;
 
 	LaneAgent lane;
 	CameraAgent camera;
+	NestGraphics nestGUI;
 
 	public class MyPart {
 		Part part;
@@ -57,6 +58,9 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgHereIsPartType(PartType type) {
 		// GUINest.purge();
+		/*if(nestGUI != null) {
+			guiNest.purge();
+		}*/
 		currentPartType = type;
 		countRequest = 0;
 		count = 0;
@@ -74,7 +78,15 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgTakingPart(Part p) {
-		// GUINest.givePartToPartsRobot(p);
+		if(nestGUI != null) {
+			nestGUI.givePartToPartsRobot(p.part);
+		}
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for (MyPart part : currentParts) {
 			if (part.part == p) {
 				currentParts.remove(part);
@@ -100,7 +112,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgGivePartToPartsRobotDone() {
-		///animation.release(); //This message is never sent
+		animation.release();
 		stateChanged();
 	}
  
@@ -148,8 +160,9 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void moveToPosition(Part part) {
 		print("Moving part to proper nest location");
-		
-		// GUINest.receivePart(part);
+		if(nestGUI!=null) {
+			nestGUI.receivePart(part.part);
+		}
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -176,13 +189,13 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void updateParts() {
 		// GUINest.updatePartsList();
-		try {
+		/*try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		stateChanged();
+		stateChanged();*/
 	}
 
 	@Override
@@ -196,6 +209,18 @@ public class NestAgent extends Agent implements Nest {
 
 	public void setCamera(CameraAgent camera) {
 		this.camera = camera;
+	}
+	
+	public void setGraphicalRepresentation(NestGraphics nest) {
+		this.guiNest=nest;
+	}
+	
+	public List<Part> getParts() {
+		List<Part> parts = new ArrayList<Part>();
+		for(MyPart p:currentParts){
+			parts.add(p.part);
+		}
+		return parts;
 	}
 
 }

@@ -170,7 +170,7 @@ public class FeederAgent extends Agent implements Feeder {
 	}
 
 	// GETTERS AND SETTERS
-	public void setFeederGraphics(FeederGraphics feeder) {
+	public void setGraphicalRepresentation(FeederGraphics feeder) {
 		this.feederGUI = feeder;
 	}
 	@Override

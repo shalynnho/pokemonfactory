@@ -33,6 +33,8 @@ public class LaneGraphics extends DeviceGraphics implements
 
 	// dynamically stores Parts currently on Lane
 	private ArrayList<PartGraphics> partsOnLane;
+	// storing for the 201 agents
+	private ArrayList<Part> agentPartsOnLane;
 
 	// vibration setting; how quickly parts vibrate down Lane
 	private int amplitude;
@@ -53,6 +55,7 @@ public class LaneGraphics extends DeviceGraphics implements
 //		nest = n;
 
 		partsOnLane = new ArrayList<PartGraphics>();
+		agentPartsOnLane = new ArrayList<Part>();
 		amplitude = 5;
 		laneOn = true;
 	}
@@ -85,6 +88,7 @@ public class LaneGraphics extends DeviceGraphics implements
 
 		partsOnLane.remove(0); // this is kind of dangerous. check that correct
 								// part is removed.
+		agentPartsOnLane.remove(0);
 		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET +":"+ laneID, null));
 	}
 
@@ -93,6 +97,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	 */
 	public void purge() {
 		partsOnLane.clear();
+		agentPartsOnLane.clear();
 		// TODO: set location of parts to fall off lane
 		server.sendData(new Request(Constants.LANE_PURGE_COMMAND,
 				Constants.LANE_TARGET  +":"+  laneID, null));
@@ -105,6 +110,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	 *            - the part passed to this lane
 	 */
 	public void receivePart(Part p) {
+		agentPartsOnLane.add(p);
 		PartGraphics pg = p.part;
 		partsOnLane.add(pg);
 		pg.setLocation(startLoc);
@@ -139,13 +145,18 @@ public class LaneGraphics extends DeviceGraphics implements
 		String cmd = r.getCommand();
 	
 		// must parse data request here
-		// if-else for every possible command
 	
 		// TODO: We want confirmation from Display each time an animation is
 		// completed.
 		
 		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {	// testing purposes only, remove later
-			receivePart(new PartGraphics(PartType.A));
+			receivePart(new PartGraphics(PartType.A));			
+		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND+Constants.DONE_SUFFIX)) {
+			laneAgent.msgReceivePartDone(agentPartsOnLane.get(agentPartsOnLane.size()-1));
+		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
+			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
+			// TODO: laneAgent.msgReceivePartDone(part);
+			// store list of Part on lane
 		}
 		
 		
