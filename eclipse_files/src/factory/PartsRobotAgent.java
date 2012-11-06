@@ -45,7 +45,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}
 	}
 
-	private enum MyKitStatus {
+	public enum MyKitStatus {
 		NotDone, Done
 	};
 
@@ -191,6 +191,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 		print("Picking up part");
 		GoodParts.remove(nest);
+		arm.AS = ArmStatus.Full;
+		arm.part = part;
 
 		// Tells the graphics to pickup the part
 		// guiPartsRobot.pickUpPart(part.part);
@@ -209,6 +211,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void PlacePart(Arm arm) {
+		print("Placing part");
 		for (MyKit mk : MyKits) {
 			if (mk.kit.needPart(arm.part)) {
 
@@ -224,6 +227,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				mk.kit.parts.add(arm.part);
 				// mk.kit.partsExpected.remove(arm.part);
 				arm.part = null;
+				arm.AS = ArmStatus.Empty;
 
 				// Checks if the kit is done
 				CheckMyKit(mk);
@@ -235,6 +239,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void CheckMyKit(MyKit mk) {
+		print("Need " + (mk.kit.partsExpected.size() - mk.kit.parts.size())
+				+ " more parts.");
 		if (mk.kit.parts.size() == mk.kit.partsExpected.size()) {
 			mk.MKS = MyKitStatus.Done;
 		}

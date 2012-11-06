@@ -37,16 +37,16 @@ public class CameraAgent extends Agent implements Camera {
 		NOT_READY, READY, PHOTOGRAPHING, PHOTOGRAPHED
 	};
 
-	private enum KitStatus {
+	public enum KitStatus {
 		NOT_READY, DONE, MESSAGED, PICTURE_BEING_TAKEN
 	};
 
-	private class MyKit {
-		Kit kit;
-		KitStatus ks;
-		boolean kitDone;
+	public class MyKit {
+		public Kit kit;
+		public KitStatus ks;
+		public boolean kitDone;
 
-		MyKit(Kit k) {
+		public MyKit(Kit k) {
 			kit = k;
 			ks = KitStatus.NOT_READY;
 			kitDone = false;
@@ -102,10 +102,11 @@ public class CameraAgent extends Agent implements Camera {
 
 	@Override
 	public void msgTakePictureKitDone(Kit k, boolean done) {
-		for (MyKit kit : kits) {
-			if (k.equals(kit)) {
-				kit.kitDone = done;
-				kit.ks = KitStatus.DONE;
+		print("CameraGraphics finished animating kit photograph. \nKit passed inspection.");
+		for (MyKit mk : kits) {
+			if (mk.kit == k) {
+				mk.kitDone = done;
+				mk.ks = KitStatus.DONE;
 			}
 		}
 		stateChanged();
@@ -158,7 +159,6 @@ public class CameraAgent extends Agent implements Camera {
 				}
 			}
 		}
-		print("no rule match.");
 		return false;
 	}
 
@@ -171,7 +171,9 @@ public class CameraAgent extends Agent implements Camera {
 
 	private void takePictureOfKit(MyKit kit) {
 		kit.ks = KitStatus.PICTURE_BEING_TAKEN;
-		guiCamera.takeKitPhoto(kit.kit.kit);
+		if (guiCamera != null) {
+			guiCamera.takeKitPhoto(kit.kit.kit);
+		}
 		stateChanged();
 	}
 
@@ -190,7 +192,9 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	private void takePictureOfNest(MyNest n) {
-		// guiCamera.takeNestPhoto(n.nest.guiNest);
+		/*
+		 * if (guiCamera != null) { guiCamera.takeNestPhoto(n.nest.guiNest); }
+		 */
 		n.state = NestStatus.PHOTOGRAPHING;
 		stateChanged();
 	}

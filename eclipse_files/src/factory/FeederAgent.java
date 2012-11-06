@@ -16,6 +16,7 @@ import factory.interfaces.Feeder;
  */
 public class FeederAgent extends Agent implements Feeder {
 	public List<PartType> requestList = new ArrayList<PartType>();
+	public PartType currentType;
 	public List<MyPart> currentParts = new ArrayList<MyPart>();
 
 	private GantryAgent gantry;
@@ -42,7 +43,7 @@ public class FeederAgent extends Agent implements Feeder {
 
 	public FeederAgent(String name) {
 		super();
-
+		lane = lane1;
 		this.name = name;
 
 	}
@@ -53,7 +54,13 @@ public class FeederAgent extends Agent implements Feeder {
 
 	@Override
 	public void msgINeedPart(PartType type) {
-		requestList.add(type);
+		if(requestList.size() == 0 && currentType != type) {
+			requestList.add(type);
+			currentType = type;
+		}
+		else {
+			currentParts.add(new MyPart(new Part(type)));
+		}
 		stateChanged();
 	}
 
@@ -116,7 +123,6 @@ public class FeederAgent extends Agent implements Feeder {
 	@Override
 	public void giveToDiverter(Part part) {
 		print("Giving parts to diverter");
-		lane = lane1;
 		if(feederGUI !=null) {
 			if(part.up != currentOrientation) {
 				if(lane == lane1)
@@ -191,6 +197,7 @@ public class FeederAgent extends Agent implements Feeder {
 
 	@Override
 	public void setLane(LaneAgent lane) {
+		this.lane1 = lane;
 		this.lane = lane;
 	}
 

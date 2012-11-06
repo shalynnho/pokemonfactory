@@ -14,7 +14,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		V0_JUnit_KitRobotAgent_Test_NormativeScenario.class,
 		V0_JUnit_StandAgent_Test_NormativeScenario.class,
 		V0_JUnit_GantryFeederLaneNestNormativeScenario.class,
-		V0_JUnit_PartsRobotCameraNormativeScenario.class })
+		V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario.class })
 public class V0_Agent_TestSuite {
 
 	/**
