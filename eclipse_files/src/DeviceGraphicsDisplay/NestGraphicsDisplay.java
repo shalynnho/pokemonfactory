@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+
 import DeviceGraphics.DeviceGraphics;
 import Networking.Client;
 import Networking.Request;

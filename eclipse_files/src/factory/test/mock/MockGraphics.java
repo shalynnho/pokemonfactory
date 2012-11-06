@@ -4,14 +4,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import DeviceGraphics.BinGraphics;
+import DeviceGraphics.ConveyorGraphics;
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.KitGraphics;
+import DeviceGraphics.KitRobotGraphics;
 import DeviceGraphics.PartGraphics;
 import GraphicsInterfaces.CameraGraphics;
-import GraphicsInterfaces.ConveyorGraphics;
 import GraphicsInterfaces.FeederGraphics;
 import GraphicsInterfaces.GantryGraphics;
-import GraphicsInterfaces.KitRobotGraphics;
 import GraphicsInterfaces.LaneGraphics;
 import GraphicsInterfaces.NestGraphics;
 import GraphicsInterfaces.PartsRobotGraphics;
@@ -30,6 +30,8 @@ import factory.interfaces.Gantry;
 import factory.interfaces.Lane;
 import factory.interfaces.Nest;
 
+// import GraphicsInterfaces.DeviceGraphics;
+
 ;
 
 /**
@@ -37,8 +39,9 @@ import factory.interfaces.Nest;
  * @author Daniel Paje
  */
 public class MockGraphics extends Agent implements CameraGraphics,
-		ConveyorGraphics, FeederGraphics, GantryGraphics, KitRobotGraphics,
-		LaneGraphics, NestGraphics, PartsRobotGraphics {
+		GraphicsInterfaces.ConveyorGraphics, FeederGraphics, GantryGraphics,
+		GraphicsInterfaces.KitRobotGraphics, LaneGraphics, NestGraphics,
+		PartsRobotGraphics {
 
 	Timer timer;
 	String name;
@@ -63,7 +66,8 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		timer = new Timer();
 		this.name = name;
 		// Set server to null
-		conveyorgraphics = new DeviceGraphics.ConveyorGraphics(null);
+		// conveyorgraphics = new DeviceGraphics.ConveyorGraphics(null);
+		// kitrobotgraphics = new DeviceGraphics.KitRobotGraphics(null);
 
 		camera = new CameraAgent("camera");
 		conveyor = new ConveyorAgent("conveyor");
@@ -82,7 +86,6 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		lane.startThread();
 		nest.startThread();
 		// partsrobot.startThread();
-		// kitrobotgraphics = new DeviceGraphics.KitRobotGraphics(null);
 
 	}
 
@@ -366,7 +369,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
