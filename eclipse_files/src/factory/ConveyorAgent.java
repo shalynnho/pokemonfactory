@@ -31,7 +31,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private int numKitsToDeliver;
 
 	// Used to prevent animations from overlapping
-	Semaphore animation = new Semaphore(0, true);
+	Semaphore animation = new Semaphore(1, true);
 
 	// References to other agents
 	private KitRobot kitrobot;

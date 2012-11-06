@@ -38,7 +38,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	private boolean kitRequested;
 
 	// Used to prevent animations from overlapping
-	Semaphore animation = new Semaphore(0, true);
+	Semaphore animation = new Semaphore(1, true);
 
 	// References to other agents
 	private Stand stand;

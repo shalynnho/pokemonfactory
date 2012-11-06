@@ -28,7 +28,7 @@ import factory.test.mock.MockStand;
  * @author Daniel Paje
  */
 public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
-	private static final int TESTKITCOUNT = 100;
+	private static final int TESTKITCOUNT = 10;
 
 	protected KitRobotAgent kitrobot;
 	protected Date date;
