@@ -32,15 +32,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
 	// space in between lane lines (from upper left to upper left)
-	private static final int NUMLINES = LANE_LENGTH / (PART_WIDTH) - 2; // may
-																		// need
-																		// to
-																		// change
-																		// this,
-																		// don't
-																		// have
-																		// images
-																		// yet
+	private static final int NUMLINES = LANE_LENGTH / (PART_WIDTH) - 2;
 	// width of lane lines
 	private static final int LINE_WIDTH = 3;
 
@@ -54,10 +46,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int LANE5_Y = 250;
 	private static final int LANE6_Y = 200;
 	private static final int LANE7_Y = 150;
-
-	// stores static ImageIcon emptyLane1, emptyLane2
-	private static Image laneImg;
-	private static Image laneLine;
 
 	// stores the parts on the lane
 	private ArrayList<PartGraphicsDisplay> partsOnLane;
@@ -94,11 +82,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		laneManager = lm;
 		laneID = lid;
 
-		// load lane images, add to array list
-		laneImg = Toolkit.getDefaultToolkit().getImage("src/images/lane.png");
-		laneLine = Toolkit.getDefaultToolkit().getImage(
-				"src/images/laneline.png");
-
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
 
 		// set start locations
@@ -126,12 +109,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		laneLoc = loc;
 		laneID = lid;
 
-		// TODO: load empty lane images, add to array list (get image from
-		// CONSTANTS when added)
-		laneImg = Toolkit.getDefaultToolkit().getImage("src/images/lane.png");
-		laneLine = Toolkit.getDefaultToolkit().getImage(
-				"src/images/laneline.png");
-
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
 		partStartLoc = new Location(laneLoc.getX() + LANE_LENGTH,
 				laneLoc.getY() + (PART_WIDTH / 2));
@@ -152,11 +129,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		if (laneOn) {
 			// need image(s) of lane and/or lane lines?
-			g.drawImage(laneImg, laneLoc.getX(), laneLoc.getY(), c);
+			g.drawImage(Constants.LANE_IMAGE, laneLoc.getX(), laneLoc.getY(), c);
 
 			// animate lane movements using lines
 			for (int i = 0; i < laneLines.size(); i++) {
-				g.drawImage(laneLine, laneLines.get(i).getX(), laneLines.get(i)
+				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX(), laneLines.get(i)
 						.getY(), c);
 			}
 			laneMove();
@@ -192,7 +169,12 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				}
 			}
 		} else { // lane is off
-			g.drawImage(laneImg, laneLoc.getX(), laneLoc.getY(), c);
+			g.drawImage(Constants.LANE_IMAGE, laneLoc.getX(), laneLoc.getY(), c);
+			// draw lane lines
+			for (int i = 0; i < laneLines.size(); i++) {
+				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX(), laneLines.get(i)
+						.getY(), c);
+			}
 		}
 	}
 

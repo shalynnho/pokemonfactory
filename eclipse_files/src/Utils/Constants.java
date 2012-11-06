@@ -30,6 +30,11 @@ public abstract class Constants {
 	public static final Image FEEDER_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Feeder.png");
 	public static final Image LANE_LED_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/FeederGreenLight.png");
 	
+	// Lane Images
+	public static final Image LANE_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/lane.png");
+	public static final Image LANE_LINE = Toolkit.getDefaultToolkit().getImage(
+			"src/images/laneline.png");
+	
 	// Conveyor Images
 	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Conveyor.jpg");
 	public static final Image CONVEYOR_LINES_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/ConveyorLines.png");
