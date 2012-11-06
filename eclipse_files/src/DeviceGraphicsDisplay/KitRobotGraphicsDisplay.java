@@ -31,7 +31,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	Command moveToInitialPosition;
 	Command moveToFinalPosition;
 	
-	ImageIcon image;
+	
 	boolean initialJob;
 	boolean finalJob;
 	boolean jobIsDone;
@@ -64,7 +64,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		location = loc;
 		client = cli;
 		
-		moveToInitialPosition=Command.moveToConveyor;
+		moveToInitialPosition=Command.moveToInspectionStand;
 		moveToFinalPosition=Command.moveToConveyor;
 		position=Position.conveyorPosition;
 		initialJob=false;
@@ -327,14 +327,23 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	}
 	
 	public void checkDegrees(){
+	
 		if(currentDegree==finalDegree)
 		{
+			
 			if(initialJob)
 			{
 				initialJob=false;
 				finalJob=true;
 				currentDegree=0;
 				System.out.println("Passed through initial job");
+			
+				if(position.equals(Position.conveyorPosition) && moveToInitialPosition.equals(Command.moveToConveyor))
+				{
+					
+					System.out.println("Sending to conveyor");
+					AnimationToConveyorDone=true;
+				}
 				moveToFinal();
 			}
 			else if(finalJob)
@@ -342,6 +351,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 				finalJob=false;
 				jobIsDone=true;
 				currentDegree=0;
+				
 			}
 		}
 	}
@@ -432,15 +442,18 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 	{
 		checkDegrees();
 		doJob();
-		AnimationToConveyorDone=false;
+		
 		for(int i=0;i<kits.size(); i++)
 		{
+			AnimationToConveyorDone=false;
 			kits.get(i).drawRotate(c,g);
 			if(kits.get(i).getPosition()==4)
 			{
 				if(kits.get(i).isAnimationToConveyorDone())
 				{
+					System.out.println("Sends conveyor receives kit command");
 					AnimationToConveyorDone=true;
+					//client.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
 				}
 			}
 		}

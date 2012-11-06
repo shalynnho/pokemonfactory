@@ -103,6 +103,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics, De
 		{
 			
 			server.sendData(new Request("moveit", Constants.KIT_ROBOT_TARGET, null));
+			//server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET,null));
+		}
+		else if(command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND))
+		{
 			server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET,null));
 		}
 		

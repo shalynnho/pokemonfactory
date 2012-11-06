@@ -97,15 +97,18 @@ public class KitRobotManager extends Client implements ActionListener{
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
 		
 		for(DeviceGraphicsDisplay device : devices.values()) {
-			device.draw(this, g);
+			
 			if(device instanceof KitRobotGraphicsDisplay)
 			{
-				KitRobotGraphicsDisplay tempKitRobot=(KitRobotGraphicsDisplay)device;
-				if(tempKitRobot.isAnimationToConveyorDone())
+				KitRobotGraphicsDisplay tempkrgdisplay=(KitRobotGraphicsDisplay)device;
+				if(tempkrgdisplay.isAnimationToConveyorDone())
 				{
-					writer.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
+					System.out.println("passes through");
+					writer.sendData(new	Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
 				}
 			}
+			device.draw(this, g);
+		
 		}
 	}
 

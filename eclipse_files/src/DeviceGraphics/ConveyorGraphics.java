@@ -21,7 +21,8 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics, De
 	private Location location;
 	private Server server;
 	private int velocity;
-	        
+	
+	
 	public ConveyorGraphics(Server s){
 		location = new Location(0,0);
 		kitsOnConveyor = new ArrayList<KitGraphics>();
@@ -37,7 +38,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics, De
 	public void giveKitToKitRobot(){
 		
 		//sending the kit to be taken away to KitRobotGraphics
-		//server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.CONVEYOR_TARGET, null));  //temporary command name until Kit Robot finalized
+		server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.CONVEYOR_TARGET, null));  //temporary command name until Kit Robot finalized
 		//server.sendData(new Request("GetThisKit", ))
 		kitsOnConveyor.remove(0);
 	} 
@@ -60,12 +61,14 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics, De
 		if(target.equals(Constants.CONVEYOR_TARGET)) {
 			if(command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
 				//parsing object to kit object
-					giveKitToKitRobot();	
-			}
-			
+				
+				giveKitToKitRobot();	
+			}			
 			else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
+				System.out.println("Conveyor receives signal from kit");	
 				kitsToLeave.add(new KitGraphics());
 				server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
+			
 			} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
 				//need to somehow send an integer to change the velocity
 			} else if (command.equals(Constants.CONVEYOR_SEND_ANIMATION_COMMAND)) {
@@ -75,7 +78,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics, De
 				server.sendData(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
 			}
 		}
-}
+	}
 
 	@Override
 	public void msgBringEmptyKit(KitGraphics kit) {
