@@ -78,22 +78,42 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		assertEquals("Feeder Agent should have 1 currentPart", 1,
 				feeder.currentParts.size());
 		feeder.animation.release();
+		feeder.animation.release();
 		feeder.pickAndExecuteAnAction();
 		System.out
 				.println("Feeder gui doing give part to diverter and messaging agent givePartToDiverterDone");
 		feeder.msgGivePartToDiverterDone(part);
+		lane.animation.release();
 		feeder.pickAndExecuteAnAction();
 		assertEquals("Lane Agent should have 1 currentPart", 1,
 				lane.currentParts.size());
+		lane.animation.release();
 		lane.pickAndExecuteAnAction();
 		assertEquals("Nest Agent should have 1 currentPart", 1,
 				nest.currentParts.size());
+		nest.animation.release();
 		nest.pickAndExecuteAnAction();
 		System.out
 				.println("Parts Robot Agent taking part from nest and messaging TakingPart");
 		nest.msgTakingPart(part);
 		assertEquals("Nest Agent should have 0 currentPart", 0,
 				nest.currentParts.size());
+		
+	}
+	
+	@Test
+	public void testNormativeMultiplePartsScenario() throws InterruptedException {
+		gantry = new GantryAgent("Test Gantry");
+		feeder = new FeederAgent("Test Feeder");
+		lane = new LaneAgent("Test Lane");
+		nest = new NestAgent("Test Nest");
+		gantry.setFeeder(feeder);
+		feeder.setGantry(gantry);
+		feeder.setLane(lane);
+		lane.setFeeder(feeder);
+		lane.setNest(nest);
+		nest.setLane(lane);
+		
 		
 	}
 

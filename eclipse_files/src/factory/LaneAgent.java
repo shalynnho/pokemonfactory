@@ -21,7 +21,7 @@ public class LaneAgent extends Agent implements Lane {
 
 	String name;
 	
-	Semaphore animation = new Semaphore(0, true);
+	public Semaphore animation = new Semaphore(0, true);
 
 	public class MyPart {
 		Part part;
