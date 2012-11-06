@@ -1,9 +1,7 @@
 package factory.test.mock;
 
-import java.util.List;
-
+import factory.NestAgent;
 import factory.data.Kit;
-import factory.data.Part;
 import factory.interfaces.Camera;
 import factory.interfaces.Nest;
 
@@ -33,7 +31,7 @@ public class MockCamera extends MockAgent implements Camera {
 	}
 
 	@Override
-	public void msgTakePictureNestDone(List<Part> parts, Nest nest) {
+	public void msgTakePictureNestDone(NestAgent nest) {
 		// TODO Auto-generated method stub
 
 	}
