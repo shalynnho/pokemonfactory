@@ -75,7 +75,7 @@ public class V0_KitRobot_Conveyor_Stand_Test {
 		V0_KitRobot_Conveyor_Stand_Test.kitrobot = kitrobot;
 	}
 
-	public static StandAgent getStand() {
+	public StandAgent getStand() {
 		return stand;
 	}
 

@@ -296,4 +296,8 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 		// concluded.
 
 	}
+
+	public String getFILEPATH() {
+		return FILEPATH;
+	}
 }
