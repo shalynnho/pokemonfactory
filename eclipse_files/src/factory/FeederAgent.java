@@ -2,6 +2,7 @@ package factory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import agent.Agent;
 import factory.data.Part;
@@ -20,6 +21,8 @@ public class FeederAgent extends Agent implements Feeder {
 	private LaneAgent lane;
 
 	String name;
+	
+	Semaphore animation = new Semaphore(1, true);
 
 	public class MyPart {
 		Part part;
@@ -64,11 +67,13 @@ public class FeederAgent extends Agent implements Feeder {
 				currentPart.status = FeederStatus.END_DIVERTER;
 			}
 		}
+		animation.release();
 		stateChanged();
 	}
 
 	@Override
 	public void msgGivePartToLaneDone(Part part) {
+		animation.release();
 		stateChanged();
 	}
 
@@ -105,9 +110,23 @@ public class FeederAgent extends Agent implements Feeder {
 	@Override
 	public void giveToDiverter(Part part) {
 		print("Giving parts to diverter");
+		
 		// GUIDiverter.face(part.laneOrientation);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// SEMAPHORE GOES HERE
 		// GUIFeeder.givePartToDiverter(part);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
 				currentPart.status = FeederStatus.IN_DIVERTER;
@@ -119,8 +138,16 @@ public class FeederAgent extends Agent implements Feeder {
 	@Override
 	public void giveToLane(Part part) {
 		print("Giving part to lane");
-		lane.msgHereIsPart(part);
+		
 		// GUIDiverter.givePartToLane(part);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		lane.msgHereIsPart(part);
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
 				currentParts.remove(currentPart);

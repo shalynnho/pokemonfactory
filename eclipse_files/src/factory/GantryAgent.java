@@ -2,6 +2,7 @@ package factory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import agent.Agent;
 import factory.data.Bin;
@@ -23,6 +24,8 @@ public class GantryAgent extends Agent implements Gantry {
 	private FeederAgent feeder;
 
 	private final String name;
+	
+	Semaphore animation = new Semaphore(1, true);
 
 	public GantryAgent(String name) {
 		super();
@@ -45,18 +48,21 @@ public class GantryAgent extends Agent implements Gantry {
 	@Override
 	public void msgreceiveBinDone(Bin bin) {
 		bin.binState = BinStatus.OVER_FEEDER;
+		animation.release();
 		stateChanged();
 	}
 
 	@Override
 	public void msgdropBinDone(Bin bin) {
 		bin.binState = BinStatus.EMPTY;
+		animation.release();
 		stateChanged();
 	}
 
 	@Override
 	public void msgremoveBinDone(Bin bin) {
 		binList.remove(bin);
+		animation.release();
 		stateChanged();
 	}
 
@@ -98,7 +104,15 @@ public class GantryAgent extends Agent implements Gantry {
 	public void moveToFeeder(Bin bin) {
 		print("Moving bin to over feeder");
 		bin.binState = BinStatus.MOVING;
+		
 		// GUIGantry.receiveBin(bin);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		stateChanged();
 	}
 
@@ -107,7 +121,15 @@ public class GantryAgent extends Agent implements Gantry {
 		print("Placing bin in feeder and filling feeder");
 		feeder.msgHereAreParts(bin.part);
 		bin.binState = BinStatus.FILLING_FEEDER;
+		
 		// GUIGantry.dropBin(bin, bin.feeder);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		stateChanged();
 	}
 
@@ -115,7 +137,15 @@ public class GantryAgent extends Agent implements Gantry {
 	public void discardBin(Bin bin) {
 		print("Discarding bin");
 		bin.binState = BinStatus.DISCARDING;
+		
 		// GUIGangry.removeBin(bin);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		stateChanged();
 	}
 
