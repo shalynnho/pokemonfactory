@@ -84,12 +84,11 @@ public class V0_JUnit_ConveyorAgent_Test_NormativeScenario extends TestCase {
 
 		/*
 		 * If the scheduler fires now, the code blocks if the previous animation
-		 * isn't complete, so simulate completing the placeKitOnStand animation
+		 * isn't complete, so simulate completing the BringEmptyKit animation
 		 * and releasing the animation permit. In this test case, we do this
 		 * before invoking the scheduler as this test runs in a single thread
-		 * (and will get stuck if kitrobot attempts to acquire a permit) whereas
-		 * in the factory, the KitRobotGraphics will be running in another
-		 * thread.
+		 * (and will get stuck if Conveyor attempts to acquire a permit) whereas
+		 * in the factory, the Conveyor will be running in another thread.
 		 */
 		conveyor.msgBringEmptyKitDone();
 
