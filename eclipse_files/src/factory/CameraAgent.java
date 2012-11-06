@@ -86,7 +86,7 @@ public class CameraAgent extends Agent implements Camera {
 
 	@Override
 	public void msgTakePictureNestDone(NestAgent nest) {
-		print("CameraGraphics finished animating nest photographs");
+		print("CameraGraphics finished animating nest photograph");
 		synchronized (nests) {
 			for (MyNest n : nests) {
 				if (n.nest == nest) {

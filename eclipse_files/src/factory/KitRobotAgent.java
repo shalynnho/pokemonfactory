@@ -99,7 +99,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		MyKit mk = new MyKit(k);
 		myKits.add(mk);
 		numKitsToRequest = 0;
-		print("Still need " + numKitsToRequest);
+		// print("Still need " + numKitsToRequest);
 		kitRequested = false;
 		stateChanged();
 	}
@@ -109,7 +109,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		print("Received msgNeedKit");
 		standPositions.put(standLocation, true);
 		numKitsToRequest = 1;
-		print("Still need " + numKitsToRequest);
+		// print("Still need " + numKitsToRequest);
 		stateChanged();
 	}
 

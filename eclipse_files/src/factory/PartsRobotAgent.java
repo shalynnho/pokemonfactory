@@ -137,7 +137,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		// Checks if a kit is done and inspects it if it is
 		synchronized (MyKits) {
 			if (MyKits.size() > 0) {
-				print("Have kits");
 				for (MyKit mk : MyKits) {
 					if (mk.MKS == MyKitStatus.Done) {
 						RequestInspection(mk);
@@ -149,7 +148,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			// Checks if there is an empty arm, if there is it fills it with a
 			// good part that the kit needs
 			if (IsAnyArmEmpty()) {
-				print("Arm empty");
 				synchronized (GoodParts) {
 					for (Nest nest : GoodParts.keySet()) {
 						// Going through all the good parts
@@ -240,7 +238,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void CheckMyKit(MyKit mk) {
 		print("Need " + (mk.kit.partsExpected.size() - mk.kit.parts.size())
-				+ " more parts.");
+				+ " more part(s) to finish kit.");
 		if (mk.kit.parts.size() == mk.kit.partsExpected.size()) {
 			mk.MKS = MyKitStatus.Done;
 		}
@@ -248,6 +246,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void RequestInspection(MyKit mk) {
+		print("Requesting inspection.");
 		stand.msgKitAssembled(mk.kit);
 		MyKits.remove(mk);
 		stateChanged();

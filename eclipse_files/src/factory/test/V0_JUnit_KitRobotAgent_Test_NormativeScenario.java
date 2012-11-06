@@ -39,7 +39,7 @@ public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
 
 	@Override
 	protected void setUp() {
-		kitrobot = new KitRobotAgent("kitrobot1");
+		kitrobot = new KitRobotAgent("kitrobot");
 		date = new Date();
 	}
 
@@ -59,9 +59,9 @@ public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
 	 */
 	@Test
 	public void testNormativeScenario() throws InterruptedException {
-		MockConveyor conveyor = new MockConveyor("conveyor1");
-		MockCamera camera = new MockCamera("camera1");
-		MockStand stand = new MockStand("stand1");
+		MockConveyor conveyor = new MockConveyor("conveyor");
+		MockCamera camera = new MockCamera("camera");
+		MockStand stand = new MockStand("stand");
 		MockKitRobotGraphics kitrobotGraphics = new MockKitRobotGraphics(
 				"kitrobotGraphics1");
 
