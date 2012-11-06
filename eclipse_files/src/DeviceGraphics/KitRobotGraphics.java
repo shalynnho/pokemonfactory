@@ -14,6 +14,7 @@ public class KitRobotGraphics extends DeviceGraphics implements GraphicsInterfac
 	private Location location;
 	private Server server;
 	
+	
 	KitGraphics[] positions;
 	
 	ArrayList<KitGraphics> kitsOnKitRobot;
