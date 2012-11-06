@@ -4,9 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
-
 import javax.swing.JComponent;
-
 import DeviceGraphics.DeviceGraphics;
 import Networking.Client;
 import Networking.Request;
@@ -112,7 +110,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 			client.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
 		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND)) {
 			// TODO code to handle command
-			for(int i=0; i<partsInNest.size();i++){
+			for(int i = 0; i < partsInNest.size(); i++){
 				partsInNest.remove(0);
 			}
 			
