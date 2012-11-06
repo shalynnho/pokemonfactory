@@ -71,12 +71,12 @@ public class LaneManager extends Client implements ActionListener{
 		
 		// test lane 0 receive part
 		JButton laneRecPart0 = new JButton("Send Part Top");
-		laneRecPart0.addActionListener(new NetworkingButtonListener(Constants.LANE_RECEIVE_PART, Constants.LANE_TARGET+":"+0, writer));
+		laneRecPart0.addActionListener(new NetworkingButtonListener(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET+":"+0, writer));
 		panel.add(laneRecPart0);
 		
 		// test lane 1 receive part
 		JButton laneRecPart1 = new JButton("Send Part Bottom");
-		laneRecPart1.addActionListener(new NetworkingButtonListener(Constants.LANE_RECEIVE_PART, Constants.LANE_TARGET+":"+1, writer));
+		laneRecPart1.addActionListener(new NetworkingButtonListener(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET+":"+1, writer));
 		panel.add(laneRecPart1);
 		
 		timer = new Timer(Constants.TIMER_DELAY, this);
