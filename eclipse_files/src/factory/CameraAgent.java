@@ -33,10 +33,9 @@ public class CameraAgent extends Agent implements Camera {
 
 	public KitRobotAgent kitRobot;
 	public PartsRobotAgent partRobot;
-	private NestAgent nest;
 
 	public enum NestStatus {
-		NOT_READY, READY, PHOTOGRAPHED
+		NOT_READY, READY, PHOTOGRAPHING, PHOTOGRAPHED
 	};
 
 	private enum KitStatus {
@@ -57,13 +56,11 @@ public class CameraAgent extends Agent implements Camera {
 
 	public class MyNest {
 		Nest nest;
-		PartType type;
 		List<Part> Parts;
 		public NestStatus state;
 
-		MyNest(Nest nest, PartType type) {
+		MyNest(Nest nest) {
 			this.nest = nest;
-			this.type = type;
 			this.state = NestStatus.NOT_READY;
 		}
 	}
@@ -79,9 +76,12 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	@Override
-	public void msgIAmFull(NestAgent n) {
-		MyNest nest = new MyNest(n, n.currentPartType);
-		nests.add(nest);
+	public void msgIAmFull(Nest nest) {
+		for(MyNest n : nests){
+			if(n.nest == nest){
+				n.state=NestStatus.READY;
+			}
+		}
 		stateChanged();
 	}
 
@@ -114,11 +114,25 @@ public class CameraAgent extends Agent implements Camera {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		synchronized (nests) {
-			for (MyNest n : nests) {
-				if (n.state == NestStatus.NOT_READY) {
-					takePictureOfNest(n);
-					return true;
-				} else if (n.state == NestStatus.PHOTOGRAPHED) {
+			for (int i=0;i<nests.size();i+=2) {
+				if(nests.size()>=i+1){ //Quick check to make sure there is a nest paired with this one
+					if (nests.get(i).state == NestStatus.READY && nests.get(i+1).state == NestStatus.READY) {
+						takePictureOfNest(nests.get(i));
+						takePictureOfNest(nests.get(i+1));
+						return true;
+					}
+				} else {
+					if (nests.get(i).state == NestStatus.READY) {
+						takePictureOfNest(nests.get(i));
+						return true;
+					}
+				}
+			}
+		}
+		
+		synchronized (nests) {
+			for (MyNest n:nests) {
+				if (n.state == NestStatus.PHOTOGRAPHED) {
 					tellPartsRobot(n);
 					return true;
 				}
@@ -164,24 +178,30 @@ public class CameraAgent extends Agent implements Camera {
 		}
 		print("good parts count: " + goodParts.size());
 		partRobot.msgHereAreGoodParts(n.nest, goodParts);
-		nests.remove(n);
+		n.state=NestStatus.NOT_READY;
 		stateChanged();
 
 	}
 
 	private void takePictureOfNest(MyNest n) {
 		// guiCamera.takeNestPhoto(n.nest.guiNest);
-		n.state = NestStatus.READY;
+		n.state = NestStatus.PHOTOGRAPHING;
 		stateChanged();
 	}
 
 	public void setNest(NestAgent nest) {
-		this.nest = nest;
+		nests.add(new MyNest(nest));
 	}
 
 	public void setPartsRobot(PartsRobotAgent parts) {
 		this.partRobot = parts;
 
+	}
+	
+	public void setNests(ArrayList<NestAgent> nests) {
+		for(NestAgent nest:nests){
+			this.nests.add(new MyNest(nest));
+		}
 	}
 
 }
