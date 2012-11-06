@@ -22,11 +22,15 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	int rotationAxisX;
 	int rotationAxisY;
 	int position;
+	boolean AnimationToConveyorDone;
+	public boolean isAnimationToConveyorDone() {
+		return AnimationToConveyorDone;
+	}
 	AffineTransform trans=new AffineTransform();
 	
 	public KitGraphicsDisplay (Client c, Location newLocation) {
+		AnimationToConveyorDone=false;
 		kitLocation = newLocation;
-		
 		position=0;
 		finalDegree=270;
 		currentDegree=0;
@@ -73,6 +77,13 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void drawRotate(JComponent c, Graphics2D g){
+		AnimationToConveyorDone=false;
+		
+		if(currentDegree==90)
+		{
+			AnimationToConveyorDone=true;
+		}
+		
 		rotate();
 		g.drawImage(Constants.KIT_IMAGE,trans, null );
 		

@@ -98,12 +98,20 @@ public class KitRobotManager extends Client implements ActionListener{
 		
 		for(DeviceGraphicsDisplay device : devices.values()) {
 			device.draw(this, g);
-			
+			if(device instanceof KitRobotGraphicsDisplay)
+			{
+				KitRobotGraphicsDisplay tempKitRobot=(KitRobotGraphicsDisplay)device;
+				if(tempKitRobot.isAnimationToConveyorDone())
+				{
+					writer.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
+				}
+			}
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		repaint();
-	}
+	}	
+	
 }
