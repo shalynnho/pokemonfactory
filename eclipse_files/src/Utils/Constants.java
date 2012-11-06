@@ -26,7 +26,11 @@ public abstract class Constants {
 	//DEVICE SETTINGS
 	//==================================
 	
-	// conveyor images
+	// Feeder Images
+	public static final Image FEEDER_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Feeder.png");
+	public static final Image LANE_LED_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/FeederGreenLight.png");
+	
+	// Conveyor Images
 	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Conveyor.jpg");
 	public static final Image CONVEYOR_LINES_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/ConveyorLines.png");
 	public static final Image EXIT_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/ExitBelt.png");
@@ -35,10 +39,10 @@ public abstract class Constants {
 	// Kit Robot Images
 	public static final Image KIT_ROBOT_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Square.jpg");
 	
-	// kit images
+	// Kit Images
 	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Kit.jpg");
 	
-	//nest images
+	// Nest Images
 	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Nest.png");
 	
 	// TARGET NAMES
