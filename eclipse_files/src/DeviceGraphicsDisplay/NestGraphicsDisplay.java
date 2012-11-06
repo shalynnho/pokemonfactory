@@ -19,12 +19,7 @@ import factory.data.PartType;
  * @author Vansh Jain
  * 
  */
-
-
-public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
-	
-	private static Image nestImg;
-	
+public class NestGraphicsDisplay extends DeviceGraphicsDisplay {	
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS=8;
 	
@@ -43,28 +38,27 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private boolean isFull;
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphicsDisplay> partsInNest = new ArrayList<PartGraphicsDisplay>();
-	
-	
-	public NestGraphicsDisplay(Client x, int id) {
-		Client client = x;
+
+	/*
+	 * Default constructor
+	 */
+	public NestGraphicsDisplay(Client c, int id) {
+		client = c;
 		nestID = id;
-		isFull=true;
-		nestImg = Toolkit.getDefaultToolkit().getImage("src/images/Nest.png");
+		
+		isFull = true;
 		nestLocation = new Location(600, 100 + nestID * 75);
 		
 		// Begin V0 requirements
 		for (int i = 0; i < 8; i++) {
 			PartGraphicsDisplay temp = new PartGraphicsDisplay(PartType.A);
-			if(i<4){
+			if(i < 4) {
 				temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY()+1)));
-			}
-			else{
+			} else {
 				temp.setLocation(new Location((nestLocation.getX()+(i-4)*20),(nestLocation.getY()+23))); 
 			}
 			partsInNest.add(temp);
-			
 		}
-		
 	}
 	
 	public void requestData(Request r) {
