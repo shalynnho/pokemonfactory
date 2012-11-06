@@ -1,5 +1,6 @@
 package factory.interfaces;
 
+import GraphicsInterfaces.LaneGraphics;
 import factory.data.Part;
 import factory.data.PartType;
 
@@ -18,5 +19,7 @@ public interface Lane {
 	public abstract void getParts(PartType requestedType);
 
 	public abstract void giveToNest(Part part);
+
+	void setLaneGraphics(LaneGraphics lane);
 
 }

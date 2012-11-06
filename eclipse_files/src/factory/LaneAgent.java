@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import GraphicsInterfaces.LaneGraphics;
 import agent.Agent;
 import factory.data.Part;
 import factory.data.PartType;
@@ -20,7 +21,7 @@ public class LaneAgent extends Agent implements Lane {
 
 	String name;
 	
-	Semaphore animation = new Semaphore(1, true);
+	Semaphore animation = new Semaphore(0, true);
 
 	public class MyPart {
 		Part part;
@@ -38,6 +39,7 @@ public class LaneAgent extends Agent implements Lane {
 
 	FeederAgent feeder;
 	NestAgent nest;
+	LaneGraphics laneGUI;
 
 	public LaneAgent(String name) {
 		super();
@@ -54,12 +56,22 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public void msgHereIsPart(Part p) {
 		currentParts.add(new MyPart(p));
+		if(laneGUI !=null) {
+			laneGUI.receivePart(p);
+		}
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		stateChanged();
 	}
 
 	@Override
 	public void msgReceivePartDone(Part part) {
-		//animation.release(); //This message is never sent to the LaneGraphics
+		animation.release(); //This message is never sent to the LaneGraphics
 		stateChanged();
 	}
 
@@ -96,8 +108,9 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public void giveToNest(Part part) {
 		print("Giving part to Nest");
-		
-		// GUILane.givePartToNest(part);
+		if(laneGUI !=null) {
+			laneGUI.givePartToNest(part);
+		}
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -116,6 +129,9 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	@Override
+	public void setLaneGraphics(LaneGraphics lane) {
+		this.laneGUI = lane;
+	}
 	public String getName() {
 		return name;
 	}

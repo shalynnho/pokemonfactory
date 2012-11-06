@@ -25,7 +25,7 @@ public class GantryAgent extends Agent implements Gantry {
 
 	private final String name;
 	
-	Semaphore animation = new Semaphore(1, true);
+	public Semaphore animation = new Semaphore(0, true);
 
 	public GantryAgent(String name) {
 		super();

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import GraphicsInterfaces.FeederGraphics;
 import agent.Agent;
 import factory.data.Part;
 import factory.data.PartType;
@@ -19,10 +20,13 @@ public class FeederAgent extends Agent implements Feeder {
 
 	private GantryAgent gantry;
 	private LaneAgent lane;
+	private FeederGraphics feederGUI;
+	
+	private boolean currentOrientation = true;
 
 	String name;
 	
-	Semaphore animation = new Semaphore(0, true);
+	public Semaphore animation = new Semaphore(0, true);
 
 	public class MyPart {
 		Part part;
@@ -111,7 +115,12 @@ public class FeederAgent extends Agent implements Feeder {
 	public void giveToDiverter(Part part) {
 		print("Giving parts to diverter");
 		
-		// GUIDiverter.face(part.laneOrientation);
+		if(feederGUI !=null) {
+			if(part.up != currentOrientation) {
+				currentOrientation = part.up;
+				feederGUI.flipDiverter();
+			}
+		}
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -119,7 +128,9 @@ public class FeederAgent extends Agent implements Feeder {
 			e.printStackTrace();
 		}
 		// SEMAPHORE GOES HERE
-		// GUIFeeder.givePartToDiverter(part);
+		if(feederGUI !=null) {
+			feederGUI.movePartToDiverter(part.part);
+		}
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -138,8 +149,9 @@ public class FeederAgent extends Agent implements Feeder {
 	@Override
 	public void giveToLane(Part part) {
 		print("Giving part to lane");
-		
-		// GUIDiverter.givePartToLane(part);
+		if(feederGUI !=null) {
+			feederGUI.movePartToLane(part.part);
+		}
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -158,6 +170,9 @@ public class FeederAgent extends Agent implements Feeder {
 	}
 
 	// GETTERS AND SETTERS
+	public void setFeederGraphics(FeederGraphics feeder) {
+		this.feederGUI = feeder;
+	}
 	@Override
 	public String getName() {
 		return name;

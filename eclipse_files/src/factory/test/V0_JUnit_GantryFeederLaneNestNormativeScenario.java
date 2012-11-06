@@ -65,6 +65,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		Bin bin = new Bin(part);
 		gantry.msgHereIsBinConfig(bin);
 		assertEquals("Gantry Agent should have 1 bin", 1, gantry.binList.size());
+		gantry.animation.release();
 		gantry.pickAndExecuteAnAction();
 		System.out
 				.println("Gantry gui doing receive bin and messaging agent receiveBinDone");
@@ -76,6 +77,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		gantry.pickAndExecuteAnAction();
 		assertEquals("Feeder Agent should have 1 currentPart", 1,
 				feeder.currentParts.size());
+		feeder.animation.release();
 		feeder.pickAndExecuteAnAction();
 		System.out
 				.println("Feeder gui doing give part to diverter and messaging agent givePartToDiverterDone");
@@ -92,7 +94,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		nest.msgTakingPart(part);
 		assertEquals("Nest Agent should have 0 currentPart", 0,
 				nest.currentParts.size());
-
+		
 	}
 
 	/**

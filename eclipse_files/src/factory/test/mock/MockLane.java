@@ -1,5 +1,6 @@
 package factory.test.mock;
 
+import GraphicsInterfaces.LaneGraphics;
 import factory.data.Part;
 import factory.data.PartType;
 import factory.interfaces.Lane;
@@ -58,6 +59,12 @@ public class MockLane extends MockAgent implements Lane {
 	public void giveToNest(Part part) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void setLaneGraphics(LaneGraphics lane) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
