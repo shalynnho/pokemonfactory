@@ -66,7 +66,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private List<PartType> KitConfig = Collections
 			.synchronizedList(new ArrayList<PartType>());
 	private final List<MyKit> MyKits = Collections
-			.synchronizedList(new ArrayList<MyKit>());;
+			.synchronizedList(new ArrayList<MyKit>());
 	public Map<Nest, List<Part>> GoodParts = new HashMap<Nest, List<Part>>();
 	public List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
 
@@ -76,7 +76,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	Stand stand;
 	PartsRobotGraphics partsrobotGraphics;
 
-	public Semaphore animation = new Semaphore(0, true);
+	public Semaphore animation = new Semaphore(1, true);
 
 	// public Semaphore accessKit = new Semaphore(0, true);
 
