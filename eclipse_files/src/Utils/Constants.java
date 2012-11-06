@@ -69,6 +69,8 @@ public abstract class Constants {
 	// Used so that we can create Request methods more easily.
 	// Naming convention: DEVICENAME_ACTION_COMMAND
 	
+	public static final String DONE_SUFFIX = "done";
+	
 	public static final String IDENTIFY_COMMAND = "identify";					// for servers to identify managers
 	
 	// feeder logic to display commands
