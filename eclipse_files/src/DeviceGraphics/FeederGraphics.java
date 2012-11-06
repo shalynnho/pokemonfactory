@@ -2,6 +2,8 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
+import agent.Agent;
+
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
@@ -44,10 +46,10 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 	 * @param id the unique ID of the feeder (there will be 4 feeders so we need to uniquely identify them)
 	 * @param myServer a reference to the Server
 	 */
-	public FeederGraphics(int id, Server myServer, FeederAgent fa) {
+	public FeederGraphics(int id, Server myServer, Agent a) {
 		id = feederID;
 		server = myServer;
-		feederAgent = fa;
+		feederAgent = (FeederAgent)a;
 		
 		partsFed = 0;
 		partsRemaining = 0;
@@ -66,10 +68,10 @@ public class FeederGraphics extends DeviceGraphics implements GraphicsInterfaces
 				
 		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET, null));
 		
+		// TODO phase this out
 		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.LANE_TARGET + ":" + 0, null));
 		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.LANE_TARGET + ":" + 1, null));
 	}
-	
 	
 	/**
 	 * This function purges the bin.
