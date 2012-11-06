@@ -71,9 +71,9 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 		//pg.setLocation()
 	}
 	
-	/*public void givePartToKit(Kit k){
+	/*public void givePartToKit(PartGraphics part,KitGraphics k){
 		//Animation(k.location, 10);
-		partArray.remove(i-1);
+		partArray.remove(part);
 		derotateArm();
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
 		/**
@@ -188,7 +188,7 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 	
 	
 	@Override
-	public void givePartToKit(KitGraphics kit) {
+	public void givePartToKit(PartGraphics part, KitGraphics kit) {
 		// TODO Auto-generated method stub
 		
 	}	
