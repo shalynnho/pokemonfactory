@@ -1,4 +1,4 @@
-package factory.test;
+package agent.test;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

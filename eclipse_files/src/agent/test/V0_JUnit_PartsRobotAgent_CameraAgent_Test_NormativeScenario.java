@@ -1,4 +1,4 @@
-package factory.test;
+package agent.test;
 
 import java.net.URL;
 import java.util.ArrayList;

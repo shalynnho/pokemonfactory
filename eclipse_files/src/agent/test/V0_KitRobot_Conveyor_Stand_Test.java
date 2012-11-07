@@ -1,4 +1,4 @@
-package factory.test;
+package agent.test;
 
 import agent.CameraAgent;
 import agent.ConveyorAgent;
