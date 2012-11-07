@@ -28,7 +28,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		positions = new KitGraphics[4];
 
 		for (int i = 0; i < 4; i++) {
-			positions[i] = new KitGraphics();
+			positions[i] = new KitGraphics(server);
 		}
 
 		location = new Location(0, 0);
