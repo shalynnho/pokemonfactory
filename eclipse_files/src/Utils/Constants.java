@@ -67,8 +67,9 @@ public abstract class Constants {
 			.getImage("src/images/samplepart.png");
 	
 	// Bin Images
-	public static final Image BIN_IMAGE = Toolkit.getDefaultToolkit()
+	public static final Image BIN_FULL_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage("src/images/samplebin.png");
+	public static final Image BIN_EMPTY_IMAGE = Toolkit.getDefaultToolkit().getImage("");
 
 	// TARGET NAMES
 	// ==================================
