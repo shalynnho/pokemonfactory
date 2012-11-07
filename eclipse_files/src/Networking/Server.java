@@ -140,6 +140,8 @@ public class Server {
 		agents.get(Constants.CONVEYOR_TARGET).startThread();
 		agents.get(Constants.PARTS_ROBOT_TARGET).setGraphicalRepresentation(devices.get(Constants.PARTS_ROBOT_TARGET));
 		agents.get(Constants.PARTS_ROBOT_TARGET).startThread();
+		agents.get(Constants.CAMERA_TARGET).setGraphicalRepresentation(devices.get(Constants.CAMERA_TARGET));
+		agents.get(Constants.CAMERA_TARGET).startThread();
 		agents.get("Stand").startThread();
 	}
 
