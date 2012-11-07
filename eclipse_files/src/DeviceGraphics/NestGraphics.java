@@ -3,6 +3,7 @@ package DeviceGraphics;
 import java.util.ArrayList;
 import java.util.Map;
 
+import DeviceGraphicsDisplay.PartGraphicsDisplay;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
@@ -42,12 +43,15 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGrap
 	private ArrayList<Boolean> nestSpots;
 	// y-coordinate of the Nest
 	private static int NEST_Y;
+	// location of the nest
+	private Location nestLocation;
+	
 	
 	public NestGraphics(Server s, int nid, Agent agent) {
 		server = s;
 		nestID = nid;
 		nestAgent = (NestAgent) agent;
-		
+		nestLocation = new Location(600, 100 + nestID * 75);
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
 		nestSpots = new ArrayList<Boolean>(MAX_PARTS);
 		
@@ -75,8 +79,8 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGrap
 	 * @param - 
 	 */
 	public void receivePart(PartGraphics pg) {
-		(!isFull()) partsInNest.add(pg);
-		pg.setLocation(new Location); // set part location to next empty spot
+		partsInNest.add(pg);
+		pg.setLocation(addPartToCorrectLocation(pg, partsInNest.size()); // set part location to next empty spot
 		PartType pt = p.type;
 		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+nestID, pt));
 	}
@@ -111,6 +115,25 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGrap
 			nestAgent.msgGivePartToPartsRobotDone();
 		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
 			nestAgent.msgPurgingDone();
+		}
+		
+	}
+	
+	public void addPartToCorrectLocation(PartGraphics temp, int i){
+		if(i < 4) {
+			temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY()+1)));
+		} else {
+			temp.setLocation(new Location((nestLocation.getX()+(i-4)*20),(nestLocation.getY()+23))); 
+		}
+	}
+	
+	/**
+	 * update location of the parts
+	 * @param x
+	 */
+	public void updateLocationOfParts(ArrayList<PartGraphics> x){
+		for(int i=0; i<x.size(); i++){
+			addPartToCorrectLocation(x.get(i),i);
 		}
 	}
 	
@@ -183,16 +206,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGrap
 	
 	@Override
 	// V0 ONLY
-	
-//	public void receivePart(PartGraphics part) {
-		// TODO Auto-generated method stub
-//		partsInNest.add(part);
-//		part.setLocation(newLocation);
-//		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+nestID, part.getPartType()));
-//	}
-
-	@Override
-	// V0 ONLY
 //	public void givePartToPartsRobot(PartGraphics part) {
 		// TODO Auto-generated method stub	}
+	
 }
