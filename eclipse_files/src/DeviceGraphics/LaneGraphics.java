@@ -104,7 +104,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		
 		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET +":"+ laneID, pt));
 		
-		// later pass if good/bad part
+		// TODO: (V2) later pass if good/bad part
 	}
 
 	/**
@@ -151,15 +151,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		laneOn = on;
 		server.sendData(new Request(Constants.LANE_TOGGLE_COMMAND,
 				Constants.LANE_TARGET +":"+  laneID, laneOn));
-	}
-
-	/**
-	 * Sends an instance of Animation through the server. Tells the display
-	 * class end Location of animation and duration allotted.
-	 */
-	private void sendAnimation(Animation ani) {
-		server.sendData(new Request(Constants.LANE_SEND_ANIMATION_COMMAND,
-				Constants.LANE_TARGET  +":"+  laneID, ani));
 	}
 
 	/**
