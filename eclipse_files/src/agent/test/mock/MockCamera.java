@@ -1,6 +1,7 @@
 package agent.test.mock;
 
-import agent.NestAgent;
+import DeviceGraphics.KitGraphics;
+import GraphicsInterfaces.NestGraphics;
 import agent.data.Kit;
 import agent.interfaces.Camera;
 import agent.interfaces.Nest;
@@ -31,19 +32,20 @@ public class MockCamera extends MockAgent implements Camera {
 	}
 
 	@Override
-	public void msgTakePictureNestDone(NestAgent nest) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void msgTakePictureKitDone(Kit kit, boolean done) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void msgIAmFull(Nest nest) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgTakePictureNestDone(NestGraphics nest, boolean d,
+			NestGraphics nest2, boolean d2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgTakePictureKitDone(KitGraphics kit, boolean done) {
 		// TODO Auto-generated method stub
 
 	}
