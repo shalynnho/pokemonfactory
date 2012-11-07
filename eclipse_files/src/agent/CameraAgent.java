@@ -126,7 +126,11 @@ public class CameraAgent extends Agent implements Camera {
 		}
 		stateChanged();
 	}
+	//v0 hack
+	public void startV0Sequence(){
+		guiCamera.takeNestPhoto(nests.get(0).nest.guiNest,nests.get(1).nest.guiNest);
 
+	}
 	/*********** SCHEDULER **************/
 	@Override
 	public boolean pickAndExecuteAnAction() {
