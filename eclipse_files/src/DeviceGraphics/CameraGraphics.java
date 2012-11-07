@@ -32,6 +32,7 @@ public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.Camera
 	public void takeNestPhoto(GraphicsInterfaces.NestGraphics nest1, GraphicsInterfaces.NestGraphics nest2) {
 		ArrayList<Location> nests = new ArrayList<Location>();
 		nests.add(nest1.getLocation());
+		System.out.println("Location: " + nest1.getLocation().getX() + " / " + nest1.getLocation().getY());
 		nests.add(nest2.getLocation());
 		
 		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND, Constants.CAMERA_TARGET, nests));
@@ -47,7 +48,7 @@ public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.Camera
 	@Override
 	public void receiveData(Request req) {
 		if(req.getCommand().equals(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND)) {
-			
+			agent.startV0Sequence();
 		}
 	}
 

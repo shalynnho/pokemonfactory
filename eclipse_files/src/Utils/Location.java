@@ -1,6 +1,8 @@
 package Utils;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable {
 	private double x;
 	private double y;
 	

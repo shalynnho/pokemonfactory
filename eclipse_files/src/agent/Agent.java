@@ -64,8 +64,6 @@ public abstract class Agent {
 
 	/** Start agent scheduler thread. Should be called once at init time. */
 	public synchronized void startThread() {
-		System.out.println("Starting thread");
-
 		if (agentThread == null) {
 			agentThread = new AgentThread(getName());
 			agentThread.start(); // causes the run method to execute in the

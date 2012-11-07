@@ -41,25 +41,16 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGrap
 	private boolean isFull;
 	// true if spot is filled, false if not
 	private ArrayList<Boolean> nestSpots;
-	// y-coordinate of the Nest
-	private static int NEST_Y;
-	// location of the nest
-	private Location nestLocation;
 	
 	
 	public NestGraphics(Server s, int nid, Agent agent) {
 		server = s;
 		nestID = nid;
 		nestAgent = (NestAgent) agent;
-		nestLocation = new Location(600, 100 + nestID * 75);
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
 		nestSpots = new ArrayList<Boolean>(MAX_PARTS);
 		
-		if(nestID==0) {
-			NEST_Y=100;
-		} else {
-			NEST_Y=175;
-		}
+		location = new Location(600, 100 + nestID * 75);
 		
 		// Begin V0 requirements
 		isFull = true;
@@ -67,9 +58,9 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGrap
 			PartGraphics temp = new PartGraphics(PartType.A);
 			
 			if(i < 4) {
-				temp.setLocation(new Location((119+i*20),(NEST_Y+1)));
+				temp.setLocation(new Location((119+i*20),(location.getY()+1)));
 			} else {
-				temp.setLocation(new Location((119+(i-4)*20),(NEST_Y+23))); 
+				temp.setLocation(new Location((119+(i-4)*20),(location.getY()+23))); 
 			}
 			partsInNest.add(temp);
 		}
@@ -125,9 +116,9 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGrap
 	
 	public void addPartToCorrectLocation(PartGraphics temp, int i){
 		if(i < 4) {
-			temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY()+1)));
+			temp.setLocation(new Location((location.getX()+i*20),(location.getY()+1)));
 		} else {
-			temp.setLocation(new Location((nestLocation.getX()+(i-4)*20),(nestLocation.getY()+23))); 
+			temp.setLocation(new Location((location.getX()+(i-4)*20),(location.getY()+23))); 
 		}
 	}
 	

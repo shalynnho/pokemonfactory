@@ -60,7 +60,7 @@ public abstract class Constants {
 			.getImage("src/images/Nest.png");
 	
 	// Camera Images
-	public static final Image CAMERA_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Square.jpg");
+	public static final Image CAMERA_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Camera.png");
 
 	// Part Images
 	public static final Image PART_IMAGE = Toolkit.getDefaultToolkit()
