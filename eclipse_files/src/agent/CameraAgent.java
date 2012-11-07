@@ -11,6 +11,7 @@ import GraphicsInterfaces.NestGraphics;
 import agent.NestAgent.MyPart;
 import agent.data.Kit;
 import agent.data.Part;
+import agent.data.PartType;
 import agent.interfaces.Camera;
 import agent.interfaces.Nest;
 
@@ -126,10 +127,15 @@ public class CameraAgent extends Agent implements Camera {
 		}
 		stateChanged();
 	}
-
+ // hax
 	public void startV0Sequence(KitGraphics kg){
 		Kit k = new Kit();
 		k.kitGraphics = kg;
+		ArrayList<PartType> list=new ArrayList<PartType>();
+		for(int i=0;i<9;i++){
+			list.add(PartType.A);
+		}
+		k.partsExpected=list;
 		partRobot.Initialize();
 		partRobot.msgUseThisKit(k);
 		guiCamera.takeNestPhoto(nests.get(0).nest.guiNest,nests.get(1).nest.guiNest);
