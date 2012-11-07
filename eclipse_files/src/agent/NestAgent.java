@@ -87,7 +87,7 @@ public class NestAgent extends Agent implements Nest {
 		 * Auto-generated catch block e.printStackTrace(); }
 		 */
 		for (MyPart part : currentParts) {
-			if (part.part == p) {
+			if (part.part.equals(p)) {
 				currentParts.remove(part);
 				return;
 			}

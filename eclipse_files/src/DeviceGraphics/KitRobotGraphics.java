@@ -121,10 +121,12 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		}
 		else if(command.equals(Constants.KIT_ROBOT_ON_STAND_DONE))
 		{
+			System.out.println("placekitonStandDone sent");
 			kitRobotAgent.msgPlaceKitOnStandDone();
 		}
 		else if (command.equals(Constants.KIT_ROBOT_ON_CONVEYOR_DONE))
 		{
+			System.out.println("placekitonconveyordone sent");
 			kitRobotAgent.msgPlaceKitOnConveyorDone();
 		}
 

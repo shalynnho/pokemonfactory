@@ -194,7 +194,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		arm.part = part;
 
 		// Tells the graphics to pickup the part
-		// partsRobotGraphics.pickUpPart(part.part);
+		partsRobotGraphics.pickUpPart(part.partGraphics);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -214,7 +214,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		for (MyKit mk : MyKits) {
 			if (mk.kit.needPart(arm.part)) {
 
-				// partsRobotGraphics.givePartToKit(mk.kit.kit);
+				 partsRobotGraphics.givePartToKit(arm.part.partGraphics,mk.kit.kitGraphics);
 				try {
 					animation.acquire();
 				} catch (InterruptedException e) {
