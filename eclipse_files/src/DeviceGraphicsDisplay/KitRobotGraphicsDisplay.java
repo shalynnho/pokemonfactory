@@ -363,7 +363,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 		Object obj = req.getData();
 		if(target.equals(Constants.KIT_ROBOT_TARGET))
 		{
-			if(command.equals("moveKitToStand1"))
+			if(command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR))
 			{	
 				KitGraphicsDisplay kit=new KitGraphicsDisplay(client, new Location(0,0));
 				kit.setPosition(3);
@@ -371,7 +371,7 @@ public class KitRobotGraphicsDisplay  extends DeviceGraphicsDisplay {
 				kits.add(kit);
 				ConveyorToLocation1();
 			}
-			else if(command.equals("moveit"))
+			else if(command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_CONVEYOR))
 			{
 				
 				for(int i=0; i<kits.size(); i++)
