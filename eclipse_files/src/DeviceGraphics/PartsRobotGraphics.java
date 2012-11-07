@@ -195,9 +195,9 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 			System.out.println("gohome");
 		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND)){
 			givesPartToKit();
-		} else */if (req.equals(Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
+		} else */if (req.getCommand().equals(Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
 		    partsRobotAgent.msgPickUpPartDone();
-		} else if (req.equals(Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX)) {
+		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX)) {
 		    partsRobotAgent.msgGivePartToKitDone();
 		}
 	}
@@ -206,12 +206,14 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	
 	@Override
 	public void givePartToKit(PartGraphics part, KitGraphics kit) {
-		// TODO Auto-generated method stub
-		for(PartGraphics p : partArray)
-		{
-			if (p == part)
+		for(PartGraphics p : partArray) {
+			if (p == part) {
 				partArray.remove(p);
+			}
 		}
+		
+		System.out.println("does this wokr?");
+		kit.receivePart(part);
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, kit.getLocation()));
 		
 		

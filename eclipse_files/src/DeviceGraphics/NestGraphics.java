@@ -80,9 +80,11 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGrap
 	 * @param
 	 */
 	public void givePartToPartsRobot(PartGraphics pg) {
+		
 		int i = partsInNest.indexOf(pg); // this might not work. depends on if part passed in matches what is already in nest
 										// otherwise, must find a way to figure out which part is being taken from which spot in the nest
-		partsInNest.remove(i);
+		if(i >= 0)  { partsInNest.remove(i); }
+		
 		server.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
 	}
 	

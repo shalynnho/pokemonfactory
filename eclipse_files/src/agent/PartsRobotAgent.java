@@ -238,6 +238,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				// Tells the kit it has the part now
 				mk.kit.parts.add(arm.part);
 				if (mk.kit.kitGraphics != null) {
+					System.out.println("receiving part");
 					mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
 				}
 				// mk.kit.partsExpected.remove(arm.part);

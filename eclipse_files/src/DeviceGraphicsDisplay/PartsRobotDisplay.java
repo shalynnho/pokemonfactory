@@ -186,7 +186,10 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				g.drawImage(partsRobotImage, currentLocation.getX(), currentLocation.getY(), c);
 				
 			}
-		}else if (gohome){
+			if (currentLocation.getX() == kitloc.getX() && currentLocation.getY() == kitloc.getY()){
+				givePart();
+			}
+		} else if (gohome) {
 			for (int i = 0; i < 5; i++){
 				if(currentLocation.getY()<450){
 					currentLocation.incrementY(1);
@@ -371,8 +374,6 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				    Constants.PARTS_ROBOT_TARGET,
 				    null));
 		}
-		else
-			System.out.println("No more parts.");
 	}
 	
 	/*public void givePartToKit(PartGraphicsDisplay part){
@@ -409,11 +410,6 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		}else if (r.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND)){
 			kitloc = (Location) r.getData();
 			giveKit();
-			if (currentLocation.getX() == kitloc.getX() && currentLocation.getY() == kitloc.getY()){
-				givePart();
-				System.out.println("gives part");
-			} else
-				System.out.println("not at kit, can't give part");
 			/*if(!arm4)
 				partArrayGraphics.remove(3);
 			else if (!arm3)

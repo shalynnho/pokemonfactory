@@ -11,7 +11,7 @@ import agent.data.PartType;
 
 public class KitGraphics implements DeviceGraphics {
 	
-	ArrayList<PartGraphics> parts; // parts currently in the kit
+	ArrayList<PartGraphics> parts = new ArrayList<PartGraphics>(); // parts currently in the kit
 	ArrayList<PartType> partTypes; // part types required to make kit
 	Location kitLocation;
 	
@@ -71,6 +71,7 @@ public class KitGraphics implements DeviceGraphics {
 	}
 	
 	public void receivePart(PartGraphics part) {
+		System.out.println("hello2");
 		addPart(part);
 		server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND, Constants.KIT_TARGET, parts));
 	}

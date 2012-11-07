@@ -96,14 +96,14 @@ public class CameraAgent extends Agent implements Camera {
 		boolean found2 = false;
 		synchronized (nests) {
 			for (MyNest n : nests) {
-				if (n.nest.guiNest == nest) {
+				if (n.nest.nestGraphics == nest) {
 					// In v0 all parts are good parts
 					n.state = NestStatus.PHOTOGRAPHED;
 					if (found2) {
 						break;
 					}
 					found1 = true;
-				} else if (n.nest.guiNest == nest2) {
+				} else if (n.nest.nestGraphics == nest2) {
 					// In v0 all parts are good parts
 					n.state = NestStatus.PHOTOGRAPHED;
 					if (found1) {
@@ -139,7 +139,7 @@ public class CameraAgent extends Agent implements Camera {
 		k.partsExpected=list;
 		partRobot.Initialize();
 		partRobot.msgUseThisKit(k);
-		guiCamera.takeNestPhoto(nests.get(0).nest.guiNest,nests.get(1).nest.guiNest);
+		guiCamera.takeNestPhoto(nests.get(0).nest.nestGraphics,nests.get(1).nest.nestGraphics);
 		
 		
 
@@ -224,7 +224,7 @@ public class CameraAgent extends Agent implements Camera {
 	private void takePictureOfNest(MyNest n, MyNest n2) {
 
 		if (guiCamera != null) {
-			guiCamera.takeNestPhoto(n.nest.guiNest, n2.nest.guiNest);
+			guiCamera.takeNestPhoto(n.nest.nestGraphics, n2.nest.nestGraphics);
 		}
 
 		n.state = NestStatus.PHOTOGRAPHING;
