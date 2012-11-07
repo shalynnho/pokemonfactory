@@ -1,5 +1,7 @@
 package DeviceGraphics;
 
+import java.util.ArrayList;
+
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
@@ -27,26 +29,24 @@ public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.Camera
 	}
 	
 	@Override
-	public void takeNestPhoto(GraphicsInterfaces.NestGraphics nest1) {
-		// TODO: replace null with 
-		// location = nest1.getLocation();
-		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND, Constants.CAMERA_TARGET, null));
+	public void takeNestPhoto(GraphicsInterfaces.NestGraphics nest1, GraphicsInterfaces.NestGraphics nest2) {
+		ArrayList<Location> nests = new ArrayList<Location>();
+		nests.add(nest1.getLocation());
+		nests.add(nest2.getLocation());
+		
+		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND, Constants.CAMERA_TARGET, nests));
+		agent.msgTakePictureNestDone(nest1, true, nest2, true);
 	}
 
 	@Override
 	public void takeKitPhoto(KitGraphics kit) {
-		// TODO: replace null with 
-		// location = kit.getLocation();
-		server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND, Constants.CAMERA_TARGET, null));
+		server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND, Constants.CAMERA_TARGET, kit));
+		agent.msgTakePictureKitDone(kit, true);
 	}
 	
 	@Override
 	public void receiveData(Request req) {
-		if(req.getCommand().equals(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND)) {
-			takeNestPhoto(null);
-		} else if(req.getCommand().equals(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND)) {
-			takeKitPhoto(null);
-		}
+		// none to send in yet.
 	}
 
 }
