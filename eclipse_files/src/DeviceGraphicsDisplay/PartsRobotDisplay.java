@@ -189,7 +189,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			if (currentLocation.getX() == kitloc.getX() && currentLocation.getY() == kitloc.getY()){
 				givePart();
 			}
-		} else if (gohome) {
+		} else if (!givekit || !pickup) {
 			for (int i = 0; i < 5; i++){
 				if(currentLocation.getY()<450){
 					currentLocation.incrementY(1);
@@ -343,6 +343,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				    Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX, 
 				    Constants.PARTS_ROBOT_TARGET,
 				    null));
+			
 		}
 		else if (arm3){
 			arm3 = false;
@@ -374,6 +375,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				    Constants.PARTS_ROBOT_TARGET,
 				    null));
 		}
+		givekit = false;
 	}
 	
 	/*public void givePartToKit(PartGraphicsDisplay part){
