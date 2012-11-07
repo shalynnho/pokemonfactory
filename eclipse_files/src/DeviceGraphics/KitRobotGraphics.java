@@ -104,6 +104,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		Object object = req.getData();
 
 		if (command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR)) {
+			
 			msgPlaceKitOnStand(null, 1);
 
 		} else if (command

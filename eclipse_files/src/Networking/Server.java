@@ -18,8 +18,9 @@ import Utils.Constants;
 import agent.Agent;
 import agent.CameraAgent;
 import agent.FeederAgent;
-import agent.LaneAgent;
 import agent.KitRobotAgent;
+import agent.LaneAgent;
+import agent.StandAgent;
 
 /**
  * The Server is the "middleman" between Agents and the GUI clients. 
@@ -82,6 +83,7 @@ public class Server {
 		agents.put(Constants.LANE_TARGET+":"+1, new LaneAgent(Constants.LANE_TARGET+":"+1));
 		agents.put(Constants.CAMERA_TARGET, new CameraAgent(Constants.CAMERA_TARGET));
 		agents.put(Constants.KIT_ROBOT_TARGET, new KitRobotAgent(Constants.KIT_ROBOT_TARGET));
+		agents.put("Stand", new StandAgent("Stand"));
 	}
 	
 	private void initDevices() {
@@ -100,6 +102,12 @@ public class Server {
 		/* for(Entry<String, Agent> entry : agents.entrySet()) {
 			// entry.getValue().setGraphicRepresentation(devices.get(entry.getKey()));
 		} */
+		
+		agents.get(Constants.KIT_ROBOT_TARGET).setGraphicalRepresentation(devices.get(Constants.KIT_ROBOT_TARGET));
+		agents.get(Constants.CONVEYOR_TARGET).setGraphicalRepresentation(devices.get(Constants.CONVEYOR_TARGET));
+		agents.get(Constants.KIT_ROBOT_TARGET).startThread();
+		agents.get(Constants.CONVEYOR_TARGET).startThread();
+		agents.get("Stand").startThread();
 	}
 	
 	/**
