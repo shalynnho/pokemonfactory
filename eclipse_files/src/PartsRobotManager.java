@@ -51,42 +51,10 @@ public class PartsRobotManager extends Client implements ActionListener{
 		add(panel, BorderLayout.SOUTH);
 		panel.setVisible(true);
 		
-		JButton nest1 = new JButton("Nest1");
-		nest1.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
-		panel.add(nest1);
-		
-		JButton nest2 = new JButton("Nest2");
-		nest2.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
-		panel.add(nest2);
-		
-		JButton gohome = new JButton("Go Home");
-		gohome.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_GO_HOME_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
-		panel.add(gohome);
-		
-		JButton gokit = new JButton("Go Kit");
-		gokit.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_GO_KIT_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
-		panel.add(gokit);
-		
-		JButton pickup = new JButton("Pick Up");
-		pickup.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
-		panel.add(pickup);
-		
-		JButton give = new JButton("Give to Kit");
-		give.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
-		panel.add(give);
-		
-		JButton picNest = new JButton("Take pic of nest");
-		picNest.addActionListener(new NetworkingButtonListener(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND, Constants.CAMERA_TARGET, writer));
-		panel.add(picNest);
-		
-		JButton removeNest = new JButton("remove from nest");
-		removeNest.addActionListener(new NetworkingButtonListener(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND, Constants.NEST_TARGET+":"+0, writer));
-		panel.add(removeNest);
-		
-		JButton addToNest = new JButton("add to nest");
-		addToNest.addActionListener(new NetworkingButtonListener(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+0, writer));
-		panel.add(addToNest);
-		
+		JButton picture = new JButton("Take Picture");
+		picture.addActionListener(new NetworkingButtonListener(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND, Constants.CAMERA_TARGET, writer));
+		panel.add(picture);
+
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
 	}

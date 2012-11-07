@@ -46,7 +46,9 @@ public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.Camera
 	
 	@Override
 	public void receiveData(Request req) {
-		// none to send in yet.
+		if(req.getCommand().equals(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND)) {
+			
+		}
 	}
 
 }
