@@ -95,6 +95,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		feeder.pickAndExecuteAnAction();
 		assertEquals("Lane Agent should have 1 currentPart", 1,
 				lane.currentParts.size());
+		Part part2=lane.currentParts.get(0).part;
 		//lane.animation.release();
 		lane.msgReceivePartDone(part);
 		lane.pickAndExecuteAnAction();
@@ -104,7 +105,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		nest.pickAndExecuteAnAction();
 		System.out
 				.println("Parts Robot Agent taking part from nest and messaging TakingPart");
-		nest.msgTakingPart(part);
+		nest.msgTakingPart(part2);
 		assertEquals("Nest Agent should have 0 currentPart", 0,
 				nest.currentParts.size());
 		
