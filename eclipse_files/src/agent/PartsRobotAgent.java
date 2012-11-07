@@ -59,6 +59,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}
 	}
 
+	//Initialize Arms
 	public void Initialize(){
 		for(int i = 0; i < 4; i++){
 			Arms.add(new Arm());

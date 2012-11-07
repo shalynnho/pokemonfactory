@@ -127,7 +127,8 @@ public class CameraAgent extends Agent implements Camera {
 		}
 		stateChanged();
 	}
- // hax
+ 
+	//Hack for V0 Only
 	public void startV0Sequence(KitGraphics kg){
 		Kit k = new Kit();
 		k.kitGraphics = kg;
