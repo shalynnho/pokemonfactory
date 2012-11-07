@@ -1,13 +1,11 @@
 package DeviceGraphics;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-
-import agent.data.PartType;
+import java.io.Serializable;
 
 import Utils.Location;
+import agent.data.PartType;
 
-public class PartGraphics {
+public class PartGraphics implements Serializable {
 	PartType partType;
 	Location partLocation;
 	

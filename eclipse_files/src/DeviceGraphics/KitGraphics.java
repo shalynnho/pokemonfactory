@@ -12,7 +12,7 @@ import agent.data.PartType;
 public class KitGraphics implements DeviceGraphics {
 	
 	ArrayList<PartGraphics> parts = new ArrayList<PartGraphics>(); // parts currently in the kit
-	ArrayList<PartType> partTypes; // part types required to make kit
+	ArrayList<PartType> partTypes = new ArrayList<PartType>(); // part types required to make kit
 	Location kitLocation;
 	
 	Boolean isFull; //Says whether or not the kit is full
@@ -38,12 +38,10 @@ public class KitGraphics implements DeviceGraphics {
 		parts.add(newPart);
 		
 		if ((parts.size() % 2) == 1) {
-			newPart.getLocation().setX(kitLocation.getX() + 5);
-			newPart.getLocation().setY(kitLocation.getY() + (20 * (parts.size() -1) / 2));
+			newPart.setLocation(new Location(kitLocation.getX() + 5, kitLocation.getY() + (20 * (parts.size() -1) / 2)));
 		}
 		else {
-			newPart.getLocation().setX(kitLocation.getX() + 34);
-			newPart.getLocation().setY(kitLocation.getY() + (20 * parts.size() / 2));
+			newPart.setLocation(new Location(kitLocation.getX() + 34, kitLocation.getY() + (20 * parts.size() / 2)));
 		}		
 		
 		if (parts.size() == 8) {
@@ -71,7 +69,6 @@ public class KitGraphics implements DeviceGraphics {
 	}
 	
 	public void receivePart(PartGraphics part) {
-		System.out.println("hello2");
 		addPart(part);
 		server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND, Constants.KIT_TARGET, parts));
 	}
