@@ -101,9 +101,9 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				PartGraphicsDisplay temp = new PartGraphicsDisplay(PartType.A);
 				addPartToCorrectLocation(temp, partsInNest.size());
 				//choosing the correct location of the part
-				// TODO should done request be outside of the if/else?
-				client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET+":"+nestID, null));
+				partsInNest.add(temp);
 			}
+			client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET+":"+nestID, null));
 			
 		} else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)) {
 			// TODO code to handle command

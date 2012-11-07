@@ -20,6 +20,7 @@ import agent.CameraAgent;
 import agent.FeederAgent;
 import agent.KitRobotAgent;
 import agent.LaneAgent;
+import agent.NestAgent;
 import agent.StandAgent;
 
 /**
@@ -83,6 +84,8 @@ public class Server {
 		agents.put(Constants.LANE_TARGET+":"+1, new LaneAgent(Constants.LANE_TARGET+":"+1));
 		agents.put(Constants.CAMERA_TARGET, new CameraAgent(Constants.CAMERA_TARGET));
 		agents.put(Constants.KIT_ROBOT_TARGET, new KitRobotAgent(Constants.KIT_ROBOT_TARGET));
+		agents.put(Constants.NEST_TARGET+":"+0, new NestAgent(Constants.NEST_TARGET));
+		agents.put(Constants.NEST_TARGET+":"+1, new NestAgent(Constants.NEST_TARGET));
 		agents.put("Stand", new StandAgent("Stand"));
 	}
 	
@@ -106,6 +109,8 @@ public class Server {
 		agents.get(Constants.KIT_ROBOT_TARGET).setGraphicalRepresentation(devices.get(Constants.KIT_ROBOT_TARGET));
 		agents.get(Constants.CONVEYOR_TARGET).setGraphicalRepresentation(devices.get(Constants.CONVEYOR_TARGET));
 		agents.get(Constants.KIT_ROBOT_TARGET).startThread();
+		agents.get(Constants.NEST_TARGET+":"+0).setGraphicalRepresentation(devices.get(Constants.NEST_TARGET+":"+0));
+		agents.get(Constants.NEST_TARGET+":"+1).setGraphicalRepresentation(devices.get(Constants.NEST_TARGET+":"+1));
 		agents.get(Constants.CONVEYOR_TARGET).startThread();
 		agents.get("Stand").startThread();
 	}
