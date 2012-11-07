@@ -109,15 +109,15 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGrap
 	 * @param r - the request to be parsed
 	 */
 	public void receiveData(Request req) {
-		if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
-			//nestAgent.msgReceivePartDone();
-		}else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX)) {
+		if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND)) {
+			nestAgent.msgReceivePartDone();
+		}else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)) {
 			nestAgent.msgGivePartToPartsRobotDone();
 		}else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
 			nestAgent.msgPurgingDone();
-		} else if(req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)){
+		}else if(req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)){
 			server.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
-		} else if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND)){
+		}else if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND)){
 			server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
 		}
 		
