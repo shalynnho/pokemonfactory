@@ -102,16 +102,12 @@ public abstract class Constants {
 	public static final String IDENTIFY_COMMAND = "identify"; 
 
 	// feeder logic to display commands
-	// draw the diverter flipping
+	// flip the diverter
 	public static final String FEEDER_FLIP_DIVERTER_COMMAND = "feederflipdiv";
 	// a bin has been received
 	public static final String FEEDER_RECEIVED_BIN_COMMAND = "feederrecbin"; 
-	// purge bin
+	// purge the bin
 	public static final String FEEDER_PURGE_BIN_COMMAND = "feederpurgebin";
-	// move part to diverter
-	public static final String FEEDER_MOVE_TO_DIVERTER_COMMAND = "feedermovediv"; 
-	// move part to lane
-	public static final String FEEDER_MOVE_TO_LANE_COMMAND = "feedermovlane"; 
 	// end feeder logic to display commands
 
 	// lane logic to display commands
@@ -149,6 +145,10 @@ public abstract class Constants {
 	
 	public static final String KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR = "robot logic moves loc1 to conv";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_CONVEYOR = "robot display moves kit to conv";
+	
+	public static final String KIT_ROBOT_ON_STAND_DONE = "robot display sends to robot logic that kit to stand is done";
+	public static final String KIT_ROBOT_ON_CONVEYOR_DONE="robot display sends to robot logic that kit to conveyor is done";
+	
 	// end kitrobot logic
 
 	// partsrobot logic to display commands
