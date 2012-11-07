@@ -1,9 +1,6 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -12,7 +9,7 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
-import factory.data.PartType;
+import agent.data.PartType;
 
 /**
  * This class handles drawing of the feeder and diverter.
@@ -32,10 +29,8 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	private boolean haveBin;
 	// location of the feeder
 	private Location feederLocation;
-	
-	// v0 stuff
+	// a BinGraphicsDisplay object
 	private BinGraphicsDisplay bgd; 
-	private ArrayList<PartGraphicsDisplay> partGDList = new ArrayList<PartGraphicsDisplay>();
 
 	/**
 	 * constructor
@@ -43,13 +38,11 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	public FeederGraphicsDisplay(Client cli, Location loc) {
 		// store a reference to the client
 		client = cli;
-		
 		// set the feeder's default location
 		feederLocation = loc;
-		
 		// diverter initially points to the top lane
 		diverterTop = true;
-		
+		// we don't have a bin to start with
 		haveBin = false;
 		
 		// force an initial repaint to display feeder and diverter
@@ -75,38 +68,31 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void setLocation(Location newLocation) {
 		// unused for feeder
 	}
+	
+	public void receiveBin() {
+		// TODO adjust bin location later
+		bgd = new BinGraphicsDisplay(new Location(feederLocation.getX() + FEEDER_WIDTH - 50, feederLocation.getY() + FEEDER_HEIGHT/2), PartType.B);
+		bgd.setFull(true);
+		haveBin = true;
+	}
 
 	@Override
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
 			diverterTop = !diverterTop;
-			
 		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
-			// TODO fix bin coordinates
-			
-			bgd = new BinGraphicsDisplay(new Location(feederLocation.getX() + FEEDER_WIDTH - 50, feederLocation.getY() + FEEDER_HEIGHT/2), PartType.B);
-			bgd.setFull(true);
+			receiveBin();
 			haveBin = true;
-			
+			client.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET, null));
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND)) {
 			// TODO future: move bin to purge area
 			
 			if (haveBin) {
-				bgd.setFull(false); // could be problematic if called when bin has not been received
+				bgd.setFull(false);
 				haveBin = false;
 			}
 			
-		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND)) {
-			PartGraphicsDisplay part = new PartGraphicsDisplay(bgd.getPartType());
-			
-			// where the part starts
-			// part.setLocation(startingPartLocation);
-			// partGDList.add(part);
-			
-			client.sendData(new Request(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET, null));
-		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_LANE_COMMAND)) {
-			
-			client.sendData(new Request(Constants.FEEDER_MOVE_TO_LANE_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET, null));
+			client.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET, null));
 		}
 	}
 }

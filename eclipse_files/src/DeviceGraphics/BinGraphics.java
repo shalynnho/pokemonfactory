@@ -1,20 +1,28 @@
 package DeviceGraphics;
 
-import java.awt.Toolkit;
-
 import Networking.Request;
 import Utils.Location;
+import agent.data.*;
 
-public class BinGraphics extends DeviceGraphics  {
+public class BinGraphics implements DeviceGraphics  {
 	
-	PartGraphics part; // Type of part found in bin
-	int partNumber; // Number of parts in bin
-	Location binLocation;
+	private PartGraphics part; // Type of part found in bin
+	//private int partNumber; // Number of parts in bin
+	//private Location binLocation;
+	private boolean isFull;
+	private Bin bin;
 	
 	// Constructor
-	public BinGraphics (PartGraphics parts, int partNum) {
+	/*public BinGraphics (PartGraphics parts, int partNum, Bin b) {
 		part = parts;
 		partNumber = partNum;
+		isFull = true;
+		bin = b;
+	}*/
+	
+	public BinGraphics (Bin b) {
+		isFull = true;
+		bin = b;
 	}
 	
 	/**
@@ -25,7 +33,7 @@ public class BinGraphics extends DeviceGraphics  {
 	 */
 	public void receiveParts(PartGraphics parts, int partNum) {
 		part = parts;
-		partNumber = partNum;
+		//partNumber = partNum;
 	}
 	
 	
@@ -34,28 +42,35 @@ public class BinGraphics extends DeviceGraphics  {
 	}
 	
 	
-	public int getQuantity() {
+	/*public int getQuantity() {
 		return partNumber;
-	}
+	}*/
 	
 	/**
 	 * Empties out the bin during purge
 	 */
 	public void setEmpty() {
-		partNumber = 0;
+		//partNumber = 0;
 		part = null;
 	}
 	
 	
-	public void setLocation(Location newLocation) {
+	/*public void setLocation(Location newLocation) {
 		binLocation = newLocation;
-	}
+	}*/
 	
 	
-	public Location getLocation() {
+	/*public Location getLocation() {
 		return binLocation;
-	}
+	}*/
 
+	public void setFull(boolean f) {
+		isFull = f;
+	}
+	
+	public Bin getBin() {
+		return bin;
+	}
 
 	@Override
 	public void receiveData(Request req) {

@@ -6,90 +6,117 @@ import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
-import factory.data.Kit;
+import agent.Agent;
+import agent.ConveyorAgent;
+import agent.StandAgent;
 
 /**
- * Contains the logic for the Conveyor object 
- * 
+ * Contains the logic for the Conveyor object
  * @author neetugeo
  */
 
-public class ConveyorGraphics extends DeviceGraphics implements GraphicsInterfaces.ConveyorGraphics {
+public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
+		DeviceGraphics {
 
 	private ArrayList<KitGraphics> kitsOnConveyor; // all kits on conveyor
 	private ArrayList<KitGraphics> kitsToLeave;
 	private Location location;
 	private Server server;
 	private int velocity;
-	        
-	public ConveyorGraphics(Server s){
+	private ConveyorAgent conveyorAgent;
+
+	public ConveyorGraphics(Server s, Agent a) {
+
 		location = new Location(0,0);
 		kitsOnConveyor = new ArrayList<KitGraphics>();
 		kitsToLeave = new ArrayList<KitGraphics>();
 		server = s;
-		velocity = 1;
+		velocity = 10;
+		conveyorAgent = (ConveyorAgent)a;
+		
 	} 
 	
-	public void bringEmptyKit(KitGraphics kg){
-		kitsOnConveyor.add(kg);
-	} 
 
-	public void giveKitToKitRobot(){
-		
-		//sending the kit to be taken away to KitRobotGraphics
-		//server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.CONVEYOR_TARGET, null));  //temporary command name until Kit Robot finalized
-		//server.sendData(new Request("GetThisKit", ))
+	public void bringEmptyKit(KitGraphics kg) {
+		kitsOnConveyor.add(kg);
+		server.sendData(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
+				Constants.CONVEYOR_TARGET, null));
+	}
+
+	public void giveKitToKitRobot() {
+
+		// sending the kit to be taken away to KitRobotGraphics
+		//server.sendData(new Request(
+			//	Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
+				//Constants.CONVEYOR_TARGET, null)); // temporary command name
+													// until Kit Robot finalized
+		// server.sendData(new Request("GetThisKit", ))
 		kitsOnConveyor.remove(0);
-	} 
+
+	}
 
 	/**
 	 * send a completed kit off-screen
-	 *
 	 * @param kit - a kit must be received from KitRobot before sending it away
 	 */
-	public void receiveKit(KitGraphics kg){
+	public void receiveKit(KitGraphics kg) {
 		kitsOnConveyor.add(kg);
 	}
-	
-	public void receiveData(Request r){
+
+	@Override
+	public void receiveData(Request r) {
 		String target = r.getTarget();
 		String command = r.getCommand();
 		Object object = r.getData();
-		
-     
-		if(target.equals(Constants.CONVEYOR_TARGET)) {
-			if(command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
-				//parsing object to kit object
-					giveKitToKitRobot();	
-			}
-			
-			else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
-				kitsToLeave.add(new KitGraphics());
-				server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
-			} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
-				//need to somehow send an integer to change the velocity
-			} else if (command.equals(Constants.CONVEYOR_SEND_ANIMATION_COMMAND)) {
-				//still not quite sure how to implement this yet
+
+		if (target.equals(Constants.CONVEYOR_TARGET)) {
+			if (command
+					.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
+				// parsing object to kit object
+
+				giveKitToKitRobot();
+			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
+				System.out.println("Conveyor receives signal from kit");
+				kitsToLeave.add(new KitGraphics(server));
+				server.sendData(new Request(
+						Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
+						Constants.CONVEYOR_TARGET, null));
+
+			} else if (command
+					.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
+				// need to somehow send an integer to change the velocity
+			} else if (command
+					.equals(Constants.CONVEYOR_SEND_ANIMATION_COMMAND)) {
+				// still not quite sure how to implement this yet
 			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
-				bringEmptyKit(new KitGraphics());
-				server.sendData(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
+				// bringEmptyKit(new KitGraphics());
+				// server.sendData(new
+				// Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
+				// Constants.CONVEYOR_TARGET, null));
+				StandAgent stand = (StandAgent) server.agents.get("Stand");
+				stand.msgMakeKits(1);
+			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND + Constants.DONE_SUFFIX)) {
+				conveyorAgent.msgBringEmptyKitDone();
+			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND + Constants.DONE_SUFFIX)) {
+				conveyorAgent.msgReceiveKitDone();
 			}
 		}
-}
+	}
 
 	@Override
 	public void msgBringEmptyKit(KitGraphics kit) {
-		// TODO Auto-generated method stub
+		bringEmptyKit(kit);
 	}
 
 	@Override
 	public void msgGiveKitToKitRobot(KitGraphics kit) {
-		// TODO Auto-generated method stub			
+		giveKitToKitRobot();
+		conveyorAgent.msgGiveKitToKitRobotDone();
 	}
 
 	@Override
 	public void msgReceiveKit(KitGraphics kit) {
-		// TODO Auto-generated method stub			
-	} 	
-	
+		// TODO Auto-generated method stub
+	}
+
 }

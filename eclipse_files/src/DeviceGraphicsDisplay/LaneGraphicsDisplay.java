@@ -1,13 +1,12 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import factory.data.PartType;
+import agent.data.PartType;
+
 
 import Networking.Client;
 import Networking.Request;
@@ -38,14 +37,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	// y-coordinates of Part on Lane, depending on laneID
 	// TODO: ADJUST THESE LATER. NOT FOR V0, NOT IN DESIGN
-	private static final int LANE0_Y = 500;
-	private static final int LANE1_Y = 450;
-	private static final int LANE2_Y = 400;
-	private static final int LANE3_Y = 350;
-	private static final int LANE4_Y = 300;
-	private static final int LANE5_Y = 250;
-	private static final int LANE6_Y = 200;
-	private static final int LANE7_Y = 150;
+	private static final int LANE0_Y = 100;
+	private static final int LANE1_Y = 175;
+	private static final int LANE2_Y = 250;
+	private static final int LANE3_Y = 325;
+	private static final int LANE4_Y = 400;
+	private static final int LANE5_Y = 475;
+	private static final int LANE6_Y = 550;
+	private static final int LANE7_Y = 625;
 
 	// stores the parts on the lane
 	private ArrayList<PartGraphicsDisplay> partsOnLane;
@@ -64,10 +63,13 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private int amplitude = 5;
 	// true if Lane is on
 	private boolean laneOn = true;
-	// counter
-	private int counter = 0;
+	// counters
+	private int moveCounter = 0;
+	// use to make sure only 1 message is sent to agent for each part that reaches end of lane
+	private int partDoneCounter = 0;
 	// V0 only, stops parts from going down lane without bin
 	private boolean binIsHere = false;
+	private boolean partAtLaneEnd = false;
 
 	/**
 	 * LGD constructor
@@ -140,18 +142,25 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 			// animate parts moving down lane
 			if (partsOnLane != null && binIsHere) {
+				
 				int min = (MAX_PARTS < partsOnLane.size()) ? MAX_PARTS
 						: partsOnLane.size(); // whichever is less
+				
 				for (int i = 0; i < min; i++) {
 					PartGraphicsDisplay pgd = partsOnLane.get(i);
 					Location loc = pgd.getLocation();
 
 					if (i == 0) { // first part on the lane
-						if (loc.getX() > LANE_END_X) { // hasn't reached end of
-														// lane
+						if (loc.getX() > LANE_END_X) { // hasn't reached end of lane
 							loc.incrementX(-amplitude);
+							partAtLaneEnd = false;
+						} else { // at end of lane
+							partAtLaneEnd = true;
+							msgAgentReceivePartDone();
 						}
-					} else {
+						
+					} else { // all other parts on lane (not first)
+						
 						// part in front of i
 						PartGraphicsDisplay pgdInFront = partsOnLane.get(i - 1);
 						Location locInFront = pgdInFront.getLocation();
@@ -163,7 +172,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 							loc.incrementX(-amplitude);
 						}
 					}
-					vibrateParts(counter, loc);
+					vibrateParts(moveCounter, loc);
 					pgd.setLocation(loc);
 					pgd.draw(c, g); // TODO: remove later, for v0 only
 				}
@@ -183,6 +192,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	public void givePartToNest() {
 		partsOnLane.remove(0);
+		partDoneCounter = 0;
 	}
 
 	/**
@@ -217,6 +227,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (cmd.equals(Constants.LANE_SET_STARTLOC_COMMAND)) {
 			laneLoc = (Location) r.getData();
+			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
 			if (binIsHere) {
 				PartType partType = (PartType) r.getData();
@@ -225,10 +236,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 						laneLoc.getY() + (PART_WIDTH / 2));
 				pg.setLocation(newLoc);
 				partsOnLane.add(pg);
-				laneManager.sendData(new Request(
-						Constants.LANE_RECEIVE_PART_COMMAND
-								+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+":"+laneID,
-						null));
 			}
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
@@ -275,8 +282,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Animates the lane lines
 	 */
 	private void laneMove() {
-		counter++;
-		if (counter % (PART_WIDTH / amplitude) == 0) { // reset lane lines
+		moveCounter++;
+		if (moveCounter % (PART_WIDTH / amplitude) == 0) { // reset lane lines
 			resetLaneLineLocs();
 		} else {
 			for (int i = 0; i < laneLines.size(); i++) {
@@ -320,7 +327,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			laneLoc = new Location(LANE_BEG_X, LANE7_Y);
 			break;
 		default:
-			System.out.println("id not recognized.");
+			System.out.println("LGD: ID not recognized.");
 		}
 	}
 
@@ -351,6 +358,18 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			loc.incrementY(2);
 		} else {
 			loc.incrementY(-2);
+		}
+	}
+	
+	/**
+	 * Tells the agent that the part has reached the end of the lane.
+	 * Make sure only sends message once for each part, not on every call to draw.
+	 */
+	private void msgAgentReceivePartDone() {
+		if(partAtLaneEnd && (partDoneCounter == 0)) {
+			laneManager.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
+					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+":"+laneID, null));
+			partDoneCounter++;
 		}
 	}
 

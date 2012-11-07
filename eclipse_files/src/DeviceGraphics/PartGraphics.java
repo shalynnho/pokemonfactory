@@ -3,8 +3,9 @@ package DeviceGraphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 
+import agent.data.PartType;
+
 import Utils.Location;
-import factory.data.PartType;
 
 public class PartGraphics {
 	PartType partType;

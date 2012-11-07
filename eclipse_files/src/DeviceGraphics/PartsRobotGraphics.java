@@ -2,20 +2,19 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
-import agent.Agent;
-
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
+import agent.Agent;
+import agent.PartsRobotAgent;
 
-import factory.PartsRobotAgent;
+
 //import factory.data.Kit;
-import factory.data.Part;
 
 
 
-public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterfaces.PartsRobotGraphics  {
+public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics, DeviceGraphics {
 
 	Location initialLocation; // initial location of robot
 	Location currentLocation; // current location of robot
@@ -56,7 +55,7 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 	/*public void pickUpPart(Part part){
 		//currentLocation = location;
 		//Animation(currentLocation, 10);
-		PartGraphics pg = part.part;
+		PartGraphics pg = part.partGraphics;
 		partArray.add(pg);
 		rotateArm();
 		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, null));

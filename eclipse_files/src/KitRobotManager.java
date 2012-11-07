@@ -57,16 +57,16 @@ public class KitRobotManager extends Client implements ActionListener{
 		JButton newKit = new JButton("New Kit");
 		newKit.addActionListener(new NetworkingButtonListener(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, writer));
 		
-		JButton moveKitToLocation1 =new JButton("moveKitToLocation1");
-		moveKitToLocation1.addActionListener(new NetworkingButtonListener("moveKitToStand10", Constants.KIT_ROBOT_TARGET,writer));	
+	//	JButton moveKitToLocation1 =new JButton("moveKitToLocation1");
+	//	moveKitToLocation1.addActionListener(new NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR, Constants.KIT_ROBOT_TARGET,writer));	
 		
-		JButton moveKitFromLocation1ToConveyor= new JButton("moveKitFromLoc1ToConveyor");
+	//	JButton moveKitFromLocation1ToConveyor= new JButton("moveKitFromLoc1ToConveyor");
 		
-		moveKitFromLocation1ToConveyor.addActionListener(new NetworkingButtonListener("moveKitFromLocation1ToConveyor", Constants.KIT_ROBOT_TARGET,writer));
+	//	moveKitFromLocation1ToConveyor.addActionListener(new NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR, Constants.KIT_ROBOT_TARGET,writer));
 		
 		panel.add(newKit);  
-		panel.add(moveKitToLocation1);
-		panel.add(moveKitFromLocation1ToConveyor);
+	//	panel.add(moveKitToLocation1);
+	//	panel.add(moveKitFromLocation1ToConveyor);
 	}
 	
 	public void initDevices() {
@@ -97,15 +97,18 @@ public class KitRobotManager extends Client implements ActionListener{
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
 		
 		for(DeviceGraphicsDisplay device : devices.values()) {
-			device.draw(this, g);
+			
 			if(device instanceof KitRobotGraphicsDisplay)
 			{
-				KitRobotGraphicsDisplay tempKitRobot=(KitRobotGraphicsDisplay)device;
-				if(tempKitRobot.isAnimationToConveyorDone())
+				KitRobotGraphicsDisplay tempkrgdisplay=(KitRobotGraphicsDisplay)device;
+				if(tempkrgdisplay.isAnimationToConveyorDone())
 				{
-					writer.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
+					System.out.println("passes through");
+					writer.sendData(new	Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
 				}
 			}
+			device.draw(this, g);
+		
 		}
 	}
 

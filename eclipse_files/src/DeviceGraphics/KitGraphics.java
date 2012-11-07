@@ -3,21 +3,24 @@ package DeviceGraphics;
 import java.util.ArrayList;
 
 import Networking.Request;
+import Networking.Server;
+import Utils.Constants;
 import Utils.Location;
+import agent.data.PartType;
 
-import factory.data.PartType;
 
-public class KitGraphics extends DeviceGraphics {
+public class KitGraphics implements DeviceGraphics {
 	
 	ArrayList<PartGraphics> parts; // parts currently in the kit
 	ArrayList<PartType> partTypes; // part types required to make kit
 	Location kitLocation;
 	
 	Boolean isFull; //Says whether or not the kit is full
-
-	// ***********
-	public KitGraphics () {
-	isFull = false;
+	Server server;
+	
+	public KitGraphics (Server server) {
+		this.server = server;
+		isFull = false;
 	}
 	
 	
@@ -66,14 +69,17 @@ public class KitGraphics extends DeviceGraphics {
 	public Boolean getFull () {
 		return isFull;
 	}
-
+	
+	public void receivePart(PartGraphics part) {
+		addPart(part);
+		server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND, Constants.KIT_TARGET, parts));
+	}
 
 	@Override
 	public void receiveData(Request req) {
 		if (req.getCommand().equals("Testing")) {
 			addPart(new PartGraphics (PartType.A));
 		}
-		
 	}
 	
 }

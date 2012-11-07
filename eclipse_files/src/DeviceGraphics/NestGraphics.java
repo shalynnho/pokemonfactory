@@ -3,14 +3,15 @@ package DeviceGraphics;
 import java.util.ArrayList;
 import java.util.Map;
 
+import DeviceGraphicsDisplay.PartGraphicsDisplay;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
 import agent.Agent;
-import factory.NestAgent;
-import factory.data.Part;
-import factory.data.PartType;
+import agent.NestAgent;
+import agent.data.Part;
+import agent.data.PartType;
 
 /**
  * This class represents the graphics logic for a nest.
@@ -18,7 +19,7 @@ import factory.data.PartType;
  * @author Shalynn Ho, Aaron Harris, Harry Trieu
  *
  */
-public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.NestGraphics {
+public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGraphics {
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS = 8;
 	
@@ -35,19 +36,22 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	private ArrayList<PartGraphics> partsInNest;
 	
 	// true during Nest purge cycle, can't receive parts
-	private boolean purging;
+	private boolean isPurging;
 	// true if nest is full, can't receive parts
 	private boolean isFull;
 	// true if spot is filled, false if not
 	private ArrayList<Boolean> nestSpots;
 	// y-coordinate of the Nest
 	private static int NEST_Y;
+	// location of the nest
+	private Location nestLocation;
+	
 	
 	public NestGraphics(Server s, int nid, Agent agent) {
 		server = s;
 		nestID = nid;
 		nestAgent = (NestAgent) agent;
-		
+		nestLocation = new Location(600, 100 + nestID * 75);
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
 		nestSpots = new ArrayList<Boolean>(MAX_PARTS);
 		
@@ -74,23 +78,21 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	/**
 	 * @param - 
 	 */
-	public void receivePart(Part p) {
-//		PartGraphics pg = p.part;
-//		(!isFull()) partsInNest.add(pg);
-//		pg.setLocation(newLocation); // set part location to next empty spot
-//		PartType pt = p.type;
-//		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+nestID, pt));
+	public void receivePart(PartGraphics pg) {
+		partsInNest.add(pg);
+		addPartToCorrectLocation(pg, partsInNest.size()); // set part location to next empty spot
+		PartType pt = pg.getPartType();
+		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+nestID, pt));
 	}
 	
 	/**
 	 * @param
 	 */
-	public void givePartToPartsRobot(Part p) {
-//		PartGraphics pg = p.part;
-//		int i = partsInNest.indexOf(pg); // this might not work. depends on if part passed in matches what is already in nest
-//										// otherwise, must find a way to figure out which part is being taken from which spot in the nest
-//		partsInNest.remove(i);
-//		server.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
+	public void givePartToPartsRobot(PartGraphics pg) {
+		int i = partsInNest.indexOf(pg); // this might not work. depends on if part passed in matches what is already in nest
+										// otherwise, must find a way to figure out which part is being taken from which spot in the nest
+		partsInNest.remove(i);
+		server.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
 	}
 	
 	/**
@@ -98,8 +100,8 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	 */
 	public void purge() {
 //		purging = true;
-//		partsInNest.clear();
-//		server.sendData(new Request(Constants.NEST_PURGE_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
+		partsInNest.clear();
+		server.sendData(new Request(Constants.NEST_PURGE_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
 	}
 	
 	/**
@@ -107,12 +109,35 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 	 * @param r - the request to be parsed
 	 */
 	public void receiveData(Request req) {
-		if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
-//			nestAgent.msgReceivePartDone();
-		} else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX)) {
-//			nestAgent.msgGivePartToPartsRobotDone();
-		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
-//			nestAgent.msgPurgingDone();
+		if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND)) {
+			nestAgent.msgReceivePartDone();
+		}else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)) {
+			nestAgent.msgGivePartToPartsRobotDone();
+		}else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
+			nestAgent.msgPurgingDone();
+		}else if(req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)){
+			server.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
+		}else if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND)){
+			server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
+		}
+		
+	}
+	
+	public void addPartToCorrectLocation(PartGraphics temp, int i){
+		if(i < 4) {
+			temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY()+1)));
+		} else {
+			temp.setLocation(new Location((nestLocation.getX()+(i-4)*20),(nestLocation.getY()+23))); 
+		}
+	}
+	
+	/**
+	 * update location of the parts
+	 * @param x
+	 */
+	public void updateLocationOfParts(ArrayList<PartGraphics> x){
+		for(int i=0; i<x.size(); i++){
+			addPartToCorrectLocation(x.get(i),i);
 		}
 	}
 	
@@ -182,19 +207,10 @@ public class NestGraphics extends DeviceGraphics implements GraphicsInterfaces.N
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	// V0 ONLY
-	public void receivePart(PartGraphics part) {
-		// TODO Auto-generated method stub
-//		partsInNest.add(part);
-//		part.setLocation(newLocation);
-//		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+nestID, part.getPartType()));
-	}
-
-	@Override
-	// V0 ONLY
-	public void givePartToPartsRobot(PartGraphics part) {
-		// TODO Auto-generated method stub
-		
-	}
+	
+//	@Override
+//	 V0 ONLY
+//	public void givePartToPartsRobot(PartGraphics part) {
+//		 TODO Auto-generated method stub	}
+	
 }

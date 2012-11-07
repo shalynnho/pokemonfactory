@@ -4,15 +4,15 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
-
 import javax.swing.JComponent;
+
+import agent.data.PartType;
 
 import DeviceGraphics.DeviceGraphics;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
-import factory.data.PartType;
 
 /**
  * @author Vansh Jain, Shalynn Ho, Harry Trieu
@@ -50,7 +50,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		isFull = true;
 		nestLocation = new Location(600, 100 + nestID * 75);
 		
-		// Begin V0 requirements
+//		 TODO may need to remove temp later today - cannot create a random PartType
 		for (int i = 0; i < 8; i++) {
 			PartGraphicsDisplay temp = new PartGraphicsDisplay(PartType.A);
 			if(i < 4) {
@@ -93,29 +93,30 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND)) {
 			// TODO code to handle command
-			// send a request back to the server saying done
-			if(partsInNest.size()>=MAX_PARTS){
+			if(partsInNest.size() >= MAX_PARTS) {
+				// TODO should this be a message back to the server?
 				System.out.println("Nest is full");
-			} else{
+			} else {
+				// TODO find out correct PartType from server?
 				PartGraphicsDisplay temp = new PartGraphicsDisplay(PartType.A);
 				addPartToCorrectLocation(temp, partsInNest.size());
 				//choosing the correct location of the part
-				client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
+				partsInNest.add(temp);
 			}
+			client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET+":"+nestID, null));
 			
-		} else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX)) {
+		} else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)) {
 			// TODO code to handle command
-			// send a request back to the server saying done
 			partsInNest.remove(0);
 			updateLocationOfParts(partsInNest);
-			client.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
-		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
+			client.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET+":"+nestID, null));
+		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND)) {
 			// TODO code to handle command
-			// send a request back to the server saying done
-			for(int i=0; i<partsInNest.size();i++){
+			for(int i = 0; i < partsInNest.size(); i++){
 				partsInNest.remove(0);
 			}
-			client.sendData(new Request(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
+			
+			client.sendData(new Request(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET+":"+nestID, null));
 		}	
 	}
 
@@ -127,7 +128,11 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 	}
 	
-	//add part to the correct location
+	/**
+	 * add part to the correct location
+	 * @param temp
+	 * @param i
+	 */
 	public void addPartToCorrectLocation(PartGraphicsDisplay temp, int i){
 		if(i < 4) {
 			temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY()+1)));
@@ -136,7 +141,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 	
-	//update location of parts
+	/**
+	 * update location of the parts
+	 * @param x
+	 */
 	public void updateLocationOfParts(ArrayList<PartGraphicsDisplay> x){
 		for(int i=0; i<x.size(); i++){
 			addPartToCorrectLocation(x.get(i),i);

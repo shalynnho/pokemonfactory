@@ -2,9 +2,10 @@ package DeviceGraphics;
 
 import Networking.*;
 import Utils.*;
-import factory.data.*;
-import factory.*;
 import agent.Agent;
+import agent.FeederAgent;
+import agent.LaneAgent;
+import agent.data.*;
 
 import java.util.ArrayList;
 
@@ -14,13 +15,31 @@ import java.util.ArrayList;
  * @author Shalynn Ho
  * 
  */
-public class LaneGraphics extends DeviceGraphics implements
-		GraphicsInterfaces.LaneGraphics {
+public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGraphics {
+	// width and height of the part
+	private static final int PART_WIDTH = 20;
+	// horizontal length of the Lane image
+	private static final int LANE_LENGTH = 400;
 	// max number of parts that can be on a Lane
-	private static final int MAX_PARTS = 8;
+	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
+	// start and end x-coordinates of Part on the Lane
+	private static final int LANE_BEG_X = 599;
+	private static final int LANE_END_X = 199;
+	
+	// y-coordinates of Part on Lane, depending on laneID
+	// TODO: ADJUST THESE LATER. NOT FOR V0, NOT IN DESIGN
+	private static final int LANE0_Y = 100;
+	private static final int LANE1_Y = 175;
+	private static final int LANE2_Y = 250;
+	private static final int LANE3_Y = 325;
+	private static final int LANE4_Y = 400;
+	private static final int LANE5_Y = 475;
+	private static final int LANE6_Y = 550;
+	private static final int LANE7_Y = 625;
 
 	// start location of the part
-	private Location startLoc;
+	private Location laneLoc, partStart, partEnd;
+	private int endY;
 
 	// instructions to display graphics will be sent through the server
 	private Server server;
@@ -28,17 +47,17 @@ public class LaneGraphics extends DeviceGraphics implements
 	private int laneID;
 	// the lane agent
 	private LaneAgent laneAgent;
-	// the Nest associated with this LaneGraphics object
-//	private NestGraphics nest;
 
+	//REMOVE FOR V1 AND IN CONSTRUCTOR/DEVICES
+	FeederAgent feederAgent;
+	
 	// dynamically stores Parts currently on Lane
 	private ArrayList<PartGraphics> partsOnLane;
 	// storing for the 201 agents
-	private ArrayList<Part> agentPartsOnLane;
+//	private ArrayList<Part> agentPartsOnLane;
 
 	// vibration setting; how quickly parts vibrate down Lane
 	private int amplitude;
-
 	// true if Lane is on
 	private boolean laneOn;
 
@@ -48,16 +67,27 @@ public class LaneGraphics extends DeviceGraphics implements
 	 * @param id - ID of this lane
 	 * @param la - the LaneAgent
 	 */
-	public LaneGraphics(Server s, int id, Agent la) {
+
+	public LaneGraphics(Server s, int id, Agent la, Agent f) {
 		server = s;
 		laneID = id;
+
 		laneAgent = (LaneAgent) la;
+		feederAgent = (FeederAgent) f;
+
 		
 		// initialize lane components
 		partsOnLane = new ArrayList<PartGraphics>();
-		agentPartsOnLane = new ArrayList<Part>();
+//		agentPartsOnLane = new ArrayList<Part>();
 		amplitude = 5;
 		laneOn = true;
+		
+		setLaneLoc(laneID);
+		endY = laneLoc.getY();
+		
+//		 for reference only
+//		partStart = new Location(LANE_BEG_X, endY + (PART_WIDTH / 2));
+//		partEnd = new Location(LANE_END_X, endY);
 	}
 
 	/**
@@ -75,9 +105,7 @@ public class LaneGraphics extends DeviceGraphics implements
 	 * @param pg
 	 *            - the part passed to the nest associated with this lane
 	 */
-	public void givePartToNest(Part p) {
-		PartGraphics pg = p.part;
-
+	public void givePartToNest(PartGraphics pg) {
 		partsOnLane.remove(0); // make sure to check that correct part is removed
 		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET +":"+ laneID, null));
 	}
@@ -87,44 +115,26 @@ public class LaneGraphics extends DeviceGraphics implements
 	 */
 	public void purge() {
 		partsOnLane.clear();
-		agentPartsOnLane.clear();
+//		agentPartsOnLane.clear();
 		// TODO: set location of parts to fall off lane
 		server.sendData(new Request(Constants.LANE_PURGE_COMMAND,
 				Constants.LANE_TARGET  +":"+  laneID, null));
 	}
-
+	
 	/**
 	 * Called when part is delivered to this lane
 	 * 
 	 * @param pg
 	 *            - the part passed to this lane
 	 */
-	public void receivePart(Part p) {
-		agentPartsOnLane.add(p);
-		PartGraphics pg = p.part;
-		partsOnLane.add(pg);
-		pg.setLocation(startLoc);
-		PartType pt = p.type;
-		
-		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET+laneID, pt));
-		
-		// later pass if good/bad part
-	}
-	
-	/**
-	 * TODO: OVERLOADED TEST METHOD FOR V0, REMOVE LATER
-	 * 
-	 * @param pg
-	 *            - the part passed to this lane
-	 */
 	public void receivePart(PartGraphics pg) {
 		partsOnLane.add(pg);
-		pg.setLocation(startLoc);
+		pg.setLocation(new Location (LANE_BEG_X, endY + (PART_WIDTH / 2)));
 		PartType pt = pg.getPartType();
 		
 		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET +":"+ laneID, pt));
 		
-		// later pass if good/bad part
+		// TODO: (V2) later pass if good/bad part
 	}
 
 	/**
@@ -133,20 +143,28 @@ public class LaneGraphics extends DeviceGraphics implements
 	 */
 	public void receiveData(Request r) {
 		String cmd = r.getCommand();	
-		// TODO: We want confirmation from Display each time an animation is
-		// completed.
 		
 		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {	// testing purposes only, remove later
-			receivePart(new PartGraphics(PartType.A));			
+			receivePart(new PartGraphics(PartType.A));
+			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND+Constants.DONE_SUFFIX)) {
-			// add these back later
-			//laneAgent.msgReceivePartDone(agentPartsOnLane.get(agentPartsOnLane.size()-1));
+			// TODO: add these back later
+			PartGraphics p = partsOnLane.get(partsOnLane.size()-1);
+			p.setLocation(new Location(LANE_END_X, endY));
+			laneAgent.msgReceivePartDone(p);
+			
+			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
-			// add these back later
-			//laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
-			//agentPartsOnLane.remove(0);
+			// TODO: add these back later
+//			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
+//			agentPartsOnLane.remove(0);
+			laneAgent.msgGivePartToNestDone(partsOnLane.get(0));
+			partsOnLane.remove(0);
 		}
-	
+		else if (cmd.equals("TESTING_LANE")) {
+			System.out.println("Got TESTING_LANE request");
+			initializeV0Lane();
+		}
 	}
 
 	/**
@@ -174,20 +192,63 @@ public class LaneGraphics extends DeviceGraphics implements
 	}
 
 	/**
-	 * Sends an instance of Animation through the server. Tells the display
-	 * class end Location of animation and duration allotted.
-	 */
-	private void sendAnimation(Animation ani) {
-		server.sendData(new Request(Constants.LANE_SEND_ANIMATION_COMMAND,
-				Constants.LANE_TARGET  +":"+  laneID, ani));
-	}
-
-	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 	}
+	
+	/**
+	 * Sets lane location depending on ID assigned
+	 * 
+	 * @param id
+	 *            - id of this lane
+	 */
+	private void setLaneLoc(int id) {
 
+		switch (id) {
+		case 0:
+			laneLoc = new Location(LANE_BEG_X, LANE0_Y);
+			break;
+		case 1:
+			laneLoc = new Location(LANE_BEG_X, LANE1_Y);
+			break;
+		case 2:
+			laneLoc = new Location(LANE_BEG_X, LANE2_Y);
+			break;
+		case 3:
+			laneLoc = new Location(LANE_BEG_X, LANE3_Y);
+			break;
+		case 4:
+			laneLoc = new Location(LANE_BEG_X, LANE4_Y);
+			break;
+		case 5:
+			laneLoc = new Location(LANE_BEG_X, LANE5_Y);
+			break;
+		case 6:
+			laneLoc = new Location(LANE_BEG_X, LANE6_Y);
+			break;
+		case 7:
+			laneLoc = new Location(LANE_BEG_X, LANE7_Y);
+			break;
+		default:
+			System.out.println("LGD: ID not recognized.");
+		}
+	}
+
+	
+	//GET RID OF FOR V1
+	public void initializeV0Lane() {
+		feederAgent.thisLaneAgent(laneAgent);
+		laneAgent.msgINeedPart(PartType.A);
+		/*laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);*/
+		
+	}
+	
+	
 }
