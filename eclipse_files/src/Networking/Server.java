@@ -168,8 +168,11 @@ public class Server {
 		partsrobot.setStand(stand);
 		camera.setPartRobot(partsrobot);
 		camera.setKitRobot(kitrobot);
+
+		//V0 heck
 		nest0.FillWithParts();
 		nest1.FillWithParts();
+		//end V0 heck 
 		camera.setNest(nest0);
 		camera.setNest(nest1);
 

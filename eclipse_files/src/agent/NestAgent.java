@@ -25,7 +25,7 @@ public class NestAgent extends Agent implements Nest {
 	int full = 9;
 	public boolean takingParts = false;
 
-	public NestGraphics guiNest;
+	public NestGraphics nestGraphics;
 
 	public Semaphore animation = new Semaphore(0, true);
 
@@ -33,7 +33,6 @@ public class NestAgent extends Agent implements Nest {
 
 	LaneAgent lane;
 	CameraAgent camera;
-	NestGraphics nestGUI;
 
 	public class MyPart {
 		Part part;
@@ -58,9 +57,9 @@ public class NestAgent extends Agent implements Nest {
 	// MESSAGES
 	@Override
 	public void msgHereIsPartType(PartType type) {
-		// GUINest.purge();
+		// nestGraphics.purge();
 		/*
-		 * if(nestGUI != null) { guiNest.purge(); }
+		 * if(nestGraphics != null) { nestGraphics.purge(); }
 		 */
 		currentPartType = type;
 		countRequest = 0;
@@ -80,8 +79,8 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgTakingPart(Part p) {
 		print("giving partsRobot part");
-		if (nestGUI != null) {
-			nestGUI.givePartToPartsRobot(p.partGraphics);
+		if (nestGraphics != null) {
+			nestGraphics.givePartToPartsRobot(p.partGraphics);
 		}
 		/*
 		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
@@ -161,8 +160,8 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void moveToPosition(Part part) {
 		print("Moving part to proper nest location");
-		if (nestGUI != null) {
-			nestGUI.receivePart(part.partGraphics);
+		if (nestGraphics != null) {
+			nestGraphics.receivePart(part.partGraphics);
 		}
 		try {
 			animation.acquire();
@@ -189,7 +188,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void updateParts() {
-		// GUINest.updatePartsList();
+		// nestGraphics.updatePartsList();
 		/*
 		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); } stateChanged();
@@ -213,7 +212,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics nest) {
-		this.guiNest = (NestGraphics) nest;
+		this.nestGraphics = (NestGraphics) nest;
 	}
 
 	public List<Part> getParts() {
@@ -231,7 +230,8 @@ public class NestAgent extends Agent implements Nest {
 		}
 		return types;
 	}
-	//HACK
+	
+	//HACK for v0 only
 	public void FillWithParts() {
 		for(int i = 1; i < full;i++){
 			currentParts.add(new MyPart(new Part(PartType.A)));

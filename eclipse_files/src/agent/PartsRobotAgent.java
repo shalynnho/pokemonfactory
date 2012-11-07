@@ -59,6 +59,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}
 	}
 
+	//Initialize Arms
 	public void Initialize(){
 		for(int i = 0; i < 4; i++){
 			Arms.add(new Arm());
@@ -82,7 +83,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	Stand stand;
 	PartsRobotGraphics partsRobotGraphics;
 
-	public Semaphore animation = new Semaphore(1, true);
+	public Semaphore animation = new Semaphore(0, true);
 
 	// public Semaphore accessKit = new Semaphore(0, true);
 
@@ -157,14 +158,13 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				
 				synchronized (GoodParts) {
 					for (Nest nest : GoodParts.keySet()) {
-						System.out.println("test");
+						
 						// Going through all the good parts
 						for (Part part : GoodParts.get(nest)) {
-							System.out.println("1");
+							
 							for (MyKit mk : MyKits) {
 								// Checking if the good part is needed by
 								// either kit
-								System.out.println("2");
 								if (mk.kit.needPart(part)) {
 									print("Found a part I need");
 									for (Arm arm : Arms) {
@@ -238,6 +238,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				// Tells the kit it has the part now
 				mk.kit.parts.add(arm.part);
 				if (mk.kit.kitGraphics != null) {
+					System.out.println("receiving part");
 					mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
 				}
 				// mk.kit.partsExpected.remove(arm.part);
