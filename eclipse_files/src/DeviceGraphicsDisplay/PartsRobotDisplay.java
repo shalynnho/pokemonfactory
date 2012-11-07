@@ -93,26 +93,26 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		if(pickup){
 			
 				if(currentLocation.getX()<loc.getX()){
-				currentLocation.incrementX(1);
+				currentLocation.incrementX(5);
 				partStartLoc1.setX(currentLocation.getX());
 				partStartLoc2.setX(currentLocation.getX()+30);
 				partStartLoc3.setX(currentLocation.getX());
 				partStartLoc4.setX(currentLocation.getX()+30);
 				} else if(currentLocation.getX()>loc.getX()){
-					currentLocation.incrementX(-1);
+					currentLocation.incrementX(-5);
 					partStartLoc1.setX(currentLocation.getX());
 					partStartLoc2.setX(currentLocation.getX()+30);
 					partStartLoc3.setX(currentLocation.getX());
 					partStartLoc4.setX(currentLocation.getX()+30);
 					}
 				else if(currentLocation.getY()>loc.getY()){
-				currentLocation.incrementY(-1);
+				currentLocation.incrementY(-5);
 				partStartLoc1.setY(currentLocation.getY());
 				partStartLoc2.setY(currentLocation.getY());
 				partStartLoc3.setY(currentLocation.getY()+30);
 				partStartLoc4.setY(currentLocation.getY()+30);
 				}else if(currentLocation.getY()<loc.getY()){
-					currentLocation.incrementY(1);
+					currentLocation.incrementY(5);
 					partStartLoc1.setY(currentLocation.getY());
 					partStartLoc2.setY(currentLocation.getY());
 					partStartLoc3.setY(currentLocation.getY()+30);
