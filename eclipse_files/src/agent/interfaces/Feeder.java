@@ -2,19 +2,24 @@ package agent.interfaces;
 
 import agent.GantryAgent;
 import agent.LaneAgent;
+import agent.data.Bin;
 import agent.data.Part;
 import agent.data.PartType;
 import GraphicsInterfaces.FeederGraphics;
 
 public interface Feeder {
 
-	public abstract void msgINeedPart(PartType type);
+	public abstract void msgINeedPart(PartType type, LaneAgent lane);
 
 	public abstract void msgHereAreParts(Part p);
 
 	public abstract void msgGivePartToDiverterDone(Part part);
 
 	public abstract void msgGivePartToLaneDone(Part part);
+	
+	public abstract void msgRecieveBinDone(Bin bin);
+	
+	public abstract void msgPurgeBinDone(Bin bin);
 
 	public abstract boolean pickAndExecuteAnAction();
 
