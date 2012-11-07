@@ -24,7 +24,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	int rotationAxisY;
 	int position;
 	boolean AnimationToConveyorDone;
-	ArrayList<PartGraphics> parts;
+	ArrayList<PartGraphics> parts = new ArrayList<PartGraphics>();
 
 	AffineTransform trans = new AffineTransform();
 
