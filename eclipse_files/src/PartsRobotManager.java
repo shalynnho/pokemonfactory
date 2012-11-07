@@ -84,7 +84,7 @@ public class PartsRobotManager extends Client implements ActionListener{
 		panel.add(removeNest);
 		
 		JButton addToNest = new JButton("add to nest");
-		removeNest.addActionListener(new NetworkingButtonListener(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+0, writer));
+		addToNest.addActionListener(new NetworkingButtonListener(Constants.NEST_RECEIVE_PART_COMMAND, Constants.NEST_TARGET+":"+0, writer));
 		panel.add(addToNest);
 		
 		timer = new Timer(Constants.TIMER_DELAY, this);
