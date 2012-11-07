@@ -122,6 +122,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgPickUpPartDone() {
+		print("Picking up part done by GUI");
 		animation.release();
 		stateChanged();
 	}
@@ -132,6 +133,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgGivePartToKitDone() {
+		print("Part given to kit by GUI");
 		animation.release();
 		stateChanged();
 	}

@@ -91,7 +91,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
 	public void draw(JComponent c, Graphics2D g){
 		if(pickup){
-			for (int i = 0; i < 5; i++){
+			
 				if(currentLocation.getX()<loc.getX()){
 				currentLocation.incrementX(1);
 				partStartLoc1.setX(currentLocation.getX());
@@ -122,7 +122,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				if(currentLocation.getX() == loc.getX() && currentLocation.getY() == loc.getY()){
 					System.out.println("at parts location");
 					pickUpPart();
-				}
+				
 			    
 			}
 			/*int i;
