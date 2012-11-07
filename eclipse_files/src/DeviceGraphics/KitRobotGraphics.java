@@ -82,6 +82,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics, De
 
 	@Override
 	public void msgPlaceKitOnConveyor() {
+		
+		server.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_CONVEYOR, Constants.KIT_ROBOT_TARGET, null));
+		
 		positions[1]=positions[2];
 		positions[2]=null;
 		//server.sendData(new Request(Constants.CONVEYOR_RECEIVES_KIT_ROBOT_PICK_COMMAND, Constants.KIT_ROBOT_TARGET, null ));
@@ -95,15 +98,15 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics, De
 		String command=req.getCommand();
 		Object object=req.getData();
 		
-		if(command.equals("moveKitToStand10"))
+		if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR))
 		{
-			msgPlaceKitOnStand1(null);
-			server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,Constants.CONVEYOR_TARGET,null));
+			msgPlaceKitOnStand(null, 1);
+			
 		}
-		else if(command.equals("moveKitFromLocation1ToConveyor"))
+		else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR))
 		{
 			
-			server.sendData(new Request("moveit", Constants.KIT_ROBOT_TARGET, null));
+			msgPlaceKitOnConveyor();
 			//server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET,null));
 		}
 		else if(command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND))
@@ -136,7 +139,8 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics, De
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
 		if(location==1)
 		{
-			msgPlaceKitOnStand1(kit); 
+			msgPlaceKitOnStand1(kit);
+			server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,Constants.CONVEYOR_TARGET,null));
 		}
 		else if(location==2)
 		{
