@@ -167,8 +167,11 @@ public abstract class Constants {
 	public static final String PARTS_ROBOT_GO_HOME_COMMAND = "gohome"; 
 	// parts robot go to kit
 	public static final String PARTS_ROBOT_GO_KIT_COMMAND = "gokit"; 
-	
 	// end partsrobot logic to display commands
+	public static final String PARTS_ROBOT_RECEIVE_PART_COMMAND = "receivepart";
+	//receive parts from nest
+	public static final String PARTS_ROBOT_GIVE_PART_COMMAND = "givepart";
+	//give part to kit
 
 	// nest logic to display commands
 	public static final String NEST_RECEIVE_PART_COMMAND = "nestrecpart";

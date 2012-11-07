@@ -15,7 +15,7 @@ public class Kit {
 	public ArrayList<Part> parts = new ArrayList<Part>();
 
 	public Kit() {
-		kitGraphics=new KitGraphics();
+		kitGraphics = new KitGraphics(null);
 	}
 
 	public Kit(ArrayList<PartType> expected) {

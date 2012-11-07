@@ -82,7 +82,6 @@ public class StandAgent extends Agent implements Stand {
 		kitsOnStand.add(null);
 		kitsOnStand.add(null);
 
-		// What about inspection location?
 		standPositions.put(1, false);
 		standPositions.put(2, false);
 		timer = new Timer();
@@ -178,11 +177,13 @@ public class StandAgent extends Agent implements Stand {
 				int loc;
 				if (standPositions.get(1) == false
 						&& standPositions.get(2) == false) {
+					print("Neither position full");
 					requestKit(loc = 1);
 					print("I'm requesting a new kit at position 1");
 					return true;
 				} else if (standPositions.get(1) == false
 						|| standPositions.get(2) == false && numKitsToMake > 1) {
+					print("One position full");
 					requestKit(loc = standPositions.get(1) == false ? 1 : 2);
 					print("I'm requesting a new kit at position " + loc);
 					return true;
@@ -271,7 +272,7 @@ public class StandAgent extends Agent implements Stand {
 	 * Updates the FCS when a batch of kits has been completed.
 	 */
 	private void finalizeOrder() {
-		fcs.msgOrderFinished();
+		// fcs.msgOrderFinished();
 		start = false;
 		System.out.println("====================");
 		print("I FINISHED HURRAY");

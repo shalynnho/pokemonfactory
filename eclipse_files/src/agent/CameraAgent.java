@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import DeviceGraphics.DeviceGraphics;
+import DeviceGraphics.KitGraphics;
+import GraphicsInterfaces.CameraGraphics;
+import GraphicsInterfaces.NestGraphics;
 import agent.NestAgent.MyPart;
 import agent.data.Kit;
 import agent.data.Part;
 import agent.interfaces.Camera;
 import agent.interfaces.Nest;
-
-import DeviceGraphics.DeviceGraphics;
-import DeviceGraphics.KitGraphics;
-import GraphicsInterfaces.CameraGraphics;
-import GraphicsInterfaces.NestGraphics;
 
 /**
  * Camera is responsible for inspecting full nests and assembled kits.
@@ -59,7 +58,7 @@ public class CameraAgent extends Agent implements Camera {
 
 	public class MyNest {
 		public NestAgent nest;
-	//	public List<Part> Parts;
+		// public List<Part> Parts;
 		public NestStatus state;
 
 		public MyNest(NestAgent nest) {
@@ -89,26 +88,24 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	@Override
-	public void msgTakePictureNestDone(NestGraphics nest, boolean done, NestGraphics nest2,boolean done2) {
+	public void msgTakePictureNestDone(NestGraphics nest, boolean done,
+			NestGraphics nest2, boolean done2) {
 		print("CameraGraphics finished animating nest photograph");
 		boolean found1 = false;
 		boolean found2 = false;
 		synchronized (nests) {
 			for (MyNest n : nests) {
-				if (n.nest.guiNest == nest) 
-				{
+				if (n.nest.guiNest == nest) {
 					// In v0 all parts are good parts
 					n.state = NestStatus.PHOTOGRAPHED;
-					if(found2){
+					if (found2) {
 						break;
 					}
 					found1 = true;
-				}
-				else if (n.nest.guiNest == nest2) 
-				{
+				} else if (n.nest.guiNest == nest2) {
 					// In v0 all parts are good parts
 					n.state = NestStatus.PHOTOGRAPHED;
-					if(found1){
+					if (found1) {
 						break;
 					}
 					found2 = true;
@@ -141,16 +138,14 @@ public class CameraAgent extends Agent implements Camera {
 					if (nests.get(i).state == NestStatus.READY
 							&& nests.get(i + 1).state == NestStatus.READY) {
 						print("Taking photos of nests");
-						takePictureOfNest(nests.get(i));
-						takePictureOfNest(nests.get(i + 1));
+						takePictureOfNest(nests.get(i), nests.get(i + 1));
+						// takePictureOfNest(nests.get(i + 1));
 						return true;
 					}
-				} else {
-					if (nests.get(i).state == NestStatus.READY) {
-						takePictureOfNest(nests.get(i));
-						return true;
-					}
-				}
+				} /*
+				 * else { if (nests.get(i).state == NestStatus.READY) {
+				 * takePictureOfNest(nests.get(i)); return true; } }
+				 */
 			}
 		}
 
@@ -209,11 +204,14 @@ public class CameraAgent extends Agent implements Camera {
 
 	}
 
-	private void takePictureOfNest(MyNest n) {
-		
-		 if (guiCamera != null) { guiCamera.takeNestPhoto(n.nest.guiNest); }
-		
+	private void takePictureOfNest(MyNest n, MyNest n2) {
+
+		if (guiCamera != null) {
+			guiCamera.takeNestPhoto(n.nest.guiNest, n2.nest.guiNest);
+		}
+
 		n.state = NestStatus.PHOTOGRAPHING;
+		n2.state = NestStatus.PHOTOGRAPHING;
 		stateChanged();
 	}
 
@@ -253,6 +251,7 @@ public class CameraAgent extends Agent implements Camera {
 		return guiCamera;
 	}
 
+	@Override
 	public void setGraphicalRepresentation(DeviceGraphics guiCamera) {
 		this.guiCamera = (CameraGraphics) guiCamera;
 	}
