@@ -52,7 +52,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	public void pickUpPart(Part part){
 		//currentLocation = location;
 		//Animation(currentLocation, 10);
-		PartGraphics pg = part.part;
+		PartGraphics pg = part.partGraphics;
 		partArray.add(pg);
 		rotateArm();
 		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, null));

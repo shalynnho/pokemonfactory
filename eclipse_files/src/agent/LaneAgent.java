@@ -63,7 +63,7 @@ public class LaneAgent extends Agent implements Lane {
 		currentNum++;
 		currentParts.add(new MyPart(p));
 		if(laneGUI !=null) {
-			laneGUI.receivePart(p);
+			laneGUI.receivePart(p.partGraphics);
 		}
 		try {
 			animation.acquire();
@@ -115,7 +115,7 @@ public class LaneAgent extends Agent implements Lane {
 	public void giveToNest(Part part) {
 		print("Giving part to Nest");
 		if(laneGUI !=null) {
-			laneGUI.givePartToNest(part);
+			laneGUI.givePartToNest(part.partGraphics);
 		}
 		try {
 			animation.acquire();

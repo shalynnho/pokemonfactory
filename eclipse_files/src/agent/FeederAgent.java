@@ -144,7 +144,7 @@ public class FeederAgent extends Agent implements Feeder {
 		}
 		// SEMAPHORE GOES HERE
 		if(feederGUI !=null) {
-			feederGUI.movePartToDiverter(part.part);
+			feederGUI.movePartToDiverter(part.partGraphics);
 		}
 		try {
 			animation.acquire();
@@ -165,7 +165,7 @@ public class FeederAgent extends Agent implements Feeder {
 	public void giveToLane(Part part) {
 		print("Giving part to lane");
 		if(feederGUI !=null) {
-			feederGUI.movePartToLane(part.part);
+			feederGUI.movePartToLane(part.partGraphics);
 		}
 		try {
 			animation.acquire();

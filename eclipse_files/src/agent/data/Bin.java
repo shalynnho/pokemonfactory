@@ -3,7 +3,7 @@ package agent.data;
 import agent.FeederAgent;
 
 public class Bin {
-	public DeviceGraphics.BinGraphics bin;
+	public DeviceGraphics.BinGraphics binGraphics;
 	public Part part;
 	public FeederAgent feeder;
 

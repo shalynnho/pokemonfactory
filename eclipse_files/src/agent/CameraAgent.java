@@ -173,7 +173,7 @@ public class CameraAgent extends Agent implements Camera {
 	private void takePictureOfKit(MyKit kit) {
 		kit.ks = KitStatus.PICTURE_BEING_TAKEN;
 		if (guiCamera != null) {
-			guiCamera.takeKitPhoto(kit.kit.kit);
+			guiCamera.takeKitPhoto(kit.kit.kitGraphics);
 		}
 		stateChanged();
 	}

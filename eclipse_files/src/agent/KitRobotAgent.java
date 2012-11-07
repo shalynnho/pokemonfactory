@@ -240,10 +240,10 @@ public class KitRobotAgent extends Agent implements KitRobot {
 					e.printStackTrace();
 				}
 				if (kitrobotGraphics != null) {
-					kitrobotGraphics.msgPlaceKitOnStand(mk.kit.kit, loc);
+					kitrobotGraphics.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
 				}
 				if (mockgraphics != null) {
-					mockgraphics.msgPlaceKitOnStand(mk.kit.kit, loc);
+					mockgraphics.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
 				}
 				standPositions.put(loc, false);
 				mk.location = loc;
@@ -268,10 +268,10 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		}
 		mk.KS = KitStatus.AwaitingInspection;
 		if (kitrobotGraphics != null) {
-			kitrobotGraphics.msgPlaceKitInInspectionArea(mk.kit.kit);
+			kitrobotGraphics.msgPlaceKitInInspectionArea(mk.kit.kitGraphics);
 		}
 		if (mockgraphics != null) {
-			mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kit);
+			mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kitGraphics);
 		}
 
 		// TODO This can't happen until the kit is placed

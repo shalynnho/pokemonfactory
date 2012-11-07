@@ -4,7 +4,7 @@ import DeviceGraphics.PartGraphics;
 
 public class Part {
 
-	public PartGraphics part;
+	public PartGraphics partGraphics;
 	public PartType type;
 	public boolean isGood;
 	public boolean up;

@@ -177,10 +177,10 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			e.printStackTrace();
 		}
 		if (mockgraphics != null) {
-			mockgraphics.msgBringEmptyKit(k.kit);
+			mockgraphics.msgBringEmptyKit(k.kitGraphics);
 		}
 		if (conveyorGraphics != null) {
-			conveyorGraphics.msgBringEmptyKit(k.kit);
+			conveyorGraphics.msgBringEmptyKit(k.kitGraphics);
 		}
 		stateChanged();
 	}
@@ -200,10 +200,10 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		}
 		mk.KS = KitStatus.PickedUp;
 		if (mockgraphics != null) {
-			mockgraphics.msgGiveKitToKitRobot(mk.kit.kit);
+			mockgraphics.msgGiveKitToKitRobot(mk.kit.kitGraphics);
 		}
 		if (conveyorGraphics != null) {
-			conveyorGraphics.msgGiveKitToKitRobot(mk.kit.kit);
+			conveyorGraphics.msgGiveKitToKitRobot(mk.kit.kitGraphics);
 		}
 
 		kitsOnConveyor.remove(mk);
@@ -224,10 +224,10 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		}
 		mk.KS = KitStatus.MovingOut;
 		if (mockgraphics != null) {
-			mockgraphics.msgReceiveKit(mk.kit.kit);
+			mockgraphics.msgReceiveKit(mk.kit.kitGraphics);
 		}
 		if (conveyorGraphics != null) {
-			conveyorGraphics.msgReceiveKit(mk.kit.kit);
+			conveyorGraphics.msgReceiveKit(mk.kit.kitGraphics);
 		}
 		stateChanged();
 	}

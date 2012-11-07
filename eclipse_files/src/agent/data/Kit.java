@@ -6,7 +6,7 @@ import DeviceGraphics.KitGraphics;
 
 public class Kit {
 
-	public KitGraphics kit;
+	public KitGraphics kitGraphics;
 
 	public String kitID;
 

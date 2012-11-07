@@ -80,7 +80,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgTakingPart(Part p) {
 		if (nestGUI != null) {
-			nestGUI.givePartToPartsRobot(p.part);
+			nestGUI.givePartToPartsRobot(p.partGraphics);
 		}
 		/*
 		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
@@ -160,7 +160,7 @@ public class NestAgent extends Agent implements Nest {
 	public void moveToPosition(Part part) {
 		print("Moving part to proper nest location");
 		if (nestGUI != null) {
-			nestGUI.receivePart(part.part);
+			nestGUI.receivePart(part.partGraphics);
 		}
 		try {
 			animation.acquire();
