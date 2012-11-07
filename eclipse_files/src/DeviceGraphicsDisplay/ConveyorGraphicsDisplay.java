@@ -147,27 +147,14 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param i
 	 */
 	public void moveIn(int i) {
-		if (conveyorLines.get(i).getY() < 385) { // if bottom of black conveyor
-													// line is less than this y
-													// position
-			conveyorLines.get(i).setY(conveyorLines.get(i).getY() + velocity); // when
-																				// a
-																				// conveyor
-																				// is
-																				// done
-																				// being
-																				// painted,
-																				// move
-																				// the
-																				// location
-																				// for
-																				// next
-																				// repaint
-		} else if (conveyorLines.get(i).getY() >= 385) { // if bottom of black
-															// conveyor line is
-															// greater than or
-															// equal to this y
-															// position
+		// if bottom of black conveyor line is less than this y position
+		if (conveyorLines.get(i).getY() < 385) {
+			// when a conveyor is done being painted, move the location for next
+			// repaint
+			conveyorLines.get(i).setY(conveyorLines.get(i).getY() + velocity);
+		} else if (conveyorLines.get(i).getY() >= 385) {
+			// if bottom of black conveyor line is greater than or equal to this
+			// y position
 			conveyorLines.get(i).setY(0);
 		}
 	}

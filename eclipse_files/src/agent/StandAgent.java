@@ -232,7 +232,7 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	private void placeKit(final Kit k) {
 		int spot = 5;
-		incomingKits--;
+		// incomingKits--;
 
 		for (MyKit mk : myKits.keySet()) {
 			if (mk.kit == k) {

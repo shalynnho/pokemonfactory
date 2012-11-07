@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import junit.framework.TestCase;
 import DeviceGraphics.NestGraphics;
 import agent.CameraAgent;
+import agent.CameraAgent.NestStatus;
 import agent.NestAgent;
 import agent.PartsRobotAgent;
-import agent.CameraAgent.NestStatus;
 import agent.PartsRobotAgent.MyKitStatus;
 import agent.data.Kit;
 import agent.data.Part;
-
-import junit.framework.TestCase;
+import agent.data.PartType;
 
 /**
  * This tests the Parts Robot and Camera in the normative scenario. The UUT is
@@ -49,11 +49,11 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 			camera.setNest(new NestAgent("nest" + i));
 		}
 		camera.setPartsRobot(partsrobot);
-		
+
 		nest.setCamera(camera);
 		nest2.setCamera(camera);
-		nest.setGraphicalRepresentation(new NestGraphics(null,0,null));
-		nest2.setGraphicalRepresentation(new NestGraphics(null,0,null));
+		nest.setGraphicalRepresentation(new NestGraphics(null, 0, null));
+		nest2.setGraphicalRepresentation(new NestGraphics(null, 0, null));
 		date = new Date();
 	}
 
@@ -71,7 +71,7 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 		List<Part> partsList = new ArrayList<Part>();
 
 		for (int i = 0; i < 9; i++) {
-			Part p = new Part();
+			Part p = new Part(PartType.A);
 			nest.msgHereIsPart(p);
 			partsList.add(p);
 		}
@@ -135,8 +135,9 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 			// CameraGraphics sends this when the camera has taken a photograph
 			// of
 			// both nests.
-			camera.msgTakePictureNestDone(nest.guiNest,true,nest2.guiNest,true);
-			//camera.msgTakePictureNestDone(nest2.guiNest);
+			camera.msgTakePictureNestDone(nest.guiNest, true, nest2.guiNest,
+					true);
+			// camera.msgTakePictureNestDone(nest2.guiNest);
 
 			assertEquals(
 					"Camera should have set nest's status to 'photographed'",
@@ -204,8 +205,9 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 			assertEquals(
 					"Camera should have set nest2's status to 'photographing'",
 					NestStatus.PHOTOGRAPHING, MyNest2.state);
-			camera.msgTakePictureNestDone(nest.guiNest,true,nest2.guiNest,true);
-		//	camera.msgTakePictureNestDone(nest2.guiNest);
+			camera.msgTakePictureNestDone(nest.guiNest, true, nest2.guiNest,
+					true);
+			// camera.msgTakePictureNestDone(nest2.guiNest);
 			assertEquals(
 					"Camera should have set nest's status to 'photographed'",
 					NestStatus.PHOTOGRAPHED, MyNest.state);
@@ -242,8 +244,8 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 		assertEquals(
 				"Camera should have set nest2's status to 'photographing'",
 				NestStatus.PHOTOGRAPHING, MyNest2.state);
-		camera.msgTakePictureNestDone(nest.guiNest,true,nest2.guiNest,true);
-		//camera.msgTakePictureNestDone(nest2.guiNest);
+		camera.msgTakePictureNestDone(nest.guiNest, true, nest2.guiNest, true);
+		// camera.msgTakePictureNestDone(nest2.guiNest);
 		assertEquals("Camera should have set nest's status to 'photographed'",
 				NestStatus.PHOTOGRAPHED, MyNest.state);
 		assertEquals("Camera should have set nest2's status to 'photographed'",

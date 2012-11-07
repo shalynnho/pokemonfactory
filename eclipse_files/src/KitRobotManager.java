@@ -21,26 +21,25 @@ import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
 
-
-public class KitRobotManager extends Client implements ActionListener{
+public class KitRobotManager extends Client implements ActionListener {
 	// Temp values. Feel free to change
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
-	
-	private Timer timer;
-	
+
+	private final Timer timer;
+
 	public KitRobotManager() {
 		clientName = Constants.KIT_ROBOT_MNGR_CLIENT;
-		
+
 		initStreams();
 		initGUI();
-	
-		timer = new Timer(Constants.TIMER_DELAY,this);
+
+		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
-		
+
 		initDevices();
 	}
-	
+
 	public void initGUI() {
 		JLabel label = new JLabel("Kit Robot Manager");
 		label.setForeground(Color.WHITE);
@@ -48,33 +47,42 @@ public class KitRobotManager extends Client implements ActionListener{
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setVisible(true);
 		add(label);
-		
+
 		OverlayPanel panel = new OverlayPanel();
 		panel.add(new JLabel("hello"));
 		add(panel, BorderLayout.SOUTH);
 		panel.setVisible(true);
-		
-		JButton newKit = new JButton("New Kit");
-		newKit.addActionListener(new NetworkingButtonListener(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, writer));
-		
-	//	JButton moveKitToLocation1 =new JButton("moveKitToLocation1");
-	//	moveKitToLocation1.addActionListener(new NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR, Constants.KIT_ROBOT_TARGET,writer));	
-		
-	//	JButton moveKitFromLocation1ToConveyor= new JButton("moveKitFromLoc1ToConveyor");
-		
-	//	moveKitFromLocation1ToConveyor.addActionListener(new NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR, Constants.KIT_ROBOT_TARGET,writer));
-		
-		panel.add(newKit);  
-	//	panel.add(moveKitToLocation1);
-	//	panel.add(moveKitFromLocation1ToConveyor);
+
+		JButton newKit = new JButton("FCS: Make kits");
+		newKit.addActionListener(new NetworkingButtonListener(
+				Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
+				Constants.CONVEYOR_TARGET, writer));
+
+		// JButton moveKitToLocation1 =new JButton("moveKitToLocation1");
+		// moveKitToLocation1.addActionListener(new
+		// NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR,
+		// Constants.KIT_ROBOT_TARGET,writer));
+
+		// JButton moveKitFromLocation1ToConveyor= new
+		// JButton("moveKitFromLoc1ToConveyor");
+
+		// moveKitFromLocation1ToConveyor.addActionListener(new
+		// NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR,
+		// Constants.KIT_ROBOT_TARGET,writer));
+
+		panel.add(newKit);
+		// panel.add(moveKitToLocation1);
+		// panel.add(moveKitFromLocation1ToConveyor);
 	}
-	
+
 	public void initDevices() {
-		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this, new Location(0,0)));
-		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this,new Location(0,0)));
-		
+		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this,
+				new Location(0, 0)));
+		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this,
+				new Location(0, 0)));
+
 	}
-	
+
 	@Override
 	public void receiveData(Request req) {
 		devices.get(req.getTarget()).receiveData(req);
@@ -83,38 +91,38 @@ public class KitRobotManager extends Client implements ActionListener{
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT);
-		
+
 		KitRobotManager mngr = new KitRobotManager();
 		frame.add(mngr);
 		mngr.setVisible(true);
 		frame.validate();
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
-		
+
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
-		
-		for(DeviceGraphicsDisplay device : devices.values()) {
-			
-			if(device instanceof KitRobotGraphicsDisplay)
-			{
-				KitRobotGraphicsDisplay tempkrgdisplay=(KitRobotGraphicsDisplay)device;
-				if(tempkrgdisplay.isAnimationToConveyorDone())
-				{
+
+		for (DeviceGraphicsDisplay device : devices.values()) {
+
+			if (device instanceof KitRobotGraphicsDisplay) {
+				KitRobotGraphicsDisplay tempkrgdisplay = (KitRobotGraphicsDisplay) device;
+				if (tempkrgdisplay.isAnimationToConveyorDone()) {
 					System.out.println("passes through");
-					writer.sendData(new	Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
+					writer.sendData(new Request(
+							Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
+							Constants.CONVEYOR_TARGET, null));
 				}
 			}
 			device.draw(this, g);
-		
+
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		repaint();
-	}	
-	
+	}
+
 }
