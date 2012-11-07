@@ -2,10 +2,16 @@ package DeviceGraphics;
 
 import Networking.Request;
 import Networking.Server;
+import Utils.Constants;
 import Utils.Location;
 import agent.Agent;
-import factory.CameraAgent;
+import agent.CameraAgent;
 
+/**
+ * Server-side Camera object
+ * 
+ * @author Peter Zhang
+ */
 public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.CameraGraphics {
 	
 	private Location location;
@@ -22,18 +28,25 @@ public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.Camera
 	
 	@Override
 	public void takeNestPhoto(GraphicsInterfaces.NestGraphics nest1) {
-		nest1.getLocation()
+		// TODO: replace null with 
+		// location = nest1.getLocation();
+		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND, Constants.CAMERA_TARGET, null));
 	}
 
 	@Override
 	public void takeKitPhoto(KitGraphics kit) {
-		// TODO Auto-generated method stub
-		
+		// TODO: replace null with 
+		// location = kit.getLocation();
+		server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND, Constants.CAMERA_TARGET, null));
 	}
 	
 	@Override
 	public void receiveData(Request req) {
-		
+		if(req.getCommand().equals(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND)) {
+			takeNestPhoto(null);
+		} else if(req.getCommand().equals(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND)) {
+			takeKitPhoto(null);
+		}
 	}
 
 }

@@ -58,6 +58,9 @@ public abstract class Constants {
 	// Nest Images
 	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage("src/images/Nest.png");
+	
+	// Camera Images
+	public static final Image CAMERA_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Square.jpg");
 
 	// TARGET NAMES
 	// ==================================
@@ -155,18 +158,22 @@ public abstract class Constants {
 	
 	// end partsrobot logic to display commands
 
-	// nestgraphics logic to display commands
+	// nest logic to display commands
 	public static final String NEST_RECEIVE_PART_COMMAND = "nestrecpart";
 	public static final String NEST_GIVE_TO_PART_ROBOT_COMMAND = "nestgivetopr";
 	public static final String NEST_PURGE_COMMAND = "nestpurge";
+	// end nest logic to display commands
+	
+	// camera logic to display commands
+	public static final String CAMERA_TAKE_NEST_PHOTO_COMMAND = "cameranest";
+	public static final String CAMERA_TAKE_KIT_PHOTO_COMMAND = "camerakit";
 	// end nestgraphics logic to display commands
 
 	// CLIENT NAMES
-
 	// ==================================
 	// Used to identify clients.
 
-	// V0 Config - temporary names
+	// V0 Config
 	public static final String KIT_ROBOT_MNGR_CLIENT = "KitsRobotMngr";
 	public static final String PARTS_ROBOT_MNGR_CLIENT = "PartsRobotMngr";
 	public static final String LANE_MNGR_CLIENT = "LaneMngr";

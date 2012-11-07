@@ -5,8 +5,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
+import DeviceGraphics.CameraGraphics;
 import DeviceGraphics.ConveyorGraphics;
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.FeederGraphics;
@@ -15,6 +15,7 @@ import DeviceGraphics.LaneGraphics;
 import DeviceGraphics.PartsRobotGraphics;
 import Utils.Constants;
 import agent.Agent;
+import agent.CameraAgent;
 import agent.FeederAgent;
 import agent.LaneAgent;
 
@@ -77,6 +78,7 @@ public class Server {
 		agents.put(Constants.FEEDER_TARGET, new FeederAgent(Constants.FEEDER_TARGET));
 		agents.put(Constants.LANE_TARGET+":"+0, new LaneAgent(Constants.LANE_TARGET+":"+0));
 		agents.put(Constants.LANE_TARGET+":"+1, new LaneAgent(Constants.LANE_TARGET+":"+1));
+		agents.put(Constants.CAMERA_TARGET, new CameraAgent(Constants.CAMERA_TARGET));
 	}
 	
 	private void initDevices() {
@@ -86,6 +88,7 @@ public class Server {
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this));
 		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this));
+		devices.put(Constants.CAMERA_TARGET, new CameraGraphics(this, agents.get(Constants.CAMERA_TARGET)));
 		//devices.put(Constants.NEST_TARGET+":"+0, new NestGraphicsDisplay(this, 0));
 		//devices.put(Constants.NEST_TARGET+":"+1, new NestGraphicsDisplay(this, 1));
 	}
