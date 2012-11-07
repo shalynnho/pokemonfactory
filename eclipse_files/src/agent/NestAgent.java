@@ -79,6 +79,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgTakingPart(Part p) {
+		print("giving partsRobot part");
 		if (nestGUI != null) {
 			nestGUI.givePartToPartsRobot(p.partGraphics);
 		}
@@ -88,6 +89,7 @@ public class NestAgent extends Agent implements Nest {
 		 */
 		for (MyPart part : currentParts) {
 			if (part.part.equals(p)) {
+				print("found part");
 				currentParts.remove(part);
 				return;
 			}

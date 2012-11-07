@@ -31,7 +31,7 @@ public class LaneAgent extends Agent implements Lane {
 	public Semaphore animation = new Semaphore(0, true);
 
 	public class MyPart {
-		Part part;
+		public Part part;
 		PartStatus status;
 
 		public MyPart(Part p) {
