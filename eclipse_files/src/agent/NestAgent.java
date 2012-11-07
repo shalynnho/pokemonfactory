@@ -233,7 +233,7 @@ public class NestAgent extends Agent implements Nest {
 	}
 	//HACK
 	public void FillWithParts() {
-		for(int i = 0; i < full;i++){
+		for(int i = 1; i < full;i++){
 			currentParts.add(new MyPart(new Part(PartType.A)));
 		}
 	}
