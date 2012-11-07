@@ -21,9 +21,24 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	private static final int LANE_LENGTH = 400;
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
+	// start and end x-coordinates of Part on the Lane
+	private static final int LANE_BEG_X = 599;
+	private static final int LANE_END_X = 199;
+	
+	// y-coordinates of Part on Lane, depending on laneID
+	// TODO: ADJUST THESE LATER. NOT FOR V0, NOT IN DESIGN
+	private static final int LANE0_Y = 100;
+	private static final int LANE1_Y = 175;
+	private static final int LANE2_Y = 250;
+	private static final int LANE3_Y = 325;
+	private static final int LANE4_Y = 400;
+	private static final int LANE5_Y = 475;
+	private static final int LANE6_Y = 550;
+	private static final int LANE7_Y = 625;
 
 	// start location of the part
-	private Location startLoc;
+	private Location laneLoc, partStart, partEnd;
+	private int endY;
 
 	// instructions to display graphics will be sent through the server
 	private Server server;
@@ -58,6 +73,13 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		agentPartsOnLane = new ArrayList<Part>();
 		amplitude = 5;
 		laneOn = true;
+		
+		setLaneLoc(laneID);
+		endY = laneLoc.getY();
+		
+//		 for reference only
+//		partStart = new Location(LANE_BEG_X, endY + (PART_WIDTH / 2));
+//		partEnd = new Location(LANE_END_X, endY);
 	}
 
 	/**
@@ -99,7 +121,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 */
 	public void receivePart(PartGraphics pg) {
 		partsOnLane.add(pg);
-		pg.setLocation(startLoc);
+		pg.setLocation(new Location (LANE_BEG_X, endY + (PART_WIDTH / 2)));
 		PartType pt = pg.getPartType();
 		
 		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET +":"+ laneID, pt));
@@ -119,12 +141,15 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND+Constants.DONE_SUFFIX)) {
 			// TODO: add these back later
-//			laneAgent.msgReceivePartDone(agentPartsOnLane.get(agentPartsOnLane.size()-1));
+			PartGraphics p = partsOnLane.get(partsOnLane.size()-1);
+			p.setLocation(new Location(LANE_END_X, endY));
+			laneAgent.msgReceivePartDone(p);
+			
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
 			// TODO: add these back later
-//			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
-//			agentPartsOnLane.remove(0);
+			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
+			agentPartsOnLane.remove(0);
 		}
 	
 	}
@@ -159,6 +184,44 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	/**
+	 * Sets lane location depending on ID assigned
+	 * 
+	 * @param id
+	 *            - id of this lane
+	 */
+	private void setLaneLoc(int id) {
+
+		switch (id) {
+		case 0:
+			laneLoc = new Location(LANE_BEG_X, LANE0_Y);
+			break;
+		case 1:
+			laneLoc = new Location(LANE_BEG_X, LANE1_Y);
+			break;
+		case 2:
+			laneLoc = new Location(LANE_BEG_X, LANE2_Y);
+			break;
+		case 3:
+			laneLoc = new Location(LANE_BEG_X, LANE3_Y);
+			break;
+		case 4:
+			laneLoc = new Location(LANE_BEG_X, LANE4_Y);
+			break;
+		case 5:
+			laneLoc = new Location(LANE_BEG_X, LANE5_Y);
+			break;
+		case 6:
+			laneLoc = new Location(LANE_BEG_X, LANE6_Y);
+			break;
+		case 7:
+			laneLoc = new Location(LANE_BEG_X, LANE7_Y);
+			break;
+		default:
+			System.out.println("LGD: ID not recognized.");
+		}
 	}
 
 }
