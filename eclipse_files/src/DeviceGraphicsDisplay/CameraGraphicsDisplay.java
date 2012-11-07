@@ -20,7 +20,7 @@ public class CameraGraphicsDisplay extends DeviceGraphicsDisplay{
 	private int flashOn = -1;
 	
 	// locations to take pictures from
-	private ArrayList<Location> locs;
+	private ArrayList<Location> locs = new ArrayList<Location>();
 	
 	public CameraGraphicsDisplay(Client c, Location loc) {
 		//TODO: No need for location
