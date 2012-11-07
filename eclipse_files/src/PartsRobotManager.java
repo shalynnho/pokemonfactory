@@ -11,7 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
-import DeviceGraphicsDisplay.*;
+import DeviceGraphicsDisplay.CameraGraphicsDisplay;
+import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
+import DeviceGraphicsDisplay.KitGraphicsDisplay;
+import DeviceGraphicsDisplay.NestGraphicsDisplay;
+import DeviceGraphicsDisplay.PartsRobotDisplay;
 import GUI.NetworkingButtonListener;
 import GUI.OverlayPanel;
 import Networking.Client;
@@ -71,6 +75,10 @@ public class PartsRobotManager extends Client implements ActionListener{
 		give.addActionListener(new NetworkingButtonListener(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, writer));
 		panel.add(give);
 		
+		JButton picNest = new JButton("Take pic of nest");
+		picNest.addActionListener(new NetworkingButtonListener(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND, Constants.CAMERA_TARGET, writer));
+		panel.add(picNest);
+		
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
 	}
@@ -83,6 +91,7 @@ public class PartsRobotManager extends Client implements ActionListener{
 		addDevice(Constants.NEST_TARGET+":"+0, new NestGraphicsDisplay(this, 0));
 		addDevice(Constants.NEST_TARGET+":"+1, new NestGraphicsDisplay(this, 1));
 		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay(this, new Location (20, 200)));
+		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this, new Location(5,5)));
 	}
 	
 	@Override
