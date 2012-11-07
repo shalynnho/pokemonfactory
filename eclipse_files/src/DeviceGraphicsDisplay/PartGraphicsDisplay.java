@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 import agent.data.PartType;
 
 import Networking.Request;
+import Utils.Constants;
 import Utils.Location;
 
 public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
@@ -21,9 +22,6 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 		//String imageName = pt.toString();
 		
 		// v0 hardcoded image name for testing
-		String imageName = "src/images/samplepart.png";
-		
-		partImage = Toolkit.getDefaultToolkit().getImage(imageName);
 	}
 	
 	public void setLocation (Location newLocation) {
@@ -31,7 +29,7 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void draw(JComponent c, Graphics2D g) {
-		g.drawImage(partImage, partLocation.getX(), partLocation.getY(), c);
+		g.drawImage(Constants.PART_IMAGE, partLocation.getX(), partLocation.getY(), c);
 	}
 
 	public Location getLocation () {
