@@ -11,11 +11,12 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import factory.ConveyorAgent;
-import factory.data.Kit;
-import factory.test.mock.MockAgent;
-import factory.test.mock.MockConveyorGraphics;
-import factory.test.mock.MockKitRobot;
+import agent.ConveyorAgent;
+import agent.data.Kit;
+import agent.test.mock.MockAgent;
+import agent.test.mock.MockConveyorGraphics;
+import agent.test.mock.MockKitRobot;
+
 
 /**
  * This tests the normative scenario for the conveyor in the kitting cell. The

@@ -6,12 +6,13 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 
+import agent.data.PartType;
+
 import DeviceGraphics.DeviceGraphics;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
-import factory.data.PartType;
 
 /**
  * @author Vansh Jain, Shalynn Ho, Harry Trieu

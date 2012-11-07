@@ -3,12 +3,12 @@ package DeviceGraphics;
 import java.util.ArrayList;
 
 import agent.Agent;
+import agent.FeederAgent;
+import agent.data.PartType;
 
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
-import factory.FeederAgent;
-import factory.data.PartType;
 
 /**
  * This class handles the logic for the feeder animation.

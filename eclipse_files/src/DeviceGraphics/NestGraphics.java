@@ -8,9 +8,9 @@ import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
 import agent.Agent;
-import factory.NestAgent;
-import factory.data.Part;
-import factory.data.PartType;
+import agent.NestAgent;
+import agent.data.Part;
+import agent.data.PartType;
 
 /**
  * This class represents the graphics logic for a nest.

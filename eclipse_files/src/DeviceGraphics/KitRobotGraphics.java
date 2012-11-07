@@ -2,11 +2,12 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
+import agent.data.Kit;
+
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
-import factory.data.Kit;
 
 public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics, DeviceGraphics {
 

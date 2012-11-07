@@ -7,7 +7,8 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import factory.data.PartType;
+import agent.data.PartType;
+
 
 import Networking.Client;
 import Networking.Request;

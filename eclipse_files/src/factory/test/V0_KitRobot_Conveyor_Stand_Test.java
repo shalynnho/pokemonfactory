@@ -1,13 +1,13 @@
 package factory.test;
 
-import factory.CameraAgent;
-import factory.ConveyorAgent;
-import factory.FCSAgent;
-import factory.KitRobotAgent;
-import factory.PartsRobotAgent;
-import factory.StandAgent;
-import factory.interfaces.PartsRobot;
-import factory.test.mock.MockGraphics;
+import agent.CameraAgent;
+import agent.ConveyorAgent;
+import agent.FCSAgent;
+import agent.KitRobotAgent;
+import agent.PartsRobotAgent;
+import agent.StandAgent;
+import agent.interfaces.PartsRobot;
+import agent.test.mock.MockGraphics;
 
 /**
  * Tests the kitting area (Kit robot, conveyor, stand). This is not a JUnit

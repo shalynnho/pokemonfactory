@@ -2,13 +2,14 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
+import agent.data.Part;
+
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
 
 //import factory.data.Kit;
-import factory.data.Part;
 
 
 

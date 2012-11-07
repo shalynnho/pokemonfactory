@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import agent.CameraAgent;
+import agent.NestAgent;
+import agent.PartsRobotAgent;
+import agent.CameraAgent.NestStatus;
+import agent.PartsRobotAgent.MyKitStatus;
+import agent.data.Kit;
+import agent.data.Part;
+
 import junit.framework.TestCase;
-import factory.CameraAgent;
-import factory.CameraAgent.NestStatus;
-import factory.NestAgent;
-import factory.PartsRobotAgent;
-import factory.PartsRobotAgent.MyKitStatus;
-import factory.data.Kit;
-import factory.data.Part;
 
 /**
  * This tests the Parts Robot and Camera in the normative scenario. The UUT is

@@ -2,6 +2,9 @@ package agent;
 
 import java.util.concurrent.Semaphore;
 
+import Utils.StringUtil;
+
+
 import DeviceGraphics.DeviceGraphics;
 
 /** Base class for simple agents */

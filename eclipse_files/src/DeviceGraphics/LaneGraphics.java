@@ -2,9 +2,10 @@ package DeviceGraphics;
 
 import Networking.*;
 import Utils.*;
-import factory.data.*;
 import factory.*;
 import agent.Agent;
+import agent.LaneAgent;
+import agent.data.*;
 
 import java.util.ArrayList;
 

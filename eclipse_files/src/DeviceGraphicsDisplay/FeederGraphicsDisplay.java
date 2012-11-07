@@ -8,11 +8,12 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
+import agent.data.PartType;
+
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
-import factory.data.PartType;
 
 /**
  * This class handles drawing of the feeder and diverter.

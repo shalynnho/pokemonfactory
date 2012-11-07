@@ -11,14 +11,15 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import factory.FeederAgent;
-import factory.GantryAgent;
-import factory.LaneAgent;
-import factory.NestAgent;
-import factory.data.Bin;
-import factory.data.Part;
-import factory.data.PartType;
-import factory.test.mock.MockAgent;
+import agent.FeederAgent;
+import agent.GantryAgent;
+import agent.LaneAgent;
+import agent.NestAgent;
+import agent.data.Bin;
+import agent.data.Part;
+import agent.data.PartType;
+import agent.test.mock.MockAgent;
+
 
 /**
  * This tests the Gantry, Feeder, Lane and Nest in the normative scenario

@@ -6,7 +6,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JComponent;
 
-import factory.data.PartType;
+import agent.data.PartType;
+
 
 import Networking.Request;
 import Utils.Location;

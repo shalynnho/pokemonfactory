@@ -15,8 +15,8 @@ import DeviceGraphics.LaneGraphics;
 import DeviceGraphics.PartsRobotGraphics;
 import Utils.Constants;
 import agent.Agent;
-import factory.FeederAgent;
-import factory.LaneAgent;
+import agent.FeederAgent;
+import agent.LaneAgent;
 
 /**
  * The Server is the "middleman" between Agents and the GUI clients. 

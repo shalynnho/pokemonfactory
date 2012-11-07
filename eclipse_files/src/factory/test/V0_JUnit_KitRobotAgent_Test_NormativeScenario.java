@@ -12,14 +12,15 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import factory.KitRobotAgent;
-import factory.KitRobotAgent.KitStatus;
-import factory.data.Kit;
-import factory.test.mock.MockAgent;
-import factory.test.mock.MockCamera;
-import factory.test.mock.MockConveyor;
-import factory.test.mock.MockKitRobotGraphics;
-import factory.test.mock.MockStand;
+import agent.KitRobotAgent;
+import agent.KitRobotAgent.KitStatus;
+import agent.data.Kit;
+import agent.test.mock.MockAgent;
+import agent.test.mock.MockCamera;
+import agent.test.mock.MockConveyor;
+import agent.test.mock.MockKitRobotGraphics;
+import agent.test.mock.MockStand;
+
 
 /**
  * This tests the normative scenario for the kitrobot in the kitting cell. The

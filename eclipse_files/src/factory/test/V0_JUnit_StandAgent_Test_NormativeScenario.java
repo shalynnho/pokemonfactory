@@ -11,12 +11,13 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import factory.StandAgent;
-import factory.data.Kit;
-import factory.test.mock.MockAgent;
-import factory.test.mock.MockFCS;
-import factory.test.mock.MockKitRobot;
-import factory.test.mock.MockPartsRobot;
+import agent.StandAgent;
+import agent.data.Kit;
+import agent.test.mock.MockAgent;
+import agent.test.mock.MockFCS;
+import agent.test.mock.MockKitRobot;
+import agent.test.mock.MockPartsRobot;
+
 
 /**
  * This tests the normative scenario for the stand in the kitting cell. The UUT

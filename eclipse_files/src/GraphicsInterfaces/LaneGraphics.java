@@ -1,7 +1,7 @@
 package GraphicsInterfaces;
 
+import agent.data.Part;
 import DeviceGraphics.PartGraphics;
-import factory.data.Part;
 
 public interface LaneGraphics {
 
