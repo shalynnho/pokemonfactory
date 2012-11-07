@@ -1,6 +1,6 @@
 package agent.interfaces;
 
-import agent.NestAgent;
+import GraphicsInterfaces.NestGraphics;
 import agent.data.Kit;
 
 public interface Camera {
@@ -13,9 +13,10 @@ public interface Camera {
 	 * For v0, nests will never have bad parts.
 	 * @param nest nest that was photographed.
 	 */
-	public abstract void msgTakePictureNestDone(NestAgent nest);
+	public abstract void msgTakePictureNestDone(NestGraphics nest);
 
 	public abstract void msgTakePictureKitDone(Kit kit, boolean done);
 
 	public abstract boolean pickAndExecuteAnAction();
+
 }
