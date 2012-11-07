@@ -88,7 +88,8 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		feeder.pickAndExecuteAnAction();
 		assertEquals("Lane Agent should have 1 currentPart", 1,
 				lane.currentParts.size());
-		lane.animation.release();
+		//lane.animation.release();
+		lane.msgReceivePartDone(part);
 		lane.pickAndExecuteAnAction();
 		assertEquals("Nest Agent should have 1 currentPart", 1,
 				nest.currentParts.size());
@@ -153,7 +154,8 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		feeder.pickAndExecuteAnAction();
 		assertEquals("Lane Agent should have 1 currentPart", 1,
 				lane.currentParts.size());
-		lane.animation.release();
+		//lane.animation.release();
+		lane.msgReceivePartDone(part);
 		lane.pickAndExecuteAnAction();
 		assertEquals("Nest Agent should have 1 currentPart", 1,
 				nest.currentParts.size());

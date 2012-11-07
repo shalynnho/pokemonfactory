@@ -24,22 +24,28 @@ public class LaneAgent extends Agent implements Lane {
 	public int topLimit = 9;
 	public int lowerThreshold = 3;
 	
+	public LaneStatus state;
+	
 	String name;
 	
 	public Semaphore animation = new Semaphore(0, true);
 
 	public class MyPart {
 		Part part;
-		LaneStatus status;
+		PartStatus status;
 
 		public MyPart(Part p) {
 			part = p;
-			status = LaneStatus.BEGINNING_LANE;
+			status = PartStatus.BEGINNING_LANE;
 		}
 	}
 
-	public enum LaneStatus {
+	public enum PartStatus {
 		BEGINNING_LANE, IN_LANE, END_LANE
+	};
+	
+	public enum LaneStatus {
+		FILLING, DONE_FILLING
 	};
 
 	FeederAgent feeder;
@@ -50,6 +56,7 @@ public class LaneAgent extends Agent implements Lane {
 		super();
 
 		this.name = name;
+		state=LaneStatus.FILLING;
 	}
 
 	@Override
@@ -65,19 +72,25 @@ public class LaneAgent extends Agent implements Lane {
 		if(laneGUI !=null) {
 			laneGUI.receivePart(p.partGraphics);
 		}
-		try {
+		/*try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/ //lane can have multiple parts moving along it at a time
 		
 		stateChanged();
 	}
 
 	@Override
 	public void msgReceivePartDone(Part part) {
-		animation.release(); //This message is never sent to the LaneGraphics
+		for(MyPart p:currentParts){
+			if(p.part.equals(part)){
+				p.status=PartStatus.END_LANE;
+				break;
+			}
+		}
+		//animation.release(); 
 		stateChanged();
 	}
 
@@ -90,12 +103,20 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		for (PartType requestedType : requestList) {
-			getParts(requestedType);
-			return true;
+		if(currentNum>=topLimit){
+			state=LaneStatus.DONE_FILLING;
+		}
+		else if(requestList.size()>lowerThreshold){
+			state=LaneStatus.FILLING;
+		}
+		if(state==LaneStatus.FILLING){
+			for (PartType requestedType : requestList) {
+				getParts(requestedType);
+				return true;
+			}
 		}
 		for (MyPart part : currentParts) {
-			if (part.status == LaneStatus.BEGINNING_LANE) {
+			if (part.status == PartStatus.END_LANE) {
 				giveToNest(part.part);
 				return true;
 			}
