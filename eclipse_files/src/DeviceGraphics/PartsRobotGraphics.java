@@ -211,9 +211,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 				partArray.remove(p);
 			}
 		}
-		
-		System.out.println("does this wokr?");
-		kit.receivePart(part);
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, kit.getLocation()));
 		
 		

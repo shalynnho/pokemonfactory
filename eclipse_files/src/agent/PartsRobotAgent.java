@@ -83,7 +83,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	Stand stand;
 	PartsRobotGraphics partsRobotGraphics;
 
-	public Semaphore animation = new Semaphore(1, true);
+	public Semaphore animation = new Semaphore(0, true);
 
 	// public Semaphore accessKit = new Semaphore(0, true);
 
