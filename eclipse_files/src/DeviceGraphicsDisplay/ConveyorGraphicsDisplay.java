@@ -99,6 +99,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				tempKit.draw(c,g2);
 				Location temp = tempKit.kitLocation;
 				tempKit.setLocation(new Location(temp.getX(), temp.getY() + velocity));
+				animationDone();
 			}
 		}
 		
