@@ -30,8 +30,8 @@ public class GantryAgent extends Agent implements Gantry {
 
 	public GantryAgent(String name) {
 		super();
-
 		this.name = name;
+		print("I'm working");
 	}
 
 	@Override
@@ -42,6 +42,7 @@ public class GantryAgent extends Agent implements Gantry {
 
 	@Override
 	public void msgINeedParts(PartType type) {
+		//print("PartType added to gantry");
 		requestedParts.add(type);
 		stateChanged();
 	}
@@ -71,14 +72,18 @@ public class GantryAgent extends Agent implements Gantry {
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		for (PartType requested : requestedParts) {
+			//print("in requested");
 			for (Bin bin : binList) {
+				//print("in binlist");
 				if (bin.part.type == requested
 						&& bin.binState == BinStatus.FULL) {
+					print("Moving to feeder");
 					moveToFeeder(bin);
 					return true;
 				}
 			}
 		}
+		//print("I'm not having problems either");
 		for (PartType requested : requestedParts) {
 			for (Bin bin : binList) {
 				if (bin.part.type == requested
@@ -88,6 +93,7 @@ public class GantryAgent extends Agent implements Gantry {
 				}
 			}
 		}
+		//print("I'm not having problems too");
 		for (PartType requested : requestedParts) {
 			for (Bin bin : binList) {
 				if (bin.part.type == requested
@@ -97,7 +103,7 @@ public class GantryAgent extends Agent implements Gantry {
 				}
 			}
 		}
-
+		print("I'm returning false");
 		return false;
 	}
 
@@ -120,7 +126,7 @@ public class GantryAgent extends Agent implements Gantry {
 	@Override
 	public void fillFeeder(Bin bin) {
 		print("Placing bin in feeder and filling feeder");
-		feeder.msgHereAreParts(bin.part);
+		feeder.msgHereAreParts(bin.part.type,bin);
 		bin.binState = BinStatus.FILLING_FEEDER;
 		
 		// GUIGantry.dropBin(bin, bin.feeder);

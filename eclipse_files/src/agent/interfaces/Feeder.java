@@ -11,23 +11,13 @@ public interface Feeder {
 
 	public abstract void msgINeedPart(PartType type, LaneAgent lane);
 
-	public abstract void msgHereAreParts(Part p);
+	public abstract void msgHereAreParts(PartType type, Bin bin);
 
-	public abstract void msgGivePartToDiverterDone(Part part);
-
-	public abstract void msgGivePartToLaneDone(Part part);
-	
 	public abstract void msgRecieveBinDone(Bin bin);
 	
 	public abstract void msgPurgeBinDone(Bin bin);
 
 	public abstract boolean pickAndExecuteAnAction();
-
-	public abstract void getParts(PartType requestedType);
-
-	public abstract void giveToDiverter(Part part);
-
-	public abstract void giveToLane(Part part);
 
 	//GETTERS AND SETTERS
 	public abstract void setGantry(GantryAgent gantry);
