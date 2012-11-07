@@ -166,7 +166,6 @@ public class Server {
 		kitrobot.setStand(stand);
 		conveyor.setKitrobot(kitrobot);
 		partsrobot.setStand(stand);
-		partsrobot.InitializeArms();
 		camera.setPartRobot(partsrobot);
 		camera.setKitRobot(kitrobot);
 		nest0.FillWithParts();

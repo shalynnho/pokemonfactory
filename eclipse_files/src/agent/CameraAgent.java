@@ -127,8 +127,14 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();
 	}
 
-	public void startV0Sequence(){
+	public void startV0Sequence(KitGraphics kg){
+		Kit k = new Kit();
+		k.kitGraphics = kg;
+		partRobot.Initialize();
+		partRobot.msgUseThisKit(k);
 		guiCamera.takeNestPhoto(nests.get(0).nest.guiNest,nests.get(1).nest.guiNest);
+		
+		
 
 	}
 	/*********** SCHEDULER **************/

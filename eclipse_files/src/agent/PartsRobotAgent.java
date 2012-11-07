@@ -59,10 +59,11 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}
 	}
 
-	public void InitializeArms(){
+	public void Initialize(){
 		for(int i = 0; i < 4; i++){
 			Arms.add(new Arm());
 		}
+		
 	}
 	private enum ArmStatus {
 		Empty, Full
