@@ -3,6 +3,7 @@ package DeviceGraphics;
 import Networking.*;
 import Utils.*;
 import agent.Agent;
+import agent.FeederAgent;
 import agent.LaneAgent;
 import agent.data.*;
 
@@ -47,6 +48,9 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	// the lane agent
 	private LaneAgent laneAgent;
 
+	//REMOVE FOR V1 AND IN CONSTRUCTOR/DEVICES
+	FeederAgent feederAgent;
+	
 	// dynamically stores Parts currently on Lane
 	private ArrayList<PartGraphics> partsOnLane;
 	// storing for the 201 agents
@@ -63,10 +67,14 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 * @param id - ID of this lane
 	 * @param la - the LaneAgent
 	 */
-	public LaneGraphics(Server s, int id, Agent a) {
+
+	public LaneGraphics(Server s, int id, Agent la, Agent f) {
 		server = s;
 		laneID = id;
-		laneAgent = (LaneAgent) a;
+
+		laneAgent = (LaneAgent) la;
+		feederAgent = (FeederAgent) f;
+
 		
 		// initialize lane components
 		partsOnLane = new ArrayList<PartGraphics>();
@@ -153,7 +161,10 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 			laneAgent.msgGivePartToNestDone(partsOnLane.get(0));
 			partsOnLane.remove(0);
 		}
-	
+		else if (cmd.equals("TESTING_LANE")) {
+			System.out.println("Got TESTING_LANE request");
+			initializeV0Lane();
+		}
 	}
 
 	/**
@@ -226,4 +237,18 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		}
 	}
 
+	
+	//GET RID OF FOR V1
+	public void initializeV0Lane() {
+		feederAgent.thisLaneAgent(laneAgent);
+		laneAgent.msgINeedPart(PartType.A);
+		/*laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);*/
+		
+	}
+	
+	
 }

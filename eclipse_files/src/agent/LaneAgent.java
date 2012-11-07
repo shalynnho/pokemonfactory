@@ -9,6 +9,7 @@ import agent.data.PartType;
 import agent.interfaces.Lane;
 
 import DeviceGraphics.DeviceGraphics;
+import DeviceGraphics.PartGraphics;
 import GraphicsInterfaces.LaneGraphics;
 
 /**
@@ -61,6 +62,7 @@ public class LaneAgent extends Agent implements Lane {
 
 	@Override
 	public void msgINeedPart(PartType type) {
+		print("Getting msgINeedPart");
 		requestList.add(type);
 		stateChanged();
 	}
@@ -83,7 +85,7 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	@Override
-	public void msgReceivePartDone(Part part) {
+	public void msgReceivePartDone(PartGraphics part) {
 		print("received that the GUI was done with the part");
 		for(MyPart p:currentParts){
 			if(p.status==PartStatus.BEGINNING_LANE){
@@ -96,7 +98,7 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	@Override
-	public void msgGivePartToNestDone(Part part) {
+	public void msgGivePartToNestDone(PartGraphics part) {
 		animation.release();
 		stateChanged();
 	}
@@ -173,4 +175,9 @@ public class LaneAgent extends Agent implements Lane {
 		this.nest = nest;
 	}
 
+	
+	public void thisFeederAgent(FeederAgent feeder) {
+		this.feeder = feeder;
+	}
+	
 }

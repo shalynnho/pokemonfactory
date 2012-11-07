@@ -12,6 +12,7 @@ import agent.interfaces.Nest;
 
 import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.FeederGraphics;
+import GraphicsInterfaces.LaneGraphics;
 
 /**
  * Feeder receives parts from gantry and feeds the lanes
@@ -146,7 +147,9 @@ public class FeederAgent extends Agent implements Feeder {
 
 	public void getParts(MyLane lane) {
 		print("Telling gantry that I needs parts");
-		gantry.msgINeedParts(lane.type);
+		if(gantry != null) {
+			gantry.msgINeedParts(lane.type);
+		}
 		state=FeederStatus.REQUESTED_PARTS;
 		stateChanged();
 	}
@@ -220,5 +223,10 @@ public class FeederAgent extends Agent implements Feeder {
 		lanes.add(new MyLane(lane1));
 		lanes.add(new MyLane(lane2));
 	}
+	
+	public void thisLaneAgent(LaneAgent lane) {
+		lanes.add(new MyLane(lane));
+	}
+	
 
 }

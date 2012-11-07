@@ -11,6 +11,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import DeviceGraphics.PartGraphics;
 import agent.FeederAgent;
 import agent.GantryAgent;
 import agent.LaneAgent;
@@ -97,7 +98,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 				lane.currentParts.size());
 		Part part2=lane.currentParts.get(0).part;
 		//lane.animation.release();
-		lane.msgReceivePartDone(part);
+		lane.msgReceivePartDone(new PartGraphics(PartType.A));
 		lane.pickAndExecuteAnAction();
 		assertEquals("Nest Agent should have 1 currentPart", 1,
 				nest.currentParts.size());
