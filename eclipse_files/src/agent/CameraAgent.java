@@ -141,16 +141,16 @@ public class CameraAgent extends Agent implements Camera {
 					if (nests.get(i).state == NestStatus.READY
 							&& nests.get(i + 1).state == NestStatus.READY) {
 						print("Taking photos of nests");
-						takePictureOfNest(nests.get(i));
-						takePictureOfNest(nests.get(i + 1));
+						takePictureOfNest(nests.get(i),nests.get(i + 1));
+						//takePictureOfNest(nests.get(i + 1));
 						return true;
 					}
-				} else {
+				} /* else {
 					if (nests.get(i).state == NestStatus.READY) {
 						takePictureOfNest(nests.get(i));
 						return true;
 					}
-				}
+				} */
 			}
 		}
 
@@ -209,9 +209,9 @@ public class CameraAgent extends Agent implements Camera {
 
 	}
 
-	private void takePictureOfNest(MyNest n) {
+	private void takePictureOfNest(MyNest n, MyNest n2) {
 		
-		 if (guiCamera != null) { guiCamera.takeNestPhoto(n.nest.guiNest); }
+		 if (guiCamera != null) { guiCamera.takeNestPhoto(n.nest.guiNest,n2.nest.guiNest); }
 		
 		n.state = NestStatus.PHOTOGRAPHING;
 		stateChanged();
