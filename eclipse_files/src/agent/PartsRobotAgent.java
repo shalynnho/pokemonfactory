@@ -72,7 +72,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	public List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
 
 	List<Kit> KitsOnStand;
-	List<Nest> nests;
+	List<Nest> nests = new ArrayList<Nest>;
 
 	Stand stand;
 	PartsRobotGraphics partsRobotGraphics;
