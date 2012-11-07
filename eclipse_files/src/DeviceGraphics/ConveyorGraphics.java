@@ -31,7 +31,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 		kitsOnConveyor = new ArrayList<KitGraphics>();
 		kitsToLeave = new ArrayList<KitGraphics>();
 		server = s;
-		velocity = 1;
+		velocity = 10;
 		conveyorAgent = (ConveyorAgent)a;
 		
 	} 
