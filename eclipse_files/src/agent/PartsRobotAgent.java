@@ -324,11 +324,11 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	public PartsRobotGraphics getPartsrobotGraphics() {
-		return partsrobotGraphics;
+		return partsRobotGraphics;
 	}
 
 	public void setGraphicalRepresentation(DeviceGraphics partsrobotGraphics) {
-		this.partsrobotGraphics = (PartsRobotGraphics) partsrobotGraphics;
+		this.partsRobotGraphics = (PartsRobotGraphics) partsrobotGraphics;
 	}
 
 	public Semaphore getAnimation() {
