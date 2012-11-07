@@ -59,13 +59,14 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}
 	}
 
-	//Initialize Arms
-	public void Initialize(){
-		for(int i = 0; i < 4; i++){
+	// Initialize Arms
+	public void Initialize() {
+		for (int i = 0; i < 4; i++) {
 			Arms.add(new Arm());
 		}
-		
+
 	}
+
 	private enum ArmStatus {
 		Empty, Full
 	};
@@ -157,13 +158,13 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			// Checks if there is an empty arm, if there is it fills it with a
 			// good part that the kit needs
 			if (IsAnyArmEmpty()) {
-				
+
 				synchronized (GoodParts) {
 					for (Nest nest : GoodParts.keySet()) {
-						
+
 						// Going through all the good parts
 						for (Part part : GoodParts.get(nest)) {
-							
+
 							for (MyKit mk : MyKits) {
 								// Checking if the good part is needed by
 								// either kit
