@@ -179,19 +179,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	}
 
 	@Override
-	public void movePartToDiverter(PartGraphics part) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void flipDiverter() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void movePartToLane(PartGraphics part) {
 		// TODO Auto-generated method stub
 
 	}
