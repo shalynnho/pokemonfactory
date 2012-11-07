@@ -75,7 +75,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	List<Nest> nests;
 
 	Stand stand;
-	PartsRobotGraphics partsrobotGraphics;
+	PartsRobotGraphics partsRobotGraphics;
 
 	public Semaphore animation = new Semaphore(1, true);
 
@@ -194,7 +194,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		arm.part = part;
 
 		// Tells the graphics to pickup the part
-		// guiPartsRobot.pickUpPart(part.part);
+		// partsRobotGraphics.pickUpPart(part.part);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -214,7 +214,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		for (MyKit mk : MyKits) {
 			if (mk.kit.needPart(arm.part)) {
 
-				// guiPartsRobot.givePartToKit(mk.kit.kit);
+				// partsRobotGraphics.givePartToKit(mk.kit.kit);
 				try {
 					animation.acquire();
 				} catch (InterruptedException e) {
@@ -224,6 +224,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 				// Tells the kit it has the part now
 				mk.kit.parts.add(arm.part);
+				mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
 				// mk.kit.partsExpected.remove(arm.part);
 				arm.part = null;
 				arm.AS = ArmStatus.Empty;
@@ -323,11 +324,11 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	public PartsRobotGraphics getPartsrobotGraphics() {
-		return partsrobotGraphics;
+		return partsRobotGraphics;
 	}
 
 	public void setGraphicalRepresentation(DeviceGraphics partsrobotGraphics) {
-		this.partsrobotGraphics = (PartsRobotGraphics) partsrobotGraphics;
+		this.partsRobotGraphics = (PartsRobotGraphics) partsrobotGraphics;
 	}
 
 	public Semaphore getAnimation() {

@@ -79,6 +79,10 @@ public class PartsRobotManager extends Client implements ActionListener{
 		picNest.addActionListener(new NetworkingButtonListener(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND, Constants.CAMERA_TARGET, writer));
 		panel.add(picNest);
 		
+		JButton removeNest = new JButton("remove from nest");
+		removeNest.addActionListener(new NetworkingButtonListener(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND, Constants.NEST_TARGET+":"+0, writer));
+		panel.add(removeNest);
+		
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
 	}

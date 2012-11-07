@@ -50,7 +50,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		isFull = true;
 		nestLocation = new Location(600, 100 + nestID * 75);
 		
-		// TODO may need to remove temp later today - cannot create a random PartType
+//		 TODO may need to remove temp later today - cannot create a random PartType
 		for (int i = 0; i < 8; i++) {
 			PartGraphicsDisplay temp = new PartGraphicsDisplay(PartType.A);
 			if(i < 4) {
@@ -102,21 +102,21 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				addPartToCorrectLocation(temp, partsInNest.size());
 				//choosing the correct location of the part
 				// TODO should done request be outside of the if/else?
-				client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
+				client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET+":"+nestID, null));
 			}
 			
 		} else if (req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)) {
 			// TODO code to handle command
 			partsInNest.remove(0);
 			updateLocationOfParts(partsInNest);
-			client.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
+			client.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET+":"+nestID, null));
 		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND)) {
 			// TODO code to handle command
 			for(int i = 0; i < partsInNest.size(); i++){
 				partsInNest.remove(0);
 			}
 			
-			client.sendData(new Request(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET, null));
+			client.sendData(new Request(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET+":"+nestID, null));
 		}	
 	}
 

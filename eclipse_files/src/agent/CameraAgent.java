@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import agent.NestAgent.MyPart;
 import agent.data.Kit;
 import agent.data.Part;
 import agent.interfaces.Camera;
@@ -11,6 +12,7 @@ import agent.interfaces.Nest;
 
 import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.CameraGraphics;
+import GraphicsInterfaces.NestGraphics;
 
 /**
  * Camera is responsible for inspecting full nests and assembled kits.
@@ -55,11 +57,11 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	public class MyNest {
-		public Nest nest;
-		public List<Part> Parts;
+		public NestAgent nest;
+	//	public List<Part> Parts;
 		public NestStatus state;
 
-		public MyNest(Nest nest) {
+		public MyNest(NestAgent nest) {
 			this.nest = nest;
 			this.state = NestStatus.NOT_READY;
 		}
@@ -86,13 +88,13 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	@Override
-	public void msgTakePictureNestDone(NestAgent nest) {
+	public void msgTakePictureNestDone(NestGraphics nest) {
 		print("CameraGraphics finished animating nest photograph");
 		synchronized (nests) {
 			for (MyNest n : nests) {
-				if (n.nest == nest) {
+				if (n.nest.guiNest == nest) 
+				{
 					// In v0 all parts are good parts
-					n.Parts = nest.getParts();
 					n.state = NestStatus.PHOTOGRAPHED;
 					break;
 				}
@@ -180,9 +182,9 @@ public class CameraAgent extends Agent implements Camera {
 
 	private void tellPartsRobot(MyNest n) {
 		List<Part> goodParts = new ArrayList<Part>();
-		for (Part part : n.Parts) {
-			if (part.isGood) {
-				goodParts.add(part);
+		for (MyPart part : n.nest.currentParts) {
+			if (part.part.isGood) {
+				goodParts.add(part.part);
 			}
 		}
 		print("good parts count: " + goodParts.size());
@@ -193,9 +195,9 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	private void takePictureOfNest(MyNest n) {
-		/*
-		 * if (guiCamera != null) { guiCamera.takeNestPhoto(n.nest.guiNest); }
-		 */
+		
+		 if (guiCamera != null) { guiCamera.takeNestPhoto(n.nest.guiNest); }
+		
 		n.state = NestStatus.PHOTOGRAPHING;
 		stateChanged();
 	}

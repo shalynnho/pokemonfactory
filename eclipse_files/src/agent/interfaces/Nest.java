@@ -8,7 +8,7 @@ import GraphicsInterfaces.NestGraphics;
 
 public interface Nest {
 
-	NestGraphics guiNest = null;
+	public NestGraphics guiNest = null;
 
 	//MESSAGES
 	public abstract void msgHereIsPartType(PartType type);

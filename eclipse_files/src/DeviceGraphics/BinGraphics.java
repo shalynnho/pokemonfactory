@@ -1,20 +1,23 @@
 package DeviceGraphics;
 
-import java.awt.Toolkit;
-
 import Networking.Request;
 import Utils.Location;
+import agent.data.*;
 
 public class BinGraphics implements DeviceGraphics  {
 	
-	PartGraphics part; // Type of part found in bin
-	int partNumber; // Number of parts in bin
-	Location binLocation;
+	private PartGraphics part; // Type of part found in bin
+	private int partNumber; // Number of parts in bin
+	private Location binLocation;
+	private boolean isFull;
+	private Bin bin;
 	
 	// Constructor
-	public BinGraphics (PartGraphics parts, int partNum) {
+	public BinGraphics (PartGraphics parts, int partNum, Bin b) {
 		part = parts;
 		partNumber = partNum;
+		isFull = true;
+		bin = b;
 	}
 	
 	/**
@@ -56,6 +59,13 @@ public class BinGraphics implements DeviceGraphics  {
 		return binLocation;
 	}
 
+	public void setFull(boolean f) {
+		isFull = f;
+	}
+	
+	public Bin getBin() {
+		return bin;
+	}
 
 	@Override
 	public void receiveData(Request req) {
