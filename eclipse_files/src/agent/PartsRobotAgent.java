@@ -218,7 +218,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				try {
 					animation.acquire();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
