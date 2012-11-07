@@ -45,6 +45,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 													// until Kit Robot finalized
 		// server.sendData(new Request("GetThisKit", ))
 		kitsOnConveyor.remove(0);
+
 	}
 
 	/**
