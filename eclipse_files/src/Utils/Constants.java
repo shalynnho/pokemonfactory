@@ -58,6 +58,14 @@ public abstract class Constants {
 	// Nest Images
 	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage("src/images/Nest.png");
+	
+	// Part Images
+	public static final Image PART_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage("src/images/samplepart.png");
+	
+	// Bin Images
+	public static final Image BIN_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage("src/images/samplebin.png");
 
 	// TARGET NAMES
 	// ==================================
