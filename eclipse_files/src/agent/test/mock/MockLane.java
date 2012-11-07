@@ -1,9 +1,10 @@
 package agent.test.mock;
 
+import DeviceGraphics.DeviceGraphics;
+import DeviceGraphics.PartGraphics;
 import agent.data.Part;
 import agent.data.PartType;
 import agent.interfaces.Lane;
-import DeviceGraphics.DeviceGraphics;
 
 /**
  * Mock Lane
@@ -32,18 +33,6 @@ public class MockLane extends MockAgent implements Lane {
 	}
 
 	@Override
-	public void msgReceivePartDone(Part part) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void msgGivePartToNestDone(Part part) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;
@@ -63,7 +52,19 @@ public class MockLane extends MockAgent implements Lane {
 
 	public void setGraphicalRepresentation(DeviceGraphics lane) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void msgReceivePartDone(PartGraphics part) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgGivePartToNestDone(PartGraphics part) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
