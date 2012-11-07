@@ -70,7 +70,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void receiveBin() {
-		// TODO fix bin location
+		// TODO adjust bin location later
 		bgd = new BinGraphicsDisplay(new Location(feederLocation.getX() + FEEDER_WIDTH - 50, feederLocation.getY() + FEEDER_HEIGHT/2), PartType.B);
 		bgd.setFull(true);
 		haveBin = true;
@@ -82,12 +82,13 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			diverterTop = !diverterTop;
 		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			receiveBin();
+			haveBin = true;
 			client.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET, null));
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND)) {
 			// TODO future: move bin to purge area
 			
 			if (haveBin) {
-				bgd.setFull(false); // could be problematic if called when bin has not been received
+				bgd.setFull(false);
 				haveBin = false;
 			}
 			

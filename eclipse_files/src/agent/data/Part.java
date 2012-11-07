@@ -15,6 +15,7 @@ public class Part {
 	}
 
 	public Part(PartType type) {
+		partGraphics= new PartGraphics(type);
 		this.type = type;
 		isGood = true;
 		up=true;
@@ -24,4 +25,5 @@ public class Part {
 		up=!up;
 	}
 
+	
 }

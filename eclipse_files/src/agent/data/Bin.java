@@ -1,9 +1,10 @@
 package agent.data;
 
+import DeviceGraphics.BinGraphics;
 import agent.FeederAgent;
 
 public class Bin {
-	public DeviceGraphics.BinGraphics binGraphics;
+	public BinGraphics binGraphics;
 	public Part part;
 	public FeederAgent feeder;
 
@@ -18,6 +19,7 @@ public class Bin {
 	}
 
 	public Bin(Part part) {
+		binGraphics= new BinGraphics(this);
 		this.part = part;
 	}
 

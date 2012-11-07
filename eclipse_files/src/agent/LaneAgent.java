@@ -84,8 +84,9 @@ public class LaneAgent extends Agent implements Lane {
 
 	@Override
 	public void msgReceivePartDone(Part part) {
+		print("received that the GUI was done with the part");
 		for(MyPart p:currentParts){
-			if(p.part.equals(part)){
+			if(p.status==PartStatus.BEGINNING_LANE){
 				p.status=PartStatus.END_LANE;
 				break;
 			}
@@ -116,6 +117,7 @@ public class LaneAgent extends Agent implements Lane {
 			}
 		}
 		for (MyPart part : currentParts) {
+			print(part.status.toString());
 			if (part.status == PartStatus.END_LANE) {
 				giveToNest(part.part);
 				return true;
@@ -127,7 +129,7 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public void getParts(PartType requestedType) {
 		print("Telling Feeder that it needs a part");
-		feeder.msgINeedPart(requestedType);
+		feeder.msgINeedPart(requestedType,this);
 		requestList.remove(requestedType);
 		stateChanged();
 	}
