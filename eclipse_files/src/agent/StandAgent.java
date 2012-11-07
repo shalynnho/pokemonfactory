@@ -150,7 +150,7 @@ public class StandAgent extends Agent implements Stand {
 		print("in my scheduler");
 
 		if (numKitsToMake > 0) {
-			print("NumKitsToMake greater than 0");
+			// print("NumKitsToMake greater than 0");
 			synchronized (myKits) {
 				// Received a kit from kit robot
 				for (MyKit mk : myKits.keySet()) {

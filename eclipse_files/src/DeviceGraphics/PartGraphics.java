@@ -1,33 +1,27 @@
 package DeviceGraphics;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-
-import agent.data.PartType;
-
 import Utils.Location;
+import agent.data.PartType;
 
 public class PartGraphics {
 	PartType partType;
 	Location partLocation;
-	
+
 	// PartType????
-	public PartGraphics (PartType type) {
-		System.out.println("made part with part type");
+	public PartGraphics(PartType type) {
 		partType = type;
 	}
-	
-	public void setLocation (Location newLocation) {
+
+	public void setLocation(Location newLocation) {
 		partLocation = newLocation;
 	}
-	
-	
-	public Location getLocation () {
+
+	public Location getLocation() {
 		return partLocation;
 	}
-	
-	public PartType getPartType () {
+
+	public PartType getPartType() {
 		return partType;
 	}
-	
+
 }
