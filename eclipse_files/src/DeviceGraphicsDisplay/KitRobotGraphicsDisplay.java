@@ -292,7 +292,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			} else if (finalJob) {
 				if(position.equals(Position.location1Position) && moveToFinalPosition.equals(Command.moveToLocation2))
 				{
-					kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_TARGET, Constants.KIT_ROBOT_ON_STAND_DONE, null));
+					//kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_TARGET, Constants.KIT_ROBOT_ON_STAND_DONE, null));
 				}
 				finalJob = false;
 				jobIsDone = true;
@@ -372,6 +372,11 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		checkDegrees();
 		doJob();
 		AnimationToConveyorDone = false;
+		if(currentDegree== 180 && moveToFinalPosition.equals(Command.moveToLocation1))
+		{
+			kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_ON_STAND_DONE, Constants.KIT_ROBOT_TARGET, null));
+		}
+		
 		for (int i = 0; i < kits.size(); i++) {
 
 			kits.get(i).drawRotate(c, g);
