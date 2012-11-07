@@ -179,6 +179,10 @@ public abstract class Constants {
 	public static final String CAMERA_TAKE_NEST_PHOTO_COMMAND = "cameranest";
 	public static final String CAMERA_TAKE_KIT_PHOTO_COMMAND = "camerakit";
 	// end nestgraphics logic to display commands
+	
+	// kits. WILL CHANGE
+	public static final String KIT_UPDATE_PARTS_LIST_COMMAND = "updateParts";
+	//end kits
 
 	// CLIENT NAMES
 	// ==================================

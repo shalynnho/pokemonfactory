@@ -164,6 +164,8 @@ public class Server {
 			sendDataToLane(req);
 		} else if (target.contains(Constants.FEEDER_TARGET)) {
 			sendDataToLane(req);
+		} else if (target.contains(Constants.KIT_TARGET)) {
+			sendDataToPartsRobot(req);
 		} 
 	}
 	
