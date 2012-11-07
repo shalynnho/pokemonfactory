@@ -2,7 +2,6 @@ package DeviceGraphics;
 
 import Networking.*;
 import Utils.*;
-import factory.*;
 import agent.Agent;
 import agent.LaneAgent;
 import agent.data.*;
@@ -28,8 +27,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	private int laneID;
 	// the lane agent
 	private LaneAgent laneAgent;
-	// the Nest associated with this LaneGraphics object
-//	private NestGraphics nest;
 
 	// dynamically stores Parts currently on Lane
 	private ArrayList<PartGraphics> partsOnLane;
@@ -38,7 +35,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 
 	// vibration setting; how quickly parts vibrate down Lane
 	private int amplitude;
-
 	// true if Lane is on
 	private boolean laneOn;
 
@@ -75,9 +71,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 * @param pg
 	 *            - the part passed to the nest associated with this lane
 	 */
-	public void givePartToNest(Part p) {
-		PartGraphics pg = p.part;
-
+	public void givePartToNest(PartGraphics pg) {
 		partsOnLane.remove(0); // make sure to check that correct part is removed
 		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET +":"+ laneID, null));
 	}
@@ -92,27 +86,9 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		server.sendData(new Request(Constants.LANE_PURGE_COMMAND,
 				Constants.LANE_TARGET  +":"+  laneID, null));
 	}
-
-	/**
-	 * Called when part is delivered to this lane
-	 * 
-	 * @param pg
-	 *            - the part passed to this lane
-	 */
-	public void receivePart(Part p) {
-		agentPartsOnLane.add(p);
-		PartGraphics pg = p.part;
-		partsOnLane.add(pg);
-		pg.setLocation(startLoc);
-		PartType pt = p.type;
-		
-		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET+laneID, pt));
-		
-		// later pass if good/bad part
-	}
 	
 	/**
-	 * TODO: OVERLOADED TEST METHOD FOR V0, REMOVE LATER
+	 * Called when part is delivered to this lane
 	 * 
 	 * @param pg
 	 *            - the part passed to this lane
@@ -137,14 +113,14 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		// completed.
 		
 		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {	// testing purposes only, remove later
-			receivePart(new PartGraphics(PartType.A));			
+			receivePart(new PartGraphics(PartType.A));
+			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND+Constants.DONE_SUFFIX)) {
-			// add these back later
-			//laneAgent.msgReceivePartDone(agentPartsOnLane.get(agentPartsOnLane.size()-1));
+			laneAgent.msgReceivePartDone(agentPartsOnLane.get(agentPartsOnLane.size()-1));
+			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
-			// add these back later
-			//laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
-			//agentPartsOnLane.remove(0);
+			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
+			agentPartsOnLane.remove(0);
 		}
 	
 	}
