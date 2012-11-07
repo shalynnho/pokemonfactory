@@ -2,11 +2,14 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
+import agent.Agent;
+
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
 
+import factory.PartsRobotAgent;
 //import factory.data.Kit;
 import factory.data.Part;
 
@@ -22,8 +25,10 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 	int i;
 	boolean nest1, nest2;
 	private Server server;
+	private PartsRobotAgent partsRobotAgent;
 	
-	public PartsRobotGraphics(Server s) {
+	public PartsRobotGraphics(Server s, Agent a ) {
+		partsRobotAgent = (PartsRobotAgent)a;
 		initialLocation = new Location(250,450);
 		currentLocation = initialLocation;
 		arm1 = false;
@@ -48,7 +53,7 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 		nest2 = true;
 		server.sendData(new Request(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
 	}
-	public void pickUpPart(Part part){
+	/*public void pickUpPart(Part part){
 		//currentLocation = location;
 		//Animation(currentLocation, 10);
 		PartGraphics pg = part.part;
@@ -59,15 +64,17 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 		 * pickup from nests
 		 * goes to a location to pick up a part
 		 * be able to hold 4 parts at a time
-		 */
+		 
 	}
 	public void pickUpPart(){
 		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
 		System.out.println("pickup");
-	}
+	}*/
 	public void pickUpPart(PartGraphics pg) {
 		// TODO Auto-generated method stub
 		partArray.add(pg);
+		rotateArm();
+		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, pg.getLocation()));
 		//pg.setLocation()
 	}
 	
@@ -170,7 +177,7 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 	}
 	
 	public void receiveData(Request req) {
-		if (req.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND)){
+		/*if (req.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND)){
 			System.out.println("got to NEST1");
 			goToNest1();
 			//System.out.println("got to NEST1");
@@ -186,6 +193,10 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 			System.out.println("gohome");
 		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND)){
 			givesPartToKit();
+		} else */if (req.equals(Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
+		    partsRobotAgent.msgPickUpPartDone();
+		} else if (req.equals(Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX)) {
+		    partsRobotAgent.msgGivePartToKitDone();
 		}
 	}
 
@@ -194,6 +205,13 @@ public class PartsRobotGraphics extends DeviceGraphics implements GraphicsInterf
 	@Override
 	public void givePartToKit(PartGraphics part, KitGraphics kit) {
 		// TODO Auto-generated method stub
+		for(PartGraphics p : partArray)
+		{
+			if (p == part)
+				partArray.remove(p);
+		}
+		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, kit.getLocation()));
+		
 		
 	}	
 	

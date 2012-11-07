@@ -120,6 +120,8 @@ public abstract class Constants {
 	public static final String PARTS_ROBOT_GIVE_COMMAND = "give"; //give part to kit
 	public static final String PARTS_ROBOT_GO_HOME_COMMAND ="gohome"; //parts robot goes back to initial location
 	public static final String PARTS_ROBOT_GO_KIT_COMMAND = "gokit"; //go to kit
+	public static final String PARTS_ROBOT_RECEIVE_PART_COMMAND = "receivedpart"; //received part from nest
+	public static final String PARTS_ROBOT_GIVE_PART_COMMAND = "givepart"; //gave part to kit
 	// end partsrobot logic to display commands
 	
 	// nestgraphics logic to display commands
