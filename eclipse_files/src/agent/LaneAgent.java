@@ -90,7 +90,7 @@ public class LaneAgent extends Agent implements Lane {
 		print("received that the GUI was done with the part");
 		for(MyPart p:currentParts){
 			if(p.status==PartStatus.BEGINNING_LANE){
-				//p.status=PartStatus.END_LANE;
+				p.status=PartStatus.END_LANE;
 				break;
 			}
 		}
@@ -150,7 +150,9 @@ public class LaneAgent extends Agent implements Lane {
 			e.printStackTrace();
 		}
 		currentNum--;
-		nest.msgHereIsPart(part);
+		if(nest != null) {
+			nest.msgHereIsPart(part);
+		}
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
 				currentParts.remove(currentPart);
