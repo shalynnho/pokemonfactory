@@ -37,14 +37,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	// y-coordinates of Part on Lane, depending on laneID
 	// TODO: ADJUST THESE LATER. NOT FOR V0, NOT IN DESIGN
-	private static final int LANE0_Y = 500;
-	private static final int LANE1_Y = 450;
-	private static final int LANE2_Y = 400;
-	private static final int LANE3_Y = 350;
-	private static final int LANE4_Y = 300;
-	private static final int LANE5_Y = 250;
-	private static final int LANE6_Y = 200;
-	private static final int LANE7_Y = 150;
+	private static final int LANE0_Y = 100;
+	private static final int LANE1_Y = 175;
+	private static final int LANE2_Y = 250;
+	private static final int LANE3_Y = 325;
+	private static final int LANE4_Y = 400;
+	private static final int LANE5_Y = 475;
+	private static final int LANE6_Y = 550;
+	private static final int LANE7_Y = 625;
 
 	// stores the parts on the lane
 	private ArrayList<PartGraphicsDisplay> partsOnLane;
