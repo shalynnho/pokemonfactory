@@ -11,6 +11,7 @@ import agent.interfaces.Camera;
 import agent.interfaces.Nest;
 
 import DeviceGraphics.DeviceGraphics;
+import DeviceGraphics.KitGraphics;
 import GraphicsInterfaces.CameraGraphics;
 import GraphicsInterfaces.NestGraphics;
 
@@ -88,15 +89,29 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	@Override
-	public void msgTakePictureNestDone(NestGraphics nest) {
+	public void msgTakePictureNestDone(NestGraphics nest, boolean done, NestGraphics nest2,boolean done2) {
 		print("CameraGraphics finished animating nest photograph");
+		boolean found1 = false;
+		boolean found2 = false;
 		synchronized (nests) {
 			for (MyNest n : nests) {
 				if (n.nest.guiNest == nest) 
 				{
 					// In v0 all parts are good parts
 					n.state = NestStatus.PHOTOGRAPHED;
-					break;
+					if(found2){
+						break;
+					}
+					found1 = true;
+				}
+				else if (n.nest.guiNest == nest2) 
+				{
+					// In v0 all parts are good parts
+					n.state = NestStatus.PHOTOGRAPHED;
+					if(found1){
+						break;
+					}
+					found2 = true;
 				}
 			}
 		}
@@ -104,10 +119,10 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	@Override
-	public void msgTakePictureKitDone(Kit k, boolean done) {
+	public void msgTakePictureKitDone(KitGraphics k, boolean done) {
 		print("CameraGraphics finished animating kit photograph. \nKit passed inspection.");
 		for (MyKit mk : kits) {
-			if (mk.kit == k) {
+			if (mk.kit.kitGraphics == k) {
 				mk.kitDone = done;
 				mk.ks = KitStatus.DONE;
 			}
