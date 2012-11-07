@@ -123,7 +123,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics, De
 	public void msgPlaceKitOnStand1(KitGraphics kit) {
 		// TODO Auto-generated method stub
 		positions[3]=kit;
-		server.sendData(new Request("moveKitToStand1", Constants.KIT_ROBOT_TARGET, null));	
+		server.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR, Constants.KIT_ROBOT_TARGET, null));	
 	}
 
     public void sendMessageBack(Server s) {
