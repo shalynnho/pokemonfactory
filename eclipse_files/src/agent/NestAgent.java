@@ -231,5 +231,11 @@ public class NestAgent extends Agent implements Nest {
 		}
 		return types;
 	}
+	//HACK
+	public void FillWithParts() {
+		for(int i = 0; i < full;i++){
+			currentParts.add(new MyPart(new Part(PartType.A)));
+		}
+	}
 
 }
