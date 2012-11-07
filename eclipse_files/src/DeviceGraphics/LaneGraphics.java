@@ -15,8 +15,12 @@ import java.util.ArrayList;
  * 
  */
 public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGraphics {
+	// width and height of the part
+	private static final int PART_WIDTH = 20;
+	// horizontal length of the Lane image
+	private static final int LANE_LENGTH = 400;
 	// max number of parts that can be on a Lane
-	private static final int MAX_PARTS = 8;
+	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
 
 	// start location of the part
 	private Location startLoc;
@@ -109,18 +113,18 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 */
 	public void receiveData(Request r) {
 		String cmd = r.getCommand();	
-		// TODO: We want confirmation from Display each time an animation is
-		// completed.
 		
 		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {	// testing purposes only, remove later
 			receivePart(new PartGraphics(PartType.A));
 			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND+Constants.DONE_SUFFIX)) {
-			laneAgent.msgReceivePartDone(agentPartsOnLane.get(agentPartsOnLane.size()-1));
+			// TODO: add these back later
+//			laneAgent.msgReceivePartDone(agentPartsOnLane.get(agentPartsOnLane.size()-1));
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
-			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
-			agentPartsOnLane.remove(0);
+			// TODO: add these back later
+//			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
+//			agentPartsOnLane.remove(0);
 		}
 	
 	}
