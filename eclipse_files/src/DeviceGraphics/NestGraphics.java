@@ -115,6 +115,8 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics, DeviceGrap
 			nestAgent.msgGivePartToPartsRobotDone();
 		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
 			nestAgent.msgPurgingDone();
+		} else if(req.getCommand().equals(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)){
+			server.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND, Constants.NEST_TARGET+":"+nestID, null));
 		}
 		
 	}

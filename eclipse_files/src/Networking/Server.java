@@ -12,6 +12,7 @@ import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.FeederGraphics;
 import DeviceGraphics.KitRobotGraphics;
 import DeviceGraphics.LaneGraphics;
+import DeviceGraphics.NestGraphics;
 import DeviceGraphics.PartsRobotGraphics;
 import Utils.Constants;
 import agent.Agent;
@@ -89,8 +90,8 @@ public class Server {
 		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this));
 		devices.put(Constants.CAMERA_TARGET, new CameraGraphics(this, agents.get(Constants.CAMERA_TARGET)));
-		//devices.put(Constants.NEST_TARGET+":"+0, new NestGraphicsDisplay(this, 0));
-		//devices.put(Constants.NEST_TARGET+":"+1, new NestGraphicsDisplay(this, 1));
+		devices.put(Constants.NEST_TARGET+":"+0, new NestGraphics(this, 0,agents.get(Constants.NEST_TARGET)));
+		devices.put(Constants.NEST_TARGET+":"+1, new NestGraphics(this, 1,agents.get(Constants.NEST_TARGET)));
 	}
 	
 	private void connectAgentsWithDevices() {
