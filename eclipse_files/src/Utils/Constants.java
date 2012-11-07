@@ -149,6 +149,10 @@ public abstract class Constants {
 	
 	public static final String KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR = "robot logic moves loc1 to conv";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_CONVEYOR = "robot display moves kit to conv";
+	
+	public static final String KIT_ROBOT_ON_STAND_DONE = "robot display sends to robot logic that kit to stand is done";
+	public static final String KIT_ROBOT_ON_CONVEYOR_DONE="robot display sends to robot logic that kit to conveyor is done";
+	
 	// end kitrobot logic
 
 	// partsrobot logic to display commands
