@@ -6,6 +6,8 @@ import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
+import agent.Agent;
+import agent.ConveyorAgent;
 import agent.StandAgent;
 
 /**
@@ -21,14 +23,16 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics, De
 	private Location location;
 	private Server server;
 	private int velocity;
+	private ConveyorAgent conveyorAgent;
 	
-	
-	public ConveyorGraphics(Server s){
+	public ConveyorGraphics(Server s, Agent a){
 		location = new Location(0,0);
 		kitsOnConveyor = new ArrayList<KitGraphics>();
 		kitsToLeave = new ArrayList<KitGraphics>();
 		server = s;
 		velocity = 1;
+		conveyorAgent = (ConveyorAgent)a;
+		
 	} 
 	
 	public void bringEmptyKit(KitGraphics kg){
@@ -79,6 +83,8 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics, De
 				//server.sendData(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
 				StandAgent stand = (StandAgent)server.agents.get("Stand");
 				stand.msgMakeKits(1);
+			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND + Constants.DONE_SUFFIX)) {
+				conveyorAgent.msgBringEmptyKitDone();
 			}
 		}
 	}

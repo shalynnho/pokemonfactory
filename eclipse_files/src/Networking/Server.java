@@ -121,7 +121,7 @@ public class Server {
 		devices.put(
 				Constants.FEEDER_TARGET,
 				new FeederGraphics(0, this, agents.get(Constants.FEEDER_TARGET)));
-		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this));
+		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this, agents.get(Constants.CONVEYOR_TARGET)));
 		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this,
 				agents.get(Constants.KIT_ROBOT_TARGET)));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this));
