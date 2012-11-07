@@ -174,4 +174,9 @@ public class LaneAgent extends Agent implements Lane {
 		this.nest = nest;
 	}
 
+	
+	public void thisFeederAgent(FeederAgent feeder) {
+		this.feeder = feeder;
+	}
+	
 }
