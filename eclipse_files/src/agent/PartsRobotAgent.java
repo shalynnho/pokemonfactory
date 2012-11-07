@@ -157,10 +157,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				
 				synchronized (GoodParts) {
 					for (Nest nest : GoodParts.keySet()) {
-						System.out.println("test");
+						
 						// Going through all the good parts
 						for (Part part : GoodParts.get(nest)) {
-							System.out.println("1");
+							
 							for (MyKit mk : MyKits) {
 								// Checking if the good part is needed by
 								// either kit
