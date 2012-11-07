@@ -97,6 +97,8 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 				stand.msgMakeKits(1);
 			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND + Constants.DONE_SUFFIX)) {
 				conveyorAgent.msgBringEmptyKitDone();
+			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND + Constants.DONE_SUFFIX)) {
+				conveyorAgent.msgReceiveKitDone();
 			}
 		}
 	}

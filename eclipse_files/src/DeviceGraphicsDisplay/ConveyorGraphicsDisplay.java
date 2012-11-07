@@ -68,8 +68,8 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitsToLeave.add(new KitGraphicsDisplay(client, new Location(195,400)));
 	}
 	
-	public void animationDone() {
-		client.sendData(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND + Constants.DONE_SUFFIX, Constants.CONVEYOR_TARGET, null));
+	public void animationDone(Request r) {
+		client.sendData(r);
 	}
 	
 	public void draw(JComponent c, Graphics2D g2){
@@ -99,13 +99,16 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				tempKit.draw(c,g2);
 				Location temp = tempKit.kitLocation;
 				tempKit.setLocation(new Location(temp.getX(), temp.getY() + velocity));
-				animationDone();
+				animationDone(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND + Constants.DONE_SUFFIX, Constants.CONVEYOR_TARGET, null));
 			}
 		}
 		
 		for(int i = 0; i < kitsToLeave.size(); i++) {
 			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
 			tempKit.draw(c, g2);
+			if (tempKit.kitLocation.getX() == 800) {
+				animationDone(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND + Constants.DONE_SUFFIX, Constants.CONVEYOR_TARGET, null));
+			}
 			Location temp = tempKit.kitLocation;
 			tempKit.setLocation(new Location(temp.getX() + velocity, temp.getY()));
 		}
