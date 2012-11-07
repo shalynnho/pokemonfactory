@@ -104,27 +104,16 @@ public class Server {
 	}
 
 	private void initDevices() {
-		devices.put(
-				Constants.LANE_TARGET + ":" + 0,
-				new LaneGraphics(this, 0, agents.get(Constants.LANE_TARGET
-						+ ":" + 0), agents.get(Constants.FEEDER_TARGET)));
-		devices.put(
-				Constants.LANE_TARGET + ":" + 1,
-				new LaneGraphics(this, 1, agents.get(Constants.LANE_TARGET
-						+ ":" + 1), agents.get(Constants.FEEDER_TARGET)));
-		devices.put(
-				Constants.FEEDER_TARGET,
-				new FeederGraphics(0, this, agents.get(Constants.FEEDER_TARGET), agents.get(Constants.LANE_TARGET + ":" + 0), agents.get(Constants.LANE_TARGET + ":" + 1)));
+		devices.put(Constants.LANE_TARGET + ":" + 0,new LaneGraphics(this, 0, agents.get(Constants.LANE_TARGET+ ":" + 0), agents.get(Constants.FEEDER_TARGET)));
+		devices.put(Constants.LANE_TARGET + ":" + 1,new LaneGraphics(this, 1, agents.get(Constants.LANE_TARGET+ ":" + 1), agents.get(Constants.FEEDER_TARGET)));
+		devices.put(Constants.FEEDER_TARGET,new FeederGraphics(0, this, agents.get(Constants.FEEDER_TARGET), agents.get(Constants.LANE_TARGET + ":" + 0), agents.get(Constants.LANE_TARGET + ":" + 1)));
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this, agents.get(Constants.CONVEYOR_TARGET)));
-		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this,
-				agents.get(Constants.KIT_ROBOT_TARGET)));
+		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this,agents.get(Constants.CONVEYOR_TARGET)));
+		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this,agents.get(Constants.KIT_ROBOT_TARGET)));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this));
-		devices.put(Constants.CAMERA_TARGET,
-				new CameraGraphics(this, agents.get(Constants.CAMERA_TARGET)));
-		devices.put(Constants.NEST_TARGET + ":" + 0, new NestGraphics(this, 0,
-				agents.get(Constants.NEST_TARGET + ":" + 0)));
-		devices.put(Constants.NEST_TARGET + ":" + 1, new NestGraphics(this, 1,
-				agents.get(Constants.NEST_TARGET + ":" + 1)));
+		devices.put(Constants.CAMERA_TARGET,new CameraGraphics(this, agents.get(Constants.CAMERA_TARGET)));
+		devices.put(Constants.NEST_TARGET + ":" + 0, new NestGraphics(this, 0,agents.get(Constants.NEST_TARGET + ":" + 0)));
+		devices.put(Constants.NEST_TARGET + ":" + 1, new NestGraphics(this, 1,agents.get(Constants.NEST_TARGET + ":" + 1)));
 	}
 
 	private void connectAgentsWithDevices() {
