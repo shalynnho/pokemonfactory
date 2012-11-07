@@ -118,6 +118,14 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
 					Constants.CONVEYOR_TARGET, null));
 		}
+		else if(command.equals(Constants.KIT_ROBOT_ON_STAND_DONE))
+		{
+			kitRobotAgent.msgPlaceKitOnStandDone();
+		}
+		else if (command.equals(Constants.KIT_ROBOT_ON_CONVEYOR_DONE))
+		{
+			kitRobotAgent.msgPlaceKitOnConveyorDone();
+		}
 
 		// else if(command.equals())
 
