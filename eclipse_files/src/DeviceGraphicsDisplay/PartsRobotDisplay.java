@@ -286,11 +286,11 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.add(pgd);
 			I++;
 			System.out.println("picked up part1");
+			pickup = false;
 			partsRobotClient.sendData(new Request(
 				    Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
 				    Constants.PARTS_ROBOT_TARGET,
 				    null));
-			pickup = false;
 		}
 		else if (!arm2){
 			arm2 = true;
@@ -298,11 +298,11 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.add(pgd);
 			I++;
 			System.out.println("picked up part2");
+			pickup = false;
 			partsRobotClient.sendData(new Request(
 				    Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
 				    Constants.PARTS_ROBOT_TARGET,
 				    null));
-			pickup = false;
 		}
 		else if (!arm3){
 			arm3 = true;
@@ -310,11 +310,11 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.add(pgd);
 			I++;
 			System.out.println("picked up part3");
+			pickup = false;
 			partsRobotClient.sendData(new Request(
 				    Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
 				    Constants.PARTS_ROBOT_TARGET,
 				    null));
-			pickup = false;
 		}
 		else if (!arm4){
 			arm4 = true;
@@ -322,11 +322,11 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.add(pgd);
 			I++;
 			System.out.println("picked up part4");
+			pickup = false;
 			partsRobotClient.sendData(new Request(
 				    Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
 				    Constants.PARTS_ROBOT_TARGET,
 				    null));
-			pickup = false;
 		}
 		else
 			System.out.println("Can't pick up more parts.");
@@ -340,7 +340,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.remove(I);
 			System.out.println("gave part4");
 			partsRobotClient.sendData(new Request(
-				    Constants.PARTS_ROBOT_GIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX, 
 				    Constants.PARTS_ROBOT_TARGET,
 				    null));
 		}
@@ -350,7 +350,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.remove(I);
 			System.out.println("gave part3");
 			partsRobotClient.sendData(new Request(
-				    Constants.PARTS_ROBOT_GIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX, 
 				    Constants.PARTS_ROBOT_TARGET,
 				    null));
 		}
@@ -360,7 +360,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.remove(I);
 			System.out.println("gave part2");
 			partsRobotClient.sendData(new Request(
-				    Constants.PARTS_ROBOT_GIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX, 
 				    Constants.PARTS_ROBOT_TARGET,
 				    null));
 		}
@@ -370,7 +370,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.remove(I);
 			System.out.println("gave part1");
 			partsRobotClient.sendData(new Request(
-				    Constants.PARTS_ROBOT_GIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX, 
 				    Constants.PARTS_ROBOT_TARGET,
 				    null));
 		}

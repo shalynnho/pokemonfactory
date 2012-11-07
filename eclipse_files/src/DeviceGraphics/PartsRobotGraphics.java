@@ -212,8 +212,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 			}
 		}
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, kit.getLocation()));
-		
-		
 	}	
 	
 }
