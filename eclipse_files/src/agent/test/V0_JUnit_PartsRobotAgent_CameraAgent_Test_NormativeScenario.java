@@ -135,8 +135,8 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 			// CameraGraphics sends this when the camera has taken a photograph
 			// of
 			// both nests.
-			camera.msgTakePictureNestDone(nest.guiNest);
-			camera.msgTakePictureNestDone(nest2.guiNest);
+			camera.msgTakePictureNestDone(nest.guiNest,true,nest2.guiNest,true);
+			//camera.msgTakePictureNestDone(nest2.guiNest);
 
 			assertEquals(
 					"Camera should have set nest's status to 'photographed'",
@@ -204,8 +204,8 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 			assertEquals(
 					"Camera should have set nest2's status to 'photographing'",
 					NestStatus.PHOTOGRAPHING, MyNest2.state);
-			camera.msgTakePictureNestDone(nest.guiNest);
-			camera.msgTakePictureNestDone(nest2.guiNest);
+			camera.msgTakePictureNestDone(nest.guiNest,true,nest2.guiNest,true);
+		//	camera.msgTakePictureNestDone(nest2.guiNest);
 			assertEquals(
 					"Camera should have set nest's status to 'photographed'",
 					NestStatus.PHOTOGRAPHED, MyNest.state);
@@ -242,8 +242,8 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 		assertEquals(
 				"Camera should have set nest2's status to 'photographing'",
 				NestStatus.PHOTOGRAPHING, MyNest2.state);
-		camera.msgTakePictureNestDone(nest.guiNest);
-		camera.msgTakePictureNestDone(nest2.guiNest);
+		camera.msgTakePictureNestDone(nest.guiNest,true,nest2.guiNest,true);
+		//camera.msgTakePictureNestDone(nest2.guiNest);
 		assertEquals("Camera should have set nest's status to 'photographed'",
 				NestStatus.PHOTOGRAPHED, MyNest.state);
 		assertEquals("Camera should have set nest2's status to 'photographed'",
@@ -290,7 +290,7 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 				CameraAgent.KitStatus.PICTURE_BEING_TAKEN, CameraKit.ks);
 
 		// In the normative scenario, assume the kit is good
-		camera.msgTakePictureKitDone(kit, true);
+		camera.msgTakePictureKitDone(kit.kitGraphics, true);
 
 		assertEquals("Camera's MyKit's status should now be 'done'",
 				CameraAgent.KitStatus.DONE, CameraKit.ks);
