@@ -9,10 +9,10 @@ public class Part {
 	public boolean isGood;
 	public boolean up;
 
-	public Part() {
+	/*public Part() {
 		isGood = true;
 		up=true;
-	}
+	}*/
 
 	public Part(PartType type) {
 		partGraphics= new PartGraphics(type);

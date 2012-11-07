@@ -16,6 +16,8 @@ public interface Feeder {
 	public abstract void msgRecieveBinDone(Bin bin);
 	
 	public abstract void msgPurgeBinDone(Bin bin);
+	
+	public abstract void msgFlipDiverterDone();
 
 	public abstract boolean pickAndExecuteAnAction();
 

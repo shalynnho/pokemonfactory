@@ -114,9 +114,14 @@ public class FeederAgent extends Agent implements Feeder {
 		// TODO Auto-generated method stub
 		animation.release();
 	}
+	
+	public void msgFlipDiverterDone() {
+		animation.release();
+	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		print("In the scheduler");
 		if(state==FeederStatus.IDLE){
 			for(MyLane lane:lanes){
 				if(lane.state==LaneStatus.NEEDS_PARTS){
@@ -128,11 +133,13 @@ public class FeederAgent extends Agent implements Feeder {
 		if(state==FeederStatus.FEEDING_PARTS){
 			for(MyLane lane:lanes){
 				if(lane.state==LaneStatus.GIVING_PARTS){
+					print("Giving parts to lanes");
 					if(lanes.get(currentOrientation).equals(lane)){
 						givePart(lane);
 						return true;
 					}
 					else {
+						print("Flipping Diverter");
 						flipDiverter();
 						return true;
 					}
@@ -159,7 +166,7 @@ public class FeederAgent extends Agent implements Feeder {
 		lane.numPartsNeeded--;
 		lane.lane.msgHereIsPart(new Part(lane.type));
 		if(lane.numPartsNeeded==0){
-			state=FeederStatus.PURGING;
+			//state=FeederStatus.PURGING;//For V1
 			lane.state=LaneStatus.DOES_NOT_NEED_PARTS;
 		}
 		stateChanged();
@@ -183,7 +190,7 @@ public class FeederAgent extends Agent implements Feeder {
 	
 	public void flipDiverter() {
 		print("Flipping the diverter");
-		//feederGUI.flipDiverter();
+		feederGUI.flipDiverter();
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {

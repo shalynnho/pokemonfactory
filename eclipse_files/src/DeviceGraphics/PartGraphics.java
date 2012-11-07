@@ -13,6 +13,7 @@ public class PartGraphics {
 	
 	// PartType????
 	public PartGraphics (PartType type) {
+		System.out.println("made part with part type");
 		partType = type;
 	}
 	

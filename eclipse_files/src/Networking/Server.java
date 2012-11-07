@@ -105,13 +105,8 @@ public class Server {
 				agents.get(Constants.LANE_TARGET + ":" + 1), agents.get(Constants.FEEDER_TARGET)));
 		devices.put(
 				Constants.FEEDER_TARGET,
-<<<<<<< HEAD
 				new FeederGraphics(0, this, agents.get(Constants.FEEDER_TARGET), agents.get(Constants.LANE_TARGET + ":" + 0), agents.get(Constants.LANE_TARGET + ":" + 1)));
-		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this));
-=======
-				new FeederGraphics(0, this, agents.get(Constants.FEEDER_TARGET)));
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this, agents.get(Constants.CONVEYOR_TARGET)));
->>>>>>> branch 'master' of https://github.com/usc-csci200-fall2012/team09.git
 		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this,
 				agents.get(Constants.KIT_ROBOT_TARGET)));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this));
@@ -131,6 +126,9 @@ public class Server {
 		agents.get(Constants.FEEDER_TARGET).setGraphicalRepresentation(devices.get(Constants.FEEDER_TARGET));
 		agents.get(Constants.LANE_TARGET + ":" + 0).setGraphicalRepresentation(devices.get(Constants.LANE_TARGET + ":" + 0));
 		agents.get(Constants.LANE_TARGET + ":" + 1).setGraphicalRepresentation(devices.get(Constants.LANE_TARGET + ":" + 1));
+		((FeederAgent) agents.get(Constants.FEEDER_TARGET)).setLanes((LaneAgent) agents.get(Constants.LANE_TARGET + ":" + 0), (LaneAgent) agents.get(Constants.LANE_TARGET + ":" + 1));
+		((LaneAgent) agents.get(Constants.LANE_TARGET + ":" + 0)).setFeeder((FeederAgent) agents.get(Constants.FEEDER_TARGET));
+		((LaneAgent) agents.get(Constants.LANE_TARGET + ":" + 1)).setFeeder((FeederAgent) agents.get(Constants.FEEDER_TARGET));
 		agents.get(Constants.FEEDER_TARGET).startThread();
 		agents.get(Constants.LANE_TARGET + ":" + 0).startThread();
 		agents.get(Constants.LANE_TARGET + ":" + 1).startThread();

@@ -80,6 +80,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
 			diverterTop = !diverterTop;
+			client.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET, null));
 		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			receiveBin();
 			haveBin = true;

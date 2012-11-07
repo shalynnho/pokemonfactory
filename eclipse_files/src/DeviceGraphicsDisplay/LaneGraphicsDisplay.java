@@ -229,9 +229,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			laneLoc = (Location) r.getData();
 			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
+			binIsHere=true;
 			if (binIsHere) {
-				PartType partType = (PartType) r.getData();
-				PartGraphicsDisplay pg = new PartGraphicsDisplay(partType);
+//				PartType partType = (PartType) r.getData();
+				PartGraphicsDisplay pg = new PartGraphicsDisplay(PartType.A);
 				Location newLoc = new Location(laneLoc.getX() + LANE_LENGTH,
 						laneLoc.getY() + (PART_WIDTH / 2));
 				pg.setLocation(newLoc);

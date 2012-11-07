@@ -240,13 +240,13 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	
 	//GET RID OF FOR V1
 	public void initializeV0Lane() {
-		feederAgent.thisLaneAgent(laneAgent);
-		laneAgent.msgINeedPart(PartType.A);
-		/*laneAgent.msgINeedPart(PartType.A);
+		//feederAgent.thisLaneAgent(laneAgent);
 		laneAgent.msgINeedPart(PartType.A);
 		laneAgent.msgINeedPart(PartType.A);
 		laneAgent.msgINeedPart(PartType.A);
-		laneAgent.msgINeedPart(PartType.A);*/
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
 		
 	}
 	

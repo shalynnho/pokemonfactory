@@ -83,16 +83,17 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 			feederAgent.msgRecieveBinDone(binGraphics.getBin());
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX)) {
 			feederAgent.msgPurgeBinDone(binGraphics.getBin());
-		}
-		else if (req.getCommand().equals("TESTING_FEEDER")) {
+		} else if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX)) {
+			feederAgent.msgFlipDiverterDone();
+		} else if (req.getCommand().equals("TESTING_FEEDER")) {
 			initializeV0Lane();
 		}
 	}
 	
 	
 	public void initializeV0Lane() {
-		lane1.thisFeederAgent(feederAgent);
-		lane2.thisFeederAgent(feederAgent);
+		//lane1.thisFeederAgent(feederAgent);
+		//lane2.thisFeederAgent(feederAgent);
 		feederAgent.msgHereAreParts(PartType.A, new Bin(new Part(PartType.A)));
 		
 		

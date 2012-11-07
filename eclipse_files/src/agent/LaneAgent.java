@@ -69,6 +69,7 @@ public class LaneAgent extends Agent implements Lane {
 
 	@Override
 	public void msgHereIsPart(Part p) {
+		print("I got a part");
 		currentNum++;
 		currentParts.add(new MyPart(p));
 		if(laneGUI !=null) {
@@ -89,7 +90,7 @@ public class LaneAgent extends Agent implements Lane {
 		print("received that the GUI was done with the part");
 		for(MyPart p:currentParts){
 			if(p.status==PartStatus.BEGINNING_LANE){
-				p.status=PartStatus.END_LANE;
+				//p.status=PartStatus.END_LANE;
 				break;
 			}
 		}
@@ -105,6 +106,7 @@ public class LaneAgent extends Agent implements Lane {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		print("In the Scheduler");
 		// TODO Auto-generated method stub
 		if(currentNum>=topLimit){
 			state=LaneStatus.DONE_FILLING;
@@ -119,7 +121,6 @@ public class LaneAgent extends Agent implements Lane {
 			}
 		}
 		for (MyPart part : currentParts) {
-			print(part.status.toString());
 			if (part.status == PartStatus.END_LANE) {
 				giveToNest(part.part);
 				return true;
