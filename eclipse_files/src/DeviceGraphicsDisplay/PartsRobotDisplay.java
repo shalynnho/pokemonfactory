@@ -22,6 +22,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
 	private ArrayList<PartGraphicsDisplay> partArrayGraphics;
 	
+	private Location loc, kitloc;
 	private Location initialLocation;
 	private Location currentLocation;
 	private Location arm1InitialLocation;
@@ -38,6 +39,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	private boolean rotate;
 	private boolean nest1, nest2, gohome, gokit;
 	private boolean arm1, arm2, arm3, arm4;
+	private boolean pickup, givekit;
 	
 	private Location partStartLoc1,partStartLoc2,partStartLoc3,partStartLoc4;
 	
@@ -81,27 +83,43 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		arm4 = false;
 		
 		I = 0;
+		
+		pickup = false;
+		givekit = false;
 				
 	}
 	
 	public void draw(JComponent c, Graphics2D g){
-		if(nest1){
+		if(pickup){
 			for (int i = 0; i < 5; i++){
-				if(currentLocation.getX()<550){
+				if(currentLocation.getX()<loc.getX()){
 				currentLocation.incrementX(1);
 				partStartLoc1.setX(currentLocation.getX());
 				partStartLoc2.setX(currentLocation.getX()+30);
 				partStartLoc3.setX(currentLocation.getX());
 				partStartLoc4.setX(currentLocation.getX()+30);
-				}
-				else if(currentLocation.getY()>100){
+				} else if(currentLocation.getX()>loc.getX()){
+					currentLocation.incrementX(-1);
+					partStartLoc1.setX(currentLocation.getX());
+					partStartLoc2.setX(currentLocation.getX()+30);
+					partStartLoc3.setX(currentLocation.getX());
+					partStartLoc4.setX(currentLocation.getX()+30);
+					}
+				else if(currentLocation.getY()>loc.getY()){
 				currentLocation.incrementY(-1);
 				partStartLoc1.setY(currentLocation.getY());
 				partStartLoc2.setY(currentLocation.getY());
 				partStartLoc3.setY(currentLocation.getY()+30);
 				partStartLoc4.setY(currentLocation.getY()+30);
-				}
+				}else if(currentLocation.getY()<loc.getY()){
+					currentLocation.incrementY(1);
+					partStartLoc1.setY(currentLocation.getY());
+					partStartLoc2.setY(currentLocation.getY());
+					partStartLoc3.setY(currentLocation.getY()+30);
+					partStartLoc4.setY(currentLocation.getY()+30);
+					}
 				g.drawImage(partsRobotImage, currentLocation.getX(), currentLocation.getY(), c);
+			    
 			}
 			/*int i;
 			for (i=0;i<100;i++){
@@ -111,8 +129,8 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			int j;
 			for (j=0;j<100;j++)
 				g.drawImage(partsRobotImage, initialLocation.getX(), initialLocation.getY()-j, c);
-		*/}
-		else if(nest2){
+		*/
+		/*else if(nest2){
 			for (int i = 0; i < 5; i++){
 				if(currentLocation.getX()<550){
 				currentLocation.incrementX(1);
@@ -136,24 +154,24 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 					partStartLoc4.setY(currentLocation.getY()+30);
 				}
 				g.drawImage(partsRobotImage, currentLocation.getX(), currentLocation.getY(), c);
-			}
-		}else if (gokit) {
+			}*/
+		}else if (givekit) {
 			for (int i = 0; i < 5; i++){
-				if(currentLocation.getX()>100){
+				if(currentLocation.getX()>kitloc.getX()){
 				currentLocation.incrementX(-1);
 				partStartLoc1.setX(currentLocation.getX());
 				partStartLoc2.setX(currentLocation.getX()+30);
 				partStartLoc3.setX(currentLocation.getX());
 				partStartLoc4.setX(currentLocation.getX()+30);
 				}
-				else if(currentLocation.getY()>230){
+				else if(currentLocation.getY()>kitloc.getY()){
 				currentLocation.incrementY(-1);
 				partStartLoc1.setY(currentLocation.getY());
 				partStartLoc2.setY(currentLocation.getY());
 				partStartLoc3.setY(currentLocation.getY()+30);
 				partStartLoc4.setY(currentLocation.getY()+30);
 				}
-				else if(currentLocation.getY()<230){
+				else if(currentLocation.getY()<kitloc.getY()){
 					currentLocation.incrementY(1);
 					partStartLoc1.setY(currentLocation.getY());
 					partStartLoc2.setY(currentLocation.getY());
@@ -162,6 +180,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				}
 				
 				g.drawImage(partsRobotImage, currentLocation.getX(), currentLocation.getY(), c);
+				
 			}
 		}else if (gohome){
 			for (int i = 0; i < 5; i++){
@@ -241,7 +260,15 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		gokit = true;
 		System.out.println("gokit = true;");
 	}
+	public void pickUp(){
+		pickup = true;
+		givekit = false;
+	}
 	
+	public void giveKit(){
+		givekit = true;
+		pickup = false;
+	}
 	public void pickUpPart(){
 		//partArrayGraphics.add(pgd);
 		PartType partType = PartType.B;
@@ -253,6 +280,10 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.add(pgd);
 			I++;
 			System.out.println("picked up part1");
+			partsRobotClient.sendData(new Request(
+				    Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_TARGET,
+				    null));
 		}
 		else if (!arm2){
 			arm2 = true;
@@ -260,6 +291,10 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.add(pgd);
 			I++;
 			System.out.println("picked up part2");
+			partsRobotClient.sendData(new Request(
+				    Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_TARGET,
+				    null));
 		}
 		else if (!arm3){
 			arm3 = true;
@@ -267,6 +302,10 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.add(pgd);
 			I++;
 			System.out.println("picked up part3");
+			partsRobotClient.sendData(new Request(
+				    Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_TARGET,
+				    null));
 		}
 		else if (!arm4){
 			arm4 = true;
@@ -274,6 +313,10 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			partArrayGraphics.add(pgd);
 			I++;
 			System.out.println("picked up part4");
+			partsRobotClient.sendData(new Request(
+				    Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_TARGET,
+				    null));
 		}
 		else
 			System.out.println("Can't pick up more parts.");
@@ -286,24 +329,40 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			I--;
 			partArrayGraphics.remove(I);
 			System.out.println("gave part4");
+			partsRobotClient.sendData(new Request(
+				    Constants.PARTS_ROBOT_GIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_TARGET,
+				    null));
 		}
 		else if (arm3){
 			arm3 = false;
 			I--;
 			partArrayGraphics.remove(I);
 			System.out.println("gave part3");
+			partsRobotClient.sendData(new Request(
+				    Constants.PARTS_ROBOT_GIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_TARGET,
+				    null));
 		}
 		else if (arm2){
 			arm2 = false;
 			I--;
 			partArrayGraphics.remove(I);
 			System.out.println("gave part2");
+			partsRobotClient.sendData(new Request(
+				    Constants.PARTS_ROBOT_GIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_TARGET,
+				    null));
 		}
 		else if (arm1){
 			arm1 = false;
 			I--;
 			partArrayGraphics.remove(I);
 			System.out.println("gave part1");
+			partsRobotClient.sendData(new Request(
+				    Constants.PARTS_ROBOT_GIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+				    Constants.PARTS_ROBOT_TARGET,
+				    null));
 		}
 		else
 			System.out.println("No more parts.");
@@ -341,7 +400,9 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			goKit();
 			System.out.println("gokit");
 		}else if (r.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND)){
-			if (currentLocation.getX() == 100 && currentLocation.getY() == 230){
+			kitloc = (Location) r.getData();
+			giveKit();
+			if (currentLocation.getX() == kitloc.getX() && currentLocation.getY() == kitloc.getY()){
 				givePart();
 				System.out.println("gives part");
 			} else
@@ -357,8 +418,11 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			
 			
 		}else if (r.getCommand().equals(Constants.PARTS_ROBOT_PICKUP_COMMAND)){
-			if(currentLocation.getX() == 550 && (currentLocation.getY() == 100 || currentLocation.getY() == 175))
-			pickUpPart();
+			loc = (Location) r.getData();
+			pickUp();
+			if(currentLocation.getX() == loc.getX() && (currentLocation.getY() == loc.getY() || currentLocation.getY() == loc.getY())){
+				pickUpPart();
+			}
 			//PartType partType = (PartType) r.getData();
 			/*PartType partType = PartType.B;
 			PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
