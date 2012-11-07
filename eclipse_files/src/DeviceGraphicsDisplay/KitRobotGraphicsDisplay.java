@@ -1,12 +1,10 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
@@ -285,14 +283,16 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 						&& moveToInitialPosition.equals(Command.moveToConveyor)) {
 
 					System.out.println("Sending to conveyor");
-					
+
 				}
-				
+
 				moveToFinal();
 			} else if (finalJob) {
-				if(position.equals(Position.location1Position) && moveToFinalPosition.equals(Command.moveToLocation2))
-				{
-					//kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_TARGET, Constants.KIT_ROBOT_ON_STAND_DONE, null));
+				if (position.equals(Position.location1Position)
+						&& moveToFinalPosition.equals(Command.moveToLocation2)) {
+					// kitRobotClient.sendData(new
+					// Request(Constants.KIT_ROBOT_TARGET,
+					// Constants.KIT_ROBOT_ON_STAND_DONE, null));
 				}
 				finalJob = false;
 				jobIsDone = true;
@@ -302,6 +302,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 
+	@Override
 	public void receiveData(Request req) {
 		String command = req.getCommand();
 		String target = req.getTarget();
@@ -360,7 +361,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			trans.rotate(Math.toRadians(degreeStep), rotationAxisX,
 					rotationAxisY);
 			currentDegree++;
-			System.out.println("currentDegree: " + currentDegree);
+			// System.out.println("currentDegree: " + currentDegree);
 		}
 	}
 
@@ -368,15 +369,18 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	}
 
+	@Override
 	public void draw(JComponent c, Graphics2D g) {
 		checkDegrees();
 		doJob();
 		AnimationToConveyorDone = false;
-		if(currentDegree== 180 && moveToFinalPosition.equals(Command.moveToLocation1))
-		{
-			kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_ON_STAND_DONE, Constants.KIT_ROBOT_TARGET, null));
+		if (currentDegree == 180
+				&& moveToFinalPosition.equals(Command.moveToLocation1)) {
+			kitRobotClient.sendData(new Request(
+					Constants.KIT_ROBOT_ON_STAND_DONE,
+					Constants.KIT_ROBOT_TARGET, null));
 		}
-		
+
 		for (int i = 0; i < kits.size(); i++) {
 
 			kits.get(i).drawRotate(c, g);
@@ -384,7 +388,9 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				if (kits.get(i).isAnimationToConveyorDone()) {
 					System.out.println("Sends conveyor receives kit command");
 					AnimationToConveyorDone = true;
-					kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_ON_CONVEYOR_DONE, Constants.KIT_ROBOT_TARGET, null));
+					kitRobotClient.sendData(new Request(
+							Constants.KIT_ROBOT_ON_CONVEYOR_DONE,
+							Constants.KIT_ROBOT_TARGET, null));
 					kits.remove(0);
 
 					// client.sendData(new
@@ -402,20 +408,16 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	/*
 	 * public void draw(JComponent c, Graphics2D g) { g.drawImage(kitImage,
-	 * kitLocation.getX(), kitLocation.getY(), c);
-	 * 
-	 * }
+	 * kitLocation.getX(), kitLocation.getY(), c); }
 	 */
 	/*
-	 * public void paint(Graphics g){
-	 * 
-	 * //Graphics2D g2=(Graphics2D)g; //g2.setColor(Color.yellow);
-	 * //g2.fill(rectangle1); //trans.rotate(Math.toRadians(1),-50,-50);
-	 * 
-	 * //trans = g2.getTransform(); //g2.rotate(Math.toRadians(rotation),
-	 * imageX, imageY); //image.paintIcon(this, g2, imageX, imageY);
-	 * //trans.rotate(.01, 225, 125);
-	 * //trans.rotate(Math.toRadians(1),rotationAxisX,rotationAxisY); Image
+	 * public void paint(Graphics g){ //Graphics2D g2=(Graphics2D)g;
+	 * //g2.setColor(Color.yellow); //g2.fill(rectangle1);
+	 * //trans.rotate(Math.toRadians(1),-50,-50); //trans = g2.getTransform();
+	 * //g2.rotate(Math.toRadians(rotation), imageX, imageY);
+	 * //image.paintIcon(this, g2, imageX, imageY); //trans.rotate(.01, 225,
+	 * 125); //trans.rotate(Math.toRadians(1),rotationAxisX,rotationAxisY);
+	 * Image
 	 * image=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource(
 	 * "/resource/Square.jpg")); g2.drawImage(image, trans,null); kit.paint(g2);
 	 * g2.finalize(); }
@@ -427,9 +429,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * frame.setSize(600,400); KitRobotGraphicsDisplay rke= new
 	 * KitRobotGraphicsDisplay(); frame.setContentPane(rke);
 	 * frame.setVisible(true); rke.ConveyorToLocation1();//added this command
-	 * new javax.swing.Timer(100,rke).start();
-	 * 
-	 * }
+	 * new javax.swing.Timer(100,rke).start(); }
 	 */
 
 	@Override

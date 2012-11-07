@@ -7,15 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
+import DeviceGraphics.DeviceGraphics;
+import DeviceGraphics.PartsRobotGraphics;
 import agent.data.Kit;
 import agent.data.Part;
 import agent.data.PartType;
 import agent.interfaces.Nest;
 import agent.interfaces.PartsRobot;
 import agent.interfaces.Stand;
-
-import DeviceGraphics.DeviceGraphics;
-import DeviceGraphics.PartsRobotGraphics;
 
 /**
  * Parts robot picks parts from nests and places them in kits
@@ -194,7 +193,9 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		arm.part = part;
 
 		// Tells the graphics to pickup the part
-		partsRobotGraphics.pickUpPart(part.partGraphics);
+		if (partsRobotGraphics != null) {
+			partsRobotGraphics.pickUpPart(part.partGraphics);
+		}
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -214,7 +215,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		for (MyKit mk : MyKits) {
 			if (mk.kit.needPart(arm.part)) {
 
-				 partsRobotGraphics.givePartToKit(arm.part.partGraphics,mk.kit.kitGraphics);
+				if (partsRobotGraphics != null) {
+					partsRobotGraphics.givePartToKit(arm.part.partGraphics,
+							mk.kit.kitGraphics);
+				}
 				try {
 					animation.acquire();
 				} catch (InterruptedException e) {
@@ -223,7 +227,9 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 				// Tells the kit it has the part now
 				mk.kit.parts.add(arm.part);
-				mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
+				if (mk.kit.kitGraphics != null) {
+					mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
+				}
 				// mk.kit.partsExpected.remove(arm.part);
 				arm.part = null;
 				arm.AS = ArmStatus.Empty;
@@ -326,6 +332,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		return partsRobotGraphics;
 	}
 
+	@Override
 	public void setGraphicalRepresentation(DeviceGraphics partsrobotGraphics) {
 		this.partsRobotGraphics = (PartsRobotGraphics) partsrobotGraphics;
 	}

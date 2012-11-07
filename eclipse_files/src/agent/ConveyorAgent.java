@@ -111,7 +111,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	public void msgReceiveKitDone() {
 		print("Received msgReceiveKitDone");
 		kitsOnConveyor.remove(outgoingKit);
-		animation.release();
+		// animation.release();
 		stateChanged();
 	}
 
@@ -176,6 +176,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		print("Got a permit");
 		if (mockgraphics != null) {
 			mockgraphics.msgBringEmptyKit(k.kitGraphics);
 		}
@@ -217,12 +218,10 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * @param k the kit being delivered.
 	 */
 	private void deliverKit(MyKit mk) {
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		/*
+		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
 		mk.KS = KitStatus.MovingOut;
 		if (mockgraphics != null) {
 			mockgraphics.msgReceiveKit(mk.kit.kitGraphics);
