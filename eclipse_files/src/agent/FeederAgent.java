@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import agent.data.Bin;
 import agent.data.Part;
 import agent.data.PartType;
 import agent.interfaces.Feeder;
+import agent.interfaces.Nest;
 
 import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.FeederGraphics;
@@ -16,136 +18,153 @@ import GraphicsInterfaces.FeederGraphics;
  * @author Arjun Bhargava
  */
 public class FeederAgent extends Agent implements Feeder {
-	public List<PartType> requestList = new ArrayList<PartType>();
-	public PartType currentType;
-	public List<MyPart> currentParts = new ArrayList<MyPart>();
-
+	
 	private GantryAgent gantry;
-	private LaneAgent lane;
-	private LaneAgent lane1;
-	private PartType type1;
-	private LaneAgent lane2;
-	private PartType type2;
+	public List<MyLane> lanes= new ArrayList<MyLane>(); //Top Lane is the first lane, bottom is the second
 	private FeederGraphics feederGUI;
 	
-	private boolean currentOrientation = true;
+	private int currentOrientation;//0 for Top, 1 for Bottom
+	
+	public Bin bin;
+	
+	private FeederStatus state;
 
 	String name;
 	
 	public Semaphore animation = new Semaphore(0, true);
-
-	public class MyPart {
-		Part part;
-		FeederStatus status;
-
-		public MyPart(Part p) {
-			part = p;
-			status = FeederStatus.IN_FEEDER;
+	
+	public enum FeederStatus {
+		IDLE,REQUESTED_PARTS,FEEDING_PARTS,PURGING
+	}
+	
+	public enum LaneStatus {
+		DOES_NOT_NEED_PARTS,NEEDS_PARTS,GIVING_PARTS
+	};
+	
+	public class MyLane {
+		public LaneAgent lane;
+		public LaneStatus state;
+		public PartType type;
+		public int numPartsNeeded;
+		
+		public MyLane(LaneAgent lane,PartType type){
+			this.lane=lane;
+			this.type=type;
+			state=LaneStatus.NEEDS_PARTS;
+			numPartsNeeded=1;
+		}
+		public MyLane(LaneAgent lane){
+			this.lane=lane;
+			this.type=null;
+			state=LaneStatus.DOES_NOT_NEED_PARTS;
+			numPartsNeeded=0;
 		}
 	}
 
 	public FeederAgent(String name) {
 		super();
-		lane = lane1;
+		state=FeederStatus.IDLE;
 		this.name = name;
-
-	}
-
-	public enum FeederStatus {
-		IN_FEEDER, IN_DIVERTER, END_DIVERTER
-	};
-
-	@Override
-	public void msgINeedPart(PartType type) {
-		if(requestList.size() == 0 && currentType != type) {
-			requestList.add(type);
-			currentType = type;
-		}
-		else {
-			currentParts.add(new MyPart(new Part(type)));
-		}
-		stateChanged();
+		currentOrientation=0;
+		bin=null;
 	}
 
 	@Override
-	public void msgHereAreParts(Part p) {
-		// Changing this to PartType in V1, then feeder will just generate a new
-		// part whenever you need one
-		// per Prof W. saying bins carry thousands of parts in class
-		currentParts.add(new MyPart(p));
-		stateChanged();
-	}
-
-	@Override
-	public void msgGivePartToDiverterDone(Part part) {
-		for (MyPart currentPart : currentParts) {
-			if (currentPart.part == part) {
-				currentPart.status = FeederStatus.END_DIVERTER;
+	public void msgINeedPart(PartType type, LaneAgent lane) {
+		boolean found=false;
+		for(MyLane l:lanes){
+			if(l.lane.equals(lane)){
+				found=true;
+				l.numPartsNeeded++;
+				l.type=type;
+				if(l.state==LaneStatus.DOES_NOT_NEED_PARTS){
+					l.state=LaneStatus.NEEDS_PARTS;
+				}
 			}
 		}
-		animation.release();
+		if(!found){
+			lanes.add(new MyLane(lane,type));
+			print("added new lane");
+		}
 		stateChanged();
 	}
 
 	@Override
-	public void msgGivePartToLaneDone(Part part) {
-		animation.release();
+	public void msgHereAreParts(PartType type, Bin bin) {
+		print("Recieved bin from gantry");
+		this.bin=bin;
+		for(MyLane lane:lanes){
+			if(lane.type==type){
+				lane.state=LaneStatus.GIVING_PARTS;
+				state=FeederStatus.FEEDING_PARTS;
+			}
+		}
 		stateChanged();
+	}
+	
+	@Override
+	public void msgRecieveBinDone(Bin bin) {
+		// TODO Auto-generated method stub
+		animation.release();
+	}
+
+	@Override
+	public void msgPurgeBinDone(Bin bin) {
+		// TODO Auto-generated method stub
+		animation.release();
 	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
-		for (PartType requestedType : requestList) {
-			getParts(requestedType);
-			return true;
-		}
-		for (MyPart currentPart : currentParts) {
-			if (currentPart.status == FeederStatus.END_DIVERTER) {
-				giveToLane(currentPart.part);
-				return true;
+		if(state==FeederStatus.IDLE){
+			for(MyLane lane:lanes){
+				if(lane.state==LaneStatus.NEEDS_PARTS){
+					getParts(lane);
+					return true;
+				}
 			}
 		}
-		for (MyPart currentPart : currentParts) {
-			if (currentPart.status == FeederStatus.IN_FEEDER) {
-				giveToDiverter(currentPart.part);
-				return true;
+		if(state==FeederStatus.FEEDING_PARTS){
+			for(MyLane lane:lanes){
+				if(lane.state==LaneStatus.GIVING_PARTS){
+					if(lanes.get(currentOrientation).equals(lane)){
+						givePart(lane);
+						return true;
+					}
+					else {
+						flipDiverter();
+						return true;
+					}
+				}
 			}
+		}
+		if(state==FeederStatus.PURGING){
+			purgeBin();
 		}
 		return false;
 	}
 
-	@Override
-	public void getParts(PartType requestedType) {
-		print("Telling gantry that it needs parts");
-		gantry.msgINeedParts(requestedType);
-		requestList.remove(requestedType);
+	public void getParts(MyLane lane) {
+		print("Telling gantry that I needs parts");
+		gantry.msgINeedParts(lane.type);
+		state=FeederStatus.REQUESTED_PARTS;
 		stateChanged();
 	}
-
-	@Override
-	public void giveToDiverter(Part part) {
-		print("Giving parts to diverter");
-		if(feederGUI !=null) {
-			if(part.up != currentOrientation) {
-				if(lane == lane1)
-					lane = lane2;
-				else
-					lane=lane1;
-				currentOrientation = part.up;
-				feederGUI.flipDiverter();
-			}
+	
+	public void givePart(MyLane lane) {
+		print("Giving lane a part");
+		lane.numPartsNeeded--;
+		lane.lane.msgHereIsPart(new Part(lane.type));
+		if(lane.numPartsNeeded==0){
+			state=FeederStatus.PURGING;
+			lane.state=LaneStatus.DOES_NOT_NEED_PARTS;
 		}
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// SEMAPHORE GOES HERE
-		if(feederGUI !=null) {
-			feederGUI.movePartToDiverter(part.partGraphics);
-		}
+		stateChanged();
+	}
+	
+	public void purgeBin() {
+		print("Purging this feeder");
+		//feederGUI.purgeBin(bin.binGraphics);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -153,20 +172,15 @@ public class FeederAgent extends Agent implements Feeder {
 			e.printStackTrace();
 		}
 		
-		for (MyPart currentPart : currentParts) {
-			if (currentPart.part == part) {
-				currentPart.status = FeederStatus.IN_DIVERTER;
-			}
-		}
+		gantry.msgremoveBinDone(bin);
+		bin=null;
+		state=FeederStatus.IDLE;
 		stateChanged();
 	}
-
-	@Override
-	public void giveToLane(Part part) {
-		print("Giving part to lane");
-		if(feederGUI !=null) {
-			feederGUI.movePartToLane(part.partGraphics);
-		}
+	
+	public void flipDiverter() {
+		print("Flipping the diverter");
+		//feederGUI.flipDiverter();
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -174,14 +188,12 @@ public class FeederAgent extends Agent implements Feeder {
 			e.printStackTrace();
 		}
 		
-		lane.msgHereIsPart(part);
-		for (MyPart currentPart : currentParts) {
-			if (currentPart.part == part) {
-				currentParts.remove(currentPart);
-				return;
-			}
+		if(currentOrientation==0) {
+			currentOrientation=1;
 		}
-		stateChanged();
+		else {
+			currentOrientation=0;
+		}
 	}
 
 	// GETTERS AND SETTERS
@@ -201,8 +213,12 @@ public class FeederAgent extends Agent implements Feeder {
 
 	@Override
 	public void setLane(LaneAgent lane) {
-		this.lane1 = lane;
-		this.lane = lane;
+		lanes.add(new MyLane(lane));
+	}
+	
+	public void setLanes(LaneAgent lane1,LaneAgent lane2) {
+		lanes.add(new MyLane(lane1));
+		lanes.add(new MyLane(lane2));
 	}
 
 }
