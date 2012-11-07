@@ -33,6 +33,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics, De
 	
 	public void bringEmptyKit(KitGraphics kg){
 		kitsOnConveyor.add(kg);
+		server.sendData(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, null);
 	} 
 
 	public void giveKitToKitRobot(){
