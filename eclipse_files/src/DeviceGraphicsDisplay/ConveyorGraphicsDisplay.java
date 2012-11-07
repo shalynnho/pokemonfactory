@@ -68,6 +68,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitsToLeave.add(new KitGraphicsDisplay(client, new Location(195,400)));
 	}
 	
+	public void animationDone() {
+		client.sendData(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND + Constants.DONE_SUFFIX, Constants.CONVEYOR_TARGET, null));
+	}
+	
 	public void draw(JComponent c, Graphics2D g2){
 		g2.drawImage(Constants.CONVEYOR_IMAGE, locationIn.getX(), locationIn.getY(), c);
 		

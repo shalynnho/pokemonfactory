@@ -183,6 +183,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			print("Asking conveyor graphics to animate a new kit");
 			conveyorGraphics.msgBringEmptyKit(k.kitGraphics);
 		}
+		numKitsToDeliver--;
 		stateChanged();
 	}
 
@@ -191,7 +192,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * @param k the kit being sent.
 	 */
 	private void sendKit(MyKit mk) {
-		numKitsToDeliver--;
 		kitrobot.msgHereIsKit(mk.kit);
 		try {
 			animation.acquire();
