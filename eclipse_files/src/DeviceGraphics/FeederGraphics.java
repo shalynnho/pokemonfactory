@@ -1,14 +1,10 @@
 package DeviceGraphics;
 
-import java.util.ArrayList;
-
-import agent.Agent;
-import agent.FeederAgent;
-import agent.data.PartType;
-
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
+import agent.Agent;
+import agent.FeederAgent;
 
 /**
  * This class handles the logic for the feeder animation.
@@ -16,29 +12,16 @@ import Utils.Constants;
  *
  */
 public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, DeviceGraphics {
-	// TODO ask 201 team what should be the threshold
-	private static final int PARTS_LOW_THRESHOLD = 2;
 	// a reference to the server
 	private Server server;
 	// the feeder's unique ID
 	private int feederID;
 	// a reference to the FeederAgent
 	private FeederAgent feederAgent;
-		
 	// true if the diverter is pointing to the top lane
 	private boolean diverterTop;
-	// number of parts fed
-	private int partsFed;
-	// number of parts left to be fed
-	private int partsRemaining;
-	
-	// a part
-	private PartGraphics partGraphics;
 	// a bin
 	private BinGraphics binGraphics;
-	
-	// temp ArrayList of parts
-	private ArrayList<PartGraphics> partList = new ArrayList<PartGraphics>();
 	
 	/**
 	 * This is the constructor.
@@ -50,9 +33,6 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 		server = myServer;
 		feederAgent = (FeederAgent)a;
 		
-		partsFed = 0;
-		partsRemaining = 0;
-		
 		// diverter defaults to the top lane
 		diverterTop = true;
 	}
@@ -62,14 +42,8 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 * @param bg BinGraphics passed in by the Agent
 	 */
 	public void receiveBin(BinGraphics bg) {
-		partsRemaining = bg.getQuantity();
-		partGraphics = bg.getPart();
-				
+		binGraphics = bg;
 		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET, null));
-		
-		// TODO phase this out
-		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.LANE_TARGET + ":" + 0, null));
-		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.LANE_TARGET + ":" + 1, null));
 	}
 	
 	/**
@@ -77,36 +51,8 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 * @param bg
 	 */
 	public void purgeBin(BinGraphics bg) {
-		partsFed = 0;
-		partsRemaining = 0;
-		
+		bg.setFull(false);
 		server.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND, Constants.FEEDER_TARGET, null));
-	}
-	
-	/**
-	 * This function determines if the part is low.
-	 * @return partsRemaining is less than PARTS_LOW_THRESHOLD
-	 */
-	public boolean isPartLow() {
-		return (partsRemaining < PARTS_LOW_THRESHOLD);
-	}
-	
-	/**
-	 * This function moves a part to the diverter.
-	 * @param pg
-	 */
-	public void movePartToDiverter(PartGraphics pg) {
-		server.sendData(new Request(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND, Constants.FEEDER_TARGET, pg.getPartType()));
-	}
-	
-	/**
-	 * This function moves a part to the lane.
-	 */
-	public void movePartToLane(PartGraphics pg) {
-		pg.getLocation().incrementX();
-		
-		partsRemaining--;
-		partsFed++;
 	}
 	
 	/**
@@ -121,25 +67,10 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 * This function handles requests sent to the server
 	 */
 	public void receiveData(Request req) {
-		// v0 test commands
-		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
-			flipDiverter();
-		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
-			partGraphics = new PartGraphics(PartType.B);
-			binGraphics = new BinGraphics(partGraphics, 10);
-			receiveBin(binGraphics);
-		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND)) {
-			PartGraphics part = binGraphics.getPart();
-			partList.add(part);
-			movePartToDiverter(part);
-		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_LANE_COMMAND)) {
-			// partList.remove(0);
-			
-		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_DIVERTER_COMMAND + Constants.DONE_SUFFIX)) {
-			// send message to agent saying part moved to diverter done
-		} else if (req.getCommand().equals(Constants.FEEDER_MOVE_TO_LANE_COMMAND + Constants.DONE_SUFFIX)) {
-			// send message to agent saying part moved to lane done
+		if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX)) {
+			feederAgent.msgRecieveBinDone(binGraphics.getBin());
+		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX)) {
+			feederAgent.msgPurgeBinDone(binGraphics.getBin());
 		}
-		
 	}
 }

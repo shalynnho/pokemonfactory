@@ -14,10 +14,9 @@ import Utils.Constants;
 import Utils.Location;
 
 public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
-	
-	//NEED IMAGE NAMES
-	
+		
 	// TODO temp fullBin image name. change later
+	// TODO need an empty bin image name
 	Image emptyBin = Toolkit.getDefaultToolkit().getImage("PUT IMAGE NAME HERE");
 	
 	Location binLocation;
