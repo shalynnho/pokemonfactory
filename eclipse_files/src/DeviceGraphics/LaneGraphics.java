@@ -50,7 +50,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	// dynamically stores Parts currently on Lane
 	private ArrayList<PartGraphics> partsOnLane;
 	// storing for the 201 agents
-	private ArrayList<Part> agentPartsOnLane;
+//	private ArrayList<Part> agentPartsOnLane;
 
 	// vibration setting; how quickly parts vibrate down Lane
 	private int amplitude;
@@ -63,14 +63,14 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 * @param id - ID of this lane
 	 * @param la - the LaneAgent
 	 */
-	public LaneGraphics(Server s, int id, Agent la) {
+	public LaneGraphics(Server s, int id, Agent a) {
 		server = s;
 		laneID = id;
-		laneAgent = (LaneAgent) la;
+		laneAgent = (LaneAgent) a;
 		
 		// initialize lane components
 		partsOnLane = new ArrayList<PartGraphics>();
-		agentPartsOnLane = new ArrayList<Part>();
+//		agentPartsOnLane = new ArrayList<Part>();
 		amplitude = 5;
 		laneOn = true;
 		
@@ -107,7 +107,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 */
 	public void purge() {
 		partsOnLane.clear();
-		agentPartsOnLane.clear();
+//		agentPartsOnLane.clear();
 		// TODO: set location of parts to fall off lane
 		server.sendData(new Request(Constants.LANE_PURGE_COMMAND,
 				Constants.LANE_TARGET  +":"+  laneID, null));
@@ -148,8 +148,10 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
 			// TODO: add these back later
-			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
-			agentPartsOnLane.remove(0);
+//			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
+//			agentPartsOnLane.remove(0);
+			laneAgent.msgGivePartToNestDone(partsOnLane.get(0));
+			partsOnLane.remove(0);
 		}
 	
 	}
