@@ -5,6 +5,9 @@ import Networking.Server;
 import Utils.Constants;
 import agent.Agent;
 import agent.FeederAgent;
+import agent.data.Bin;
+import agent.data.Part;
+import agent.data.PartType;
 
 /**
  * This class handles the logic for the feeder animation.
@@ -72,5 +75,13 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX)) {
 			feederAgent.msgPurgeBinDone(binGraphics.getBin());
 		}
+		else if (req.getCommand().equals("TESTING_FEEDER")) {
+			initializeV0Lane();
+		}
+	}
+	
+	
+	public void initializeV0Lane() {
+		feederAgent.msgHereAreParts(PartType.A, new Bin(new Part(PartType.A)));
 	}
 }

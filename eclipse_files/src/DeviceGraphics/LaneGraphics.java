@@ -126,7 +126,10 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 //			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
 //			agentPartsOnLane.remove(0);
 		}
-	
+		else if (cmd.equals("TESTING_LANE")) {
+			System.out.println("Got TESTING_LANE request");
+			initializeV0Lane();
+		}
 	}
 
 	/**
@@ -161,4 +164,16 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 
 	}
 
+	
+	//GET RID OF FOR V1
+	public void initializeV0Lane() {
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		laneAgent.msgINeedPart(PartType.A);
+		
+	}
+	
 }

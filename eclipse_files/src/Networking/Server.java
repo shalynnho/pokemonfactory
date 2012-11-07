@@ -78,6 +78,7 @@ public class Server {
 	}
 	
 	private void initAgents() {
+		
 		agents.put(Constants.FEEDER_TARGET, new FeederAgent(Constants.FEEDER_TARGET));
 		agents.put(Constants.LANE_TARGET+":"+0, new LaneAgent(Constants.LANE_TARGET+":"+0));
 		agents.put(Constants.LANE_TARGET+":"+1, new LaneAgent(Constants.LANE_TARGET+":"+1));
@@ -102,6 +103,12 @@ public class Server {
 		/* for(Entry<String, Agent> entry : agents.entrySet()) {
 			// entry.getValue().setGraphicRepresentation(devices.get(entry.getKey()));
 		} */
+		agents.get(Constants.FEEDER_TARGET).setGraphicalRepresentation(devices.get(Constants.FEEDER_TARGET));
+		agents.get(Constants.LANE_TARGET + ":" + 0).setGraphicalRepresentation(devices.get(Constants.LANE_TARGET + ":" + 0));
+		agents.get(Constants.LANE_TARGET + ":" + 1).setGraphicalRepresentation(devices.get(Constants.LANE_TARGET + ":" + 1));
+		agents.get(Constants.FEEDER_TARGET).startThread();
+		agents.get(Constants.LANE_TARGET + ":" + 0).startThread();
+		agents.get(Constants.LANE_TARGET + ":" + 1).startThread();
 		
 		agents.get(Constants.KIT_ROBOT_TARGET).setGraphicalRepresentation(devices.get(Constants.KIT_ROBOT_TARGET));
 		agents.get(Constants.CONVEYOR_TARGET).setGraphicalRepresentation(devices.get(Constants.CONVEYOR_TARGET));

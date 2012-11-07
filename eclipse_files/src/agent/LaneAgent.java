@@ -61,6 +61,7 @@ public class LaneAgent extends Agent implements Lane {
 
 	@Override
 	public void msgINeedPart(PartType type) {
+		print("Getting msgINeedPart");
 		requestList.add(type);
 		stateChanged();
 	}
