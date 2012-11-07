@@ -2,10 +2,11 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
-import agent.data.PartType;
-
 import Networking.Request;
+import Networking.Server;
+import Utils.Constants;
 import Utils.Location;
+import agent.data.PartType;
 
 
 public class KitGraphics implements DeviceGraphics {
@@ -15,10 +16,11 @@ public class KitGraphics implements DeviceGraphics {
 	Location kitLocation;
 	
 	Boolean isFull; //Says whether or not the kit is full
-
-	// ***********
-	public KitGraphics () {
-	isFull = false;
+	Server server;
+	
+	public KitGraphics (Server server) {
+		this.server = server;
+		isFull = false;
 	}
 	
 	
@@ -67,14 +69,17 @@ public class KitGraphics implements DeviceGraphics {
 	public Boolean getFull () {
 		return isFull;
 	}
-
+	
+	public void receivePart(PartGraphics part) {
+		addPart(part);
+		server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND, Constants.KIT_TARGET, parts));
+	}
 
 	@Override
 	public void receiveData(Request req) {
 		if (req.getCommand().equals("Testing")) {
 			addPart(new PartGraphics (PartType.A));
 		}
-		
 	}
 	
 }

@@ -2,12 +2,11 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
-import agent.data.Kit;
-
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
+import agent.StandAgent;
 
 /**
  * Contains the logic for the Conveyor object 
@@ -67,7 +66,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics, De
 			}			
 			else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
 				System.out.println("Conveyor receives signal from kit");	
-				kitsToLeave.add(new KitGraphics());
+				kitsToLeave.add(new KitGraphics(server));
 				server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
 			
 			} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
@@ -75,8 +74,10 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics, De
 			} else if (command.equals(Constants.CONVEYOR_SEND_ANIMATION_COMMAND)) {
 				//still not quite sure how to implement this yet
 			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
-				bringEmptyKit(new KitGraphics());
-				server.sendData(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
+				//bringEmptyKit(new KitGraphics(server));
+				//server.sendData(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
+				StandAgent stand = (StandAgent)server.agents.get("Stand");
+				stand.msgMakeKits(1);
 			}
 		}
 	}

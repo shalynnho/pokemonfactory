@@ -5,14 +5,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import DeviceGraphics.DeviceGraphics;
+import GraphicsInterfaces.ConveyorGraphics;
 import agent.data.Kit;
 import agent.data.PartType;
 import agent.interfaces.Conveyor;
 import agent.interfaces.KitRobot;
 import agent.test.mock.MockGraphics;
-
-import DeviceGraphics.DeviceGraphics;
-import GraphicsInterfaces.ConveyorGraphics;
 
 /**
  * Conveyor brings empty kits into and takes completed (i.e. assembled and
@@ -167,6 +166,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * Generate a new kit to move into the kitting cell.
 	 */
 	private void prepareKit() {
+		print("Requesting new kit");
 		Kit k = new Kit(kitConfig);
 		incomingKit = new MyKit(k);
 		kitsOnConveyor.add(incomingKit);
@@ -180,6 +180,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			mockgraphics.msgBringEmptyKit(k.kitGraphics);
 		}
 		if (conveyorGraphics != null) {
+			print("Asking conveyor graphics to animate a new kit");
 			conveyorGraphics.msgBringEmptyKit(k.kitGraphics);
 		}
 		stateChanged();
@@ -316,6 +317,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		return conveyorGraphics;
 	}
 
+	@Override
 	public void setGraphicalRepresentation(DeviceGraphics conveyorGraphics) {
 		this.conveyorGraphics = (ConveyorGraphics) conveyorGraphics;
 	}

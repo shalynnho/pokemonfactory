@@ -23,6 +23,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	ArrayList<Location> conveyorLines;
 	ArrayList<Location> exitLines;
 	ArrayList<KitGraphicsDisplay> kitsOnConveyor;
+	ArrayList<KitGraphicsDisplay> kitsToLeave;
 	int velocity;
 	Client client;
 	
@@ -41,6 +42,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		velocity = 1;
 		kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
+		kitsToLeave = new ArrayList<KitGraphicsDisplay>();
 	}
 	
 	public void setLocation(Location newLocation) {
@@ -56,6 +58,14 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void giveKitAway() {
 		kitsOnConveyor.remove(0);
 		velocity = 1;
+	}
+	
+	public void sendOut() {
+		kitsToLeave.remove(0);
+	}
+	
+	public void newExitKit() {
+		kitsToLeave.add(new KitGraphicsDisplay(client, new Location(195,400)));
 	}
 	
 	public void draw(JComponent c, Graphics2D g2){
@@ -86,6 +96,13 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				Location temp = tempKit.kitLocation;
 				tempKit.setLocation(new Location(temp.getX(), temp.getY() + velocity));
 			}
+		}
+		
+		for(int i = 0; i < kitsToLeave.size(); i++) {
+			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
+			tempKit.draw(c, g2);
+			Location temp = tempKit.kitLocation;
+			tempKit.setLocation(new Location(temp.getX() + velocity, temp.getY()));
 		}
 	}
 	
@@ -132,7 +149,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
 			//must take in int somehow
 		} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
-			//make this later
+			newExitKit();
 		}
 	}
 }

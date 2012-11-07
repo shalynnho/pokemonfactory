@@ -9,13 +9,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
+import DeviceGraphics.DeviceGraphics;
 import agent.data.Kit;
 import agent.interfaces.FCS;
 import agent.interfaces.KitRobot;
 import agent.interfaces.PartsRobot;
 import agent.interfaces.Stand;
-
-import DeviceGraphics.DeviceGraphics;
 
 /**
  * Stand manages the kits that are placed on the kitting stand. Interacts with
@@ -149,7 +148,10 @@ public class StandAgent extends Agent implements Stand {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 
+		print("in my scheduler");
+
 		if (numKitsToMake > 0) {
+			print("NumKitsToMake greater than 0");
 			synchronized (myKits) {
 				// Received a kit from kit robot
 				for (MyKit mk : myKits.keySet()) {
@@ -374,7 +376,8 @@ public class StandAgent extends Agent implements Stand {
 		return kitsOnStand;
 	}
 
+	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
-		
+
 	}
 }

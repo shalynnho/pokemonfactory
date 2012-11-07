@@ -28,7 +28,8 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		positions = new KitGraphics[4];
 
 		for (int i = 0; i < 4; i++) {
-			positions[i] = new KitGraphics();
+			positions[i] = new KitGraphics(s);
+			positions[i] = new KitGraphics(server);
 		}
 
 		location = new Location(0, 0);
@@ -121,10 +122,12 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		}
 		else if(command.equals(Constants.KIT_ROBOT_ON_STAND_DONE))
 		{
+			System.out.println("placekitonStandDone sent");
 			kitRobotAgent.msgPlaceKitOnStandDone();
 		}
 		else if (command.equals(Constants.KIT_ROBOT_ON_CONVEYOR_DONE))
 		{
+			System.out.println("placekitonconveyordone sent");
 			kitRobotAgent.msgPlaceKitOnConveyorDone();
 		}
 
