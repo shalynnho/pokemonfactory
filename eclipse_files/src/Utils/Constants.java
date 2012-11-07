@@ -87,83 +87,48 @@ public abstract class Constants {
 	// Naming convention: DEVICENAME_ACTION_COMMAND
 
 	public static final String DONE_SUFFIX = "done";
-	public static final String IDENTIFY_COMMAND = "identify"; // for servers to
-																// identify
-																// managers
+	// for servers to identify managers
+	public static final String IDENTIFY_COMMAND = "identify"; 
 
 	// feeder logic to display commands
-	public static final String FEEDER_FLIP_DIVERTER_COMMAND = "feederflipdiv"; // draw
-																				// the
-																				// diverter
-																				// flipping
-	public static final String FEEDER_RECEIVED_BIN_COMMAND = "feederrecbin"; // a
-																				// bin
-																				// has
-																				// been
-																				// received
-	public static final String FEEDER_PURGE_BIN_COMMAND = "feederpurgebin"; // purge
-																			// the
-																			// bin
-	public static final String FEEDER_MOVE_TO_DIVERTER_COMMAND = "feedermovediv"; // move
-																					// part
-																					// to
-																					// diverter
-	public static final String FEEDER_MOVE_TO_LANE_COMMAND = "feedermovlane"; // move
-																				// part
-																				// to
-																				// lane
+	// draw the diverter flipping
+	public static final String FEEDER_FLIP_DIVERTER_COMMAND = "feederflipdiv";
+	// a bin has been received
+	public static final String FEEDER_RECEIVED_BIN_COMMAND = "feederrecbin"; 
+	// purge bin
+	public static final String FEEDER_PURGE_BIN_COMMAND = "feederpurgebin";
+	// move part to diverter
+	public static final String FEEDER_MOVE_TO_DIVERTER_COMMAND = "feedermovediv"; 
+	// move part to lane
+	public static final String FEEDER_MOVE_TO_LANE_COMMAND = "feedermovlane"; 
 	// end feeder logic to display commands
 
 	// lane logic to display commands
-	public static final String LANE_PURGE_COMMAND = "purge lane"; // purge lane
-	public static final String LANE_SEND_ANIMATION_COMMAND = "lane animation"; // sends
-																				// animation
-																				// instructions
-																				// to
-																				// lane
-	public static final String LANE_SET_AMPLITUDE_COMMAND = "lane set amp"; // sets
-																			// lane
-																			// amplitude
-	public static final String LANE_TOGGLE_COMMAND = "lane toggle"; // turns
-																	// lane on
-																	// or off
-	public static final String LANE_SET_STARTLOC_COMMAND = "lane start loc"; // sets
-																				// start
-																				// loc
-																				// for
-																				// this
-																				// lane
-	public static final String LANE_RECEIVE_PART_COMMAND = "lane receive part"; // new
-																				// part
-																				// added
-																				// to
-																				// lane
-	public static final String LANE_GIVE_PART_TO_NEST = "lane give part to nest"; // gives
-																					// part
-																					// to
-																					// nest
+	// purge lane
+	public static final String LANE_PURGE_COMMAND = "purge lane";
+	// sends animation instructions to lane
+	public static final String LANE_SEND_ANIMATION_COMMAND = "lane animation"; 
+	// sets lane amplitude
+	public static final String LANE_SET_AMPLITUDE_COMMAND = "lane set amp";
+	// turns lane on or off
+	public static final String LANE_TOGGLE_COMMAND = "lane toggle"; 
+	// sets start loc for this lane
+	public static final String LANE_SET_STARTLOC_COMMAND = "lane start loc"; 
+	// new part added to lane
+	public static final String LANE_RECEIVE_PART_COMMAND = "lane receive part"; 
+	// gives part to nest
+	public static final String LANE_GIVE_PART_TO_NEST = "lane give part to nest"; 
 	// end lane commands
 
 	// conveyor logic to display commands
-	public static final String CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND = "give kit to kit robot"; // conveyor
-																									// gives
-																									// kit
-																									// to
-																									// kit
-																									// robot
-	public static final String CONVEYOR_RECEIVE_KIT_COMMAND = "conveyor receive kit"; // conveyor
-																						// receives
-																						// a
-																						// kit
-	public static final String CONVEYOR_SEND_ANIMATION_COMMAND = "conveyor animation"; // sends
-																						// animation
-																						// information
-																						// to
-																						// conveyor
-	public static final String CONVEYOR_CHANGE_VELOCITY_COMMAND = "conveyor change velocity"; // need
-																								// to
-																								// change
-																								// velocity
+	// conveyor gives kit to kit robot
+	public static final String CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND = "give kit to kit robot";
+	// conveyor receives a kit
+	public static final String CONVEYOR_RECEIVE_KIT_COMMAND = "conveyor receive kit";
+	// sends animation information to conveyor
+	public static final String CONVEYOR_SEND_ANIMATION_COMMAND = "conveyor animation"; 
+	// need to change velocity
+	public static final String CONVEYOR_CHANGE_VELOCITY_COMMAND = "conveyor change velocity";
 	public static final String CONVEYOR_MAKE_NEW_KIT_COMMAND = "make new kit";
 	// end conveyor logic to display
 
@@ -173,32 +138,21 @@ public abstract class Constants {
 	// end kitrobot logic
 
 	// partsrobot logic to display commands
-	public static final String PARTS_ROBOT_MOVE_TO_NEST1_COMMAND = "nest1"; // parts
-																			// robot
-																			// moves
-																			// to
-																			// nest1
-	public static final String PARTS_ROBOT_MOVE_TO_NEST2_COMMAND = "nest2"; // parts
-																			// robot
-																			// moves
-																			// to
-																			// nest2
-	public static final String PARTS_ROBOT_ROTATE_COMMAND = "rotate"; // parts
-																		// robot
-																		// rotate
-	public static final String PARTS_ROBOT_PICKUP_COMMAND = "pickup"; // pick up
-																		// part
-	public static final String PARTS_ROBOT_GIVE_COMMAND = "give"; // give part
-																	// to kit
-	public static final String PARTS_ROBOT_GO_HOME_COMMAND = "gohome"; // parts
-																		// robot
-																		// goes
-																		// back
-																		// to
-																		// initial
-																		// location
-	public static final String PARTS_ROBOT_GO_KIT_COMMAND = "gokit"; // go to
-																		// kit
+	
+	// parts robot moves to target nest
+	public static final String PARTS_ROBOT_MOVE_TO_NEST1_COMMAND = "nest1";
+	public static final String PARTS_ROBOT_MOVE_TO_NEST2_COMMAND = "nest2"; 	
+	// parts robot rotate
+	public static final String PARTS_ROBOT_ROTATE_COMMAND = "rotate"; 
+	// pick up part
+	public static final String PARTS_ROBOT_PICKUP_COMMAND = "pickup"; 
+	// give part to kit
+	public static final String PARTS_ROBOT_GIVE_COMMAND = "give"; 
+	// parts robot goes back to initial location
+	public static final String PARTS_ROBOT_GO_HOME_COMMAND = "gohome"; 
+	// parts robot go to kit
+	public static final String PARTS_ROBOT_GO_KIT_COMMAND = "gokit"; 
+	
 	// end partsrobot logic to display commands
 
 	// nestgraphics logic to display commands
