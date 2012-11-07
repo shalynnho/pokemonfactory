@@ -122,7 +122,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgPickUpPartDone() {
-		System.out.println("test");
 		animation.release();
 		stateChanged();
 	}
