@@ -11,6 +11,8 @@ public class BinGraphics implements DeviceGraphics  {
 	int partNumber; // Number of parts in bin
 	Location binLocation;
 	
+	private boolean full = true;
+	
 	// Constructor
 	public BinGraphics (PartGraphics parts, int partNum) {
 		part = parts;
@@ -56,6 +58,9 @@ public class BinGraphics implements DeviceGraphics  {
 		return binLocation;
 	}
 
+	public void setFull(boolean full) {
+		this.full = full;
+	}
 
 	@Override
 	public void receiveData(Request req) {
