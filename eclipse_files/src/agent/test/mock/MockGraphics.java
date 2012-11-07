@@ -15,6 +15,7 @@ import GraphicsInterfaces.GantryGraphics;
 import GraphicsInterfaces.LaneGraphics;
 import GraphicsInterfaces.NestGraphics;
 import GraphicsInterfaces.PartsRobotGraphics;
+import Utils.Location;
 import agent.Agent;
 import agent.CameraAgent;
 import agent.ConveyorAgent;
@@ -24,7 +25,6 @@ import agent.KitRobotAgent;
 import agent.LaneAgent;
 import agent.NestAgent;
 import agent.PartsRobotAgent;
-import agent.data.Part;
 import agent.interfaces.Feeder;
 import agent.interfaces.Gantry;
 import agent.interfaces.Lane;
@@ -338,18 +338,6 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	}
 
 	@Override
-	public void receivePart(Part part) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void givePartToNest(Part part) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -368,6 +356,18 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Location getLocation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void givePartToNest(PartGraphics part) {
 		// TODO Auto-generated method stub
 
 	}

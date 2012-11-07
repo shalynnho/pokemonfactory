@@ -10,6 +10,7 @@ import agent.data.PartType;
 
 
 import Networking.Request;
+import Utils.Constants;
 import Utils.Location;
 
 public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
@@ -17,7 +18,6 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 	//NEED IMAGE NAMES
 	
 	// TODO temp fullBin image name. change later
-	Image fullBin = Toolkit.getDefaultToolkit().getImage("src/images/samplebin.png");
 	Image emptyBin = Toolkit.getDefaultToolkit().getImage("PUT IMAGE NAME HERE");
 	
 	Location binLocation;
@@ -44,7 +44,7 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	public void draw (JComponent c, Graphics2D g) {
 		if (isFull)
-			g.drawImage(fullBin, binLocation.getX(), binLocation.getY(), c);
+			g.drawImage(Constants.BIN_IMAGE, binLocation.getX(), binLocation.getY(), c);
 		else
 			g.drawImage(emptyBin, binLocation.getX(), binLocation.getY(), c);
 	}

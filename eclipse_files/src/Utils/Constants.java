@@ -62,6 +62,14 @@ public abstract class Constants {
 	// Camera Images
 	public static final Image CAMERA_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Square.jpg");
 
+	// Part Images
+	public static final Image PART_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage("src/images/samplepart.png");
+	
+	// Bin Images
+	public static final Image BIN_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage("src/images/samplebin.png");
+
 	// TARGET NAMES
 	// ==================================
 	// Used so that we can create Request methods more easily.

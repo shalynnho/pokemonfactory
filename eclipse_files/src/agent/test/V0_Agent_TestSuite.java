@@ -1,4 +1,4 @@
-package factory.test;
+package agent.test;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
