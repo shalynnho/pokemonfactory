@@ -73,7 +73,10 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		// TODO Auto-generated method stub
 		partArray.add(pg);
 		rotateArm();
-		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, pg.getLocation()));
+		
+		// V0 hack
+		Location tempLoc = new Location(550, 100);
+		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, tempLoc));
 		//pg.setLocation()
 	}
 	

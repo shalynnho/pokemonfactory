@@ -50,7 +50,7 @@ public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.Camera
 			KitGraphics kit = new KitGraphics(server);
 			kit.setLocation(new Location(20, 200));
 			
-			agent.startV0Sequence();
+			agent.startV0Sequence(kit);
 			
 		}
 	}
