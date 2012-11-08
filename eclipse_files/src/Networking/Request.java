@@ -31,4 +31,8 @@ public class Request implements Serializable{
 		}
 		return data;
 	}
+	
+	public String toString() {
+		return "Request with target: " + target + " / command: " + command;
+	}
 }

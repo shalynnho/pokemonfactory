@@ -160,7 +160,8 @@ public class NestAgent extends Agent implements Nest {
 	public void moveToPosition(Part part) {
 		print("Moving part to proper nest location");
 		if (nestGraphics != null) {
-			nestGraphics.receivePart(part.partGraphics);
+			// TODO
+			// nestGraphics.receivePart(part.partGraphics);
 		}
 		try {
 			animation.acquire();

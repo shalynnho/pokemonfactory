@@ -28,7 +28,7 @@ public class StreamWriter {
 	 */
 	public void sendData(Request req) {
 		try {
-			System.out.println("StreamWriter: requesting for \" " + req + " \"");
+			System.out.println("StreamWriter: requesting for \"" + req + "\"");
 			oos.writeObject(req);
 			oos.flush();
 			oos.reset();
