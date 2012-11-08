@@ -72,9 +72,9 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		addPartToCorrectLocation(pg, partsInNest.size()); // set part location
 															// to next empty
 															// spot
-		PartType pt = pg.getPartType();
+		String typeStr = pg.getPartType().toString();
 		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND,
-				Constants.NEST_TARGET + nestID, pt));
+				Constants.NEST_TARGET + nestID, typeStr));
 	}
 
 	/**
@@ -241,10 +241,4 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	public void setPartsInNest(ArrayList<PartGraphics> partsInNest) {
 		this.partsInNest = partsInNest;
 	}
-
-	// @Override
-	// V0 ONLY
-	// public void givePartToPartsRobot(PartGraphics part) {
-	// TODO Auto-generated method stub }
-
 }
