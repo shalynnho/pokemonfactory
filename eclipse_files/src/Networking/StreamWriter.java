@@ -33,7 +33,7 @@ public class StreamWriter {
 			oos.flush();
 			oos.reset();
 		} catch(SocketException e) {
-			System.out.println("StreamWriter: Connection lost. Other terminal has discnonected.");
+			System.out.println("StreamWriter: Connection lost. Other terminal has disconnected.");
 		} catch (Exception e) {
 			System.out.println("StreamWriter: request fail");
 			e.printStackTrace();
