@@ -56,8 +56,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 			if (i < 4) {
 				temp.setLocation(new Location(119 + i * 20, location.getY() + 1));
 			} else {
-				temp.setLocation(new Location(119 + (i - 4) * 20, location
-						.getY() + 23));
+				temp.setLocation(new Location(119 + (i - 4) * 20, location.getY() + 23));
 			}
 			partsInNest.add(temp);
 		}
