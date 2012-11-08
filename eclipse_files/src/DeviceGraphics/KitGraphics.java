@@ -11,12 +11,12 @@ import agent.data.PartType;
 
 public class KitGraphics implements DeviceGraphics {
 	
-	ArrayList<PartGraphics> parts = new ArrayList<PartGraphics>(); // parts currently in the kit
-	ArrayList<PartType> partTypes = new ArrayList<PartType>(); // part types required to make kit
-	Location kitLocation;
+	private ArrayList<PartGraphics> parts = new ArrayList<PartGraphics>(); // parts currently in the kit
+	private ArrayList<PartType> partTypes = new ArrayList<PartType>(); // part types required to make kit
+	private Location kitLocation;
 	
-	Boolean isFull; //Says whether or not the kit is full
-	Server server;
+	private boolean isFull; //Says whether or not the kit is full
+	private Server server;
 	
 	public KitGraphics (Server server) {
 		this.server = server;
@@ -70,7 +70,8 @@ public class KitGraphics implements DeviceGraphics {
 	
 	public void receivePart(PartGraphics part) {
 		addPart(part);
-		server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND, Constants.KIT_TARGET, parts));
+		String typeStr = part.getPartType().toString();
+		server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND, Constants.KIT_TARGET, typeStr));
 	}
 
 	@Override

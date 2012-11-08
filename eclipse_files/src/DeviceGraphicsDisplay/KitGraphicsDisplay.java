@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import DeviceGraphics.PartGraphics;
+import agent.data.PartType;
+
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -14,19 +15,19 @@ import Utils.Location;
 
 public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 
-	Location kitLocation;
+	private Location kitLocation;
 
 	// RotationPart
 	public int finalDegree;
-	int currentDegree;
-	int degreeStep;
-	int rotationAxisX;
-	int rotationAxisY;
-	int position;
-	boolean AnimationToConveyorDone;
-	ArrayList<PartGraphics> parts = new ArrayList<PartGraphics>();
+	private int currentDegree;
+	private int degreeStep;
+	private int rotationAxisX;
+	private int rotationAxisY;
+	private int position;
+	private boolean AnimationToConveyorDone;
+	private ArrayList<PartGraphicsDisplay> parts = new ArrayList<PartGraphicsDisplay>();
 
-	AffineTransform trans = new AffineTransform();
+	private AffineTransform trans = new AffineTransform();
 
 	public KitGraphicsDisplay(Client c, Location newLocation) {
 		AnimationToConveyorDone = false;
@@ -59,7 +60,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		g.drawImage(Constants.KIT_IMAGE, kitLocation.getX(), kitLocation.getY(), c);
 		
-		for(PartGraphics part : parts) {
+		for(PartGraphicsDisplay part : parts) {
 			g.drawImage(Constants.PART_IMAGE, part.getLocation().getX(), part.getLocation().getY(), c);
 		}
 
@@ -67,7 +68,8 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void receiveData(Request req) {
 		if(req.getCommand().equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND)) {
-			parts = (ArrayList<PartGraphics>) req.getData();
+			String typeStr = (String) req.getData();
+			parts.add(new PartGraphicsDisplay(PartType.valueOf(typeStr)));
 		}
 	}
 
