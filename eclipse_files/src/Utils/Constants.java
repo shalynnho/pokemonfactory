@@ -13,63 +13,67 @@ public abstract class Constants {
 	// ==================================
 
 	public static final int SERVER_PORT = 6889;
+	
+	public static final String IMAGE_PATH = "images/src";
 
 	// CLIENT SETTINGS
 	// ==================================
 
 	public static final int TIMER_DELAY = 50;
 
-	public static final Image CLIENT_BG_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("src/images/bg.jpg");
+	public static final Image CLIENT_BG_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "bg.jpg");
 
 	// DEVICE SETTINGS
 	// ==================================
-
+	
 	// Feeder Images
-	public static final Image FEEDER_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("src/images/Feeder.png");
-	public static final Image LANE_LED_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("src/images/FeederGreenLight.png");
+	public static final Image FEEDER_IMAGE =
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Feeder.png");
+	public static final Image LANE_LED_IMAGE =
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "FeederGreenLight.png");
 
 	// Lane Images
-	public static final Image LANE_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("src/images/lane.png");
-	public static final Image LANE_LINE = Toolkit.getDefaultToolkit().getImage(
-			"src/images/laneline.png");
+	public static final Image LANE_IMAGE =
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "lane.png");
+	public static final Image LANE_LINE =
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "laneline.png");
 
 	// Conveyor Images
-	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("src/images/Conveyor.jpg");
-	public static final Image CONVEYOR_LINES_IMAGE = Toolkit
-			.getDefaultToolkit().getImage("src/images/ConveyorLines.png");
-	public static final Image EXIT_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("src/images/ExitBelt.png");
-	public static final Image EXIT_LINES_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("src/images/ExitLines.png");
+	public static final Image CONVEYOR_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Conveyor.jpg");
+	public static final Image CONVEYOR_LINES_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "ConveyorLines.png");
+	public static final Image EXIT_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "ExitBelt.png");
+	public static final Image EXIT_LINES_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "ExitLines.png");
 
 	// Kit Robot Images
-	public static final Image KIT_ROBOT_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("src/images/Square.jpg");
+	public static final Image KIT_ROBOT_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Square.jpg");
 
 	// Kit Images
-	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage(
-			"src/images/Kit.jpg");
+	public static final Image KIT_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Kit.jpg");
 
 	// Nest Images
-	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("src/images/Nest.png");
+	public static final Image NEST_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Nest.png");
 	
 	// Camera Images
-	public static final Image CAMERA_IMAGE = Toolkit.getDefaultToolkit().getImage("src/images/Camera.png");
+	public static final Image CAMERA_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Camera.png");
 
 	// Part Images
-	public static final Image PART_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("src/images/samplepart.png");
+	public static final Image PART_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "samplepart.png");
 	
 	// Bin Images
-	public static final Image BIN_FULL_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("src/images/samplebin.png");
-	public static final Image BIN_EMPTY_IMAGE = Toolkit.getDefaultToolkit().getImage("");
+	public static final Image BIN_FULL_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "samplebin.png");
+	public static final Image BIN_EMPTY_IMAGE = 
+			Toolkit.getDefaultToolkit().getImage("");
 
 	// TARGET NAMES
 	// ==================================
