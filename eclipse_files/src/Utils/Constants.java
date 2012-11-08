@@ -14,7 +14,7 @@ public abstract class Constants {
 
 	public static final int SERVER_PORT = 6889;
 	
-	public static final String IMAGE_PATH = "images/src";
+	public static final String IMAGE_PATH = "src/images/";
 
 	// CLIENT SETTINGS
 	// ==================================
@@ -26,6 +26,12 @@ public abstract class Constants {
 
 	// DEVICE SETTINGS
 	// ==================================
+	
+	public static final int FEEDER_COUNT = 1;
+	public static final int LANE_COUNT = 2;
+	public static final int NEST_COUNT = 2;
+	public static final int STAND_COUNT = 3;
+	
 	
 	// Feeder Images
 	public static final Image FEEDER_IMAGE =
@@ -94,6 +100,7 @@ public abstract class Constants {
 	public static final String PART_TARGET = "Part";
 	public static final String NEST_TARGET = "Nest";
 	public static final String KIT_TARGET = "Kit";
+	public static final String STAND_TARGET = "Stand";
 
 	public static final String SERVER_TARGET = "Server";
 

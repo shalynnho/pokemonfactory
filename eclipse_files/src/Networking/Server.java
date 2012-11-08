@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import DeviceGraphics.CameraGraphics;
 import DeviceGraphics.ConveyorGraphics;
@@ -82,83 +83,71 @@ public class Server {
 	}
 
 	private void initAgents() {
-		agents.put(Constants.FEEDER_TARGET, new FeederAgent(Constants.FEEDER_TARGET));
-		agents.put(Constants.LANE_TARGET+":"+0, new LaneAgent(Constants.LANE_TARGET+":"+0));
-		agents.put(Constants.LANE_TARGET+":"+1, new LaneAgent(Constants.LANE_TARGET+":"+1));
-		agents.put(Constants.CAMERA_TARGET, new CameraAgent(Constants.CAMERA_TARGET));
+		agents.put(Constants.CAMERA_TARGET, new CameraAgent(Constants.CAMERA_TARGET)); 
+		agents.put(Constants.CONVEYOR_TARGET, new ConveyorAgent(Constants.CONVEYOR_TARGET));
 		agents.put(Constants.KIT_ROBOT_TARGET, new KitRobotAgent(Constants.KIT_ROBOT_TARGET));
-		agents.put(Constants.CONVEYOR_TARGET, new ConveyorAgent(
-				Constants.CONVEYOR_TARGET));
-		 agents.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotAgent(
-		 Constants.PARTS_ROBOT_TARGET));
-		agents.put(Constants.NEST_TARGET + ":" + 0, new NestAgent(
-				Constants.NEST_TARGET));
-		agents.put(Constants.NEST_TARGET + ":" + 1, new NestAgent(
-				Constants.NEST_TARGET));
-		agents.put("Stand", new StandAgent("Stand"));
+		agents.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotAgent(Constants.PARTS_ROBOT_TARGET));
+		
+		for(int i = 0; i < Constants.FEEDER_COUNT; i++) {
+			agents.put(Constants.FEEDER_TARGET + i, new FeederAgent(Constants.FEEDER_TARGET + i));
+		}
+		for(int i = 0; i < Constants.LANE_COUNT; i++) {
+			agents.put(Constants.LANE_TARGET + i, new LaneAgent(Constants.LANE_TARGET + i));
+		}
+		for(int i = 0; i < Constants.NEST_COUNT; i++) {
+			agents.put(Constants.NEST_TARGET + i, new NestAgent(Constants.NEST_TARGET + i));
+		}
+		agents.put(Constants.STAND_TARGET, new StandAgent(Constants.STAND_TARGET));
 	}
 
 	private void initDevices() {
-		devices.put(Constants.LANE_TARGET + ":" + 0, new LaneGraphics(this, 0,
-				agents.get(Constants.LANE_TARGET + ":" + 0), agents.get(Constants.FEEDER_TARGET)));
-		devices.put(Constants.LANE_TARGET + ":" + 1, new LaneGraphics(this, 1,
-				agents.get(Constants.LANE_TARGET + ":" + 1), agents.get(Constants.FEEDER_TARGET)));
-		devices.put(
-				Constants.FEEDER_TARGET,
-				new FeederGraphics(0, this, agents.get(Constants.FEEDER_TARGET), agents.get(Constants.LANE_TARGET + ":" + 0), agents.get(Constants.LANE_TARGET + ":" + 1)));
+		devices.put(Constants.CAMERA_TARGET, new CameraGraphics(this, agents.get(Constants.CAMERA_TARGET)));
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this, agents.get(Constants.CONVEYOR_TARGET)));
-		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this,
-				agents.get(Constants.KIT_ROBOT_TARGET)));
+		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this, agents.get(Constants.KIT_ROBOT_TARGET)));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this, agents.get(Constants.PARTS_ROBOT_TARGET)));
-		devices.put(Constants.CAMERA_TARGET,
-				new CameraGraphics(this, agents.get(Constants.CAMERA_TARGET)));
-		devices.put(Constants.NEST_TARGET + ":" + 0, new NestGraphics(this, 0,
-				agents.get(Constants.NEST_TARGET + ":" + 0)));
-		devices.put(Constants.NEST_TARGET + ":" + 1, new NestGraphics(this, 1,
-				agents.get(Constants.NEST_TARGET + ":" + 1)));
+		
+		for(int i = 0; i < Constants.FEEDER_COUNT; i++) {
+			devices.put(Constants.FEEDER_TARGET + i, new FeederGraphics(i, this, 
+					agents.get(Constants.FEEDER_TARGET + i), agents.get(Constants.LANE_TARGET + i * 2),
+					agents.get(Constants.LANE_TARGET + (i * 2 + 1))));
+		}
+		for(int i = 0; i < Constants.LANE_COUNT; i++) {
+			devices.put(Constants.LANE_TARGET + i, new LaneGraphics(this, i,
+					agents.get(Constants.LANE_TARGET + i), agents.get(Constants.FEEDER_TARGET + i / 2)));
+		}
+		for(int i = 0; i < Constants.NEST_COUNT; i++) {
+			devices.put(Constants.NEST_TARGET + i, new NestGraphics(this, i,
+					agents.get(Constants.NEST_TARGET + i)));
+		}
 	}
 
 	private void connectAgentsWithDevices() {
-
-		/* for(Entry<String, Agent> entry : agents.entrySet()) {
-			// entry.getValue().setGraphicRepresentation(devices.get(entry.getKey()));
-		} */
-		agents.get(Constants.FEEDER_TARGET).setGraphicalRepresentation(devices.get(Constants.FEEDER_TARGET));
-		agents.get(Constants.LANE_TARGET + ":" + 0).setGraphicalRepresentation(devices.get(Constants.LANE_TARGET + ":" + 0));
-		agents.get(Constants.LANE_TARGET + ":" + 1).setGraphicalRepresentation(devices.get(Constants.LANE_TARGET + ":" + 1));
-		((FeederAgent) agents.get(Constants.FEEDER_TARGET)).setLanes((LaneAgent) agents.get(Constants.LANE_TARGET + ":" + 0), (LaneAgent) agents.get(Constants.LANE_TARGET + ":" + 1));
-		((LaneAgent) agents.get(Constants.LANE_TARGET + ":" + 0)).setFeeder((FeederAgent) agents.get(Constants.FEEDER_TARGET));
-		((LaneAgent) agents.get(Constants.LANE_TARGET + ":" + 1)).setFeeder((FeederAgent) agents.get(Constants.FEEDER_TARGET));
-		agents.get(Constants.FEEDER_TARGET).startThread();
-		agents.get(Constants.LANE_TARGET + ":" + 0).startThread();
-		agents.get(Constants.LANE_TARGET + ":" + 1).startThread();
-		
-		agents.get(Constants.KIT_ROBOT_TARGET).setGraphicalRepresentation(devices.get(Constants.KIT_ROBOT_TARGET));
-		agents.get(Constants.CONVEYOR_TARGET).setGraphicalRepresentation(devices.get(Constants.CONVEYOR_TARGET));
-		agents.get(Constants.KIT_ROBOT_TARGET).startThread();
-		agents.get(Constants.NEST_TARGET + ":" + 0).setGraphicalRepresentation(
-				devices.get(Constants.NEST_TARGET + ":" + 0));
-		agents.get(Constants.NEST_TARGET + ":" + 1).setGraphicalRepresentation(
-				devices.get(Constants.NEST_TARGET + ":" + 1));
-		agents.get(Constants.CONVEYOR_TARGET).startThread();
-		agents.get(Constants.PARTS_ROBOT_TARGET).setGraphicalRepresentation(devices.get(Constants.PARTS_ROBOT_TARGET));
-		agents.get(Constants.PARTS_ROBOT_TARGET).startThread();
-		agents.get(Constants.CAMERA_TARGET).setGraphicalRepresentation(devices.get(Constants.CAMERA_TARGET));
-		agents.get(Constants.CAMERA_TARGET).startThread();
-		agents.get("Stand").startThread();
+		for(Entry<String, Agent> entry : agents.entrySet()) {
+			Agent agent = entry.getValue();
+			if (devices.containsKey(entry.getKey())) {
+				DeviceGraphics device = devices.get(entry.getKey());
+				agent.setGraphicalRepresentation(device);
+			}
+			agent.startThread();
+		} 
 	}
 
 	private void connectAgentsWithEachOther() {
-		KitRobotAgent kitrobot = (KitRobotAgent) agents
-				.get(Constants.KIT_ROBOT_TARGET);
-		StandAgent stand = (StandAgent) agents.get("Stand");
-		PartsRobotAgent partsrobot = (PartsRobotAgent) agents
-				.get(Constants.PARTS_ROBOT_TARGET);
+		for(int i = 0; i < Constants.FEEDER_COUNT; i++) {
+			((FeederAgent) agents.get(Constants.FEEDER_TARGET + i)).setLanes(
+					(LaneAgent) agents.get(Constants.LANE_TARGET + i * 2), 
+					(LaneAgent) agents.get(Constants.LANE_TARGET + (i * 2 + 1)));
+		}
+		
+		for(int i = 0; i < Constants.LANE_COUNT; i++) {
+			((LaneAgent) agents.get(Constants.LANE_TARGET + i)).setFeeder((FeederAgent) agents.get(Constants.FEEDER_TARGET + i / 2));
+		}
+		
+		KitRobotAgent kitrobot = (KitRobotAgent) agents.get(Constants.KIT_ROBOT_TARGET);
+		StandAgent stand = (StandAgent) agents.get(Constants.STAND_TARGET);
+		PartsRobotAgent partsrobot = (PartsRobotAgent) agents.get(Constants.PARTS_ROBOT_TARGET);
 		CameraAgent camera = (CameraAgent) agents.get(Constants.CAMERA_TARGET);
-		ConveyorAgent conveyor = (ConveyorAgent) agents
-				.get(Constants.CONVEYOR_TARGET);
-		NestAgent nest0 = (NestAgent) agents.get(Constants.NEST_TARGET+":"+0);
-		NestAgent nest1 = (NestAgent) agents.get(Constants.NEST_TARGET+":"+1);
+		ConveyorAgent conveyor = (ConveyorAgent) agents.get(Constants.CONVEYOR_TARGET);
 		
 		stand.setKitrobot(kitrobot);
 		kitrobot.setCamera(camera);
@@ -170,9 +159,12 @@ public class Server {
 		camera.setKitRobot(kitrobot);
 
 		//V0 heck
+		NestAgent nest0 = (NestAgent) agents.get(Constants.NEST_TARGET + 0);
+		NestAgent nest1 = (NestAgent) agents.get(Constants.NEST_TARGET + 1);
 		nest0.FillWithParts();
 		nest1.FillWithParts();
 		//end V0 heck 
+		
 		camera.setNest(nest0);
 		camera.setNest(nest1);
 

@@ -107,7 +107,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 */
 	public void givePartToNest(PartGraphics pg) {
 		partsOnLane.remove(0); // make sure to check that correct part is removed
-		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET +":"+ laneID, null));
+		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET + laneID, null));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 //		agentPartsOnLane.clear();
 		// TODO: set location of parts to fall off lane
 		server.sendData(new Request(Constants.LANE_PURGE_COMMAND,
-				Constants.LANE_TARGET  +":"+  laneID, null));
+				Constants.LANE_TARGET + laneID, null));
 	}
 	
 	/**
@@ -132,7 +132,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		pg.setLocation(new Location (LANE_BEG_X, endY + (PART_WIDTH / 2)));
 		PartType pt = pg.getPartType();
 		
-		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET +":"+ laneID, pt));
+		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET + laneID, pt));
 		
 		// TODO: (V2) later pass if good/bad part
 	}
@@ -177,7 +177,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	public void setAmplitude(int amp) {
 		amplitude = amp;
 		server.sendData(new Request(Constants.LANE_SET_AMPLITUDE_COMMAND,
-				Constants.LANE_TARGET +":"+ laneID, amp));
+				Constants.LANE_TARGET + laneID, amp));
 	}
 
 	/**
@@ -188,7 +188,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	public void toggleSwitch(boolean on) {
 		laneOn = on;
 		server.sendData(new Request(Constants.LANE_TOGGLE_COMMAND,
-				Constants.LANE_TARGET +":"+  laneID, laneOn));
+				Constants.LANE_TARGET + laneID, laneOn));
 	}
 
 	/**

@@ -30,12 +30,14 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	// location of the feeder
 	private Location feederLocation;
 	// a BinGraphicsDisplay object
-	private BinGraphicsDisplay bgd; 
+	private BinGraphicsDisplay bgd;
+	
+	private int feederID;
 
 	/**
 	 * constructor
 	 */
-	public FeederGraphicsDisplay(Client cli, Location loc) {
+	public FeederGraphicsDisplay(int id, Client cli, Location loc) {
 		// store a reference to the client
 		client = cli;
 		// set the feeder's default location
@@ -44,6 +46,8 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		diverterTop = true;
 		// we don't have a bin to start with
 		haveBin = false;
+		
+		feederID = id;
 		
 		// force an initial repaint to display feeder and diverter
 		client.repaint();
@@ -80,11 +84,11 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
 			diverterTop = !diverterTop;
-			client.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET, null));
+			client.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
 		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			receiveBin();
 			haveBin = true;
-			client.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET, null));
+			client.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND)) {
 			// TODO future: move bin to purge area
 			
@@ -93,7 +97,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 				haveBin = false;
 			}
 			
-			client.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET, null));
+			client.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
 		}
 	}
 }

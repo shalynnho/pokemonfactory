@@ -66,9 +66,9 @@ public class LaneManager extends Client implements ActionListener{
 		
 		// test bin on feeder
 		JButton haveBin = new JButton("Get Bin");
-		haveBin.addActionListener(new NetworkingButtonListener("TESTING_FEEDER", Constants.FEEDER_TARGET, writer));
-		haveBin.addActionListener(new NetworkingButtonListener("TESTING_LANE", Constants.LANE_TARGET + ":" + 0, writer));
-		haveBin.addActionListener(new NetworkingButtonListener("TESTING_LANE", Constants.LANE_TARGET + ":" + 1, writer));
+		haveBin.addActionListener(new NetworkingButtonListener("TESTING_FEEDER", Constants.FEEDER_TARGET + 0, writer));
+		haveBin.addActionListener(new NetworkingButtonListener("TESTING_LANE", Constants.LANE_TARGET + 0, writer));
+		haveBin.addActionListener(new NetworkingButtonListener("TESTING_LANE", Constants.LANE_TARGET + 1, writer));
 		panel.add(haveBin);
 		
 		/*// test lane 0 receive part
@@ -88,10 +88,9 @@ public class LaneManager extends Client implements ActionListener{
 	public void initDevices() {
 		// TODO add all devices (4) feeders, (8) lanes
 		
-		// example:
-		addDevice(Constants.LANE_TARGET+":"+0, new LaneGraphicsDisplay(this, new Location(199, 100), 0));
-		addDevice(Constants.LANE_TARGET+":"+1, new LaneGraphicsDisplay(this, new Location(199, 175), 1));
-		addDevice(Constants.FEEDER_TARGET, new FeederGraphicsDisplay(this, new Location(600, 100)));
+		addDevice(Constants.LANE_TARGET + 0, new LaneGraphicsDisplay(this, new Location(199, 100), 0));
+		addDevice(Constants.LANE_TARGET + 1, new LaneGraphicsDisplay(this, new Location(199, 175), 1));
+		addDevice(Constants.FEEDER_TARGET + 0, new FeederGraphicsDisplay(0, this, new Location(600, 100)));
 	}
 	
 	@Override

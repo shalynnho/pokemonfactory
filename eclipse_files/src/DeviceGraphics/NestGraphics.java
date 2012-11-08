@@ -74,7 +74,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 															// spot
 		PartType pt = pg.getPartType();
 		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND,
-				Constants.NEST_TARGET + ":" + nestID, pt));
+				Constants.NEST_TARGET + nestID, pt));
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		if (server != null) {
 			server.sendData(new Request(
 					Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND,
-					Constants.NEST_TARGET + ":" + nestID, pg));
+					Constants.NEST_TARGET + nestID, pg));
 		}
 	}
 
@@ -108,7 +108,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		// purging = true;
 		partsInNest.clear();
 		server.sendData(new Request(Constants.NEST_PURGE_COMMAND,
-				Constants.NEST_TARGET + ":" + nestID, null));
+				Constants.NEST_TARGET + nestID, null));
 	}
 
 	/**
@@ -129,10 +129,10 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 				Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)) {
 			server.sendData(new Request(
 					Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND,
-					Constants.NEST_TARGET + ":" + nestID, null));
+					Constants.NEST_TARGET + nestID, null));
 		} else if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND)) {
 			server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND,
-					Constants.NEST_TARGET + ":" + nestID, null));
+					Constants.NEST_TARGET + nestID, null));
 		}
 
 	}

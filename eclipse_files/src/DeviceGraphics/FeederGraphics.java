@@ -55,7 +55,8 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 */
 	public void receiveBin(BinGraphics bg) {
 		binGraphics = bg;
-		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET, null));
+		System.out.println("=========================================HELLLLLLLLLLLLLLLLLLLLLLLLLO");
+		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, null));
 	}
 	
 	/**
@@ -64,7 +65,7 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 */
 	public void purgeBin(BinGraphics bg) {
 		bg.setFull(false);
-		server.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND, Constants.FEEDER_TARGET, null));
+		server.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, null));
 	}
 	
 	/**
@@ -72,7 +73,7 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 */
 	public void flipDiverter() {
 		diverterTop = !diverterTop;
-		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET, null));
+		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET + feederID, null));
 	}
 
 	/**
@@ -94,6 +95,7 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	public void initializeV0Lane() {
 		//lane1.thisFeederAgent(feederAgent);
 		//lane2.thisFeederAgent(feederAgent);
+		receiveBin(new Bin(new Part(PartType.A)).binGraphics);
 		feederAgent.msgHereAreParts(PartType.A, new Bin(new Part(PartType.A)));
 		
 		

@@ -242,7 +242,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 			partsOnLane.remove(0);
 			laneManager.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
-					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+":"+laneID, null));
+					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 
 		} else if (cmd.equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			binIsHere = true;
@@ -369,7 +369,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void msgAgentReceivePartDone() {
 		if(partAtLaneEnd && (partDoneCounter == 0)) {
 			laneManager.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
-					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+":"+laneID, null));
+					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 			partDoneCounter++;
 		}
 	}
