@@ -41,7 +41,7 @@ public class KitGraphics implements DeviceGraphics {
 			newPart.setLocation(new Location(kitLocation.getX() + 5, kitLocation.getY() + (20 * (parts.size() -1) / 2)));
 		}
 		else {
-			newPart.setLocation(new Location(kitLocation.getX() + 34, kitLocation.getY() + (20 * parts.size() / 2)));
+			newPart.setLocation(new Location(kitLocation.getX() + 34, kitLocation.getY() + (20 * (parts.size()-2) / 2)));
 		}		
 		
 		if (parts.size() == 8) {
