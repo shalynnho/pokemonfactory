@@ -2,6 +2,7 @@ package Networking;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.SocketException;
 
 /**
  * Contains connection to server. Sends data to the server at request.
@@ -31,9 +32,11 @@ public class StreamWriter {
 			oos.writeObject(req);
 			oos.flush();
 			oos.reset();
+		} catch(SocketException e) {
+			System.out.println("StreamWriter: Connection lost. Other terminal has discnonected.");
 		} catch (Exception e) {
 			System.out.println("StreamWriter: request fail");
 			e.printStackTrace();
-		}
+		} 
 	}
 }
