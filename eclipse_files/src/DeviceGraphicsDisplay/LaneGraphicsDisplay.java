@@ -309,28 +309,28 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		switch (id) {
 		case 0:
-			laneLoc = new Location(LANE_BEG_X, LANE0_Y);
+			laneLoc = new Location(LANE_END_X, LANE0_Y);
 			break;
 		case 1:
-			laneLoc = new Location(LANE_BEG_X, LANE1_Y);
+			laneLoc = new Location(LANE_END_X, LANE1_Y);
 			break;
 		case 2:
-			laneLoc = new Location(LANE_BEG_X, LANE2_Y);
+			laneLoc = new Location(LANE_END_X, LANE2_Y);
 			break;
 		case 3:
-			laneLoc = new Location(LANE_BEG_X, LANE3_Y);
+			laneLoc = new Location(LANE_END_X, LANE3_Y);
 			break;
 		case 4:
-			laneLoc = new Location(LANE_BEG_X, LANE4_Y);
+			laneLoc = new Location(LANE_END_X, LANE4_Y);
 			break;
 		case 5:
-			laneLoc = new Location(LANE_BEG_X, LANE5_Y);
+			laneLoc = new Location(LANE_END_X, LANE5_Y);
 			break;
 		case 6:
-			laneLoc = new Location(LANE_BEG_X, LANE6_Y);
+			laneLoc = new Location(LANE_END_X, LANE6_Y);
 			break;
 		case 7:
-			laneLoc = new Location(LANE_BEG_X, LANE7_Y);
+			laneLoc = new Location(LANE_END_X, LANE7_Y);
 			break;
 		default:
 			System.out.println("LGD: ID not recognized.");
