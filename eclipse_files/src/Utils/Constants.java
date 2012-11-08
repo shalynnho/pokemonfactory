@@ -32,6 +32,34 @@ public abstract class Constants {
 	public static final int NEST_COUNT = 2;
 	public static final int STAND_COUNT = 3;
 	
+	// DEVICE START LOCATIONS
+	// ==================================
+	
+	// TODO: adjust locations
+	public static final Location LANE0_LOC = new Location(599,100);
+	public static final Location LANE1_LOC = new Location(599,175);
+//	public static final Location LANE2_LOC = new Location( , );
+//	public static final Location LANE3_LOC = new Location( , );
+//	public static final Location LANE4_LOC = new Location( , );
+//	public static final Location LANE5_LOC = new Location( , );
+//	public static final Location LANE6_LOC = new Location( , );
+//	public static final Location LANE7_LOC = new Location( , );
+	
+	public static final Location FEEDER0_LOC = new Location(600,100);
+//	public static final Location FEEDER1_LOC = new Location(600, );
+//	public static final Location FEEDER2LOC = new Location(600, );
+//	public static final Location FEEDER3_LOC = new Location(600, );
+	
+	public static final Location KIT_ROBOT_LOC = new Location(0,0);
+	public static final Location CONVEYOR_LOC = new Location(0,0);
+	public static final Location KIT_LOC = new Location(20,200);
+	public static final Location PARTS_ROBOT_LOC = new Location(250,450);
+
+	// TODO: how many cameras are there?
+	public static final Location CAMERA_LOC = new Location(5,5);
+	
+	// DEVICE IMAGES
+	// ==================================
 	
 	// Feeder Images
 	public static final Image FEEDER_IMAGE =
@@ -207,6 +235,7 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_MNGR_CLIENT = "KitsRobotMngr";
 	public static final String PARTS_ROBOT_MNGR_CLIENT = "PartsRobotMngr";
 	public static final String LANE_MNGR_CLIENT = "LaneMngr";
+	public static final String FACTORY_PROD_MNGR_CLIENT = "FactoryProdMngr";
 
 	// Agent constants for StringUtil
 	/** The number of milliseconds in a second */
