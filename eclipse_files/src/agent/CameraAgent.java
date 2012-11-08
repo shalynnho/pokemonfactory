@@ -98,13 +98,16 @@ public class CameraAgent extends Agent implements Camera {
 			for (MyNest n : nests) {
 				if (n.nest.nestGraphics == nest) {
 					// In v0 all parts are good parts
+					print("nest 1 photographed");
 					n.state = NestStatus.PHOTOGRAPHED;
 					if (found2) {
 						break;
 					}
 					found1 = true;
-				} else if (n.nest.nestGraphics == nest2) {
+				}
+				if (n.nest.nestGraphics == nest2) {
 					// In v0 all parts are good parts
+					print("nest 2 photographed");
 					n.state = NestStatus.PHOTOGRAPHED;
 					if (found1) {
 						break;
@@ -127,23 +130,23 @@ public class CameraAgent extends Agent implements Camera {
 		}
 		stateChanged();
 	}
- 
-	//Hack for V0 Only
-	public void startV0Sequence(KitGraphics kg){
+
+	// Hack for V0 Only
+	public void startV0Sequence(KitGraphics kg) {
 		Kit k = new Kit();
 		k.kitGraphics = kg;
-		ArrayList<PartType> list=new ArrayList<PartType>();
-		for(int i=0;i<9;i++){
+		ArrayList<PartType> list = new ArrayList<PartType>();
+		for (int i = 0; i < 9; i++) {
 			list.add(PartType.A);
 		}
-		k.partsExpected=list;
+		k.partsExpected = list;
 		partRobot.Initialize();
 		partRobot.msgUseThisKit(k);
-		guiCamera.takeNestPhoto(nests.get(0).nest.nestGraphics,nests.get(1).nest.nestGraphics);
-		
-		
+		guiCamera.takeNestPhoto(nests.get(0).nest.nestGraphics,
+				nests.get(1).nest.nestGraphics);
 
 	}
+
 	/*********** SCHEDULER **************/
 	@Override
 	public boolean pickAndExecuteAnAction() {

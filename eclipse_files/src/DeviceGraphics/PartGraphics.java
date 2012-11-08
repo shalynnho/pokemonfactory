@@ -8,24 +8,22 @@ import agent.data.PartType;
 public class PartGraphics implements Serializable {
 	PartType partType;
 	Location partLocation;
-	
+
 	// PartType????
-	public PartGraphics (PartType type) {
-		System.out.println("made part with part type");
+	public PartGraphics(PartType type) {
 		partType = type;
 	}
-	
-	public void setLocation (Location newLocation) {
+
+	public void setLocation(Location newLocation) {
 		partLocation = newLocation;
 	}
-	
-	
-	public Location getLocation () {
+
+	public Location getLocation() {
 		return partLocation;
 	}
-	
-	public PartType getPartType () {
+
+	public PartType getPartType() {
 		return partType;
 	}
-	
+
 }
