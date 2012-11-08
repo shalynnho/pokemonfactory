@@ -68,8 +68,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// use to make sure only 1 message is sent to agent for each part that reaches end of lane
 	private int partDoneCounter = 0;
 	// V0 only, stops parts from going down lane without bin
-	private boolean binIsHere = false;
 	private boolean partAtLaneEnd = false;
+	private boolean purging = false;
 
 	/**
 	 * LGD constructor
@@ -138,10 +138,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX(), laneLines.get(i)
 						.getY(), c);
 			}
-			laneMove();
+			moveLane();
 
 			// animate parts moving down lane
-			if (partsOnLane != null && binIsHere) {
+			if (partsOnLane != null) {
 				
 				int min = (MAX_PARTS < partsOnLane.size()) ? MAX_PARTS
 						: partsOnLane.size(); // whichever is less
@@ -155,8 +155,20 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 							loc.incrementX(-amplitude);
 							partAtLaneEnd = false;
 						} else { // at end of lane
-							partAtLaneEnd = true;
-							msgAgentReceivePartDone();
+							if (!purging) {
+								partAtLaneEnd = true;
+								msgAgentReceivePartDone();
+							} else {	// purging, continue till off lane
+								if (loc.getX() > LANE_END_X + PART_WIDTH) {
+									loc.incrementX(-amplitude);
+								} else {	// once off lane and not visible, remove
+									if (partsOnLane.size() > 0) {
+										partsOnLane.remove(0);
+									} else {	// all parts removed, done purging
+										purging = false;
+									}
+								}
+							}
 						}
 						
 					} else { // all other parts on lane (not first)
@@ -175,6 +187,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					vibrateParts(moveCounter, loc);
 					pgd.setLocation(loc);
 					pgd.draw(c, g); // TODO: remove later, for v0 only
+									// main manager should call draw for all components
 				}
 			}
 		} else { // lane is off
@@ -200,6 +213,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	public void purge() {
 		// TODO: lane should continue as is, parts fall off the lane
+		purging = true; // TODO: set purging to false again after all parts are cleared
 	}
 
 	/**
@@ -215,10 +229,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (cmd.equals(Constants.LANE_PURGE_COMMAND)) {
 			purge();
 
-		} else if (cmd.equals(Constants.LANE_SEND_ANIMATION_COMMAND)) {
-			Animation ani = (Animation) r.getData();
-			// TODO: DO SOMETHING WITH THIS ANIMATION?
-
 		} else if (cmd.equals(Constants.LANE_SET_AMPLITUDE_COMMAND)) {
 			amplitude = (Integer) r.getData();
 
@@ -229,23 +239,18 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			laneLoc = (Location) r.getData();
 			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
-			binIsHere=true;
-			if (binIsHere) {
-//				PartType partType = (PartType) r.getData();
-				PartGraphicsDisplay pg = new PartGraphicsDisplay(PartType.A);
+				String typeStr = (String) r.getData();
+				PartGraphicsDisplay pg = new PartGraphicsDisplay(PartType.valueOf(typeStr));
 				Location newLoc = new Location(laneLoc.getX() + LANE_LENGTH,
 						laneLoc.getY() + (PART_WIDTH / 2));
 				pg.setLocation(newLoc);
 				partsOnLane.add(pg);
-			}
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 			partsOnLane.remove(0);
 			laneManager.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
 					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 
-		} else if (cmd.equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
-			binIsHere = true;
 		} else {
 			System.out.println("LANE_GD: command not recognized.");
 		}
@@ -282,7 +287,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	/**
 	 * Animates the lane lines
 	 */
-	private void laneMove() {
+	private void moveLane() {
 		moveCounter++;
 		if (moveCounter % (PART_WIDTH / amplitude) == 0) { // reset lane lines
 			resetLaneLineLocs();

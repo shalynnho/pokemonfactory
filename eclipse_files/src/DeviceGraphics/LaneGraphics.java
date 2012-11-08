@@ -38,7 +38,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	private static final int LANE7_Y = 625;
 
 	// start location of the part
-	private Location laneLoc, partStart, partEnd;
+	private Location laneLoc;
 	private int endY;
 
 	// instructions to display graphics will be sent through the server
@@ -53,8 +53,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	
 	// dynamically stores Parts currently on Lane
 	private ArrayList<PartGraphics> partsOnLane;
-	// storing for the 201 agents
-//	private ArrayList<Part> agentPartsOnLane;
 
 	// vibration setting; how quickly parts vibrate down Lane
 	private int amplitude;
@@ -85,7 +83,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		setLaneLoc(laneID);
 		endY = laneLoc.getY();
 		
-//		 for reference only
+//		FOR REFRENCE ONLY:
 //		partStart = new Location(LANE_BEG_X, endY + (PART_WIDTH / 2));
 //		partEnd = new Location(LANE_END_X, endY);
 	}
@@ -115,8 +113,8 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 */
 	public void purge() {
 		partsOnLane.clear();
-//		agentPartsOnLane.clear();
 		// TODO: set location of parts to fall off lane
+			// currently doing this in Display side only
 		server.sendData(new Request(Constants.LANE_PURGE_COMMAND,
 				Constants.LANE_TARGET + laneID, null));
 	}
@@ -130,9 +128,9 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	public void receivePart(PartGraphics pg) {
 		partsOnLane.add(pg);
 		pg.setLocation(new Location (LANE_BEG_X, endY + (PART_WIDTH / 2)));
-		PartType pt = pg.getPartType();
+		String typeStr = pg.getPartType().toString();
 		
-		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET + laneID, pt));
+		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET + laneID, typeStr));
 		
 		// TODO: (V2) later pass if good/bad part
 	}
@@ -148,16 +146,12 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 			receivePart(new PartGraphics(PartType.A));
 			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND+Constants.DONE_SUFFIX)) {
-			// TODO: add these back later
 			PartGraphics p = partsOnLane.get(partsOnLane.size()-1);
 			p.setLocation(new Location(LANE_END_X, endY));
 			laneAgent.msgReceivePartDone(p);
 			
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
-			// TODO: add these back later
-//			laneAgent.msgGivePartToNestDone(agentPartsOnLane.get(0));
-//			agentPartsOnLane.remove(0);
 			laneAgent.msgGivePartToNestDone(partsOnLane.get(0));
 			partsOnLane.remove(0);
 		}
