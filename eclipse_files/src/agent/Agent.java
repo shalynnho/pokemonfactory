@@ -50,6 +50,7 @@ public abstract class Agent {
 	/** Print message with exception stack trace */
 	protected void print(String msg, Throwable e) {
 		StringBuffer sb = new StringBuffer();
+		sb.append("[Agent]");
 		sb.append(getName());
 		sb.append(": ");
 		sb.append(msg);
