@@ -173,24 +173,27 @@ public class StandAgent extends Agent implements Stand {
 				// Stand has an empty position (does not check the
 				// inspection
 				// area of the stand)
-				int loc;
-				// if (numKitsToMake == 1 && !incomingKit) { // Special case
+				int loc = 0;
+
 				if (standPositions.get(1) == false
 						&& standPositions.get(2) == false) {
 					print("Neither position full");
-					requestKit(loc = 1);
-					print("I'm requesting a new kit at position 1");
-					incomingKit = true;
-					return true;
+					if (!incomingKit) {
+						requestKit(loc = 1);
+						print("I'm requesting a new kit at position 1");
+						incomingKit = true;
+						return true;
+					}
 				} else if (standPositions.get(1) == false
-						|| standPositions.get(2) == false && numKitsToMake > 1) {
+						|| standPositions.get(2) == false && numKitsToMake > 0) {
 					print("One position full");
-					requestKit(loc = standPositions.get(1) == false ? 1 : 2);
-					print("I'm requesting a new kit at position " + loc);
-					incomingKit = true;
-					return true;
+					if (!incomingKit) {
+						requestKit(loc = standPositions.get(1) == false ? 1 : 2);
+						print("I'm requesting a new kit at position " + loc);
+						incomingKit = true;
+						return true;
+					}
 				}
-				// }
 
 			}
 
