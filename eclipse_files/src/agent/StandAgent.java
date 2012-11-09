@@ -37,7 +37,7 @@ public class StandAgent extends Agent implements Stand {
 
 	private int numKitsToMake;
 	private boolean start;
-	private int incomingKits;
+	private boolean incomingKit;
 	private final Timer timer;
 
 	// Tracks stand positions and whether or not they are open (false indicates
@@ -77,7 +77,7 @@ public class StandAgent extends Agent implements Stand {
 		this.name = name;
 		numKitsToMake = 0;
 		start = false;
-		incomingKits = 0;
+		incomingKit = false;
 		kitsOnStand.add(null);
 		kitsOnStand.add(null);
 		kitsOnStand.add(null);
@@ -102,6 +102,7 @@ public class StandAgent extends Agent implements Stand {
 	@Override
 	public void msgHereIsKit(Kit k, int destination) {
 		print("Received msgHereIsKit with destination " + destination);
+		incomingKit = false;
 		myKits.put(new MyKit(k), destination);
 		stateChanged();
 	}
@@ -173,19 +174,23 @@ public class StandAgent extends Agent implements Stand {
 				// inspection
 				// area of the stand)
 				int loc;
+				// if (numKitsToMake == 1 && !incomingKit) { // Special case
 				if (standPositions.get(1) == false
 						&& standPositions.get(2) == false) {
 					print("Neither position full");
 					requestKit(loc = 1);
 					print("I'm requesting a new kit at position 1");
+					incomingKit = true;
 					return true;
 				} else if (standPositions.get(1) == false
 						|| standPositions.get(2) == false && numKitsToMake > 1) {
 					print("One position full");
 					requestKit(loc = standPositions.get(1) == false ? 1 : 2);
 					print("I'm requesting a new kit at position " + loc);
+					incomingKit = true;
 					return true;
 				}
+				// }
 
 			}
 
@@ -351,12 +356,12 @@ public class StandAgent extends Agent implements Stand {
 		this.start = start;
 	}
 
-	public int getIncomingKits() {
-		return incomingKits;
+	public boolean getIncomingKits() {
+		return incomingKit;
 	}
 
-	public void setIncomingKits(int incomingKits) {
-		this.incomingKits = incomingKits;
+	public void setIncomingKit(boolean incomingKit) {
+		this.incomingKit = incomingKit;
 	}
 
 	public Map<MyKit, Integer> getMyKits() {
