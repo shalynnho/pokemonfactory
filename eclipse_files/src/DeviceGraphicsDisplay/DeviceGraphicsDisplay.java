@@ -42,7 +42,7 @@ public abstract class DeviceGraphicsDisplay {
 	/** Print message with exception stack trace */
 	protected void print(String msg, Throwable e) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("[Graphics]");
+		sb.append("[GraphicsDisplay]");
 		sb.append(this.getName());
 		sb.append(": ");
 		sb.append(msg);
