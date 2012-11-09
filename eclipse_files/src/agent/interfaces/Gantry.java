@@ -9,11 +9,11 @@ public interface Gantry {
 
 	public abstract void msgINeedParts(PartType type);
 
-	public abstract void msgreceiveBinDone(Bin bin);
+	public abstract void msgReceiveBinDone(Bin bin);
 
-	public abstract void msgdropBinDone(Bin bin);
+	public abstract void msgDropBinDone(Bin bin);
 
-	public abstract void msgremoveBinDone(Bin bin);
+	public abstract void msgRemoveBinDone(Bin bin);
 
 	public abstract boolean pickAndExecuteAnAction();
 

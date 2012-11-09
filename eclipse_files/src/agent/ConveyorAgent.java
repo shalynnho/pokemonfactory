@@ -102,14 +102,14 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	@Override
 	public void msgGiveKitToKitRobotDone() {
-		print("Received msgGiveKitToKitRobotDone");
+		print("Received msgGiveKitToKitRobotDone from graphics");
 		animation.release();
 		stateChanged();
 	}
 
 	@Override
 	public void msgReceiveKitDone() {
-		print("Received msgReceiveKitDone");
+		print("Received msgReceiveKitDone from graphics");
 		kitsOnConveyor.remove(outgoingKit);
 		// animation.release();
 		stateChanged();

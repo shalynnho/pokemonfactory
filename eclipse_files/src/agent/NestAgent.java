@@ -56,6 +56,7 @@ public class NestAgent extends Agent implements Nest {
 	// MESSAGES
 	@Override
 	public void msgHereIsPartType(PartType type) {
+		print("Received msgHereIsPartType");
 		// nestGraphics.purge();
 		/*
 		 * if(nestGraphics != null) { nestGraphics.purge(); }
@@ -70,6 +71,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgHereIsPart(Part p) {
+		print("Received msgHereIsPart");
 		count++;
 		currentParts.add(new MyPart(p));
 		stateChanged();
@@ -77,7 +79,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgTakingPart(Part p) {
-		print("giving partsRobot part");
+		print("Received msgTakingPart");
 		if (nestGraphics != null) {
 			nestGraphics.givePartToPartsRobot(p.partGraphics);
 		}
@@ -99,24 +101,28 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgDoneTakingParts() {
+		print("Received msgDoneTakingParts");
 		takingParts = false;
 		stateChanged();
 	}
 
 	@Override
 	public void msgReceivePartDone() {
+		print("Received msgReceivePartDone from graphics");
 		animation.release();
 		stateChanged();
 	}
 
 	@Override
 	public void msgGivePartToPartsRobotDone() {
+		print("Received msgGivePartToPartsRobotDone from graphics");
 		// animation.release();
 		stateChanged();
 	}
 
 	@Override
 	public void msgPurgingDone() {
+		print("Received msgPurgingDone from graphics");
 		animation.release();
 		stateChanged();
 	}

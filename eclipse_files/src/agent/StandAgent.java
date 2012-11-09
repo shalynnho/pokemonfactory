@@ -147,8 +147,6 @@ public class StandAgent extends Agent implements Stand {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 
-		print("in my scheduler");
-
 		if (numKitsToMake > 0) {
 			// print("NumKitsToMake greater than 0");
 			synchronized (myKits) {

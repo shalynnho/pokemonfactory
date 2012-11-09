@@ -81,7 +81,7 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 */
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX)) {
-			feederAgent.msgRecieveBinDone(binGraphics.getBin());
+			feederAgent.msgReceiveBinDone(binGraphics.getBin());
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX)) {
 			feederAgent.msgPurgeBinDone(binGraphics.getBin());
 		} else if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX)) {

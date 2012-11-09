@@ -1,7 +1,7 @@
 package agent;
 
-import agent.interfaces.FCS;
 import DeviceGraphics.DeviceGraphics;
+import agent.interfaces.FCS;
 
 /**
  * Unused in V0
@@ -11,6 +11,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgOrderFinished() {
+		print("Received msgOrderFinished");
 	}
 
 	@Override
@@ -18,9 +19,10 @@ public class FCSAgent extends Agent implements FCS {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
+	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
-		
+
 	}
 
 }

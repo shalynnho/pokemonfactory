@@ -71,7 +71,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		gantry.pickAndExecuteAnAction();
 		System.out
 				.println("Gantry gui doing receive bin and messaging agent receiveBinDone");
-		gantry.msgreceiveBinDone(bin);
+		gantry.msgReceiveBinDone(bin);
 		gantry.pickAndExecuteAnAction();
 		System.out.println(bin.binState);
 		gantry.pickAndExecuteAnAction();

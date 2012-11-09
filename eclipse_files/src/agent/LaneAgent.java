@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import agent.data.Part;
-import agent.data.PartType;
-import agent.interfaces.Lane;
-
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.PartGraphics;
 import GraphicsInterfaces.LaneGraphics;
+import agent.data.Part;
+import agent.data.PartType;
+import agent.interfaces.Lane;
 
 /**
  * Lane delivers parts to the nest
@@ -24,11 +23,11 @@ public class LaneAgent extends Agent implements Lane {
 	public int currentNum = 0;
 	public int topLimit = 9;
 	public int lowerThreshold = 3;
-	
+
 	public LaneStatus state;
-	
+
 	String name;
-	
+
 	public Semaphore animation = new Semaphore(0, true);
 
 	public class MyPart {
@@ -44,7 +43,7 @@ public class LaneAgent extends Agent implements Lane {
 	public enum PartStatus {
 		BEGINNING_LANE, IN_LANE, END_LANE
 	};
-	
+
 	public enum LaneStatus {
 		FILLING, DONE_FILLING
 	};
@@ -57,64 +56,61 @@ public class LaneAgent extends Agent implements Lane {
 		super();
 
 		this.name = name;
-		state=LaneStatus.FILLING;
+		state = LaneStatus.FILLING;
 	}
 
 	@Override
 	public void msgINeedPart(PartType type) {
-		print("Getting msgINeedPart");
+		print("Received msgINeedPart");
 		requestList.add(type);
 		stateChanged();
 	}
 
 	@Override
 	public void msgHereIsPart(Part p) {
-		print("I got a part");
+		print("Received msgHereIsPart");
 		currentNum++;
 		currentParts.add(new MyPart(p));
-		if(laneGUI !=null) {
+		if (laneGUI != null) {
 			laneGUI.receivePart(p.partGraphics);
 		}
-		/*try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/ //lane can have multiple parts moving along it at a time
-		
+		/*
+		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */// lane can have multiple parts moving along it at a time
+
 		stateChanged();
 	}
 
 	@Override
 	public void msgReceivePartDone(PartGraphics part) {
-		print("received that the GUI was done with the part");
-		for(MyPart p:currentParts){
-			if(p.status==PartStatus.BEGINNING_LANE){
-				p.status=PartStatus.END_LANE;
+		print("Received msgReceivePartDone from graphics");
+		for (MyPart p : currentParts) {
+			if (p.status == PartStatus.BEGINNING_LANE) {
+				p.status = PartStatus.END_LANE;
 				break;
 			}
 		}
-		//animation.release(); 
+		// animation.release();
 		stateChanged();
 	}
 
 	@Override
 	public void msgGivePartToNestDone(PartGraphics part) {
+		print("Received msgGivePartToNestDone from graphics");
 		animation.release();
 		stateChanged();
 	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		print("In the Scheduler");
-		// TODO Auto-generated method stub
-		if(currentNum>=topLimit){
-			state=LaneStatus.DONE_FILLING;
+		// print("In the Scheduler");
+		if (currentNum >= topLimit) {
+			state = LaneStatus.DONE_FILLING;
+		} else if (requestList.size() > lowerThreshold) {
+			state = LaneStatus.FILLING;
 		}
-		else if(requestList.size()>lowerThreshold){
-			state=LaneStatus.FILLING;
-		}
-		if(state==LaneStatus.FILLING){
+		if (state == LaneStatus.FILLING) {
 			for (PartType requestedType : requestList) {
 				getParts(requestedType);
 				return true;
@@ -132,7 +128,7 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public void getParts(PartType requestedType) {
 		print("Telling Feeder that it needs a part");
-		feeder.msgINeedPart(requestedType,this);
+		feeder.msgINeedPart(requestedType, this);
 		requestList.remove(requestedType);
 		stateChanged();
 	}
@@ -140,7 +136,7 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public void giveToNest(Part part) {
 		print("Giving part to Nest");
-		if(laneGUI !=null) {
+		if (laneGUI != null) {
 			laneGUI.givePartToNest(part.partGraphics);
 		}
 		try {
@@ -150,7 +146,7 @@ public class LaneAgent extends Agent implements Lane {
 			e.printStackTrace();
 		}
 		currentNum--;
-		if(nest != null) {
+		if (nest != null) {
 			nest.msgHereIsPart(part);
 		}
 		for (MyPart currentPart : currentParts) {
@@ -166,6 +162,8 @@ public class LaneAgent extends Agent implements Lane {
 	public void setGraphicalRepresentation(DeviceGraphics lane) {
 		this.laneGUI = (LaneGraphics) lane;
 	}
+
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -178,9 +176,8 @@ public class LaneAgent extends Agent implements Lane {
 		this.nest = nest;
 	}
 
-	
 	public void thisFeederAgent(FeederAgent feeder) {
 		this.feeder = feeder;
 	}
-	
+
 }

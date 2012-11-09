@@ -51,7 +51,7 @@ public class MockFeeder extends MockAgent implements Feeder {
 	}
 
 	@Override
-	public void msgRecieveBinDone(Bin bin) {
+	public void msgReceiveBinDone(Bin bin) {
 		// TODO Auto-generated method stub
 
 	}

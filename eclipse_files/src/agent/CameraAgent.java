@@ -74,12 +74,14 @@ public class CameraAgent extends Agent implements Camera {
 	 */
 	@Override
 	public void msgInspectKit(Kit kit) {
+		print("Received msgInspectKit");
 		kits.add(new MyKit(kit));
 		stateChanged();
 	}
 
 	@Override
 	public void msgIAmFull(Nest nest) {
+		print("Received msgIAmFull");
 		for (MyNest n : nests) {
 			if (n.nest == nest) {
 				n.state = NestStatus.READY;
@@ -91,7 +93,7 @@ public class CameraAgent extends Agent implements Camera {
 	@Override
 	public void msgTakePictureNestDone(NestGraphics nest, boolean done,
 			NestGraphics nest2, boolean done2) {
-		print("CameraGraphics finished animating nest photograph");
+		print("Received msgTakePictureNestDone from graphics");
 		boolean found1 = false;
 		boolean found2 = false;
 		synchronized (nests) {
@@ -121,7 +123,7 @@ public class CameraAgent extends Agent implements Camera {
 
 	@Override
 	public void msgTakePictureKitDone(KitGraphics k, boolean done) {
-		print("CameraGraphics finished animating kit photograph. \nKit passed inspection.");
+		print("Received msgTakePictureKitDone from graphics \nKitPassed inspection");
 		for (MyKit mk : kits) {
 			if (mk.kit.kitGraphics == k) {
 				mk.kitDone = done;

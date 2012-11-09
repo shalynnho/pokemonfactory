@@ -94,6 +94,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgHereIsKitConfiguration(List<PartType> config) {
+		print("Received msgHereIsKitConfiguration");
 		KitConfig = config;
 		stateChanged();
 	}
@@ -103,6 +104,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgHereAreGoodParts(Nest n, List<Part> goodParts) {
+		print("Received msgHereAreGoodParts");
 		GoodParts.put(n, goodParts);
 		stateChanged();
 	}
@@ -112,6 +114,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgUseThisKit(Kit k) {
+		print("Received msgUseThisKit");
 		MyKit mk = new MyKit(k);
 		MyKits.add(mk);
 		stateChanged();
@@ -119,22 +122,22 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	/**
 	 * Releases animation semaphore after a part is picked up, so that a new
-	 * animation may be run by GUI From GUI
+	 * animation may be run by graphics. From graphics
 	 */
 	@Override
 	public void msgPickUpPartDone() {
-		print("Picking up part done by GUI");
+		print("Received msgPickUpPartDone from graphics");
 		animation.release();
 		stateChanged();
 	}
 
 	/**
 	 * Releases animation semaphore after a part is given to kit, so that a new
-	 * animation may be run by GUI From GUI
+	 * animation may be run by graphics. From graphics
 	 */
 	@Override
 	public void msgGivePartToKitDone() {
-		print("Part given to kit by GUI");
+		print("Received msgGivePartToKitDone from graphics");
 		animation.release();
 		stateChanged();
 	}
