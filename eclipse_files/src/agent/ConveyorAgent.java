@@ -254,8 +254,9 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * GUI Hack to set the reference to this class' gui component
 	 * @param gc the gui representation of conveyor
 	 */
-	public void setGraphicalRepresentation(ConveyorGraphics gc) {
-		this.conveyorGraphics = gc;
+	@Override
+	public void setGraphicalRepresentation(DeviceGraphics gc) {
+		this.conveyorGraphics = (ConveyorGraphics) gc;
 		stateChanged();
 	}
 
@@ -314,11 +315,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	public ConveyorGraphics getConveyorGraphics() {
 		return conveyorGraphics;
-	}
-
-	@Override
-	public void setGraphicalRepresentation(DeviceGraphics conveyorGraphics) {
-		this.conveyorGraphics = (ConveyorGraphics) conveyorGraphics;
 	}
 
 	public List<MyKit> getKitsOnConveyor() {

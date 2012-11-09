@@ -379,6 +379,6 @@ public class StandAgent extends Agent implements Stand {
 
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
-
+		// Currently has no graphical representation (changing in v1)
 	}
 }

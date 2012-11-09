@@ -1,13 +1,16 @@
 package agent.test.mock;
 
+import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.KitGraphics;
 import GraphicsInterfaces.ConveyorGraphics;
+import Networking.Request;
 
 /**
  * Mock graphical representation of the conveyor.
  * @author Daniel Paje
  */
-public class MockConveyorGraphics extends MockAgent implements ConveyorGraphics {
+public class MockConveyorGraphics extends MockAgent implements
+		ConveyorGraphics, DeviceGraphics {
 
 	public EventLog log;
 
@@ -31,6 +34,12 @@ public class MockConveyorGraphics extends MockAgent implements ConveyorGraphics 
 	@Override
 	public void msgReceiveKit(KitGraphics kit) {
 		log.add(new LoggedEvent("Received message msgReceiveKit"));
+
+	}
+
+	@Override
+	public void receiveData(Request req) {
+		// TODO Auto-generated method stub
 
 	}
 

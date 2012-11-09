@@ -9,15 +9,14 @@ import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 
+import DeviceGraphics.DeviceGraphics;
+import GraphicsInterfaces.KitRobotGraphics;
 import agent.data.Kit;
 import agent.interfaces.Camera;
 import agent.interfaces.Conveyor;
 import agent.interfaces.KitRobot;
 import agent.interfaces.Stand;
 import agent.test.mock.MockGraphics;
-
-import DeviceGraphics.DeviceGraphics;
-import GraphicsInterfaces.KitRobotGraphics;
 
 /**
  * Kit Robot brings moves kits to and from the conveyor and arranges kits on the
@@ -240,7 +239,8 @@ public class KitRobotAgent extends Agent implements KitRobot {
 					e.printStackTrace();
 				}
 				if (kitrobotGraphics != null) {
-					kitrobotGraphics.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
+					kitrobotGraphics
+							.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
 				}
 				if (mockgraphics != null) {
 					mockgraphics.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
@@ -345,6 +345,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * GUI Hack to set the reference to this class' gui component
 	 * @param gc the gui representation of kit robot
 	 */
+	@Override
 	public void setGraphicalRepresentation(DeviceGraphics gkr) {
 		this.kitrobotGraphics = (KitRobotGraphics) gkr;
 		stateChanged();

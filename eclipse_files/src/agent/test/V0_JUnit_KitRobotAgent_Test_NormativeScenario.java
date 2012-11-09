@@ -21,7 +21,6 @@ import agent.test.mock.MockConveyor;
 import agent.test.mock.MockKitRobotGraphics;
 import agent.test.mock.MockStand;
 
-
 /**
  * This tests the normative scenario for the kitrobot in the kitting cell. The
  * UUT is the KitRobotAgent. The second tests for 100 kits in succession. Logs

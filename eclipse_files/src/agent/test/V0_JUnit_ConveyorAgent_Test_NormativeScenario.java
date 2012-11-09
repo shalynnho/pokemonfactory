@@ -17,7 +17,6 @@ import agent.test.mock.MockAgent;
 import agent.test.mock.MockConveyorGraphics;
 import agent.test.mock.MockKitRobot;
 
-
 /**
  * This tests the normative scenario for the conveyor in the kitting cell. The
  * UUT is the ConveyorAgent. This tests the creation of a single kit.
