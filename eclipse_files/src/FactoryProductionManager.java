@@ -71,21 +71,21 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		// TODO: i'd rather use a for loop to initialize this
 			// Harry, if we store the start locations as constants, could you adjust your FGD
 			// code to set the start location based on the ID assigned here
-		addDevice(Constants.FEEDER_TARGET + 0, new FeederGraphicsDisplay(0, this, Constants.FEEDER0_LOC));
-//		addDevice(Constants.FEEDER_TARGET + 1, new FeederGraphicsDisplay(1, this, new Location(600, 100)));
-//		addDevice(Constants.FEEDER_TARGET + 2, new FeederGraphicsDisplay(2, this, new Location(600, 100)));
-//		addDevice(Constants.FEEDER_TARGET + 3, new FeederGraphicsDisplay(3, this, new Location(600, 100)));
+		addDevice(Constants.FEEDER_TARGET + 0, new FeederGraphicsDisplay(0, this));
+//		addDevice(Constants.FEEDER_TARGET + 1, new FeederGraphicsDisplay(1, this));
+//		addDevice(Constants.FEEDER_TARGET + 2, new FeederGraphicsDisplay(2, this));
+//		addDevice(Constants.FEEDER_TARGET + 3, new FeederGraphicsDisplay(3, this));
 
 		// TODO: uncomment when conveyor doesn't break everything anymore
 //		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this, Constants.CONVEYOR_LOC));
 		
-		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this, Constants.KIT_ROBOT_LOC));
+		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
 		
-		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay(this, Constants.KIT_LOC));
+		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay(this));
 		
-		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this, Constants.CAMERA_LOC));
+		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		
-		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this, Constants.PARTS_ROBOT_LOC));
+		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 		
 	}
 	

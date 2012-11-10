@@ -32,6 +32,7 @@ public class CameraAgent extends Agent implements Camera {
 			.synchronizedList(new ArrayList<MyNest>());
 	private final List<MyKit> kits = Collections
 			.synchronizedList(new ArrayList<MyKit>());
+	
 	public CameraGraphics guiCamera;
 
 	public KitRobotAgent kitRobot;
@@ -144,9 +145,10 @@ public class CameraAgent extends Agent implements Camera {
 		k.partsExpected = list;
 		partRobot.Initialize();
 		partRobot.msgUseThisKit(k);
-		guiCamera.takeNestPhoto(nests.get(0).nest.nestGraphics,
-				nests.get(1).nest.nestGraphics);
-
+		if(guiCamera != null)
+		{
+			guiCamera.takeNestPhoto(nests.get(0).nest.nestGraphics,nests.get(1).nest.nestGraphics);
+		}
 	}
 
 	/*********** SCHEDULER **************/

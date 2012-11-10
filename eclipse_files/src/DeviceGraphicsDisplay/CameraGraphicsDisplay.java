@@ -22,10 +22,10 @@ public class CameraGraphicsDisplay extends DeviceGraphicsDisplay{
 	// locations to take pictures from
 	private ArrayList<Location> locs = new ArrayList<Location>();
 	
-	public CameraGraphicsDisplay(Client c, Location loc) {
+	public CameraGraphicsDisplay(Client c) {
 		//TODO: No need for location
 		client = c;
-		location = loc;
+		location = Constants.CAMERA_LOC;
 	}
 
 	@Override
