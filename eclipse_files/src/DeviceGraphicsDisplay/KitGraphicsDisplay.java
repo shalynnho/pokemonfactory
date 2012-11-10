@@ -29,9 +29,9 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	private AffineTransform trans = new AffineTransform();
 
-	public KitGraphicsDisplay(Client c, Location newLocation) {
+	public KitGraphicsDisplay(Client c) {
 		AnimationToConveyorDone = false;
-		kitLocation = newLocation;
+		kitLocation = Constants.KIT_LOC;
 		position = 0;
 		finalDegree = 270;
 		currentDegree = 0;
