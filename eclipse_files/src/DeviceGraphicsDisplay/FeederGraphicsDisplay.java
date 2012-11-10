@@ -20,7 +20,7 @@ import agent.data.PartType;
 public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	// this will store a reference to the client
 	private Client client;
-	// part image dimensions
+	// feeder image dimensions
 	private static final int FEEDER_HEIGHT = 120;
 	private static final int FEEDER_WIDTH = 120;
 	// true if the diverter is pointing to the top lane
@@ -31,7 +31,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	private Location feederLocation;
 	// a BinGraphicsDisplay object
 	private BinGraphicsDisplay bgd;
-	
+	// ID of the feeder
 	private int feederID;
 
 	/**
@@ -57,7 +57,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	/**
-	 * this function handles drawing
+	 * This function handles drawing of feeder components.
 	 */
 	public void draw(JComponent c, Graphics2D g) {
 		g.drawImage(Constants.FEEDER_IMAGE, feederLocation.getX(), feederLocation.getY(), c);
@@ -71,11 +71,16 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 	
-	@Override
+	/**
+	 * Inherited method.
+	 */
 	public void setLocation(Location newLocation) {
 		// unused for feeder
 	}
 	
+	/**
+	 * Display bin being received.
+	 */
 	public void receiveBin() {
 		// TODO adjust bin location later
 		bgd = new BinGraphicsDisplay(new Location(feederLocation.getX() + FEEDER_WIDTH - 50, feederLocation.getY() + FEEDER_HEIGHT/2), PartType.B);
@@ -83,7 +88,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		haveBin = true;
 	}
 
-	@Override
+	/**
+	 * Process requests sent to the device.
+	 */
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
 			diverterTop = !diverterTop;

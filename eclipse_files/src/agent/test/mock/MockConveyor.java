@@ -58,7 +58,7 @@ public class MockConveyor extends MockAgent implements Conveyor {
 	@Override
 	public void msgHereIsKitConfiguration(ArrayList<PartType> config) {
 		// TODO Auto-generated method stub
-
+		log.add(new LoggedEvent("Received message msgHereIsKitConfiguration"));
 	}
 
 }

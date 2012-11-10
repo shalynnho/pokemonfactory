@@ -24,7 +24,7 @@ public class MockNest extends MockAgent implements Nest {
 	@Override
 	public void msgHereIsPartType(PartType type) {
 		// TODO Auto-generated method stub
-
+		log.add(new LoggedEvent("Received message msgHereIsPartType"));
 	}
 
 	@Override

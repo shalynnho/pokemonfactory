@@ -166,22 +166,22 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * Generate a new kit to move into the kitting cell.
 	 */
 	private void prepareKit() {
-		print("Requesting new kit");
-		Kit k = new Kit(kitConfig);
-		incomingKit = new MyKit(k);
-		kitsOnConveyor.add(incomingKit);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		print("Got a permit");
+		print("Requesting new kit");
+		Kit k = new Kit(kitConfig);
+		incomingKit = new MyKit(k);
+		kitsOnConveyor.add(incomingKit);
+		// print("Got a permit");
 		if (mockgraphics != null) {
 			mockgraphics.msgBringEmptyKit(k.kitGraphics);
 		}
 		if (conveyorGraphics != null) {
-			print("Asking conveyor graphics to animate a new kit");
+			// print("Asking conveyor graphics to animate a new kit");
 			conveyorGraphics.msgBringEmptyKit(k.kitGraphics);
 		}
 		numKitsToDeliver--;
@@ -193,13 +193,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * @param k the kit being sent.
 	 */
 	private void sendKit(MyKit mk) {
-		kitrobot.msgHereIsKit(mk.kit);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		kitrobot.msgHereIsKit(mk.kit);
 		mk.KS = KitStatus.PickedUp;
 		if (mockgraphics != null) {
 			mockgraphics.msgGiveKitToKitRobot(mk.kit.kitGraphics);
