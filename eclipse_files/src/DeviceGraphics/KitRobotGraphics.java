@@ -32,7 +32,6 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			positions[i] = new KitGraphics(server);
 		}
 
-		location = new Location(0, 0);
 		server = s;
 
 		kitRobotAgent = (KitRobotAgent) kra;
