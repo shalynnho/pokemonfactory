@@ -80,7 +80,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		}
 
 		// TODO: uncomment when conveyor doesn't break everything anymore
-//		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this, Constants.CONVEYOR_LOC));
+		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this));
 		
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
 		

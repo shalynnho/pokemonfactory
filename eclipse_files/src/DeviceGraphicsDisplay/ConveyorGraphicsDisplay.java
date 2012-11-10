@@ -25,9 +25,9 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	int velocity;
 	Client client;
 
-	public ConveyorGraphicsDisplay(Client cli, Location loc) {
-		locationIn = loc; // location for input lane
-		locationOut = new Location(loc.getX(), loc.getY() + 400); // location
+	public ConveyorGraphicsDisplay(Client cli) {
+		locationIn = Constants.CONVEYOR_LOC; // location for input lane
+		locationOut = new Location(locationIn.getX(), locationIn.getY() + 400); // location
 																	// for exit
 																	// lane,
 																	// based off
