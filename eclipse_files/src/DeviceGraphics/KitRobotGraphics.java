@@ -20,17 +20,30 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	//KitGraphics[] positions;
 
 	ArrayList<KitGraphics> kitsOnKitRobot;
+	
 	TreeMap<String, KitGraphics> kitPositions;
 	
 	KitRobotAgent kitRobotAgent;
 
 	public KitRobotGraphics(Server s, Agent kra) {
 		kitPositions = new TreeMap<String, KitGraphics>();
-		
+		initKitPositions();
 		server = s;
 		kitRobotAgent = (KitRobotAgent) kra;
 	}
-
+	public void initKitPositions(){
+		
+			KitGraphics tempKitGraphics = new KitGraphics(server); 
+			kitPositions.put(Constants.KIT_INITIAL,tempKitGraphics);
+			tempKitGraphics = new KitGraphics(server);
+			kitPositions.put(Constants.KIT_INSPECTION_AREA, tempKitGraphics);
+			tempKitGraphics = new KitGraphics(server);
+			kitPositions.put(Constants.KIT_LOCATION1, tempKitGraphics);
+			tempKitGraphics = new KitGraphics(server);
+			kitPositions.put(Constants.KIT_LOCATION2, tempKitGraphics);
+		
+	}
+	
 	public void addKit(KitGraphics kg) {
 		kitsOnKitRobot.add(kg);
 	}
@@ -72,8 +85,6 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 				Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_CONVEYOR,
 				Constants.KIT_ROBOT_TARGET, null));
 
-		positions[1] = positions[2];
-		positions[2] = null;
 		// server.sendData(new
 		// Request(Constants.CONVEYOR_RECEIVES_KIT_ROBOT_PICK_COMMAND,
 		// Constants.KIT_ROBOT_TARGET, null ));
@@ -86,7 +97,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		String command = req.getCommand();
 		Object object = req.getData();
 
-		if (command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR)) {
+		if (command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION1)) {
 			
 			msgPlaceKitOnStand(null, 1);
 
@@ -121,9 +132,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	public void msgPlaceKitOnStand1(KitGraphics kit) {
 		// TODO Auto-generated method stub
-		positions[3] = kit;
-		server.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR,
+		
+		server.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1,
 				Constants.KIT_ROBOT_TARGET, null));
+		kitPositions.put(Constants.KIT_LOCATION1, kit);
 	}
 
 	public void sendMessageBack(Server s) {
@@ -133,7 +145,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	public void msgPlaceKitOnStand2(KitGraphics kit) {
 		// TODO Auto-generated method stub
-		positions[4] = kit;
+		
 		server.sendData(new Request("moveKitToStand2",
 				Constants.KIT_ROBOT_TARGET, null));
 	}
