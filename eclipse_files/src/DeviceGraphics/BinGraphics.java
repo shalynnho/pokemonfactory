@@ -8,9 +8,10 @@ public class BinGraphics implements DeviceGraphics  {
 	
 	private PartGraphics part; // Type of part found in bin
 	//private int partNumber; // Number of parts in bin
-	//private Location binLocation;
+	private Location binLocation;
 	private boolean isFull;
 	private Bin bin;
+	private int binNum;
 	
 	// Constructor
 	/*public BinGraphics (PartGraphics parts, int partNum, Bin b) {
@@ -20,9 +21,10 @@ public class BinGraphics implements DeviceGraphics  {
 		bin = b;
 	}*/
 	
-	public BinGraphics (Bin b) {
+	public BinGraphics (Bin b, int i) {
 		isFull = true;
 		bin = b;
+		binNum = i;
 	}
 	
 	/**
