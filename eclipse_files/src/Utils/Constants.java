@@ -180,9 +180,12 @@ public abstract class Constants {
 	// end conveyor logic to display
 
 	// kitrobot logic
-	public static final String KIT_ROBOT_LOGIC_PICKS_CONVEYOR = "robot logic moves kit from conveyor";
-	public static final String KIT_ROBOT_DISPLAY_PICKS_CONVEYOR= "robot display moves kit from conveyor ";
+	public static final String KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION1 = "robot logic moves conveyor to loc1";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1= "robot display moves conveyor to loc1 ";
 	
+	public static final String KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION2 = "robot logic moves conveyor to loc2";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2 = "robot display moves conveyor to loc2";
+			
 	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_CONVEYOR = "robot logic moves inspection to conv";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_CONVEYOR = "robot display moves inspection to conv";
 	
