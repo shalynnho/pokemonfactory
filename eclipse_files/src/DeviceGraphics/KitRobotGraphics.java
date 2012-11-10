@@ -14,7 +14,6 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		DeviceGraphics {
 
 	private Kit kit;
-	private Location location;
 	private Server server;
 
 	KitGraphics[] positions;
