@@ -128,7 +128,7 @@ public class FeederAgent extends Agent implements Feeder {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		print("In the scheduler");
+		// / print("In the scheduler");
 		if (state == FeederStatus.IDLE) {
 			for (MyLane lane : lanes) {
 				if (lane.state == LaneStatus.NEEDS_PARTS) {
@@ -172,7 +172,7 @@ public class FeederAgent extends Agent implements Feeder {
 		lane.numPartsNeeded--;
 		lane.lane.msgHereIsPart(new Part(lane.type));
 		if (lane.numPartsNeeded == 0) {
-			// state=FeederStatus.PURGING;//For V1
+			state=FeederStatus.PURGING;
 			lane.state = LaneStatus.DOES_NOT_NEED_PARTS;
 		}
 		stateChanged();
