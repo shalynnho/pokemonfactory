@@ -17,13 +17,32 @@ import agent.interfaces.Gantry;
 public class GantryAgent extends Agent implements Gantry {
 
 	public List<Bin> binList = new ArrayList<Bin>();
-	public List<PartType> requestedParts = new ArrayList<PartType>();
+	public List<MyFeeder> feeders = new ArrayList<MyFeeder>();
 
 	// WAITING FOR GANTRYGRAPHICS
 	// private GantryGraphics gantryGraphic;
-	private FeederAgent feeder;
 
 	private final String name;
+	
+	public class MyFeeder {
+		public FeederAgent feeder;
+		public PartType requestedType;
+		
+		public MyFeeder(FeederAgent feeder) {
+			this.feeder = feeder;
+		}
+		public MyFeeder(FeederAgent feeder, PartType type) {
+			this.feeder = feeder;
+			this.requestedType = type;
+		}
+		public FeederAgent getFeeder() {
+			return feeder;
+		}
+		public PartType getRequestedType() {
+			return requestedType;
+		}
+		
+	}
 
 	public Semaphore animation = new Semaphore(0, true);
 
@@ -41,10 +60,9 @@ public class GantryAgent extends Agent implements Gantry {
 	}
 
 	@Override
-	public void msgINeedParts(PartType type) {
+	public void msgINeedParts(PartType type, FeederAgent feeder) {
 		print("Received msgINeedParts");
-		// print("PartType added to gantry");
-		requestedParts.add(type);
+		feeders.add(new MyFeeder(feeder, type));
 		stateChanged();
 	}
 
@@ -75,32 +93,29 @@ public class GantryAgent extends Agent implements Gantry {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		for (PartType requested : requestedParts) {
-			// print("in requested");
+		for (MyFeeder currentFeeder : feeders) {
 			for (Bin bin : binList) {
-				// print("in binlist");
-				if (bin.part.type == requested
-						&& bin.binState == BinStatus.FULL) {
+				if (bin.part.type == currentFeeder.getRequestedType() && bin.binState == BinStatus.FULL) {
 					print("Moving to feeder");
-					moveToFeeder(bin);
+					moveToFeeder(bin, currentFeeder.getFeeder());
 					return true;
 				}
 			}
 		}
 		// print("I'm not having problems either");
-		for (PartType requested : requestedParts) {
+		for (MyFeeder currentFeeder : feeders) {
 			for (Bin bin : binList) {
-				if (bin.part.type == requested
+				if (bin.part.type == currentFeeder.getRequestedType()
 						&& bin.binState == BinStatus.OVER_FEEDER) {
-					fillFeeder(bin);
+					fillFeeder(bin, currentFeeder.getFeeder());
 					return true;
 				}
 			}
 		}
 		// print("I'm not having problems too");
-		for (PartType requested : requestedParts) {
+		for (MyFeeder currentFeeder : feeders) {
 			for (Bin bin : binList) {
-				if (bin.part.type == requested
+				if (bin.part.type == currentFeeder.getRequestedType()
 						&& bin.binState == BinStatus.EMPTY) {
 					discardBin(bin);
 					return true;
@@ -112,11 +127,11 @@ public class GantryAgent extends Agent implements Gantry {
 	}
 
 	@Override
-	public void moveToFeeder(Bin bin) {
+	public void moveToFeeder(Bin bin, FeederAgent feeder) {
 		print("Moving bin to over feeder");
 		bin.binState = BinStatus.MOVING;
 
-		// GUIGantry.receiveBin(bin);
+		// GUIGantry.receiveBin(bin, feeder);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -128,18 +143,19 @@ public class GantryAgent extends Agent implements Gantry {
 	}
 
 	@Override
-	public void fillFeeder(Bin bin) {
+	public void fillFeeder(Bin bin, FeederAgent feeder) {
 		print("Placing bin in feeder and filling feeder");
-		feeder.msgHereAreParts(bin.part.type, bin);
-		bin.binState = BinStatus.FILLING_FEEDER;
+		
 
-		// GUIGantry.dropBin(bin, bin.feeder);
+		// GUIGantry.dropBin(bin, feeder);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		feeder.msgHereAreParts(bin.part.type, bin);
+		bin.binState = BinStatus.FILLING_FEEDER;
 
 		stateChanged();
 	}
@@ -163,10 +179,6 @@ public class GantryAgent extends Agent implements Gantry {
 	@Override
 	public String getName() {
 		return name;
-	}
-
-	public void setFeeder(FeederAgent feeder) {
-		this.feeder = feeder;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package agent.test.mock;
 
+import agent.FeederAgent;
 import agent.data.Bin;
 import agent.data.PartType;
 import agent.interfaces.Gantry;
@@ -25,7 +26,7 @@ public class MockGantry extends MockAgent implements Gantry {
 	}
 
 	@Override
-	public void msgINeedParts(PartType type) {
+	public void msgINeedParts(PartType type, FeederAgent feeder) {
 		// TODO Auto-generated method stub
 
 	}
@@ -55,13 +56,13 @@ public class MockGantry extends MockAgent implements Gantry {
 	}
 
 	@Override
-	public void moveToFeeder(Bin bin) {
+	public void moveToFeeder(Bin bin, FeederAgent feeder) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void fillFeeder(Bin bin) {
+	public void fillFeeder(Bin bin, FeederAgent feeder) {
 		// TODO Auto-generated method stub
 
 	}

@@ -161,7 +161,7 @@ public class FeederAgent extends Agent implements Feeder {
 	public void getParts(MyLane lane) {
 		print("Telling gantry that I needs parts");
 		if (gantry != null) {
-			gantry.msgINeedParts(lane.type);
+			gantry.msgINeedParts(lane.type, this);
 		}
 		state = FeederStatus.REQUESTED_PARTS;
 		stateChanged();

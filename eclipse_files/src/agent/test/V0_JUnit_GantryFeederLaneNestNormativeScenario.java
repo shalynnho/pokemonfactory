@@ -44,7 +44,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		feeder = new FeederAgent("Test Feeder");
 		lane = new LaneAgent("Test Lane");
 		nest = new NestAgent("Test Nest");
-		gantry.setFeeder(feeder);
+		//gantry.setFeeder(feeder);
 		feeder.setGantry(gantry);
 		feeder.setLane(lane);
 		lane.setFeeder(feeder);
@@ -62,7 +62,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 				feeder.lanes.get(0).numPartsNeeded);
 		feeder.pickAndExecuteAnAction();
 		assertEquals("Gantry Agent should have 1 requested type", 1,
-				gantry.requestedParts.size());
+				gantry.feeders.size());
 		Part part = new Part(PartType.A);
 		Bin bin = new Bin(part);
 		gantry.msgHereIsBinConfig(bin);
