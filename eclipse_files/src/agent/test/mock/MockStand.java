@@ -19,7 +19,7 @@ public class MockStand extends MockAgent implements Stand {
 	@Override
 	public void msgMakeKits(int numKits) {
 		// TODO Auto-generated method stub
-
+		log.add(new LoggedEvent("Received message msgMakeKits with "+numKits+" kits ordered"));
 	}
 
 	@Override
