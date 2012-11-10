@@ -48,8 +48,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		feederID = id;
 		// generate the feeder's location based on its ID
 		feederLocation = new Location(500, id*2 + 150);
+		
 		// force an initial repaint to display feeder and diverter
-		client.repaint();
+		// client.repaint();
 		
 		// set the feeder's default location
 		// feederLocation = loc;
