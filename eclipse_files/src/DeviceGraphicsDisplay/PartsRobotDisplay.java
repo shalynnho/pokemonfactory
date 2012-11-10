@@ -45,10 +45,10 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
 	private int I;
 	
-	public PartsRobotDisplay(Client prc, Location loc){
+	public PartsRobotDisplay(Client prc){
 		partsRobotClient = prc;
 		
-		initialLocation = loc; //new Location(250,450);
+		initialLocation = Constants.PARTS_ROBOT_LOC; //new Location(250,450);
 		currentLocation = initialLocation;
 		
 		arm1InitialLocation = new Location(325, 495);

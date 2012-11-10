@@ -18,24 +18,23 @@ import agent.StandAgent;
 public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 		DeviceGraphics {
 
-	private ArrayList<KitGraphics> kitsOnConveyor; // all kits on conveyor
-	private ArrayList<KitGraphics> kitsToLeave;
-	private Location location;
-	private Server server;
-	private int velocity;
-	private ConveyorAgent conveyorAgent;
+	private final ArrayList<KitGraphics> kitsOnConveyor; // all kits on conveyor
+	private final ArrayList<KitGraphics> kitsToLeave;
+	private final Location location;
+	private final Server server;
+	private final int velocity;
+	private final ConveyorAgent conveyorAgent;
 
 	public ConveyorGraphics(Server s, Agent a) {
 
-		location = new Location(0,0);
+		location = new Location(0, 0);
 		kitsOnConveyor = new ArrayList<KitGraphics>();
 		kitsToLeave = new ArrayList<KitGraphics>();
 		server = s;
 		velocity = 10;
-		conveyorAgent = (ConveyorAgent)a;
-		
-	} 
-	
+		conveyorAgent = (ConveyorAgent) a;
+
+	}
 
 	public void bringEmptyKit(KitGraphics kg) {
 		kitsOnConveyor.add(kg);
@@ -46,10 +45,10 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 	public void giveKitToKitRobot() {
 
 		// sending the kit to be taken away to KitRobotGraphics
-		//server.sendData(new Request(
-			//	Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
-				//Constants.CONVEYOR_TARGET, null)); // temporary command name
-													// until Kit Robot finalized
+		// server.sendData(new Request(
+		// Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
+		// Constants.CONVEYOR_TARGET, null)); // temporary command name
+		// until Kit Robot finalized
 		// server.sendData(new Request("GetThisKit", ))
 		kitsOnConveyor.remove(0);
 
@@ -94,10 +93,12 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 				// Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
 				// Constants.CONVEYOR_TARGET, null));
 				StandAgent stand = (StandAgent) server.agents.get("Stand");
-				stand.msgMakeKits(10);
-			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND + Constants.DONE_SUFFIX)) {
+				stand.msgMakeKits(2);
+			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
+					+ Constants.DONE_SUFFIX)) {
 				conveyorAgent.msgBringEmptyKitDone();
-			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND + Constants.DONE_SUFFIX)) {
+			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND
+					+ Constants.DONE_SUFFIX)) {
 				conveyorAgent.msgReceiveKitDone();
 			}
 		}

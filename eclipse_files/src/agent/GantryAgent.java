@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import agent.data.Bin;
-import agent.data.PartType;
-import agent.data.Bin.BinStatus;
-import agent.interfaces.Gantry;
-
 import DeviceGraphics.DeviceGraphics;
+import agent.data.Bin;
+import agent.data.Bin.BinStatus;
+import agent.data.PartType;
+import agent.interfaces.Gantry;
 
 /**
  * Gantry delivers parts to the feeder
@@ -25,7 +24,7 @@ public class GantryAgent extends Agent implements Gantry {
 	private FeederAgent feeder;
 
 	private final String name;
-	
+
 	public Semaphore animation = new Semaphore(0, true);
 
 	public GantryAgent(String name) {
@@ -36,33 +35,38 @@ public class GantryAgent extends Agent implements Gantry {
 
 	@Override
 	public void msgHereIsBinConfig(Bin bin) {
+		print("Received msgHereIsBinConfig");
 		binList.add(bin);
 		stateChanged();
 	}
 
 	@Override
 	public void msgINeedParts(PartType type) {
-		//print("PartType added to gantry");
+		print("Received msgINeedParts");
+		// print("PartType added to gantry");
 		requestedParts.add(type);
 		stateChanged();
 	}
 
 	@Override
-	public void msgreceiveBinDone(Bin bin) {
+	public void msgReceiveBinDone(Bin bin) {
+		print("Received msgReceiveBinDone from graphics");
 		bin.binState = BinStatus.OVER_FEEDER;
 		animation.release();
 		stateChanged();
 	}
 
 	@Override
-	public void msgdropBinDone(Bin bin) {
+	public void msgDropBinDone(Bin bin) {
+		print("Received msgdropBingDone from graphics");
 		bin.binState = BinStatus.EMPTY;
 		animation.release();
 		stateChanged();
 	}
 
 	@Override
-	public void msgremoveBinDone(Bin bin) {
+	public void msgRemoveBinDone(Bin bin) {
+		print("Received msgremoveBinDone from graphics");
 		binList.remove(bin);
 		animation.release();
 		stateChanged();
@@ -72,9 +76,9 @@ public class GantryAgent extends Agent implements Gantry {
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		for (PartType requested : requestedParts) {
-			//print("in requested");
+			// print("in requested");
 			for (Bin bin : binList) {
-				//print("in binlist");
+				// print("in binlist");
 				if (bin.part.type == requested
 						&& bin.binState == BinStatus.FULL) {
 					print("Moving to feeder");
@@ -83,7 +87,7 @@ public class GantryAgent extends Agent implements Gantry {
 				}
 			}
 		}
-		//print("I'm not having problems either");
+		// print("I'm not having problems either");
 		for (PartType requested : requestedParts) {
 			for (Bin bin : binList) {
 				if (bin.part.type == requested
@@ -93,7 +97,7 @@ public class GantryAgent extends Agent implements Gantry {
 				}
 			}
 		}
-		//print("I'm not having problems too");
+		// print("I'm not having problems too");
 		for (PartType requested : requestedParts) {
 			for (Bin bin : binList) {
 				if (bin.part.type == requested
@@ -111,7 +115,7 @@ public class GantryAgent extends Agent implements Gantry {
 	public void moveToFeeder(Bin bin) {
 		print("Moving bin to over feeder");
 		bin.binState = BinStatus.MOVING;
-		
+
 		// GUIGantry.receiveBin(bin);
 		try {
 			animation.acquire();
@@ -119,16 +123,16 @@ public class GantryAgent extends Agent implements Gantry {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		stateChanged();
 	}
 
 	@Override
 	public void fillFeeder(Bin bin) {
 		print("Placing bin in feeder and filling feeder");
-		feeder.msgHereAreParts(bin.part.type,bin);
+		feeder.msgHereAreParts(bin.part.type, bin);
 		bin.binState = BinStatus.FILLING_FEEDER;
-		
+
 		// GUIGantry.dropBin(bin, bin.feeder);
 		try {
 			animation.acquire();
@@ -136,7 +140,7 @@ public class GantryAgent extends Agent implements Gantry {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		stateChanged();
 	}
 
@@ -144,7 +148,7 @@ public class GantryAgent extends Agent implements Gantry {
 	public void discardBin(Bin bin) {
 		print("Discarding bin");
 		bin.binState = BinStatus.DISCARDING;
-		
+
 		// GUIGangry.removeBin(bin);
 		try {
 			animation.acquire();
@@ -152,7 +156,7 @@ public class GantryAgent extends Agent implements Gantry {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		stateChanged();
 	}
 
@@ -164,9 +168,10 @@ public class GantryAgent extends Agent implements Gantry {
 	public void setFeeder(FeederAgent feeder) {
 		this.feeder = feeder;
 	}
-	
+
+	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
-		
+
 	}
 
 }

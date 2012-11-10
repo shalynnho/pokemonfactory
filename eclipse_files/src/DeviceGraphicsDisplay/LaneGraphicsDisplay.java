@@ -96,7 +96,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * Constructor for V0 - testing purposes only
+	 * Overloaded constructor for V0 (includes location)- testing purposes only
 	 * REMOVE FOR V0 INTEGRATION
 	 * 
 	 * @param lm

@@ -139,21 +139,21 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 	@Override
 	public void msgPlaceKitOnConveyorDone() {
-		print("Received msgPlaceKitOnConveyorDone");
+		print("Received msgPlaceKitOnConveyorDone from graphics");
 		animation.release();
 		stateChanged();
 	}
 
 	@Override
 	public void msgPlaceKitInInspectionAreaDone() {
-		print("Received msgPlaceKitInInspetionAreaDone");
+		print("Received msgPlaceKitInInspetionAreaDone from graphics");
 		animation.release();
 		stateChanged();
 	}
 
 	@Override
 	public void msgPlaceKitOnStandDone() {
-		print("Received msgPlaceKitOnStandDone");
+		print("Received msgPlaceKitOnStandDone from graphics");
 		animation.release();
 		stateChanged();
 	}

@@ -31,19 +31,19 @@ public class MockGantry extends MockAgent implements Gantry {
 	}
 
 	@Override
-	public void msgreceiveBinDone(Bin bin) {
+	public void msgReceiveBinDone(Bin bin) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void msgdropBinDone(Bin bin) {
+	public void msgDropBinDone(Bin bin) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void msgremoveBinDone(Bin bin) {
+	public void msgRemoveBinDone(Bin bin) {
 		// TODO Auto-generated method stub
 
 	}

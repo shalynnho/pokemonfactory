@@ -35,7 +35,7 @@ public abstract class Constants {
 	// DEVICE START LOCATIONS
 	// ==================================
 	
-	// TODO: adjust locations
+	// TODO: adjust locations, have GDs generate locations themselves
 	public static final Location LANE0_LOC = new Location(599,100);
 	public static final Location LANE1_LOC = new Location(599,175);
 //	public static final Location LANE2_LOC = new Location( , );
@@ -183,14 +183,38 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_LOGIC_PICKS_CONVEYOR = "robot logic moves kit from conveyor";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_CONVEYOR= "robot display moves kit from conveyor ";
 	
+	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_CONVEYOR = "robot logic moves inspection to conv";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_CONVEYOR = "robot display moves inspection to conv";
+	
+	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_STAND = "robot logic moves loc1 to inspection";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_STAND = "robot display moves loc1 to inspection";
+	
+	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_STAND = "robot logic moves loc2 to inspection";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_STAND = "robot display moves loc2 to inspection";
+	
 	public static final String KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR = "robot logic moves loc1 to conv";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_CONVEYOR = "robot display moves kit to conv";
+	
+	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_CONVEYOR = "robot logic moves loc2 to conv";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_CONVEYOR = "robot display moves kit to conv ";
 	
 	public static final String KIT_ROBOT_ON_STAND_DONE = "robot display sends to robot logic that kit to stand is done";
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE="robot display sends to robot logic that kit to conveyor is done";
 	
 	// end kitrobot logic
-
+	
+	// kit positions
+	public static final String KIT_INSPECTION_AREA = "Kit inspection area"; 
+	
+	public static final String KIT_LOCATION1 = "Kit location1 area";
+	
+	public static final String KIT_LOCATION2 = "Kit location2 area";
+	
+	public static final String KIT_INITIAL = "Kit initial area";
+	
+	
+	// end kit positions
+	
 	// partsrobot logic to display commands
 	
 	// parts robot moves to target nest

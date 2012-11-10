@@ -7,6 +7,7 @@ import agent.data.PartType;
 import agent.interfaces.FCS;
 import agent.interfaces.*;
 import DeviceGraphics.DeviceGraphics;
+import agent.interfaces.FCS;
 
 /**
  * Unused in V0
@@ -76,14 +77,11 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgOrderFinished(){  
-		Order tempOrder=null;
 		for(Order o:orders){
 			if(o.state==orderState.ORDERED){
-				tempOrder=o;
+				orders.remove(o);
+				break;
 			}
-		}
-		if(tempOrder!=null){
-			orders.remove(tempOrder);
 		}
 	    state=myState.STARTED;    
 	}    
@@ -184,7 +182,8 @@ public class FCSAgent extends Agent implements FCS {
 	public String getName(){
 		return name;
 	}
-	
+
+	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
 		//fcsGraphics=(fcsGraphics) dg;
 	}

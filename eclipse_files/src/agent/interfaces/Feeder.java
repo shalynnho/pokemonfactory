@@ -13,7 +13,7 @@ public interface Feeder {
 
 	public abstract void msgHereAreParts(PartType type, Bin bin);
 
-	public abstract void msgRecieveBinDone(Bin bin);
+	public abstract void msgReceiveBinDone(Bin bin);
 	
 	public abstract void msgPurgeBinDone(Bin bin);
 	

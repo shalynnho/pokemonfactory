@@ -24,9 +24,8 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	private FeederAgent feederAgent;
 	
 	//REMOVE FOR V1 REMOVE IN DEVICES TOO
-	private LaneAgent lane1;
-	private LaneAgent lane2;
-	
+	// private LaneAgent lane1;
+	// private LaneAgent lane2;
 	
 	// true if the diverter is pointing to the top lane
 	private boolean diverterTop;
@@ -38,12 +37,13 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 * @param id the unique ID of the feeder (there will be 4 feeders so we need to uniquely identify them)
 	 * @param myServer a reference to the Server
 	 */
-	public FeederGraphics(int id, Server myServer, Agent a, Agent l1, Agent l2) {
+	public FeederGraphics(int id, Server myServer, Agent a) {
 		id = feederID;
 		server = myServer;
 		feederAgent = (FeederAgent)a;
-		lane1 = (LaneAgent)l1;
-		lane2 = (LaneAgent)l2;
+		
+		// lane1 = (LaneAgent)l1;
+		// lane2 = (LaneAgent)l2;
 		
 		// diverter defaults to the top lane
 		diverterTop = true;
@@ -55,7 +55,7 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 */
 	public void receiveBin(BinGraphics bg) {
 		binGraphics = bg;
-		System.out.println("=========================================HELLLLLLLLLLLLLLLLLLLLLLLLLO");
+		// System.out.println("=========================================HELLLLLLLLLLLLLLLLLLLLLLLLLO");
 		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, null));
 	}
 	
@@ -81,23 +81,11 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 */
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX)) {
-			feederAgent.msgRecieveBinDone(binGraphics.getBin());
+			feederAgent.msgReceiveBinDone(binGraphics.getBin());
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX)) {
 			feederAgent.msgPurgeBinDone(binGraphics.getBin());
 		} else if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX)) {
 			feederAgent.msgFlipDiverterDone();
-		} else if (req.getCommand().equals("TESTING_FEEDER")) {
-			initializeV0Lane();
 		}
-	}
-	
-	
-	public void initializeV0Lane() {
-		//lane1.thisFeederAgent(feederAgent);
-		//lane2.thisFeederAgent(feederAgent);
-		receiveBin(new Bin(new Part(PartType.A)).binGraphics);
-		feederAgent.msgHereAreParts(PartType.A, new Bin(new Part(PartType.A)));
-		
-		
 	}
 }

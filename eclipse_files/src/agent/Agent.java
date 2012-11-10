@@ -50,6 +50,7 @@ public abstract class Agent {
 	/** Print message with exception stack trace */
 	protected void print(String msg, Throwable e) {
 		StringBuffer sb = new StringBuffer();
+		sb.append("[Agent]");
 		sb.append(getName());
 		sb.append(": ");
 		sb.append(msg);
@@ -60,10 +61,15 @@ public abstract class Agent {
 		System.out.print(sb.toString());
 	}
 
+	/**
+	 * Sets the graphical representation of this agent.
+	 * @param dg
+	 */
 	public abstract void setGraphicalRepresentation(DeviceGraphics dg);
 
 	/** Start agent scheduler thread. Should be called once at init time. */
 	public synchronized void startThread() {
+		print("Thread started.");
 		if (agentThread == null) {
 			agentThread = new AgentThread(getName());
 			agentThread.start(); // causes the run method to execute in the
@@ -77,6 +83,7 @@ public abstract class Agent {
 	// In this implementation, nothing calls stopThread().
 	// When we have a user interface to agents, this can be called.
 	public void stopThread() {
+		print("Thread stopped");
 		if (agentThread != null) {
 			agentThread.stopAgent();
 			agentThread = null;
@@ -111,6 +118,7 @@ public abstract class Agent {
 					// repeatedly until it returns FALSE.
 					// You will see that pickAndExecuteAnAction() is the agent
 					// scheduler.
+					// print("In scheduler.");
 					while (pickAndExecuteAnAction()) {
 						;
 					}
@@ -118,7 +126,7 @@ public abstract class Agent {
 					// no action - expected when stopping or when deadline
 					// changed
 				} catch (Exception e) {
-					print("Unexpected exception caught in Agent thread:", e);
+					print("Unexpected exception caught in Agent thread: ", e);
 				}
 			}
 		}
