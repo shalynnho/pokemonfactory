@@ -39,18 +39,20 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	public FeederGraphicsDisplay(int id, Client cli, Location loc) {
 		// store a reference to the client
-		client = cli;
-		// set the feeder's default location
-		feederLocation = loc;
+		client = cli;	
 		// diverter initially points to the top lane
 		diverterTop = true;
 		// we don't have a bin to start with
 		haveBin = false;
-		
+		// set the feeder's ID
 		feederID = id;
-		
+		// generate the feeder's location based on its ID
+		feederLocation = new Location(500, id*2 + 150);
 		// force an initial repaint to display feeder and diverter
 		client.repaint();
+		
+		// set the feeder's default location
+		// feederLocation = loc;
 	}
 	
 	/**
