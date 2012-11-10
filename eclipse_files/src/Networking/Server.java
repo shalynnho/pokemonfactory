@@ -140,6 +140,9 @@ public class Server {
 		
 		for(int i = 0; i < Constants.LANE_COUNT; i++) {
 			((LaneAgent) agents.get(Constants.LANE_TARGET + i)).setFeeder((FeederAgent) agents.get(Constants.FEEDER_TARGET + i / 2));
+			((LaneAgent) agents.get(Constants.LANE_TARGET + i)).setNest((NestAgent) agents.get(Constants.NEST_TARGET + i));
+			((NestAgent) agents.get(Constants.NEST_TARGET + i)).setLane((LaneAgent) agents.get(Constants.LANE_TARGET + i));
+			((NestAgent) agents.get(Constants.NEST_TARGET + i)).setCamera((CameraAgent) agents.get(Constants.CAMERA_TARGET));
 		}
 		
 		KitRobotAgent kitrobot = (KitRobotAgent) agents.get(Constants.KIT_ROBOT_TARGET);

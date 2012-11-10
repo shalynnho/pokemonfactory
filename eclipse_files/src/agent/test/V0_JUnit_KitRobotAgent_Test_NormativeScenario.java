@@ -110,11 +110,6 @@ public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
 
 			kitrobot.msgNeedKit(standLoc);
 
-			// After receiving the message, the kitrobot should have incremented
-			// numKitsToRequest to 1 and set stand position 1 to true (open)
-			assertEquals("KitRobot should have numKitsToRequest = 1", 1,
-					kitrobot.getNumKitsToRequest());
-
 			assertTrue("KitRobot should have set stand position " + standLoc
 					+ " to 'true'", kitrobot.getStandPositions().get(standLoc));
 
@@ -135,17 +130,12 @@ public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
 			// Simulate kit delivery. The conveyor messages KitRobot
 			kitrobot.msgHereIsKit(testKits.get(i));
 
-			// After receiving the message, the kitrobot should have incremented
-			// numKitsToRequest and set a stand position to true (open)
+			// After receiving the message, the kitrobot should have set a stand
+			// position to true (open)
 			assertEquals(
 					"KitRobot should have added a new MyKit object to its list of MyKits "
 							+ kitrobot.getMyKits().size(), 1, kitrobot
 							.getMyKits().size());
-
-			assertEquals(
-					"KitRobot should have numKitsToRequest = 0 but it is instead "
-							+ kitrobot.getNumKitsToRequest(), 0,
-					kitrobot.getNumKitsToRequest());
 
 			kitrobot.pickAndExecuteAnAction();
 

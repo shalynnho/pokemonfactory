@@ -34,8 +34,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	Map<Integer, Boolean> standPositions = Collections
 			.synchronizedMap(new TreeMap<Integer, Boolean>());
 
-	int numKitsToRequest;
+	private boolean needToRequestKit;
 	private boolean kitRequested;
+	int numKitsRequested;
 
 	// Used to prevent animations from overlapping
 	Semaphore animation = new Semaphore(1, true);
@@ -78,8 +79,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		super();
 
 		this.name = name;
-		numKitsToRequest = 0;
+		needToRequestKit = false;
 		kitRequested = false;
+		numKitsRequested = 0;
 
 		// Don't assume stand is empty
 		standPositions.put(0, false);
@@ -95,20 +97,20 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 	@Override
 	public void msgHereIsKit(Kit k) {
+		needToRequestKit = false;
+		kitRequested = false;
 		print("Received msgHereIsKit");
 		MyKit mk = new MyKit(k);
 		myKits.add(mk);
-		numKitsToRequest = 0;
 		// print("Still need " + numKitsToRequest);
-		kitRequested = false;
 		stateChanged();
 	}
 
 	@Override
 	public void msgNeedKit(int standLocation) {
+		needToRequestKit = true;
 		print("Received msgNeedKit");
 		standPositions.put(standLocation, true);
-		numKitsToRequest = 1;
 		// print("Still need " + numKitsToRequest);
 		stateChanged();
 	}
@@ -195,12 +197,15 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 		// If other rules fail and there's a spot on the stand, request a new
 		// kit
-		for (int loc = 1; loc < 3; loc++) {
-			if (standPositions.get(loc) == true) {
-				if (kitRequested == false && numKitsToRequest > 0) {
-					requestKit();
-					return true;
-				}
+		if (!kitRequested && needToRequestKit) {
+			if (standPositions.get(1) == true) {
+				kitRequested = true;
+				requestKit();
+				return true;
+			} else if (standPositions.get(2) == true) {
+				kitRequested = true;
+				requestKit();
+				return true;
 			}
 		}
 
@@ -219,8 +224,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * Requests a kit from the conveyor.
 	 */
 	private void requestKit() {
+		numKitsRequested++;
 		conveyor.msgNeedKit();
-		kitRequested = true;
+		print("So far I've requested: " + numKitsRequested);
 		stateChanged();
 	}
 
@@ -228,8 +234,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * Takes a kit from the conveyor and place it on the stand.
 	 */
 	private void placeKitOnStand(MyKit mk) {
-		print("Placing kit on stand");
-		// Only need to check 1 and 2
 		for (int loc = 1; loc < 3; loc++) {
 			if (standPositions.get(loc) == true) {
 				try {
@@ -245,9 +249,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 				if (mockgraphics != null) {
 					mockgraphics.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
 				}
+
 				standPositions.put(loc, false);
 				mk.location = loc;
 				stand.msgHereIsKit(mk.kit, loc);
+				print("Placing kit on stand");
+				// Only need to check 1 and 2
 				break;
 			}
 		}
@@ -273,11 +280,10 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		if (mockgraphics != null) {
 			mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kitGraphics);
 		}
-
 		// TODO This can't happen until the kit is placed
 		camera.msgInspectKit(mk.kit);
 
-		// For testing, assume camera finishes after 1s
+		// For testing, assume camera finishes after .1s
 		timer.schedule(new TimerTask() {
 
 			@Override
@@ -285,7 +291,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 				print("Faking camera finishing inspection");
 				msgKitPassedInspection();
 			}
-		}, 1000);
+		}, 100);
 
 		stand.msgMovedToInspectionArea(mk.kit, mk.location);
 		stateChanged();
@@ -365,14 +371,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 	public void setStandPositions(Map<Integer, Boolean> standPositions) {
 		this.standPositions = standPositions;
-	}
-
-	public int getNumKitsToRequest() {
-		return numKitsToRequest;
-	}
-
-	public void setNumKitsToRequest(int numKitsToRequest) {
-		this.numKitsToRequest = numKitsToRequest;
 	}
 
 	public List<MyKit> getMyKits() {

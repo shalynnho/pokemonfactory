@@ -26,5 +26,14 @@ public class Bin {
 	public Bin(PartType type) {
 		this.part = new Part(type);
 	}
+	
+	public Bin(Part part, int BinNum) {
+		binGraphics= new BinGraphics(this,BinNum);
+		this.part = part;
+	}
 
+	public Bin(PartType type, int BinNum) {
+		binGraphics= new BinGraphics(this,BinNum);
+		this.part = new Part(type);
+	}
 }

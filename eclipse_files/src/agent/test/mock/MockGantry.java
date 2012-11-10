@@ -22,7 +22,7 @@ public class MockGantry extends MockAgent implements Gantry {
 	@Override
 	public void msgHereIsBinConfig(Bin bin) {
 		// TODO Auto-generated method stub
-
+		log.add(new LoggedEvent("Recieved msgHereIsBinConfig"));
 	}
 
 	@Override
