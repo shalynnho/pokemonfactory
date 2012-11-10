@@ -202,7 +202,19 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE="robot display sends to robot logic that kit to conveyor is done";
 	
 	// end kitrobot logic
-
+	
+	// kit positions
+	public static final String KIT_INSPECTION_AREA = "Kit inspection area"; 
+	
+	public static final String KIT_LOCATION1 = "Kit location1 area";
+	
+	public static final String KIT_LOCATION2 = "Kit location2 area";
+	
+	public static final String KIT_INITIAL = "Kit initial area";
+	
+	
+	// end kit positions
+	
 	// partsrobot logic to display commands
 	
 	// parts robot moves to target nest
