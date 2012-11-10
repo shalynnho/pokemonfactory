@@ -1,6 +1,7 @@
 package DeviceGraphics;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import Networking.Request;
 import Networking.Server;
@@ -14,39 +15,20 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		DeviceGraphics {
 
 	private Kit kit;
-	private Location location;
 	private Server server;
 
-	KitGraphics[] positions;
+	//KitGraphics[] positions;
 
 	ArrayList<KitGraphics> kitsOnKitRobot;
-
+	TreeMap<String, KitGraphics> kitPositions;
+	
 	KitRobotAgent kitRobotAgent;
 
 	public KitRobotGraphics(Server s, Agent kra) {
-		// qw
-		positions = new KitGraphics[4];
-
-		for (int i = 0; i < 4; i++) {
-			positions[i] = new KitGraphics(s);
-			positions[i] = new KitGraphics(server);
-		}
-
-		location = new Location(0, 0);
+		kitPositions = new TreeMap<String, KitGraphics>();
+		
 		server = s;
-
 		kitRobotAgent = (KitRobotAgent) kra;
-	}
-
-	public Integer Search(KitGraphics kit) {
-		for (Integer i = 0; i < 4; i++) {
-			if (kit.equals(positions)) {
-				return i;
-			}
-
-		}
-
-		return 0;
 	}
 
 	public void addKit(KitGraphics kg) {

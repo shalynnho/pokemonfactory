@@ -27,7 +27,9 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	
 	private Timer timer;
 	
-	
+	/**
+	 * Constructor
+	 */
 	public FactoryProductionManager() {
 		super();
 		clientName = Constants.FACTORY_PROD_MNGR_CLIENT;
@@ -37,6 +39,9 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		initDevices();
 	}
 	
+	/**
+	 * Initialize the GUI and start the timer.
+	 */
 	public void initGUI() {
 		JLabel label = new JLabel("Factory Production Manager");
 		label.setForeground(Color.WHITE);
@@ -56,8 +61,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		timer.start();
 	}
 	
+	/**
+	 * Initialize the devices
+	 */
 	public void initDevices() {
-		// TODO: add ALL devices
 		// TODO: adjust LOCATIONS of each device
 		
 		for (int i = 0; i < Constants.LANE_COUNT; i++) {
@@ -68,24 +75,20 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			addDevice(Constants.NEST_TARGET + i, new NestGraphicsDisplay(this, i));
 		}
 
-		// TODO: i'd rather use a for loop to initialize this
-			// Harry, if we store the start locations as constants, could you adjust your FGD
-			// code to set the start location based on the ID assigned here
-		addDevice(Constants.FEEDER_TARGET + 0, new FeederGraphicsDisplay(0, this, Constants.FEEDER0_LOC));
-//		addDevice(Constants.FEEDER_TARGET + 1, new FeederGraphicsDisplay(1, this, new Location(600, 100)));
-//		addDevice(Constants.FEEDER_TARGET + 2, new FeederGraphicsDisplay(2, this, new Location(600, 100)));
-//		addDevice(Constants.FEEDER_TARGET + 3, new FeederGraphicsDisplay(3, this, new Location(600, 100)));
+		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
+			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(i, this));
+		}
 
 		// TODO: uncomment when conveyor doesn't break everything anymore
 //		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this, Constants.CONVEYOR_LOC));
 		
-		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this, Constants.KIT_ROBOT_LOC));
+		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
 		
-		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay(this, Constants.KIT_LOC));
+		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay(this));
 		
-		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this, Constants.CAMERA_LOC));
+		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		
-		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this, Constants.PARTS_ROBOT_LOC));
+		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 		
 	}
 	
@@ -119,5 +122,4 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		repaint();
 	}
-
 }

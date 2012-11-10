@@ -26,7 +26,7 @@ public class MockPartsRobot extends MockAgent implements PartsRobot {
 	@Override
 	public void msgHereIsKitConfiguration(List<PartType> config) {
 		// TODO Auto-generated method stub
-
+		log.add(new LoggedEvent("Recieved msgHereIsKitConfiguration"));
 	}
 
 	@Override

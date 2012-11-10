@@ -20,7 +20,7 @@ import agent.data.PartType;
 public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	// this will store a reference to the client
 	private Client client;
-	// part image dimensions
+	// feeder image dimensions
 	private static final int FEEDER_HEIGHT = 120;
 	private static final int FEEDER_WIDTH = 120;
 	// true if the diverter is pointing to the top lane
@@ -31,30 +31,33 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	private Location feederLocation;
 	// a BinGraphicsDisplay object
 	private BinGraphicsDisplay bgd;
-	
+	// ID of the feeder
 	private int feederID;
 
 	/**
 	 * constructor
 	 */
-	public FeederGraphicsDisplay(int id, Client cli, Location loc) {
+	public FeederGraphicsDisplay(int id, Client cli) {
 		// store a reference to the client
-		client = cli;
-		// set the feeder's default location
-		feederLocation = loc;
+		client = cli;	
 		// diverter initially points to the top lane
 		diverterTop = true;
 		// we don't have a bin to start with
 		haveBin = false;
-		
+		// set the feeder's ID
 		feederID = id;
+		// generate the feeder's location based on its ID
+		feederLocation = new Location(500, id*2 + 150);
 		
 		// force an initial repaint to display feeder and diverter
-		client.repaint();
+		// client.repaint();
+		
+		// set the feeder's default location
+		// feederLocation = loc;
 	}
 	
 	/**
-	 * this function handles drawing
+	 * This function handles drawing of feeder components.
 	 */
 	public void draw(JComponent c, Graphics2D g) {
 		g.drawImage(Constants.FEEDER_IMAGE, feederLocation.getX(), feederLocation.getY(), c);
@@ -68,11 +71,16 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 	
-	@Override
+	/**
+	 * Inherited method.
+	 */
 	public void setLocation(Location newLocation) {
 		// unused for feeder
 	}
 	
+	/**
+	 * Display bin being received.
+	 */
 	public void receiveBin() {
 		// TODO adjust bin location later
 		bgd = new BinGraphicsDisplay(new Location(feederLocation.getX() + FEEDER_WIDTH - 50, feederLocation.getY() + FEEDER_HEIGHT/2), PartType.B);
@@ -80,7 +88,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		haveBin = true;
 	}
 
-	@Override
+	/**
+	 * Process requests sent to the device.
+	 */
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
 			diverterTop = !diverterTop;

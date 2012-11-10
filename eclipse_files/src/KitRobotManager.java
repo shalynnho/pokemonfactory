@@ -78,8 +78,7 @@ public class KitRobotManager extends Client implements ActionListener {
 	public void initDevices() {
 		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this,
 				new Location(0, 0)));
-		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this,
-				new Location(0, 0)));
+		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
 
 	}
 
