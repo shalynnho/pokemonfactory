@@ -108,8 +108,7 @@ public class Server {
 		
 		for(int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			devices.put(Constants.FEEDER_TARGET + i, new FeederGraphics(i, this, 
-					agents.get(Constants.FEEDER_TARGET + i), agents.get(Constants.LANE_TARGET + i * 2),
-					agents.get(Constants.LANE_TARGET + (i * 2 + 1))));
+					agents.get(Constants.FEEDER_TARGET + i)));
 		}
 		for(int i = 0; i < Constants.LANE_COUNT; i++) {
 			devices.put(Constants.LANE_TARGET + i, new LaneGraphics(this, i,

@@ -65,7 +65,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 * Initialize the devices
 	 */
 	public void initDevices() {
-		// TODO: add ALL devices
 		// TODO: adjust LOCATIONS of each device
 		
 		for (int i = 0; i < Constants.LANE_COUNT; i++) {
