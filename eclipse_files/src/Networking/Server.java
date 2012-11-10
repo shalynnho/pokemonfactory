@@ -20,6 +20,7 @@ import agent.Agent;
 import agent.CameraAgent;
 import agent.ConveyorAgent;
 import agent.FeederAgent;
+import agent.GantryAgent;
 import agent.KitRobotAgent;
 import agent.LaneAgent;
 import agent.NestAgent;
@@ -136,6 +137,7 @@ public class Server {
 			((FeederAgent) agents.get(Constants.FEEDER_TARGET + i)).setLanes(
 					(LaneAgent) agents.get(Constants.LANE_TARGET + i * 2), 
 					(LaneAgent) agents.get(Constants.LANE_TARGET + (i * 2 + 1)));
+			((FeederAgent) agents.get(Constants.FEEDER_TARGET + i)).setGantry((GantryAgent) agents.get(Constants.GANTRY_ROBOT_TARGET));
 		}
 		
 		for(int i = 0; i < Constants.LANE_COUNT; i++) {
@@ -143,6 +145,7 @@ public class Server {
 			((LaneAgent) agents.get(Constants.LANE_TARGET + i)).setNest((NestAgent) agents.get(Constants.NEST_TARGET + i));
 			((NestAgent) agents.get(Constants.NEST_TARGET + i)).setLane((LaneAgent) agents.get(Constants.LANE_TARGET + i));
 			((NestAgent) agents.get(Constants.NEST_TARGET + i)).setCamera((CameraAgent) agents.get(Constants.CAMERA_TARGET));
+			((CameraAgent) agents.get(Constants.CAMERA_TARGET)).setNest((NestAgent) agents.get(Constants.NEST_TARGET + i));
 		}
 		
 		KitRobotAgent kitrobot = (KitRobotAgent) agents.get(Constants.KIT_ROBOT_TARGET);
