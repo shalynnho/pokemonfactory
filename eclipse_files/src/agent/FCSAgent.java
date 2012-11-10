@@ -118,7 +118,7 @@ public class FCSAgent extends Agent implements FCS {
 	    
 	    for(int i=0;i<o.parts.size();i++)    
 	    {    
-	    	gantry.msgHereIsBinConfig(new Bin(o.parts.get(i)));  
+	    	gantry.msgHereIsBinConfig(new Bin(o.parts.get(i),i+1));  
 	    }  
 	    
 	    for(int i=0;i<o.parts.size();i++){    

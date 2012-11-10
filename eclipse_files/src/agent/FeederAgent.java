@@ -172,7 +172,7 @@ public class FeederAgent extends Agent implements Feeder {
 		lane.numPartsNeeded--;
 		lane.lane.msgHereIsPart(new Part(lane.type));
 		if (lane.numPartsNeeded == 0) {
-			// state=FeederStatus.PURGING;//For V1
+			state=FeederStatus.PURGING;
 			lane.state = LaneStatus.DOES_NOT_NEED_PARTS;
 		}
 		stateChanged();
