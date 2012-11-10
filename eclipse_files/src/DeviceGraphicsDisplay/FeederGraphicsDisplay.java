@@ -37,7 +37,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	/**
 	 * constructor
 	 */
-	public FeederGraphicsDisplay(int id, Client cli, Location loc) {
+	public FeederGraphicsDisplay(int id, Client cli) {
 		// store a reference to the client
 		client = cli;	
 		// diverter initially points to the top lane
