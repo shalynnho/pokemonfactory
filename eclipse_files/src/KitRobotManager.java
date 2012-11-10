@@ -49,7 +49,7 @@ public class KitRobotManager extends Client implements ActionListener {
 		add(label);
 
 		OverlayPanel panel = new OverlayPanel();
-		panel.add(new JLabel("hello"));
+		// panel.add(new JLabel("hello"));
 		add(panel, BorderLayout.SOUTH);
 		panel.setVisible(true);
 
