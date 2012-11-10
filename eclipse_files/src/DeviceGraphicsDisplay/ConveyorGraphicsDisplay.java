@@ -25,9 +25,9 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	int velocity;
 	Client client;
 
-	public ConveyorGraphicsDisplay(Client cli, Location loc) {
-		locationIn = loc; // location for input lane
-		locationOut = new Location(loc.getX(), loc.getY() + 400); // location
+	public ConveyorGraphicsDisplay(Client cli) {
+		locationIn = Constants.CONVEYOR_LOC; // location for input lane
+		locationOut = new Location(locationIn.getX(), locationIn.getY() + 400); // location
 																	// for exit
 																	// lane,
 																	// based off
@@ -63,8 +63,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void newKit() {
 		print("Making new kit");
-		KitGraphicsDisplay temp = new KitGraphicsDisplay(client, new Location(
-				0, 0));
+		KitGraphicsDisplay temp = new KitGraphicsDisplay(client);
 		temp.setLocation(new Location(0, 0));
 		kitsOnConveyor.add(temp);
 	}
@@ -79,7 +78,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void newExitKit() {
-		kitsToLeave.add(new KitGraphicsDisplay(client, new Location(195, 400)));
+		kitsToLeave.add(new KitGraphicsDisplay(client));
 	}
 
 	public void animationDone(Request r) {
