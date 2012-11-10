@@ -54,6 +54,10 @@ public abstract class Constants {
 	public static final Location CONVEYOR_LOC = new Location(0,0);
 	public static final Location KIT_LOC = new Location(20,200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250,450);
+	public static final Location GANTRY_ROBOT_LOC = new Location(500,100);
+	
+	// TODO: get exact location coordinates
+	public static final Location BIN_STORAGE_LOC = new Location(800,1000);
 
 	// TODO: how many cameras are there?
 	public static final Location CAMERA_LOC = new Location(5,5);
@@ -217,6 +221,11 @@ public abstract class Constants {
 	
 	
 	// end kit positions
+	
+	// gantry logic to display commands
+	
+	public static final String GANTRY_ROBOT_MOVE_TO_LOC_COMMAND = "move";
+	public static final String GANTRY_ROBOT_GET_BIN_COMMAND = "pickup";
 	
 	// partsrobot logic to display commands
 	
