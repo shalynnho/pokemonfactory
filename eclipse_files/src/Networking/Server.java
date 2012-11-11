@@ -257,7 +257,7 @@ public class Server {
 	}
 
 	private void sendDataToConveyor(Request req) {
-		factProdMngrWriter.sendData(req);
+		//factProdMngrWriter.sendData(req);
 		kitRobotMngrWriter.sendData(req);
 	}
 
