@@ -269,7 +269,6 @@ public abstract class Constants {
 	// ==================================
 	// Used to identify clients.
 	
-	public static final String FACT_PROD_MNGR_CLIENT = "FactProdMngr";
 	// V0 Config
 	public static final String KIT_ROBOT_MNGR_CLIENT = "KitsRobotMngr";
 	public static final String PARTS_ROBOT_MNGR_CLIENT = "PartsRobotMngr";

@@ -212,7 +212,7 @@ public class Server {
 					laneMngrReader = new ClientReader(ois, this);
 					new Thread(laneMngrReader).start();
 					numClients++;
-				} else if (identity.equals(Constants.FACT_PROD_MNGR_CLIENT)) {
+				} else if (identity.equals(Constants.FACTORY_PROD_MNGR_CLIENT)) {
 					factProdMngrWriter = new StreamWriter(oos);
 					factProdMngrReader = new ClientReader(ois, this);
 					new Thread(factProdMngrReader).start();
