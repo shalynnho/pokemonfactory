@@ -152,20 +152,13 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	}
 
-	public void sendMessageBack(Server s) {
-		s.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
-				Constants.CONVEYOR_TARGET, null));
-	}
-
 	public void msgPlaceKitOnStand2(KitGraphics kit) {
 		// TODO Auto-generated method stub
 
 		kitPositions.put(Constants.KIT_LOCATION2, kit);
-
 		server.sendData(new Request("moveKitToStand2",
 				Constants.KIT_ROBOT_TARGET, null));
 	}
-
 	@Override
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
 		if (location == 1) {
@@ -173,8 +166,12 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			server.sendData(new Request(
 					Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
 					Constants.CONVEYOR_TARGET, null));
+		
 		} else if (location == 2) {
 			msgPlaceKitOnStand2(kit);
+			server.sendData(new Request(
+					Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
+					Constants.CONVEYOR_TARGET, null));
 		}
 
 	}
