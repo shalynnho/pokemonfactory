@@ -47,12 +47,13 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	public void addKit(KitGraphics kg) {
 		kitsOnKitRobot.add(kg);
 	}
-
+	/*
 	public void giveKitToConveyor(KitGraphics kg) {
 		server.sendData(new Request("GiveKitToConveyor",
 				Constants.CONVEYOR_TARGET, null));
 		kitsOnKitRobot.remove(kg);
-	}
+		
+	}*/
 
 	@Override
 	public void msgPlaceKitInInspectionArea(KitGraphics kit) {
@@ -73,8 +74,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			System.out.println("Kit isn't in one of the locations");
 		}
 		*/
+		kitPositions.put(Constants.KIT_INSPECTION_AREA, kit);
 		
 		kitRobotAgent.msgPlaceKitInInspectionAreaDone();
+		
 		// TODO Auto-generated method stub
 	}
 
