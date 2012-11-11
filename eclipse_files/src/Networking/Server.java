@@ -36,6 +36,9 @@ import agent.StandAgent;
 public class Server {
 	private ServerSocket ss;
 	private Socket s;
+	
+	private ClientReader factProdMngrReader;
+	private StreamWriter factProdMngrWriter;
 
 	// V0 Config
 	private ClientReader kitRobotMngrReader;
@@ -209,6 +212,11 @@ public class Server {
 					laneMngrReader = new ClientReader(ois, this);
 					new Thread(laneMngrReader).start();
 					numClients++;
+				} else if (identity.equals(Constants.FACT_PROD_MNGR_CLIENT)) {
+					factProdMngrWriter = new StreamWriter(oos);
+					factProdMngrReader = new ClientReader(ois, this);
+					new Thread(factProdMngrReader).start();
+					numClients++;
 				}
 			}
 		} catch (Exception e) {
@@ -249,26 +257,32 @@ public class Server {
 	}
 
 	private void sendDataToConveyor(Request req) {
+		factProdMngrWriter.sendData(req);
 		kitRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToKitRobot(Request req) {
+		factProdMngrWriter.sendData(req);
 		kitRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToPartsRobot(Request req) {
+		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToNest(Request req) {
+		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToCamera(Request req) {
+		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToLane(Request req) {
+		factProdMngrWriter.sendData(req);
 		laneMngrWriter.sendData(req);
 	}
 
