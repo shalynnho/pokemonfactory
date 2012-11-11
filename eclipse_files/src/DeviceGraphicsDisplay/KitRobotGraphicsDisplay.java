@@ -306,8 +306,10 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		String command = req.getCommand();
 		String target = req.getTarget();
 		Object obj = req.getData();
+		
 		if (target.equals(Constants.KIT_ROBOT_TARGET)) {
 			if (command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1)) {
+				
 				KitGraphicsDisplay kit = new KitGraphicsDisplay(client);
 				kit.setPosition(3);
 				currentKit = kit;
