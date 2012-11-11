@@ -21,10 +21,14 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	public int finalDegree;
 	private int currentDegree;
 	private int degreeStep;
+	
 	private int rotationAxisX;
 	private int rotationAxisY;
+	
 	private int position;
+	
 	private boolean AnimationToConveyorDone;
+	
 	private ArrayList<PartGraphicsDisplay> parts = new ArrayList<PartGraphicsDisplay>();
 
 	private AffineTransform trans = new AffineTransform();

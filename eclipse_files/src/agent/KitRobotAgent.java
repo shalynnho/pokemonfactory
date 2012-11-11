@@ -34,9 +34,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	Map<Integer, Boolean> standPositions = Collections
 			.synchronizedMap(new TreeMap<Integer, Boolean>());
 
-	private boolean needToRequestKit;
-	private boolean kitRequested;
-	int numKitsRequested;
+	private boolean kitWaitingOnConveyor;
+	private int numKitsToMake;
+	private int numKitsRequested;
 
 	// Used to prevent animations from overlapping
 	Semaphore animation = new Semaphore(1, true);
@@ -79,9 +79,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		super();
 
 		this.name = name;
-		needToRequestKit = false;
-		kitRequested = false;
+		kitWaitingOnConveyor = false;
 		numKitsRequested = 0;
+		numKitsToMake = 0;
 
 		// Don't assume stand is empty
 		standPositions.put(0, false);
@@ -96,9 +96,15 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 */
 
 	@Override
+	public void msgNeedThisManyKits(int total) {
+		print("Received msgNeedThisManyKits");
+		numKitsToMake = total;
+		numKitsRequested = 0;
+	}
+
+	@Override
 	public void msgHereIsKit(Kit k) {
-		needToRequestKit = false;
-		kitRequested = false;
+		kitWaitingOnConveyor = true;
 		print("Received msgHereIsKit");
 		MyKit mk = new MyKit(k);
 		myKits.add(mk);
@@ -108,7 +114,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 	@Override
 	public void msgNeedKit(int standLocation) {
-		needToRequestKit = true;
 		print("Received msgNeedKit");
 		standPositions.put(standLocation, true);
 		// print("Still need " + numKitsToRequest);
@@ -196,14 +201,10 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		}
 
 		// If other rules fail and there's a spot on the stand, request a new
-		// kit
-		if (!kitRequested && needToRequestKit) {
-			if (standPositions.get(1) == true) {
-				kitRequested = true;
-				requestKit();
-				return true;
-			} else if (standPositions.get(2) == true) {
-				kitRequested = true;
+		// kit if necessary.
+		if (!kitWaitingOnConveyor && numKitsRequested < numKitsToMake) {
+			if (standPositions.get(1) || standPositions.get(2)) {
+				numKitsRequested++;
 				requestKit();
 				return true;
 			}
@@ -224,9 +225,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * Requests a kit from the conveyor.
 	 */
 	private void requestKit() {
-		numKitsRequested++;
 		conveyor.msgNeedKit();
-		print("So far I've requested: " + numKitsRequested);
+		print("So far I've requested: " + numKitsRequested + " out of "
+				+ numKitsToMake + " needed.");
 		stateChanged();
 	}
 
@@ -236,6 +237,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	private void placeKitOnStand(MyKit mk) {
 		for (int loc = 1; loc < 3; loc++) {
 			if (standPositions.get(loc) == true) {
+				kitWaitingOnConveyor = false;
 				try {
 					animation.acquire();
 				} catch (InterruptedException e) {
@@ -275,6 +277,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		}
 		mk.KS = KitStatus.AwaitingInspection;
 		if (kitrobotGraphics != null) {
+			if (mk.kit == null) {
+				print("Inspection Kit is null");
+			}
+			if (mk.kit.kitGraphics == null) {
+				print("Inspection KitGraphics null");
+			}
 			kitrobotGraphics.msgPlaceKitInInspectionArea(mk.kit.kitGraphics);
 		}
 		if (mockgraphics != null) {

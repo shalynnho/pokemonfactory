@@ -19,10 +19,12 @@ public class Kit {
 	}
 
 	public Kit(ArrayList<PartType> expected) {
+		kitGraphics = new KitGraphics(null);
 		partsExpected = expected;
 	}
 
 	public Kit(String kitID) {
+		kitGraphics = new KitGraphics(null);
 		this.kitID = kitID;
 	}
 
