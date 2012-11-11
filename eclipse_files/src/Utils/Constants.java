@@ -228,7 +228,6 @@ public abstract class Constants {
 	public static final String GANTRY_ROBOT_MOVE_TO_LOC_COMMAND = "move";
 	public static final String GANTRY_ROBOT_GET_BIN_COMMAND = "pickup";
 	public static final String GANTRY_ROBOT_DROP_BIN_COMMAND = "drop";
-	public static final String GANTRY_ROBOT_INITIAL_BIN_NUMBER = "number of bins";
 	
 	// partsrobot logic to display commands
 	
