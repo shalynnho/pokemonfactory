@@ -193,11 +193,11 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_CONVEYOR = "robot logic moves inspection to conv";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_CONVEYOR = "robot display moves inspection to conv";
 	
-	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_STAND = "robot logic moves loc1 to inspection";
-	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_STAND = "robot display moves loc1 to inspection";
+	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_INSPECTION = "robot logic moves loc1 to inspection";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_INSPECTION = "robot display moves loc1 to inspection";
 	
-	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_STAND = "robot logic moves loc2 to inspection";
-	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_STAND = "robot display moves loc2 to inspection";
+	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_INSPECTION = "robot logic moves loc2 to inspection";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_INSPECTION = "robot display moves loc2 to inspection";
 	
 	public static final String KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR = "robot logic moves loc1 to conv";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_CONVEYOR = "robot display moves kit to conv";
@@ -205,6 +205,7 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_CONVEYOR = "robot logic moves loc2 to conv";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_CONVEYOR = "robot display moves kit to conv ";
 	
+	public static final String KIT_ROBOT_ON_INSPECTION_DONE = "robot display sends to robot logic that kit to inspeciton is done";
 	public static final String KIT_ROBOT_ON_STAND_DONE = "robot display sends to robot logic that kit to stand is done";
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE="robot display sends to robot logic that kit to conveyor is done";
 	
