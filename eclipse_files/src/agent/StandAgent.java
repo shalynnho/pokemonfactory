@@ -38,8 +38,12 @@ public class StandAgent extends Agent implements Stand {
 	private int numKitsToMake;
 	private int numKitsMade;
 	private boolean start;
-	private boolean kitRequested;
 	private final Timer timer;
+	private StandStatus status;
+
+	private enum StandStatus {
+		IDLE, NEED_TO_INITIALIZE, KIT_REQUESTED, DONE
+	};
 
 	// Tracks stand positions and whether or not they are open (false indicates
 	// 'not occupied')
@@ -79,7 +83,8 @@ public class StandAgent extends Agent implements Stand {
 		numKitsToMake = 0;
 		numKitsMade = 0;
 		start = false;
-		kitRequested = false;
+		status = StandStatus.IDLE;
+
 		kitsOnStand.add(null);
 		kitsOnStand.add(null);
 		kitsOnStand.add(null);
@@ -98,6 +103,7 @@ public class StandAgent extends Agent implements Stand {
 		print("Received msgMakeKits");
 		numKitsToMake = numKits;
 		numKitsMade = 0;
+		status = StandStatus.NEED_TO_INITIALIZE;
 		start = true;
 		stateChanged();
 	}
@@ -105,7 +111,7 @@ public class StandAgent extends Agent implements Stand {
 	@Override
 	public void msgHereIsKit(Kit k, int destination) {
 		print("Received msgHereIsKit with destination " + destination);
-		kitRequested = false;
+		status = StandStatus.IDLE;
 		myKits.put(new MyKit(k), destination);
 		stateChanged();
 	}
@@ -150,6 +156,11 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	@Override
 	public boolean pickAndExecuteAnAction() {
+
+		if (status == StandStatus.NEED_TO_INITIALIZE) {
+			initializeKitRobot();
+			return true;
+		}
 
 		if (start) {
 			// print("NumKitsToMake greater than 0");
@@ -197,14 +208,14 @@ public class StandAgent extends Agent implements Stand {
 					if (standPositions.get(1) == false
 							&& standPositions.get(2) == false) {
 						print("Neither position full");
-						kitRequested = true;
+						status = StandStatus.KIT_REQUESTED;
 						requestKit(loc = 1);
 						print("I'm requesting a new kit at position 1");
 						return true;
 					} else if ((standPositions.get(1) == false || standPositions
 							.get(2) == false) && numKitsToMake > numKitsMade) {
 						print("One position full");
-						kitRequested = true;
+						status = StandStatus.KIT_REQUESTED;
 						requestKit(loc = standPositions.get(1) == false ? 1 : 2);
 						print("I'm requesting a new kit at position " + loc);
 						return true;
@@ -229,11 +240,22 @@ public class StandAgent extends Agent implements Stand {
 	 */
 
 	/**
+	 * Tells the kitrobot how many kits it should expect to make.
+	 */
+	private void initializeKitRobot() {
+		print("Initializing KitRobot.");
+		status = StandStatus.IDLE;
+		kitrobot.msgNeedThisManyKits(numKitsToMake);
+		stateChanged();
+	}
+
+	/**
 	 * Requests a kit from kit robot at the specified location.
 	 * @param index the empty location on the stand where the new kit will be
 	 * placed
 	 */
 	private void requestKit(int index) {
+		status = StandStatus.IDLE;
 		kitrobot.msgNeedKit(index);
 		standPositions.put(index, true);
 		stateChanged();
@@ -287,6 +309,7 @@ public class StandAgent extends Agent implements Stand {
 	private void finalizeOrder() {
 		// fcs.msgOrderFinished();
 		start = false;
+		status = StandStatus.DONE;
 		System.out.println("====================");
 		print("I FINISHED HURRAY");
 		System.out.println("====================");
@@ -364,14 +387,6 @@ public class StandAgent extends Agent implements Stand {
 
 	public void setStart(boolean start) {
 		this.start = start;
-	}
-
-	public boolean getkitRequesteds() {
-		return kitRequested;
-	}
-
-	public void setkitRequested(boolean kitRequested) {
-		this.kitRequested = kitRequested;
 	}
 
 	public Map<MyKit, Integer> getMyKits() {

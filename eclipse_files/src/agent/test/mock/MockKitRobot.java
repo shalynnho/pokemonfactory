@@ -64,4 +64,10 @@ public class MockKitRobot extends MockAgent implements KitRobot {
 		return false;
 	}
 
+	@Override
+	public void msgNeedThisManyKits(int total) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
