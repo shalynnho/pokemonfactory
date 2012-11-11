@@ -43,11 +43,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 * Initialize the GUI and start the timer.
 	 */
 	public void initGUI() {
-		JLabel label = new JLabel("Factory Production Manager");
-		label.setForeground(Color.WHITE);
-		label.setFont(new Font("SansSerif", Font.PLAIN, 40));
-		label.setHorizontalAlignment(JLabel.CENTER);
-		add(label);
 		
 		OverlayPanel panel = new OverlayPanel();
 		add(panel, BorderLayout.SOUTH);
@@ -79,7 +74,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(i, this));
 		}
 
-		// TODO: uncomment when conveyor doesn't break everything anymore
 		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this));
 		
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));

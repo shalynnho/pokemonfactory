@@ -47,7 +47,7 @@ public abstract class Constants {
 	
 	public static final Location FEEDER0_LOC = new Location(600,100);
 //	public static final Location FEEDER1_LOC = new Location(600, );
-//	public static final Location FEEDER2LOC = new Location(600, );
+//	public static final Location FEEDER2_LOC = new Location(600, );
 //	public static final Location FEEDER3_LOC = new Location(600, );
 	
 	public static final Location KIT_ROBOT_LOC = new Location(0,0);
@@ -226,6 +226,7 @@ public abstract class Constants {
 	
 	public static final String GANTRY_ROBOT_MOVE_TO_LOC_COMMAND = "move";
 	public static final String GANTRY_ROBOT_GET_BIN_COMMAND = "pickup";
+	public static final String GANTRY_ROBOT_DROP_BIN_COMMAND = "drop";
 	
 	// partsrobot logic to display commands
 	
@@ -266,7 +267,7 @@ public abstract class Constants {
 	// CLIENT NAMES
 	// ==================================
 	// Used to identify clients.
-
+	
 	// V0 Config
 	public static final String KIT_ROBOT_MNGR_CLIENT = "KitsRobotMngr";
 	public static final String PARTS_ROBOT_MNGR_CLIENT = "PartsRobotMngr";

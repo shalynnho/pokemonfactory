@@ -112,7 +112,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				Location temp = tempKit.getLocation();
 				tempKit.setLocation(new Location(temp.getX(), temp.getY()
 						+ velocity));
-			} else {
+			} else if (kitsOnConveyor.get(0).getLocation().getY() >= 200){
 				velocity = 0;
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.draw(c, g2);

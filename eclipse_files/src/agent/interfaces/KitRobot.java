@@ -5,6 +5,13 @@ import agent.data.Kit;
 public interface KitRobot {
 
 	/**
+	 * Stand will send this to tell the kitrobot how many kits it should expect
+	 * to make.
+	 * @param total the expected number of kits.
+	 */
+	public abstract void msgNeedThisManyKits(int total);
+
+	/**
 	 * Conveyor sends this when a kit is ready to be picked up.
 	 * @param k kit being picked up.
 	 */

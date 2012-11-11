@@ -1,6 +1,7 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
@@ -13,10 +14,19 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location currentLocation;
 	Location destinationLocation;
 	
+	ArrayList<BinGraphicsDisplay> initialBins;
+	static int initialBinsXLocation = 500; //TODO find correct number
+	static int initialBinsYLocation = 50; //TODO find correct number
+	
 	BinGraphicsDisplay heldBin;
 
 	public GantryGraphicsDisplay () {
 		currentLocation = Constants.GANTRY_ROBOT_LOC;
+		
+		// TODO Find out correct name for constant array list
+		for (int i = 0; i < Constants.ARRAY_LIST_OF_PART_TYPES.size(); i ++){
+			initialBins.add(new BinGraphicsDisplay(new Location (initialBinsXLocation, initialBinsYLocation + i * 50), Constants.ARRAY_LIST_OF_PART_TYPES.get(i)));
+		}
 	}
 	
 	@Override
@@ -46,7 +56,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 				heldBin.setLocation(currentLocation);
 			}
 		}
-		
+		heldBin.draw(c, g);
 	}
 
 	@Override
@@ -56,6 +66,9 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		else if (req.getCommand() == Constants.GANTRY_ROBOT_MOVE_TO_LOC_COMMAND) {
 			destinationLocation = (Location) req.getData();
+		}
+		else if (req.getCommand() == Constants.GANTRY_ROBOT_DROP_BIN_COMMAND) {
+			// FIGURE OUT HOW TO DO THIS PART
 		}
 	}
 
