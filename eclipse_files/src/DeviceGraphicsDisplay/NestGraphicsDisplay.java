@@ -35,6 +35,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// location of the nest
 	private Location nestLocation;
 	
+	private boolean animate;
+	
 	//boolean if the nest is full
 	private boolean isFull;
 	// dynamically stores the parts currently in the Nest
@@ -46,7 +48,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public NestGraphicsDisplay(Client c, int id) {
 		client = c;
 		nestID = id;
-		
+		animate =false; 
 		isFull = true;
 		nestLocation = new Location(600, 100 + nestID * 75);
 		
@@ -116,7 +118,6 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 			for(int i = 0; i < partsInNest.size(); i++){
 				partsInNest.remove(0);
 			}
-			
 			client.sendData(new Request(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET+nestID, null));
 		}	
 	}
