@@ -47,7 +47,7 @@ public abstract class Constants {
 	
 	public static final Location FEEDER0_LOC = new Location(600,100);
 //	public static final Location FEEDER1_LOC = new Location(600, );
-//	public static final Location FEEDER2LOC = new Location(600, );
+//	public static final Location FEEDER2_LOC = new Location(600, );
 //	public static final Location FEEDER3_LOC = new Location(600, );
 	
 	public static final Location KIT_ROBOT_LOC = new Location(0,0);
