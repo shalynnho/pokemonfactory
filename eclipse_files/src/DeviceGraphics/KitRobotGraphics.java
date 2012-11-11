@@ -18,12 +18,12 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	private Kit kit;
 	private Server server;
 
-	//KitGraphics[] positions;
+	// KitGraphics[] positions;
 
 	ArrayList<KitGraphics> kitsOnKitRobot;
-	
+
 	TreeMap<String, KitGraphics> kitPositions;
-	
+
 	KitRobotAgent kitRobotAgent;
 
 	public KitRobotGraphics(Server s, Agent kra) {
@@ -32,66 +32,64 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		server = s;
 		kitRobotAgent = (KitRobotAgent) kra;
 	}
-	public void initKitPositions(){
-		
-			KitGraphics tempKitGraphics = new KitGraphics(server); 
-			kitPositions.put(Constants.KIT_INITIAL,tempKitGraphics);
-			tempKitGraphics = new KitGraphics(server);
-			kitPositions.put(Constants.KIT_INSPECTION_AREA, tempKitGraphics);
-			tempKitGraphics = new KitGraphics(server);
-			kitPositions.put(Constants.KIT_LOCATION1, tempKitGraphics);
-			tempKitGraphics = new KitGraphics(server);
-			kitPositions.put(Constants.KIT_LOCATION2, tempKitGraphics);
-		
+
+	public void initKitPositions() {
+
+		KitGraphics tempKitGraphics = new KitGraphics(server);
+		kitPositions.put(Constants.KIT_INITIAL, tempKitGraphics);
+		tempKitGraphics = new KitGraphics(server);
+		kitPositions.put(Constants.KIT_INSPECTION_AREA, tempKitGraphics);
+		tempKitGraphics = new KitGraphics(server);
+		kitPositions.put(Constants.KIT_LOCATION1, tempKitGraphics);
+		tempKitGraphics = new KitGraphics(server);
+		kitPositions.put(Constants.KIT_LOCATION2, tempKitGraphics);
+
 	}
-	
+
 	public void addKit(KitGraphics kg) {
 		kitsOnKitRobot.add(kg);
 	}
 
 	@Override
 	public void msgPlaceKitInInspectionArea(KitGraphics kit) {
-		
-		/*Integer tempI = Search(kit);
 
-		if (tempI.equals(new Integer(3))) {
-			server.sendData(new Request("moveKitInLocation1ToInspection",
-					Constants.KIT_ROBOT_TARGET, null));
-			positions[2] = kit;
+		/*
+		 * Integer tempI = Search(kit);
+		 * 
+		 * if (tempI.equals(new Integer(3))) { server.sendData(new
+		 * Request("moveKitInLocation1ToInspection", Constants.KIT_ROBOT_TARGET,
+		 * null)); positions[2] = kit;
+		 * 
+		 * } else if (tempI == 4) { server.sendData(new
+		 * Request("moveKitInLocation2ToInspection", Constants.KIT_ROBOT_TARGET,
+		 * null));
+		 * 
+		 * positions[2] = kit; } else {
+		 * System.out.println("Kit isn't in one of the locations"); }
+		 */
 
-		} else if (tempI == 4) {
-			server.sendData(new Request("moveKitInLocation2ToInspection",
-					Constants.KIT_ROBOT_TARGET, null));
-
-			positions[2] = kit;
-		} else {
-			System.out.println("Kit isn't in one of the locations");
-		}
-		*/
-		
-		
-		for(String kitGraphicsKey : kitPositions.keySet())
-		{
-			KitGraphics tempKitGraphics=(KitGraphics)kitPositions.get(kitGraphicsKey);
-			if(tempKitGraphics.equals(kit))
-			{
+		for (String kitGraphicsKey : kitPositions.keySet()) {
+			KitGraphics tempKitGraphics = (KitGraphics) kitPositions
+					.get(kitGraphicsKey);
+			if (tempKitGraphics.equals(kit)) {
 				kitPositions.put(kitGraphicsKey, null);
-				if(kitGraphicsKey.equals(Constants.KIT_LOCATION1))
-				{ 
-					server.sendData(new Request(Constants.KIT_ROBOT));
-				}
-				else
-				{
-					
+				if (kitGraphicsKey.equals(Constants.KIT_LOCATION1)) {
+					server.sendData(new Request(
+							Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_INSPECTION,
+							Constants.KIT_ROBOT_TARGET, null));
+				} else {
+					server.sendData(new Request(
+							Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_INSPECTION,
+							Constants.KIT_ROBOT_TARGET, null));
 				}
 			}
-			
+
 		}
-		
+
 		kitPositions.put(Constants.KIT_INSPECTION_AREA, kit);
-		
+
 		kitRobotAgent.msgPlaceKitInInspectionAreaDone();
-		
+
 		// TODO Auto-generated method stub
 	}
 
@@ -114,8 +112,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		String command = req.getCommand();
 		Object object = req.getData();
 
-		if (command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION1)) {
-			
+		if (command
+				.equals(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION1)) {
+
 			msgPlaceKitOnStand(null, 1);
 
 		} else if (command
@@ -129,14 +128,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 				.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
 			server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
 					Constants.CONVEYOR_TARGET, null));
-		}
-		else if(command.equals(Constants.KIT_ROBOT_ON_STAND_DONE))
-		{
+		} else if (command.equals(Constants.KIT_ROBOT_ON_STAND_DONE)) {
 			System.out.println("placekitonStandDone sent");
 			kitRobotAgent.msgPlaceKitOnStandDone();
-		}
-		else if (command.equals(Constants.KIT_ROBOT_ON_CONVEYOR_DONE))
-		{
+		} else if (command.equals(Constants.KIT_ROBOT_ON_CONVEYOR_DONE)) {
 			System.out.println("placekitonconveyordone sent");
 			kitRobotAgent.msgPlaceKitOnConveyorDone();
 		}
@@ -149,11 +144,12 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	public void msgPlaceKitOnStand1(KitGraphics kit) {
 		// TODO Auto-generated method stub
-		
+
 		kitPositions.put(Constants.KIT_LOCATION1, kit);
-		server.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1,
+		server.sendData(new Request(
+				Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1,
 				Constants.KIT_ROBOT_TARGET, null));
-		
+
 	}
 
 	public void sendMessageBack(Server s) {
@@ -163,9 +159,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	public void msgPlaceKitOnStand2(KitGraphics kit) {
 		// TODO Auto-generated method stub
-		
-		kitPositions.put(Constants.KIT_LOCATION2,kit);
-		
+
+		kitPositions.put(Constants.KIT_LOCATION2, kit);
+
 		server.sendData(new Request("moveKitToStand2",
 				Constants.KIT_ROBOT_TARGET, null));
 	}
