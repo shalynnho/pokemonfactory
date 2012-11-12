@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import factory.KitConfig;
 
 import agent.data.Kit;
-import agent.data.PartType;
 
 
 public interface Conveyor {

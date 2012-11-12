@@ -1,7 +1,7 @@
 package agent.interfaces;
 
+import factory.PartType;
 import agent.data.Part;
-import agent.data.PartType;
 import DeviceGraphics.PartGraphics;
 import GraphicsInterfaces.LaneGraphics;
 

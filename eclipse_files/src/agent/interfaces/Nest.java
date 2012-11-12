@@ -1,9 +1,9 @@
 package agent.interfaces;
 
+import factory.PartType;
 import agent.CameraAgent;
 import agent.LaneAgent;
 import agent.data.Part;
-import agent.data.PartType;
 import GraphicsInterfaces.NestGraphics;
 
 public interface Nest {

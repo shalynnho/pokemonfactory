@@ -8,7 +8,8 @@ import java.util.concurrent.Semaphore;
 import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.ConveyorGraphics;
 import agent.data.Kit;
-import agent.data.PartType;
+import factory.KitConfig;
+import factory.PartType;
 import agent.interfaces.Conveyor;
 import agent.interfaces.KitRobot;
 import agent.test.mock.MockGraphics;
@@ -24,7 +25,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private final List<MyKit> kitsOnConveyor = Collections
 			.synchronizedList(new ArrayList<MyKit>());
 
-	private ArrayList<PartType> kitConfig = new ArrayList<PartType>();
+	private KitConfig kitConfig;
 
 	private MyKit incomingKit;
 	private MyKit outgoingKit;
@@ -325,7 +326,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	}
 
 	@Override
-	public void msgHereIsKitConfiguration(ArrayList<PartType> config) {
+	public void msgHereIsKitConfiguration(KitConfig config) {
 		this.kitConfig = config;
 	}
 

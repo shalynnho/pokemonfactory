@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import factory.PartType;
+
 import DeviceGraphics.DeviceGraphics;
 import agent.data.Bin;
 import agent.data.Bin.BinStatus;
-import agent.data.PartType;
 import agent.interfaces.Gantry;
 
 /**
@@ -53,7 +54,7 @@ public class GantryAgent extends Agent implements Gantry {
 	}
 
 	@Override
-	public void msgHereIsBinConfig(Bin bin) {
+	public void msgHereIsBin(Bin bin) {
 		print("Received msgHereIsBinConfig");
 		binList.add(bin);
 		stateChanged();

@@ -7,7 +7,7 @@ import java.util.concurrent.Semaphore;
 import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.NestGraphics;
 import agent.data.Part;
-import agent.data.PartType;
+import factory.PartType;
 import agent.interfaces.Nest;
 
 /**
@@ -240,7 +240,7 @@ public class NestAgent extends Agent implements Nest {
 	// HACK for v0 only
 	public void FillWithParts() {
 		for (int i = 1; i < full; i++) {
-			currentParts.add(new MyPart(new Part(PartType.A)));
+		//	currentParts.add(new MyPart(new Part(PartType.A)));
 		}
 	}
 

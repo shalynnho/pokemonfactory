@@ -2,6 +2,9 @@ package agent.data;
 
 import java.util.ArrayList;
 
+import factory.KitConfig;
+import factory.PartType;
+
 import DeviceGraphics.KitGraphics;
 
 public class Kit {
@@ -10,7 +13,7 @@ public class Kit {
 
 	public String kitID;
 
-	public ArrayList<PartType> partsExpected = new ArrayList<PartType>();
+	public KitConfig partsExpected;
 
 	public ArrayList<Part> parts = new ArrayList<Part>();
 
@@ -18,7 +21,7 @@ public class Kit {
 		kitGraphics = new KitGraphics(null);
 	}
 
-	public Kit(ArrayList<PartType> expected) {
+	public Kit(KitConfig expected) {
 		kitGraphics = new KitGraphics(null);
 		partsExpected = expected;
 	}
@@ -30,7 +33,7 @@ public class Kit {
 
 	public boolean needPart(Part part) {
 		int count = 0;
-		for (PartType type : partsExpected) {
+		for (PartType type : partsExpected.getConfig().keySet()) {
 			if (type == part.type) {
 				count++;
 			}
