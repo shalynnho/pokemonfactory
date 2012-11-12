@@ -2,12 +2,16 @@ package agent;
 
 import java.util.ArrayList;
 
+import DeviceGraphics.DeviceGraphics;
 import agent.data.Bin;
 import agent.data.PartType;
+import agent.interfaces.Conveyor;
 import agent.interfaces.FCS;
-import agent.interfaces.*;
-import DeviceGraphics.DeviceGraphics;
-import agent.interfaces.FCS;
+import agent.interfaces.Gantry;
+import agent.interfaces.Nest;
+import agent.interfaces.PartsRobot;
+import agent.interfaces.Stand;
+import factory.Order;
 
 /**
  * Unused in V0
@@ -28,21 +32,7 @@ public class FCSAgent extends Agent implements FCS {
 	private final String name;
 
 	public enum myState {PENDING, STARTED, LOADED};    
-	public enum orderState {PENDING, ORDERED, CANCEL}    
-
-	public class Order{    
-		public orderState state;    
-		public ArrayList<PartType> parts;    
-		public int numberOfKits;  
-		public boolean cancel;
-		
-		public Order(ArrayList<PartType> parts, int numKits){    
-			this.state=orderState.PENDING;    
-			this.parts=parts;    
-			numberOfKits=numKits;
-			cancel=false;
-		}    
-	}    
+	public enum orderState {PENDING, ORDERED, CANCEL};
 	
 	public FCSAgent(String name){
 		super();

@@ -1,7 +1,9 @@
-package Utils;
+package factory;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+
+import Utils.Constants;
 
 public class PartType {
 	private String name = "";

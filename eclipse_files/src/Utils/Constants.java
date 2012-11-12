@@ -5,6 +5,8 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import factory.PartType;
+
 /**
  * Contains all the constants that we need in the project.
  * @author Peter Zhang

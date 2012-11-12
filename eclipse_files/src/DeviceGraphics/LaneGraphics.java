@@ -9,6 +9,8 @@ import agent.data.*;
 
 import java.util.ArrayList;
 
+import factory.PartType;
+
 /**
  * This class contains the graphics logic for a lane.
  * 
