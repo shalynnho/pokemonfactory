@@ -1,12 +1,12 @@
 package agent.interfaces;
 
+import factory.PartType;
 import agent.FeederAgent;
 import agent.data.Bin;
-import agent.data.PartType;
 
 public interface Gantry {
 
-	public abstract void msgHereIsBinConfig(Bin bin);
+	public abstract void msgHereIsBin(Bin bin);
 
 	public abstract void msgINeedParts(PartType type, FeederAgent feeder);
 

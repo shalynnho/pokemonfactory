@@ -6,7 +6,6 @@ import factory.KitConfig;
 
 import agent.data.Kit;
 import agent.data.Part;
-import agent.data.PartType;
 
 
 public interface PartsRobot {

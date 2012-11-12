@@ -280,7 +280,16 @@ public class Server {
 			sendDataToLane(req);
 		} else if (target.contains(Constants.KIT_TARGET)) {
 			sendDataToPartsRobot(req);
+		} else if (target.contains(Constants.ALL_TARGET)) {
+			sendDataToManagers(req);
 		}
+	}
+	
+	private void sendDataToManagers(Request req) {
+		kitRobotMngrWriter.sendData(req);
+		factProdMngrWriter.sendData(req);
+		partsRobotMngrWriter.sendData(req);
+		laneMngrWriter.sendData(req);
 	}
 
 	//Temporarily got rid of all factory managers. 

@@ -2,8 +2,9 @@ package DeviceGraphics;
 
 import java.io.Serializable;
 
+import factory.PartType;
+
 import Utils.Location;
-import agent.data.PartType;
 
 public class PartGraphics implements Serializable {
 	PartType partType;

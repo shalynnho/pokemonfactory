@@ -8,7 +8,7 @@ import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.FeederGraphics;
 import agent.data.Bin;
 import agent.data.Part;
-import agent.data.PartType;
+import factory.PartType;
 import agent.interfaces.Feeder;
 
 /**

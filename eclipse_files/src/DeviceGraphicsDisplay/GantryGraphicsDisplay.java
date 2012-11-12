@@ -16,7 +16,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location currentLocation;
 	Location destinationLocation;
 	
-	ArrayList<BinGraphicsDisplay> initialBins;
+	ArrayList<BinGraphicsDisplay> binList;
 	static int initialBinsXLocation = 500; //TODO find correct number
 	static int initialBinsYLocation = 50; //TODO find correct number
 	
@@ -90,7 +90,10 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 				server.sendData(new Request(Constants.GANTRY_ROBOT_DONE_MOVE, Constants.GANTRY_ROBOT_TARGET, null));
 			}
 		}
-		heldBin.draw(c, g);
+		for (int i = 0; i < binList.size(); i ++) {
+			binList.get(i).draw(c, g);
+		}
+		g.drawImage(Constants.GANTRY_ROBOT, currentLocation.getX(), currentLocation.getY(), c);
 	}
 
 	@Override
@@ -99,12 +102,18 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 			tempBin = (Bin) req.getData();
 			heldBin = new BinGraphicsDisplay(currentLocation, tempBin.part.type);
 			heldBin.setFull(tempBin.binGraphics.getFull());
+			tempBin = null;
 		}
 		else if (req.getCommand() == Constants.GANTRY_ROBOT_MOVE_TO_LOC_COMMAND) {
 			destinationLocation = (Location) req.getData();
 		}
 		else if (req.getCommand() == Constants.GANTRY_ROBOT_DROP_BIN_COMMAND) {
 			heldBin = null;
+		}
+		else if (req.getCommand() == Constants.GANTRY_ROBOT_ADD_NEW_BIN) {
+			tempBin = (Bin) req.getData();
+			binList.add( new BinGraphicsDisplay(tempBin.binGraphics.getInitialLocation(), tempBin.part.type));
+			tempBin = null;
 		}
 	}
 

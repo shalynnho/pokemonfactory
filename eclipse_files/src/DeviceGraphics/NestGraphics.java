@@ -51,7 +51,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		// Begin V0 requirements
 		isFull = true;
 		for (int i = 0; i < 8; i++) {
-			PartGraphics temp = new PartGraphics(PartType.A);
+			PartGraphics temp = new PartGraphics(Constants.DEFAULT_PARTTYPES.get(0));
 
 			if (i < 4) {
 				temp.setLocation(new Location(119 + i * 20, location.getY() + 1));
