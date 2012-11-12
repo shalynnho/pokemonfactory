@@ -20,7 +20,7 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 		GridBagConstraints c = new GridBagConstraints();
 		
 		// TODO: get array of possible kits from Kit Assembly Manager
-		JComboBox<String> kitComboBox = new JComboBox<String>();
+		JComboBox kitComboBox = new JComboBox();
 		// TODO: change this, 
 		kitComboBox.addItem("DEFAULT KIT");
 		c.gridx = 0;
