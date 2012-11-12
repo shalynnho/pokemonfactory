@@ -37,7 +37,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	/**
 	 * constructor
 	 */
-	public FeederGraphicsDisplay(int id, Client cli) {
+	public FeederGraphicsDisplay(Client cli, int id) {
 		// store a reference to the client
 		client = cli;	
 		// diverter initially points to the top lane
@@ -97,6 +97,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			client.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
 		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			receiveBin();
+			// TODO figure out how to interface with gantry
 			haveBin = true;
 			client.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND)) {

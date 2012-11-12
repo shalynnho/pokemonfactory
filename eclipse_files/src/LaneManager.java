@@ -90,7 +90,7 @@ public class LaneManager extends Client implements ActionListener{
 		
 		addDevice(Constants.LANE_TARGET + 0, new LaneGraphicsDisplay(this, new Location(199, 100), 0));
 		addDevice(Constants.LANE_TARGET + 1, new LaneGraphicsDisplay(this, new Location(199, 175), 1));
-		addDevice(Constants.FEEDER_TARGET + 0, new FeederGraphicsDisplay(0, this));
+		addDevice(Constants.FEEDER_TARGET + 0, new FeederGraphicsDisplay(this, 0));
 	}
 	
 	@Override
