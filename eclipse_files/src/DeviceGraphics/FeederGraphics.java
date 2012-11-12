@@ -3,12 +3,9 @@ package DeviceGraphics;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
+import Utils.Location;
 import agent.Agent;
 import agent.FeederAgent;
-import agent.LaneAgent;
-import agent.data.Bin;
-import agent.data.Part;
-import agent.data.PartType;
 
 /**
  * This class handles the logic for the feeder animation.
@@ -32,6 +29,8 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	// a bin
 	private BinGraphics binGraphics;
 	
+	private Location feederLocation;
+	
 	/**
 	 * This is the constructor.
 	 * @param id the unique ID of the feeder (there will be 4 feeders so we need to uniquely identify them)
@@ -41,6 +40,7 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 		id = feederID;
 		server = myServer;
 		feederAgent = (FeederAgent)a;
+		feederLocation = new Location(500, id*2 + 150);
 		
 		// lane1 = (LaneAgent)l1;
 		// lane2 = (LaneAgent)l2;
@@ -74,6 +74,10 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	public void flipDiverter() {
 		diverterTop = !diverterTop;
 		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET + feederID, null));
+	}
+	
+	public Location getLocation() {
+		return feederLocation;
 	}
 
 	/**
