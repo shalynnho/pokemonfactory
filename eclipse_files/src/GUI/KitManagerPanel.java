@@ -18,10 +18,12 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JTable;
 
 public class KitManagerPanel extends JPanel {
 	private JTextField textField;
 	private JComboBox[] cbPart;
+	private JTable tblSched;
 
 	/**
 	 * Create the panel.
@@ -95,6 +97,9 @@ public class KitManagerPanel extends JPanel {
 		JLabel lblSelectParts = new JLabel("Select Parts");
 		panel.add(lblSelectParts, "2, 2");
 		
+		JComboBox cbTest = new JComboBox();
+		panel.add(cbTest, "2, 4, fill, default");
+		
 		cbPart = new JComboBox[8];
 		for (int i = 0; i < 8; i++) {
 			cbPart[i] = new JComboBox();
@@ -134,6 +139,16 @@ public class KitManagerPanel extends JPanel {
 		
 		JPanel schedPanel = new JPanel();
 		tabbedPane.addTab("View Schedule", null, schedPanel, null);
+		schedPanel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_1 = new JPanel();
+		schedPanel.add(panel_1, BorderLayout.NORTH);
+		
+		JButton btnRefresh = new JButton("Refresh");
+		panel_1.add(btnRefresh);
+		
+		tblSched = new JTable();
+		schedPanel.add(tblSched, BorderLayout.CENTER);
 
 	}
 }
