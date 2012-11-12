@@ -147,6 +147,7 @@ public abstract class Constants {
 	public static final String STAND_TARGET = "Stand";
 
 	public static final String SERVER_TARGET = "Server";
+	public static final String FCS_TARGET = "FCS";
 
 	// COMMAND NAMES
 	// ==================================
@@ -277,7 +278,16 @@ public abstract class Constants {
 	// kits. WILL CHANGE
 	public static final String KIT_UPDATE_PARTS_LIST_COMMAND = "updateParts";
 	//end kits
+	
+	// FCS commands
+	public static final String FCS_NEW_PART = "newPart";
+	public static final String FCS_ADD_KIT_TO_QUEUE = "addKit";
+	public static final String FCS_NEW_KIT = "newKit";
 
+	public static final String FCS_STOP_KIT = "stopKit";
+	
+	public static final String FCS_STOP_PRODUCTION = "stopProduction";
+	public static final String FCS_START_PRODUCTION = "startProduction";
 	// CLIENT NAMES
 	// ==================================
 	// Used to identify clients.
