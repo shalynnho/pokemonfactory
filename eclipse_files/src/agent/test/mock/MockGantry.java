@@ -2,7 +2,7 @@ package agent.test.mock;
 
 import agent.FeederAgent;
 import agent.data.Bin;
-import agent.data.PartType;
+import factory.PartType;
 import agent.interfaces.Gantry;
 
 /**
@@ -20,7 +20,7 @@ public class MockGantry extends MockAgent implements Gantry {
 	}
 
 	@Override
-	public void msgHereIsBinConfig(Bin bin) {
+	public void msgHereIsBin(Bin bin) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Recieved msgHereIsBinConfig"));
 	}

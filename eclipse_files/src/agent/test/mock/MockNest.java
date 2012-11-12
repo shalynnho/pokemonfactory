@@ -3,7 +3,7 @@ package agent.test.mock;
 import agent.CameraAgent;
 import agent.LaneAgent;
 import agent.data.Part;
-import agent.data.PartType;
+import factory.PartType;
 import agent.interfaces.Nest;
 import DeviceGraphics.DeviceGraphics;
 

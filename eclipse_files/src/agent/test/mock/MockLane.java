@@ -3,7 +3,7 @@ package agent.test.mock;
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.PartGraphics;
 import agent.data.Part;
-import agent.data.PartType;
+import factory.PartType;
 import agent.interfaces.Lane;
 
 /**

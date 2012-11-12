@@ -134,12 +134,14 @@ public class FCSAgent extends Agent implements FCS {
 	    {    
 	    	gantry.msgHereIsBinConfig(new Bin(o.parts.get(i),i+1));  
 	    }  */
-	    
+	    int k=0;
 	    for(PartType type:o.kitConfig.getConfig().keySet()){ 
 	    	for(int i=0;i<o.kitConfig.getConfig().get(type);i++){
-	    		nests.get(i).msgHereIsPartType(type);    
+	    		nests.get(k).msgHereIsPartType(type);  
+	    		k++;
 	    	}
-	    }       
+	    }     
+	    stateChanged();
 	}    
 	
 	public void cancelOrder(Order o){
@@ -150,6 +152,7 @@ public class FCSAgent extends Agent implements FCS {
 			orders.remove(o);
 		}
 		//fcsGraphics.updateQueue(orders);
+		stateChanged();
 	}
 	
 	public void initializeBins(){
@@ -157,6 +160,7 @@ public class FCSAgent extends Agent implements FCS {
 			gantry.msgHereIsBin(new Bin(Constants.DEFAULT_PARTTYPES.get(i),i));
 		}
 		binsSet=true;
+		stateChanged();
 	}
 	
 	public void addBin(){
@@ -164,6 +168,7 @@ public class FCSAgent extends Agent implements FCS {
 			gantry.msgHereIsBin(new Bin(binsToAdd.get(i),Constants.DEFAULT_PARTTYPES.size()-i));
 			binsToAdd.remove(i);
 		}
+		stateChanged();
 	}
 
 	public void setStand(Stand stand){

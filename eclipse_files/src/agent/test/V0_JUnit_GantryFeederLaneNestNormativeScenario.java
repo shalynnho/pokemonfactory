@@ -11,6 +11,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import factory.PartType;
+
 import DeviceGraphics.PartGraphics;
 import agent.FeederAgent;
 import agent.GantryAgent;
@@ -18,7 +20,6 @@ import agent.LaneAgent;
 import agent.NestAgent;
 import agent.data.Bin;
 import agent.data.Part;
-import agent.data.PartType;
 import agent.test.mock.MockAgent;
 
 
@@ -51,7 +52,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		lane.setNest(nest);
 		nest.setLane(lane);
 
-		nest.msgHereIsPartType(PartType.A);
+		nest.msgHereIsPartType(new PartType("A"));
 		assertEquals("Nest Agent should have 1 requested type", 1,
 				nest.requestList.size());
 		nest.pickAndExecuteAnAction();
@@ -63,9 +64,9 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 		feeder.pickAndExecuteAnAction();
 		assertEquals("Gantry Agent should have 1 requested type", 1,
 				gantry.feeders.size());
-		Part part = new Part(PartType.A);
-		Bin bin = new Bin(part);
-		gantry.msgHereIsBinConfig(bin);
+		Part part = new Part(new PartType("A"));
+		Bin bin = new Bin(part,0);
+		gantry.msgHereIsBin(bin);
 		assertEquals("Gantry Agent should have 1 bin", 1, gantry.binList.size());
 		gantry.animation.release();
 		gantry.pickAndExecuteAnAction();
@@ -98,7 +99,7 @@ public class V0_JUnit_GantryFeederLaneNestNormativeScenario extends TestCase {
 				lane.currentParts.size());
 		Part part2=lane.currentParts.get(0).part;
 		//lane.animation.release();
-		lane.msgReceivePartDone(new PartGraphics(PartType.A));
+		lane.msgReceivePartDone(new PartGraphics(new PartType("A")));
 		lane.pickAndExecuteAnAction();
 		assertEquals("Nest Agent should have 1 currentPart", 1,
 				nest.currentParts.size());

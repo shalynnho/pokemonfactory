@@ -2,9 +2,10 @@ package agent.test.mock;
 
 import java.util.List;
 
+import factory.KitConfig;
+import factory.PartType;
 import agent.data.Kit;
 import agent.data.Part;
-import agent.data.PartType;
 import agent.interfaces.Nest;
 import agent.interfaces.PartsRobot;
 
@@ -24,7 +25,7 @@ public class MockPartsRobot extends MockAgent implements PartsRobot {
 	}
 
 	@Override
-	public void msgHereIsKitConfiguration(List<PartType> config) {
+	public void msgHereIsKitConfiguration(KitConfig config) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Recieved msgHereIsKitConfiguration"));
 	}
