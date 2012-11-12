@@ -2,15 +2,13 @@ package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Toolkit;
 
 import javax.swing.JComponent;
-
-import agent.data.PartType;
 
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import factory.PartType;
 
 public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location partLocation;

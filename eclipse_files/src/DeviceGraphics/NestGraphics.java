@@ -9,7 +9,6 @@ import Utils.Constants;
 import Utils.Location;
 import agent.Agent;
 import agent.NestAgent;
-import agent.data.PartType;
 
 /**
  * This class represents the graphics logic for a nest.

@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 
 import Networking.Request;
 import Utils.Location;
+import factory.PartType;
 
 public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 	

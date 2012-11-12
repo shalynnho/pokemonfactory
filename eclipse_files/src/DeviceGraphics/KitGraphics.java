@@ -6,7 +6,7 @@ import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
-import agent.data.PartType;
+import factory.PartType;
 
 
 public class KitGraphics implements DeviceGraphics {
