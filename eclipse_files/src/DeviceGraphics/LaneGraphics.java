@@ -144,23 +144,23 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	public void receiveData(Request r) {
 		String cmd = r.getCommand();	
 		
-		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {	// testing purposes only, remove later
-			receivePart(new PartGraphics(PartType.A));
-			
-		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND+Constants.DONE_SUFFIX)) {
+//		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {	// testing purposes only, remove later
+//			receivePart(new PartGraphics(PartType.A));	
+//		}
+//		else 
+		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND+Constants.DONE_SUFFIX)) {
 			PartGraphics p = partsOnLane.get(partsOnLane.size()-1);
 			p.setLocation(new Location(LANE_END_X, endY));
 			laneAgent.msgReceivePartDone(p);
-			
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
 			laneAgent.msgGivePartToNestDone(partsOnLane.get(0));
 			partsOnLane.remove(0);
 		}
-		else if (cmd.equals("TESTING_LANE")) {
-			System.out.println("Got TESTING_LANE request");
-			initializeV0Lane();
-		}
+//		else if (cmd.equals("TESTING_LANE")) {
+//			System.out.println("Got TESTING_LANE request");
+//			initializeV0Lane();
+//		}
 	}
 
 	/**
@@ -234,17 +234,17 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	}
 
 	
-	//GET RID OF FOR V1
-	public void initializeV0Lane() {
-		//feederAgent.thisLaneAgent(laneAgent);
-		laneAgent.msgINeedPart(PartType.A);
-		laneAgent.msgINeedPart(PartType.A);
-		laneAgent.msgINeedPart(PartType.A);
-		laneAgent.msgINeedPart(PartType.A);
-		laneAgent.msgINeedPart(PartType.A);
-		laneAgent.msgINeedPart(PartType.A);
-		
-	}
+//	//GET RID OF FOR V1
+//	public void initializeV0Lane() {
+//		//feederAgent.thisLaneAgent(laneAgent);
+//		laneAgent.msgINeedPart(new PartType("A"));
+//		laneAgent.msgINeedPart(PartType.A);
+//		laneAgent.msgINeedPart(PartType.A);
+//		laneAgent.msgINeedPart(PartType.A);
+//		laneAgent.msgINeedPart(PartType.A);
+//		laneAgent.msgINeedPart(PartType.A);
+//		
+//	}
 	
 	
 }
