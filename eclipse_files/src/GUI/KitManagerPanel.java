@@ -21,6 +21,7 @@ import javax.swing.SpinnerNumberModel;
 
 public class KitManagerPanel extends JPanel {
 	private JTextField textField;
+	private JComboBox[] cbPart;
 
 	/**
 	 * Create the panel.
@@ -87,16 +88,18 @@ public class KitManagerPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblSelectParts = new JLabel("Select Parts");
 		panel.add(lblSelectParts, "2, 2");
 		
-		JComboBox cbPart1 = new JComboBox();
-		panel.add(cbPart1, "2, 4, left, default");
-		
-		JComboBox cbPart2 = new JComboBox();
-		panel.add(cbPart2, "2, 6, left, default");
+		cbPart = new JComboBox[8];
+		for (int i = 0; i < 8; i++) {
+			cbPart[i] = new JComboBox();
+			panel.add(cbPart[i], "2, " + (4+(2*i)) + ", fill, default");
+		}
 		
 		JPanel pnlButtons = new JPanel();
 		managerPanel.add(pnlButtons, BorderLayout.SOUTH);
