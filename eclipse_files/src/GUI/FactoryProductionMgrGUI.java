@@ -25,7 +25,7 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 		kitComboBox.addItem("DEFAULT KIT");
 		c.gridx = 0;
 		c.gridy = 0;
-		//c.ipady = 20;
+		Insets insets = new Insets(10,0,0,0);
 		c.anchor = GridBagConstraints.PAGE_START;
 		add(kitComboBox, c);
 		
