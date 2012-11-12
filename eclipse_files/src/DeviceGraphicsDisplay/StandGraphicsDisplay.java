@@ -18,21 +18,27 @@ import factory.PartType;
  */
 public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 
+	// TODO: create this manager then uncomment
+//	protected KitAssemblyManager kitManager;
+	protected int standID;
+	
 	// the kit that is currently on the stand
-	private KitGraphicsDisplay kit;
+	protected KitGraphicsDisplay kit;
 	// the location of this stand
-	private Location location;
+	protected Location location;
 	// false if there is a kit on the stand
-	private boolean isEmpty;
+	protected boolean isEmpty;
 	// the configuration of the current kit on the stand
-	private KitConfig kitConfig;
+	protected KitConfig kitConfig;
 	
 	/**
 	 * 
 	 * @param km - the kit manager
 	 * @param id - stand ID - 0,1: kit stands; 2: inspection stand
 	 */
-	private StandGraphicsDisplay(Client km, int id) {
+	public StandGraphicsDisplay(Client km, int id) {
+//		kitManager = (KitAssemblyManager) km;	// TODO: add back
+		standID = id;
 		isEmpty = true;
 		kit = new KitGraphicsDisplay();
 		// TODO: set location of kit based on standID

@@ -9,20 +9,20 @@ import agent.Agent;
 import agent.StandAgent;
 
 /**
- * Represents the stand for the two kitting stands and the inspection stand.
+ * Represents the stand for the two kitting stands and the parent class for the inspection stand.
  * 
  * @author Shalynn Ho, Matt Zecchini
  */
 public class StandGraphics implements DeviceGraphics {
 	
-	private Server server;
-	private StandAgent standAgent;
-	private int standID;
+	protected Server server;
+	protected StandAgent standAgent;
+	protected int standID;
 	
 	// the kit on this stand
-	private KitGraphics kit;
+	protected KitGraphics kit;
 	// false if there is a kit on the stand
-	private boolean isEmpty;
+	protected boolean isEmpty;
 	
 	/**
 	 * 
