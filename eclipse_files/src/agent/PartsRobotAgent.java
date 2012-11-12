@@ -169,14 +169,17 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 								// either kit
 								if (mk.kit.needPart(part)) 
 								{
-									print("Found a part I need");
-									for (Arm arm : Arms) 
-									{
-										if (arm.AS == ArmStatus.Empty) 
+									if(KitConfig.contains(part.type))
+									{																		
+										print("Found a part I need");
+										for (Arm arm : Arms) 
 										{
-											// Find the empty arm
-											PickUpPart(arm, part, nest);
-											return true;
+											if (arm.AS == ArmStatus.Empty) 
+											{
+												// Find the empty arm
+												PickUpPart(arm, part, nest);
+												return true;
+											}
 										}
 									}
 								}
@@ -205,7 +208,11 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private void PickUpPart(Arm arm, Part part, Nest nest) {
 
 		print("Picking up part");
-		GoodParts.remove(nest);
+		//GoodParts.remove(nest);
+		/*for(PartType p: KitConfig)
+		{
+			
+		}*/
 		arm.AS = ArmStatus.Full;
 		arm.part = part;
 
