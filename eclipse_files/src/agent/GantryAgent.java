@@ -105,6 +105,13 @@ public class GantryAgent extends Agent implements Gantry {
 	//SCHEDULER
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		for(Bin bin:binList) {
+			if(bin.binState==BinStatus.PENDING){
+				addBinToGraphics(bin);
+				return true;
+			}
+		}
+		
 		// TODO Auto-generated method stub
 		for (MyFeeder currentFeeder : feeders) {
 			for (Bin bin : binList) {
@@ -199,6 +206,12 @@ public class GantryAgent extends Agent implements Gantry {
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
 
+	}
+	
+	public void addBinToGraphics(Bin bin){
+		//GUIGantry.hereIsNewBin(bin);
+		bin.binState=BinStatus.FULL;
+		stateChanged();
 	}
 
 }
