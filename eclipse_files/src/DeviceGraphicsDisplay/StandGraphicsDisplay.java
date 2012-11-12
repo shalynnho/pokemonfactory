@@ -4,55 +4,89 @@ import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
 
+import Networking.Client;
 import Networking.Request;
+import Utils.Constants;
 import Utils.Location;
+import factory.KitConfig;
 import factory.PartType;
 
 /**
- * 
+ * Graphics side of the kitting stand, and parent class to inspecton stand
  * @author Shalynn Ho
  *
  */
 public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
-	
+
 	// the kit that is currently on the stand
 	private KitGraphicsDisplay kit;
+	// the location of this stand
+	private Location location;
+	// false if there is a kit on the stand
 	private boolean isEmpty;
+	// the configuration of the current kit on the stand
+	private KitConfig kitConfig;
 	
-	
-	private StandGraphicsDisplay() {
+	/**
+	 * 
+	 * @param km - the kit manager
+	 * @param id - stand ID - 0,1: kit stands; 2: inspection stand
+	 */
+	private StandGraphicsDisplay(Client km, int id) {
 		isEmpty = true;
+		kit = new KitGraphicsDisplay();
+		// TODO: set location of kit based on standID
+		// location = Constants.		
 	}
 	
-	public void giveKit(KitGraphicsDisplay kgd) {
-		
-	}
-	
-	public void receiveKit() {
-		
-	}
-	
-	public void receivePart() {
-		
-	}
-
-
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		// TODO Auto-generated method stub
-		
+		if (!isEmpty) {
+			kit.draw(c,g);
+		}	
 	}
 
-	@Override
-	public void receiveData(Request req) {
-		// TODO Auto-generated method stub
+	public void giveKit() {
+		isEmpty = true;
+		kitConfig = null;
+	}
+	
+	public void receiveKit(KitConfig config) {
+		isEmpty = false;
+		kitConfig = config;
+	}
+	
+	public void receivePart(PartGraphicsDisplay pgd) {
+		kit.receivePart(pgd);
+	}
+
+
+	/**
+	 * Receives and sorts messages/data from the server
+	 * 
+	 * @param r - the request to be parsed
+	 */
+	public void receiveData(Request r) {
+		String cmd = r.getCommand();
+		
+		if (cmd.equals(Constants.STAND_GIVE_KIT_COMMAND)) {
+			giveKit();
+			
+		} else if (cmd.equals(Constants.STAND_RECEIVE_KIT_COMMAND)) {
+			KitConfig config = (KitConfig) r.getData();
+			receiveKit(config);
+			
+		} else if (cmd.equals(Constants.STAND_RECEIVE_PART_COMMAND)) {
+			PartType type = (PartType) r.getData();
+			receivePart(new PartGraphicsDisplay(type));
+		}
+		
 		
 	}
 
 	@Override
 	public void setLocation(Location newLocation) {
-		// TODO Auto-generated method stub
-		
+		location = newLocation;
 	}
 	
 	/**
