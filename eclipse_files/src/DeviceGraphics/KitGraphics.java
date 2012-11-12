@@ -63,6 +63,10 @@ public class KitGraphics implements DeviceGraphics {
 		return kitLocation;
 	}
 	
+	public KitConfig getKitConfig() {
+		return kitConfig;
+	}
+	
 	//If true, set isFull boolean to true
 	public void setFull (Boolean full) {
 		isFull = full;
