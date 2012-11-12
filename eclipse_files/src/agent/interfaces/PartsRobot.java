@@ -2,6 +2,8 @@ package agent.interfaces;
 
 import java.util.List;
 
+import factory.KitConfig;
+
 import agent.data.Kit;
 import agent.data.Part;
 import agent.data.PartType;
@@ -9,7 +11,7 @@ import agent.data.PartType;
 
 public interface PartsRobot {
 
-	public abstract void msgHereIsKitConfiguration(List<PartType> config);
+	public abstract void msgHereIsKitConfiguration(KitConfig config);
 
 	public abstract void msgHereAreGoodParts(Nest n, List<Part> goodparts);
 

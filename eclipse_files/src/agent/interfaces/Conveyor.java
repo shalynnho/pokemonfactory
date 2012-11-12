@@ -2,6 +2,8 @@ package agent.interfaces;
 
 import java.util.ArrayList;
 
+import factory.KitConfig;
+
 import agent.data.Kit;
 import agent.data.PartType;
 
@@ -24,7 +26,7 @@ public interface Conveyor {
 	 * Conveyor is sent this by the FCS and it is used to set the configuration for new kits
 	 * @param config the configuration for new kits
 	 */
-	public abstract void msgHereIsKitConfiguration(ArrayList<PartType> config);
+	public abstract void msgHereIsKitConfiguration(KitConfig config);
 
 	/**
 	 * GUI Conveyor sends this when the Empty Kit to initial position animation
