@@ -22,15 +22,15 @@ public class StandGraphics implements DeviceGraphics{
 		
 	}
 	
-	public void receivePartFromPR(PartGraphics part){
+	public void receivePart(PartGraphics part){
 		//Part Robot places part on kit/kitting stand, this method passes this part 
 	}
 	
-	public void receiveKitFromKR(KitGraphics kg){
+	public void receiveKit(KitGraphics kg){
 		
 	}
 	
-	public KitGraphics giveKitToKR(KitGraphics kg){
+	public KitGraphics giveKit(KitGraphics kg){
 		//once kit is full, use this function to give it to the Kit Robot 
 		return kg;
 	}
