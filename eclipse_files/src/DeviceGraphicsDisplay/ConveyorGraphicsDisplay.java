@@ -24,6 +24,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	ArrayList<KitGraphicsDisplay> kitsToLeave;
 	int velocity;
 	Client client;
+	boolean pickMe;
 
 	public ConveyorGraphicsDisplay(Client cli) {
 		locationIn = Constants.CONVEYOR_LOC; // location for input lane
@@ -54,6 +55,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		velocity = 5;
 		kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
 		kitsToLeave = new ArrayList<KitGraphicsDisplay>();
+		pickMe = true;
 	}
 
 	@Override
@@ -69,8 +71,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void giveKitAway() {
+		System.out.println("Give it away");
 		kitsOnConveyor.remove(0);
 		velocity = 5;
+		pickMe = true;
 	}
 
 	public void sendOut() {
@@ -78,7 +82,9 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void newExitKit() {
-		kitsToLeave.add(new KitGraphicsDisplay(client));
+		KitGraphicsDisplay temp = new KitGraphicsDisplay(client);
+		temp.setLocation(new Location(0,400));
+		kitsToLeave.add(temp);
 	}
 
 	public void animationDone(Request r) {
@@ -119,10 +125,20 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				Location temp = tempKit.getLocation();
 				tempKit.setLocation(new Location(temp.getX(), temp.getY()
 						+ velocity));
+				if (pickMe == true) {
 				animationDone(new Request(
 						Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 								+ Constants.DONE_SUFFIX,
 						Constants.CONVEYOR_TARGET, null));
+				
+				//second test message
+				animationDone(new Request(
+						Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
+								+ Constants.DONE_SUFFIX,
+						Constants.CONVEYOR_TARGET, null));
+				
+				pickMe = false;
+				}
 			}
 		}
 
