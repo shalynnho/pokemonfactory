@@ -19,6 +19,11 @@ import javax.swing.SpinnerNumberModel;
 import factory.KitConfig;
 import factory.Order;
 
+/**
+*
+*Authorship: Shalynn Ho, Harry Trieu and Matt Zecchini
+*/
+
 public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListener {
 	private static final int PANEL_WIDTH = 300;
 	//private final Server server;
