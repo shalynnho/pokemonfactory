@@ -9,6 +9,7 @@ public class BinGraphics implements DeviceGraphics  {
 	private PartGraphics part; // Type of part found in bin
 	//private int partNumber; // Number of parts in bin
 	private Location binLocation;
+	private Location initialLocation;
 	private boolean isFull;
 	private Bin bin;
 	private int binNum;
@@ -25,6 +26,7 @@ public class BinGraphics implements DeviceGraphics  {
 		isFull = true;
 		bin = b;
 		binNum = i;
+		initialLocation = new Location(600, 50 + binNum*50);
 	}
 	
 	/**
@@ -70,12 +72,20 @@ public class BinGraphics implements DeviceGraphics  {
 		isFull = f;
 	}
 	
+	public boolean getFull() {
+		return isFull;
+	}
+	
 	public Bin getBin() {
 		return bin;
 	}
 
 	public Location getLocation() {
 		return binLocation;
+	}
+	
+	public Location getInitialLocation() {
+		return initialLocation;
 	}
 	
 	@Override
