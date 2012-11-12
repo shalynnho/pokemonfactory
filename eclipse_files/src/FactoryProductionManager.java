@@ -46,7 +46,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 * Initialize the GUI and start the timer.
 	 */
 	public void initGUI() {
-		OverlayPanel op = new OverlayPanel();
 		FactoryProductionMgrGUI fpmGUI = new FactoryProductionMgrGUI(WINDOW_HEIGHT);
 		
 		

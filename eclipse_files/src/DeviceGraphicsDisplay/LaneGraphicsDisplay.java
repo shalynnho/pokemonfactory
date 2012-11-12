@@ -186,8 +186,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					}
 					vibrateParts(moveCounter, loc);
 					pgd.setLocation(loc);
-					pgd.draw(c, g); // TODO: remove later, for v0 only
-									// main manager should call draw for all components
+					pgd.draw(c, g);
 				}
 			}
 		} else { // lane is off
