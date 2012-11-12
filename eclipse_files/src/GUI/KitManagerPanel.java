@@ -41,21 +41,8 @@ public class KitManagerPanel extends JPanel {
 		JComboBox cbKits = new JComboBox();
 		pnlKitChooser.add(cbKits);
 		
-		JButton btnAddKitType = new JButton("New Kit Type");
-		pnlKitChooser.add(btnAddKitType);
-		
-		JPanel pnlButtons = new JPanel();
-		managerPanel.add(pnlButtons, BorderLayout.SOUTH);
-		pnlButtons.setLayout(new CardLayout(0, 0));
-		
-		JPanel pnlView = new JPanel();
-		pnlButtons.add(pnlView, "name_23894555808367");
-		
-		JPanel pnlEdit = new JPanel();
-		pnlButtons.add(pnlEdit, "name_23910758672140");
-		
-		JPanel pnlAdd = new JPanel();
-		pnlButtons.add(pnlAdd, "name_23920408713375");
+		JButton btnAddKit = new JButton("New Kit Arrangement");
+		pnlKitChooser.add(btnAddKit);
 		
 		JSplitPane splitPane = new JSplitPane();
 		managerPanel.add(splitPane, BorderLayout.CENTER);
@@ -109,7 +96,38 @@ public class KitManagerPanel extends JPanel {
 		panel.add(cbPart1, "2, 4, left, default");
 		
 		JComboBox cbPart2 = new JComboBox();
-		panel.add(cbPart2, "2, 6, fill, default");
+		panel.add(cbPart2, "2, 6, left, default");
+		
+		JPanel pnlButtons = new JPanel();
+		managerPanel.add(pnlButtons, BorderLayout.SOUTH);
+		pnlButtons.setLayout(new CardLayout(0, 0));
+		
+		JPanel pnlView = new JPanel();
+		pnlButtons.add(pnlView, "name_23894555808367");
+		
+		JButton btnEditKit = new JButton("Edit Kit Arrangement");
+		pnlView.add(btnEditKit);
+		
+		JButton btnDeleteKit = new JButton("Delete Kit Arrangement");
+		pnlView.add(btnDeleteKit);
+		
+		JPanel pnlEdit = new JPanel();
+		pnlButtons.add(pnlEdit, "name_23910758672140");
+		
+		JButton btnSaveChg = new JButton("Save Changes");
+		pnlEdit.add(btnSaveChg);
+		
+		JButton btnCnclChg = new JButton("Cancel Changes");
+		pnlEdit.add(btnCnclChg);
+		
+		JPanel pnlAdd = new JPanel();
+		pnlButtons.add(pnlAdd, "name_23920408713375");
+		
+		JButton btnCreateKit = new JButton("Create Kit Arrangement");
+		pnlAdd.add(btnCreateKit);
+		
+		JButton btnClrFields = new JButton("Clear Fields");
+		pnlAdd.add(btnClrFields);
 		
 		JPanel schedPanel = new JPanel();
 		tabbedPane.addTab("View Schedule", null, schedPanel, null);
