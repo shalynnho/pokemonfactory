@@ -16,25 +16,34 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JSplitPane;
+import javax.swing.JOptionPane;
+import javax.swing.JFileChooser;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.io.File;
 
 public class PartsManagerPanel extends JPanel {
-	private JButton btnClearFields;
 	private JPanel pnlButtons;
 	private JPanel pnlView;
 	private JPanel pnlEdit;
 	private JPanel pnlAdd;
-	private JPanel pnlDelete;
 	private JTextField tfImgPath;
 	private JTextField tfSndPath;
 	private JTextField tfName;
-
+	private JComboBox cbPart;
+	private String[] backupFields; // used for temporarily storing old field data in case a user wants to revert
+	private final JFileChooser fc;
+	private JButton btnBrowseImg;
+	private JButton btnBrowseSnd;
+	
 	/**
 	 * Create the panel.
 	 */
 	public PartsManagerPanel() {
 		setLayout(new GridLayout(1, 1));
+		fc = new JFileChooser();
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setSelectedIndex(0);
@@ -46,13 +55,19 @@ public class PartsManagerPanel extends JPanel {
 		JPanel pnlPartChooser = new JPanel();
 		viewPanel.add(pnlPartChooser, BorderLayout.NORTH);
 		
-		JComboBox cbPart = new JComboBox();
+		cbPart = new JComboBox();
+		cbPart.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent ie) {
+				viewPart((String) ie.getItem());
+			}
+		});
 		pnlPartChooser.add(cbPart);
 		
 		JButton btnNewPart = new JButton("New Part");
 		btnNewPart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showAddPanel();
+				// change combo box to "Select Part..."
 			}
 		});
 		pnlPartChooser.add(btnNewPart);
@@ -82,7 +97,8 @@ public class PartsManagerPanel extends JPanel {
 		
 		JButton btnPlay = new JButton("Play");
 		btnPlay.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent ae) {
+				// play sound file
 			}
 		});
 		pnlSound.add(btnPlay);
@@ -118,7 +134,12 @@ public class PartsManagerPanel extends JPanel {
 		pnlForm.add(tfImgPath, "4, 4, fill, default");
 		tfImgPath.setColumns(10);
 		
-		JButton btnBrowseImg = new JButton("Browse...");
+		btnBrowseImg = new JButton("Browse...");
+		btnBrowseImg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				browse("image");
+			}
+		});
 		pnlForm.add(btnBrowseImg, "6, 4");
 		
 		JLabel lblSoundPath = new JLabel("Sound Path:");
@@ -128,7 +149,12 @@ public class PartsManagerPanel extends JPanel {
 		pnlForm.add(tfSndPath, "4, 6, fill, default");
 		tfSndPath.setColumns(10);
 		
-		JButton btnBrowseSnd = new JButton("Browse...");
+		btnBrowseSnd = new JButton("Browse...");
+		btnBrowseSnd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				browse("sound");
+			}
+		});
 		pnlForm.add(btnBrowseSnd, "6, 6");
 		
 		pnlButtons = new JPanel();
@@ -139,36 +165,59 @@ public class PartsManagerPanel extends JPanel {
 		pnlButtons.add(pnlView, "View Part Type");
 		
 		JButton btnEditPartType = new JButton("Edit Part Type");
+		btnEditPartType.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editPart((String) cbPart.getSelectedItem());
+			}
+		});
 		pnlView.add(btnEditPartType);
+		
+		JButton btnDeletePartType = new JButton("Delete Part Type");
+		btnDeletePartType.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deletePart((String) cbPart.getSelectedItem());
+			}
+		});
+		pnlView.add(btnDeletePartType);
 		
 		pnlEdit = new JPanel();
 		pnlButtons.add(pnlEdit, "Edit Part Type");
 		
 		JButton btnSaveChanges = new JButton("Save Changes");
+		btnSaveChanges.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				savePartEdit((String) cbPart.getSelectedItem());
+			}
+		});
 		pnlEdit.add(btnSaveChanges);
 		
 		JButton btnCnclChanges = new JButton("Cancel Changes");
+		btnCnclChanges.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cancelEdit();
+				viewPart((String) cbPart.getSelectedItem());
+			}
+		});
 		pnlEdit.add(btnCnclChanges);
 		
 		pnlAdd = new JPanel();
 		pnlButtons.add(pnlAdd, "Add Part Type");
 		
 		JButton btnCreatePartType = new JButton("Create Part Type");
+		btnCreatePartType.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createPart();
+			}
+		});
 		pnlAdd.add(btnCreatePartType);
 		
-		JButton btnClearFields_1 = new JButton("Clear Fields");
-		btnClearFields_1.addActionListener(new ActionListener() {
+		JButton btnClearFields = new JButton("Clear Fields");
+		btnClearFields.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				clearFields();
 			}
 		});
-		pnlAdd.add(btnClearFields_1);
-		
-		pnlDelete = new JPanel();
-		pnlButtons.add(pnlDelete, "Delete Part Type");
-		
-		JButton btnDeletePartType = new JButton("Delete Part Type");
-		pnlDelete.add(btnDeletePartType);
+		pnlAdd.add(btnClearFields);
 	}
 	
 	protected void showAddPanel() {
@@ -178,6 +227,61 @@ public class PartsManagerPanel extends JPanel {
         enableFields();
 	}
 	
+	protected void viewPart(String part) {
+		CardLayout cl = (CardLayout)(pnlButtons.getLayout());
+        cl.show(pnlButtons, "View Part Type");
+        disableFields();
+        // Show the part type items in form elements
+	}
+	
+	protected void editPart(String part) {
+		CardLayout cl = (CardLayout)(pnlButtons.getLayout());
+        cl.show(pnlButtons, "Edit Part Type");
+        // "back-up" the original values in case a user decides to cancel changes
+        backupFields[0] = tfName.getText();
+        backupFields[1] = tfImgPath.getText();
+        backupFields[2] = tfSndPath.getText();
+        enableFields();        
+	}
+	
+	protected void cancelEdit() {
+		if (backupFields[0] != null) tfName.setText(backupFields[0]);
+		if (backupFields[1] != null) tfImgPath.setText(backupFields[1]);
+		if (backupFields[2] != null) tfSndPath.setText(backupFields[2]);
+	}
+	
+	protected void createPart() {
+		String partName = tfName.getText();
+		// creates the part
+		viewPart(partName);		
+	}
+	
+	protected void deletePart(String part) {
+        int choice = JOptionPane.showConfirmDialog(null,
+        		"Are you sure you want to delete this part type?\nNote: the action cannot be undone.",
+                "Delete Part",
+                JOptionPane.YES_NO_OPTION);
+        if (choice == 0) ; // delete part
+        // remove the part option from cbPart
+        // view the next item in the list, or no item if there are no items in the list
+	}
+	
+	protected void browse(String type) {
+		if (type.equals("image")) {
+			int choice = fc.showOpenDialog(btnBrowseImg);
+	        if (choice == JFileChooser.APPROVE_OPTION) {
+	        	File file = fc.getSelectedFile();
+	        	tfImgPath.setText(file.getCanonicalPath());
+	        }
+		} else if (type.equals("sound")) { 
+			int choice = fc.showOpenDialog(btnBrowseSnd);
+			if (choice == JFileChooser.APPROVE_OPTION) {
+	        	File file = fc.getSelectedFile();
+	        	tfSndPath.setText(file.getCanonicalPath());
+	        }
+		}
+	}
+	
 	protected void clearFields() {
 		tfName.setText("");
 		tfImgPath.setText("");
@@ -185,14 +289,17 @@ public class PartsManagerPanel extends JPanel {
 	}
 	
 	protected void toggleFields() {
-		tfName.isEnabled() ? tfName.setEnabled(false) : tfName.setEnabled(true);
-		tfImgPath.isEnabled() ? tfImgPath.setEnabled(false) : tfImgPath.setEnabled(true);
-		tfSndPath.isEnabled() ? tfSndPath.setEnabled(false) : tfSndPath.setEnabled(true);
+		if (tfName.isEnabled()) tfName.setEnabled(false);
+		else tfName.setEnabled(true);
+		if (tfImgPath.isEnabled()) tfImgPath.setEnabled(false);
+		else tfImgPath.setEnabled(true);
+		if (tfSndPath.isEnabled()) tfSndPath.setEnabled(false);
+		else tfSndPath.setEnabled(true);
 	}
 	protected void enableFields() {
-		tfName.isEnabled() ? : toggleFields();
+		if (tfName.isEnabled()) toggleFields();
 	}
-	protected void desableFIelds() {
-		tfName.isEnabled() ? toggleFields();
+	protected void disableFields() {
+		if (!tfName.isEnabled()) toggleFields();
 	}
 }
