@@ -2,17 +2,15 @@ package DeviceGraphicsDisplay;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import agent.data.PartType;
-
-
-import Networking.*;
+import Networking.Client;
+import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import factory.PartType;
 
 public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
