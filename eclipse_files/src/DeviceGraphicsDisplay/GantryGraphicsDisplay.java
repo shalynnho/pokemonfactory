@@ -9,6 +9,7 @@ import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
+import agent.data.Bin;
 
 public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	
@@ -20,6 +21,8 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	static int initialBinsYLocation = 50; //TODO find correct number
 	
 	BinGraphicsDisplay heldBin;
+	
+	Bin tempBin;
 	
 	Server server;
 
@@ -35,19 +38,40 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		if(currentLocation.getY() < destinationLocation.getY()) {
-			currentLocation.incrementY(5);
-			if (heldBin != null) {
-				heldBin.setLocation(currentLocation);
+		
+		// If robot is at incorrect Y location, first move bot to inital X location
+		if (currentLocation.getY() != destinationLocation.getY()) {
+			if(currentLocation.getX() < Constants.GANTRY_ROBOT_LOC.getX()) {
+				currentLocation.incrementX(5);
+				if (heldBin != null) {
+					heldBin.setLocation(currentLocation);
+				}
 			}
-		}
-		if(currentLocation.getY() > destinationLocation.getY()) {
-			currentLocation.incrementY(-5);
-			if (heldBin != null) {
-				heldBin.setLocation(currentLocation);
+			else if(currentLocation.getX() > Constants.GANTRY_ROBOT_LOC.getX()) {
+				currentLocation.incrementX(-5);
+				if (heldBin != null) {
+					heldBin.setLocation(currentLocation);
+				}
 			}
 		}
 		
+		//If robot is in initial X, move to correct Y
+		if(currentLocation.getX() == Constants.GANTRY_ROBOT_LOC.getX()) {
+			if(currentLocation.getY() < destinationLocation.getY()) {
+				currentLocation.incrementY(5);
+				if (heldBin != null) {
+					heldBin.setLocation(currentLocation);
+				}
+			}
+			if(currentLocation.getY() > destinationLocation.getY()) {
+				currentLocation.incrementY(-5);
+				if (heldBin != null) {
+					heldBin.setLocation(currentLocation);
+				}
+			}
+		}
+		
+		//If robot is at correct Y, move to correct X
 		if (currentLocation.getY() == destinationLocation.getY()) {
 			if(currentLocation.getX() < destinationLocation.getX()) {
 				currentLocation.incrementX(5);
@@ -72,13 +96,15 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void receiveData(Request req) {
 		if (req.getCommand() == Constants.GANTRY_ROBOT_GET_BIN_COMMAND) {
-			// FIGURE OUT HOW TO DO THIS PART
+			tempBin = (Bin) req.getData();
+			heldBin = new BinGraphicsDisplay(currentLocation, tempBin.part.type);
+			heldBin.setFull(tempBin.binGraphics.getFull());
 		}
 		else if (req.getCommand() == Constants.GANTRY_ROBOT_MOVE_TO_LOC_COMMAND) {
 			destinationLocation = (Location) req.getData();
 		}
 		else if (req.getCommand() == Constants.GANTRY_ROBOT_DROP_BIN_COMMAND) {
-			// FIGURE OUT HOW TO DO THIS PART
+			heldBin = null;
 		}
 	}
 
