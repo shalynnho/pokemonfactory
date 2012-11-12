@@ -2,6 +2,7 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
+import GraphicsInterfaces.FeederGraphics;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
@@ -11,11 +12,11 @@ import agent.FeederAgent;
 import agent.GantryAgent;
 import agent.data.Bin;
 
-public class GantryGraphics implements DeviceGraphics {
+public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.GantryGraphics  {
 	
 	Bin heldBin; // Bin that gantry is carrying
 	private Server server;
-	ArrayList<BinGraphics> initialBins;
+	ArrayList<BinGraphics> binList;
 	
 	boolean removeState = false;
 	boolean removeState2 = false;
@@ -97,5 +98,11 @@ public class GantryGraphics implements DeviceGraphics {
 			}
 		}
 	}
+
+	public void hereIsNewBin(Bin bin) {
+		binList.add(bin.binGraphics);
+		server.sendData(new Request(Constants.GANTRY_ROBOT_ADD_NEW_BIN, Constants.GANTRY_ROBOT_TARGET, bin));
+	}
+
 
 }
