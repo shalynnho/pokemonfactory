@@ -2,16 +2,19 @@ package agent.interfaces;
 
 import java.util.ArrayList;
 
-import agent.data.PartType;
+import factory.Order;
+import factory.PartType;
 
 public interface FCS {
 
-	public abstract void msgAddKitsToQueue(ArrayList<PartType> parts,int numOfKits);
+	public abstract void msgAddKitsToQueue(Order o);
 	
-	public abstract void msgStopMakingKit(ArrayList<PartType> parts);
+	public abstract void msgStopMakingKit(Order o);
 	
 	public abstract void msgStartProduction();
 	
-	public abstract void msgOrderFinished();
+	public abstract void msgAddNewPartType(PartType part);
+	
+	public abstract void msgOrderFinished(); //Agents message
 	
 }
