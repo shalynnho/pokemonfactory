@@ -157,6 +157,12 @@ public abstract class Constants {
 	public static final String DONE_SUFFIX = "done";
 	// for servers to identify managers
 	public static final String IDENTIFY_COMMAND = "identify"; 
+	
+	// Manager Commands
+	// Send a just created kit config to the FPM so that it can be displayed in the JComboBox
+	public static final String SEND_KITCONFIG_TO_FPM = "sendkctofpm";
+	
+	// End Manager Commands
 
 	// feeder logic to display commands
 	// flip the diverter
