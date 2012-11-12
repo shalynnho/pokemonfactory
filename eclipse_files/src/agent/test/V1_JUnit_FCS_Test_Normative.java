@@ -1,21 +1,31 @@
 package agent.test;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import agent.FCSAgent;
-import agent.data.PartType;
-import agent.test.mock.*;
-import junit.framework.TestCase;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import agent.FCSAgent;
+import agent.data.PartType;
+import agent.test.mock.MockAgent;
+import agent.test.mock.MockConveyor;
+import agent.test.mock.MockGantry;
+import agent.test.mock.MockNest;
+import agent.test.mock.MockPartsRobot;
+import agent.test.mock.MockStand;
+
+/**
+ * This tests the FCSAgent, which acts as the go-between for the frontend and
+ * backend.
+ * @author Michael Gendotti
+ */
 public class V1_JUnit_FCS_Test_Normative extends TestCase {
 	protected FCSAgent fcs;
 	protected MockStand stand;
@@ -57,7 +67,6 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 	/**
 	 * This tests the FCS's role in kit creation. The test involves the gantry,
 	 * stand, conveyor, nests, and parts robot as well.
-	 * 
 	 * @throws InterruptedException
 	 */
 	@Test
@@ -192,7 +201,6 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 	/**
 	 * This tests the FCS's ability to cancel an order. The test involves the
 	 * gantry, stand, conveyor, nests, and parts robot as well.
-	 * 
 	 * @throws InterruptedException
 	 */
 	@Test
@@ -352,7 +360,6 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 	/**
 	 * This tests the FCS's ability to cancel a kit. The test involves the
 	 * gantry, stand, conveyor, nests, and parts robot as well.
-	 * 
 	 * @throws InterruptedException
 	 */
 	@Test
@@ -491,8 +498,7 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 		fcs.msgOrderFinished();
 
 		// FCS should have 1 orders now
-		assertEquals("FCS should have 1 Order", 1, fcs.getOrders()
-				.size());
+		assertEquals("FCS should have 1 Order", 1, fcs.getOrders().size());
 
 		// Invoke the scheduler
 		fcs.pickAndExecuteAnAction();
@@ -557,7 +563,7 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 					nests.get(i).log.getLastLoggedEvent().getMessage()
 							.equals("Received message msgHereIsPartType"));
 		}
-		
+
 		fcs.msgOrderFinished();
 
 		assertEquals("FCS should have no Orders", 0, fcs.getOrders().size());
@@ -568,7 +574,6 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 	 * This is a modified version of Sean Turner's helper function which prints
 	 * out the logs from any number of MockAgents. This should help to assist in
 	 * debugging.
-	 * 
 	 * @return a string containing the logs from the mock agents.
 	 */
 	public String getLogs(List<MockAgent> MockAgents) {
@@ -596,11 +601,8 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 	/**
 	 * Generates a log file of the messages received by MockAgents from the
 	 * KitRobotAgent
-	 * 
-	 * @param test
-	 *            the name of the test
-	 * @param log
-	 *            string representation of a log to be printed to the file
+	 * @param test the name of the test
+	 * @param log string representation of a log to be printed to the file
 	 */
 	public void generateLogFile(String test, String log) {
 
