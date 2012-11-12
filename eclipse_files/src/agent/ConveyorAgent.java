@@ -25,7 +25,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private final List<MyKit> kitsOnConveyor = Collections
 			.synchronizedList(new ArrayList<MyKit>());
 
-	private final ArrayList<PartType> kitConfig = new ArrayList<PartType>();
+	private final KitConfig kitConfig;
 
 	private MyKit incomingKit;
 	private MyKit outgoingKit;
@@ -70,6 +70,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 		this.name = name;
 		this.numKitsToDeliver = 0;
+		kitConfig=null;
 	}
 
 	/*
