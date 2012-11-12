@@ -74,17 +74,21 @@ public class CameraAgent extends Agent implements Camera {
 	 * 
 	 */
 	@Override
-	public void msgInspectKit(Kit kit) {
+	public void msgInspectKit(Kit kit) 
+	{
 		print("Received msgInspectKit");
 		kits.add(new MyKit(kit));
 		stateChanged();
 	}
 
 	@Override
-	public void msgIAmFull(Nest nest) {
+	public void msgIAmFull(Nest nest) 
+	{
 		print("Received msgIAmFull");
-		for (MyNest n : nests) {
-			if (n.nest == nest) {
+		for (MyNest n : nests) 
+		{
+			if (n.nest == nest) 
+			{
 				n.state = NestStatus.READY;
 			}
 		}
@@ -97,22 +101,28 @@ public class CameraAgent extends Agent implements Camera {
 		print("Received msgTakePictureNestDone from graphics");
 		boolean found1 = false;
 		boolean found2 = false;
-		synchronized (nests) {
-			for (MyNest n : nests) {
-				if (n.nest.nestGraphics == nest) {
+		synchronized (nests) 
+		{
+			for (MyNest n : nests) 
+			{
+				if (n.nest.nestGraphics == nest) 
+				{
 					// In v0 all parts are good parts
 					print("nest 1 photographed");
 					n.state = NestStatus.PHOTOGRAPHED;
-					if (found2) {
+					if (found2) 
+					{
 						break;
 					}
 					found1 = true;
 				}
-				if (n.nest.nestGraphics == nest2) {
+				if (n.nest.nestGraphics == nest2) 
+				{
 					// In v0 all parts are good parts
 					print("nest 2 photographed");
 					n.state = NestStatus.PHOTOGRAPHED;
-					if (found1) {
+					if (found1) 
+					{
 						break;
 					}
 					found2 = true;
@@ -123,10 +133,13 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	@Override
-	public void msgTakePictureKitDone(KitGraphics k, boolean done) {
+	public void msgTakePictureKitDone(KitGraphics k, boolean done) 
+	{
 		print("Received msgTakePictureKitDone from graphics \nKitPassed inspection");
-		for (MyKit mk : kits) {
-			if (mk.kit.kitGraphics == k) {
+		for (MyKit mk : kits) 
+		{
+			if (mk.kit.kitGraphics == k) 
+			{
 				mk.kitDone = done;
 				mk.ks = KitStatus.DONE;
 			}
@@ -143,7 +156,7 @@ public class CameraAgent extends Agent implements Camera {
 			list.add(PartType.A);
 		}
 		k.partsExpected = list;
-		partRobot.Initialize();
+		partRobot.InitializeArms();
 		partRobot.msgUseThisKit(k);
 		if(guiCamera != null)
 		{
@@ -154,13 +167,15 @@ public class CameraAgent extends Agent implements Camera {
 	/*********** SCHEDULER **************/
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		synchronized (nests) {
-			for (int i = 0; i < nests.size(); i += 2) {
+		synchronized (nests)
+		{
+			for (int i = 0; i < nests.size(); i += 2) 
+			{
 				if (nests.size() > i + 1) { // Quick check to make sure there
 											// is a nest paired with this
 											// one
-					if (nests.get(i).state == NestStatus.READY
-							&& nests.get(i + 1).state == NestStatus.READY) {
+					if (nests.get(i).state == NestStatus.READY && nests.get(i + 1).state == NestStatus.READY) 
+					{
 						print("Taking photos of nests");
 						takePictureOfNest(nests.get(i), nests.get(i + 1));
 						// takePictureOfNest(nests.get(i + 1));
@@ -173,9 +188,12 @@ public class CameraAgent extends Agent implements Camera {
 			}
 		}
 
-		synchronized (nests) {
-			for (MyNest n : nests) {
-				if (n.state == NestStatus.PHOTOGRAPHED) {
+		synchronized (nests) 
+		{
+			for (MyNest n : nests) 
+			{
+				if (n.state == NestStatus.PHOTOGRAPHED) 
+				{
 					tellPartsRobot(n);
 					return true;
 				}

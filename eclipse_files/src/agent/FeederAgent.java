@@ -22,7 +22,7 @@ public class FeederAgent extends Agent implements Feeder {
 															// first lane,
 															// bottom is the
 															// second
-	private FeederGraphics feederGUI;
+	public FeederGraphics feederGUI;
 
 	private int currentOrientation;// 0 for Top, 1 for Bottom
 
