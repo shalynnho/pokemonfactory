@@ -1,5 +1,11 @@
 package agent.data;
 
+/**
+ * Deprecated. Use Utils.PartType instead. 
+ * The master ArrayList is stored in FCS, and the 
+ * initial ArrayList is stored in Constants.DEFAULT_PARTTYPES.
+ */
+@Deprecated
 public enum PartType {
 	A("A"),
 	B("B"),

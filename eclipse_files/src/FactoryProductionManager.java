@@ -1,29 +1,32 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.Timer;
 
-import DeviceGraphicsDisplay.*;
-import GUI.NetworkingButtonListener;
+import DeviceGraphicsDisplay.CameraGraphicsDisplay;
+import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
+import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
+import DeviceGraphicsDisplay.FeederGraphicsDisplay;
+import DeviceGraphicsDisplay.KitGraphicsDisplay;
+import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
+import DeviceGraphicsDisplay.LaneGraphicsDisplay;
+import DeviceGraphicsDisplay.NestGraphicsDisplay;
+import DeviceGraphicsDisplay.PartsRobotDisplay;
+import GUI.FactoryProductionMgrGUI;
 import GUI.OverlayPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
-import Utils.Location;
 
 
 public class FactoryProductionManager extends Client implements ActionListener {
 	// WINDOW DIMENSIONS
-	private static final int WINDOW_WIDTH = 900;
-	private static final int WINDOW_HEIGHT = 600;
+	private static final int WINDOW_WIDTH = 1000;
+	private static final int WINDOW_HEIGHT = 700;
 	
 	private Timer timer;
 	
@@ -43,10 +46,11 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 * Initialize the GUI and start the timer.
 	 */
 	public void initGUI() {
+		FactoryProductionMgrGUI fpmGUI = new FactoryProductionMgrGUI(WINDOW_HEIGHT);
 		
-		OverlayPanel panel = new OverlayPanel();
-		add(panel, BorderLayout.SOUTH);
-		panel.setVisible(true);
+		
+		add(fpmGUI, BorderLayout.EAST);
+		fpmGUI.setVisible(true);
 		
 		//TODO: Add FPM GUI stuff here.
 			//	GUI Panel to select and order kits. Adjacent to graphics panel?

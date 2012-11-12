@@ -62,7 +62,17 @@ public class GantryAgent extends Agent implements Gantry {
 	@Override
 	public void msgINeedParts(PartType type, FeederAgent feeder) {
 		print("Received msgINeedParts");
-		feeders.add(new MyFeeder(feeder, type));
+		boolean temp = true;
+		for(MyFeeder currentFeeder : feeders) {
+			if(currentFeeder.getFeeder() == feeder) {
+				currentFeeder.requestedType = type;
+				temp = false;
+				return;
+			}
+		}
+		if(temp == true) {
+			feeders.add(new MyFeeder(feeder, type));
+		}
 		stateChanged();
 	}
 
@@ -90,6 +100,8 @@ public class GantryAgent extends Agent implements Gantry {
 		stateChanged();
 	}
 
+	
+	//SCHEDULER
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
@@ -126,6 +138,8 @@ public class GantryAgent extends Agent implements Gantry {
 		return false;
 	}
 
+	
+	//ACTIONS 
 	@Override
 	public void moveToFeeder(Bin bin, FeederAgent feeder) {
 		print("Moving bin to over feeder");
