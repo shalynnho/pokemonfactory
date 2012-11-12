@@ -2,10 +2,11 @@ package factory;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.Serializable;
 
 import Utils.Constants;
 
-public class PartType {
+public class PartType implements Serializable {
 	private String name = "";
 	private Image image;
 	

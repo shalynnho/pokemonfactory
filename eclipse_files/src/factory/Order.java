@@ -1,7 +1,9 @@
 package factory;
 
+import java.io.Serializable;
 
-public class Order{    
+
+public class Order implements Serializable{    
 	public orderState state;    
 	public KitConfig kitConfig;    
 	public int numberOfKits;  

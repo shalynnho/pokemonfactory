@@ -1,8 +1,9 @@
 package factory;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.HashMap;
 
-public class KitConfig {
+public class KitConfig implements Serializable {
 	
 	private HashMap<PartType, Integer> config;
 	private String name;
