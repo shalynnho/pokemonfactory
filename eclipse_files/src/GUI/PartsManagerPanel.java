@@ -67,7 +67,6 @@ public class PartsManagerPanel extends JPanel {
 		btnNewPart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showAddPanel();
-				// change combo box to "Select Part..."
 			}
 		});
 		pnlPartChooser.add(btnNewPart);
@@ -221,6 +220,7 @@ public class PartsManagerPanel extends JPanel {
 	}
 	
 	protected void showAddPanel() {
+		// change combo box to "Select Part..."
 		CardLayout cl = (CardLayout)(pnlButtons.getLayout());
         cl.show(pnlButtons, "Add Part Type");
         clearFields();
@@ -268,16 +268,24 @@ public class PartsManagerPanel extends JPanel {
 	
 	protected void browse(String type) {
 		if (type.equals("image")) {
-			int choice = fc.showOpenDialog(btnBrowseImg);
+			int choice = fc.showDialog(btnBrowseImg, "Select");
 	        if (choice == JFileChooser.APPROVE_OPTION) {
 	        	File file = fc.getSelectedFile();
-	        	tfImgPath.setText(file.getCanonicalPath());
+	        	try {
+	        		tfImgPath.setText(file.getCanonicalPath());
+	        	} catch (Exception e) {
+	        		JOptionPane.showMessageDialog(btnBrowseImg, "File not found", "File Error", JOptionPane.ERROR_MESSAGE);
+	        	}
 	        }
 		} else if (type.equals("sound")) { 
-			int choice = fc.showOpenDialog(btnBrowseSnd);
+			int choice = fc.showDialog(btnBrowseSnd, "Select Sound");
 			if (choice == JFileChooser.APPROVE_OPTION) {
 	        	File file = fc.getSelectedFile();
-	        	tfSndPath.setText(file.getCanonicalPath());
+	        	try {
+	        		tfSndPath.setText(file.getCanonicalPath());
+	        	} catch (Exception e) {
+	        		JOptionPane.showMessageDialog(btnBrowseSnd, "File not found", "File Error", JOptionPane.ERROR_MESSAGE);
+	        	}
 	        }
 		}
 	}
