@@ -17,12 +17,18 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JSplitPane;
 import java.awt.event.ActionEvent;
+import java.awt.CardLayout;
 
-public class PartsManagerPanel extends JPanel implements ActionListener {
+public class PartsManagerPanel extends JPanel {
 	private JButton btnClearFields;
-	private JTextField tfName;
+	private JPanel pnlButtons;
+	private JPanel pnlView;
+	private JPanel pnlEdit;
+	private JPanel pnlAdd;
+	private JPanel pnlDelete;
 	private JTextField tfImgPath;
 	private JTextField tfSndPath;
+	private JTextField tfName;
 
 	/**
 	 * Create the panel.
@@ -44,29 +50,34 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		pnlPartChooser.add(cbPart);
 		
 		JButton btnNewPart = new JButton("New Part");
+		btnNewPart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showAddPanel();
+			}
+		});
 		pnlPartChooser.add(btnNewPart);
 		
 		JSplitPane splitPane = new JSplitPane();
 		viewPanel.add(splitPane, BorderLayout.CENTER);
 		
-		JPanel panel_3 = new JPanel();
-		splitPane.setLeftComponent(panel_3);
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
+		JPanel pnlPreview = new JPanel();
+		splitPane.setLeftComponent(pnlPreview);
+		pnlPreview.setLayout(new BoxLayout(pnlPreview, BoxLayout.Y_AXIS));
 		
 		JLabel lblImageIcon = new JLabel("Image Icon");
 		lblImageIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel_3.add(lblImageIcon);
+		pnlPreview.add(lblImageIcon);
 		
 		JLabel lblimageicon = new JLabel("[ImageIcon]");
 		lblimageicon.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel_3.add(lblimageicon);
+		pnlPreview.add(lblimageicon);
 		
-		JPanel panel_4 = new JPanel();
-		panel_3.add(panel_4);
-		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
+		JPanel pnlSound = new JPanel();
+		pnlPreview.add(pnlSound);
+		pnlSound.setLayout(new BoxLayout(pnlSound, BoxLayout.X_AXIS));
 		
 		JLabel lblSoundPreview = new JLabel("Sound preview:");
-		panel_4.add(lblSoundPreview);
+		pnlSound.add(lblSoundPreview);
 		lblSoundPreview.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		JButton btnPlay = new JButton("Play");
@@ -74,7 +85,7 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		panel_4.add(btnPlay);
+		pnlSound.add(btnPlay);
 		
 		JPanel pnlForm = new JPanel();
 		splitPane.setRightComponent(pnlForm);
@@ -82,14 +93,10 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -97,8 +104,8 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblName_1 = new JLabel("Name:");
-		pnlForm.add(lblName_1, "2, 2, right, default");
+		JLabel lblName = new JLabel("Name:");
+		pnlForm.add(lblName, "2, 2, right, default");
 		
 		tfName = new JTextField();
 		pnlForm.add(tfName, "4, 2, fill, default");
@@ -111,30 +118,81 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		pnlForm.add(tfImgPath, "4, 4, fill, default");
 		tfImgPath.setColumns(10);
 		
-		JLabel lblSoundPath = new JLabel("Sound path:");
+		JButton btnBrowseImg = new JButton("Browse...");
+		pnlForm.add(btnBrowseImg, "6, 4");
+		
+		JLabel lblSoundPath = new JLabel("Sound Path:");
 		pnlForm.add(lblSoundPath, "2, 6, right, default");
 		
 		tfSndPath = new JTextField();
 		pnlForm.add(tfSndPath, "4, 6, fill, default");
 		tfSndPath.setColumns(10);
 		
-		JButton button = new JButton("Create Part");
-		pnlForm.add(button, "2, 10");
+		JButton btnBrowseSnd = new JButton("Browse...");
+		pnlForm.add(btnBrowseSnd, "6, 6");
 		
-		JButton button_1 = new JButton("Clear Fields");
-		button_1.addActionListener(this);
-		pnlForm.add(button_1, "2, 12");
+		pnlButtons = new JPanel();
+		viewPanel.add(pnlButtons, BorderLayout.SOUTH);
+		pnlButtons.setLayout(new CardLayout(0, 0));
+		
+		pnlView = new JPanel();
+		pnlButtons.add(pnlView, "View Part Type");
+		
+		JButton btnEditPartType = new JButton("Edit Part Type");
+		pnlView.add(btnEditPartType);
+		
+		pnlEdit = new JPanel();
+		pnlButtons.add(pnlEdit, "Edit Part Type");
+		
+		JButton btnSaveChanges = new JButton("Save Changes");
+		pnlEdit.add(btnSaveChanges);
+		
+		JButton btnCnclChanges = new JButton("Cancel Changes");
+		pnlEdit.add(btnCnclChanges);
+		
+		pnlAdd = new JPanel();
+		pnlButtons.add(pnlAdd, "Add Part Type");
+		
+		JButton btnCreatePartType = new JButton("Create Part Type");
+		pnlAdd.add(btnCreatePartType);
+		
+		JButton btnClearFields_1 = new JButton("Clear Fields");
+		btnClearFields_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearFields();
+			}
+		});
+		pnlAdd.add(btnClearFields_1);
+		
+		pnlDelete = new JPanel();
+		pnlButtons.add(pnlDelete, "Delete Part Type");
+		
+		JButton btnDeletePartType = new JButton("Delete Part Type");
+		pnlDelete.add(btnDeletePartType);
 	}
 	
-	public void actionPerformed(ActionEvent ae) {
-		if (ae.getSource() == btnClearFields) {
-			clearFields();
-		}
+	protected void showAddPanel() {
+		CardLayout cl = (CardLayout)(pnlButtons.getLayout());
+        cl.show(pnlButtons, "Add Part Type");
+        clearFields();
+        enableFields();
 	}
 	
-	private void clearFields() {
+	protected void clearFields() {
 		tfName.setText("");
 		tfImgPath.setText("");
 		tfSndPath.setText("");
+	}
+	
+	protected void toggleFields() {
+		tfName.isEnabled() ? tfName.setEnabled(false) : tfName.setEnabled(true);
+		tfImgPath.isEnabled() ? tfImgPath.setEnabled(false) : tfImgPath.setEnabled(true);
+		tfSndPath.isEnabled() ? tfSndPath.setEnabled(false) : tfSndPath.setEnabled(true);
+	}
+	protected void enableFields() {
+		tfName.isEnabled() ? : toggleFields();
+	}
+	protected void desableFIelds() {
+		tfName.isEnabled() ? toggleFields();
 	}
 }

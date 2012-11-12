@@ -8,6 +8,11 @@ import Networking.Request;
 import Utils.Location;
 import factory.PartType;
 
+/**
+ * 
+ * @author Shalynn Ho
+ *
+ */
 public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	// the kit that is currently on the stand
