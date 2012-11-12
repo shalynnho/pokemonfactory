@@ -20,6 +20,10 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JTable;
 
+/*
+* Authorship: Aaron Harris
+*/
+
 public class KitManagerPanel extends JPanel {
 	private JTextField textField;
 	private JComboBox[] cbPart;
