@@ -2,6 +2,8 @@ package Utils;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Contains all the constants that we need in the project.
@@ -31,6 +33,10 @@ public abstract class Constants {
 	public static final int LANE_COUNT = 2;
 	public static final int NEST_COUNT = 2;
 	public static final int STAND_COUNT = 3;
+	
+	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(Arrays.asList(
+		new PartType("A"), new PartType("B"), new PartType("C"), new PartType("D"), 
+		new PartType("E"), new PartType("F"), new PartType("G"), new PartType("H")));
 	
 	// DEVICE START LOCATIONS
 	// ==================================
