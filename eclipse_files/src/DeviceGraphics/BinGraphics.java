@@ -74,6 +74,10 @@ public class BinGraphics implements DeviceGraphics  {
 		return bin;
 	}
 
+	public Location getLocation() {
+		return binLocation;
+	}
+	
 	@Override
 	public void receiveData(Request req) {
 		// TODO Auto-generated method stub

@@ -6,48 +6,67 @@ import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
+import agent.Agent;
+import agent.FeederAgent;
 import agent.data.Bin;
 
 public class GantryGraphics implements DeviceGraphics {
 	
-	BinGraphics heldBin; // Bin that gantry is carrying
+	Bin heldBin; // Bin that gantry is carrying
 	private Server server;
 	ArrayList<BinGraphics> initialBins;
+	
+	Boolean removeState = false;
+	Boolean receiveState = false;
+	Boolean dropState = false;
+	
+	Agent gantryAgent;
 
-	public GantryGraphics(Server s) {
+	public GantryGraphics(Server s, Agent ga) {
 		heldBin = null;
 		server = s;
+		gantryAgent = ga;
 		
-		// TODO Find out correct name for constant array list
+		/*// TODO Find out correct name for constant array list
 		for (int i = 0; i < Constants.ARRAY_LIST_OF_PART_TYPES.size(); i ++) {
 			initialBins.add(new BinGraphics(new Bin(Constants.ARRAY_LIST_OF_PART_TYPES.get(i)), i));
-		}
+		}*/
 	}
 	
-	public void receiveBin(Bin newBin) {
-		heldBin = newBin.binGraphics;
+	// get bin from feeder
+	public void receiveBin(Bin newBin, FeederAgent feeder) {
+		heldBin = newBin;
 		server.sendData(new Request(Constants.GANTRY_ROBOT_GET_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, heldBin));
+		moveTo(feeder.feederGUI.getLocation());
+		receiveState = true;
 	}
 	
+	// take off screen
 	public void removeBin(Bin newBin) {
-		heldBin = newBin.binGraphics;
-		moveTo (Constants.BIN_STORAGE_LOC);
+		heldBin = newBin;
+		moveTo (heldBin.binGraphics.getLocation());
+		removeState = true;
 	}
 	
-	public void dropBin (Bin newBin) {
-		heldBin = newBin.binGraphics;
+	// drop bin into feeder
+	public void dropBin (Bin newBin, FeederAgent feeder) {
+		heldBin = newBin;
 		server.sendData(new Request(Constants.GANTRY_ROBOT_DROP_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, heldBin));
+		moveTo(feeder.feederGUI.getLocation());
+		dropState = true;
 	}
 		
 	
-	public void moveTo (Location newLocation) {
+	private void moveTo (Location newLocation) {
 		server.sendData(new Request(Constants.GANTRY_ROBOT_MOVE_TO_LOC_COMMAND, Constants.GANTRY_ROBOT_TARGET, newLocation));
 	}
 	
 	@Override
 	public void receiveData(Request req) {
-		// TODO Auto-generated method stub
-		
+		if (req.getCommand() == Constants.GANTRY_ROBOT_DONE_MOVE) {
+			if (receiveState) {
+				gantryAgent.msgReceiveBinDone(heldBin);
+			}
 	}
 
 }

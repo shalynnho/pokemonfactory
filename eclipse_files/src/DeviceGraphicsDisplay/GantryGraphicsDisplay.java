@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 
 import Networking.Request;
+import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
 
@@ -19,31 +20,21 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	static int initialBinsYLocation = 50; //TODO find correct number
 	
 	BinGraphicsDisplay heldBin;
+	
+	Server server;
 
-	public GantryGraphicsDisplay () {
+	public GantryGraphicsDisplay (Server s) {
 		currentLocation = Constants.GANTRY_ROBOT_LOC;
+		server = s;
 		
-		// TODO Find out correct name for constant array list
+		/*// TODO Find out correct name for constant array list
 		for (int i = 0; i < Constants.ARRAY_LIST_OF_PART_TYPES.size(); i ++){
 			initialBins.add(new BinGraphicsDisplay(new Location (initialBinsXLocation, initialBinsYLocation + i * 50), Constants.ARRAY_LIST_OF_PART_TYPES.get(i)));
-		}
+		}*/
 	}
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		if(currentLocation.getX() < destinationLocation.getX()) {
-			currentLocation.incrementX(5);
-			if (heldBin != null) {
-				heldBin.setLocation(currentLocation);
-			}
-		}
-		else if(currentLocation.getX() > destinationLocation.getX()) {
-			currentLocation.incrementX(-5);
-			if (heldBin != null) {
-				heldBin.setLocation(currentLocation);
-			}
-		}
-		
 		if(currentLocation.getY() < destinationLocation.getY()) {
 			currentLocation.incrementY(5);
 			if (heldBin != null) {
@@ -54,6 +45,25 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 			currentLocation.incrementY(-5);
 			if (heldBin != null) {
 				heldBin.setLocation(currentLocation);
+			}
+		}
+		
+		if (currentLocation.getY() == destinationLocation.getY()) {
+			if(currentLocation.getX() < destinationLocation.getX()) {
+				currentLocation.incrementX(5);
+				if (heldBin != null) {
+					heldBin.setLocation(currentLocation);
+				}
+			}
+			else if(currentLocation.getX() > destinationLocation.getX()) {
+				currentLocation.incrementX(-5);
+				if (heldBin != null) {
+					heldBin.setLocation(currentLocation);
+				}
+			}
+		
+			if(currentLocation.getX() == destinationLocation.getX()) {
+				server.sendData(new Request(Constants.GANTRY_ROBOT_DONE_MOVE, Constants.GANTRY_ROBOT_TARGET, null));
 			}
 		}
 		heldBin.draw(c, g);
