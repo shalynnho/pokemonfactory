@@ -5,9 +5,11 @@ import java.util.*;
 public class KitConfig {
 	
 	private HashMap<PartType, Integer> config;
+	private String name;
 	
-	public KitConfig() {
+	public KitConfig(String name) {
 		config = new HashMap<PartType, Integer>();
+		this.name = name;
 	}
 	
 	/**
@@ -29,5 +31,12 @@ public class KitConfig {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return the name of this kit configuration
+	 */
+	public String getName() {
+		return name;
+	}
 
 }
