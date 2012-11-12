@@ -1,10 +1,10 @@
 package agent.interfaces;
 
+import factory.PartType;
 import agent.GantryAgent;
 import agent.LaneAgent;
 import agent.data.Bin;
 import agent.data.Part;
-import agent.data.PartType;
 import GraphicsInterfaces.FeederGraphics;
 
 public interface Feeder {

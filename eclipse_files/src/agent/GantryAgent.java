@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import factory.PartType;
+
 import DeviceGraphics.DeviceGraphics;
 import agent.data.Bin;
 import agent.data.Bin.BinStatus;
-import agent.data.PartType;
 import agent.interfaces.Gantry;
 
 /**
@@ -53,7 +54,7 @@ public class GantryAgent extends Agent implements Gantry {
 	}
 
 	@Override
-	public void msgHereIsBinConfig(Bin bin) {
+	public void msgHereIsBin(Bin bin) {
 		print("Received msgHereIsBinConfig");
 		binList.add(bin);
 		stateChanged();
@@ -104,6 +105,13 @@ public class GantryAgent extends Agent implements Gantry {
 	//SCHEDULER
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		for(Bin bin:binList) {
+			if(bin.binState==BinStatus.PENDING){
+				addBinToGraphics(bin);
+				return true;
+			}
+		}
+		
 		// TODO Auto-generated method stub
 		for (MyFeeder currentFeeder : feeders) {
 			for (Bin bin : binList) {
@@ -198,6 +206,12 @@ public class GantryAgent extends Agent implements Gantry {
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
 
+	}
+	
+	public void addBinToGraphics(Bin bin){
+		//GUIGantry.hereIsNewBin(bin);
+		bin.binState=BinStatus.FULL;
+		stateChanged();
 	}
 
 }
