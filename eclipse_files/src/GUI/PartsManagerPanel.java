@@ -24,6 +24,11 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.io.File;
 
+/**
+*
+* Authorship: Aaron Harris
+*/
+
 public class PartsManagerPanel extends JPanel {
 	private JPanel pnlButtons;
 	private JPanel pnlView;
@@ -46,14 +51,13 @@ public class PartsManagerPanel extends JPanel {
 		fc = new JFileChooser();
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setSelectedIndex(0);
 		add(tabbedPane);
-		JPanel viewPanel = new JPanel();
-		tabbedPane.addTab("Part Manager", viewPanel);
-		viewPanel.setLayout(new BorderLayout(0, 0));
+		JPanel managerPanel = new JPanel();
+		tabbedPane.addTab("Part Manager", managerPanel);
+		managerPanel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel pnlPartChooser = new JPanel();
-		viewPanel.add(pnlPartChooser, BorderLayout.NORTH);
+		managerPanel.add(pnlPartChooser, BorderLayout.NORTH);
 		
 		cbPart = new JComboBox();
 		cbPart.addItemListener(new ItemListener() {
@@ -63,7 +67,7 @@ public class PartsManagerPanel extends JPanel {
 		});
 		pnlPartChooser.add(cbPart);
 		
-		JButton btnNewPart = new JButton("New Part");
+		JButton btnNewPart = new JButton("New Part Type");
 		btnNewPart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showAddPanel();
@@ -72,7 +76,7 @@ public class PartsManagerPanel extends JPanel {
 		pnlPartChooser.add(btnNewPart);
 		
 		JSplitPane splitPane = new JSplitPane();
-		viewPanel.add(splitPane, BorderLayout.CENTER);
+		managerPanel.add(splitPane, BorderLayout.CENTER);
 		
 		JPanel pnlPreview = new JPanel();
 		splitPane.setLeftComponent(pnlPreview);
@@ -123,7 +127,7 @@ public class PartsManagerPanel extends JPanel {
 		pnlForm.add(lblName, "2, 2, right, default");
 		
 		tfName = new JTextField();
-		pnlForm.add(tfName, "4, 2, fill, default");
+		pnlForm.add(tfName, "4, 2, 3, 1, fill, default");
 		tfName.setColumns(10);
 		
 		JLabel lblImagePath = new JLabel("Image Path:");
@@ -157,7 +161,7 @@ public class PartsManagerPanel extends JPanel {
 		pnlForm.add(btnBrowseSnd, "6, 6");
 		
 		pnlButtons = new JPanel();
-		viewPanel.add(pnlButtons, BorderLayout.SOUTH);
+		managerPanel.add(pnlButtons, BorderLayout.SOUTH);
 		pnlButtons.setLayout(new CardLayout(0, 0));
 		
 		pnlView = new JPanel();
