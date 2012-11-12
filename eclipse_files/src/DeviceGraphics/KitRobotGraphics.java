@@ -3,11 +3,9 @@ package DeviceGraphics;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
-import Utils.Location;
 import agent.Agent;
 import agent.KitRobotAgent;
 import agent.data.Kit;
@@ -16,7 +14,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		DeviceGraphics {
 
 	private Kit kit;
-	private Server server;
+	private final Server server;
 
 	// KitGraphics[] positions;
 
@@ -54,23 +52,21 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	public void msgPlaceKitInInspectionArea(KitGraphics kit) {
 
 		/*
-		 * Integer tempI = Search(kit);
-		 * 
-		 * if (tempI.equals(new Integer(3))) { server.sendData(new
-		 * Request("moveKitInLocation1ToInspection", Constants.KIT_ROBOT_TARGET,
-		 * null)); positions[2] = kit;
-		 * 
-		 * } else if (tempI == 4) { server.sendData(new
+		 * Integer tempI = Search(kit); if (tempI.equals(new Integer(3))) {
+		 * server.sendData(new Request("moveKitInLocation1ToInspection",
+		 * Constants.KIT_ROBOT_TARGET, null)); positions[2] = kit; } else if
+		 * (tempI == 4) { server.sendData(new
 		 * Request("moveKitInLocation2ToInspection", Constants.KIT_ROBOT_TARGET,
-		 * null));
-		 * 
-		 * positions[2] = kit; } else {
+		 * null)); positions[2] = kit; } else {
 		 * System.out.println("Kit isn't in one of the locations"); }
 		 */
 
 		for (String kitGraphicsKey : kitPositions.keySet()) {
-			KitGraphics tempKitGraphics = (KitGraphics) kitPositions
-					.get(kitGraphicsKey);
+			KitGraphics tempKitGraphics = kitPositions.get(kitGraphicsKey);
+			if (tempKitGraphics == null) {
+				System.out.println(this.toString() + " tempKitGraphics null");
+				System.out.println(this.toString() + kitGraphicsKey);
+			}
 			if (tempKitGraphics.equals(kit)) {
 				kitPositions.put(kitGraphicsKey, null);
 				if (kitGraphicsKey.equals(Constants.KIT_LOCATION1)) {
@@ -152,20 +148,13 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	}
 
-	public void sendMessageBack(Server s) {
-		s.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
-				Constants.CONVEYOR_TARGET, null));
-	}
-
 	public void msgPlaceKitOnStand2(KitGraphics kit) {
 		// TODO Auto-generated method stub
 
 		kitPositions.put(Constants.KIT_LOCATION2, kit);
-
 		server.sendData(new Request("moveKitToStand2",
 				Constants.KIT_ROBOT_TARGET, null));
 	}
-
 	@Override
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
 		if (location == 1) {
@@ -173,8 +162,12 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			server.sendData(new Request(
 					Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
 					Constants.CONVEYOR_TARGET, null));
+		
 		} else if (location == 2) {
 			msgPlaceKitOnStand2(kit);
+			server.sendData(new Request(
+					Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
+					Constants.CONVEYOR_TARGET, null));
 		}
 
 	}

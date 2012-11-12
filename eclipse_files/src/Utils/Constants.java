@@ -104,8 +104,7 @@ public abstract class Constants {
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Camera.png");
 
 	// Part Images
-	public static final Image PART_IMAGE = 
-			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "samplepart.png");
+	public static final String PART_IMAGE_PATH = IMAGE_PATH + "Part";
 	
 	// Bin Images
 	public static final Image BIN_FULL_IMAGE = 

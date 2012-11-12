@@ -24,7 +24,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private final List<MyKit> kitsOnConveyor = Collections
 			.synchronizedList(new ArrayList<MyKit>());
 
-	private final ArrayList<PartType> kitConfig = new ArrayList<PartType>();
+	private ArrayList<PartType> kitConfig = new ArrayList<PartType>();
 
 	private MyKit incomingKit;
 	private MyKit outgoingKit;
@@ -182,6 +182,9 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		}
 		if (conveyorGraphics != null) {
 			// print("Asking conveyor graphics to animate a new kit");
+			if (k.kitGraphics == null) {
+				print("kitGraphics null");
+			}
 			conveyorGraphics.msgBringEmptyKit(k.kitGraphics);
 		}
 		numKitsToDeliver--;
@@ -323,7 +326,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	@Override
 	public void msgHereIsKitConfiguration(ArrayList<PartType> config) {
-
+		this.kitConfig = config;
 	}
 
 }
