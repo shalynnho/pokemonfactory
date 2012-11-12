@@ -147,6 +147,7 @@ public abstract class Constants {
 	public static final String STAND_TARGET = "Stand";
 
 	public static final String SERVER_TARGET = "Server";
+	public static final String FCS_TARGET = "FCS";
 
 	// COMMAND NAMES
 	// ==================================
