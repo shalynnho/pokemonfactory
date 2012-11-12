@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
+import javax.swing.*;
 
 public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListener {
 	private static final int PANEL_WIDTH = 300;
@@ -18,6 +18,10 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
+		// TODO: get array of possible kits from Kit Assembly Manager
+		JComboBox kitComboBox = new JComboBox();
+		
+		kitComboBox.addItem(arg0)
 		
 	}
 
