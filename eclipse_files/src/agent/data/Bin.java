@@ -1,5 +1,6 @@
 package agent.data;
 
+import factory.PartType;
 import DeviceGraphics.BinGraphics;
 import agent.FeederAgent;
 
@@ -16,15 +17,6 @@ public class Bin {
 
 	public Bin() {
 
-	}
-
-	public Bin(Part part) {
-		binGraphics= new BinGraphics(this);
-		this.part = part;
-	}
-
-	public Bin(PartType type) {
-		this.part = new Part(type);
 	}
 	
 	public Bin(Part part, int BinNum) {

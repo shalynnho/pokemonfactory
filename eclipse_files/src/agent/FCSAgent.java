@@ -3,8 +3,8 @@ package agent;
 import java.util.ArrayList;
 
 import DeviceGraphics.DeviceGraphics;
+import Utils.Constants;
 import agent.data.Bin;
-import agent.data.PartType;
 import agent.interfaces.Conveyor;
 import agent.interfaces.FCS;
 import agent.interfaces.Gantry;
@@ -12,6 +12,7 @@ import agent.interfaces.Nest;
 import agent.interfaces.PartsRobot;
 import agent.interfaces.Stand;
 import factory.Order;
+import factory.PartType;
 
 /**
  * Unused in V0
@@ -30,6 +31,9 @@ public class FCSAgent extends Agent implements FCS {
 	//private FCSGraphics fcsGraphics;
 	
 	private final String name;
+	
+	private boolean binsSet;
+	private ArrayList<PartType> binsToAdd;
 
 	public enum myState {PENDING, STARTED, LOADED};    
 	
@@ -38,23 +42,29 @@ public class FCSAgent extends Agent implements FCS {
 		this.name=name;
 		this.nests=new ArrayList<Nest>();
 		this.orders=new ArrayList<Order>();
+		binsSet=false;
+		binsToAdd= new ArrayList<PartType>();
 	}
 	
 	public FCSAgent(){
 		super();
 		this.name="FCS";
+		binsSet=false;
+		binsToAdd= new ArrayList<PartType>();
 	}
 
 	@Override
-	public void msgAddKitsToQueue(ArrayList<PartType> parts,int numOfKits){    
-	    orders.add(new Order(parts,numOfKits));    
+	public void msgAddKitsToQueue(Order o){   
+	    orders.add(o);    
+	    //fcsGraphics.updateQueue(orders);
 	}    
 	
 	@Override
-	public void msgStopMakingKit(ArrayList<PartType> parts){    
-	    for(Order o: orders){    
-	        if(o.parts.equals(parts)){
-	        	o.cancel=true;;    
+	public void msgStopMakingKit(Order o){    
+	    for(Order order: orders){    
+	        if(order.equals(o)){
+	        	o.cancel=true;
+	        	//fcsGraphics.updateQueue(orders);
 	        }
 	    }    
 	}
@@ -63,12 +73,18 @@ public class FCSAgent extends Agent implements FCS {
 	public void msgStartProduction(){    
 	    state=myState.STARTED;    
 	}    
+	
+	@Override
+	public void msgAddNewPartType(PartType part) {
+		binsToAdd.add(part);
+	}
 
 	@Override
 	public void msgOrderFinished(){  
 		for(Order o:orders){
 			if(o.state == Order.orderState.ORDERED){
 				orders.remove(o);
+				//fcsGraphics.updateQueue(orders);
 				break;
 			}
 		}
@@ -77,7 +93,15 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public boolean pickAndExecuteAnAction(){
-		if(state==myState.STARTED){    
+		if(state==myState.STARTED){
+			if(!binsSet){
+				initializeBins();
+				return true;
+			}
+			if(binsToAdd.size()>0){
+				addBin();
+				return true;
+			}
 		    if(!orders.isEmpty()){   
 		    	for(Order o:orders){
 					if(o.cancel){
@@ -99,19 +123,22 @@ public class FCSAgent extends Agent implements FCS {
 	public void placeOrder(Order o){    
 	    o.state=Order.orderState.ORDERED;    
 	    state=myState.LOADED;    
+	  //fcsGraphics.updateQueue(orders);
 	    
-	    conveyor.msgHereIsKitConfiguration(o.parts);
+	    conveyor.msgHereIsKitConfiguration(o.kitConfig);
 	    stand.msgMakeKits(o.numberOfKits);    
 	    
-	    partsRobot.msgHereIsKitConfiguration(o.parts);   
+	    partsRobot.msgHereIsKitConfiguration(o.kitConfig);   
 	    
-	    for(int i=0;i<o.parts.size();i++)    
+	    /*for(PartType type:o.kitConfig.getConfig().keySet())    
 	    {    
 	    	gantry.msgHereIsBinConfig(new Bin(o.parts.get(i),i+1));  
-	    }  
+	    }  */
 	    
-	    for(int i=0;i<o.parts.size();i++){    
-	        nests.get(i).msgHereIsPartType(o.parts.get(i));    
+	    for(PartType type:o.kitConfig.getConfig().keySet()){ 
+	    	for(int i=0;i<o.kitConfig.getConfig().get(type);i++){
+	    		nests.get(i).msgHereIsPartType(type);    
+	    	}
 	    }       
 	}    
 	
@@ -121,6 +148,21 @@ public class FCSAgent extends Agent implements FCS {
 			orders.remove(o);
 		} else {
 			orders.remove(o);
+		}
+		//fcsGraphics.updateQueue(orders);
+	}
+	
+	public void initializeBins(){
+		for(int i=0;i<Constants.DEFAULT_PARTTYPES.size();i++){
+			gantry.msgHereIsBin(new Bin(Constants.DEFAULT_PARTTYPES.get(i),i));
+		}
+		binsSet=true;
+	}
+	
+	public void addBin(){
+		for(int i=binsToAdd.size()-1;i>=0;i--){
+			gantry.msgHereIsBin(new Bin(binsToAdd.get(i),Constants.DEFAULT_PARTTYPES.size()-i));
+			binsToAdd.remove(i);
 		}
 	}
 

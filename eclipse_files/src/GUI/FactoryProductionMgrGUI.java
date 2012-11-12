@@ -20,12 +20,11 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 		GridBagConstraints c = new GridBagConstraints();
 		
 		// TODO: get array of possible kits from Kit Assembly Manager
-		JComboBox<String> kitComboBox = new JComboBox<String>();
+		JComboBox kitComboBox = new JComboBox();
 		// TODO: change this, 
 		kitComboBox.addItem("DEFAULT KIT");
 		c.gridx = 0;
 		c.gridy = 0;
-		Insets insets = new Insets(10,0,0,0);
 		c.anchor = GridBagConstraints.PAGE_START;
 		add(kitComboBox, c);
 		
@@ -33,6 +32,7 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 		JSpinner numSpinner = new JSpinner(spinModel);
 		c.gridx = 0;
 		c.gridy = 1;
+		c.insets = new Insets(50,0,0,0); //Top Padding
 		c.anchor = GridBagConstraints.CENTER;
 		add(numSpinner, c);
 		

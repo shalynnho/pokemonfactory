@@ -84,6 +84,10 @@ public abstract class Constants {
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "lane.png");
 	public static final Image LANE_LINE =
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "laneline.png");
+	
+	// Gantry Images
+	public static final Image GANTRY_ROBOT =
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "gantry.png");
 
 	// Conveyor Images
 	public static final Image CONVEYOR_IMAGE = 
@@ -243,6 +247,8 @@ public abstract class Constants {
 	public static final String GANTRY_ROBOT_GET_BIN_COMMAND = "pickup";
 	public static final String GANTRY_ROBOT_DROP_BIN_COMMAND = "drop";
 	public static final String GANTRY_ROBOT_DONE_MOVE = "done";
+	public static final String GANTRY_ROBOT_ADD_NEW_BIN = "new";
+
 	
 	// partsrobot logic to display commands
 	

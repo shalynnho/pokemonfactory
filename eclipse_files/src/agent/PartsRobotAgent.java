@@ -11,10 +11,11 @@ import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.PartsRobotGraphics;
 import agent.data.Kit;
 import agent.data.Part;
-import agent.data.PartType;
+import factory.PartType;
 import agent.interfaces.Nest;
 import agent.interfaces.PartsRobot;
 import agent.interfaces.Stand;
+import factory.KitConfig;
 
 /**
  * Parts robot picks parts from nests and places them in kits
@@ -62,8 +63,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		Empty, Full
 	};
 
-	private List<PartType> KitConfig = Collections
-			.synchronizedList(new ArrayList<PartType>());
+	private KitConfig KitConfig;
 	private final List<MyKit> MyKits = Collections
 			.synchronizedList(new ArrayList<MyKit>());
 	public Map<Nest, List<Part>> GoodParts = new HashMap<Nest, List<Part>>();
@@ -84,7 +84,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 * Changes the configuration for the kits From FCS
 	 */
 	@Override
-	public void msgHereIsKitConfiguration(List<PartType> config) {
+	public void msgHereIsKitConfiguration(KitConfig config) {
 		print("Received msgHereIsKitConfiguration");
 		KitConfig = config;
 		stateChanged();
@@ -169,8 +169,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 								// either kit
 								if (mk.kit.needPart(part)) 
 								{
-									if(KitConfig.contains(part.type))
-									{																		
+									//if(KitConfig.getConfig().containsKey(part.type)) //Don't know why this is needed -Mike
+									//{																		
 										print("Found a part I need");
 										for (Arm arm : Arms) 
 										{
@@ -181,7 +181,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 												return true;
 											}
 										}
-									}
+									//}
 								}
 							}
 						}
@@ -270,9 +270,16 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void CheckMyKit(MyKit mk) {
-		print("Need " + (mk.kit.partsExpected.size() - mk.kit.parts.size())
+		int size=1;
+		for(PartType type:mk.kit.partsExpected.getConfig().keySet()){
+			for(int i=0;i<mk.kit.partsExpected.getConfig().get(type);i++) {
+				size++;
+			}
+		}
+		
+		print("Need " + (size - mk.kit.parts.size())
 				+ " more part(s) to finish kit.");
-		if (mk.kit.parts.size() == mk.kit.partsExpected.size()) {
+		if (mk.kit.parts.size() == size) {
 			mk.MKS = MyKitStatus.Done;
 		}
 		// stateChanged();
@@ -309,11 +316,11 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		this.name = name;
 	}
 
-	public List<PartType> getKitConfig() {
+	public KitConfig getKitConfig() {
 		return KitConfig;
 	}
 
-	public void setKitConfig(List<PartType> kitConfig) {
+	public void setKitConfig(KitConfig kitConfig) {
 		KitConfig = kitConfig;
 	}
 

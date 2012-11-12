@@ -1,5 +1,6 @@
 package agent.data;
 
+import factory.PartType;
 import DeviceGraphics.PartGraphics;
 
 public class Part {

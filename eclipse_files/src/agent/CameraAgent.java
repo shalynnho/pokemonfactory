@@ -11,7 +11,7 @@ import GraphicsInterfaces.NestGraphics;
 import agent.NestAgent.MyPart;
 import agent.data.Kit;
 import agent.data.Part;
-import agent.data.PartType;
+import factory.PartType;
 import agent.interfaces.Camera;
 import agent.interfaces.Nest;
 
@@ -153,9 +153,9 @@ public class CameraAgent extends Agent implements Camera {
 		k.kitGraphics = kg;
 		ArrayList<PartType> list = new ArrayList<PartType>();
 		for (int i = 0; i < 9; i++) {
-			list.add(PartType.A);
+			//list.add(PartType.A);
 		}
-		k.partsExpected = list;
+		//k.partsExpected = list;
 		partRobot.InitializeArms();
 		partRobot.msgUseThisKit(k);
 		if(guiCamera != null)
