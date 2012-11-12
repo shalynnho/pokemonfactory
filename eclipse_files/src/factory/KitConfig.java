@@ -32,12 +32,12 @@ public class KitConfig implements Serializable {
 		}
 	}
 	
-	/**
-	 * 
-	 * @return the name of this kit configuration
-	 */
 	public String getName() {
 		return name;
+	}
+	
+	public HashMap<PartType, Integer> getConfig() {
+		return config;
 	}
 
 }
