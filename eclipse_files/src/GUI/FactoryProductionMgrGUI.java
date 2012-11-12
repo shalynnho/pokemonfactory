@@ -40,7 +40,6 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 		setPreferredSize(new Dimension(PANEL_WIDTH, height));
 		setMinimumSize(new Dimension(PANEL_WIDTH, height));
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
