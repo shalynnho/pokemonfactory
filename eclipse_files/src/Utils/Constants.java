@@ -148,6 +148,7 @@ public abstract class Constants {
 
 	public static final String SERVER_TARGET = "Server";
 	public static final String FCS_TARGET = "FCS";
+	public static final String ALL_TARGET = "all";
 
 	// COMMAND NAMES
 	// ==================================
@@ -157,12 +158,6 @@ public abstract class Constants {
 	public static final String DONE_SUFFIX = "done";
 	// for servers to identify managers
 	public static final String IDENTIFY_COMMAND = "identify"; 
-	
-	// Manager Commands
-	// Send a just created kit config to the FPM so that it can be displayed in the JComboBox
-	public static final String SEND_KITCONFIG_TO_FPM = "sendkctofpm";
-	
-	// End Manager Commands
 
 	// feeder logic to display commands
 	// flip the diverter
@@ -287,13 +282,16 @@ public abstract class Constants {
 	
 	// FCS commands
 	public static final String FCS_NEW_PART = "newPart";
-	public static final String FCS_ADD_KIT_TO_QUEUE = "addKit";
 	public static final String FCS_NEW_KIT = "newKit";
-
+	public static final String FCS_ADD_ORDER = "addKit";
 	public static final String FCS_STOP_KIT = "stopKit";
 	
 	public static final String FCS_STOP_PRODUCTION = "stopProduction";
 	public static final String FCS_START_PRODUCTION = "startProduction";
+	
+	public static final String FCS_UPDATE_PARTS = "updateParts";
+	public static final String FCS_UPDATE_KITS = "updateKits";
+	public static final String FCS_UPDATE_ORDERS = "updateOrders";
 	// CLIENT NAMES
 	// ==================================
 	// Used to identify clients.
