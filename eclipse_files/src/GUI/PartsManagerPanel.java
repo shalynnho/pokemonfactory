@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import java.awt.Component;
@@ -12,10 +13,14 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JTextField;
+import javax.swing.JButton;
 
-public class PartsManagerPanel extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
+public class PartsManagerPanel extends JPanel implements ActionListener {
+	private JTextField tfName;
+	private JTextField tfImgPath;
+	private JTextField tfSndPath;
+	private JButton btnCreatePart;
+	private JButton btnClearFields;
 
 	/**
 	 * Create the panel.
@@ -59,23 +64,53 @@ public class PartsManagerPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblName = new JLabel("Name:");
 		panel_2.add(lblName, "2, 2, right, default");
 		
-		textField = new JTextField();
-		panel_2.add(textField, "4, 2, fill, default");
-		textField.setColumns(10);
+		tfName = new JTextField();
+		panel_2.add(tfName, "4, 2, fill, default");
+		tfName.setColumns(10);
 		
 		JLabel lblImgPath = new JLabel("Image path:");
 		panel_2.add(lblImgPath, "2, 4, right, default");
 		
-		textField_1 = new JTextField();
-		panel_2.add(textField_1, "4, 4, fill, default");
-		textField_1.setColumns(10);
+		tfImgPath = new JTextField();
+		panel_2.add(tfImgPath, "4, 4, fill, default");
+		tfImgPath.setColumns(10);
+		
+		JLabel lblSndPath = new JLabel("Sound path:");
+		panel_2.add(lblSndPath, "2, 6, right, default");
+		
+		tfSndPath = new JTextField();
+		panel_2.add(tfSndPath, "4, 6, fill, default");
+		tfSndPath.setColumns(10);
+		
+		btnCreatePart = new JButton("Create Part");
+		panel_2.add(btnCreatePart, "2, 10");
+		
+		JButton btnClearFields = new JButton("Clear Fields");
+		panel_2.add(btnClearFields, "4, 10");
 		JPanel deletePanel = new JPanel();
 		tabbedPane.addTab("Delete", deletePanel);
 	}
-
+	
+	public void actionPerformed(ActionEvent ae) {
+		if (ae.getSource() == btnClearFields) {
+			clearFields();
+		}
+	}
+	
+	private void clearFields() {
+		tfName.setText("");
+		tfImgPath.setText("");
+		tfSndPath.setText("");
+	}
 }
