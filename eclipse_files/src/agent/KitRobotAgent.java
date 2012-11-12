@@ -289,7 +289,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kitGraphics);
 		}
 		// TODO This can't happen until the kit is placed
-		camera.msgInspectKit(mk.kit);
+		//camera.msgInspectKit(mk.kit);
 
 		// For testing, assume camera finishes after .1s
 		timer.schedule(new TimerTask() {

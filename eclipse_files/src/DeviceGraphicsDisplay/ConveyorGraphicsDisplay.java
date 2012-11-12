@@ -1,6 +1,11 @@
+//Radius of Rotation arm 190
+
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -36,8 +41,8 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 																	// lane
 		client = cli;
 		conveyorLines = new ArrayList<Location>();
-		for (int i = 0; i < 10; i++) {
-			conveyorLines.add(new Location(locationIn.getX(), i * 40)); // creating
+		for (int i = 0; i < 8; i++) {
+			conveyorLines.add(new Location(locationIn.getX() + (i*20), locationIn.getY())); // creating
 																		// an
 																		// array
 																		// list
@@ -66,7 +71,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void newKit() {
 		print("Making new kit");
 		KitGraphicsDisplay temp = new KitGraphicsDisplay(client);
-		temp.setLocation(new Location(0, 0));
+		temp.setLocation(new Location(0, 200));
 		kitsOnConveyor.add(temp);
 	}
 
@@ -93,46 +98,27 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	@Override
 	public void draw(JComponent c, Graphics2D g2) {
-		g2.drawImage(Constants.CONVEYOR_IMAGE, locationIn.getX(),
-				locationIn.getY(), c);
-
+		g2.drawImage(Constants.TEST_CONVEYOR_IMAGE, 0, 185, c);
+		
 		for (int i = 0; i < conveyorLines.size(); i++) {
-			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i)
-					.getX(), conveyorLines.get(i).getY(), c);
+			g2.drawImage(Constants.TEST_CONVEYOR_LINE_IMAGE, conveyorLines.get(i).getX(), conveyorLines.get(i).getY(),c);
 			moveIn(i);
 		}
 
-		g2.drawImage(Constants.EXIT_IMAGE, locationOut.getX(),
-				locationOut.getY(), c);
-
-		for (int i = 0; i < exitLines.size(); i++) {
-			g2.drawImage(Constants.EXIT_LINES_IMAGE, exitLines.get(i).getX(),
-					exitLines.get(i).getY(), c);
-			moveOut(i);
-		}
-
 		for (int j = 0; j < kitsOnConveyor.size(); j++) {
-			if (kitsOnConveyor.get(0).getLocation().getY() < 200) {
+			if (kitsOnConveyor.get(0).getLocation().getX() < 90) {
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.draw(c, g2);
 				Location temp = tempKit.getLocation();
-				tempKit.setLocation(new Location(temp.getX(), temp.getY()
-						+ velocity));
-			} else if (kitsOnConveyor.get(0).getLocation().getY() >= 200){
+				tempKit.setLocation(new Location(temp.getX() + velocity, temp.getY()));
+			} else if (kitsOnConveyor.get(0).getLocation().getX() >= 90){
 				velocity = 0;
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.draw(c, g2);
 				Location temp = tempKit.getLocation();
-				tempKit.setLocation(new Location(temp.getX(), temp.getY()
-						+ velocity));
+				tempKit.setLocation(new Location(temp.getX() + velocity, temp.getY()));
 				if (pickMe == true) {
-				animationDone(new Request(
-						Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
-								+ Constants.DONE_SUFFIX,
-						Constants.CONVEYOR_TARGET, null));
-				
-				//second test message
-				animationDone(new Request(
+				 animationDone(new Request(
 						Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 								+ Constants.DONE_SUFFIX,
 						Constants.CONVEYOR_TARGET, null));
@@ -143,6 +129,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 
 		for (int i = 0; i < kitsToLeave.size(); i++) {
+			
 			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
 			tempKit.draw(c, g2);
 			if (tempKit.getLocation().getX() == 800) {
@@ -164,24 +151,24 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	public void moveIn(int i) {
 		// if bottom of black conveyor line is less than this y position
-		if (conveyorLines.get(i).getY() < 385) {
+		if (conveyorLines.get(i).getX() < 150){
 			// when a conveyor is done being painted, move the location for next
 			// repaint
-			conveyorLines.get(i).setY(conveyorLines.get(i).getY() + velocity);
-		} else if (conveyorLines.get(i).getY() >= 385) {
+			conveyorLines.get(i).setX(conveyorLines.get(i).getX() + velocity);
+		} else if (conveyorLines.get(i).getX() >= 150) {
 			// if bottom of black conveyor line is greater than or equal to this
 			// y position
-			conveyorLines.get(i).setY(0);
+			conveyorLines.get(i).setX(0);
 		}
 	}
 
-	public void moveOut(int i) {
+	/*public void moveOut(int i) {
 		if (exitLines.get(i).getX() < 800) {
 			exitLines.get(i).setX(exitLines.get(i).getX() + 5);
 		} else if (exitLines.get(i).getX() >= 793) {
 			exitLines.get(i).setX(0);
 		}
-	}
+	}*/
 
 	/**
 	 * Function created to change the velocity of the conveyor
@@ -206,5 +193,9 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
 			newExitKit();
 		}
+	}
+	
+	public String getName() {
+		return "ConveyorGD";
 	}
 }

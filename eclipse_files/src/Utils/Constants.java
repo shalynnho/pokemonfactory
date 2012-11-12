@@ -59,7 +59,7 @@ public abstract class Constants {
 //	public static final Location FEEDER3_LOC = new Location(600, );
 	
 	public static final Location KIT_ROBOT_LOC = new Location(0,0);
-	public static final Location CONVEYOR_LOC = new Location(0,0);
+	public static final Location CONVEYOR_LOC = new Location(0,185);
 	public static final Location KIT_LOC = new Location(20,200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250,450);
 	public static final Location GANTRY_ROBOT_LOC = new Location(500,100);
@@ -94,6 +94,8 @@ public abstract class Constants {
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "ExitBelt.png");
 	public static final Image EXIT_LINES_IMAGE = 
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "ExitLines.png");
+	public static final Image TEST_CONVEYOR_IMAGE = (Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "TestConveyor.png"));
+	public static final Image TEST_CONVEYOR_LINE_IMAGE = (Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "TestConveyorLine.png"));
 
 	// Kit Robot Images
 	public static final Image KIT_ROBOT_IMAGE = 
