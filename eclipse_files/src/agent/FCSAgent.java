@@ -32,7 +32,6 @@ public class FCSAgent extends Agent implements FCS {
 	private final String name;
 
 	public enum myState {PENDING, STARTED, LOADED};    
-	public enum orderState {PENDING, ORDERED, CANCEL};
 	
 	public FCSAgent(String name){
 		super();
@@ -68,7 +67,7 @@ public class FCSAgent extends Agent implements FCS {
 	@Override
 	public void msgOrderFinished(){  
 		for(Order o:orders){
-			if(o.state==orderState.ORDERED){
+			if(o.state == Order.orderState.ORDERED){
 				orders.remove(o);
 				break;
 			}
@@ -87,7 +86,7 @@ public class FCSAgent extends Agent implements FCS {
 					}
 				}
 		        for(Order o:orders){    
-		            if(o.state==orderState.PENDING){    
+		            if(o.state==Order.orderState.PENDING){    
 		                placeOrder(o);  
 		                return true;
 		            }    
@@ -98,7 +97,7 @@ public class FCSAgent extends Agent implements FCS {
 	}
 	
 	public void placeOrder(Order o){    
-	    o.state=orderState.ORDERED;    
+	    o.state=Order.orderState.ORDERED;    
 	    state=myState.LOADED;    
 	    
 	    conveyor.msgHereIsKitConfiguration(o.parts);
@@ -117,7 +116,7 @@ public class FCSAgent extends Agent implements FCS {
 	}    
 	
 	public void cancelOrder(Order o){
-		if(o.state==orderState.ORDERED){
+		if(o.state==Order.orderState.ORDERED){
 			//stand.msgStopMakingTheseKits(o.parts);
 			orders.remove(o);
 		} else {
