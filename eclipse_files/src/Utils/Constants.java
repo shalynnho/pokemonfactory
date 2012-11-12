@@ -84,6 +84,10 @@ public abstract class Constants {
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "lane.png");
 	public static final Image LANE_LINE =
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "laneline.png");
+	
+	// Gantry Images
+	public static final Image GANTRY_ROBOT =
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "gantry.png");
 
 	// Conveyor Images
 	public static final Image CONVEYOR_IMAGE = 
