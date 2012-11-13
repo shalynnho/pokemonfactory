@@ -150,7 +150,7 @@ public class GantryAgent extends Agent implements Gantry {
 			}
 		}
 		print("I'm returning false");
-		return false;}
+		return false;
 	}
 
 	
