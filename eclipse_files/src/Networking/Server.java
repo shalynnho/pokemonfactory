@@ -37,18 +37,32 @@ public class Server {
 	private ServerSocket ss;
 	private Socket s;
 
+	// GUI client reader/writers
 	private ClientReader factProdMngrReader;
 	private StreamWriter factProdMngrWriter;
+	
+	private ClientReader partsMngrReader;
+	private StreamWriter partsMngrWriter;
+	
+	private ClientReader kitMngrReader;
+	private StreamWriter kitMngrWriter;
+	
+	// Graphics only client reader/writers
+	private ClientReader gantryRobotMngrReader;
+	private StreamWriter gantryRobotMngrWriter;
+	
+	private ClientReader kitAssemblyMngrReader;
+	private StreamWriter kitAssemblyMngrWriter;
+	
+	private ClientReader laneMngrReader;
+	private StreamWriter laneMngrWriter;
 
-	// V0 Config
+	// V0 Config (testing only - remove later)
 	private ClientReader kitRobotMngrReader;
 	private StreamWriter kitRobotMngrWriter;
 
 	private ClientReader partsRobotMngrReader;
 	private StreamWriter partsRobotMngrWriter;
-
-	private ClientReader laneMngrReader;
-	private StreamWriter laneMngrWriter;
 
 	// See how many clients have connected
 	private int numClients = 0;
@@ -244,6 +258,26 @@ public class Server {
 					factProdMngrReader = new ClientReader(ois, this);
 					new Thread(factProdMngrReader).start();
 					numClients++;
+				} else if (identity.equals(Constants.PARTS_MNGR_CLIENT)) {
+					partsMngrWriter = new StreamWriter(oos);
+					partsMngrReader = new ClientReader(ois, this);
+					new Thread(partsMngrReader).start();
+					numClients++;
+				} else if (identity.equals(Constants.KIT_MNGR_CLIENT)) {
+					kitMngrWriter = new StreamWriter(oos);
+					kitMngrReader = new ClientReader(ois, this);
+					new Thread(kitMngrReader).start();
+					numClients++;
+				} else if (identity.equals(Constants.KIT_ASSEMBLY_MNGR_CLIENT)) {
+					kitAssemblyMngrWriter = new StreamWriter(oos);
+					kitAssemblyMngrReader = new ClientReader(ois, this);
+					new Thread(kitAssemblyMngrReader).start();
+					numClients++;
+				} else if (identity.equals(Constants.GANTRY_ROBOT_MNGR_CLIENT)) {
+					gantryRobotMngrWriter = new StreamWriter(oos);
+					gantryRobotMngrReader = new ClientReader(ois, this);
+					new Thread(gantryRobotMngrReader).start();
+					numClients++;
 				}
 			}
 		} catch (Exception e) {
@@ -281,14 +315,18 @@ public class Server {
 		} else if (target.contains(Constants.KIT_TARGET)) {
 			sendDataToPartsRobot(req);
 		} else if (target.contains(Constants.ALL_TARGET)) {
-			sendDataToManagers(req);
+			sendDataToGUIManagers(req);
 		}
 	}
 
-	private void sendDataToManagers(Request req) {
+	/**
+	 * This method sends the request to all managers with a GUI.
+	 * @param req
+	 */
+	private void sendDataToGUIManagers(Request req) {
 		factProdMngrWriter.sendData(req);
-		
-		
+		kitMngrWriter.sendData(req);
+		partsMngrWriter.sendData(req);
 	}
 
 	// Temporarily got rid of all factory managers.
