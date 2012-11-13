@@ -27,7 +27,7 @@ import factory.Order;
 
 public class FactoryProductionManager extends Client implements ActionListener {
 	// WINDOW DIMENSIONS
-	private static final int WINDOW_WIDTH = 1000;
+	private static final int WINDOW_WIDTH = 1200;
 	private static final int WINDOW_HEIGHT = 700;
 	
 	private FactoryProductionMgrGUI fpmGUI;
