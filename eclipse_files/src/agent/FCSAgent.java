@@ -60,6 +60,7 @@ public class FCSAgent extends Agent implements FCS {
 	    if(fcs!=null){
 	    	fcs.updateQueue();
 	    }
+	    stateChanged();
 	}    
 	
 	@Override
@@ -72,16 +73,19 @@ public class FCSAgent extends Agent implements FCS {
 	        	}
 	        }
 	    }    
+	    stateChanged();
 	}
 	
 	@Override
 	public void msgStartProduction(){    
 	    state=myState.STARTED;    
+	    stateChanged();
 	}    
 	
 	@Override
 	public void msgAddNewPartType(PartType part) {
 		binsToAdd.add(part);
+		stateChanged();
 	}
 
 	@Override
@@ -97,6 +101,7 @@ public class FCSAgent extends Agent implements FCS {
 			}
 		}
 	    state=myState.STARTED;    
+	    stateChanged();
 	}    
 
 	@Override
@@ -128,7 +133,8 @@ public class FCSAgent extends Agent implements FCS {
 		return false;
 	}
 	
-	public void placeOrder(Order o){    
+	public void placeOrder(Order o){  
+		print("Placing Order");
 	    o.state=Order.orderState.ORDERED;    
 	    state=myState.LOADED;   
 	    if(fcs!=null){
