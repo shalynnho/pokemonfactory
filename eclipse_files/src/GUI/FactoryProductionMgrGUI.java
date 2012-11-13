@@ -13,13 +13,15 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.SpinnerNumberModel; 
 
+import Networking.Client;
+import factory.KitConfig;
+import factory.Order;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
-import factory.KitConfig;
-import factory.Order;
+
 
 
 /**
@@ -34,21 +36,24 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 	private int quantity;
 	private JComboBox kitComboBox;
 	private SpinnerNumberModel spinModel;
+	private Client fpm;
 	
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
 	private ArrayList<Order> queue = new ArrayList<Order>();
 	
-	public FactoryProductionMgrGUI(int height) {
+	//receives a Client because Harry and Matt are trying to figure out how
+	//we can create the order and send it to the FactoryProductionManager, which will then
+	//send it to the server (rather than having this GUI class send it directly to server)
+	public FactoryProductionMgrGUI(Client cli, int height) {
 		super();
+		fpm = cli;
 		setPreferredSize(new Dimension(PANEL_WIDTH, height));
 		setMinimumSize(new Dimension(PANEL_WIDTH, height));
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		
-		//test array which will be used to fill JComboBox -- feel free to delete/comment out
-		//Integer[] testArray = {0,1,2,3,4,5,6,7,8,9};
+	
 		
 		// TODO: get array of possible kits from Kit Assembly Manager
 		kitComboBox = new JComboBox();
