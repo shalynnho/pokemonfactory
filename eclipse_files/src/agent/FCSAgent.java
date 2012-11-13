@@ -55,7 +55,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgAddKitsToQueue(Order o){   
-		print("Recieved new order");
+		print("Received new order");
 	    orders.add(o); 
 	    if(fcs!=null){
 	    	fcs.updateQueue();
