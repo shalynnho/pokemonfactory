@@ -16,10 +16,20 @@ import factory.KitConfig;
 import factory.Order;
 import factory.PartType;
 
+import agent.CameraAgent;
+import agent.ConveyorAgent;
 import agent.FCSAgent;
+import agent.FeederAgent;
+import agent.GantryAgent;
+import agent.KitRobotAgent;
+import agent.LaneAgent;
+import agent.NestAgent;
+import agent.PartsRobotAgent;
+import agent.StandAgent;
 import agent.test.mock.MockAgent;
 import agent.test.mock.MockConveyor;
 import agent.test.mock.MockGantry;
+import agent.test.mock.MockGraphics;
 import agent.test.mock.MockNest;
 import agent.test.mock.MockPartsRobot;
 import agent.test.mock.MockStand;
@@ -574,6 +584,100 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 
 	}
 
+	@Test
+	public void testagentsWithoutGraphics() throws InterruptedException {
+		GantryAgent gantry= new GantryAgent("Gantry Agent");
+		ArrayList<FeederAgent> feeders = new ArrayList<FeederAgent>();
+		for(int i=0;i<4;i++){
+			feeders.add(new FeederAgent("Feeder Agent "+i));
+		}
+		ArrayList<LaneAgent> lanes = new ArrayList<LaneAgent>();
+		for(int i=0;i<8;i++){
+			lanes.add(new LaneAgent("Lane Agent "+i));
+		}
+		ArrayList<NestAgent> nests = new ArrayList<NestAgent>();
+		for(int i=0;i<8;i++){
+			nests.add(new NestAgent("Nest Agent "+i));
+		}
+		PartsRobotAgent partsRobot= new PartsRobotAgent("Parts Robot Agent");
+		CameraAgent camera = new CameraAgent("Camera Agent");
+		StandAgent stand = new StandAgent("Stand Agent");
+		KitRobotAgent kitRobot = new KitRobotAgent("Kit Robot Agent");
+		ConveyorAgent conveyor = new ConveyorAgent("Conveyor Agent");
+		FCSAgent fcs = new FCSAgent("FCS Agent");
+		
+		for(int i=0;i<8;i++){
+			feeders.get(i/2).setGantry(gantry);
+			feeders.get(i/2).setLane(lanes.get(i));
+			lanes.get(i).setFeeder(feeders.get(i/2));
+			lanes.get(i).setNest(nests.get(i));
+			nests.get(i).setLane(lanes.get(i));
+			camera.setNest(nests.get(i));
+			fcs.setNest(nests.get(i));
+		}
+		camera.setKitRobot(kitRobot);
+		stand.setFCS(fcs);
+		stand.setKitrobot(kitRobot);
+		stand.setPartsRobot(partsRobot);
+		kitRobot.setCamera(camera);
+		kitRobot.setStand(stand);
+		conveyor.setFCS(fcs);
+		conveyor.setKitrobot(kitRobot);
+		fcs.setConveyor(conveyor);
+		fcs.setGantry(gantry);
+		fcs.setPartsRobot(partsRobot);
+		fcs.setStand(stand);
+		
+		MockGraphics mg= new MockGraphics("Mock Graphics");
+		
+		gantry.setGraphicalRepresentation(mg);
+		for(int i=0;i<4;i++){
+			feeders.get(i).setGraphicalRepresentation(mg);
+		}
+		for(int i=0;i<8;i++){
+			lanes.get(i).setGraphicalRepresentation(mg);
+		}
+		for(int i=0;i<8;i++){
+			nests.get(i).setGraphicalRepresentation(mg);
+		}
+		partsRobot.setGraphicalRepresentation(mg);
+		camera.setGraphicalRepresentation(mg);
+		stand.setGraphicalRepresentation(mg);
+		kitRobot.setGraphicalRepresentation(mg);
+		conveyor.setGraphicalRepresentation(mg);
+		fcs.setGraphicalRepresentation(mg);
+		
+		KitConfig kg = new KitConfig("Kit config");
+		kg.addItem(new PartType("A"), 1);
+		kg.addItem(new PartType("B"), 1);
+		kg.addItem(new PartType("C"), 1);
+		kg.addItem(new PartType("D"), 1);
+		kg.addItem(new PartType("E"), 1);
+		kg.addItem(new PartType("F"), 1);
+		kg.addItem(new PartType("G"), 1);
+		kg.addItem(new PartType("H"), 1);
+		
+		gantry.startThread();
+		for(int i=0;i<4;i++){
+			feeders.get(i).startThread();
+		}
+		for(int i=0;i<8;i++){
+			lanes.get(i).startThread();
+		}
+		for(int i=0;i<8;i++){
+			nests.get(i).startThread();
+		}
+		mg.startThread();
+		partsRobot.startThread();
+		camera.startThread();
+		stand.startThread();
+		kitRobot.startThread();
+		conveyor.startThread();
+		fcs.startThread();
+		
+		fcs.msgAddKitsToQueue(new Order(kg,1));
+	}
+	
 	/**
 	 * This is a modified version of Sean Turner's helper function which prints
 	 * out the logs from any number of MockAgents. This should help to assist in
