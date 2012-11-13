@@ -10,25 +10,25 @@ import java.awt.CardLayout;
 import javax.swing.JSplitPane;
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.JTextField;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JTable;
 import java.awt.event.*;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import javax.swing.BoxLayout;
+import javax.swing.SwingConstants;
+import java.awt.Component;
 
 /*
 * Authorship: Aaron Harris
 */
 
-public class KitManagerPanel extends JPanel implements ActionListener{
-	private JTextField textField;
+public class KitManagerPanel extends JPanel{
 	private JComboBox[] cbPart;
 	private JTable tblSched;
+	private JTextField textField;
 
 	/**
 	 * Create the panel.
@@ -57,53 +57,39 @@ public class KitManagerPanel extends JPanel implements ActionListener{
 		
 		JPanel kitPanel = new JPanel();
 		splitPane.setLeftComponent(kitPanel);
-		kitPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		kitPanel.setLayout(new BoxLayout(kitPanel, BoxLayout.Y_AXIS));
 		
 		JLabel lblName = new JLabel("Name:");
-		kitPanel.add(lblName, "2, 2");
+		lblName.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblName.setHorizontalAlignment(SwingConstants.CENTER);
+		kitPanel.add(lblName);
 		
 		textField = new JTextField();
-		kitPanel.add(textField, "2, 4, fill, default");
+		kitPanel.add(textField);
 		textField.setColumns(10);
-		
-		JLabel lblNumberOfParts = new JLabel("Number of Parts:");
-		kitPanel.add(lblNumberOfParts, "2, 6");
-		
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(4, 4, 8, 1));
-		kitPanel.add(spinner, "2, 8, left, center");
 		
 		JPanel panel = new JPanel();
 		splitPane.setRightComponent(panel);
-		panel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{1, 0};
+		gbl_panel.rowHeights = new int[]{1, 0};
+		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		
 		JLabel lblSelectParts = new JLabel("Select Parts");
-		panel.add(lblSelectParts, "2, 2");
+		GridBagConstraints gbc_lblSelectParts = new GridBagConstraints();
+		gbc_lblSelectParts.fill = GridBagConstraints.BOTH;
+		gbc_lblSelectParts.gridx = 0;
+		gbc_lblSelectParts.gridy = 0;
+		panel.add(lblSelectParts, gbc_lblSelectParts);
 		
 		JComboBox cbTest = new JComboBox();
-		panel.add(cbTest, "2, 4, fill, default");
+		GridBagConstraints gbc_cbTest = new GridBagConstraints();
+		gbc_cbTest.fill = GridBagConstraints.BOTH;
+		gbc_cbTest.gridx = 0;
+		gbc_cbTest.gridy = 0;
+		panel.add(cbTest, gbc_cbTest);
 		
 		cbPart = new JComboBox[8];
 		for (int i = 0; i < 8; i++) {
