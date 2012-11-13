@@ -371,13 +371,13 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	@Override
 	public void hereIsNewBin(Bin bin) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void receiveData(Request req) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
