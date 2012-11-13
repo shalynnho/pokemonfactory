@@ -8,10 +8,6 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import java.awt.Component;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -147,7 +143,7 @@ public class PartsManagerPanel extends JPanel {
 		textArea.setFont(UIManager.getFont("Button.font"));
 		panel.add(textArea);
 		
-		JLabel lblImagePath = new JLabel("Image Path:");
+		JLabel lblImagePath = new JLabel("Image:");
 		GridBagConstraints gbc_lblImagePath = new GridBagConstraints();
 		gbc_lblImagePath.anchor = GridBagConstraints.EAST;
 		gbc_lblImagePath.insets = new Insets(0, 0, 0, 5);
@@ -245,15 +241,11 @@ public class PartsManagerPanel extends JPanel {
         cl.show(pnlButtons, "Edit Part Type");
         // "back-up" the original values in case a user decides to cancel changes
         backupFields[0] = tfName.getText();
-        backupFields[1] = tfImgPath.getText();
-        backupFields[2] = tfSndPath.getText();
         enableFields();        
 	}
 	
 	protected void cancelEdit() {
 		if (backupFields[0] != null) tfName.setText(backupFields[0]);
-		if (backupFields[1] != null) tfImgPath.setText(backupFields[1]);
-		if (backupFields[2] != null) tfSndPath.setText(backupFields[2]);
 	}
 	
 	protected void createPart() {
@@ -274,17 +266,11 @@ public class PartsManagerPanel extends JPanel {
 	
 	protected void clearFields() {
 		tfName.setText("");
-		tfImgPath.setText("");
-		tfSndPath.setText("");
 	}
 	
 	protected void toggleFields() {
 		if (tfName.isEnabled()) tfName.setEnabled(false);
 		else tfName.setEnabled(true);
-		if (tfImgPath.isEnabled()) tfImgPath.setEnabled(false);
-		else tfImgPath.setEnabled(true);
-		if (tfSndPath.isEnabled()) tfSndPath.setEnabled(false);
-		else tfSndPath.setEnabled(true);
 	}
 	protected void enableFields() {
 		if (tfName.isEnabled()) toggleFields();
