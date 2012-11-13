@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import factory.KitConfig;
+import factory.PartType;
+
 import junit.framework.TestCase;
 import DeviceGraphics.NestGraphics;
 import agent.CameraAgent;
@@ -14,7 +17,6 @@ import agent.PartsRobotAgent;
 import agent.PartsRobotAgent.MyKitStatus;
 import agent.data.Kit;
 import agent.data.Part;
-import agent.data.PartType;
 
 /**
  * This tests the Parts Robot and Camera in the normative scenario. The UUT is
@@ -71,7 +73,7 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 		List<Part> partsList = new ArrayList<Part>();
 
 		for (int i = 0; i < 9; i++) {
-			Part p = new Part(PartType.A);
+			Part p = new Part(new PartType("A"));
 			nest.msgHereIsPart(p);
 			partsList.add(p);
 		}
@@ -79,7 +81,10 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 		List<CameraAgent.MyNest> MyNests = camera.getNests();
 		CameraAgent.MyNest MyNest = null;
 		CameraAgent.MyNest MyNest2 = null;
-		Kit kit = new Kit(nest.getTypesOfParts());
+		
+		KitConfig config= new KitConfig("Config");
+		config.addItem(nest.getTypesOfParts().get(0), 2);
+		Kit kit = new Kit(config);
 
 		for (CameraAgent.MyNest mn : MyNests) {
 			if (mn.nest == nest) {

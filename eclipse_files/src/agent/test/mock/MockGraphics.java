@@ -15,6 +15,7 @@ import GraphicsInterfaces.GantryGraphics;
 import GraphicsInterfaces.LaneGraphics;
 import GraphicsInterfaces.NestGraphics;
 import GraphicsInterfaces.PartsRobotGraphics;
+import Networking.Request;
 import Utils.Location;
 import agent.Agent;
 import agent.CameraAgent;
@@ -42,7 +43,7 @@ import agent.interfaces.Nest;
 public class MockGraphics extends Agent implements CameraGraphics,
 		GraphicsInterfaces.ConveyorGraphics, FeederGraphics, GantryGraphics,
 		GraphicsInterfaces.KitRobotGraphics, LaneGraphics, NestGraphics,
-		PartsRobotGraphics {
+		PartsRobotGraphics, DeviceGraphics {
 
 	Timer timer;
 	String name;
@@ -369,6 +370,12 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	@Override
 	public void hereIsNewBin(Bin bin) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void receiveData(Request req) {
 		// TODO Auto-generated method stub
 		
 	}

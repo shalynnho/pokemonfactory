@@ -9,8 +9,8 @@ import Networking.Client;
  */
 public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
 		
-	public InspectionStandGraphicsDisplay(Client km) {
-		super(km, 3);
+	public InspectionStandGraphicsDisplay(Client kam) {
+		super(kam, 3);
 	}
 
 	/**
