@@ -48,15 +48,18 @@ public class FCSAgent extends Agent implements FCS {
 	
 	public FCSAgent(){
 		super();
-		this.name="FCS";
+		this.name="FCS Agent";
 		binsSet=false;
 		binsToAdd= new ArrayList<PartType>();
 	}
 
 	@Override
 	public void msgAddKitsToQueue(Order o){   
-	    orders.add(o);    
-	    fcs.updateQueue();
+		print("Recieved new order");
+	    orders.add(o); 
+	    if(fcs!=null){
+	    	fcs.updateQueue();
+	    }
 	}    
 	
 	@Override
@@ -64,7 +67,9 @@ public class FCSAgent extends Agent implements FCS {
 	    for(Order order: orders){    
 	        if(order.equals(o)){
 	        	o.cancel=true;
-	        	fcs.updateQueue();
+	        	if(fcs!=null){
+	        		fcs.updateQueue();
+	        	}
 	        }
 	    }    
 	}
@@ -81,10 +86,13 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgOrderFinished(){  
+		print("Order Done!!!!");
 		for(Order o:orders){
 			if(o.state == Order.orderState.ORDERED){
 				orders.remove(o);
-				fcs.updateQueue();
+				if(fcs!=null){
+					fcs.updateQueue();
+				}
 				break;
 			}
 		}
@@ -122,8 +130,10 @@ public class FCSAgent extends Agent implements FCS {
 	
 	public void placeOrder(Order o){    
 	    o.state=Order.orderState.ORDERED;    
-	    state=myState.LOADED;    
-	    fcs.updateQueue();
+	    state=myState.LOADED;   
+	    if(fcs!=null){
+	    	fcs.updateQueue();
+	    }
 	    
 	    conveyor.msgHereIsKitConfiguration(o.kitConfig);
 	    stand.msgMakeKits(o.numberOfKits);    
@@ -151,7 +161,9 @@ public class FCSAgent extends Agent implements FCS {
 		} else {
 			orders.remove(o);
 		}
-		fcs.updateQueue();
+		if(fcs!=null){
+			fcs.updateQueue();
+		}
 		stateChanged();
 	}
 	
