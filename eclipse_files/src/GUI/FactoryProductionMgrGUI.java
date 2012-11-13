@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
@@ -16,8 +15,12 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 
+import Networking.Request;
+import Networking.Server;
+import Utils.Constants;
 import factory.KitConfig;
 import factory.Order;
+
 
 /**
 *
@@ -52,6 +55,8 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 		// TODO: change this, 
 		kitComboBox.addItem("DEFAULT KIT");
 		kitComboBox.addItem("Option 2");
+		for(int i = 0; i<Utils.Constants.DEFAULT_KITCONFIGS.size();i++)
+			kitComboBox.addItem(Utils.Constants.DEFAULT_KITCONFIGS.get(i).getName());
 		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.PAGE_START;
@@ -91,15 +96,32 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO: send message to FCS with order info
-		//selectedKit = kitComboBox.getSelectedItem();
+		
+		//For loop iterates through ArrayList of KitConfigs to find a match between the selected
+		//ComboBoxItem (presented as a String) and the actual KitConfig with that String. 
+		//Then it sets variable selectedKit equal to that kit, which allows an order 
+		//to be created and sent to server
+		for(int i = 0; i<Utils.Constants.DEFAULT_KITCONFIGS.size();i++)
+		{
+			if(Utils.Constants.DEFAULT_KITCONFIGS.get(i).getName().equals(kitComboBox.getSelectedItem()))
+				selectedKit = Utils.Constants.DEFAULT_KITCONFIGS.get(i);
+		}
+		
+		//Set variable quantity equal to number user enters in SpinModel
 		quantity = (Integer)spinModel.getNumber();
-		System.out.println("Selected: " + kitComboBox.getSelectedItem());
-		System.out.println("Quant: " + quantity);
-		//Order temp = new Order()
+		
+		//Creates new Order and passes it the kit the User selects and the quantity to make
+		Order temp = new Order(selectedKit, quantity);
+		
+		//sends message to FCS with order info
 		//server.sendData(new Request(Constants.FCS_ADD_ORDER, Constants.FCS_TARGET, temp));
 		
+		//testing purposes only -- feel free to comment out or delete print statement below
+		System.out.println("Order Details: " + temp.kitConfig + " " + temp.numberOfKits);
+	
+		
 	}
+	
 	
 	public void updateKitConfigs(ArrayList<KitConfig> kc) {
 		kitConfigs = kc;
