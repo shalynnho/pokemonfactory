@@ -20,6 +20,8 @@ import java.awt.GridBagConstraints;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
 import java.awt.Component;
+import java.awt.Insets;
+import javax.swing.border.BevelBorder;
 
 /*
 * Authorship: Aaron Harris
@@ -28,7 +30,6 @@ import java.awt.Component;
 public class KitManagerPanel extends JPanel{
 	private JComboBox[] cbPart;
 	private JTable tblSched;
-	private JTextField textField;
 
 	/**
 	 * Create the panel.
@@ -52,49 +53,10 @@ public class KitManagerPanel extends JPanel{
 		JButton btnAddKit = new JButton("New Kit Arrangement");
 		pnlKitChooser.add(btnAddKit);
 		
-		JSplitPane splitPane = new JSplitPane();
-		managerPanel.add(splitPane, BorderLayout.CENTER);
-		
-		JPanel kitPanel = new JPanel();
-		splitPane.setLeftComponent(kitPanel);
-		kitPanel.setLayout(new BoxLayout(kitPanel, BoxLayout.Y_AXIS));
-		
-		JLabel lblName = new JLabel("Name:");
-		lblName.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblName.setHorizontalAlignment(SwingConstants.CENTER);
-		kitPanel.add(lblName);
-		
-		textField = new JTextField();
-		kitPanel.add(textField);
-		textField.setColumns(10);
-		
-		JPanel panel = new JPanel();
-		splitPane.setRightComponent(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{1, 0};
-		gbl_panel.rowHeights = new int[]{1, 0};
-		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
-		
-		JLabel lblSelectParts = new JLabel("Select Parts");
-		GridBagConstraints gbc_lblSelectParts = new GridBagConstraints();
-		gbc_lblSelectParts.fill = GridBagConstraints.BOTH;
-		gbc_lblSelectParts.gridx = 0;
-		gbc_lblSelectParts.gridy = 0;
-		panel.add(lblSelectParts, gbc_lblSelectParts);
-		
-		JComboBox cbTest = new JComboBox();
-		GridBagConstraints gbc_cbTest = new GridBagConstraints();
-		gbc_cbTest.fill = GridBagConstraints.BOTH;
-		gbc_cbTest.gridx = 0;
-		gbc_cbTest.gridy = 0;
-		panel.add(cbTest, gbc_cbTest);
-		
 		cbPart = new JComboBox[8];
 		for (int i = 0; i < 8; i++) {
 			cbPart[i] = new JComboBox();
-			panel.add(cbPart[i], "2, " + (4+(2*i)) + ", fill, default");
+			pnlParts.add(cbPart[i], "2, " + (4+(2*i)) + ", fill, default");
 		}
 		
 		JPanel pnlButtons = new JPanel();
@@ -102,7 +64,7 @@ public class KitManagerPanel extends JPanel{
 		pnlButtons.setLayout(new CardLayout(0, 0));
 		
 		JPanel pnlView = new JPanel();
-		pnlButtons.add(pnlView, "name_23894555808367");
+		pnlButtons.add(pnlView, "View Buttons");
 		
 		JButton btnEditKit = new JButton("Edit Kit Arrangement");
 		pnlView.add(btnEditKit);
@@ -111,7 +73,7 @@ public class KitManagerPanel extends JPanel{
 		pnlView.add(btnDeleteKit);
 		
 		JPanel pnlEdit = new JPanel();
-		pnlButtons.add(pnlEdit, "name_23910758672140");
+		pnlButtons.add(pnlEdit, "Edit Buttons");
 		
 		JButton btnSaveChg = new JButton("Save Changes");
 		pnlEdit.add(btnSaveChg);
@@ -120,7 +82,7 @@ public class KitManagerPanel extends JPanel{
 		pnlEdit.add(btnCnclChg);
 		
 		JPanel pnlAdd = new JPanel();
-		pnlButtons.add(pnlAdd, "name_23920408713375");
+		pnlButtons.add(pnlAdd, "Add Buttons");
 		
 		JButton btnCreateKit = new JButton("Create Kit Arrangement");
 		pnlAdd.add(btnCreateKit);
