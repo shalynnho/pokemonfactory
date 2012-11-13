@@ -77,9 +77,9 @@ public class V0_Agent_TestSuite {
 		fcs.setPartsRobot(partsRobot);
 		fcs.setStand(stand);
 		
-		MockGraphics mg= new MockGraphics("Mock Graphics");
+		//MockGraphics mg= new MockGraphics("Mock Graphics");
 		
-		gantry.setGraphicalRepresentation(mg);
+		/*gantry.setGraphicalRepresentation(mg);
 		for(int i=0;i<4;i++){
 			feeders.get(i).setGraphicalRepresentation(mg);
 		}
@@ -94,7 +94,7 @@ public class V0_Agent_TestSuite {
 		stand.setGraphicalRepresentation(mg);
 		kitRobot.setGraphicalRepresentation(mg);
 		conveyor.setGraphicalRepresentation(mg);
-		fcs.setGraphicalRepresentation(mg);
+		fcs.setGraphicalRepresentation(mg);*/
 		
 		KitConfig kg = new KitConfig("Kit config");
 		kg.addItem(new PartType("A"), 1);
