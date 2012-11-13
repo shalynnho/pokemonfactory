@@ -27,7 +27,7 @@ import factory.Order;
 
 public class FactoryProductionManager extends Client implements ActionListener {
 	// WINDOW DIMENSIONS
-	private static final int WINDOW_WIDTH = 1000;
+	private static final int WINDOW_WIDTH = 1200;
 	private static final int WINDOW_HEIGHT = 700;
 	
 	private FactoryProductionMgrGUI fpmGUI;
@@ -85,7 +85,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
 		
-		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay(this));
+		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay());
 		
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		
