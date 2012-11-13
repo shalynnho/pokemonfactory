@@ -49,14 +49,15 @@ public class V1_Agents_Mock_Graphics {
 			camera.setNest(nests.get(i));
 			fcs.setNest(nests.get(i));
 		}
+		conveyor.setFCS(fcs);
+		conveyor.setKitrobot(kitRobot);
 		camera.setKitRobot(kitRobot);
 		stand.setFCS(fcs);
 		stand.setKitrobot(kitRobot);
 		stand.setPartsRobot(partsRobot);
 		kitRobot.setCamera(camera);
 		kitRobot.setStand(stand);
-		conveyor.setFCS(fcs);
-		conveyor.setKitrobot(kitRobot);
+		kitRobot.setConveyor(conveyor);
 		fcs.setConveyor(conveyor);
 		fcs.setGantry(gantry);
 		fcs.setPartsRobot(partsRobot);
