@@ -33,4 +33,12 @@ public class PartType implements Serializable {
 		return image;
 	}
 	
+	public int getPartNum() {
+		return partNum;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
 }
