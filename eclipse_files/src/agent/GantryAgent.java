@@ -127,7 +127,7 @@ public class GantryAgent extends Agent implements Gantry {
 				}
 			}
 		}	
-		if(waitForDrop == true) {
+		//if(waitForDrop == true) {
 			for (MyFeeder currentFeeder : feeders) {
 				for (Bin bin : binList) {
 					if (bin.part.type == currentFeeder.getRequestedType()
@@ -137,7 +137,7 @@ public class GantryAgent extends Agent implements Gantry {
 					}
 				}
 			}
-		}
+		//}
 		if(waitForDrop == false) {
 			for (MyFeeder currentFeeder : feeders) {
 				for (Bin bin : binList) {
@@ -161,7 +161,7 @@ public class GantryAgent extends Agent implements Gantry {
 		bin.binState = BinStatus.MOVING;
 
 		// GUIGantry.receiveBin(bin, feeder);
-		waitForDrop = true;
+		//waitForDrop = true;
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
