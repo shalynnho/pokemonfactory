@@ -180,13 +180,13 @@ public class FeederAgent extends Agent implements Feeder {
 
 	public void purgeBin() {
 		print("Purging this feeder");
-		// feederGUI.purgeBin(bin.binGraphics);
+		/* feederGUI.purgeBin(bin.binGraphics);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 		gantry.msgRemoveBinDone(bin);
 		bin = null;
@@ -196,12 +196,14 @@ public class FeederAgent extends Agent implements Feeder {
 
 	public void flipDiverter() {
 		print("Flipping the diverter");
+		if(feederGUI != null) {
 		feederGUI.flipDiverter();
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
 		}
 
 		if (currentOrientation == 0) {

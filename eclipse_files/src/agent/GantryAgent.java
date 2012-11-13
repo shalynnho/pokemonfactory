@@ -160,14 +160,14 @@ public class GantryAgent extends Agent implements Gantry {
 		print("Moving bin to over feeder");
 		bin.binState = BinStatus.MOVING;
 
-		// GUIGantry.receiveBin(bin, feeder);
+		/* GUIGantry.receiveBin(bin, feeder);
 		//waitForDrop = true;
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 		stateChanged();
 	}
@@ -176,14 +176,14 @@ public class GantryAgent extends Agent implements Gantry {
 	public void fillFeeder(Bin bin, FeederAgent feeder) {
 		print("Placing bin in feeder and filling feeder");
 		
-
-		// GUIGantry.dropBin(bin, feeder);
+		
+		/* GUIGantry.dropBin(bin, feeder);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		feeder.msgHereAreParts(bin.part.type, bin);
 		bin.binState = BinStatus.FILLING_FEEDER;
 
@@ -195,13 +195,13 @@ public class GantryAgent extends Agent implements Gantry {
 		print("Discarding bin");
 		bin.binState = BinStatus.DISCARDING;
 
-		// GUIGangry.removeBin(bin);
+		/* GUIGangry.removeBin(bin);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 		stateChanged();
 	}
