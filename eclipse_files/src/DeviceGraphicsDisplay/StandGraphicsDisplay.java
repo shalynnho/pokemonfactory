@@ -12,7 +12,7 @@ import factory.KitConfig;
 import factory.PartType;
 
 /**
- * Graphics side of the kitting stand, and parent class to inspecton stand
+ * Graphics side of the kitting stand, and parent class to inspection stand
  * @author Shalynn Ho
  *
  */
