@@ -1,7 +1,6 @@
 package agent.test.mock;
 
 import java.util.Timer;
-import java.util.TimerTask;
 
 import DeviceGraphics.BinGraphics;
 import DeviceGraphics.ConveyorGraphics;
@@ -118,42 +117,23 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	@Override
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
 		print("KitRobotGraphics received message msgPlaceKitOnStand");
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				print("KitRobotGraphics sending message msgPlaceKitOnStandDone() to KitRobot after 100ms");
-				kitrobot.msgPlaceKitOnStandDone();
-			}
-		}, 100);
+		print("KitRobotGraphics sending message msgPlaceKitOnStandDone() to KitRobot after 100ms");
+		kitrobot.msgPlaceKitOnStandDone();
 
 	}
 
 	@Override
 	public void msgPlaceKitInInspectionArea(KitGraphics kit) {
 		print("KitRobotGraphics received message placeKitInInspectionArea");
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				print("KitRobotGraphics sending message placeKitInInspectionAreaDone() to KitRobot after 100ms");
-				kitrobot.msgPlaceKitInInspectionAreaDone();
-			}
-		}, 100);
+		print("KitRobotGraphics sending message placeKitInInspectionAreaDone() to KitRobot after 100ms");
+		kitrobot.msgPlaceKitInInspectionAreaDone();
 	}
 
 	@Override
 	public void msgPlaceKitOnConveyor() {
 		print("KitRobotGraphics received message msgPlaceKitOnConveyor");
-
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				print("KitRobotGraphics sending message placeKitOnConveyorDone() to KitRobot after 100ms");
-				kitrobot.msgPlaceKitOnConveyorDone();
-			}
-		}, 100);
+		print("KitRobotGraphics sending message placeKitOnConveyorDone() to KitRobot after 100ms");
+		kitrobot.msgPlaceKitOnConveyorDone();
 	}
 
 	@Override
@@ -190,14 +170,8 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public void msgBringEmptyKit(KitGraphics kit) {
 		print("ConveyorGraphics received message msgBringEmptyKit");
 
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				print("ConveyorGraphics sending message msgBringEmptyKitDone() to conveyor after 100ms");
-				conveyor.msgBringEmptyKitDone();
-			}
-		}, 100);
+		print("ConveyorGraphics sending message msgBringEmptyKitDone() to conveyor after 100ms");
+		conveyor.msgBringEmptyKitDone();
 
 	}
 
@@ -205,30 +179,15 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public void msgGiveKitToKitRobot(KitGraphics kit) {
 		print("ConveyorGraphics received message msgGiveKitToKitRobot");
 
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				print("ConveyorGraphics sending message msgGiveKitToKitRobotDone() to conveyor after 100ms");
-				conveyor.msgGiveKitToKitRobotDone();
-			}
-		}, 100);
-
+		print("ConveyorGraphics sending message msgGiveKitToKitRobotDone() to conveyor after 100ms");
+		conveyor.msgGiveKitToKitRobotDone();
 	}
 
 	@Override
 	public void msgReceiveKit(KitGraphics kit) {
 		print("ConveyorGraphics received message msgReceiveKit");
-
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				print("ConveyorGraphics sending message msgReceiveKitDone() to conveyor after 100ms");
-				conveyor.msgReceiveKitDone();
-			}
-		}, 100);
-
+		print("ConveyorGraphics sending message msgReceiveKitDone() to conveyor after 100ms");
+		conveyor.msgReceiveKitDone();
 	}
 
 	@Override
