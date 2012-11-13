@@ -146,11 +146,11 @@ public class KitManagerPanel extends JPanel implements ActionListener{
 		tabbedPane.addTab("View Schedule", null, schedPanel, null);
 		schedPanel.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel_1 = new JPanel();
-		schedPanel.add(panel_1, BorderLayout.NORTH);
+		JPanel pnlRefresh = new JPanel();
+		schedPanel.add(pnlRefresh, BorderLayout.NORTH);
 		
 		JButton btnRefresh = new JButton("Refresh");
-		panel_1.add(btnRefresh);
+		pnlRefresh.add(btnRefresh);
 		
 		tblSched = new JTable();
 		schedPanel.add(tblSched, BorderLayout.CENTER);
