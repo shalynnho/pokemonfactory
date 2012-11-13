@@ -8,6 +8,8 @@ import Utils.Constants;
 
 public class PartType implements Serializable {
 	private String name = "";
+	private int partNum;
+	private String description = "";
 	private Image image;
 	
 	public PartType(String s) {
