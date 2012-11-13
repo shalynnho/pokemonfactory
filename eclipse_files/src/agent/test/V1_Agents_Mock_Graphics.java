@@ -2,8 +2,6 @@ package agent.test;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
-
 import agent.CameraAgent;
 import agent.ConveyorAgent;
 import agent.FCSAgent;
@@ -21,8 +19,7 @@ import factory.PartType;
 
 public class V1_Agents_Mock_Graphics {
 
-	@Test
-	public void main() {
+	public static void main(String[] args) {
 		GantryAgent gantry = new GantryAgent("Gantry Agent");
 		ArrayList<FeederAgent> feeders = new ArrayList<FeederAgent>();
 		for (int i = 0; i < 4; i++) {
