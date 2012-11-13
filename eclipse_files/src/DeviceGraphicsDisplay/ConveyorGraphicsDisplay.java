@@ -70,7 +70,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void newKit() {
 		print("Making new kit");
-		KitGraphicsDisplay temp = new KitGraphicsDisplay(client);
+		KitGraphicsDisplay temp = new KitGraphicsDisplay();
 		temp.setLocation(new Location(0, 200));
 		kitsOnConveyor.add(temp);
 	}
@@ -87,7 +87,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void newExitKit() {
-		KitGraphicsDisplay temp = new KitGraphicsDisplay(client);
+		KitGraphicsDisplay temp = new KitGraphicsDisplay();
 		temp.setLocation(new Location(0,400));
 		kitsToLeave.add(temp);
 	}

@@ -1,18 +1,15 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.util.ArrayList;
+
 import javax.swing.JComponent;
 
-import agent.data.PartType;
-
-import DeviceGraphics.DeviceGraphics;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import factory.PartType;
 
 /**
  * @author Vansh Jain, Shalynn Ho, Harry Trieu
@@ -50,11 +47,11 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		nestID = id;
 		animate =false; 
 		isFull = true;
-		nestLocation = new Location(199 - NEST_WIDTH, 100 + nestID * 75);
+		nestLocation = new Location(399 - NEST_WIDTH, 50 + nestID * 75);
 		
 //		 TODO may need to remove temp later today - cannot create a random PartType
 		for (int i = 0; i < 8; i++) {
-			PartGraphicsDisplay temp = new PartGraphicsDisplay(PartType.A);
+			PartGraphicsDisplay temp = new PartGraphicsDisplay(Constants.DEFAULT_PARTTYPES.get(0));
 			if(i < 4) {
 				temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY()+1)));
 			} else {
@@ -100,8 +97,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 					// NOTE: according to the agents, this should never happen anyway
 				System.out.println("Nest is full");
 			} else {
-				String typeStr = (String) req.getData();
-				PartGraphicsDisplay temp = new PartGraphicsDisplay(PartType.valueOf(typeStr));
+				PartType type = (PartType) req.getData();
+				PartGraphicsDisplay temp = new PartGraphicsDisplay(type);
 				addPartToCorrectLocation(temp, partsInNest.size());
 				//choosing the correct location of the part
 				partsInNest.add(temp);

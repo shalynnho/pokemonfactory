@@ -25,6 +25,8 @@ public class GantryAgent extends Agent implements Gantry {
 
 	private final String name;
 	
+	private boolean waitForDrop = false;
+	
 	public class MyFeeder {
 		public FeederAgent feeder;
 		public PartType requestedType;
@@ -90,6 +92,7 @@ public class GantryAgent extends Agent implements Gantry {
 		print("Received msgdropBingDone from graphics");
 		bin.binState = BinStatus.EMPTY;
 		animation.release();
+		waitForDrop = false;
 		stateChanged();
 	}
 
@@ -113,32 +116,36 @@ public class GantryAgent extends Agent implements Gantry {
 		}
 		
 		// TODO Auto-generated method stub
-		for (MyFeeder currentFeeder : feeders) {
-			for (Bin bin : binList) {
-				if (bin.part.type == currentFeeder.getRequestedType() && bin.binState == BinStatus.FULL) {
-					print("Moving to feeder");
-					moveToFeeder(bin, currentFeeder.getFeeder());
-					return true;
+		if(waitForDrop == false) {
+			for (MyFeeder currentFeeder : feeders) {
+				for (Bin bin : binList) {
+					if (bin.part.type == currentFeeder.getRequestedType() && bin.binState == BinStatus.FULL) {
+						print("Moving to feeder");
+						moveToFeeder(bin, currentFeeder.getFeeder());
+						return true;
+					}
+				}
+			}
+		}	
+		if(waitForDrop == true) {
+			for (MyFeeder currentFeeder : feeders) {
+				for (Bin bin : binList) {
+					if (bin.part.type == currentFeeder.getRequestedType()
+							&& bin.binState == BinStatus.OVER_FEEDER) {
+						fillFeeder(bin, currentFeeder.getFeeder());
+						return true;
+					}
 				}
 			}
 		}
-		// print("I'm not having problems either");
-		for (MyFeeder currentFeeder : feeders) {
-			for (Bin bin : binList) {
-				if (bin.part.type == currentFeeder.getRequestedType()
-						&& bin.binState == BinStatus.OVER_FEEDER) {
-					fillFeeder(bin, currentFeeder.getFeeder());
-					return true;
-				}
-			}
-		}
-		// print("I'm not having problems too");
-		for (MyFeeder currentFeeder : feeders) {
-			for (Bin bin : binList) {
-				if (bin.part.type == currentFeeder.getRequestedType()
-						&& bin.binState == BinStatus.EMPTY) {
-					discardBin(bin);
-					return true;
+		if(waitForDrop == false) {
+			for (MyFeeder currentFeeder : feeders) {
+				for (Bin bin : binList) {
+					if (bin.part.type == currentFeeder.getRequestedType()
+							&& bin.binState == BinStatus.EMPTY) {
+						discardBin(bin);
+						return true;
+					}
 				}
 			}
 		}
@@ -154,6 +161,7 @@ public class GantryAgent extends Agent implements Gantry {
 		bin.binState = BinStatus.MOVING;
 
 		// GUIGantry.receiveBin(bin, feeder);
+		waitForDrop = true;
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {

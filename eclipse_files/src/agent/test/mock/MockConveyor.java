@@ -2,6 +2,8 @@ package agent.test.mock;
 
 import java.util.ArrayList;
 
+import factory.KitConfig;
+
 import agent.data.Kit;
 import agent.data.PartType;
 import agent.interfaces.Conveyor;
@@ -56,7 +58,7 @@ public class MockConveyor extends MockAgent implements Conveyor {
 	}
 
 	@Override
-	public void msgHereIsKitConfiguration(ArrayList<PartType> config) {
+	public void msgHereIsKitConfiguration(KitConfig config) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received message msgHereIsKitConfiguration"));
 	}

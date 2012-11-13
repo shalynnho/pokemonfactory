@@ -33,22 +33,29 @@ public class FCS {
 		server.sendData(new Request(Constants.FCS_UPDATE_KITS, Constants.ALL_TARGET, kitConfigs));
 	}
 	
+	// to clients
+	public void updateQueue() {
+		server.sendData(new Request(Constants.FCS_UPDATE_ORDERS, Constants.ALL_TARGET, queue));
+	}
 	
+	// from agent
 	public void updateQueue(ArrayList<Order> q) {
 		queue = q;
-		server.sendData(new Request(Constants.FCS_UPDATE_ORDERS, Constants.ALL_TARGET, queue));
 	} 
 	
 	public void newPart(PartType pt) {
 		partTypes.add(pt);
+		updateParts();
 	}
 	
 	public void newKit(KitConfig kc) {
 		kitConfigs.add(kc);
+		updateKits();
 	}
 	
 	public void addOrder(Order o) {
 		queue.add(o);
+		updateQueue();
 		
 		//TODO: put in the right agent message
 	}

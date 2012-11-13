@@ -59,8 +59,8 @@ public class Server {
 	public Server() {
 		initAgents();
 		initDevices();
-		connectAgentsWithDevices();
 		connectAgentsWithEachOther();
+		connectAgentsWithDevices();
 
 		initStreams();
 		// will never run anything after init Streams
@@ -284,7 +284,7 @@ public class Server {
 			sendDataToManagers(req);
 		}
 	}
-	
+
 	private void sendDataToManagers(Request req) {
 		kitRobotMngrWriter.sendData(req);
 		factProdMngrWriter.sendData(req);
@@ -292,8 +292,8 @@ public class Server {
 		laneMngrWriter.sendData(req);
 	}
 
-	//Temporarily got rid of all factory managers. 
-	
+	// Temporarily got rid of all factory managers.
+
 	private void sendDataToConveyor(Request req) {
 		// factProdMngrWriter.sendData(req);
 		kitRobotMngrWriter.sendData(req);
@@ -305,24 +305,23 @@ public class Server {
 	}
 
 	private void sendDataToPartsRobot(Request req) {
-		//factProdMngrWriter.sendData(req);
+		// factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToNest(Request req) {
-		//factProdMngrWriter.sendData(req);
+		// factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
-	
-	//Temporary Removal of camera requests
+	// Temporary Removal of camera requests
 	private void sendDataToCamera(Request req) {
 		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToLane(Request req) {
-		//factProdMngrWriter.sendData(req);
+		// factProdMngrWriter.sendData(req);
 		laneMngrWriter.sendData(req);
 	}
 

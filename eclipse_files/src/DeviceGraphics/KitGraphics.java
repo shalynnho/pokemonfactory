@@ -6,13 +6,15 @@ import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
-import agent.data.PartType;
+import factory.KitConfig;
+import factory.PartType;
 
 
 public class KitGraphics implements DeviceGraphics {
 	
 	private ArrayList<PartGraphics> parts = new ArrayList<PartGraphics>(); // parts currently in the kit
-	private ArrayList<PartType> partTypes = new ArrayList<PartType>(); // part types required to make kit
+//	private ArrayList<PartType> partTypes = new ArrayList<PartType>(); // part types required to make kit
+	private KitConfig kitConfig;
 	private Location kitLocation;
 	
 	private boolean isFull; //Says whether or not the kit is full
@@ -27,14 +29,16 @@ public class KitGraphics implements DeviceGraphics {
 	/**
 	 * set the part types required to build kit
 	 * 
-	 * @param kitDesign - parts required to build the kit
+	 * @param kitConfig - parts required to build the kit
 	 */
-	public void setPartTypes(ArrayList<PartType> kitDesign) {
-		partTypes = kitDesign;
+	public void setPartTypes(KitConfig config) {
+		kitConfig = config;
 	}
 	
-	
 	public void addPart (PartGraphics newPart) {
+		// TODO: add logic to determine status of kitConfig based on part added
+			// or will this be handled somewhere else?
+		
 		parts.add(newPart);
 		
 		if ((parts.size() % 2) == 1) {
@@ -59,6 +63,10 @@ public class KitGraphics implements DeviceGraphics {
 		return kitLocation;
 	}
 	
+	public KitConfig getKitConfig() {
+		return kitConfig;
+	}
+	
 	//If true, set isFull boolean to true
 	public void setFull (Boolean full) {
 		isFull = full;
@@ -70,14 +78,14 @@ public class KitGraphics implements DeviceGraphics {
 	
 	public void receivePart(PartGraphics part) {
 		addPart(part);
-		String typeStr = part.getPartType().toString();
-		server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND, Constants.KIT_TARGET, typeStr));
+		PartType type = part.getPartType();
+		server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND, Constants.KIT_TARGET, type));
 	}
 
 	@Override
 	public void receiveData(Request req) {
 		if (req.getCommand().equals("Testing")) {
-			addPart(new PartGraphics (PartType.A));
+			addPart(new PartGraphics (Constants.DEFAULT_PARTTYPES.get(0)));
 		}
 	}
 	

@@ -31,9 +31,9 @@ public abstract class Constants {
 	// DEVICE SETTINGS
 	// ==================================
 	
-	public static final int FEEDER_COUNT = 1;
-	public static final int LANE_COUNT = 2;
-	public static final int NEST_COUNT = 2;
+	public static final int FEEDER_COUNT = 4;
+	public static final int LANE_COUNT = 8;
+	public static final int NEST_COUNT = 8;
 	public static final int STAND_COUNT = 3;
 	
 	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(Arrays.asList(
@@ -233,15 +233,15 @@ public abstract class Constants {
 	
 	// kit positions
 	public static final String KIT_INSPECTION_AREA = "Kit inspection area"; 
-	
 	public static final String KIT_LOCATION1 = "Kit location1 area";
-	
 	public static final String KIT_LOCATION2 = "Kit location2 area";
-	
-	public static final String KIT_INITIAL = "Kit initial area";
-	
-	
+	public static final String KIT_INITIAL = "Kit initial area";	
 	// end kit positions
+	
+	// stand commands
+	public static final String STAND_RECEIVE_KIT_COMMAND = "stand receive kit";
+	public static final String STAND_GIVE_KIT_COMMAND = "stand give kit";
+	public static final String STAND_RECEIVE_PART_COMMAND = "stand receive part";
 	
 	// gantry logic to display commands
 	

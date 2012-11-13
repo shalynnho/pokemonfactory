@@ -1,10 +1,10 @@
 package agent.test.mock;
 
+import factory.PartType;
 import DeviceGraphics.DeviceGraphics;
 import agent.GantryAgent;
 import agent.LaneAgent;
 import agent.data.Bin;
-import agent.data.PartType;
 import agent.interfaces.Feeder;
 
 /**

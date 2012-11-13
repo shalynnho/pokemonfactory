@@ -5,14 +5,11 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import agent.data.PartType;
-
-
 import Networking.Client;
 import Networking.Request;
-import Utils.Animation;
 import Utils.Constants;
 import Utils.Location;
+import factory.PartType;
 
 /**
  * This class contains the graphics display components for a lane.
@@ -22,10 +19,10 @@ import Utils.Location;
  */
 public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// horizontal length of the Lane image
-	private static final int LANE_LENGTH = 400;
+	private static final int LANE_LENGTH = 300;
 	// start and end x-coordinates of Part on the Lane
-	private static final int LANE_BEG_X = 599;
-	private static final int LANE_END_X = 199;
+	private static final int LANE_BEG_X = 699;
+	private static final int LANE_END_X = 399;
 	// width and height of the part
 	private static final int PART_WIDTH = 20;
 	// max number of parts that can be on a Lane
@@ -34,17 +31,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int NUMLINES = LANE_LENGTH / (PART_WIDTH) - 2;
 	// width of lane lines
 	private static final int LINE_WIDTH = 3;
-
-	// y-coordinates of Part on Lane, depending on laneID
-	// TODO: ADJUST THESE LATER. NOT FOR V0, NOT IN DESIGN
-	private static final int LANE0_Y = 100;
-	private static final int LANE1_Y = 175;
-	private static final int LANE2_Y = 250;
-	private static final int LANE3_Y = 325;
-	private static final int LANE4_Y = 400;
-	private static final int LANE5_Y = 475;
-	private static final int LANE6_Y = 550;
-	private static final int LANE7_Y = 625;
 
 	// stores the parts on the lane
 	private ArrayList<PartGraphicsDisplay> partsOnLane;
@@ -86,7 +72,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
 
 		// set start locations
-		setLaneLoc(laneID);
+		laneLoc = new Location(LANE_END_X, 50 + laneID * 75);
 		partStartLoc = new Location(LANE_BEG_X, laneLoc.getY()
 				+ (PART_WIDTH / 2));
 
@@ -95,29 +81,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	}
 
-	/**
-	 * Overloaded constructor for V0 (includes location)- testing purposes only
-	 * REMOVE FOR V0 INTEGRATION
-	 * 
-	 * @param lm
-	 *            - the lane manager (client)
-	 * @param loc
-	 *            - location of the lane
-	 * @param lid
-	 *            - lane ID
-	 */
-	public LaneGraphicsDisplay(Client lm, Location loc, int lid) {
-		laneManager = lm;
-		laneLoc = loc;
-		laneID = lid;
-
-		partsOnLane = new ArrayList<PartGraphicsDisplay>();
-		partStartLoc = new Location(laneLoc.getX() + LANE_LENGTH,
-				laneLoc.getY() + (PART_WIDTH / 2));
-
-		// create array list of location for lane lines
-		resetLaneLineLocs();
-	}
 
 	/**
 	 * Animates lane movement and sets location of parts moving down lane
@@ -238,8 +201,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			laneLoc = (Location) r.getData();
 			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
-				String typeStr = (String) r.getData();
-				PartGraphicsDisplay pg = new PartGraphicsDisplay(PartType.valueOf(typeStr));
+				PartType type = (PartType) r.getData();
+				PartGraphicsDisplay pg = new PartGraphicsDisplay(type);
 				Location newLoc = new Location(laneLoc.getX() + LANE_LENGTH,
 						laneLoc.getY() + (PART_WIDTH / 2));
 				pg.setLocation(newLoc);
@@ -296,44 +259,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 		}
 
-	}
-
-	/**
-	 * Sets lane location depending on ID assigned
-	 * 
-	 * @param id
-	 *            - id of this lane
-	 */
-	private void setLaneLoc(int id) {
-
-		switch (id) {
-		case 0:
-			laneLoc = new Location(LANE_END_X, LANE0_Y);
-			break;
-		case 1:
-			laneLoc = new Location(LANE_END_X, LANE1_Y);
-			break;
-		case 2:
-			laneLoc = new Location(LANE_END_X, LANE2_Y);
-			break;
-		case 3:
-			laneLoc = new Location(LANE_END_X, LANE3_Y);
-			break;
-		case 4:
-			laneLoc = new Location(LANE_END_X, LANE4_Y);
-			break;
-		case 5:
-			laneLoc = new Location(LANE_END_X, LANE5_Y);
-			break;
-		case 6:
-			laneLoc = new Location(LANE_END_X, LANE6_Y);
-			break;
-		case 7:
-			laneLoc = new Location(LANE_END_X, LANE7_Y);
-			break;
-		default:
-			System.out.println("LGD: ID not recognized.");
-		}
 	}
 
 	/**

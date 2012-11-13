@@ -42,9 +42,6 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 		feederAgent = (FeederAgent)a;
 		feederLocation = new Location(500, id*2 + 150);
 		
-		// lane1 = (LaneAgent)l1;
-		// lane2 = (LaneAgent)l2;
-		
 		// diverter defaults to the top lane
 		diverterTop = true;
 	}
@@ -55,7 +52,6 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 */
 	public void receiveBin(BinGraphics bg) {
 		binGraphics = bg;
-		// System.out.println("=========================================HELLLLLLLLLLLLLLLLLLLLLLLLLO");
 		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, null));
 	}
 	
