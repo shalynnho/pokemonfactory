@@ -29,7 +29,7 @@ import Utils.Constants;
 *Authorship: Shalynn Ho, Harry Trieu and Matt Zecchini
 */
 
-public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListener {
+public class FactoryProductionManagerPanel extends OverlayPanel implements ActionListener {
 	private static final int PANEL_WIDTH = 300;
 	//private final Server server;
 	private KitConfig selectedKit;
@@ -44,7 +44,7 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 	//receives a Client because Harry and Matt are trying to figure out how
 	//we can create the order and send it to the FactoryProductionManager, which will then
 	//send it to the server (rather than having this GUI class send it directly to server)
-	public FactoryProductionMgrGUI(Client cli, int height) {
+	public FactoryProductionManagerPanel(Client cli, int height) {
 		super();
 		fpm = cli;
 		setPreferredSize(new Dimension(PANEL_WIDTH, height));
