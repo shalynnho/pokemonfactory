@@ -2,8 +2,6 @@ package agent.test;
 
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 
 import agent.CameraAgent;
@@ -21,10 +19,10 @@ import factory.KitConfig;
 import factory.Order;
 import factory.PartType;
 
-public class V1_Agents_Mock_Graphics extends TestCase {
+public class V1_Agents_Mock_Graphics {
 
 	@Test
-	public void testAgentsWithoutGraphics() {
+	public void main() {
 		GantryAgent gantry = new GantryAgent("Gantry Agent");
 		ArrayList<FeederAgent> feeders = new ArrayList<FeederAgent>();
 		for (int i = 0; i < 4; i++) {
