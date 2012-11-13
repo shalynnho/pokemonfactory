@@ -218,7 +218,9 @@ public class GantryAgent extends Agent implements Gantry {
 	}
 	
 	public void addBinToGraphics(Bin bin){
-		GUIGantry.hereIsNewBin(bin);
+		if(GUIGantry!=null){
+			GUIGantry.hereIsNewBin(bin);
+		}
 		bin.binState=BinStatus.FULL;
 		stateChanged();
 	}
