@@ -1,15 +1,28 @@
 package GUI;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 
-import Networking.Server;
-import Networking.Request;
-import Utils.Constants;
-import factory.Order;
 import factory.KitConfig;
+import factory.Order;
+
+/**
+*
+*Authorship: Shalynn Ho, Harry Trieu and Matt Zecchini
+*/
 
 public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListener {
 	private static final int PANEL_WIDTH = 300;
@@ -19,13 +32,14 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 	private JComboBox kitComboBox;
 	private SpinnerNumberModel spinModel;
 	
+	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
+	private ArrayList<Order> queue = new ArrayList<Order>();
 	
 	public FactoryProductionMgrGUI(int height) {
 		super();
 		setPreferredSize(new Dimension(PANEL_WIDTH, height));
 		setMinimumSize(new Dimension(PANEL_WIDTH, height));
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -85,5 +99,13 @@ public class FactoryProductionMgrGUI extends OverlayPanel implements ActionListe
 		//Order temp = new Order()
 		//server.sendData(new Request(Constants.FCS_ADD_ORDER, Constants.FCS_TARGET, temp));
 		
+	}
+	
+	public void updateKitConfigs(ArrayList<KitConfig> kc) {
+		kitConfigs = kc;
+	}
+	
+	public void updateOrders(ArrayList<Order> o) {
+		queue = o;
 	}
 }

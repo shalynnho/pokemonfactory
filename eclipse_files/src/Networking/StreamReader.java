@@ -25,10 +25,10 @@ public abstract class StreamReader implements Runnable{
 				System.out.println("StreamReader: received request = " + req.getCommand());
 				receiveData(req);
 			} catch(EOFException e) {
-				System.out.println("StreamReader: Connection lost. Other terminal has discnonected.");
+				System.out.println("StreamReader: Connection lost. Other terminal has disconnected.");
 				break;
 			} catch(SocketException e) {
-				System.out.println("StreamReader: Connection lost. Other terminal has discnonected.");
+				System.out.println("StreamReader: Connection lost. Other terminal has disconnected.");
 				break;
 			} catch(Exception e) {
 				System.out.println("StreamReader: Cannot read data");

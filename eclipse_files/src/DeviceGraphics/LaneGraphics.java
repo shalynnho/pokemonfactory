@@ -139,6 +139,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 
 	/**
 	 * Sorts data and messages sent to this lane via the server
+	 * Used to send DONE messages back to agent
 	 * @param r - the request
 	 */
 	public void receiveData(Request r) {

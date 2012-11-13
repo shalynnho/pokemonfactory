@@ -233,15 +233,15 @@ public abstract class Constants {
 	
 	// kit positions
 	public static final String KIT_INSPECTION_AREA = "Kit inspection area"; 
-	
 	public static final String KIT_LOCATION1 = "Kit location1 area";
-	
 	public static final String KIT_LOCATION2 = "Kit location2 area";
-	
-	public static final String KIT_INITIAL = "Kit initial area";
-	
-	
+	public static final String KIT_INITIAL = "Kit initial area";	
 	// end kit positions
+	
+	// stand commands
+	public static final String STAND_RECEIVE_KIT_COMMAND = "stand receive kit";
+	public static final String STAND_GIVE_KIT_COMMAND = "stand give kit";
+	public static final String STAND_RECEIVE_PART_COMMAND = "stand receive part";
 	
 	// gantry logic to display commands
 	
