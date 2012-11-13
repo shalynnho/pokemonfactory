@@ -50,14 +50,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 * Initialize the GUI and start the timer.
 	 */
 	public void initGUI() {
-		fpmGUI = new FactoryProductionMgrGUI(WINDOW_HEIGHT);
+		fpmGUI = new FactoryProductionMgrGUI(this, WINDOW_HEIGHT);
 		
 		add(fpmGUI, BorderLayout.EAST);
 		fpmGUI.setVisible(true);
-		
-		//TODO: Add FPM GUI stuff here.
-			//	GUI Panel to select and order kits. Adjacent to graphics panel?
-			// 	NetworkingButtonListener
 		
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
@@ -104,6 +100,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		} else {
 			devices.get(req.getTarget()).receiveData(req);
 		}
+	}
+	
+	public void createOrder(Order o) {
+		this.sendData(new Request(Constants.FCS_ADD_ORDER, Constants.FCS_TARGET, o));
 	}
 
 	public static void main(String[] args) {
