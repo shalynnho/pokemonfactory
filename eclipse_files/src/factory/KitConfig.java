@@ -12,6 +12,18 @@ public class KitConfig implements Serializable {
 		config = new HashMap<PartType, Integer>();
 		this.name = name;
 	}
+	
+	public KitConfig(String name, PartType... partTypes) {
+		this(name);
+		for(PartType pt : partTypes) {
+			if(config.get(pt) != null) { 
+				config.put(pt, config.get(pt) + 1);
+			} else {
+				config.put(pt, 1);
+			}
+		}
+
+	}
 
 	/**
 	 * Adds a new part type (and number) to this kit configuration.
