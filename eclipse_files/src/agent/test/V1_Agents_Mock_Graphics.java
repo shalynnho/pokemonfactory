@@ -109,6 +109,7 @@ public class V1_Agents_Mock_Graphics {
 		conveyor.startThread();
 		fcs.startThread();
 
+		fcs.msgStartProduction();
 		fcs.msgAddKitsToQueue(new Order(kg, 1));
 	}
 

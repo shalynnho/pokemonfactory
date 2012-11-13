@@ -106,6 +106,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public boolean pickAndExecuteAnAction(){
+		print("I'm scheduling stuff");
 		if(state==myState.STARTED){
 			if(!binsSet){
 				initializeBins();
@@ -174,6 +175,7 @@ public class FCSAgent extends Agent implements FCS {
 	}
 	
 	public void initializeBins(){
+		print("Messaging gantry about default bins");
 		for(int i=0;i<Constants.DEFAULT_PARTTYPES.size();i++){
 			gantry.msgHereIsBin(new Bin(Constants.DEFAULT_PARTTYPES.get(i),i));
 		}
