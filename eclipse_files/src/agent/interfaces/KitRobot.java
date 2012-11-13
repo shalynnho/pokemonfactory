@@ -12,7 +12,7 @@ public interface KitRobot {
 	public abstract void msgNeedThisManyKits(int total);
 
 	/**
-	 * Conveyor sends this when a kit is ready to be picked up.
+	 * Conveyor sends this to hand the kit off to the kit robot
 	 * @param k kit being picked up.
 	 */
 	public abstract void msgHereIsKit(Kit k);
@@ -22,6 +22,16 @@ public interface KitRobot {
 	 * @param standLocation location to place the kit
 	 */
 	public abstract void msgNeedKit(int standLocation);
+
+	/**
+	 * Conveyor sends this when a kit is ready to be picked up
+	 */
+	public abstract void msgKitReadyForPickup();
+
+	/**
+	 * Conveyor sends this when no kits are left on the conveyor.
+	 */
+	public abstract void msgNoKitsLeftOnConveyor();
 
 	/**
 	 * Stand sends this when a kit needs to be moved to the inspection area of
