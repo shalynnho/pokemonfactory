@@ -63,12 +63,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 		public MyKit(Kit k) {
 			this.kit = k;
-			this.KS = KitStatus.PickedUp;
+			this.KS = KitStatus.AwaitingPickup;
 		}
 	}
 
 	public enum KitStatus {
-		PickedUp, OnStand, MarkedForInspection, AwaitingInspection, Inspected;
+		AwaitingPickup, Requested, PickedUp, OnStand, MarkedForInspection, AwaitingInspection, Inspected;
 	};
 
 	/**
@@ -103,8 +103,21 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	}
 
 	@Override
-	public void msgHereIsKit(Kit k) {
+	public void msgKitReadyForPickup() {
+		print("Received msgKitReadyForPickup");
 		kitWaitingOnConveyor = true;
+		stateChanged();
+	}
+
+	@Override
+	public void msgNoKitsLeftOnConveyor() {
+		print("Received msgNoKitsLeftOnConveyor");
+		kitWaitingOnConveyor = false;
+		stateChanged();
+	}
+
+	@Override
+	public void msgHereIsKit(Kit k) {
 		print("Received msgHereIsKit");
 		MyKit mk = new MyKit(k);
 		myKits.add(mk);
@@ -173,22 +186,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	public boolean pickAndExecuteAnAction() {
 
 		synchronized (myKits) {
-			// Kit needs to be shipped out of the kitting cell
-			for (MyKit mk : myKits) {
-				if (mk.KS == KitStatus.Inspected) {
-					shipKit(mk);
-					return true;
-				}
-			}
-
-			// Kit needs to be inspected
-			for (MyKit mk : myKits) {
-				if (mk.KS == KitStatus.MarkedForInspection) {
-					placeKitInInspectionArea(mk);
-					return true;
-				}
-			}
-
 			// Picked up a kit from conveyor
 			for (MyKit mk : myKits) {
 				if (mk.KS == KitStatus.PickedUp) {
@@ -196,8 +193,32 @@ public class KitRobotAgent extends Agent implements KitRobot {
 					placeKitOnStand(mk);
 					return true;
 				}
+
+				// Kit needs to be shipped out of the kitting cell
+				if (mk.KS == KitStatus.Inspected) {
+					shipKit(mk);
+					return true;
+				}
+
+				// Kit needs to be inspected
+				if (mk.KS == KitStatus.MarkedForInspection) {
+					placeKitInInspectionArea(mk);
+					return true;
+				}
+
+				if (mk.KS == KitStatus.AwaitingPickup) {
+					mk.KS = KitStatus.PickedUp;
+					placeKitOnStand(mk);
+					return true;
+				}
 			}
 
+		}
+
+		// Request a kit
+		if (kitWaitingOnConveyor) {
+			conveyor.msgGiveMeKit();
+			return true;
 		}
 
 		// If other rules fail and there's a spot on the stand, request a new
@@ -235,9 +256,10 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * Takes a kit from the conveyor and place it on the stand.
 	 */
 	private void placeKitOnStand(MyKit mk) {
+		print("Attempting to place kit");
 		for (int loc = 1; loc < 3; loc++) {
 			if (standPositions.get(loc) == true) {
-				kitWaitingOnConveyor = false;
+				// kitWaitingOnConveyor = false;
 				if (kitrobotGraphics != null) {
 					kitrobotGraphics
 							.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
