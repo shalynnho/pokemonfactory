@@ -117,36 +117,37 @@ public class GantryAgent extends Agent implements Gantry {
 		
 		// TODO Auto-generated method stub
 		if(waitForDrop == false) {
-		for (MyFeeder currentFeeder : feeders) {
-			for (Bin bin : binList) {
-				if (bin.part.type == currentFeeder.getRequestedType() && bin.binState == BinStatus.FULL) {
-					print("Moving to feeder");
-					moveToFeeder(bin, currentFeeder.getFeeder());
-					return true;
+			for (MyFeeder currentFeeder : feeders) {
+				for (Bin bin : binList) {
+					if (bin.part.type == currentFeeder.getRequestedType() && bin.binState == BinStatus.FULL) {
+						print("Moving to feeder");
+						moveToFeeder(bin, currentFeeder.getFeeder());
+						return true;
+					}
 				}
 			}
-		}
-		}
+		}	
 		if(waitForDrop == true) {
-		for (MyFeeder currentFeeder : feeders) {
-			for (Bin bin : binList) {
-				if (bin.part.type == currentFeeder.getRequestedType()
-						&& bin.binState == BinStatus.OVER_FEEDER) {
-					fillFeeder(bin, currentFeeder.getFeeder());
-					return true;
+			for (MyFeeder currentFeeder : feeders) {
+				for (Bin bin : binList) {
+					if (bin.part.type == currentFeeder.getRequestedType()
+							&& bin.binState == BinStatus.OVER_FEEDER) {
+						fillFeeder(bin, currentFeeder.getFeeder());
+						return true;
+					}
 				}
 			}
 		}
 		if(waitForDrop == false) {
-		for (MyFeeder currentFeeder : feeders) {
-			for (Bin bin : binList) {
-				if (bin.part.type == currentFeeder.getRequestedType()
-						&& bin.binState == BinStatus.EMPTY) {
-					discardBin(bin);
-					return true;
+			for (MyFeeder currentFeeder : feeders) {
+				for (Bin bin : binList) {
+					if (bin.part.type == currentFeeder.getRequestedType()
+							&& bin.binState == BinStatus.EMPTY) {
+						discardBin(bin);
+						return true;
+					}
 				}
 			}
-		}
 		}
 		print("I'm returning false");
 		return false;
