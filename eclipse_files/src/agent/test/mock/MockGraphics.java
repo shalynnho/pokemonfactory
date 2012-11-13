@@ -159,31 +159,31 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	@Override
 	public void dropBin(Bin bin, FeederAgent feeder) {
 		// TODO Auto-generated method stub
-
+		gantry.msgDropBinDone(bin);
 	}
 
 	@Override
 	public void removeBin(Bin bin) {
 		// TODO Auto-generated method stub
-
+		gantry.msgRemoveBinDone(bin);
 	}
 
 	@Override
 	public void receiveBin(BinGraphics bin) {
 		// TODO Auto-generated method stub
-
+		gantry.msgReceiveBinDone(bin.getBin());
 	}
 
 	@Override
 	public void purgeBin(BinGraphics bin) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void flipDiverter() {
 		// TODO Auto-generated method stub
-
+		feeder.msgFlipDiverterDone();
 	}
 
 	@Override
@@ -353,19 +353,19 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	@Override
 	public void givePartToNest(PartGraphics part) {
 		// TODO Auto-generated method stub
-
+		lane.msgGivePartToNestDone(part);
 	}
 
 	@Override
 	public void takeNestPhoto(NestGraphics nest1, NestGraphics nest2) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void receiveBin(Bin newBin, FeederAgent feeder) {
 		// TODO Auto-generated method stub
-		
+		gantry.msgReceiveBinDone(newBin);
 	}
 
 	@Override

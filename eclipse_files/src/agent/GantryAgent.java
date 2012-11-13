@@ -7,6 +7,7 @@ import java.util.concurrent.Semaphore;
 import factory.PartType;
 
 import DeviceGraphics.DeviceGraphics;
+import GraphicsInterfaces.GantryGraphics;
 import agent.data.Bin;
 import agent.data.Bin.BinStatus;
 import agent.interfaces.Gantry;
@@ -21,7 +22,7 @@ public class GantryAgent extends Agent implements Gantry {
 	public List<MyFeeder> feeders = new ArrayList<MyFeeder>();
 
 	// WAITING FOR GANTRYGRAPHICS
-	// private GantryGraphics gantryGraphic;
+	private GantryGraphics GUIGantry;
 
 	private final String name;
 	
@@ -127,7 +128,7 @@ public class GantryAgent extends Agent implements Gantry {
 				}
 			}
 		}	
-		//if(waitForDrop == true) {
+		if(waitForDrop == true) {
 			for (MyFeeder currentFeeder : feeders) {
 				for (Bin bin : binList) {
 					if (bin.part.type == currentFeeder.getRequestedType()
@@ -137,7 +138,7 @@ public class GantryAgent extends Agent implements Gantry {
 					}
 				}
 			}
-		//}
+		}
 		if(waitForDrop == false) {
 			for (MyFeeder currentFeeder : feeders) {
 				for (Bin bin : binList) {
@@ -160,14 +161,14 @@ public class GantryAgent extends Agent implements Gantry {
 		print("Moving bin to over feeder");
 		bin.binState = BinStatus.MOVING;
 
-		/* GUIGantry.receiveBin(bin, feeder);
-		//waitForDrop = true;
+		GUIGantry.receiveBin(bin, feeder);
+		waitForDrop = true;
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 
 		stateChanged();
 	}
@@ -177,13 +178,13 @@ public class GantryAgent extends Agent implements Gantry {
 		print("Placing bin in feeder and filling feeder");
 		
 		
-		/* GUIGantry.dropBin(bin, feeder);
+		GUIGantry.dropBin(bin, feeder);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		feeder.msgHereAreParts(bin.part.type, bin);
 		bin.binState = BinStatus.FILLING_FEEDER;
 
@@ -195,13 +196,13 @@ public class GantryAgent extends Agent implements Gantry {
 		print("Discarding bin");
 		bin.binState = BinStatus.DISCARDING;
 
-		/* GUIGangry.removeBin(bin);
+		GUIGantry.removeBin(bin);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 
 		stateChanged();
 	}
@@ -217,7 +218,7 @@ public class GantryAgent extends Agent implements Gantry {
 	}
 	
 	public void addBinToGraphics(Bin bin){
-		//GUIGantry.hereIsNewBin(bin);
+		GUIGantry.hereIsNewBin(bin);
 		bin.binState=BinStatus.FULL;
 		stateChanged();
 	}
