@@ -12,7 +12,6 @@ import agent.interfaces.Conveyor;
 import agent.interfaces.KitRobot;
 import agent.test.mock.MockGraphics;
 import factory.KitConfig;
-import factory.PartType;
 
 /**
  * Conveyor brings empty kits into and takes completed (i.e. assembled and
@@ -32,7 +31,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private int numKitsToDeliver;
 
 	// Used to prevent animations from overlapping
-	Semaphore animation = new Semaphore(1, true);
+	Semaphore animation = new Semaphore(0, true);
 
 	// References to other agents
 	private KitRobot kitrobot;
@@ -70,7 +69,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 		this.name = name;
 		this.numKitsToDeliver = 0;
-		kitConfig=null;
+		kitConfig = null;
 	}
 
 	/*
@@ -168,16 +167,9 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * Generate a new kit to move into the kitting cell.
 	 */
 	private void prepareKit() {
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		print("Requesting new kit");
 		Kit k = new Kit(kitConfig);
 		incomingKit = new MyKit(k);
-		kitsOnConveyor.add(incomingKit);
 		// print("Got a permit");
 		if (mockgraphics != null) {
 			mockgraphics.msgBringEmptyKit(k.kitGraphics);
@@ -189,6 +181,14 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			}
 			conveyorGraphics.msgBringEmptyKit(k.kitGraphics);
 		}
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		kitsOnConveyor.add(incomingKit);
 		numKitsToDeliver--;
 		stateChanged();
 	}
@@ -204,14 +204,14 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		kitrobot.msgHereIsKit(mk.kit);
-		mk.KS = KitStatus.PickedUp;
 		if (mockgraphics != null) {
 			mockgraphics.msgGiveKitToKitRobot(mk.kit.kitGraphics);
 		}
 		if (conveyorGraphics != null) {
 			conveyorGraphics.msgGiveKitToKitRobot(mk.kit.kitGraphics);
 		}
+		kitrobot.msgHereIsKit(mk.kit);
+		mk.KS = KitStatus.PickedUp;
 
 		kitsOnConveyor.remove(mk);
 
