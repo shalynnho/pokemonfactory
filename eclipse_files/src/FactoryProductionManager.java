@@ -85,7 +85,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
 		
-		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay(this));
+		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay());
 		
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		

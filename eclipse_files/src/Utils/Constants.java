@@ -31,9 +31,9 @@ public abstract class Constants {
 	// DEVICE SETTINGS
 	// ==================================
 	
-	public static final int FEEDER_COUNT = 1;
-	public static final int LANE_COUNT = 2;
-	public static final int NEST_COUNT = 2;
+	public static final int FEEDER_COUNT = 4;
+	public static final int LANE_COUNT = 8;
+	public static final int NEST_COUNT = 8;
 	public static final int STAND_COUNT = 3;
 	
 	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(Arrays.asList(
