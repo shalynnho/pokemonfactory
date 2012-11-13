@@ -124,13 +124,22 @@ public class KitManagerPanel extends JPanel{
 		gbc_lblPart.gridy = 0;
 		pnlParts.add(lblPart, gbc_lblPart);
 		
-		JComboBox comboBox = new JComboBox();
+		cbPart = new JComboBox[8];
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 0;
-		pnlParts.add(comboBox, gbc_comboBox);
+		for (int i = 0; i < 4; i++) {
+			cbPart[i] = new JComboBox();
+			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+			gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+			gbc_comboBox.gridx = 1;
+			gbc_comboBox.gridy = i;
+			pnlParts.add(cbPart[i], gbc_comboBox);
+			
+			cbPart[i+1] = new JComboBox();
+			gbc_comboBox.insets = new Insets(0, 0, 5, 0);
+			gbc_comboBox.gridx = 3;
+			gbc_comboBox.gridy = i;
+			pnlParts.add(cbPart[i+1], gbc_comboBox);
+		}
 		
 		JLabel lblPart_1 = new JLabel("Part 5:");
 		GridBagConstraints gbc_lblPart_1 = new GridBagConstraints();
@@ -139,14 +148,6 @@ public class KitManagerPanel extends JPanel{
 		gbc_lblPart_1.gridx = 2;
 		gbc_lblPart_1.gridy = 0;
 		pnlParts.add(lblPart_1, gbc_lblPart_1);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-		gbc_comboBox_1.insets = new Insets(0, 0, 5, 0);
-		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1.gridx = 3;
-		gbc_comboBox_1.gridy = 0;
-		pnlParts.add(comboBox_1, gbc_comboBox_1);
 		
 		JLabel lblPart_2 = new JLabel("Part 2:");
 		GridBagConstraints gbc_lblPart_2 = new GridBagConstraints();
