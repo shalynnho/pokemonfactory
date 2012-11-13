@@ -177,7 +177,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	@Override
 	public void purgeBin(BinGraphics bin) {
 		// TODO Auto-generated method stub
-		
+		feeder.msgPurgeBinDone(bin.getBin());
 	}
 
 	@Override
@@ -359,7 +359,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	@Override
 	public void takeNestPhoto(NestGraphics nest1, NestGraphics nest2) {
 		// TODO Auto-generated method stub
-		
+		camera.msgTakePictureNestDone(nest1, true, nest2, true);
 	}
 
 	@Override
