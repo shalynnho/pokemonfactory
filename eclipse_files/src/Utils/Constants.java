@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import factory.KitConfig;
 import factory.PartType;
 
 /**
@@ -39,6 +40,11 @@ public abstract class Constants {
 	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(Arrays.asList(
 		new PartType("A"), new PartType("B"), new PartType("C"), new PartType("D"), 
 		new PartType("E"), new PartType("F"), new PartType("G"), new PartType("H")));
+	
+	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(Arrays.asList(
+			new KitConfig("Default Kit", 
+					new PartType("A"), new PartType("B"), new PartType("C"), new PartType("D")
+			)));
 	
 	// DEVICE START LOCATIONS
 	// ==================================
