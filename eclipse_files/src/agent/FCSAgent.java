@@ -18,7 +18,7 @@ import factory.PartType;
  * Unused in V0
  * @author Daniel Paje, Michael Gendotti
  */
-public class FCSAgent extends Agent implements FCS {
+public class FCSAgent extends Agent implements FCS { 
 	
 	private Stand stand;    
 	private PartsRobot partsRobot;    
