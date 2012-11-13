@@ -25,6 +25,8 @@ public class GantryAgent extends Agent implements Gantry {
 
 	private final String name;
 	
+	private boolean waitForDrop = false;
+	
 	public class MyFeeder {
 		public FeederAgent feeder;
 		public PartType requestedType;
@@ -90,6 +92,7 @@ public class GantryAgent extends Agent implements Gantry {
 		print("Received msgdropBingDone from graphics");
 		bin.binState = BinStatus.EMPTY;
 		animation.release();
+		waitForDrop = false;
 		stateChanged();
 	}
 
@@ -113,6 +116,7 @@ public class GantryAgent extends Agent implements Gantry {
 		}
 		
 		// TODO Auto-generated method stub
+		if(waitForDrop == false) {
 		for (MyFeeder currentFeeder : feeders) {
 			for (Bin bin : binList) {
 				if (bin.part.type == currentFeeder.getRequestedType() && bin.binState == BinStatus.FULL) {
@@ -122,7 +126,8 @@ public class GantryAgent extends Agent implements Gantry {
 				}
 			}
 		}
-		// print("I'm not having problems either");
+		}
+		if(waitForDrop == true) {
 		for (MyFeeder currentFeeder : feeders) {
 			for (Bin bin : binList) {
 				if (bin.part.type == currentFeeder.getRequestedType()
@@ -132,7 +137,7 @@ public class GantryAgent extends Agent implements Gantry {
 				}
 			}
 		}
-		// print("I'm not having problems too");
+		if(waitForDrop == false) {
 		for (MyFeeder currentFeeder : feeders) {
 			for (Bin bin : binList) {
 				if (bin.part.type == currentFeeder.getRequestedType()
@@ -141,6 +146,7 @@ public class GantryAgent extends Agent implements Gantry {
 					return true;
 				}
 			}
+		}
 		}
 		print("I'm returning false");
 		return false;
@@ -154,6 +160,7 @@ public class GantryAgent extends Agent implements Gantry {
 		bin.binState = BinStatus.MOVING;
 
 		// GUIGantry.receiveBin(bin, feeder);
+		waitForDrop = true;
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
