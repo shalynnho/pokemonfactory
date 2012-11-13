@@ -31,6 +31,7 @@ public class PartsManager extends Client {
 		super();
 		clientName = Constants.PARTS_MNGR_CLIENT;
 		
+		initStreams();
 		initGUI();
 	}
 	
@@ -48,7 +49,7 @@ public class PartsManager extends Client {
 		// may have to pass in reference to this class
 		pmPanel = new PartsManagerPanel();
 		
-		add(pmPanel, BorderLayout.CENTER);
+		add(pmPanel);
 		pmPanel.setVisible(true);
 	}
 	

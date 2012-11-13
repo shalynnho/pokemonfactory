@@ -31,6 +31,7 @@ public class KitManager extends Client {
 		super();
 		clientName = Constants.KIT_MNGR_CLIENT;
 		
+		initStreams();
 		initGUI();
 	}
 

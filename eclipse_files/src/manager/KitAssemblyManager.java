@@ -16,6 +16,8 @@ public class KitAssemblyManager extends Client {
 	public KitAssemblyManager() {
 		super();
 		clientName = Constants.GANTRY_ROBOT_MNGR_CLIENT;
+		
+		initStreams();
 	}
 
 	@Override

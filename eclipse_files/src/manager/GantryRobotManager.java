@@ -16,6 +16,8 @@ public class GantryRobotManager extends Client {
 	public GantryRobotManager() {
 		super();
 		clientName = Constants.GANTRY_ROBOT_MNGR_CLIENT;
+		
+		initStreams();
 	}
 
 	@Override
