@@ -59,7 +59,7 @@ public abstract class Constants {
 //	public static final Location FEEDER3_LOC = new Location(600, );
 	
 	public static final Location KIT_ROBOT_LOC = new Location(0,0);
-	public static final Location CONVEYOR_LOC = new Location(0,0);
+	public static final Location CONVEYOR_LOC = new Location(0,185);
 	public static final Location KIT_LOC = new Location(20,200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250,450);
 	public static final Location GANTRY_ROBOT_LOC = new Location(500,100);
@@ -84,10 +84,6 @@ public abstract class Constants {
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "lane.png");
 	public static final Image LANE_LINE =
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "laneline.png");
-	
-	// Gantry Images
-	public static final Image GANTRY_ROBOT =
-			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "gantry.png");
 
 	// Conveyor Images
 	public static final Image CONVEYOR_IMAGE = 
@@ -98,6 +94,8 @@ public abstract class Constants {
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "ExitBelt.png");
 	public static final Image EXIT_LINES_IMAGE = 
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "ExitLines.png");
+	public static final Image TEST_CONVEYOR_IMAGE = (Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "TestConveyor.png"));
+	public static final Image TEST_CONVEYOR_LINE_IMAGE = (Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "TestConveyorLine.png"));
 
 	// Kit Robot Images
 	public static final Image KIT_ROBOT_IMAGE = 
@@ -128,6 +126,10 @@ public abstract class Constants {
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "samplebin.png");
 	public static final Image BIN_EMPTY_IMAGE = 
 			Toolkit.getDefaultToolkit().getImage("");
+	
+	// Kit & Inspection Stand Images	//TODO: add actual images
+	public static final Image KIT_STAND_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "");
+	public static final Image INSPECTION_STAND_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "");
 
 	// TARGET NAMES
 	// ==================================
@@ -231,15 +233,15 @@ public abstract class Constants {
 	
 	// kit positions
 	public static final String KIT_INSPECTION_AREA = "Kit inspection area"; 
-	
 	public static final String KIT_LOCATION1 = "Kit location1 area";
-	
 	public static final String KIT_LOCATION2 = "Kit location2 area";
-	
-	public static final String KIT_INITIAL = "Kit initial area";
-	
-	
+	public static final String KIT_INITIAL = "Kit initial area";	
 	// end kit positions
+	
+	// stand commands
+	public static final String STAND_RECEIVE_KIT_COMMAND = "stand receive kit";
+	public static final String STAND_GIVE_KIT_COMMAND = "stand give kit";
+	public static final String STAND_RECEIVE_PART_COMMAND = "stand receive part";
 	
 	// gantry logic to display commands
 	
@@ -247,8 +249,6 @@ public abstract class Constants {
 	public static final String GANTRY_ROBOT_GET_BIN_COMMAND = "pickup";
 	public static final String GANTRY_ROBOT_DROP_BIN_COMMAND = "drop";
 	public static final String GANTRY_ROBOT_DONE_MOVE = "done";
-	public static final String GANTRY_ROBOT_ADD_NEW_BIN = "new";
-
 	
 	// partsrobot logic to display commands
 	

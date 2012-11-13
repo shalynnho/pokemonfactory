@@ -12,8 +12,11 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import factory.KitConfig;
+import factory.Order;
+import factory.PartType;
+
 import agent.FCSAgent;
-import agent.data.PartType;
 import agent.test.mock.MockAgent;
 import agent.test.mock.MockConveyor;
 import agent.test.mock.MockGantry;
@@ -110,22 +113,23 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 		}
 
 		// Start the test
-		ArrayList<PartType> partTypes = new ArrayList<PartType>();
-		partTypes.add(PartType.A);// 1
-		partTypes.add(PartType.B);// 2
-		partTypes.add(PartType.C);// 3
-		partTypes.add(PartType.D);// 4
-		partTypes.add(PartType.E);// 5
-		partTypes.add(PartType.F);// 6
-		partTypes.add(PartType.G);// 7
-		partTypes.add(PartType.H);// 8
+		KitConfig partTypes = new KitConfig("KitConfig");
+		partTypes.addItem(new PartType("A"),1);// 1
+		partTypes.addItem(new PartType("B"),1);// 2
+		partTypes.addItem(new PartType("C"),1);// 3
+		partTypes.addItem(new PartType("D"),1);// 4
+		partTypes.addItem(new PartType("E"),1);// 5
+		partTypes.addItem(new PartType("F"),1);// 6
+		partTypes.addItem(new PartType("G"),1);// 7
+		partTypes.addItem(new PartType("H"),1);// 8
 		fcs.msgStartProduction(); // This allows the fcs to run
-		fcs.msgAddKitsToQueue(partTypes, 1);
+		fcs.msgAddKitsToQueue(new Order(partTypes, 1));
 
 		// FCS should have 1 order now
 		assertEquals("FCS should have added 1 Order", 1, fcs.getOrders().size());
 
 		// Invoke the scheduler
+		fcs.pickAndExecuteAnAction();
 		fcs.pickAndExecuteAnAction();
 
 		// Scheduler should have fired placeOrder()
@@ -178,7 +182,7 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 		for (int i = 0; i < 8; i++) {
 			assertEquals(
 					"Mock Nest should have recieved a single message. "
-							+ "Instead, the stand's event(s) log reads: "
+							+ "Instead, the nest's event(s) log reads: "
 							+ nests.get(i).log.toString(), 1,
 					nests.get(i).log.size());
 
@@ -244,46 +248,45 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 		}
 
 		// Start the test
-		ArrayList<PartType> partTypes = new ArrayList<PartType>();
-		partTypes.add(PartType.A);// 1
-		partTypes.add(PartType.B);// 2
-		partTypes.add(PartType.C);// 3
-		partTypes.add(PartType.D);// 4
-		partTypes.add(PartType.E);// 5
-		partTypes.add(PartType.F);// 6
-		partTypes.add(PartType.G);// 7
-		partTypes.add(PartType.H);// 8
-		ArrayList<PartType> partTypes2 = new ArrayList<PartType>();
-		partTypes2.add(PartType.A);// 1
-		partTypes2.add(PartType.A);// 2
-		partTypes2.add(PartType.A);// 3
-		partTypes2.add(PartType.A);// 4
-		partTypes2.add(PartType.A);// 5
-		partTypes2.add(PartType.A);// 6
-		partTypes2.add(PartType.A);// 7
-		partTypes2.add(PartType.A);// 8
+		KitConfig partTypes = new KitConfig("KitConfig");
+		partTypes.addItem(new PartType("A"),1);// 1
+		partTypes.addItem(new PartType("B"),1);// 2
+		partTypes.addItem(new PartType("C"),1);// 3
+		partTypes.addItem(new PartType("D"),1);// 4
+		partTypes.addItem(new PartType("E"),1);// 5
+		partTypes.addItem(new PartType("F"),1);// 6
+		partTypes.addItem(new PartType("G"),1);// 7
+		partTypes.addItem(new PartType("H"),1);// 8
+		KitConfig partTypes2 = new KitConfig("KitConfig");
+		partTypes2.addItem(new PartType("A"),1);// 1
+		partTypes2.addItem(new PartType("A"),1);// 2
+		partTypes2.addItem(new PartType("A"),1);// 3
+		partTypes2.addItem(new PartType("A"),1);// 4
+		partTypes2.addItem(new PartType("A"),1);// 5
+		partTypes2.addItem(new PartType("A"),1);// 6
+		partTypes2.addItem(new PartType("A"),1);// 7
+		partTypes2.addItem(new PartType("A"),1);// 8
 		fcs.msgStartProduction(); // This allows the fcs to run
-		fcs.msgAddKitsToQueue(partTypes, 1);
-		fcs.msgAddKitsToQueue(partTypes2, 1);
+		Order temp = new Order(partTypes, 1);
+		fcs.msgAddKitsToQueue(temp);
+		fcs.msgAddKitsToQueue(new Order(partTypes2, 1));
 
 		// FCS should have 2 orders now
 		assertEquals("FCS should have added 2 Orders", 2, fcs.getOrders()
 				.size());
 
 		// tells the FCS to stop making the first kit ordered
-		fcs.msgStopMakingKit(partTypes);
+		fcs.msgStopMakingKit(temp);
 
 		// Invoke the scheduler
+		fcs.pickAndExecuteAnAction();
 		fcs.pickAndExecuteAnAction();
 
 		// FCS should have 1 order now of the second part type list passed in
 		assertEquals("FCS should have added 1 Order", 1, fcs.getOrders().size());
 
-		assertEquals("FCS should have added 1 Order", partTypes2, fcs
-				.getOrders().get(0).parts);
-
 		assertEquals("FCS should have added 8 part types in its order", 8, fcs
-				.getOrders().get(0).parts.size());
+				.getOrders().get(0).kitConfig.getConfig().keySet().size());
 
 		// Order the second order
 		fcs.pickAndExecuteAnAction();
@@ -403,33 +406,34 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 		}
 
 		// Start the test
-		ArrayList<PartType> partTypes = new ArrayList<PartType>();
-		partTypes.add(PartType.A);// 1
-		partTypes.add(PartType.B);// 2
-		partTypes.add(PartType.C);// 3
-		partTypes.add(PartType.D);// 4
-		partTypes.add(PartType.E);// 5
-		partTypes.add(PartType.F);// 6
-		partTypes.add(PartType.G);// 7
-		partTypes.add(PartType.H);// 8
-		ArrayList<PartType> partTypes2 = new ArrayList<PartType>();
-		partTypes2.add(PartType.A);// 1
-		partTypes2.add(PartType.A);// 2
-		partTypes2.add(PartType.A);// 3
-		partTypes2.add(PartType.A);// 4
-		partTypes2.add(PartType.A);// 5
-		partTypes2.add(PartType.A);// 6
-		partTypes2.add(PartType.A);// 7
-		partTypes2.add(PartType.A);// 8
+		KitConfig partTypes = new KitConfig("KitConfig");
+		partTypes.addItem(new PartType("A"),1);// 1
+		partTypes.addItem(new PartType("B"),1);// 2
+		partTypes.addItem(new PartType("C"),1);// 3
+		partTypes.addItem(new PartType("D"),1);// 4
+		partTypes.addItem(new PartType("E"),1);// 5
+		partTypes.addItem(new PartType("F"),1);// 6
+		partTypes.addItem(new PartType("G"),1);// 7
+		partTypes.addItem(new PartType("H"),1);// 8
+		KitConfig partTypes2 = new KitConfig("KitConfig");
+		partTypes2.addItem(new PartType("A"),1);// 1
+		partTypes2.addItem(new PartType("A"),1);// 2
+		partTypes2.addItem(new PartType("A"),1);// 3
+		partTypes2.addItem(new PartType("A"),1);// 4
+		partTypes2.addItem(new PartType("A"),1);// 5
+		partTypes2.addItem(new PartType("A"),1);// 6
+		partTypes2.addItem(new PartType("A"),1);// 7
+		partTypes2.addItem(new PartType("A"),1);// 8
 		fcs.msgStartProduction(); // This allows the fcs to run
-		fcs.msgAddKitsToQueue(partTypes, 1);
-		fcs.msgAddKitsToQueue(partTypes2, 1);
+		fcs.msgAddKitsToQueue(new Order(partTypes, 1));
+		fcs.msgAddKitsToQueue(new Order(partTypes2, 1));
 
 		// FCS should have 2 orders now
 		assertEquals("FCS should have added 2 Orders", 2, fcs.getOrders()
 				.size());
 
 		// Invoke the scheduler
+		fcs.pickAndExecuteAnAction();
 		fcs.pickAndExecuteAnAction();
 
 		// Scheduler should have fired placeOrder()
@@ -516,9 +520,9 @@ public class V1_JUnit_FCS_Test_Normative extends TestCase {
 						.equals("Received message msgHereIsKitConfiguration"));
 
 		assertEquals(
-				"Mock Gantry should have recieved 16 bin config message. "
+				"Mock Gantry should have recieved 8 bin config message. "
 						+ "Instead, the gantry's event(s) log reads: "
-						+ gantry.log.toString(), 16, gantry.log.size());
+						+ gantry.log.toString(), 8, gantry.log.size());
 
 		assertTrue(
 				"Mock Gantry should have received a message about the bin configuration. Last logged event(s): "

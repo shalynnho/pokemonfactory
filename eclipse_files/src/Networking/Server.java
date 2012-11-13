@@ -280,9 +280,20 @@ public class Server {
 			sendDataToLane(req);
 		} else if (target.contains(Constants.KIT_TARGET)) {
 			sendDataToPartsRobot(req);
+		} else if (target.contains(Constants.ALL_TARGET)) {
+			sendDataToManagers(req);
 		}
 	}
+	
+	private void sendDataToManagers(Request req) {
+		kitRobotMngrWriter.sendData(req);
+		factProdMngrWriter.sendData(req);
+		partsRobotMngrWriter.sendData(req);
+		laneMngrWriter.sendData(req);
+	}
 
+	//Temporarily got rid of all factory managers. 
+	
 	private void sendDataToConveyor(Request req) {
 		// factProdMngrWriter.sendData(req);
 		kitRobotMngrWriter.sendData(req);
@@ -294,22 +305,24 @@ public class Server {
 	}
 
 	private void sendDataToPartsRobot(Request req) {
-		factProdMngrWriter.sendData(req);
+		//factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToNest(Request req) {
-		factProdMngrWriter.sendData(req);
+		//factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
+	
+	//Temporary Removal of camera requests
 	private void sendDataToCamera(Request req) {
 		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToLane(Request req) {
-		factProdMngrWriter.sendData(req);
+		//factProdMngrWriter.sendData(req);
 		laneMngrWriter.sendData(req);
 	}
 

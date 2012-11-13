@@ -5,14 +5,11 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import agent.data.PartType;
-
-
 import Networking.Client;
 import Networking.Request;
-import Utils.Animation;
 import Utils.Constants;
 import Utils.Location;
+import factory.PartType;
 
 /**
  * This class contains the graphics display components for a lane.
@@ -238,8 +235,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			laneLoc = (Location) r.getData();
 			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
-				String typeStr = (String) r.getData();
-				PartGraphicsDisplay pg = new PartGraphicsDisplay(PartType.valueOf(typeStr));
+				PartType type = (PartType) r.getData();
+				PartGraphicsDisplay pg = new PartGraphicsDisplay(type);
 				Location newLoc = new Location(laneLoc.getX() + LANE_LENGTH,
 						laneLoc.getY() + (PART_WIDTH / 2));
 				pg.setLocation(newLoc);

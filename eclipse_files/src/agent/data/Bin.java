@@ -10,10 +10,10 @@ public class Bin {
 	public FeederAgent feeder;
 
 	public enum BinStatus {
-		FULL, MOVING, OVER_FEEDER, FILLING_FEEDER, EMPTY, DISCARDING
+		PENDING, FULL, MOVING, OVER_FEEDER, FILLING_FEEDER, EMPTY, DISCARDING
 	};
 
-	public BinStatus binState = BinStatus.FULL;
+	public BinStatus binState = BinStatus.PENDING;
 
 	public Bin() {
 

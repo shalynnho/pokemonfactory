@@ -50,6 +50,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	@Override
 	public void msgPlaceKitInInspectionArea(KitGraphics kit) {
+		System.out.println("I'm inside msgPlaceKitInInspectionArea");
 
 		/*
 		 * Integer tempI = Search(kit); if (tempI.equals(new Integer(3))) {
@@ -62,12 +63,13 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		 */
 
 		for (String kitGraphicsKey : kitPositions.keySet()) {
-			KitGraphics tempKitGraphics = kitPositions.get(kitGraphicsKey);
+			KitGraphics tempKitGraphics = (KitGraphics)kitPositions.get(kitGraphicsKey);
 			if (tempKitGraphics == null) {
 				System.out.println(this.toString() + " tempKitGraphics null");
 				System.out.println(this.toString() + kitGraphicsKey);
 			}
-			if (tempKitGraphics.equals(kit)) {
+			System.out.println(this.toString() + "kit null:" + kit);
+			if (tempKitGraphics==kit) {
 				kitPositions.put(kitGraphicsKey, null);
 				if (kitGraphicsKey.equals(Constants.KIT_LOCATION1)) {
 					server.sendData(new Request(

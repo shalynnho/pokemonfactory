@@ -1,14 +1,14 @@
 package DeviceGraphics;
 
-import Networking.*;
-import Utils.*;
+import java.util.ArrayList;
+
+import Networking.Request;
+import Networking.Server;
+import Utils.Constants;
+import Utils.Location;
 import agent.Agent;
 import agent.FeederAgent;
 import agent.LaneAgent;
-import agent.data.*;
-
-import java.util.ArrayList;
-
 import factory.PartType;
 
 /**
@@ -130,15 +130,16 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	public void receivePart(PartGraphics pg) {
 		partsOnLane.add(pg);
 		pg.setLocation(new Location (LANE_BEG_X, endY + (PART_WIDTH / 2)));
-		String typeStr = pg.getPartType().toString();
+		PartType type = pg.getPartType();
 		
-		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET + laneID, typeStr));
+		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET + laneID, type));
 		
 		// TODO: (V2) later pass if good/bad part
 	}
 
 	/**
 	 * Sorts data and messages sent to this lane via the server
+	 * Used to send DONE messages back to agent
 	 * @param r - the request
 	 */
 	public void receiveData(Request r) {

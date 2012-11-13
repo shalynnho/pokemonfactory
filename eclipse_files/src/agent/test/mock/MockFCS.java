@@ -2,7 +2,8 @@ package agent.test.mock;
 
 import java.util.ArrayList;
 
-import agent.data.PartType;
+import factory.Order;
+import factory.PartType;
 import agent.interfaces.FCS;
 
 /**
@@ -24,15 +25,21 @@ public class MockFCS extends MockAgent implements FCS {
 	}
 
 	@Override
-	public void msgAddKitsToQueue(ArrayList<PartType> parts, int numOfKits) {		
+	public void msgAddKitsToQueue(Order o) {		
 	}
 
 	@Override
-	public void msgStopMakingKit(ArrayList<PartType> parts) {		
+	public void msgStopMakingKit(Order o) {		
 	}
 
 	@Override
 	public void msgStartProduction() {
+	}
+
+	@Override
+	public void msgAddNewPartType(PartType part) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

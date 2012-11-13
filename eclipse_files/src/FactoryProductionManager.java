@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -17,16 +18,19 @@ import DeviceGraphicsDisplay.LaneGraphicsDisplay;
 import DeviceGraphicsDisplay.NestGraphicsDisplay;
 import DeviceGraphicsDisplay.PartsRobotDisplay;
 import GUI.FactoryProductionMgrGUI;
-import GUI.OverlayPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
+import factory.KitConfig;
+import factory.Order;
 
 
 public class FactoryProductionManager extends Client implements ActionListener {
 	// WINDOW DIMENSIONS
 	private static final int WINDOW_WIDTH = 1000;
 	private static final int WINDOW_HEIGHT = 700;
+	
+	private FactoryProductionMgrGUI fpmGUI;
 	
 	private Timer timer;
 	
@@ -46,8 +50,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 * Initialize the GUI and start the timer.
 	 */
 	public void initGUI() {
-		FactoryProductionMgrGUI fpmGUI = new FactoryProductionMgrGUI(WINDOW_HEIGHT);
-		
+		fpmGUI = new FactoryProductionMgrGUI(WINDOW_HEIGHT);
 		
 		add(fpmGUI, BorderLayout.EAST);
 		fpmGUI.setVisible(true);
@@ -92,7 +95,15 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	
 	@Override
 	public void receiveData(Request req) {
-		devices.get(req.getTarget()).receiveData(req);
+		if (req.getTarget().equals(Constants.ALL_TARGET)) {
+			if (req.getCommand().equals(Constants.FCS_UPDATE_KITS)) {
+				fpmGUI.updateKitConfigs((ArrayList<KitConfig>)req.getData());
+			} else if (req.getCommand().equals(Constants.FCS_UPDATE_ORDERS)) {
+				fpmGUI.updateOrders((ArrayList<Order>)req.getData());
+			}
+		} else {
+			devices.get(req.getTarget()).receiveData(req);
+		}
 	}
 
 	public static void main(String[] args) {

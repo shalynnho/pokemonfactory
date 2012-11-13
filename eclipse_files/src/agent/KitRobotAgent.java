@@ -39,7 +39,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	private int numKitsRequested;
 
 	// Used to prevent animations from overlapping
-	Semaphore animation = new Semaphore(1, true);
+	Semaphore animation = new Semaphore(0, true);
 
 	// References to other agents
 	private Stand stand;
@@ -238,12 +238,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		for (int loc = 1; loc < 3; loc++) {
 			if (standPositions.get(loc) == true) {
 				kitWaitingOnConveyor = false;
-				try {
-					animation.acquire();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				if (kitrobotGraphics != null) {
 					kitrobotGraphics
 							.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
@@ -252,6 +246,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 					mockgraphics.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
 				}
 
+				try {
+					animation.acquire();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				standPositions.put(loc, false);
 				mk.location = loc;
 				stand.msgHereIsKit(mk.kit, loc);
@@ -269,12 +269,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * @param k the kit being placed.
 	 */
 	private void placeKitInInspectionArea(MyKit mk) {
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		mk.KS = KitStatus.AwaitingInspection;
 		if (kitrobotGraphics != null) {
 			if (mk.kit == null) {
@@ -288,8 +282,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		if (mockgraphics != null) {
 			mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kitGraphics);
 		}
-		// TODO This can't happen until the kit is placed
-		camera.msgInspectKit(mk.kit);
 
 		// For testing, assume camera finishes after .1s
 		timer.schedule(new TimerTask() {
@@ -301,6 +293,16 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			}
 		}, 100);
 
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// TODO This can't happen until the kit is placed
+		// camera.msgInspectKit(mk.kit);
+
 		stand.msgMovedToInspectionArea(mk.kit, mk.location);
 		stateChanged();
 	}
@@ -310,17 +312,17 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * @param k the kit being shipped out of the kitting cell.
 	 */
 	private void shipKit(MyKit mk) {
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		if (kitrobotGraphics != null) {
 			kitrobotGraphics.msgPlaceKitOnConveyor();
 		}
 		if (mockgraphics != null) {
 			mockgraphics.msgPlaceKitOnConveyor();
+		}
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		conveyor.msgTakeKitAway(mk.kit);
 		stand.msgShippedKit();

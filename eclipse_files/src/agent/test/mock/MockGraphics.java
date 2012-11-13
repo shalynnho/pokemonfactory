@@ -25,6 +25,7 @@ import agent.KitRobotAgent;
 import agent.LaneAgent;
 import agent.NestAgent;
 import agent.PartsRobotAgent;
+import agent.data.Bin;
 import agent.interfaces.Feeder;
 import agent.interfaces.Gantry;
 import agent.interfaces.Lane;
@@ -155,13 +156,13 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	}
 
 	@Override
-	public void dropBin(BinGraphics bin, FeederGraphics feeder) {
+	public void dropBin(Bin bin, FeederAgent feeder) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void removeBin(BinGraphics bin) {
+	public void removeBin(Bin bin) {
 		// TODO Auto-generated method stub
 
 	}
@@ -358,6 +359,18 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public void takeNestPhoto(NestGraphics nest1, NestGraphics nest2) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void receiveBin(Bin newBin, FeederAgent feeder) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hereIsNewBin(Bin bin) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

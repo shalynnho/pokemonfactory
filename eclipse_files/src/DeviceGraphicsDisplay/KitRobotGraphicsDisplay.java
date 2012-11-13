@@ -60,7 +60,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	Client kitRobotClient;
 	Location location;
 	ArrayList<KitGraphicsDisplay> kits = new ArrayList<KitGraphicsDisplay>();
-	KitGraphicsDisplay currentKit = new KitGraphicsDisplay(client);
+	KitGraphicsDisplay currentKit = new KitGraphicsDisplay();
 
 	// just for v0
 	boolean AnimationToConveyorDone;
@@ -298,7 +298,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (target.equals(Constants.KIT_ROBOT_TARGET)) {
 			if (command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1)) {
 				
-				KitGraphicsDisplay kit = new KitGraphicsDisplay(client);
+				KitGraphicsDisplay kit = new KitGraphicsDisplay();
 				kit.setPosition(3);
 				currentKit = kit;
 				kits.add(kit);
@@ -316,7 +316,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 				Location1ToLocation2();
 			} else if (command.equals("moveKitToStand2")) {
-				KitGraphicsDisplay kit = new KitGraphicsDisplay(client);
+				KitGraphicsDisplay kit = new KitGraphicsDisplay();
 				kit.setPosition(4);
 				currentKit = kit;
 				kits.add(kit);
