@@ -286,10 +286,9 @@ public class Server {
 	}
 
 	private void sendDataToManagers(Request req) {
-		kitRobotMngrWriter.sendData(req);
 		factProdMngrWriter.sendData(req);
-		partsRobotMngrWriter.sendData(req);
-		laneMngrWriter.sendData(req);
+		
+		
 	}
 
 	// Temporarily got rid of all factory managers.

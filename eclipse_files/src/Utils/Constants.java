@@ -32,9 +32,9 @@ public abstract class Constants {
 	// DEVICE SETTINGS
 	// ==================================
 	
-	public static final int FEEDER_COUNT = 1;
-	public static final int LANE_COUNT = 2;
-	public static final int NEST_COUNT = 2;
+	public static final int FEEDER_COUNT = 4;
+	public static final int LANE_COUNT = 8;
+	public static final int NEST_COUNT = 8;
 	public static final int STAND_COUNT = 3;
 	
 	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(Arrays.asList(
@@ -306,6 +306,7 @@ public abstract class Constants {
 	public static final String FCS_UPDATE_PARTS = "updateParts";
 	public static final String FCS_UPDATE_KITS = "updateKits";
 	public static final String FCS_UPDATE_ORDERS = "updateOrders";
+	
 	// CLIENT NAMES
 	// ==================================
 	// Used to identify clients.
@@ -313,8 +314,15 @@ public abstract class Constants {
 	// V0 Config
 	public static final String KIT_ROBOT_MNGR_CLIENT = "KitsRobotMngr";
 	public static final String PARTS_ROBOT_MNGR_CLIENT = "PartsRobotMngr";
-	public static final String LANE_MNGR_CLIENT = "LaneMngr";
+	
+	// V1 Config
+	public static final String KIT_MNGR_CLIENT = "KitMngr";
+	public static final String PARTS_MNGR_CLIENT = "PartsMngr";
 	public static final String FACTORY_PROD_MNGR_CLIENT = "FactoryProdMngr";
+	
+	public static final String GANTRY_ROBOT_MNGR_CLIENT = "GantryRobotMngr";
+	public static final String KIT_ASSEMBLY_MNGR_CLIENT = "KitAssemblyMngr";
+	public static final String LANE_MNGR_CLIENT = "LaneMngr";
 
 	// Agent constants for StringUtil
 	/** The number of milliseconds in a second */
