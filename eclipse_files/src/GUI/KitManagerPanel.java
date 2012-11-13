@@ -22,6 +22,7 @@ import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Insets;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
 
 /*
 * Authorship: Aaron Harris
@@ -92,6 +93,7 @@ public class KitManagerPanel extends JPanel{
 		pnlAdd.add(btnClrFields);
 		
 		JPanel pnlDisplay = new JPanel();
+		pnlDisplay.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		managerPanel.add(pnlDisplay, BorderLayout.CENTER);
 		pnlDisplay.setLayout(new BorderLayout());
 		
@@ -199,6 +201,7 @@ public class KitManagerPanel extends JPanel{
 		pnlRefresh.add(btnRefresh);
 		
 		tblSched = new JTable();
+		tblSched.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		schedPanel.add(tblSched, BorderLayout.CENTER);
 
 	}
