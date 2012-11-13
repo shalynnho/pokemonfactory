@@ -19,12 +19,13 @@ import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JTable;
+import java.awt.event.*;
 
 /*
 * Authorship: Aaron Harris
 */
 
-public class KitManagerPanel extends JPanel {
+public class KitManagerPanel extends JPanel implements ActionListener{
 	private JTextField textField;
 	private JComboBox[] cbPart;
 	private JTable tblSched;
