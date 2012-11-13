@@ -1,11 +1,7 @@
 package agent.interfaces;
 
-import java.util.ArrayList;
-
-import factory.KitConfig;
-
 import agent.data.Kit;
-
+import factory.KitConfig;
 
 public interface Conveyor {
 
@@ -15,14 +11,21 @@ public interface Conveyor {
 	public abstract void msgNeedKit();
 
 	/**
+	 * KitRobot sends this when it is ready to pick up a kit that is waiting on
+	 * the conveyor
+	 */
+	public abstract void msgGiveMeKit();
+
+	/**
 	 * KitRobot sends this when a kit is completed and needs to be taken from
 	 * the kitting cell.
 	 * @param k completed kit
 	 */
 	public abstract void msgTakeKitAway(Kit k);
-	
+
 	/**
-	 * Conveyor is sent this by the FCS and it is used to set the configuration for new kits
+	 * Conveyor is sent this by the FCS and it is used to set the configuration
+	 * for new kits
 	 * @param config the configuration for new kits
 	 */
 	public abstract void msgHereIsKitConfiguration(KitConfig config);

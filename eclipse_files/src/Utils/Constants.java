@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import factory.KitConfig;
 import factory.PartType;
 
 /**
@@ -31,14 +32,21 @@ public abstract class Constants {
 	// DEVICE SETTINGS
 	// ==================================
 	
-	public static final int FEEDER_COUNT = 4;
-	public static final int LANE_COUNT = 8;
-	public static final int NEST_COUNT = 8;
+	public static final int FEEDER_COUNT = 1;
+	public static final int LANE_COUNT = 2;
+	public static final int NEST_COUNT = 2;
 	public static final int STAND_COUNT = 3;
 	
 	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(Arrays.asList(
 		new PartType("A"), new PartType("B"), new PartType("C"), new PartType("D"), 
 		new PartType("E"), new PartType("F"), new PartType("G"), new PartType("H")));
+	
+	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(Arrays.asList(
+			new KitConfig("Default Kit", 
+					new PartType("A"), new PartType("B"), new PartType("C"), new PartType("D")
+			)));
+	
+	
 	
 	// DEVICE START LOCATIONS
 	// ==================================
@@ -210,8 +218,8 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION2 = "robot logic moves conveyor to loc2";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2 = "robot display moves conveyor to loc2";
 			
-	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR = "robot logic moves inspection to conv";
-	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_GOOD_CONVEYOR = "robot display moves inspection to conv";
+	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_CONVEYOR = "robot logic moves inspection to conv";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_CONVEYOR = "robot display moves inspection to conv";
 	
 	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_INSPECTION = "robot logic moves loc1 to inspection";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_INSPECTION = "robot display moves loc1 to inspection";
@@ -219,11 +227,11 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_INSPECTION = "robot logic moves loc2 to inspection";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_INSPECTION = "robot display moves loc2 to inspection";
 	
-	public static final String KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_GOOD_CONVEYOR = "robot logic moves loc1 to conv";
-	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_GOOD_CONVEYOR = "robot display moves kit to conv";
+	public static final String KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR = "robot logic moves loc1 to conv";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_CONVEYOR = "robot display moves kit to conv";
 	
-	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_GOOD_CONVEYOR = "robot logic moves loc2 to conv";
-	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_GOOD_CONVEYOR = "robot display moves kit to conv ";
+	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_CONVEYOR = "robot logic moves loc2 to conv";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_CONVEYOR = "robot display moves kit to conv ";
 	
 	public static final String KIT_ROBOT_ON_INSPECTION_DONE = "robot display sends to robot logic that kit to inspeciton is done";
 	public static final String KIT_ROBOT_ON_STAND_DONE = "robot display sends to robot logic that kit to stand is done";
