@@ -35,7 +35,10 @@ public class PartsManager extends Client {
 		initGUI();
 	}
 	
-	@Override
+	/**
+	 * This function processes network requests.
+	 * @param req the request to be processed
+	 */
 	public void receiveData(Request req) {
 		if (req.getTarget().equals(Constants.ALL_TARGET)) {
 			// TODO
@@ -45,6 +48,9 @@ public class PartsManager extends Client {
 		}
 	}
 	
+	/**
+	 * This function initializes the GUI panel.
+	 */
 	public void initGUI() {
 		// may have to pass in reference to this class
 		pmPanel = new PartsManagerPanel();
@@ -53,6 +59,10 @@ public class PartsManager extends Client {
 		pmPanel.setVisible(true);
 	}
 	
+	/**
+	 * This main initializes the JFrame.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT);
