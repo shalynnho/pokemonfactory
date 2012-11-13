@@ -65,18 +65,14 @@ public class PartsRobotManager extends Client implements ActionListener{
 //		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 1));
 		addDevice(Constants.NEST_TARGET + 0, new NestGraphicsDisplay(this, 0));
 		addDevice(Constants.NEST_TARGET + 1, new NestGraphicsDisplay(this, 1));
-		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay(this));
+		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay());
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 	}
 	
 	@Override
 	public void receiveData(Request req) {
-		if (req.getTarget().equals(Constants.ALL_TARGET)) {
-			// TODO code to overwrite ArrayList with req.getData()
-		} else {
-			devices.get(req.getTarget()).receiveData(req);
-		}
+		
 	}
 
 	public static void main(String[] args) {
