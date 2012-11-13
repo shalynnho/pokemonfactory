@@ -304,7 +304,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				kits.add(kit);
 				ConveyorToLocation1();
 			} else if (command
-					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_CONVEYOR)) {
+					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_GOOD_CONVEYOR)) {
 
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 3) {
