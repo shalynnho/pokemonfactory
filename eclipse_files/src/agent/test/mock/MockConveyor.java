@@ -1,13 +1,8 @@
 package agent.test.mock;
 
-import java.util.ArrayList;
-
-import factory.KitConfig;
-
 import agent.data.Kit;
-import agent.data.PartType;
 import agent.interfaces.Conveyor;
-
+import factory.KitConfig;
 
 /**
  * Mock conveyor. Messages received simply add an entry to the mock agent's log.
@@ -61,6 +56,12 @@ public class MockConveyor extends MockAgent implements Conveyor {
 	public void msgHereIsKitConfiguration(KitConfig config) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received message msgHereIsKitConfiguration"));
+	}
+
+	@Override
+	public void msgGiveMeKit() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

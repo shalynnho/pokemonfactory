@@ -70,4 +70,16 @@ public class MockKitRobot extends MockAgent implements KitRobot {
 
 	}
 
+	@Override
+	public void msgKitReadyForPickup() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgNoKitsLeftOnConveyor() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
