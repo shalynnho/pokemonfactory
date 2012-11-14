@@ -193,7 +193,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	@Override
 	public void takeKitPhoto(KitGraphics kit) {
 		// TODO Auto-generated method stub
-
+		camera.msgTakePictureKitDone(kit, true);
 	}
 
 	@Override

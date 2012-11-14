@@ -146,7 +146,7 @@ public class StandAgent extends Agent implements Stand {
 				break;
 			}
 		}
-		// stateChanged();
+		 stateChanged();
 	}
 
 	/*
