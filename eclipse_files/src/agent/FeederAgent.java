@@ -104,6 +104,7 @@ public class FeederAgent extends Agent implements Feeder {
 				print("lane type is " + lane.type.toString());
 				lane.state = LaneStatus.GIVING_PARTS;
 				state = FeederStatus.FEEDING_PARTS;
+				break;
 			}
 		}
 		}

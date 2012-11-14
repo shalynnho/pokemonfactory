@@ -70,7 +70,7 @@ public class GantryAgent extends Agent implements Gantry {
 		boolean temp = true;
 		for(MyFeeder currentFeeder : feeders) {
 			if(currentFeeder.getFeeder() == feeder) {
-				currentFeeder.requestedType = type;
+				currentFeeder.requestedType.equals(type);
 				temp = false;
 				break;
 			}

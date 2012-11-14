@@ -197,7 +197,6 @@ public class NestAgent extends Agent implements Nest {
 		print("Telling camera that this nest is full");
 		camera.msgIAmFull(this);
 		takingParts = true;
-		stateChanged();
 	}
 
 	@Override
