@@ -27,8 +27,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int PART_WIDTH = 20;
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
-	// space in between lane lines (from upper left to upper left)
-	private static final int NUMLINES = LANE_LENGTH / PART_WIDTH;
+	// number of lines on the lane
+	private static final int NUMLINES = 1 + LANE_LENGTH / (4 * PART_WIDTH);
+	// space between each line
+	private static final int LINESPACE = LANE_LENGTH / NUMLINES;
 	// width of lane lines
 	private static final int LINE_WIDTH = 3;
 
@@ -46,7 +48,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// the ID of this Lane
 	private int laneID;
 	// the amplitude of this lane
-	private int amplitude = 5;
+	private int amplitude = 1;
 	// true if Lane is on
 	private boolean laneOn = true;
 	// counters
@@ -72,7 +74,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
 
 		// set start locations
-		laneLoc = new Location(LANE_END_X, 50 + laneID * 75);
+		laneLoc = new Location(LANE_END_X, 53 + laneID * 75);
 		partStartLoc = new Location(LANE_BEG_X, laneLoc.getY()
 				+ (PART_WIDTH / 2));
 
@@ -258,15 +260,20 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Animates the lane lines
 	 */
 	private void moveLane() {
-		moveCounter++;
-		if (moveCounter % (PART_WIDTH / amplitude) == 0) { // reset lane lines
-			resetLaneLineLocs();
-		} else {
 			for (int i = 0; i < laneLines.size(); i++) {
-				laneLines.get(i).incrementX(-amplitude);
+				int xCurrent = laneLines.get(i).getX();
+				if (xCurrent <= (LANE_END_X - LINE_WIDTH)) {
+					if (i == 0) {
+						int xPrev = laneLines.get(laneLines.size() - 1).getX();
+						laneLines.get(i).setX(xPrev + LINESPACE);
+					} else {
+						int xPrev = laneLines.get(i-1).getX();
+						laneLines.get(i).setX(xPrev + LINESPACE);
+					}
+				} else {
+					laneLines.get(i).incrementX(-amplitude);
+				}
 			}
-		}
-
 	}
 
 	/**
@@ -274,11 +281,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	private void resetLaneLineLocs() {
 		// create array list of location for lane lines
-		laneLines = new ArrayList<Location>();
-		int startLineX = LANE_BEG_X - LINE_WIDTH;
+		laneLines = new ArrayList<Location>(NUMLINES);
+		int startLineX = LANE_END_X + LINE_WIDTH;
 		for (int i = 0; i < NUMLINES; i++) {
 			laneLines.add(new Location(startLineX, laneLoc.getY()));
-			startLineX -= (PART_WIDTH + LINE_WIDTH);
+			startLineX += LINESPACE;
+		}
+		for (int i = 0; i < NUMLINES; i++) {
+		System.out.println("i: "+i+", x-coord: "+laneLines.get(i).getX());
 		}
 	}
 
