@@ -353,7 +353,7 @@ public class Server {
 
 	// Temporary Removal of camera requests
 	private void sendDataToCamera(Request req) {
-		factProdMngrWriter.sendData(req);
+		// factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
