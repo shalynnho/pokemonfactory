@@ -20,6 +20,7 @@ import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
 import DeviceGraphicsDisplay.LaneGraphicsDisplay;
 import DeviceGraphicsDisplay.NestGraphicsDisplay;
 import DeviceGraphicsDisplay.PartsRobotDisplay;
+import DeviceGraphicsDisplay.StandGraphicsDisplay;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -77,6 +78,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));
+		}
+		
+		for (int i = 0; i < Constants.STAND_COUNT; i++) {
+			addDevice(Constants.STAND_TARGET + i, new StandGraphicsDisplay(this, i));
 		}
 
 		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this));
