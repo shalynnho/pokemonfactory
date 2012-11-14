@@ -23,7 +23,7 @@ public class NestAgent extends Agent implements Nest {
 	public int countRequest = 0;
 	int full = 9;
 	public boolean takingParts = false;
-
+	
 	public NestGraphics nestGraphics;
 
 	public Semaphore animation = new Semaphore(0, true);
@@ -142,7 +142,7 @@ public class NestAgent extends Agent implements Nest {
 				return true;
 			}
 		}
-		if (count == full) {
+		if (count == full && takingParts == false) {
 			nestFull();
 			return true;
 		}
@@ -167,7 +167,7 @@ public class NestAgent extends Agent implements Nest {
 		print("Moving part to proper nest location");
 		if (nestGraphics != null) {
 			// TODO
-			// nestGraphics.receivePart(part.partGraphics);
+			nestGraphics.receivePart(part.partGraphics);
 		}
 		try {
 			animation.acquire();

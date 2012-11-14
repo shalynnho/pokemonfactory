@@ -206,7 +206,7 @@ public class Server {
 		kitrobot.setStand(stand);
 		conveyor.setKitrobot(kitrobot);
 		partsrobot.setStand(stand);
-		camera.setPartRobot(partsrobot);
+		camera.setPartsRobot(partsrobot);
 		camera.setKitRobot(kitrobot);
 
 		// V0 heck

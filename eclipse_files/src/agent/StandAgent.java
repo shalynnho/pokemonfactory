@@ -266,6 +266,7 @@ public class StandAgent extends Agent implements Stand {
 	 * @param k the kit being placed
 	 */
 	private void placeKit(final Kit k) {
+		synchronized(myKits){
 		int spot = 5;
 		// kitRequesteds--;
 
@@ -277,7 +278,7 @@ public class StandAgent extends Agent implements Stand {
 				break;
 			}
 		}
-
+		
 		kitsOnStand.set(spot, k);
 		partsrobot.msgUseThisKit(k); // THIS DOESN'T WORK YET
 /*
@@ -291,6 +292,7 @@ public class StandAgent extends Agent implements Stand {
 			}
 		}, 100);*/
 		stateChanged();
+		}
 	}
 
 	/**
