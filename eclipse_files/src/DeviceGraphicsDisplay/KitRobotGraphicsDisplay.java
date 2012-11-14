@@ -305,7 +305,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				ConveyorToLocation1();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_GOOD_CONVEYOR)) {
-
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 3) {
 						System.out.println("goes through moveit command");
