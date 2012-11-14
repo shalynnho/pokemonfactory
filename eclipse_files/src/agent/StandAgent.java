@@ -172,7 +172,9 @@ public class StandAgent extends Agent implements Stand {
 						return true;
 					}
 				}
-
+			}
+			synchronized(myKits){
+				
 				// Kit robot shipped a kit
 				for (MyKit mk : myKits.keySet()) {
 					if (mk.KS == KitStatus.Shipped) {
