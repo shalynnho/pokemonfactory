@@ -17,12 +17,12 @@ import factory.PartType;
  */
 public class NestGraphicsDisplay extends DeviceGraphicsDisplay {	
 	// max number of parts this Nest holds
-	private static final int MAX_PARTS=8;
+	private static final int MAX_PARTS = 8;
 	// width and height of the nest
-	private static final int NEST_WIDTH=45; 
-	private static final int NEST_HEIGHT=80;
+	private static final int NEST_WIDTH = 75; 
+	private static final int NEST_HEIGHT = 70;
 	// width and height of a part
-	private static final int PART_WIDTH=20, PART_HEIGHT=21;
+	private static final int PART_WIDTH = 20, PART_HEIGHT = 21;
 	
 	// the LaneManager (client) which talks to the Server
 	private Client client;
