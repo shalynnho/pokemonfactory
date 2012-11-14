@@ -237,7 +237,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			
 			synchronized(mk.kit.partsExpected){
 			if (mk.kit.needPart(arm.part)) {
-				print("Placing part");
+				print("Placing part "+arm.part.type.getName());
 				/* Animation messing up
 				if (partsRobotGraphics != null) {
 					partsRobotGraphics.givePartToKit(arm.part.partGraphics,
