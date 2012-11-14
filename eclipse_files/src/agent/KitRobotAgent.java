@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 
@@ -188,12 +187,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		synchronized (myKits) {
 			// Picked up a kit from conveyor
 			for (MyKit mk : myKits) {
-				if (mk.KS == KitStatus.PickedUp) {
-					mk.KS = KitStatus.OnStand;
-					placeKitOnStand(mk);
-					return true;
-				}
-
 				// Kit needs to be shipped out of the kitting cell
 				if (mk.KS == KitStatus.Inspected) {
 					shipKit(mk);
@@ -215,8 +208,18 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 		}
 
-		// Request a kit
-		if (kitWaitingOnConveyor) {
+		// Request a kit if the stand has an open spot
+		int count = 0;
+		for (int i = 0; i < 2; i++) {
+			if (standPositions.get(i + 1)) {
+				count++;
+			}
+		}
+
+		// We will always attempt to fill the stand, in case a kit fails
+		// inspection. If the last kit is unneeded, we'll just put it on the
+		// "bad" conveyor.
+		if (kitWaitingOnConveyor && standPositions.containsValue(true)) {
 			conveyor.msgGiveMeKit();
 			return true;
 		}
@@ -257,6 +260,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 */
 	private void placeKitOnStand(MyKit mk) {
 		print("Attempting to place kit");
+		// Only need to check 1 and 2
 		for (int loc = 1; loc < 3; loc++) {
 			if (standPositions.get(loc) == true) {
 				// kitWaitingOnConveyor = false;
@@ -276,9 +280,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 				}
 				standPositions.put(loc, false);
 				mk.location = loc;
+				mk.KS = KitStatus.OnStand;
 				stand.msgHereIsKit(mk.kit, loc);
 				print("Placing kit on stand");
-				// Only need to check 1 and 2
 				break;
 			}
 		}
@@ -306,14 +310,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		}
 
 		// For testing, assume camera finishes after .1s
-		/*timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				print("Faking camera finishing inspection");
-				msgKitPassedInspection();
-			}
-		}, 100);*/
+		/*
+		 * timer.schedule(new TimerTask() {
+		 * @Override public void run() {
+		 * print("Faking camera finishing inspection");
+		 * msgKitPassedInspection(); } }, 100);
+		 */
 		camera.msgInspectKit(mk.kit);
 
 		try {

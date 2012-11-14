@@ -34,7 +34,7 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 	/**
 	 * 
 	 * @param km - the kit manager
-	 * @param id - stand ID - 0,1: kit stands; 2: inspection stand
+	 * @param id - stand ID - 1,2: kit stands; 0: inspection stand
 	 */
 	public StandGraphicsDisplay(Client kam, int id) {
 //		kitAssemManager = (KitAssemblyManager) kam;	// TODO: add back
@@ -42,13 +42,15 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		isEmpty = true;
 		kit = new KitGraphicsDisplay();
 		// TODO: set location of kit based on standID
-		// location = Constants.		
+		// location = Constants.
+		location = new Location(280, standID*100 + 100);
+		System.out.println("SGD, id: "+standID);
 	}
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
+		g.drawImage(Constants.STAND_IMAGE, location.getX(), location.getY(), c);
 		if (!isEmpty) {
-			g.drawImage(Constants.STAND_IMAGE, location.getX(), location.getY(), c);
 			kit.draw(c,g);
 		}	
 	}

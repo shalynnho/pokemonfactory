@@ -57,7 +57,7 @@ public abstract class Constants {
 //	public static final Location FEEDER3_LOC = new Location(600, );
 	
 	public static final Location KIT_ROBOT_LOC = new Location(0,0);
-	public static final Location CONVEYOR_LOC = new Location(0,185);
+	public static final Location CONVEYOR_LOC = new Location(0,80); //185
 	public static final Location KIT_LOC = new Location(20,200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250,450);
 	public static final Location GANTRY_ROBOT_LOC = new Location(735,180); 
@@ -85,15 +85,13 @@ public abstract class Constants {
 
 	// Conveyor Images
 	public static final Image CONVEYOR_IMAGE = 
-			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Conveyor.jpg");
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "conveyor_1.png");
 	public static final Image CONVEYOR_LINES_IMAGE = 
-			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "ConveyorLines.png");
-	public static final Image EXIT_IMAGE = 
-			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "ExitBelt.png");
-	public static final Image EXIT_LINES_IMAGE = 
-			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "ExitLines.png");
-	public static final Image TEST_CONVEYOR_IMAGE = (Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "TestConveyor.png"));
-	public static final Image TEST_CONVEYOR_LINE_IMAGE = (Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "TestConveyorLine.png"));
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "conveyor_belt.png");
+	public static final Image TEST_CONVEYOR_IMAGE = 
+			(Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "TestConveyor.png"));
+	public static final Image TEST_CONVEYOR_LINE_IMAGE = 
+			(Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "TestConveyorLine.png"));
 
 	// Kit Robot Images
 	public static final Image KIT_ROBOT_IMAGE = 

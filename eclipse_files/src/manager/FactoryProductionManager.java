@@ -74,10 +74,12 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));
 		}
 		
-		for (int i = 0; i < Constants.STAND_COUNT; i++) {
+		addDevice(Constants.STAND_TARGET + 0, new InspectionStandGraphicsDisplay(this));
+		
+		for (int i = 1; i < Constants.STAND_COUNT; i++) {
 			addDevice(Constants.STAND_TARGET + i, new StandGraphicsDisplay(this, i));
 		}
-
+		
 		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this));
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));

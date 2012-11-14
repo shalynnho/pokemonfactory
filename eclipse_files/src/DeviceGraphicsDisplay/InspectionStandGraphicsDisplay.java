@@ -1,5 +1,7 @@
 package DeviceGraphicsDisplay;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
@@ -15,13 +17,13 @@ import Utils.Constants;
 public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
 		
 	public InspectionStandGraphicsDisplay(Client kam) {
-		super(kam, 3);
+		super(kam, 0);
 	}
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
+		g.drawImage(Constants.INSPECTION_STAND_IMAGE, location.getX(), location.getY(), c);
 		if (!isEmpty) {
-			g.drawImage(Constants.INSPECTION_STAND_IMAGE, location.getX(), location.getY(), c);
 			kit.draw(c,g);
 		}	
 	}

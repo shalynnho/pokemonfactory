@@ -135,30 +135,28 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	public boolean pickAndExecuteAnAction() {
 
 		synchronized (kitsOnConveyor) {
-			// Send the kit if it has reached the "stop" position on the
-			// conveyor where the kit robot can pick it up and the kit robot can
-			// pick it up.
 			for (MyKit mk : kitsOnConveyor) {
+				// Send the kit if it has reached the "stop" position on the
+				// conveyor where the kit robot can pick it up and the kit robot
+				// can
+				// pick it up.
 				if (mk.KS == KitStatus.PickupRequested) {
 					print("About to send kit");
 					sendKit(mk);
 					return true;
 				}
-			}
 
-			// Send the kit if it has reached the "stop" position on the
-			// conveyor where the kit robot can pick it up.
-			for (MyKit mk : kitsOnConveyor) {
+				// Send the kit if it has reached the "stop" position on the
+				// conveyor where the kit robot can pick it up.
 				if (mk.KS == KitStatus.ArrivedAtPickupLocation) {
 					mk.KS = KitStatus.AwaitingPickup;
 					kitrobot.msgKitReadyForPickup();
 					return true;
 				}
-			}
 
-			// Place kit onto conveyor and start moving it out of the cell if
-			// the kit robot has dropped off a completed kit
-			for (MyKit mk : kitsOnConveyor) {
+				// Place kit onto conveyor and start moving it out of the cell
+				// if
+				// the kit robot has dropped off a completed kit
 				if (mk.KS == KitStatus.AwaitingDelivery) {
 					deliverKit(mk);
 					return true;

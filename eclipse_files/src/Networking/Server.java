@@ -11,6 +11,7 @@ import DeviceGraphics.CameraGraphics;
 import DeviceGraphics.ConveyorGraphics;
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.FeederGraphics;
+import DeviceGraphics.InspectionStandGraphics;
 import DeviceGraphics.KitRobotGraphics;
 import DeviceGraphics.LaneGraphics;
 import DeviceGraphics.NestGraphics;
@@ -146,6 +147,7 @@ public class Server {
 				agents.get(Constants.KIT_ROBOT_TARGET)));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this,
 				agents.get(Constants.PARTS_ROBOT_TARGET)));
+		devices.put(Constants.STAND_TARGET + 0, new InspectionStandGraphics(this, agents.get(Constants.STAND_TARGET + 0)));
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			devices.put(Constants.FEEDER_TARGET + i, new FeederGraphics(i,
@@ -161,7 +163,7 @@ public class Server {
 			devices.put(Constants.NEST_TARGET + i, new NestGraphics(this, i,
 					agents.get(Constants.NEST_TARGET + i)));
 		}
-		for (int i = 0; i < Constants.STAND_COUNT; i++) {
+		for (int i = 1; i < Constants.STAND_COUNT; i++) {
 			devices.put(Constants.STAND_TARGET + i, new StandGraphics(this, agents.get(Constants.STAND_TARGET + i), i));
 		}
 	}
@@ -214,12 +216,15 @@ public class Server {
 		ConveyorAgent conveyor = (ConveyorAgent) agents
 				.get(Constants.CONVEYOR_TARGET);
 
-		for (int i = 0; i < Constants.STAND_COUNT; i ++) {
+		for (int i = 1; i < Constants.STAND_COUNT - 1; i ++) {
 			StandAgent stand = (StandAgent) agents.get(Constants.STAND_TARGET + i);
 			stand.setKitrobot(kitrobot);
-			kitrobot.setStand(stand);
-			partsrobot.setStand(stand);
 		}
+		
+		// TODO: 201 kitrobot needs to keep track of all 3 stands (currently defaulting to inspection stand)
+		// TODO: 201 partsrobot needs to keep track of 2 stands (not inspection)
+		kitrobot.setStand((StandAgent) agents.get(Constants.STAND_TARGET + 0));
+		partsrobot.setStand((StandAgent) agents.get(Constants.STAND_TARGET + 1));
 
 		kitrobot.setCamera(camera);
 		kitrobot.setConveyor(conveyor);
