@@ -305,6 +305,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 4) {
+						System.out.println("passes through inspection to good conveyor");
 						currentKit = kits.get(i);
 						currentKit.setDegreeCountDown(-90);
 						kits.get(i).setPosition(2);
