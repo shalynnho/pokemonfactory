@@ -46,6 +46,7 @@ public class KitManagerPanel extends JPanel{
 		tabbedPane.addTab("Manage Kits", managerPanel);
 		managerPanel.setLayout(new BorderLayout(0, 0));
 		
+		//   This creates the panel at the top of the layout that lets the user select what kit to view/edit/delete
 		JPanel pnlKitChooser = new JPanel();
 		managerPanel.add(pnlKitChooser, BorderLayout.NORTH);
 		
@@ -55,6 +56,8 @@ public class KitManagerPanel extends JPanel{
 		JButton btnAddKit = new JButton("New Kit Arrangement");
 		pnlKitChooser.add(btnAddKit);
 		
+		// This panel is what allows us to combine the View/Add/Edit/Delete screens together
+		// Each "screen" is instead a Panel of the buttons that that screen would have
 		JPanel pnlButtons = new JPanel();
 		managerPanel.add(pnlButtons, BorderLayout.SOUTH);
 		pnlButtons.setLayout(new CardLayout(0, 0));
@@ -85,12 +88,14 @@ public class KitManagerPanel extends JPanel{
 		
 		JButton btnClrFields = new JButton("Clear Fields");
 		pnlAdd.add(btnClrFields);
-		
+
+		// The "Display" Panel is the central panel that displays the informaiton about a certain kit
 		JPanel pnlDisplay = new JPanel();
 		pnlDisplay.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		managerPanel.add(pnlDisplay, BorderLayout.CENTER);
 		pnlDisplay.setLayout(new BorderLayout());
 		
+		// The name field is separated on a separate panel so it remains centered in the frame and not at the mercy of the comboBox sizes
 		JPanel pnlName = new JPanel();
 		pnlDisplay.add(pnlName, BorderLayout.NORTH);
 		
