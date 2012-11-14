@@ -6,39 +6,38 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
+import agent.data.PartType;
+
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
-import factory.PartType;
 
 public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 
-	private static final int MAX_PARTS = 8;
 	private Location kitLocation;
 
 	// RotationPart
-	public int finalDegree;
-	private int currentDegree;
+	public  int  degreeCountDown;
 	private int degreeStep;
+	
 	
 	private int rotationAxisX;
 	private int rotationAxisY;
 	
 	private int position;
 	
-	private boolean AnimationToConveyorDone;
+	private boolean rotating;
 	
 	private ArrayList<PartGraphicsDisplay> parts = new ArrayList<PartGraphicsDisplay>();
-
+	
 	private AffineTransform trans = new AffineTransform();
 
-	public KitGraphicsDisplay() {
-		AnimationToConveyorDone = false;
+	public KitGraphicsDisplay(Client c) {
+		
 		kitLocation = Constants.KIT_LOC;
 		position = 0;
-		finalDegree = 270;
-		currentDegree = 0;
+		degreeCountDown=0;
 		degreeStep = 1;
 		rotationAxisX = 220;
 		rotationAxisY = 40;
@@ -72,60 +71,55 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void receiveData(Request req) {
 		if(req.getCommand().equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND)) {
-			PartType type = (PartType) req.getData();
-			receivePart(new PartGraphicsDisplay(type));
-		}
-	}
-	
-	public void receivePart(PartGraphicsDisplay pgd) {
-		parts.add(pgd);
-		
-		// set location of the part
-		if ((parts.size() % 2) == 1) {
-			pgd.setLocation(new Location(kitLocation.getX() + 5, kitLocation.getY() + (20 * (parts.size() -1) / 2)));
-		}
-		else {
-			pgd.setLocation(new Location(kitLocation.getX() + 34, kitLocation.getY() + (20 * (parts.size()-2) / 2)));
-		}		
-		
-		if (parts.size() == MAX_PARTS) {
-			parts.clear();
+			String typeStr = (String) req.getData();
+			//parts.add(new PartGraphicsDisplay(PartType.valueOf(typeStr)));
 		}
 	}
 
 	// Drawing using AffineTransform part
-	public void resetcurrentDegree() {
-		currentDegree = 0;
-	}
 
-	public void setFinalDegree(int finalDegree) {
-		this.finalDegree = finalDegree;
+
+	public void setDegreeCountDown(int degreeCountDown){
+		this.degreeCountDown=degreeCountDown;
+		
+		if(this.degreeCountDown<0)
+		{
+			this.degreeStep=-1;
+		}
+		else 
+		{
+			this.degreeStep=1;
+		}
 	}
+	
 
 	public void drawRotate(JComponent c, Graphics2D g) {
-		AnimationToConveyorDone = false;
-
-		if (currentDegree == 90) {
-			AnimationToConveyorDone = true;
-		}
-
 		rotate();
+		checkDegrees();
 		g.drawImage(Constants.KIT_IMAGE, trans, null);
 
 	}
 
 	public void rotate() {
-		if (currentDegree != finalDegree) {
-			trans.rotate(Math.toRadians(1), rotationAxisX, rotationAxisY);
-			currentDegree++;
-		} else {
-			currentDegree = 0;
-			finalDegree = 0;
+		if(rotating){
+			trans.rotate(Math.toRadians(degreeStep), rotationAxisX, rotationAxisY);
+			degreeCountDown-=degreeStep;
+			
+		}
+	}
+	public void checkDegrees(){
+		if(rotating)
+		{
+			if(degreeCountDown==0)
+			{
+				rotating=false;
+			}
 		}
 	}
 	
-	public boolean isAnimationToConveyorDone() {
-		return AnimationToConveyorDone;
+	
+	public void startRotating(){
+		rotating = true;
 	}
 
 }

@@ -47,7 +47,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		nestID = id;
 		animate =false; 
 		isFull = true;
-		nestLocation = new Location(399 - NEST_WIDTH, 50 + nestID * 75);
+		nestLocation = new Location(400 - NEST_WIDTH, 50 + nestID * 75);
 		
 //		 TODO may need to remove temp later today - cannot create a random PartType
 		for (int i = 0; i < 8; i++) {

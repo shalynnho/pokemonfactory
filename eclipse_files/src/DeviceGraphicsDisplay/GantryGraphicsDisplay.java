@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
+import Networking.Client;
 import Networking.Request;
-import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
 import agent.data.Bin;
@@ -24,11 +24,11 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	Bin tempBin;
 	
-	Server server;
+	Client client;
 
-	public GantryGraphicsDisplay (Server s) {
+	public GantryGraphicsDisplay (Client c) {
 		currentLocation = Constants.GANTRY_ROBOT_LOC;
-		server = s;
+		client = c;
 		
 		/*// TODO Find out correct name for constant array list
 		for (int i = 0; i < Constants.ARRAY_LIST_OF_PART_TYPES.size(); i ++){
@@ -87,7 +87,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 		
 			if(currentLocation.getX() == destinationLocation.getX()) {
-				server.sendData(new Request(Constants.GANTRY_ROBOT_DONE_MOVE, Constants.GANTRY_ROBOT_TARGET, null));
+				client.sendData(new Request(Constants.GANTRY_ROBOT_DONE_MOVE, Constants.GANTRY_ROBOT_TARGET, null));
 			}
 		}
 		for (int i = 0; i < binList.size(); i ++) {

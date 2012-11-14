@@ -70,7 +70,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		// conveyorgraphics = new DeviceGraphics.ConveyorGraphics(null);
 		// kitrobotgraphics = new DeviceGraphics.KitRobotGraphics(null);
 
-		camera = new CameraAgent("camera");
+		/*camera = new CameraAgent("camera");
 		conveyor = new ConveyorAgent("conveyor");
 		feeder = new FeederAgent("feeder");
 		gantry = new GantryAgent("gantry");
@@ -86,7 +86,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		kitrobot.startThread();
 		lane.startThread();
 		nest.startThread();
-		// partsrobot.startThread();
+		// partsrobot.startThread();*/
 
 	}
 

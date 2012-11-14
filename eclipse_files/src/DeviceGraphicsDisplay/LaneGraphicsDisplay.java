@@ -21,8 +21,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// horizontal length of the Lane image
 	private static final int LANE_LENGTH = 300;
 	// start and end x-coordinates of Part on the Lane
-	private static final int LANE_BEG_X = 699;
-	private static final int LANE_END_X = 399;
+	private static final int LANE_BEG_X = 700;
+	private static final int LANE_END_X = 400;
 	// width and height of the part
 	private static final int PART_WIDTH = 20;
 	// max number of parts that can be on a Lane

@@ -12,7 +12,10 @@ import agent.LaneAgent;
 import agent.NestAgent;
 import agent.PartsRobotAgent;
 import agent.StandAgent;
+import agent.test.mock.MockFeederGraphics;
 import agent.test.mock.MockGraphics;
+import agent.test.mock.MockLaneGraphics;
+import agent.test.mock.MockNestGraphics;
 import factory.KitConfig;
 import factory.Order;
 import factory.PartType;
@@ -49,8 +52,16 @@ public class V1_Agents_Mock_Graphics {
 			camera.setNest(nests.get(i));
 			fcs.setNest(nests.get(i));
 		}
-		conveyor.setFCS(fcs);
+		conveyor.setFcs(fcs);
 		conveyor.setKitrobot(kitRobot);
+		if(conveyor.getFcs()==null){
+			System.out.println("Conveyor fcs null");
+		}
+		if(conveyor.getKitrobot()==null){
+			System.out.println("Conveyor kitrobot null");
+		} else {
+			System.out.println("Conveyor kitrobot not null");
+		}
 		camera.setKitRobot(kitRobot);
 		stand.setFCS(fcs);
 		stand.setKitrobot(kitRobot);
@@ -64,16 +75,40 @@ public class V1_Agents_Mock_Graphics {
 		fcs.setStand(stand);
 
 		MockGraphics mg = new MockGraphics("Mock Graphics");
+		ArrayList<MockFeederGraphics> mockFeeders = new ArrayList<MockFeederGraphics>();
+		for (int i = 0; i < 4; i++) {
+			mockFeeders.add(new MockFeederGraphics());
+		}
+		ArrayList<MockLaneGraphics> mockLanes = new ArrayList<MockLaneGraphics>();
+		for (int i = 0; i < 8; i++) {
+			mockLanes.add(new MockLaneGraphics());
+		}
+		ArrayList<MockNestGraphics> mockNests = new ArrayList<MockNestGraphics>();
+		for (int i = 0; i < 8; i++) {
+			mockNests.add(new MockNestGraphics());
+		}
+		
+		mg.setCamera(camera);
+		mg.setConveyor(conveyor);
+		//mg.setFeeder(feeder);
+		mg.setGantry(gantry);
+		mg.setKitrobot(kitRobot);
+		//mg.setLane(lane);
+		//mg.setNest(nest);
+		mg.setPartsrobot(partsRobot);
 
 		gantry.setGraphicalRepresentation(mg);
 		for (int i = 0; i < 4; i++) {
-			feeders.get(i).setGraphicalRepresentation(mg);
+			feeders.get(i).setGraphicalRepresentation(mockFeeders.get(i));
+			mockFeeders.get(i).setFeederAgent(feeders.get(i));
 		}
 		for (int i = 0; i < 8; i++) {
-			lanes.get(i).setGraphicalRepresentation(mg);
+			lanes.get(i).setGraphicalRepresentation(mockLanes.get(i));
+			mockLanes.get(i).setLaneAgent(lanes.get(i));
 		}
 		for (int i = 0; i < 8; i++) {
-			nests.get(i).setGraphicalRepresentation(mg);
+			nests.get(i).setGraphicalRepresentation(mockNests.get(i));
+			mockNests.get(i).setNestAgent(nests.get(i));
 		}
 		partsRobot.setGraphicalRepresentation(mg);
 		camera.setGraphicalRepresentation(mg);
@@ -95,12 +130,15 @@ public class V1_Agents_Mock_Graphics {
 		gantry.startThread();
 		for (int i = 0; i < 4; i++) {
 			feeders.get(i).startThread();
+			mockFeeders.get(i).startThread();
 		}
 		for (int i = 0; i < 8; i++) {
 			lanes.get(i).startThread();
+			mockLanes.get(i).startThread();
 		}
 		for (int i = 0; i < 8; i++) {
 			nests.get(i).startThread();
+			mockNests.get(i).startThread();
 		}
 		mg.startThread();
 		partsRobot.startThread();
