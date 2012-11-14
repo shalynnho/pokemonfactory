@@ -6,20 +6,16 @@ import java.awt.Image;
 import javax.swing.JComponent;
 
 import Networking.Request;
-import Utils.Constants;
 import Utils.Location;
 import factory.PartType;
 
 public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location partLocation;
 	
-	//NEED IMAGE NAMES
-	Image partImage;
+	private Image partImage;
 
 	public PartGraphicsDisplay (PartType pt) {
-		//String imageName = pt.toString();
-		
-		// v0 hardcoded image name for testing
+		partImage = pt.getImage();
 	}
 	
 	public void setLocation (Location newLocation) {
@@ -27,7 +23,7 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void draw(JComponent c, Graphics2D g) {
-		g.drawImage(Constants.PART_IMAGE, partLocation.getX(), partLocation.getY(), c);
+		g.drawImage(partImage, partLocation.getX(), partLocation.getY(), c);
 	}
 
 	public Location getLocation () {

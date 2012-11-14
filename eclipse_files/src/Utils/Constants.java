@@ -38,8 +38,8 @@ public abstract class Constants {
 	public static final int STAND_COUNT = 3;
 	
 	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(Arrays.asList(
-		new PartType("A"), new PartType("B"), new PartType("C"), new PartType("D"), 
-		new PartType("E"), new PartType("F"), new PartType("G"), new PartType("H")));
+		new PartType("1"), new PartType("2"), new PartType("3"), new PartType("4"), 
+		new PartType("5"), new PartType("6"), new PartType("7"), new PartType("8")));
 	
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(Arrays.asList(
 			new KitConfig("Default Kit", 
@@ -120,17 +120,7 @@ public abstract class Constants {
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "samplepart.png");
 	
 	// Part Images
-	public static final String PART_IMAGE_PATH = IMAGE_PATH + "part";
-	
-	public static final Image PART_1_IMAGE = Toolkit.getDefaultToolkit().getImage(PART_IMAGE_PATH + "_1.png");
-	public static final Image PART_2_IMAGE = Toolkit.getDefaultToolkit().getImage(PART_IMAGE_PATH + "_2.png");
-	public static final Image PART_3_IMAGE = Toolkit.getDefaultToolkit().getImage(PART_IMAGE_PATH + "_3.png");
-	public static final Image PART_4_IMAGE = Toolkit.getDefaultToolkit().getImage(PART_IMAGE_PATH + "_4.png");
-	public static final Image PART_5_IMAGE = Toolkit.getDefaultToolkit().getImage(PART_IMAGE_PATH + "_5.png");
-	public static final Image PART_6_IMAGE = Toolkit.getDefaultToolkit().getImage(PART_IMAGE_PATH + "_6.png");
-	public static final Image PART_7_IMAGE = Toolkit.getDefaultToolkit().getImage(PART_IMAGE_PATH + "_7.png");
-	public static final Image PART_8_IMAGE = Toolkit.getDefaultToolkit().getImage(PART_IMAGE_PATH + "_8.png");
-
+	public static final String PART_IMAGE_PATH = IMAGE_PATH + "part_";
 	
 	// Bin Images
 	public static final Image BIN_FULL_IMAGE = 

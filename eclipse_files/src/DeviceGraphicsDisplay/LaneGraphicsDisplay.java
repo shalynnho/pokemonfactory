@@ -287,9 +287,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			laneLines.add(new Location(startLineX, laneLoc.getY()));
 			startLineX += LINESPACE;
 		}
-		for (int i = 0; i < NUMLINES; i++) {
-		System.out.println("i: "+i+", x-coord: "+laneLines.get(i).getX());
-		}
 	}
 
 	/**
