@@ -120,7 +120,7 @@ public class GantryAgent extends Agent implements Gantry {
 		if(waitForDrop == false) {
 			for (MyFeeder currentFeeder : feeders) {
 				for (Bin bin : binList) {
-					if (bin.part.type.toString().equals(currentFeeder.getRequestedType().toString()) && bin.binState == BinStatus.FULL) {
+					if (bin.part.type.equals(currentFeeder.getRequestedType()) && bin.binState == BinStatus.FULL) {
 						print("Moving to feeder");
 						moveToFeeder(bin, currentFeeder.getFeeder());
 						return true;
@@ -131,7 +131,7 @@ public class GantryAgent extends Agent implements Gantry {
 		if(waitForDrop == true) {
 			for (MyFeeder currentFeeder : feeders) {
 				for (Bin bin : binList) {
-					if (bin.part.type.toString().equals(currentFeeder.getRequestedType().toString())
+					if (bin.part.type.equals(currentFeeder.getRequestedType())
 							&& bin.binState == BinStatus.OVER_FEEDER) {
 						fillFeeder(bin, currentFeeder.getFeeder());
 						return true;
@@ -142,7 +142,7 @@ public class GantryAgent extends Agent implements Gantry {
 		if(waitForDrop == false) {
 			for (MyFeeder currentFeeder : feeders) {
 				for (Bin bin : binList) {
-					if (bin.part.type.toString().equals(currentFeeder.getRequestedType().toString())
+					if (bin.part.type.equals(currentFeeder.getRequestedType())
 							&& bin.binState == BinStatus.EMPTY) {
 						discardBin(bin);
 						return true;
