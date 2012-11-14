@@ -80,6 +80,7 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 			// Robot is at feeder, send done message to agent 
 			else if (receiveState2) {
 				gantryAgent.msgReceiveBinDone(heldBin);
+				receiveState2 = false;
 			}
 			
 			// Pick up bin, move it back to initial location

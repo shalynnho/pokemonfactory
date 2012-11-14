@@ -60,7 +60,7 @@ public abstract class Constants {
 	public static final Location CONVEYOR_LOC = new Location(0,185);
 	public static final Location KIT_LOC = new Location(20,200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250,450);
-	public static final Location GANTRY_ROBOT_LOC = new Location(500,100);
+	public static final Location GANTRY_ROBOT_LOC = new Location(500,100); 
 	
 	// TODO: get exact location coordinates
 	public static final Location BIN_STORAGE_LOC = new Location(800,1000);
@@ -208,8 +208,8 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION2 = "robot logic moves conveyor to loc2";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2 = "robot display moves conveyor to loc2";
 			
-	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_CONVEYOR = "robot logic moves inspection to conv";
-	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_CONVEYOR = "robot display moves inspection to conv";
+	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR = "robot logic moves inspection to conv";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_GOOD_CONVEYOR = "robot display moves inspection to conv";
 	
 	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_INSPECTION = "robot logic moves loc1 to inspection";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_INSPECTION = "robot display moves loc1 to inspection";
@@ -288,7 +288,11 @@ public abstract class Constants {
 	
 	// FCS commands
 	public static final String FCS_NEW_PART = "newPart";
+	public static final String FCS_EDIT_PART = "editPart";
+	public static final String FCS_DELETE_PART = "deletePart";
 	public static final String FCS_NEW_KIT = "newKit";
+	public static final String FCS_EDIT_KIT = "editKit";
+	public static final String FCS_DELETE_KIT = "deleteKit";
 	public static final String FCS_ADD_ORDER = "addKit";
 	public static final String FCS_STOP_KIT = "stopKit";
 	

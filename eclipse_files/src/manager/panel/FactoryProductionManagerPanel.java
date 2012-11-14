@@ -1,4 +1,4 @@
-package GUI;
+package manager.panel;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel; 
+
+import manager.util.OverlayPanel;
 
 import Networking.Client;
 import factory.KitConfig;

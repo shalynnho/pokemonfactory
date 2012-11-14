@@ -1,3 +1,4 @@
+
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
@@ -63,11 +64,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	KitGraphicsDisplay currentKit = new KitGraphicsDisplay(client);
 
 	// just for v0
-	boolean AnimationToConveyorDone;
-
-	public boolean isAnimationToConveyorDone() {
-		return AnimationToConveyorDone;
-	}
 
 	public KitRobotGraphicsDisplay(Client cli) {
 
@@ -295,10 +291,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				currentKit.setDegreeCountDown(180);
 				kits.add(tempKit);
 				ConveyorToLocation1();
-<<<<<<< HEAD
-			} else if (command
-					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_CONVEYOR)) {
-=======
 			}
 			else if(command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2))
 			{
@@ -311,7 +303,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 			else if (command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_GOOD_CONVEYOR)) {
 
->>>>>>> 5c496d1069d3d116fc9645fe1e5794c29e198a4a
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 4) {
 						currentKit = kits.get(i);
@@ -360,13 +351,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		checkDegrees();
 		doJob();
-		AnimationToConveyorDone = false;
-		if (currentDegree == 180
-				&& moveToFinalPosition.equals(Command.moveToLocation1)) {
-			kitRobotClient.sendData(new Request(
-					Constants.KIT_ROBOT_ON_STAND_DONE,
-					Constants.KIT_ROBOT_TARGET, null));
-		}
 
 		for (int i = 0; i < kits.size(); i++) {
 

@@ -55,9 +55,47 @@ public class FCS {
 		agent.msgAddNewPartType(pt);
 	}
 	
+	public void editPart(PartType pt) {
+		// loops through ArrayList to find based on id, then replaces 
+		for(int i = 0; i < partTypes.size(); i++) {
+			if(partTypes.get(i).equals(pt)) {
+				partTypes.set(i, pt);
+			}
+		}
+	}
+	
+	public void deletePart(PartType pt) {
+		// loops through ArrayList to find based on id, then deletes 
+		for(int i = 0; i < partTypes.size(); i++) {
+			if(partTypes.get(i).equals(pt)) {
+				partTypes.remove(i);
+			}
+		}
+		
+		//TODO: add in agent call so to stop drawing bin
+	}
+	
 	public void newKit(KitConfig kc) {
 		kitConfigs.add(kc);
 		updateKits();
+	}
+	
+	public void editKit(KitConfig kc) {
+		// loops through ArrayList to find based on id, then replaces 
+		for(int i = 0; i < kitConfigs.size(); i++) {
+			if(kitConfigs.get(i).equals(kc)) {
+				kitConfigs.set(i, kc);
+			}
+		}
+	}
+	
+	public void deleteKit(KitConfig kc) {
+		// loops through ArrayList to find based on id, then deletes 
+		for(int i = 0; i < kitConfigs.size(); i++) {
+			if(kitConfigs.get(i).equals(kc)) {
+				kitConfigs.remove(i);
+			}
+		}
 	}
 	
 	public void addOrder(Order o) {
@@ -76,9 +114,21 @@ public class FCS {
 		if (req.getCommand().equals(Constants.FCS_NEW_PART)) {
 			PartType pt = (PartType) req.getData();
 			newPart(pt);
+		} else if (req.getCommand().equals(Constants.FCS_EDIT_PART)) {
+			PartType pt = (PartType) req.getData();
+			editPart(pt);
+		} else if (req.getCommand().equals(Constants.FCS_DELETE_PART)) {
+			PartType pt = (PartType) req.getData();
+			deletePart(pt);
 		} else if (req.getCommand().equals(Constants.FCS_NEW_KIT)) {
 			KitConfig kc = (KitConfig) req.getData();
 			newKit(kc);
+		} else if (req.getCommand().equals(Constants.FCS_EDIT_KIT)) {
+			KitConfig kc = (KitConfig) req.getData();
+			editKit(kc);
+		} else if (req.getCommand().equals(Constants.FCS_DELETE_KIT)) {
+			KitConfig kc = (KitConfig) req.getData();
+			deleteKit(kc);
 		} else if (req.getCommand().equals(Constants.FCS_ADD_ORDER)) {
 			Order o = (Order) req.getData();
 			addOrder(o);

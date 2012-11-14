@@ -13,11 +13,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
+import manager.util.NetworkingButtonListener;
+import manager.util.OverlayPanel;
+
 import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
 import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
-import GUI.NetworkingButtonListener;
-import GUI.OverlayPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -60,21 +61,23 @@ public class KitRobotManager extends Client implements ActionListener {
 				Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
 				Constants.CONVEYOR_TARGET, writer));
 
-		// JButton moveKitToLocation1 =new JButton("moveKitToLocation1");
-		// moveKitToLocation1.addActionListener(new
-		// NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR,
-		// Constants.KIT_ROBOT_TARGET,writer));
+		 JButton moveKitToLocation1 =new JButton();
+		 moveKitToLocation1.addActionListener(new
+		 NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR,
+		 Constants.KIT_ROBOT_TARGET,writer));
 
-		// JButton moveKitFromLocation1ToConveyor= new
-		// JButton("moveKitFromLoc1ToConveyor");
+		 JButton moveKitFromLocation1ToConveyor= new
+		 JButton("moveKitFromLoc1ToConveyor");
 
-		// moveKitFromLocation1ToConveyor.addActionListener(new
-		// NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR,
-		// Constants.KIT_ROBOT_TARGET,writer));
+		 moveKitFromLocation1ToConveyor.addActionListener(new
+		 NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR,
+		 Constants.KIT_ROBOT_TARGET,writer));
 
 		panel.add(newKit);
-		// panel.add(moveKitToLocation1);
-		// panel.add(moveKitFromLocation1ToConveyor);
+		panel.add(moveKitToLocation1);
+		panel.add(moveKitToLocation2);
+		panel.add(moveKitFromLocation1ToInspection);
+		panel.add(moveKitFromLocation2ToInspection);
 	}
 
 	public void initDevices() {

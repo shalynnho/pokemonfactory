@@ -9,16 +9,17 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import manager.panel.FactoryProductionManagerPanel;
 import DeviceGraphicsDisplay.CameraGraphicsDisplay;
 import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
 import DeviceGraphicsDisplay.FeederGraphicsDisplay;
+import DeviceGraphicsDisplay.GantryGraphicsDisplay;
 import DeviceGraphicsDisplay.KitGraphicsDisplay;
 import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
 import DeviceGraphicsDisplay.LaneGraphicsDisplay;
 import DeviceGraphicsDisplay.NestGraphicsDisplay;
 import DeviceGraphicsDisplay.PartsRobotDisplay;
-import GUI.FactoryProductionManagerPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -82,11 +83,11 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
 		
-		addDevice(Constants.KIT_TARGET, new KitGraphicsDisplay());
-		
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
+		
+		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
 		
 	}
 	

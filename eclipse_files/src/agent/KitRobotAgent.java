@@ -306,14 +306,15 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		}
 
 		// For testing, assume camera finishes after .1s
-		timer.schedule(new TimerTask() {
+		/*timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
 				print("Faking camera finishing inspection");
 				msgKitPassedInspection();
 			}
-		}, 100);
+		}, 100);*/
+		camera.msgInspectKit(mk.kit);
 
 		try {
 			animation.acquire();
