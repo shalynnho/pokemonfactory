@@ -3,16 +3,24 @@ package factory;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import Utils.StringUtil;
+
 public class KitConfig implements Serializable {
 
 	private HashMap<PartType, Integer> config;
-	private final String name;
+	private final String id;
+	private String name;
 
 	public KitConfig(String name) {
 		config = new HashMap<PartType, Integer>();
 		this.name = name;
+		this.id = StringUtil.md5(name);
 	}
 	
+	/**
+	 * Pass in multiple PartTypes as the last params in constructor to setup a KitConfig without setConfig();
+	 * @param partTypes - can pass in multiple
+	 */
 	public KitConfig(String name, PartType... partTypes) {
 		this(name);
 		for(PartType pt : partTypes) {
@@ -43,6 +51,10 @@ public class KitConfig implements Serializable {
 			config.remove(pt);
 		}
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;
@@ -54,6 +66,14 @@ public class KitConfig implements Serializable {
 
 	public void setConfig(HashMap<PartType, Integer> config) {
 		this.config = config;
+	}
+	
+	public String getID() {
+		return id;
+	}
+	
+	public boolean equals(KitConfig k) {
+		return this.id.equals(k.getID());
 	}
 
 }
