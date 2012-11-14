@@ -163,7 +163,7 @@ public class Server {
 			devices.put(Constants.NEST_TARGET + i, new NestGraphics(this, i,
 					agents.get(Constants.NEST_TARGET + i)));
 		}
-		for (int i = 1; i < Constants.STAND_COUNT - 1; i++) {
+		for (int i = 1; i < Constants.STAND_COUNT; i++) {
 			devices.put(Constants.STAND_TARGET + i, new StandGraphics(this, agents.get(Constants.STAND_TARGET + i), i));
 		}
 	}
