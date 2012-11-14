@@ -204,7 +204,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void PickUpPart(Arm arm, Part part, Nest nest) {
 		synchronized(Arms){
-		print("Picking up part");
+		print("Picking up part of type: "+part.type.getName());
 
 		arm.AS = ArmStatus.Full;
 		arm.part = part;

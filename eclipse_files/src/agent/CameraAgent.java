@@ -110,7 +110,7 @@ public class CameraAgent extends Agent implements Camera {
 				if (n.nest.nestGraphics == nest) 
 				{
 					// In v0 all parts are good parts
-					print("nest 1 photographed");
+					print("nest "+nests.indexOf(n)+" photographed");
 					n.state = NestStatus.PHOTOGRAPHED;
 					if (found2) 
 					{
@@ -121,7 +121,7 @@ public class CameraAgent extends Agent implements Camera {
 				if (n.nest.nestGraphics == nest2) 
 				{
 					// In v0 all parts are good parts
-					print("nest 2 photographed");
+					print("nest "+nests.indexOf(n)+" photographed");
 					n.state = NestStatus.PHOTOGRAPHED;
 					if (found1) 
 					{
