@@ -104,6 +104,7 @@ public class KitManagerPanel extends JPanel{
 		JPanel pnlParts = new JPanel();
 		pnlDisplay.add(pnlParts, BorderLayout.CENTER);
 		GridBagLayout gbl_pnlParts = new GridBagLayout();
+//              The below code aligns the GridBagLayout in the upper left corner of the panel
 //		gbl_pnlParts.columnWidths = new int[]{0, 0, 0, 0, 0};
 //		gbl_pnlParts.rowHeights = new int[]{0, 0};
 //		gbl_pnlParts.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -118,6 +119,8 @@ public class KitManagerPanel extends JPanel{
 		gbc_lblPart.gridy = 0;
 		pnlParts.add(lblPart, gbc_lblPart);
 		
+		// Array of comboBoxes is used to iteratively construct the comboboxes
+		// This is used to make sure all comboBoxes are made the same way.
 		cbPart = new JComboBox[8];
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		for (int i = 0; i < 4; i++) {
