@@ -12,9 +12,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
+import manager.util.NetworkingButtonListener;
+import manager.util.OverlayPanel;
+
 import DeviceGraphicsDisplay.*;
-import GUI.NetworkingButtonListener;
-import GUI.OverlayPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -89,8 +90,8 @@ public class LaneManager extends Client implements ActionListener{
 	public void initDevices() {
 		// TODO add all devices (4) feeders, (8) lanes
 		
-		addDevice(Constants.LANE_TARGET + 0, new LaneGraphicsDisplay(this, new Location(199, 100), 0));
-		addDevice(Constants.LANE_TARGET + 1, new LaneGraphicsDisplay(this, new Location(199, 175), 1));
+		addDevice(Constants.LANE_TARGET + 0, new LaneGraphicsDisplay(this, 0));
+		addDevice(Constants.LANE_TARGET + 1, new LaneGraphicsDisplay(this, 1));
 		addDevice(Constants.FEEDER_TARGET + 0, new FeederGraphicsDisplay(this, 0));
 	}
 	

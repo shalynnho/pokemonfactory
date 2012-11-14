@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import manager.panel.KitManagerPanel;
+
 import factory.KitConfig;
 import factory.Order;
 
-import GUI.KitManagerPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;

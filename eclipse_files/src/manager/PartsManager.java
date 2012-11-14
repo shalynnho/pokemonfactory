@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import manager.panel.PartsManagerPanel;
+
 import factory.KitConfig;
 import factory.Order;
 
-import GUI.PartsManagerPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
