@@ -37,6 +37,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 	}
 
 	public void bringEmptyKit(KitGraphics kg) {
+		System.out.println("Animating bringing empty kit");
 		kitsOnConveyor.add(kg);
 		server.sendData(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
 				Constants.CONVEYOR_TARGET, null));

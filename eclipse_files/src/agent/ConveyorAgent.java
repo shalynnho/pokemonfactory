@@ -201,7 +201,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			mockgraphics.msgBringEmptyKit(k.kitGraphics);
 		}
 		if (conveyorGraphics != null) {
-			// print("Asking conveyor graphics to animate a new kit");
+			print("Asking conveyor graphics to animate a new kit");
 			if (k.kitGraphics == null) {
 				print("kitGraphics null");
 			}
@@ -213,6 +213,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		print("Got permit");
 
 		kitsOnConveyor.add(incomingKit);
 		numKitsToDeliver--;

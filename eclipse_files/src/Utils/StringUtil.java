@@ -28,6 +28,9 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
@@ -599,5 +602,27 @@ public class StringUtil {
 		}
 		return buf.toString();
 	}
+	
+	/**
+	 * Return a hashed string. 
+	 * Source: http://viralpatel.net/blogs/java-md5-hashing-salting-password/
+	 */
+	public static String md5(String input) {
+        String md5 = null;
+        if(null == input) return null;
+        try {
+	        //Create MessageDigest object for MD5
+	        MessageDigest digest = MessageDigest.getInstance("MD5");
+	         
+	        //Update input string in message digest
+	        digest.update(input.getBytes(), 0, input.length());
+	 
+	        //Converts message digest value in base 16 (hex) 
+	        md5 = new BigInteger(1, digest.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return md5;
+    }
 
 }

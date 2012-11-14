@@ -18,7 +18,7 @@ import factory.PartType;
  * Unused in V0
  * @author Daniel Paje, Michael Gendotti
  */
-public class FCSAgent extends Agent implements FCS {
+public class FCSAgent extends Agent implements FCS { 
 	
 	private Stand stand;    
 	private PartsRobot partsRobot;    
@@ -28,7 +28,7 @@ public class FCSAgent extends Agent implements FCS {
 	private myState state;    
 	private ArrayList<Order> orders;  
 	
-	//private FCSGraphics fcsGraphics;
+	private factory.FCS fcs;
 	
 	private final String name;
 	
@@ -48,15 +48,19 @@ public class FCSAgent extends Agent implements FCS {
 	
 	public FCSAgent(){
 		super();
-		this.name="FCS";
+		this.name="FCS Agent";
 		binsSet=false;
 		binsToAdd= new ArrayList<PartType>();
 	}
 
 	@Override
 	public void msgAddKitsToQueue(Order o){   
-	    orders.add(o);    
-	    //fcsGraphics.updateQueue(orders);
+		print("Received new order");
+	    orders.add(o); 
+	    if(fcs!=null){
+	    	fcs.updateQueue();
+	    }
+	    stateChanged();
 	}    
 	
 	@Override
@@ -64,35 +68,45 @@ public class FCSAgent extends Agent implements FCS {
 	    for(Order order: orders){    
 	        if(order.equals(o)){
 	        	o.cancel=true;
-	        	//fcsGraphics.updateQueue(orders);
+	        	if(fcs!=null){
+	        		fcs.updateQueue();
+	        	}
 	        }
 	    }    
+	    stateChanged();
 	}
 	
 	@Override
 	public void msgStartProduction(){    
 	    state=myState.STARTED;    
+	    stateChanged();
 	}    
 	
 	@Override
 	public void msgAddNewPartType(PartType part) {
 		binsToAdd.add(part);
+		stateChanged();
 	}
 
 	@Override
 	public void msgOrderFinished(){  
+		print("Order Done!!!!");
 		for(Order o:orders){
 			if(o.state == Order.orderState.ORDERED){
 				orders.remove(o);
-				//fcsGraphics.updateQueue(orders);
+				if(fcs!=null){
+					fcs.updateQueue();
+				}
 				break;
 			}
 		}
 	    state=myState.STARTED;    
+	    stateChanged();
 	}    
 
 	@Override
 	public boolean pickAndExecuteAnAction(){
+		print("I'm scheduling stuff");
 		if(state==myState.STARTED){
 			if(!binsSet){
 				initializeBins();
@@ -120,10 +134,13 @@ public class FCSAgent extends Agent implements FCS {
 		return false;
 	}
 	
-	public void placeOrder(Order o){    
+	public void placeOrder(Order o){  
+		print("Placing Order");
 	    o.state=Order.orderState.ORDERED;    
-	    state=myState.LOADED;    
-	  //fcsGraphics.updateQueue(orders);
+	    state=myState.LOADED;   
+	    if(fcs!=null){
+	    	fcs.updateQueue();
+	    }
 	    
 	    conveyor.msgHereIsKitConfiguration(o.kitConfig);
 	    stand.msgMakeKits(o.numberOfKits);    
@@ -151,11 +168,14 @@ public class FCSAgent extends Agent implements FCS {
 		} else {
 			orders.remove(o);
 		}
-		//fcsGraphics.updateQueue(orders);
+		if(fcs!=null){
+			fcs.updateQueue();
+		}
 		stateChanged();
 	}
 	
 	public void initializeBins(){
+		print("Messaging gantry about default bins");
 		for(int i=0;i<Constants.DEFAULT_PARTTYPES.size();i++){
 			gantry.msgHereIsBin(new Bin(Constants.DEFAULT_PARTTYPES.get(i),i));
 		}
@@ -231,6 +251,10 @@ public class FCSAgent extends Agent implements FCS {
 	
 	public ArrayList<Order> getOrders(){
 		return orders;
+	}
+	
+	public void setFCS(factory.FCS fcs){
+		this.fcs=fcs;
 	}
 
 }

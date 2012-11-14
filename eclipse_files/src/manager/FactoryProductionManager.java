@@ -1,3 +1,4 @@
+package manager;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -17,7 +18,7 @@ import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
 import DeviceGraphicsDisplay.LaneGraphicsDisplay;
 import DeviceGraphicsDisplay.NestGraphicsDisplay;
 import DeviceGraphicsDisplay.PartsRobotDisplay;
-import GUI.FactoryProductionMgrGUI;
+import GUI.FactoryProductionManagerPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -30,7 +31,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	private static final int WINDOW_WIDTH = 1200;
 	private static final int WINDOW_HEIGHT = 700;
 	
-	private FactoryProductionMgrGUI fpmGUI;
+	private FactoryProductionManagerPanel fpmPanel;
 	
 	private Timer timer;
 	
@@ -50,14 +51,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 * Initialize the GUI and start the timer.
 	 */
 	public void initGUI() {
-		fpmGUI = new FactoryProductionMgrGUI(WINDOW_HEIGHT);
+		fpmPanel = new FactoryProductionManagerPanel(this, WINDOW_HEIGHT);
 		
-		add(fpmGUI, BorderLayout.EAST);
-		fpmGUI.setVisible(true);
-		
-		//TODO: Add FPM GUI stuff here.
-			//	GUI Panel to select and order kits. Adjacent to graphics panel?
-			// 	NetworkingButtonListener
+		add(fpmPanel, BorderLayout.EAST);
+		fpmPanel.setVisible(true);
 		
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
@@ -97,13 +94,17 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	public void receiveData(Request req) {
 		if (req.getTarget().equals(Constants.ALL_TARGET)) {
 			if (req.getCommand().equals(Constants.FCS_UPDATE_KITS)) {
-				fpmGUI.updateKitConfigs((ArrayList<KitConfig>)req.getData());
+				fpmPanel.updateKitConfigs((ArrayList<KitConfig>)req.getData());
 			} else if (req.getCommand().equals(Constants.FCS_UPDATE_ORDERS)) {
-				fpmGUI.updateOrders((ArrayList<Order>)req.getData());
+				fpmPanel.updateOrders((ArrayList<Order>)req.getData());
 			}
 		} else {
 			devices.get(req.getTarget()).receiveData(req);
 		}
+	}
+	
+	public void createOrder(Order o) {
+		this.sendData(new Request(Constants.FCS_ADD_ORDER, Constants.FCS_TARGET, o));
 	}
 
 	public static void main(String[] args) {

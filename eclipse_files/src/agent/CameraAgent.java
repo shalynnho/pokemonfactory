@@ -3,6 +3,7 @@ package agent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.KitGraphics;
@@ -30,20 +31,21 @@ public class CameraAgent extends Agent implements Camera {
 
 	public List<MyNest> nests = Collections
 			.synchronizedList(new ArrayList<MyNest>());
-	private final List<MyKit> kits = Collections
-			.synchronizedList(new ArrayList<MyKit>());
+	private MyKit mk;
 	
 	public CameraGraphics guiCamera;
 
 	public KitRobotAgent kitRobot;
 	public PartsRobotAgent partRobot;
+	
+	Semaphore animation = new Semaphore(0, true);
 
 	public enum NestStatus {
 		NOT_READY, READY, PHOTOGRAPHING, PHOTOGRAPHED
 	};
 
 	public enum KitStatus {
-		NOT_READY, DONE, MESSAGED, PICTURE_BEING_TAKEN
+		NOT_READY, DONE, PICTURE_BEING_TAKEN
 	};
 
 	public class MyKit {
@@ -77,7 +79,7 @@ public class CameraAgent extends Agent implements Camera {
 	public void msgInspectKit(Kit kit) 
 	{
 		print("Received msgInspectKit");
-		kits.add(new MyKit(kit));
+		mk=new MyKit(kit);
 		stateChanged();
 	}
 
@@ -129,6 +131,7 @@ public class CameraAgent extends Agent implements Camera {
 				}
 			}
 		}
+		animation.release();
 		stateChanged();
 	}
 
@@ -136,14 +139,10 @@ public class CameraAgent extends Agent implements Camera {
 	public void msgTakePictureKitDone(KitGraphics k, boolean done) 
 	{
 		print("Received msgTakePictureKitDone from graphics \nKitPassed inspection");
-		for (MyKit mk : kits) 
-		{
-			if (mk.kit.kitGraphics == k) 
-			{
-				mk.kitDone = done;
-				mk.ks = KitStatus.DONE;
-			}
-		}
+		mk.kitDone = done;
+		mk.ks = KitStatus.DONE;
+		
+		animation.release();
 		stateChanged();
 	}
 
@@ -161,6 +160,12 @@ public class CameraAgent extends Agent implements Camera {
 		if(guiCamera != null)
 		{
 			guiCamera.takeNestPhoto(nests.get(0).nest.nestGraphics,nests.get(1).nest.nestGraphics);
+			try {
+				animation.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -200,26 +205,21 @@ public class CameraAgent extends Agent implements Camera {
 			}
 		}
 
-		synchronized (kits) {
-			for (MyKit k : kits) {
-				if (k != null && k.ks == KitStatus.NOT_READY) {
-					takePictureOfKit(k);
-					return true;
-				}
-			}
-			for (MyKit k : kits) {
-				if (k != null && k.ks == KitStatus.DONE) {
-					tellKitRobot(k);
-					return true;
-				}
-			}
+		if (mk != null && mk.ks == KitStatus.NOT_READY) {
+			takePictureOfKit(mk);
+			return true;
 		}
+		if (mk != null && mk.ks == KitStatus.DONE) {
+			tellKitRobot(mk);
+			return true;
+		}
+
 		return false;
 	}
 
 	/*********** ACTIONS *******************/
 	private void tellKitRobot(MyKit k) {
-		k.ks = KitStatus.MESSAGED;
+		mk=null;
 		kitRobot.msgKitPassedInspection();
 		stateChanged();
 	}
@@ -228,6 +228,12 @@ public class CameraAgent extends Agent implements Camera {
 		kit.ks = KitStatus.PICTURE_BEING_TAKEN;
 		if (guiCamera != null) {
 			guiCamera.takeKitPhoto(kit.kit.kitGraphics);
+			try {
+				animation.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		stateChanged();
 	}
@@ -250,6 +256,13 @@ public class CameraAgent extends Agent implements Camera {
 
 		if (guiCamera != null) {
 			guiCamera.takeNestPhoto(n.nest.nestGraphics, n2.nest.nestGraphics);
+			try {
+				animation.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 
 		n.state = NestStatus.PHOTOGRAPHING;
@@ -314,8 +327,8 @@ public class CameraAgent extends Agent implements Camera {
 		this.partRobot = partRobot;
 	}
 
-	public List<MyKit> getKits() {
-		return kits;
+	public MyKit getKit() {
+		return mk;
 	}
 
 }
