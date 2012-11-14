@@ -1,6 +1,7 @@
 package agent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -18,8 +19,8 @@ import agent.interfaces.Gantry;
  */
 public class GantryAgent extends Agent implements Gantry {
 
-	public List<Bin> binList = new ArrayList<Bin>();
-	public List<MyFeeder> feeders = new ArrayList<MyFeeder>();
+	public List<Bin> binList = Collections.synchronizedList( new ArrayList<Bin>());
+	public List<MyFeeder> feeders = Collections.synchronizedList(new ArrayList<MyFeeder>());
 
 	// WAITING FOR GANTRYGRAPHICS
 	private GantryGraphics GUIGantry;
@@ -109,13 +110,15 @@ public class GantryAgent extends Agent implements Gantry {
 	//SCHEDULER
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		synchronized(binList) {
 		for(Bin bin:binList) {
 			if(bin.binState==BinStatus.PENDING){
 				addBinToGraphics(bin);
 				return true;
 			}
 		}
-		
+		}
+		synchronized(feeders) {
 		// TODO Auto-generated method stub
 		if(waitForDrop == false) {
 			for (MyFeeder currentFeeder : feeders) {
@@ -149,6 +152,7 @@ public class GantryAgent extends Agent implements Gantry {
 					}
 				}
 			}
+		}
 		}
 		print("I'm returning false");
 		return false;

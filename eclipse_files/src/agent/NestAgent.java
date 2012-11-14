@@ -1,6 +1,7 @@
 package agent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -17,9 +18,9 @@ import agent.interfaces.Nest;
  */
 public class NestAgent extends Agent implements Nest {
 
-	public List<PartType> requestList = new ArrayList<PartType>();
+	public List<PartType> requestList = Collections.synchronizedList(new ArrayList<PartType>());
 	PartType currentPartType;
-	public List<MyPart> currentParts = new ArrayList<MyPart>();
+	public List<MyPart> currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
 	public int count = 0;
 	public int countRequest = 0;
 	int full = 9;
@@ -88,12 +89,14 @@ public class NestAgent extends Agent implements Nest {
 		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); }
 		 */
+		synchronized(currentParts) {
 		for (MyPart part : currentParts) {
 			if (part.part.equals(p)) {
 				print("found part");
 				currentParts.remove(part);
 				return;
 			}
+		}
 		}
 		count--;
 		countRequest--;
@@ -131,17 +134,21 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
+		synchronized(requestList) {
 		for (PartType requestedPart : requestList) {
 			if (countRequest < full) {
 				getParts(requestedPart);
 				return true;
 			}
 		}
+		}
+		synchronized(currentParts) {
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.status == NestStatus.IN_NEST) {
 				moveToPosition(currentPart.part);
 				return true;
 			}
+		}
 		}
 		if (count == full && takingParts == false) {
 			nestFull();
@@ -224,16 +231,20 @@ public class NestAgent extends Agent implements Nest {
 
 	public List<Part> getParts() {
 		List<Part> parts = new ArrayList<Part>();
+		synchronized(currentParts) {
 		for (MyPart p : currentParts) {
 			parts.add(p.part);
+		}
 		}
 		return parts;
 	}
 
 	public ArrayList<PartType> getTypesOfParts() {
 		ArrayList<PartType> types = new ArrayList<PartType>();
+		synchronized(currentParts) {
 		for (MyPart p : currentParts) {
 			types.add(p.part.type);
+		}
 		}
 		return types;
 	}

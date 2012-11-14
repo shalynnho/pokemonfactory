@@ -1,6 +1,7 @@
 package agent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -17,8 +18,8 @@ import agent.interfaces.Lane;
  */
 public class LaneAgent extends Agent implements Lane {
 
-	public List<PartType> requestList = new ArrayList<PartType>();
-	public List<MyPart> currentParts = new ArrayList<MyPart>();
+	public List<PartType> requestList = Collections.synchronizedList(new ArrayList<PartType>());
+	public List<MyPart> currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
 
 	public int currentNum = 0;
 	public int topLimit = 9;
@@ -85,11 +86,13 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public void msgReceivePartDone(PartGraphics part) {
 		print("Received msgReceivePartDone from graphics");
+		synchronized(currentParts) {
 		for (MyPart p : currentParts) {
 			if (p.status == PartStatus.BEGINNING_LANE) {
 				p.status = PartStatus.END_LANE;
 				break;
 			}
+		}
 		}
 		// animation.release();
 		stateChanged();
@@ -111,16 +114,20 @@ public class LaneAgent extends Agent implements Lane {
 			state = LaneStatus.FILLING;
 		}
 		if (state == LaneStatus.FILLING) {
+			synchronized(requestList) {
 			for (PartType requestedType : requestList) {
 				getParts(requestedType);
 				return true;
 			}
+			}
 		}
+		synchronized(currentParts) {
 		for (MyPart part : currentParts) {
 			if (part.status == PartStatus.END_LANE) {
 				giveToNest(part.part);
 				return true;
 			}
+		}
 		}
 		return false;
 	}
@@ -149,11 +156,13 @@ public class LaneAgent extends Agent implements Lane {
 		if (nest != null) {
 			nest.msgHereIsPart(part);
 		}
+		synchronized(currentParts) {
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
 				currentParts.remove(currentPart);
 				return;
 			}
+		}
 		}
 		stateChanged();
 	}

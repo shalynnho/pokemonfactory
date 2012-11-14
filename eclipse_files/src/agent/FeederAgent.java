@@ -1,6 +1,7 @@
 package agent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -18,7 +19,7 @@ import agent.interfaces.Feeder;
 public class FeederAgent extends Agent implements Feeder {
 
 	private GantryAgent gantry;
-	public List<MyLane> lanes = new ArrayList<MyLane>(); // Top Lane is the
+	public List<MyLane> lanes = Collections.synchronizedList(new ArrayList<MyLane>()); // Top Lane is the
 															// first lane,
 															// bottom is the
 															// second
@@ -75,6 +76,7 @@ public class FeederAgent extends Agent implements Feeder {
 	public void msgINeedPart(PartType type, LaneAgent lane) {
 		print("Received msgINeedPart");
 		boolean found = false;
+		synchronized(lanes) {
 		for (MyLane l : lanes) {
 			if (l.lane.equals(lane)) {
 				found = true;
@@ -84,6 +86,7 @@ public class FeederAgent extends Agent implements Feeder {
 					l.state = LaneStatus.NEEDS_PARTS;
 				}
 			}
+		}
 		}
 		if (!found) {
 			lanes.add(new MyLane(lane, type));
@@ -96,12 +99,14 @@ public class FeederAgent extends Agent implements Feeder {
 	public void msgHereAreParts(PartType type, Bin bin) {
 		print("Received msgHereAreParts " + type.toString());
 		this.bin = bin;
+		synchronized(lanes) {
 		for (MyLane lane : lanes) {
 			if (lane.type.equals(type)) {
 				print("lane type is " + lane.type.toString());
 				lane.state = LaneStatus.GIVING_PARTS;
 				state = FeederStatus.FEEDING_PARTS;
 			}
+		}
 		}
 		stateChanged();
 	}
@@ -129,6 +134,7 @@ public class FeederAgent extends Agent implements Feeder {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// / print("In the scheduler");
+		synchronized(lanes) {
 		if (state == FeederStatus.IDLE) {
 			for (MyLane lane : lanes) {
 				if (lane.state == LaneStatus.NEEDS_PARTS) {
@@ -151,6 +157,7 @@ public class FeederAgent extends Agent implements Feeder {
 					}
 				}
 			}
+		}
 		}
 		if (state == FeederStatus.PURGING) {
 			purgeBin();
