@@ -214,7 +214,7 @@ public class GantryAgent extends Agent implements Gantry {
 
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
-
+		this.GUIGantry = (GantryGraphics) dg;
 	}
 	
 	public void addBinToGraphics(Bin bin){

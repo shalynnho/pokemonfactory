@@ -77,6 +77,7 @@ public class FeederAgent extends Agent implements Feeder {
 		boolean found = false;
 		for (MyLane l : lanes) {
 			if (l.lane.equals(lane)) {
+				print("This means that the lanes were already set");
 				found = true;
 				l.numPartsNeeded++;
 				l.type = type;
@@ -94,11 +95,11 @@ public class FeederAgent extends Agent implements Feeder {
 
 	@Override
 	public void msgHereAreParts(PartType type, Bin bin) {
-		print("Received msgHereAreParts");
-		print("Recieved bin from gantry");
+		print("Received msgHereAreParts " + type.toString());
 		this.bin = bin;
 		for (MyLane lane : lanes) {
-			if (lane.type == type) {
+			if (lane.type.equals(type)) {
+				print("lane type is " + lane.type.toString());
 				lane.state = LaneStatus.GIVING_PARTS;
 				state = FeederStatus.FEEDING_PARTS;
 			}

@@ -49,6 +49,7 @@ public class V1_Agents_Mock_Graphics {
 			lanes.get(i).setFeeder(feeders.get(i / 2));
 			lanes.get(i).setNest(nests.get(i));
 			nests.get(i).setLane(lanes.get(i));
+			nests.get(i).setCamera(camera);
 			camera.setNest(nests.get(i));
 			fcs.setNest(nests.get(i));
 		}
@@ -143,7 +144,7 @@ public class V1_Agents_Mock_Graphics {
 		mg.startThread();
 		partsRobot.startThread();
 		camera.startThread();
-		stand.startThread();
+		//stand.startThread();
 		kitRobot.startThread();
 		conveyor.startThread();
 		fcs.startThread();
