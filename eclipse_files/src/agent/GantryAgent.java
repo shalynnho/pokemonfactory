@@ -120,7 +120,7 @@ public class GantryAgent extends Agent implements Gantry {
 		if(waitForDrop == false) {
 			for (MyFeeder currentFeeder : feeders) {
 				for (Bin bin : binList) {
-					if (bin.part.type.equals(currentFeeder.getRequestedType()) && bin.binState == BinStatus.FULL) {
+					if (bin.part.type.toString().equals(currentFeeder.getRequestedType().toString()) && bin.binState == BinStatus.FULL) {
 						print("Moving to feeder");
 						moveToFeeder(bin, currentFeeder.getFeeder());
 						return true;

@@ -197,10 +197,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private void PickUpPart(Arm arm, Part part, Nest nest) {
 
 		print("Picking up part");
-		// GoodParts.remove(nest);
-		/*
-		 * for(PartType p: KitConfig) { }
-		 */
+
 		arm.AS = ArmStatus.Full;
 		arm.part = part;
 
