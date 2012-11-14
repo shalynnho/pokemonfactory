@@ -335,9 +335,18 @@ public class Server {
 	 * @param req
 	 */
 	private void sendDataToGUIManagers(Request req) {
-		factProdMngrWriter.sendData(req);
-		kitMngrWriter.sendData(req);
-		partsMngrWriter.sendData(req);
+		// TODO - Remove - Temp hack to run FPM without running other clients.
+		if (factProdMngrWriter != null) {
+			factProdMngrWriter.sendData(req);
+		}
+		
+		if (kitMngrWriter != null) {
+			kitMngrWriter.sendData(req);
+		}
+		
+		if (partsMngrWriter != null) {
+			partsMngrWriter.sendData(req);
+		}
 	}
 
 	// Temporarily got rid of all factory managers.
