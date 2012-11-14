@@ -48,6 +48,7 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
 		if (!isEmpty) {
+			g.drawImage(Constants.STAND_IMAGE, location.getX(), location.getY(), c);
 			kit.draw(c,g);
 		}	
 	}

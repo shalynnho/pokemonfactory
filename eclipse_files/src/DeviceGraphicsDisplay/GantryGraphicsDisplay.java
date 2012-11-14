@@ -21,6 +21,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	static int initialBinsYLocation = 50; //TODO find correct number
 	
 	boolean isBinHeld = false;
+	boolean isMoving = false;
 	
 	BinGraphicsDisplay heldBin;
 	
@@ -90,8 +91,9 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 				}
 			}
 		
-			if(currentLocation.getX() == destinationLocation.getX()) {
+			if(currentLocation.getX() == destinationLocation.getX() && isMoving == true) {
 				client.sendData(new Request(Constants.GANTRY_ROBOT_DONE_MOVE, Constants.GANTRY_ROBOT_TARGET, null));
+				isMoving = false;
 			}
 		}
 		
@@ -112,6 +114,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		else if (req.getCommand() == Constants.GANTRY_ROBOT_MOVE_TO_LOC_COMMAND) {
 			destinationLocation = (Location) req.getData();
+			isMoving = true;
 		}
 		else if (req.getCommand() == Constants.GANTRY_ROBOT_DROP_BIN_COMMAND) {
 			heldBin = null;

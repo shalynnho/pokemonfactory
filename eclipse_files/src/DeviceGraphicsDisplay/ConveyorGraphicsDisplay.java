@@ -22,8 +22,10 @@ import Utils.Location;
 
 public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
-	Location locationIn, locationOut;
+	Location locationIn, locationGood;
 	ArrayList<Location> conveyorLines;
+	ArrayList<Location> conveyorLinesGood;
+	ArrayList<Location> conveyorLinesBad;
 	ArrayList<Location> exitLines;
 	ArrayList<KitGraphicsDisplay> kitsOnConveyor;
 	ArrayList<KitGraphicsDisplay> kitsToLeave;
@@ -33,30 +35,21 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public ConveyorGraphicsDisplay(Client cli) {
 		locationIn = Constants.CONVEYOR_LOC; // location for input lane
-		locationOut = new Location(locationIn.getX(), locationIn.getY() + 400); // location
-																	// for exit
-																	// lane,
-																	// based off
-																	// of input
-																	// lane
+		locationGood = new Location(-10,65); // location for exit lane, based off of input lane
 		client = cli;
 		conveyorLines = new ArrayList<Location>();
+		conveyorLinesGood = new ArrayList<Location>();
+		
+		//Filling Arrays with locations
 		for (int i = 0; i < 8; i++) {
-			conveyorLines.add(new Location(locationIn.getX() + (i*20), locationIn.getY())); // creating
-																		// an
-																		// array
-																		// list
-																		// of
-																		// conveyor
-																		// line
-																		// locations
-																		// for
-																		// painting
+			conveyorLines.add(new Location(locationIn.getX() + (i * 20), locationIn.getY())); // creating an array list of conveyor line locations for painting
 		}
-		exitLines = new ArrayList<Location>();
-		for (int i = 0; i < 20; i++) {
-			exitLines.add(new Location(i * 40, locationOut.getY()));
+		
+		//Filling Arrays with locations
+		for (int i = 0; i < 13; i ++) {
+			conveyorLinesGood.add(new Location(locationGood.getX() + (i * 20), locationGood.getY()));
 		}
+		
 		velocity = 5;
 		kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
 		kitsToLeave = new ArrayList<KitGraphicsDisplay>();
@@ -99,12 +92,19 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void draw(JComponent c, Graphics2D g2) {
 		g2.drawImage(Constants.TEST_CONVEYOR_IMAGE, -140, 185, c);
-		g2.drawImage(Constants.TEST_CONVEYOR_IMAGE, -30, 65, c);
-		
 		for (int i = 0; i < conveyorLines.size(); i++) {
 			g2.drawImage(Constants.TEST_CONVEYOR_LINE_IMAGE, conveyorLines.get(i).getX(), conveyorLines.get(i).getY(),c);
 			moveIn(i);
 		}
+		
+		g2.drawImage(Constants.TEST_CONVEYOR_IMAGE, -40, 65, c);
+		for (int i = 0; i < conveyorLinesGood.size(); i++) {
+			g2.drawImage(Constants.TEST_CONVEYOR_LINE_IMAGE, conveyorLinesGood.get(i).getX(), conveyorLinesGood.get(i).getY(), c);
+			moveGood(i);
+		}
+		
+		
+		
 
 		for (int j = 0; j < kitsOnConveyor.size(); j++) {
 			if (kitsOnConveyor.get(0).getLocation().getX() < 90) {
@@ -147,10 +147,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * A conveyor lines movement function. Created to lessen the clutter in
-	 * draw.
+	 * Moves conveyor lines into the factory
 	 * @param i
 	 */
+	
 	public void moveIn(int i) {
 		// if bottom of black conveyor line is less than this y position
 		if (conveyorLines.get(i).getX() < 150){
@@ -164,13 +164,20 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 
-	/*public void moveOut(int i) {
-		if (exitLines.get(i).getX() < 800) {
-			exitLines.get(i).setX(exitLines.get(i).getX() + 5);
-		} else if (exitLines.get(i).getX() >= 793) {
-			exitLines.get(i).setX(0);
+	/**
+	 * Move conveyor lines out of the factory.
+	 * @param i
+	 */
+	
+	public void moveGood(int i) {
+		if (conveyorLinesGood.get(i).getX() > -10) {
+			conveyorLinesGood.get(i).setX(conveyorLinesGood.get(i).getX() - velocity);
+			//ConveyorLines move backward this time.
+		} else if (conveyorLinesGood.get(i).getX() <= -10) {
+			conveyorLinesGood.get(i).setX(250);
 		}
-	}*/
+	}
+
 
 	/**
 	 * Function created to change the velocity of the conveyor

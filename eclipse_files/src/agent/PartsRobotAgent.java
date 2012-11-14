@@ -61,7 +61,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private enum ArmStatus {
-		Empty, Full
+		Empty, Full, Emptying
 	};
 
 	private KitConfig KitConfig;
@@ -161,7 +161,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						for (Part part : GoodParts.get(nest)) {
 							
 							for (MyKit mk : MyKits) {
-													
+														
 								// Checking if the good part is needed by
 								// either kit
 								if (mk.kit.needPart(part)) {
@@ -169,12 +169,14 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 									// //Don't know why this is needed -Mike
 									// {
 									print("Found a part I need");
+									synchronized(Arms){
 									for (Arm arm : Arms) {
 										if (arm.AS == ArmStatus.Empty) {
 											// Find the empty arm
 											PickUpPart(arm, part, nest);
 											return true;
 										}
+									}
 									}
 									// }
 								}
@@ -186,12 +188,14 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}
 
 		// Checks if any arm is holding a part and places it if there is one
+		synchronized(Arms){
 		for (Arm arm : Arms) {
 			if (arm.AS == ArmStatus.Full) {
 				PlacePart(arm);
 				return true;
 			}
 		}
+	}
 
 		return false;
 	}
@@ -204,9 +208,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 		arm.AS = ArmStatus.Full;
 		arm.part = part;
-
+		/*Getting stuck on acquire
 		// Tells the graphics to pickup the part
 		if (partsRobotGraphics != null) {
+			print("bloop");
 			partsRobotGraphics.pickUpPart(part.partGraphics);
 			try {
 				animation.acquire();
@@ -214,7 +219,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				e.printStackTrace();
 			}
 		}
-
+		*/
+		print("bleep");
 		// Only takes 1 part from a nest at a time
 		nest.msgTakingPart(part);
 		nest.msgDoneTakingParts();
@@ -223,9 +229,12 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void PlacePart(Arm arm) {
+		synchronized(Arms){
+			arm.AS = ArmStatus.Emptying;
 		print("Placing part");
 		for (MyKit mk : MyKits) {
 			if (mk.kit.needPart(arm.part)) {
+				/* Animation messing up
 				if (partsRobotGraphics != null) {
 					partsRobotGraphics.givePartToKit(arm.part.partGraphics,
 							mk.kit.kitGraphics);
@@ -235,15 +244,21 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						e.printStackTrace();
 					}
 				}
+				*/
 				// Tells the kit it has the part now
 				mk.kit.parts.add(arm.part);
+				
+				/*Animation messing up
 				if (mk.kit.kitGraphics != null) {
 					System.out.println("receiving part");
 					mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
 				}
-				// mk.kit.partsExpected.remove(arm.part);
+				*/
+				
+				 mk.kit.partsExpected.removeItem(arm.part.type);
 				arm.part = null;
 				arm.AS = ArmStatus.Empty;
+				
 
 				// Checks if the kit is done
 				CheckMyKit(mk);
@@ -252,6 +267,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			}
 		}
 		stateChanged();
+		}
 	}
 
 	private void CheckMyKit(MyKit mk) {
