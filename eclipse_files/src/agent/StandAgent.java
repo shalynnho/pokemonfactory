@@ -170,23 +170,14 @@ public class StandAgent extends Agent implements Stand {
 						placeKit(mk);
 						return true;
 					}
-				}
-			}
-			synchronized (myKits) {
-
-				// Kit robot shipped a kit
-				for (MyKit mk : myKits.keySet()) {
+					// Kit robot shipped a kit
 					if (mk.KS == KitStatus.Shipped) {
 						kitsOnStand.set(0, null);
 						myKits.remove(mk);
 						return true;
 					}
-				}
-			}
 
-			synchronized (myKits) {
-				// Kit needs to be inspected
-				for (MyKit mk : myKits.keySet()) {
+					// Kit needs to be inspected
 					if (mk.KS == KitStatus.Assembled) {
 						requestInspection(mk);
 						return true;
@@ -199,33 +190,31 @@ public class StandAgent extends Agent implements Stand {
 				return true;
 			}
 
-			synchronized (kitsOnStand) {
-				// Stand has an empty position (does not check the
-				// inspection
-				// area of the stand)
-				int loc = 0;
-				// if (!kitRequested) {
-				if (numKitsToMake > numKitsMade) {
-					if (standPositions.get(1) == false
-							&& standPositions.get(2) == false) {
-						print("Neither position full");
-						status = StandStatus.KIT_REQUESTED;
-						requestKit(loc = 1);
-						print("I'm requesting a new kit at position 1");
-						return true;
-					} else if ((standPositions.get(1) == false || standPositions
-							.get(2) == false) && numKitsToMake > numKitsMade) {
-						print("One position full");
-						status = StandStatus.KIT_REQUESTED;
-						requestKit(loc = standPositions.get(1) == false ? 1 : 2);
-						print("I'm requesting a new kit at position " + loc);
-						return true;
-					}
+			// Attempt to request a new kit if necessary
+			int loc = 0;
+			int count = 0;
+			// if (!kitRequested) {
+			for (int i = 0; i < 2; i++) {
+				if (standPositions.get(i + 1)) {
+					count++;
 				}
-				// } else {
-				// print("Want a kit but I already asked for one");
-				// }
-
+			}
+			if (numKitsToMake > numKitsMade + count) {
+				if (standPositions.get(1) == false
+						&& standPositions.get(2) == false) {
+					print("Neither position full");
+					status = StandStatus.KIT_REQUESTED;
+					requestKit(loc = 1);
+					print("I'm requesting a new kit at position 1");
+					return true;
+				} else if (standPositions.get(1) == false
+						|| standPositions.get(2) == false) {
+					print("One position full");
+					status = StandStatus.KIT_REQUESTED;
+					requestKit(loc = standPositions.get(1) == false ? 1 : 2);
+					print("I'm requesting a new kit at position " + loc);
+					return true;
+				}
 			}
 		}
 
@@ -277,7 +266,7 @@ public class StandAgent extends Agent implements Stand {
 
 			kitsOnStand.set(spot, mk.kit);
 			print("Kit ID is " + mk.kit.toString());
-			print(kitsOnStand.size() + " kits on stand");
+			// print(kitsOnStand.size() + " kits on stand");
 			partsrobot.msgUseThisKit(mk.kit); // THIS DOESN'T WORK YET
 			/*
 			 * // For testing, assume parts robot finishes after 1s
