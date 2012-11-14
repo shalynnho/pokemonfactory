@@ -279,8 +279,8 @@ public class StandAgent extends Agent implements Stand {
 		}
 
 		kitsOnStand.set(spot, k);
-		// partsrobot.msgUseThisKit(k); // THIS DOESN'T WORK YET
-
+		partsrobot.msgUseThisKit(k); // THIS DOESN'T WORK YET
+/*
 		// For testing, assume parts robot finishes after 1s
 		timer.schedule(new TimerTask() {
 
@@ -289,7 +289,7 @@ public class StandAgent extends Agent implements Stand {
 				print("Faking partsrobot finishing kit assembly");
 				msgKitAssembled(k);
 			}
-		}, 100);
+		}, 100);*/
 		stateChanged();
 	}
 
@@ -307,7 +307,7 @@ public class StandAgent extends Agent implements Stand {
 	 * Updates the FCS when a batch of kits has been completed.
 	 */
 	private void finalizeOrder() {
-		// fcs.msgOrderFinished();
+		fcs.msgOrderFinished();
 		start = false;
 		status = StandStatus.DONE;
 		System.out.println("====================");
