@@ -244,7 +244,7 @@ public class PartsManagerPanel extends JPanel {
 		CardLayout cl = (CardLayout)(pnlButtons.getLayout());
         cl.show(pnlButtons, "View Part Type");
         disableFields();
-        // Show the part type items in form elements
+        // Show the PartType data in form elements
 	}
 	
 	protected void editPart(String part) {
