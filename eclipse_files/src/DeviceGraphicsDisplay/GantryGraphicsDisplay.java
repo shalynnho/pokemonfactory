@@ -17,8 +17,6 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location destinationLocation;
 	
 	ArrayList<BinGraphicsDisplay> binList;
-	static int initialBinsXLocation = 500; //TODO find correct number
-	static int initialBinsYLocation = 50; //TODO find correct number
 	
 	boolean isBinHeld = false;
 	boolean isMoving = false;

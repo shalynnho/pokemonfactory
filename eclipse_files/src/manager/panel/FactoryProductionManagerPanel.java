@@ -16,11 +16,11 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 
+import manager.FactoryProductionManager;
 import manager.util.OverlayPanel;
+import Utils.Constants;
 import factory.KitConfig;
 import factory.Order;
-
-
 
 /**
 *
@@ -29,21 +29,29 @@ import factory.Order;
 
 public class FactoryProductionManagerPanel extends OverlayPanel implements ActionListener {
 	private static final int PANEL_WIDTH = 300;
-	//private final Server server;
+
 	private KitConfig selectedKit;
-	private int quantity;
+	
+	// displays kits available for order
 	private JComboBox kitComboBox;
 	private SpinnerNumberModel spinModel;
-	private manager.FactoryProductionManager fpm;
+	// a reference to the FactoryProductionManager client
+	private FactoryProductionManager fpm;
 	
-	
+	// stores kits available for order
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
+	// stores current list of orders
 	private ArrayList<Order> queue = new ArrayList<Order>();
+	
+	JButton orderButton;
+	JTextArea kitSchedule;
+	JScrollPane scrollPane;
+	JSpinner numSpinner;
 	
 	//receives a Client because Harry and Matt are trying to figure out how
 	//we can create the order and send it to the FactoryProductionManager, which will then
 	//send it to the server (rather than having this GUI class send it directly to server)
-	public FactoryProductionManagerPanel(manager.FactoryProductionManager f, int height) {
+	public FactoryProductionManagerPanel(FactoryProductionManager f, int height) {
 		super();
 		fpm = f;
 		setPreferredSize(new Dimension(PANEL_WIDTH, height));
@@ -53,90 +61,101 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 	
-		
-		// TODO: get array of possible kits from Kit Assembly Manager
 		kitComboBox = new JComboBox();
-		// TODO: change this, 
-		kitComboBox.addItem("DEFAULT KIT");
-		kitComboBox.addItem("Option 2");
-		for(int i = 0; i<Utils.Constants.DEFAULT_KITCONFIGS.size();i++)
-			kitComboBox.addItem(Utils.Constants.DEFAULT_KITCONFIGS.get(i).getName());
+		
+		// TODO: REMOVE - FOR TESTING ONLY
+		kitConfigs = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIGS.clone();
+		
+		for (int i = 0; i < kitConfigs.size(); i++) {
+			kitComboBox.addItem(kitConfigs.get(i).getName());
+		}
+		
 		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.PAGE_START;
 		add(kitComboBox, c);
 		
 		spinModel = new SpinnerNumberModel(0, 0, 1000, 1);
-		JSpinner numSpinner = new JSpinner(spinModel);
+	    numSpinner = new JSpinner(spinModel);
 		c.gridx = 0;
 		c.gridy = 1;
 		c.insets = new Insets(50,0,0,0); //Top Padding
 		c.anchor = GridBagConstraints.CENTER;
 		add(numSpinner, c);
 		
-		JButton orderButton = new JButton("ORDER KITS");
+		orderButton = new JButton("ORDER KITS");
 		orderButton.addActionListener(this);
 		c.gridx = 0;
 		c.gridy = 2;
 		c.anchor = GridBagConstraints.PAGE_END;
 		add(orderButton, c);
 				
-		JTextArea kitSchedule = new JTextArea();
+		kitSchedule = new JTextArea();
 		kitSchedule.setColumns(20);
 		kitSchedule.setRows(20);
 		kitSchedule.setLineWrap(true);
 		kitSchedule.setEditable(false);
 		kitSchedule.setWrapStyleWord(true);
-		JScrollPane scrollPane = new JScrollPane(kitSchedule);
+		
+		scrollPane = new JScrollPane(kitSchedule);
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.anchor = GridBagConstraints.PAGE_END;
 		add(scrollPane, c);
+
 		for(int i = 0; i<queue.size();i++)
 		{	
-			JLabel queueItem = new JLabel(queue.get(i).kitConfig + " - Qty. "+ queue.get(i).numberOfKits);
+			JLabel queueItem = new JLabel(queue.get(i).kitConfig + " - Qty. "+ queue.get(i).numKits);
 			scrollPane.add(queueItem);
 		}
-				
-	}
+}
 
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent ae) {
 		
-		//For loop iterates through ArrayList of KitConfigs to find a match between the selected
-		//ComboBoxItem (presented as a String) and the actual KitConfig with that String. 
-		//Then it sets variable selectedKit equal to that kit, which allows an order 
-		//to be created and sent to server
-		for(int i = 0; i<Utils.Constants.DEFAULT_KITCONFIGS.size();i++)
-		{
-			if(Utils.Constants.DEFAULT_KITCONFIGS.get(i).getName().equals(kitComboBox.getSelectedItem()))
-				selectedKit = Utils.Constants.DEFAULT_KITCONFIGS.get(i);
+		if (ae.getSource() == orderButton) {
+			//For loop iterates through ArrayList of KitConfigs to find a match between the selected
+			//ComboBoxItem (presented as a String) and the actual KitConfig with that String. 
+			//Then it sets variable selectedKit equal to that kit, which allows an order 
+			//to be created and sent to server
+			
+			// does not work
+			for (int i = 0; i < kitConfigs.size(); i++) {
+				if (kitConfigs.get(i).getName().equals(kitComboBox.getSelectedItem())) {
+					selectedKit = kitConfigs.get(i);
+				}
+			}
+			
+			//Set variable quantityToMake equal to number user enters in SpinModel
+			int quantityToMake = spinModel.getNumber().intValue();
+			
+			//Creates new Order and passes it the kit the User selects and the quantity to make
+			Order newOrder = new Order(selectedKit, quantityToMake);
+			
+			//sends message to FCS with order info
+			fpm.createOrder(newOrder);
+			
+			//testing purposes only -- feel free to comment out or delete print statement below
+			//System.out.println("Kit: " + newOrder.kitConfig + " Qty: " + quantityToMake);
 		}
-		
-		//Set variable quantity equal to number user enters in SpinModel
-		quantity = (Integer)spinModel.getNumber();
-		
-		//Creates new Order and passes it the kit the User selects and the quantity to make
-		Order temp = new Order(selectedKit, quantity);
-		
-		//sends message to FCS with order info
-		fpm.createOrder(temp);
-		
-		
-		//testing purposes only -- feel free to comment out or delete print statement below
-		System.out.println("Order Details: " + temp.kitConfig + " " + temp.numberOfKits);
-	
-		
 	}
+		
 	
-	
+	/**
+	 * This function is called by FactoryProductionManager whenever KitConfigs are updated.
+	 * @param kc ArrayList of current KitConfigs
+	 */
 	public void updateKitConfigs(ArrayList<KitConfig> kc) {
 		kitConfigs = kc;
 	}
 	
+	/**
+	 * This function is called by FactoryProductionManager whenever orders are updated.
+	 * @param o ArrayList of orders
+	 */
 	public void updateOrders(ArrayList<Order> o) {
 		queue = o;
 	}

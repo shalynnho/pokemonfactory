@@ -143,7 +143,7 @@ public class FCSAgent extends Agent implements FCS {
 	    }
 	    
 	    conveyor.msgHereIsKitConfiguration(o.kitConfig);
-	    stand.msgMakeKits(o.numberOfKits);    
+	    stand.msgMakeKits(o.numKits);    
 	    
 	    partsRobot.msgHereIsKitConfiguration(o.kitConfig);   
 	    

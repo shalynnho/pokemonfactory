@@ -60,7 +60,7 @@ public abstract class Constants {
 	public static final Location CONVEYOR_LOC = new Location(0,65); //185
 	public static final Location KIT_LOC = new Location(20,200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250,450);
-	public static final Location GANTRY_ROBOT_LOC = new Location(500,100); 
+	public static final Location GANTRY_ROBOT_LOC = new Location(735,180); 
 	
 	// TODO: get exact location coordinates
 	public static final Location BIN_STORAGE_LOC = new Location(800,1000);
@@ -100,7 +100,7 @@ public abstract class Constants {
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Square.jpg");
 	
 	// Gantry Robot Image
-	public static final Image GANTRY_ROBOT_IMAGE = 	Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Square.jpg");
+	public static final Image GANTRY_ROBOT_IMAGE = 	Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "gantry.png");
 
 	// Kit Images
 	public static final Image KIT_IMAGE = 

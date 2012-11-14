@@ -55,12 +55,6 @@ public class KitManagerPanel extends JPanel{
 		JButton btnAddKit = new JButton("New Kit Arrangement");
 		pnlKitChooser.add(btnAddKit);
 		
-		cbPart = new JComboBox[8];
-		for (int i = 0; i < 8; i++) {
-			cbPart[i] = new JComboBox();
-			pnlParts.add(cbPart[i], "2, " + (4+(2*i)) + ", fill, default");
-		}
-		
 		JPanel pnlButtons = new JPanel();
 		managerPanel.add(pnlButtons, BorderLayout.SOUTH);
 		pnlButtons.setLayout(new CardLayout(0, 0));
