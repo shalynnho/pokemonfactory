@@ -96,7 +96,7 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		add(scrollPane, c);
 		for(int i = 0; i<queue.size();i++)
 		{	
-			JLabel queueItem = new JLabel(queue.get(i).kitConfig + " - Qty. "+ queue.get(i).numberOfKits);
+			JLabel queueItem = new JLabel(queue.get(i).kitConfig + " - Qty. "+ queue.get(i).numKits);
 			scrollPane.add(queueItem);
 		}
 				
@@ -127,7 +127,7 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		
 		
 		//testing purposes only -- feel free to comment out or delete print statement below
-		System.out.println("Order Details: " + temp.kitConfig + " " + temp.numberOfKits);
+		System.out.println("Order Details: " + temp.kitConfig + " " + temp.numKits);
 	
 		
 	}
