@@ -33,12 +33,17 @@ public class FCS {
 		server.sendData(new Request(Constants.FCS_UPDATE_KITS, Constants.ALL_TARGET, kitConfigs));
 	}
 	
-	// to clients
+	/**
+	 * Called to send clients the updated queue. 
+	 */
 	public void updateQueue() {
 		server.sendData(new Request(Constants.FCS_UPDATE_ORDERS, Constants.ALL_TARGET, queue));
 	}
 	
-	// from agent
+	/**
+	 * Called only by FCSAgent to synchronize order queues from them.
+	 * @param q updated order queue
+	 */
 	public void updateQueue(ArrayList<Order> q) {
 		queue = q;
 	} 
@@ -46,6 +51,8 @@ public class FCS {
 	public void newPart(PartType pt) {
 		partTypes.add(pt);
 		updateParts();
+		
+		agent.msgAddNewPartType(pt);
 	}
 	
 	public void newKit(KitConfig kc) {
@@ -54,10 +61,11 @@ public class FCS {
 	}
 	
 	public void addOrder(Order o) {
+		//TODO: might not be necessary, since agent will update ours anyway.
 		queue.add(o);
 		updateQueue();
 		
-		//TODO: put in the right agent message
+		agent.msgAddKitsToQueue(o);
 	}
 	
 	public void startProduction() {

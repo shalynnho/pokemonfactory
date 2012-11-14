@@ -5,15 +5,18 @@ import java.awt.Toolkit;
 import java.io.Serializable;
 
 import Utils.Constants;
+import Utils.StringUtil;
 
 public class PartType implements Serializable {
 	private String name = "";
+	private final String id;
 	private int partNum;
 	private String description = "";
 	private Image image;
 	
 	public PartType(String s) {
 		name = s;
+		this.id = StringUtil.md5(name);
 		setImage();
 	}
 	
@@ -23,6 +26,10 @@ public class PartType implements Serializable {
 	
 	public String toString() {
 		return getName();
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public String getName() {
@@ -41,4 +48,11 @@ public class PartType implements Serializable {
 		return description;
 	}
 	
+	public String getID() {
+		return id;
+	}
+	
+	public boolean equals(PartType pt) {
+		return this.id.equals(pt.getID());
+	}
 }
