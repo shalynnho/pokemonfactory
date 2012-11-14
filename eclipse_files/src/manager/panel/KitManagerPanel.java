@@ -118,26 +118,7 @@ public class KitManagerPanel extends JPanel{
 		gbc_lblPart.gridx = 0;
 		gbc_lblPart.gridy = 0;
 		pnlParts.add(lblPart, gbc_lblPart);
-		
-		// Array of comboBoxes is used to iteratively construct the comboboxes
-		// This is used to make sure all comboBoxes are made the same way.
-		cbPart = new JComboBox[8];
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		for (int i = 0; i < 4; i++) {
-			cbPart[i] = new JComboBox();
-			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-			gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-			gbc_comboBox.gridx = 1;
-			gbc_comboBox.gridy = i;
-			pnlParts.add(cbPart[i], gbc_comboBox);
-			
-			cbPart[i+1] = new JComboBox();
-			gbc_comboBox.insets = new Insets(0, 0, 5, 0);
-			gbc_comboBox.gridx = 3;
-			gbc_comboBox.gridy = i;
-			pnlParts.add(cbPart[i+1], gbc_comboBox);
-		}
-		
+	
 		JLabel lblPart_1 = new JLabel("Part 5:");
 		GridBagConstraints gbc_lblPart_1 = new GridBagConstraints();
 		gbc_lblPart_1.insets = new Insets(0, 0, 5, 5);
@@ -187,6 +168,30 @@ public class KitManagerPanel extends JPanel{
 		gbc_lblPart_7.gridx = 2;
 		gbc_lblPart_7.gridy = 3;
 		pnlParts.add(lblPart_7, gbc_lblPart_7);
+
+		// Array of comboBoxes is used to iteratively construct the comboboxes
+		// This is used to make sure all comboBoxes are made the same way.
+		cbPart = new JComboBox[8];
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		for (int i = 0; i < 4; i++) {
+			cbPart[i] = new JComboBox();
+			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+			gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+			gbc_comboBox.gridx = 1;
+			gbc_comboBox.gridy = i;
+			pnlParts.add(cbPart[i], gbc_comboBox);
+			
+			cbPart[i+1] = new JComboBox();
+			gbc_comboBox.insets = new Insets(0, 0, 5, 0);
+			gbc_comboBox.gridx = 3;
+			gbc_comboBox.gridy = i;
+			pnlParts.add(cbPart[i+1], gbc_comboBox);
+		}
+
+		// iteratively construct jLabels
+		for (int i = 0; i < 4; i++ ) {
+
+		}
 		
 		JPanel schedPanel = new JPanel();
 		tabbedPane.addTab("View Schedule", null, schedPanel, null);
