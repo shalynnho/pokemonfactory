@@ -10,19 +10,15 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
-import javax.swing.SpinnerNumberModel; 
+import javax.swing.SpinnerNumberModel;
 
 import manager.util.OverlayPanel;
-
-import Networking.Client;
 import factory.KitConfig;
 import factory.Order;
-import Networking.Request;
-import Networking.Server;
-import Utils.Constants; 
 
 
 
@@ -38,7 +34,8 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 	private int quantity;
 	private JComboBox kitComboBox;
 	private SpinnerNumberModel spinModel;
-	private Client fpm;
+	private manager.FactoryProductionManager fpm;
+	
 	
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
 	private ArrayList<Order> queue = new ArrayList<Order>();
@@ -46,9 +43,9 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 	//receives a Client because Harry and Matt are trying to figure out how
 	//we can create the order and send it to the FactoryProductionManager, which will then
 	//send it to the server (rather than having this GUI class send it directly to server)
-	public FactoryProductionManagerPanel(Client cli, int height) {
+	public FactoryProductionManagerPanel(manager.FactoryProductionManager f, int height) {
 		super();
-		fpm = cli;
+		fpm = f;
 		setPreferredSize(new Dimension(PANEL_WIDTH, height));
 		setMinimumSize(new Dimension(PANEL_WIDTH, height));
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
@@ -97,6 +94,11 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.anchor = GridBagConstraints.PAGE_END;
 		add(scrollPane, c);
+		for(int i = 0; i<queue.size();i++)
+		{	
+			JLabel queueItem = new JLabel(queue.get(i).kitConfig + " - Qty. "+ queue.get(i).numberOfKits);
+			scrollPane.add(queueItem);
+		}
 				
 	}
 
@@ -121,7 +123,8 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		Order temp = new Order(selectedKit, quantity);
 		
 		//sends message to FCS with order info
-		//server.sendData(new Request(Constants.FCS_ADD_ORDER, Constants.FCS_TARGET, temp));
+		fpm.createOrder(temp);
+		
 		
 		//testing purposes only -- feel free to comment out or delete print statement below
 		System.out.println("Order Details: " + temp.kitConfig + " " + temp.numberOfKits);
