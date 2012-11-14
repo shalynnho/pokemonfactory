@@ -1,14 +1,8 @@
 package manager;
-import java.awt.BorderLayout;
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 
 import manager.panel.PartsManagerPanel;
-
-import factory.KitConfig;
-import factory.Order;
-
+import manager.panel.PartsManagerPanelV2;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -23,7 +17,7 @@ public class PartsManager extends Client {
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
 	
-	private PartsManagerPanel pmPanel;
+	private PartsManagerPanelV2 pmPanel;
 
 	/**
 	 * Constructor
@@ -54,7 +48,7 @@ public class PartsManager extends Client {
 	 */
 	public void initGUI() {
 		// may have to pass in reference to this class
-		pmPanel = new PartsManagerPanel();
+		pmPanel = new PartsManagerPanelV2();
 		
 		add(pmPanel);
 		pmPanel.setVisible(true);
