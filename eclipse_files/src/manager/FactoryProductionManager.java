@@ -1,7 +1,5 @@
 package manager;
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,18 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import manager.panel.FactoryProductionManagerPanel;
-import DeviceGraphicsDisplay.CameraGraphicsDisplay;
-import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
-import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
-import DeviceGraphicsDisplay.FeederGraphicsDisplay;
-import DeviceGraphicsDisplay.GantryGraphicsDisplay;
-import DeviceGraphicsDisplay.KitGraphicsDisplay;
-import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
-import DeviceGraphicsDisplay.LaneGraphicsDisplay;
-import DeviceGraphicsDisplay.NestGraphicsDisplay;
-import DeviceGraphicsDisplay.PartsRobotDisplay;
-import Networking.Client;
-import Networking.Request;
+import DeviceGraphicsDisplay.*;
+import Networking.*;
 import Utils.Constants;
 import factory.KitConfig;
 import factory.Order;
@@ -77,6 +65,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));
+		}
+		
+		for (int i = 0; i < Constants.STAND_COUNT; i++) {
+			addDevice(Constants.STAND_TARGET + i, new StandGraphicsDisplay(this, i));
 		}
 
 		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this));

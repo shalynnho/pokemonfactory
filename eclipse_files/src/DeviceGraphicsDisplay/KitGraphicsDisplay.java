@@ -6,15 +6,14 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import agent.data.PartType;
-
-import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import factory.PartType;
 
 public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
-
+	private static final int MAX_PARTS = 8;
+	
 	private Location kitLocation;
 
 	// RotationPart
@@ -33,7 +32,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	private AffineTransform trans = new AffineTransform();
 
-	public KitGraphicsDisplay(Client c) {
+	public KitGraphicsDisplay() {
 		
 		kitLocation = Constants.KIT_LOC;
 		position = 0;
@@ -71,14 +70,31 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void receiveData(Request req) {
 		if(req.getCommand().equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND)) {
-			String typeStr = (String) req.getData();
-			//parts.add(new PartGraphicsDisplay(PartType.valueOf(typeStr)));
+			PartType type = (PartType) req.getData();
+			receivePart(new PartGraphicsDisplay(type));
 		}
 	}
 
 	// Drawing using AffineTransform part
 
-
+	public void receivePart(PartGraphicsDisplay pgd) {
+		parts.add(pgd);
+		
+		// set location of the part
+		if ((parts.size() % 2) == 1) {
+			 pgd.setLocation(new Location(kitLocation.getX() + 5, kitLocation.getY() + (20 * (parts.size() -1) / 2)));
+		
+		} else {
+			pgd.setLocation(new Location(kitLocation.getX() + 34, kitLocation.getY() + (20 * (parts.size()-2) / 2)));
+		}
+		
+		if (parts.size() == MAX_PARTS) {
+			parts.clear();
+		}
+		
+	}
+	
+	
 	public void setDegreeCountDown(int degreeCountDown){
 		this.degreeCountDown=degreeCountDown;
 		

@@ -1,5 +1,6 @@
 package DeviceGraphics;
 
+import factory.PartType;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
@@ -52,7 +53,8 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 */
 	public void receiveBin(BinGraphics bg) {
 		binGraphics = bg;
-		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, null));
+		PartType type = bg.getPart().getPartType();
+		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, type));
 	}
 	
 	/**
