@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.TreeMap;
 
 import DeviceGraphics.DeviceGraphics;
@@ -168,7 +167,7 @@ public class StandAgent extends Agent implements Stand {
 				// Received a kit from kit robot
 				for (MyKit mk : myKits.keySet()) {
 					if (mk.KS == KitStatus.Received) {
-						placeKit(mk.kit);
+						placeKit(mk);
 						return true;
 					}
 				}
@@ -265,33 +264,25 @@ public class StandAgent extends Agent implements Stand {
 	 * Places a kit into the list of kits on the stand
 	 * @param k the kit being placed
 	 */
-	private void placeKit(final Kit k) {
-		synchronized(myKits){
-		int spot = 5;
-		// kitRequesteds--;
+	private void placeKit(MyKit mk) {
+		synchronized (myKits) {
+			int spot = 5;
+			// kitRequesteds--;
 
-		for (MyKit mk : myKits.keySet()) {
-			if (mk.kit == k) {
-				mk.KS = KitStatus.PlacedOnStand;
-				spot = myKits.get(mk);
-				print("Found a spot at " + spot);
-				break;
-			}
-		}
-		
-		kitsOnStand.set(spot, k);
-		partsrobot.msgUseThisKit(k); // THIS DOESN'T WORK YET
-/*
-		// For testing, assume parts robot finishes after 1s
-		timer.schedule(new TimerTask() {
+			mk.KS = KitStatus.PlacedOnStand;
+			spot = myKits.get(mk);
+			print("Found a spot at " + spot);
 
-			@Override
-			public void run() {
-				print("Faking partsrobot finishing kit assembly");
-				msgKitAssembled(k);
-			}
-		}, 100);*/
-		stateChanged();
+			kitsOnStand.set(spot, mk.kit);
+			partsrobot.msgUseThisKit(mk.kit); // THIS DOESN'T WORK YET
+			/*
+			 * // For testing, assume parts robot finishes after 1s
+			 * timer.schedule(new TimerTask() {
+			 * @Override public void run() {
+			 * print("Faking partsrobot finishing kit assembly");
+			 * msgKitAssembled(k); } }, 100);
+			 */
+			stateChanged();
 		}
 	}
 
