@@ -172,8 +172,8 @@ public class StandAgent extends Agent implements Stand {
 					}
 				}
 			}
-			synchronized(myKits){
-				
+			synchronized (myKits) {
+
 				// Kit robot shipped a kit
 				for (MyKit mk : myKits.keySet()) {
 					if (mk.KS == KitStatus.Shipped) {
@@ -276,6 +276,8 @@ public class StandAgent extends Agent implements Stand {
 			print("Found a spot at " + spot);
 
 			kitsOnStand.set(spot, mk.kit);
+			print("Kit ID is " + mk.kit.toString());
+			print(kitsOnStand.size() + " kits on stand");
 			partsrobot.msgUseThisKit(mk.kit); // THIS DOESN'T WORK YET
 			/*
 			 * // For testing, assume parts robot finishes after 1s
