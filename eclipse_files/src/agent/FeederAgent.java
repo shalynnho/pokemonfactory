@@ -77,7 +77,6 @@ public class FeederAgent extends Agent implements Feeder {
 		boolean found = false;
 		for (MyLane l : lanes) {
 			if (l.lane.equals(lane)) {
-				print("This means that the lanes were already set");
 				found = true;
 				l.numPartsNeeded++;
 				l.type = type;
