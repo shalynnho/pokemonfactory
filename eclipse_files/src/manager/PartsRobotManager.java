@@ -71,7 +71,11 @@ public class PartsRobotManager extends Client implements ActionListener{
 	
 	@Override
 	public void receiveData(Request req) {
-		
+		if (req.getTarget().equals(Constants.ALL_TARGET)) {
+			// TODO code to overwrite ArrayList with req.getData()
+		} else {
+			devices.get(req.getTarget()).receiveData(req);
+		}
 	}
 
 	public static void main(String[] args) {

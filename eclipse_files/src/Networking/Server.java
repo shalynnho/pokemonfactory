@@ -19,6 +19,7 @@ import Utils.Constants;
 import agent.Agent;
 import agent.CameraAgent;
 import agent.ConveyorAgent;
+import agent.FCSAgent;
 import agent.FeederAgent;
 import agent.GantryAgent;
 import agent.KitRobotAgent;
@@ -26,6 +27,7 @@ import agent.LaneAgent;
 import agent.NestAgent;
 import agent.PartsRobotAgent;
 import agent.StandAgent;
+import factory.FCS;
 
 /**
  * The Server is the "middleman" between Agents and the GUI clients. This is
@@ -69,8 +71,14 @@ public class Server {
 
 	public volatile LinkedHashMap<String, DeviceGraphics> devices = new LinkedHashMap<String, DeviceGraphics>();
 	public volatile LinkedHashMap<String, Agent> agents = new LinkedHashMap<String, Agent>();
+	
+	FCS fcs;
+	FCSAgent fcsAgent;
 
 	public Server() {
+		fcsAgent = new FCSAgent(Constants.FCS_TARGET);
+		fcs = new FCS(this, agents.get(fcsAgent));
+		
 		initAgents();
 		initDevices();
 		connectAgentsWithEachOther();
@@ -161,6 +169,7 @@ public class Server {
 			}
 			agent.startThread();
 		}
+		fcsAgent.startThread();
 	}
 
 	private void connectAgentsWithEachOther() {
@@ -290,6 +299,8 @@ public class Server {
 
 		if (target.equals(Constants.SERVER_TARGET)) {
 
+		} else if (target.equals(Constants.FCS_TARGET)) {
+			fcs.receiveData(req);
 		} else {
 			devices.get(target).receiveData(req);
 		}
@@ -353,7 +364,7 @@ public class Server {
 
 	// Temporary Removal of camera requests
 	private void sendDataToCamera(Request req) {
-		factProdMngrWriter.sendData(req);
+		// factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 

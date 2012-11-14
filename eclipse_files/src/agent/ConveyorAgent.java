@@ -24,7 +24,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private final List<MyKit> kitsOnConveyor = Collections
 			.synchronizedList(new ArrayList<MyKit>());
 
-	private final KitConfig kitConfig;
+	private KitConfig kitConfig;
 
 	private MyKit incomingKit;
 	private MyKit outgoingKit;
@@ -356,6 +356,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	@Override
 	public void msgHereIsKitConfiguration(KitConfig config) {
+		this.kitConfig = config;
 	}
 
 }

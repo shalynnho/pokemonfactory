@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
+import agent.Agent;
 import agent.FCSAgent;
 
 /**
@@ -20,8 +21,8 @@ public class FCS {
 	private FCSAgent agent;
 	private Server server;
 	
-	public FCS(FCSAgent a, Server server) {
-		agent = a;
+	public FCS(Server server, Agent a) {
+		agent = (FCSAgent) a;
 		this.server = server;
 	}
 	
