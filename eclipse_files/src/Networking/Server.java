@@ -77,7 +77,7 @@ public class Server {
 
 	public Server() {
 		fcsAgent = new FCSAgent(Constants.FCS_TARGET);
-		fcs = new FCS(this, agents.get(fcsAgent));
+		fcs = new FCS(this, fcsAgent);
 		
 		initAgents();
 		initDevices();
