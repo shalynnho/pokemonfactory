@@ -63,11 +63,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	KitGraphicsDisplay currentKit = new KitGraphicsDisplay(client);
 
 	// just for v0
-	boolean AnimationToConveyorDone;
-
-	public boolean isAnimationToConveyorDone() {
-		return AnimationToConveyorDone;
-	}
 
 	public KitRobotGraphicsDisplay(Client cli) {
 
@@ -355,13 +350,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		checkDegrees();
 		doJob();
-		AnimationToConveyorDone = false;
-		if (currentDegree == 180
-				&& moveToFinalPosition.equals(Command.moveToLocation1)) {
-			kitRobotClient.sendData(new Request(
-					Constants.KIT_ROBOT_ON_STAND_DONE,
-					Constants.KIT_ROBOT_TARGET, null));
-		}
 
 		for (int i = 0; i < kits.size(); i++) {
 
