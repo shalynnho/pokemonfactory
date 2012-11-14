@@ -1,32 +1,35 @@
 package manager.panel;
 
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import java.awt.Component;
-import javax.swing.JTextField;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JSplitPane;
-import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
-import java.awt.event.ActionEvent;
-import java.awt.CardLayout;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import java.io.File;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JTextArea;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.border.EtchedBorder;
 import javax.swing.UIManager;
+import javax.swing.border.EtchedBorder;
+
+import manager.util.OverlayPanel;
+import manager.util.WhiteLabel;
+import Utils.Constants;
 
 /**
 *
@@ -51,12 +54,15 @@ public class PartsManagerPanel extends JPanel {
 		fc = new JFileChooser();
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		add(tabbedPane);
 		JPanel managerPanel = new JPanel();
+		managerPanel.setOpaque(false);
+		
+		add(tabbedPane);
 		tabbedPane.addTab("Part Manager", managerPanel);
 		managerPanel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel pnlPartChooser = new JPanel();
+		pnlPartChooser.setOpaque(false);
 		managerPanel.add(pnlPartChooser, BorderLayout.NORTH);
 		
 		cbPart = new JComboBox();
@@ -75,8 +81,9 @@ public class PartsManagerPanel extends JPanel {
 		});
 		pnlPartChooser.add(btnNewPart);
 		
-		JPanel pnlForm = new JPanel();
-		pnlForm.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		JPanel pnlForm = new OverlayPanel();
+		
+		// pnlForm.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		managerPanel.add(pnlForm, BorderLayout.CENTER);
 		GridBagLayout gbl_pnlForm = new GridBagLayout();
 		gbl_pnlForm.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0};
@@ -87,7 +94,7 @@ public class PartsManagerPanel extends JPanel {
 //		gbl_pnlForm.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlForm.setLayout(gbl_pnlForm);
 		
-		JLabel lblNumber = new JLabel("Part No:");
+		WhiteLabel lblNumber = new WhiteLabel("Part No:");
 		GridBagConstraints gbc_lblNumber = new GridBagConstraints();
 		gbc_lblNumber.anchor = GridBagConstraints.EAST;
 		gbc_lblNumber.insets = new Insets(0, 0, 5, 5);
@@ -104,7 +111,7 @@ public class PartsManagerPanel extends JPanel {
 		gbc_spinner.gridy = 0;
 		pnlForm.add(spinner, gbc_spinner);
 		
-		JLabel lblName = new JLabel("Name:");
+		WhiteLabel lblName = new WhiteLabel("Name:");
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
 		gbc_lblName.anchor = GridBagConstraints.EAST;
 		gbc_lblName.insets = new Insets(0, 0, 5, 5);
@@ -121,7 +128,7 @@ public class PartsManagerPanel extends JPanel {
 		pnlForm.add(tfName, gbc_tfName);
 		tfName.setColumns(10);
 		
-		JLabel lblDescription = new JLabel("Description:");
+		WhiteLabel lblDescription = new WhiteLabel("Description:");
 		GridBagConstraints gbc_lblDescription = new GridBagConstraints();
 		gbc_lblDescription.anchor = GridBagConstraints.EAST;
 		gbc_lblDescription.insets = new Insets(0, 0, 5, 5);
@@ -143,7 +150,7 @@ public class PartsManagerPanel extends JPanel {
 		textArea.setFont(UIManager.getFont("Button.font"));
 		panel.add(textArea);
 		
-		JLabel lblImagePath = new JLabel("Image:");
+		WhiteLabel lblImagePath = new WhiteLabel("Image:");
 		GridBagConstraints gbc_lblImagePath = new GridBagConstraints();
 		gbc_lblImagePath.anchor = GridBagConstraints.EAST;
 		gbc_lblImagePath.insets = new Insets(0, 0, 0, 5);
@@ -159,10 +166,12 @@ public class PartsManagerPanel extends JPanel {
 		pnlForm.add(cbImges, gbc_cbImges);
 		
 		pnlButtons = new JPanel();
+		pnlButtons.setOpaque(false);
 		managerPanel.add(pnlButtons, BorderLayout.SOUTH);
 		pnlButtons.setLayout(new CardLayout(0, 0));
 		
 		pnlView = new JPanel();
+		pnlView.setOpaque(false);
 		pnlButtons.add(pnlView, "View Part Type");
 		
 		JButton btnEditPartType = new JButton("Edit Part Type");
@@ -182,6 +191,7 @@ public class PartsManagerPanel extends JPanel {
 		pnlView.add(btnDeletePartType);
 		
 		pnlEdit = new JPanel();
+		pnlEdit.setOpaque(false);
 		pnlButtons.add(pnlEdit, "Edit Part Type");
 		
 		JButton btnSaveChanges = new JButton("Save Changes");
@@ -202,6 +212,7 @@ public class PartsManagerPanel extends JPanel {
 		pnlEdit.add(btnCnclChanges);
 		
 		pnlAdd = new JPanel();
+		pnlAdd.setOpaque(false);
 		pnlButtons.add(pnlAdd, "Add Part Type");
 		
 		JButton btnCreatePartType = new JButton("Create Part Type");
@@ -277,5 +288,10 @@ public class PartsManagerPanel extends JPanel {
 	}
 	protected void disableFields() {
 		if (!tfName.isEnabled()) toggleFields();
+	}
+	
+	public void paintComponent(Graphics gg) {
+		Graphics2D g = (Graphics2D) gg;
+		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
 	}
 }
