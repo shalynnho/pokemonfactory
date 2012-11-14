@@ -49,8 +49,16 @@ public class V1_Agents_Mock_Graphics {
 			camera.setNest(nests.get(i));
 			fcs.setNest(nests.get(i));
 		}
-		conveyor.setFCS(fcs);
+		conveyor.setFcs(fcs);
 		conveyor.setKitrobot(kitRobot);
+		if(conveyor.getFcs()==null){
+			System.out.println("Conveyor fcs null");
+		}
+		if(conveyor.getKitrobot()==null){
+			System.out.println("Conveyor kitrobot null");
+		} else {
+			System.out.println("Conveyor kitrobot not null");
+		}
 		camera.setKitRobot(kitRobot);
 		stand.setFCS(fcs);
 		stand.setKitrobot(kitRobot);
@@ -64,6 +72,15 @@ public class V1_Agents_Mock_Graphics {
 		fcs.setStand(stand);
 
 		MockGraphics mg = new MockGraphics("Mock Graphics");
+		
+		mg.setCamera(camera);
+		mg.setConveyor(conveyor);
+		//mg.setFeeder(feeder);
+		mg.setGantry(gantry);
+		mg.setKitrobot(kitRobot);
+		//mg.setLane(lane);
+		//mg.setNest(nest);
+		mg.setPartsrobot(partsRobot);
 
 		gantry.setGraphicalRepresentation(mg);
 		for (int i = 0; i < 4; i++) {
