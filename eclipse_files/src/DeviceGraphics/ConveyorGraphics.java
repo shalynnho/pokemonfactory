@@ -94,7 +94,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 				// Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
 				// Constants.CONVEYOR_TARGET, null));
 				StandAgent stand = (StandAgent) server.agents.get("Stand");
-				stand.msgMakeKits(1);
+				stand.msgMakeKits(5);
 			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 					+ Constants.DONE_SUFFIX)) {
 				conveyorAgent.msgBringEmptyKitDone();

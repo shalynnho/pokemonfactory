@@ -118,16 +118,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				Location temp = tempKit.getLocation();
 				tempKit.setLocation(new Location(temp.getX() + velocity, temp.getY()));
 				if (pickMe == true) {
-					
-					 animationDone(new Request(
-						Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
-								+ Constants.DONE_SUFFIX,
-						Constants.CONVEYOR_TARGET, null));
-					 
-					 animationDone(new Request(
-								Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
-										+ Constants.DONE_SUFFIX,
-								Constants.CONVEYOR_TARGET, null));
 					 
 					 animationDone(new Request(
 								Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
@@ -197,6 +187,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		if (command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
 			giveKitAway();
+			print("Giving kit to Kit Robot");
 		} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
 			newKit();
 		} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {

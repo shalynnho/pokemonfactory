@@ -61,7 +61,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	Client kitRobotClient;
 	Location location;
 	ArrayList<KitGraphicsDisplay> kits = new ArrayList<KitGraphicsDisplay>();
-	KitGraphicsDisplay currentKit = new KitGraphicsDisplay(client);
+	KitGraphicsDisplay currentKit = new KitGraphicsDisplay();
 
 	// just for v0
 
@@ -285,7 +285,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (target.equals(Constants.KIT_ROBOT_TARGET)) {
 			if (command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1)) {
 				
-				KitGraphicsDisplay tempKit = new KitGraphicsDisplay(client);
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
 				tempKit.setPosition(5);
 				currentKit = tempKit;
 				currentKit.setDegreeCountDown(180);
@@ -294,7 +294,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 			else if(command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2))
 			{
-				KitGraphicsDisplay tempKit = new KitGraphicsDisplay(client);
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
 				tempKit.setPosition(6);
 				currentKit= tempKit;
 				currentKit.setDegreeCountDown(225);
