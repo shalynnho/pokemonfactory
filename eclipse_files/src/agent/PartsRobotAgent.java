@@ -61,7 +61,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private enum ArmStatus {
-		Empty, Full
+		Empty, Full, Emptying
 	};
 
 	private KitConfig KitConfig;
@@ -230,6 +230,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void PlacePart(Arm arm) {
 		synchronized(Arms){
+			arm.AS = ArmStatus.Emptying;
 		print("Placing part");
 		for (MyKit mk : MyKits) {
 			if (mk.kit.needPart(arm.part)) {
@@ -256,8 +257,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				
 				 mk.kit.partsExpected.removeItem(arm.part.type);
 				arm.part = null;
-
 				arm.AS = ArmStatus.Empty;
+				
 
 				// Checks if the kit is done
 				CheckMyKit(mk);
