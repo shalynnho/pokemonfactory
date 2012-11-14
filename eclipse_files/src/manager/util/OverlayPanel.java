@@ -1,6 +1,7 @@
 package manager.util;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -29,5 +30,15 @@ public class OverlayPanel extends JPanel{
         Rectangle r = g.getClipBounds();
         g.fillRect(r.x, r.y, r.width, r.height);
         super.paintComponent(g);
+	}
+	
+	public void setSize(Dimension d) {
+		setPreferredSize(d);
+		setMinimumSize(d);
+		setMaximumSize(d);
+	}
+	
+	public void setSize(int width, int height) {
+		setSize(new Dimension(width, height));
 	}
 }
