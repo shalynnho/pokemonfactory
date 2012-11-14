@@ -61,23 +61,30 @@ public class KitRobotManager extends Client implements ActionListener {
 				Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
 				Constants.CONVEYOR_TARGET, writer));
 
-		 JButton moveKitToLocation1 =new JButton();
-		 moveKitToLocation1.addActionListener(new
-		 NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR,
-		 Constants.KIT_ROBOT_TARGET,writer));
+		JButton moveKitToLocation1 =new JButton("moveKitToLocation1");
+		moveKitToLocation1.addActionListener(new
+		NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION1,
+		Constants.KIT_ROBOT_TARGET,writer));
 
-		 JButton moveKitFromLocation1ToConveyor= new
-		 JButton("moveKitFromLoc1ToConveyor");
+		JButton moveKitToLocation2= new JButton("moveKitToLocation2");
+		moveKitToLocation2.addActionListener(new
+		NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION2,
+		Constants.KIT_ROBOT_TARGET,writer));
 
-		 moveKitFromLocation1ToConveyor.addActionListener(new
-		 NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_lOCATION1_TO_CONVEYOR,
-		 Constants.KIT_ROBOT_TARGET,writer));
-
-		panel.add(newKit);
-		panel.add(moveKitToLocation1);
-		panel.add(moveKitToLocation2);
-		panel.add(moveKitFromLocation1ToInspection);
-		panel.add(moveKitFromLocation2ToInspection);
+		JButton moveKitFromLocation1ToInspection = new JButton("moveKitFromLocation1ToInspection");
+		moveKitFromLocation1ToInspection.addActionListener(new 
+		NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_INSPECTION,
+		Constants.KIT_ROBOT_TARGET,writer));
+		 
+		JButton moveKitFromLocation2ToInspection = new JButton("moveKitFromLocation2ToInspection");
+		moveKitFromLocation2ToInspection.addActionListener(new
+		NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_INSPECTION,
+		Constants.KIT_ROBOT_TARGET,writer));
+		 panel.add(newKit);
+		 panel.add(moveKitToLocation1);
+		 panel.add(moveKitToLocation2);
+		 panel.add(moveKitFromLocation1ToInspection);
+		 panel.add(moveKitFromLocation2ToInspection);
 	}
 
 	public void initDevices() {
@@ -103,6 +110,7 @@ public class KitRobotManager extends Client implements ActionListener {
 		frame.add(mngr);
 		mngr.setVisible(true);
 		frame.validate();
+		frame.setResizable(true);
 	}
 
 	@Override
@@ -112,16 +120,6 @@ public class KitRobotManager extends Client implements ActionListener {
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
 
 		for (DeviceGraphicsDisplay device : devices.values()) {
-
-			if (device instanceof KitRobotGraphicsDisplay) {
-				KitRobotGraphicsDisplay tempkrgdisplay = (KitRobotGraphicsDisplay) device;
-				if (tempkrgdisplay.isAnimationToConveyorDone()) {
-					System.out.println("passes through");
-					writer.sendData(new Request(
-							Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
-							Constants.CONVEYOR_TARGET, null));
-				}
-			}
 			device.draw(this, g);
 
 		}
