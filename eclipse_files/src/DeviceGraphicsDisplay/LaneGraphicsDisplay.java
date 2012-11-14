@@ -19,16 +19,16 @@ import factory.PartType;
  */
 public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// horizontal length of the Lane image
-	private static final int LANE_LENGTH = 300;
+	private static final int LANE_LENGTH = 210;
 	// start and end x-coordinates of Part on the Lane
 	private static final int LANE_BEG_X = 700;
-	private static final int LANE_END_X = 400;
+	private static final int LANE_END_X = 490;
 	// width and height of the part
 	private static final int PART_WIDTH = 20;
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
 	// space in between lane lines (from upper left to upper left)
-	private static final int NUMLINES = LANE_LENGTH / (PART_WIDTH) - 2;
+	private static final int NUMLINES = LANE_LENGTH / PART_WIDTH;
 	// width of lane lines
 	private static final int LINE_WIDTH = 3;
 
@@ -93,8 +93,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
 		if (laneOn) {
-			// need image(s) of lane and/or lane lines?
-			g.drawImage(Constants.LANE_IMAGE, laneLoc.getX(), laneLoc.getY(), c);
+			if (laneID % 2 == 0) {
+				g.drawImage(Constants.LANE_IMAGE1, laneLoc.getX(), laneLoc.getY(), c);
+			} else {
+				g.drawImage(Constants.LANE_IMAGE2, laneLoc.getX(), laneLoc.getY(), c);
+			}
 
 			// animate lane movements using lines
 			for (int i = 0; i < laneLines.size(); i++) {
@@ -153,7 +156,12 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				}
 			}
 		} else { // lane is off
-			g.drawImage(Constants.LANE_IMAGE, laneLoc.getX(), laneLoc.getY(), c);
+			if (laneID % 2 == 0) {
+				g.drawImage(Constants.LANE_IMAGE1, laneLoc.getX(), laneLoc.getY(), c);
+			} else {
+				g.drawImage(Constants.LANE_IMAGE2, laneLoc.getX(), laneLoc.getY(), c);
+			}
+			
 			// draw lane lines
 			for (int i = 0; i < laneLines.size(); i++) {
 				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX(), laneLines.get(i)

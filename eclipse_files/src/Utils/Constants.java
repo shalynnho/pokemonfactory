@@ -78,10 +78,12 @@ public abstract class Constants {
 			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "FeederGreenLight.png");
 
 	// Lane Images
-	public static final Image LANE_IMAGE =
-			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "lane.png");
+	public static final Image LANE_IMAGE1 =
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "lane_1.png");
+	public static final Image LANE_IMAGE2 =
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "lane_2.png");
 	public static final Image LANE_LINE =
-			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "laneline.png");
+			Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "lane_belt.png");
 
 	// Conveyor Images
 	public static final Image CONVEYOR_IMAGE = 

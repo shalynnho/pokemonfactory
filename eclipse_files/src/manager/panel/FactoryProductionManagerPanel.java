@@ -8,9 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
@@ -28,32 +28,38 @@ import factory.Order;
 */
 
 public class FactoryProductionManagerPanel extends OverlayPanel implements ActionListener {
+	// Width of the JPanel
 	private static final int PANEL_WIDTH = 300;
-
+	
+	// A reference to the FactoryProductionManager client
+	private FactoryProductionManager fpmClient;
+	
+	// Stores kits currently available for order
+	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
+	// Stores current list of orders
+	private ArrayList<Order> queue = new ArrayList<Order>();
+	// Stores the selected kitConfig for a new order
 	private KitConfig selectedKit;
 	
-	// displays kits available for order
+	/** JComponents **/
+	// Displays kits currently available for order
 	private JComboBox kitComboBox;
-	private SpinnerNumberModel spinModel;
-	// a reference to the FactoryProductionManager client
-	private FactoryProductionManager fpm;
+	// Displays current schedule of orders
+	private JTextArea orderScheduleTextArea;
+	private SpinnerNumberModel spinnerModel;
+	private JSpinner quantitySpinner;
+	private DefaultComboBoxModel defaultComboBox;
+	private JButton orderButton;
+	private JScrollPane orderScrollPane;
 	
-	// stores kits available for order
-	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
-	// stores current list of orders
-	private ArrayList<Order> queue = new ArrayList<Order>();
-	
-	JButton orderButton;
-	JTextArea kitSchedule;
-	JScrollPane scrollPane;
-	JSpinner numSpinner;
-	
-	//receives a Client because Harry and Matt are trying to figure out how
-	//we can create the order and send it to the FactoryProductionManager, which will then
-	//send it to the server (rather than having this GUI class send it directly to server)
+	/**
+	 * Constructor
+	 * @param f a reference to the FactoryProductionManager client.
+	 * @param height of the JFrame
+	 */
 	public FactoryProductionManagerPanel(FactoryProductionManager f, int height) {
 		super();
-		fpm = f;
+		fpmClient = f;
 		setPreferredSize(new Dimension(PANEL_WIDTH, height));
 		setMinimumSize(new Dimension(PANEL_WIDTH, height));
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
@@ -62,6 +68,7 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		GridBagConstraints c = new GridBagConstraints();
 	
 		kitComboBox = new JComboBox();
+		defaultComboBox = (DefaultComboBoxModel)kitComboBox.getModel();
 		
 		// TODO: REMOVE - FOR TESTING ONLY
 		kitConfigs = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIGS.clone();
@@ -75,13 +82,14 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		c.anchor = GridBagConstraints.PAGE_START;
 		add(kitComboBox, c);
 		
-		spinModel = new SpinnerNumberModel(0, 0, 1000, 1);
-	    numSpinner = new JSpinner(spinModel);
+		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
+	    quantitySpinner = new JSpinner(spinnerModel);
 		c.gridx = 0;
 		c.gridy = 1;
-		c.insets = new Insets(50,0,0,0); //Top Padding
+		// Top padding
+		c.insets = new Insets(50,0,0,0);
 		c.anchor = GridBagConstraints.CENTER;
-		add(numSpinner, c);
+		add(quantitySpinner, c);
 		
 		orderButton = new JButton("ORDER KITS");
 		orderButton.addActionListener(this);
@@ -90,56 +98,43 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		c.anchor = GridBagConstraints.PAGE_END;
 		add(orderButton, c);
 				
-		kitSchedule = new JTextArea();
-		kitSchedule.setColumns(20);
-		kitSchedule.setRows(20);
-		kitSchedule.setLineWrap(true);
-		kitSchedule.setEditable(false);
-		kitSchedule.setWrapStyleWord(true);
+		orderScheduleTextArea = new JTextArea();
+		orderScheduleTextArea.setColumns(20);
+		orderScheduleTextArea.setRows(20);
+		orderScheduleTextArea.setLineWrap(true);
+		orderScheduleTextArea.setEditable(false);
+		orderScheduleTextArea.setWrapStyleWord(true);
 		
-		scrollPane = new JScrollPane(kitSchedule);
+		orderScrollPane = new JScrollPane(orderScheduleTextArea);
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.anchor = GridBagConstraints.PAGE_END;
-		add(scrollPane, c);
+		add(orderScrollPane, c);
+	}
 
-		for(int i = 0; i<queue.size();i++)
-		{	
-			JLabel queueItem = new JLabel(queue.get(i).kitConfig + " - Qty. "+ queue.get(i).numKits);
-			scrollPane.add(queueItem);
-		}
-}
-
-
-	@Override
+	/**
+	 * Handle action events.
+	 * @param ae action event
+	 */
 	public void actionPerformed(ActionEvent ae) {
-		
-		if (ae.getSource() == orderButton) {
-			//For loop iterates through ArrayList of KitConfigs to find a match between the selected
-			//ComboBoxItem (presented as a String) and the actual KitConfig with that String. 
-			//Then it sets variable selectedKit equal to that kit, which allows an order 
-			//to be created and sent to server
-			
-			// does not work
+		if (ae.getSource() == orderButton) {			
+			// match kitComboBox selection with list of kitConfigs
 			for (int i = 0; i < kitConfigs.size(); i++) {
 				if (kitConfigs.get(i).getName().equals(kitComboBox.getSelectedItem())) {
 					selectedKit = kitConfigs.get(i);
 				}
 			}
 			
-			//Set variable quantityToMake equal to number user enters in SpinModel
-			int quantityToMake = spinModel.getNumber().intValue();
+			//Set variable quantityToMake equal to number user enters in spinnerModel
+			int quantityToMake = spinnerModel.getNumber().intValue();
 			
 			//Creates new Order and passes it the kit the User selects and the quantity to make
 			Order newOrder = new Order(selectedKit, quantityToMake);
 			
 			//sends message to FCS with order info
-			fpm.createOrder(newOrder);
-			
-			//testing purposes only -- feel free to comment out or delete print statement below
-			//System.out.println("Kit: " + newOrder.kitConfig + " Qty: " + quantityToMake);
+			fpmClient.createOrder(newOrder);
 		}
 	}
 		
@@ -150,6 +145,14 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 	 */
 	public void updateKitConfigs(ArrayList<KitConfig> kc) {
 		kitConfigs = kc;
+		
+		// Clear the JComboBox
+		defaultComboBox.removeAllElements();
+		
+		// Populate the JComboBox with the new kitConfigs
+		for (int i = 0; i < kitConfigs.size(); i++) {
+			kitComboBox.addItem(kitConfigs.get(i).getName());
+		}
 	}
 	
 	/**
@@ -158,5 +161,18 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 	 */
 	public void updateOrders(ArrayList<Order> o) {
 		queue = o;
+		
+		// Clear the contents of the JTextArea
+		orderScheduleTextArea.setText("");
+		
+		System.out.println("Queue size: " + queue.size());
+		
+		// Populate the JTextArea with current orders
+		for (int i = 0; i < queue.size(); i++) {
+			// System.out.println("--------- Orders in the Queue ----------");
+			// System.out.println("Kit name: " + queue.get(i).getConfig().getName() + " // Quantity: " + queue.get(i).getNumKits());
+			
+			orderScheduleTextArea.append("Kit Type: " + queue.get(i).getConfig().getName() + "  |  Quantity: " + queue.get(i).getNumKits() + "\n");
+		}
 	}
 }
