@@ -104,7 +104,13 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.anchor = GridBagConstraints.PAGE_END;
 		add(scrollPane, c);
-	}
+
+		for(int i = 0; i<queue.size();i++)
+		{	
+			JLabel queueItem = new JLabel(queue.get(i).kitConfig + " - Qty. "+ queue.get(i).numKits);
+			scrollPane.add(queueItem);
+		}
+}
 
 
 	@Override
@@ -136,6 +142,7 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 			//System.out.println("Kit: " + newOrder.kitConfig + " Qty: " + quantityToMake);
 		}
 	}
+		
 	
 	/**
 	 * This function is called by FactoryProductionManager whenever KitConfigs are updated.
