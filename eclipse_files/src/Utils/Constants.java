@@ -51,16 +51,6 @@ public abstract class Constants {
 	// DEVICE START LOCATIONS
 	// ==================================
 	
-	// TODO: adjust locations, have GDs generate locations themselves
-	public static final Location LANE0_LOC = new Location(599,100);
-	public static final Location LANE1_LOC = new Location(599,175);
-//	public static final Location LANE2_LOC = new Location( , );
-//	public static final Location LANE3_LOC = new Location( , );
-//	public static final Location LANE4_LOC = new Location( , );
-//	public static final Location LANE5_LOC = new Location( , );
-//	public static final Location LANE6_LOC = new Location( , );
-//	public static final Location LANE7_LOC = new Location( , );
-	
 	public static final Location FEEDER0_LOC = new Location(600,100);
 //	public static final Location FEEDER1_LOC = new Location(600, );
 //	public static final Location FEEDER2_LOC = new Location(600, );
