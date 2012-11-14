@@ -161,7 +161,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						for (Part part : GoodParts.get(nest)) {
 							
 							for (MyKit mk : MyKits) {
-								
+													
 								// Checking if the good part is needed by
 								// either kit
 								if (mk.kit.needPart(part)) {
