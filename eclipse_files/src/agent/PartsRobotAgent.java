@@ -220,7 +220,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			}
 		}
 		*/
-		print("bleep");
+		
 		// Only takes 1 part from a nest at a time
 		nest.msgTakingPart(part);
 		nest.msgDoneTakingParts();
@@ -233,6 +233,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			arm.AS = ArmStatus.Emptying;
 		print("Placing part");
 		for (MyKit mk : MyKits) {
+			synchronized(mk.kit.partsExpected){
 			if (mk.kit.needPart(arm.part)) {
 				/* Animation messing up
 				if (partsRobotGraphics != null) {
@@ -255,10 +256,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				}
 				*/
 				
-				 mk.kit.partsExpected.removeItem(arm.part.type);
+				// mk.kit.partsExpected.removeItem(arm.part.type);
 				arm.part = null;
 				arm.AS = ArmStatus.Empty;
-				
+			}
 
 				// Checks if the kit is done
 				CheckMyKit(mk);
@@ -271,6 +272,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void CheckMyKit(MyKit mk) {
+		synchronized(mk.kit.partsExpected){
 		int size = 1;
 		for (PartType type : mk.kit.partsExpected.getConfig().keySet()) {
 			for (int i = 0; i < mk.kit.partsExpected.getConfig().get(type); i++) {
@@ -282,6 +284,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				+ " more part(s) to finish kit.");
 		if (mk.kit.parts.size() == size) {
 			mk.MKS = MyKitStatus.Done;
+		}
 		}
 		// stateChanged();
 	}
