@@ -93,7 +93,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		for (int i = 0; i < binList.size(); i ++) {
 			binList.get(i).draw(c, g);
 		}
-		g.drawImage(Constants.GANTRY_ROBOT, currentLocation.getX(), currentLocation.getY(), c);
+		g.drawImage(Constants.GANTRY_ROBOT_IMAGE, currentLocation.getX(), currentLocation.getY(), c);
 	}
 
 	@Override

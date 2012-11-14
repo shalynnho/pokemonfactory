@@ -79,8 +79,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 		
-		// TODO: add back when we have a gantry image in constants, fix in GGD
-//		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
+		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
 		
 	}
 	
