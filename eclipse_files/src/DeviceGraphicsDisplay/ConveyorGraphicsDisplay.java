@@ -98,7 +98,8 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	@Override
 	public void draw(JComponent c, Graphics2D g2) {
-		g2.drawImage(Constants.TEST_CONVEYOR_IMAGE, 0, 185, c);
+		g2.drawImage(Constants.TEST_CONVEYOR_IMAGE, -140, 185, c);
+		g2.drawImage(Constants.TEST_CONVEYOR_IMAGE, -30, 65, c);
 		
 		for (int i = 0; i < conveyorLines.size(); i++) {
 			g2.drawImage(Constants.TEST_CONVEYOR_LINE_IMAGE, conveyorLines.get(i).getX(), conveyorLines.get(i).getY(),c);
