@@ -64,6 +64,8 @@ public class V1_Agents_Mock_Graphics {
 			System.out.println("Conveyor kitrobot not null");
 		}
 		camera.setKitRobot(kitRobot);
+		camera.setPartsRobot(partsRobot);
+		partsRobot.setStand(stand);
 		stand.setFCS(fcs);
 		stand.setKitrobot(kitRobot);
 		stand.setPartsRobot(partsRobot);

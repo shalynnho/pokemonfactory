@@ -197,6 +197,7 @@ public class CameraAgent extends Agent implements Camera {
 		{
 			for (MyNest n : nests) 
 			{
+				print(n.state.toString());
 				if (n.state == NestStatus.PHOTOGRAPHED) 
 				{
 					tellPartsRobot(n);
@@ -239,6 +240,7 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	private void tellPartsRobot(MyNest n) {
+		
 		List<Part> goodParts = new ArrayList<Part>();
 		for (MyPart part : n.nest.currentParts) {
 			if (part.part.isGood) {
@@ -253,7 +255,7 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	private void takePictureOfNest(MyNest n, MyNest n2) {
-
+		synchronized(nests){
 		if (guiCamera != null) {
 			guiCamera.takeNestPhoto(n.nest.nestGraphics, n2.nest.nestGraphics);
 			try {
@@ -264,10 +266,10 @@ public class CameraAgent extends Agent implements Camera {
 			}
 			
 		}
-
 		n.state = NestStatus.PHOTOGRAPHING;
 		n2.state = NestStatus.PHOTOGRAPHING;
 		stateChanged();
+		}
 	}
 
 	public void setNest(NestAgent nest) {
@@ -321,10 +323,6 @@ public class CameraAgent extends Agent implements Camera {
 
 	public PartsRobotAgent getPartRobot() {
 		return partRobot;
-	}
-
-	public void setPartRobot(PartsRobotAgent partRobot) {
-		this.partRobot = partRobot;
 	}
 
 	public MyKit getKit() {
