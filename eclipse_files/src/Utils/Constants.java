@@ -296,7 +296,11 @@ public abstract class Constants {
 	
 	// FCS commands
 	public static final String FCS_NEW_PART = "newPart";
+	public static final String FCS_EDIT_PART = "editPart";
+	public static final String FCS_DELETE_PART = "deletePart";
 	public static final String FCS_NEW_KIT = "newKit";
+	public static final String FCS_EDIT_KIT = "editKit";
+	public static final String FCS_DELETE_KIT = "deleteKit";
 	public static final String FCS_ADD_ORDER = "addKit";
 	public static final String FCS_STOP_KIT = "stopKit";
 	
