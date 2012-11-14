@@ -6,25 +6,28 @@ import GraphicsInterfaces.NestGraphics;
 import Networking.Request;
 import Utils.Location;
 import agent.Agent;
+import agent.NestAgent;
 
 public class MockNestGraphics extends Agent implements DeviceGraphics, NestGraphics {
 
+	NestAgent nest;
+	
 	@Override
 	public void receivePart(PartGraphics part) {
 		// TODO Auto-generated method stub
-		
+		nest.msgReceivePartDone();
 	}
 
 	@Override
 	public void givePartToPartsRobot(PartGraphics part) {
 		// TODO Auto-generated method stub
-		
+		nest.msgGivePartToPartsRobotDone();
 	}
 
 	@Override
 	public void purge() {
 		// TODO Auto-generated method stub
-		
+		nest.msgPurgingDone();
 	}
 
 	@Override
@@ -51,4 +54,7 @@ public class MockNestGraphics extends Agent implements DeviceGraphics, NestGraph
 		
 	}
 
+	public void setNestAgent(NestAgent nest) {
+		this.nest = nest;
+	}
 }
