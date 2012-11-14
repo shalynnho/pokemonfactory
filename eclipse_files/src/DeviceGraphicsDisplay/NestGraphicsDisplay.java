@@ -22,7 +22,9 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int NEST_WIDTH = 75; 
 	private static final int NEST_HEIGHT = 70;
 	// width and height of a part
-	private static final int PART_WIDTH = 20, PART_HEIGHT = 21;
+	private static final int PART_WIDTH = 20, PART_HEIGHT = 50;
+	private static final int PART_OFFSET = 19;
+	private static final int BOTTOM_ROW_OFFSET = 23;
 	
 	// the LaneManager (client) which talks to the Server
 	private Client client;
@@ -50,12 +52,13 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		nestLocation = new Location(485 - NEST_WIDTH, 45 + nestID * 75);
 		
 //		 TODO may need to remove temp later today - cannot create a random PartType
-		for (int i = 0; i < 8; i++) {
+		// VO, trash it
+		for (int i = 0; i < MAX_PARTS; i++) {
 			PartGraphicsDisplay temp = new PartGraphicsDisplay(Constants.DEFAULT_PARTTYPES.get(0));
 			if(i < 4) {
-				temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY()+1)));
+				temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY() - PART_OFFSET)));
 			} else {
-				temp.setLocation(new Location((nestLocation.getX()+(i-4)*20),(nestLocation.getY()+23))); 
+				temp.setLocation(new Location((nestLocation.getX()+(i-4)*20),(nestLocation.getY() + BOTTOM_ROW_OFFSET - PART_OFFSET))); 
 			}
 			partsInNest.add(temp);
 		}
@@ -64,9 +67,6 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void receivePart(PartGraphicsDisplay p) {
 		
 	}
-	
-//	public void givePartToPartsRobot(PartGraphicsDisplay) {		
-//	}
 	
 	public void purge() {
 		
@@ -121,6 +121,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	/**
 	 * Allows another object to set the NestGraphicsDisplay location
+	 * This method should not be called.
+	 * @param newLocation - the new location of the nest
 	 */
 	public void setLocation(Location newLocation) {
 		// TODO Auto-generated method stub
