@@ -35,14 +35,14 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public ConveyorGraphicsDisplay(Client cli) {
 		locationIn = Constants.CONVEYOR_LOC; // location for input lane
-		locationGood = new Location(-10,65); // location for exit lane, based off of input lane
+		locationGood = new Location(0,65); // location for exit lane, based off of input lane
 		client = cli;
 		conveyorLines = new ArrayList<Location>();
 		conveyorLinesGood = new ArrayList<Location>();
 		
 		//Filling Arrays with locations
 		for (int i = 0; i < 8; i++) {
-			conveyorLines.add(new Location(locationIn.getX() + (i * 20), locationIn.getY())); // creating an array list of conveyor line locations for painting
+			conveyorLines.add(new Location(locationGood.getX() + (i * 20), locationGood.getY() + 120)); // creating an array list of conveyor line locations for painting
 		}
 		
 		//Filling Arrays with locations
@@ -170,10 +170,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	
 	public void moveGood(int i) {
-		if (conveyorLinesGood.get(i).getX() > -10) {
+		if (conveyorLinesGood.get(i).getX() > 0) {
 			conveyorLinesGood.get(i).setX(conveyorLinesGood.get(i).getX() - velocity);
 			//ConveyorLines move backward this time.
-		} else if (conveyorLinesGood.get(i).getX() <= -10) {
+		} else if (conveyorLinesGood.get(i).getX() <= 0) {
 			conveyorLinesGood.get(i).setX(250);
 		}
 	}
