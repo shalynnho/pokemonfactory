@@ -121,14 +121,14 @@ public class V1_Agents_Mock_Graphics {
 		fcs.setGraphicalRepresentation(mg);
 
 		KitConfig kg = new KitConfig("Kit config");
-		kg.addItem(new PartType("A"), 1);
-		kg.addItem(new PartType("B"), 1);
-		kg.addItem(new PartType("C"), 1);
-		kg.addItem(new PartType("D"), 1);
-		kg.addItem(new PartType("E"), 1);
-		kg.addItem(new PartType("F"), 1);
-		kg.addItem(new PartType("G"), 1);
-		kg.addItem(new PartType("H"), 1);
+		kg.addItem(new PartType("1"), 1);
+		kg.addItem(new PartType("2"), 1);
+		kg.addItem(new PartType("3"), 1);
+		kg.addItem(new PartType("4"), 1);
+		kg.addItem(new PartType("5"), 1);
+		kg.addItem(new PartType("6"), 1);
+		kg.addItem(new PartType("7"), 1);
+		kg.addItem(new PartType("8"), 1);
 
 		gantry.startThread();
 		for (int i = 0; i < 4; i++) {
