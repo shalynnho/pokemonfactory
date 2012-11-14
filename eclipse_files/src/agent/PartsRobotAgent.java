@@ -275,7 +275,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void CheckMyKit(MyKit mk) {
 		synchronized(mk.kit.partsExpected){
-		int size = 1;
+		int size = 0;
 		for (PartType type : mk.kit.partsExpected.getConfig().keySet()) {
 			for (int i = 0; i < mk.kit.partsExpected.getConfig().get(type); i++) {
 				size++;
