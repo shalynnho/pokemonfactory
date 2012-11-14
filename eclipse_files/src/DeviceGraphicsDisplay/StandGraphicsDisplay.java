@@ -44,6 +44,7 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		// TODO: set location of kit based on standID
 		// location = Constants.
 		location = new Location(280, standID*100 + 100);
+		System.out.println("SGD, id: "+standID);
 	}
 	
 	@Override

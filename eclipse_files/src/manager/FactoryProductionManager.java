@@ -69,7 +69,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		
 		addDevice(Constants.STAND_TARGET + 0, new InspectionStandGraphicsDisplay(this));
 		
-		for (int i = 1; i < Constants.STAND_COUNT - 1; i++) {
+		for (int i = 1; i < Constants.STAND_COUNT; i++) {
 			addDevice(Constants.STAND_TARGET + i, new StandGraphicsDisplay(this, i));
 		}
 		
