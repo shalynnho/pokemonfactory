@@ -22,7 +22,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	ArrayList<PartGraphics> partArray; // an array of parts that allocates memory for 4 parts
 	KitGraphics kit;
 	int i;
-	boolean nest1, nest2;
 	private Server server;
 	private PartsRobotAgent partsRobotAgent;
 	
@@ -36,39 +35,10 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		arm4 = false;
 		partArray = new ArrayList<PartGraphics>();
 		i = 0;
-		nest1 = false;
-		nest2 = false;
 		server = s;
 	}
 	
-	public void goToNest1(){
-		nest1 = true;
-		nest2 = false;
-		server.sendData(new Request(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
-	}
 	
-	public void goToNest2(){
-		nest1 = false;
-		nest2 = true;
-		server.sendData(new Request(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
-	}
-	/*public void pickUpPart(Part part){
-		//currentLocation = location;
-		//Animation(currentLocation, 10);
-		PartGraphics pg = part.partGraphics;
-		partArray.add(pg);
-		rotateArm();
-		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
-		/**
-		 * pickup from nests
-		 * goes to a location to pick up a part
-		 * be able to hold 4 parts at a time
-		 
-	}
-	public void pickUpPart(){
-		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
-		System.out.println("pickup");
-	}*/
 	public void pickUpPart(PartGraphics pg) {
 		// TODO Auto-generated method stub
 		partArray.add(pg);
@@ -80,25 +50,16 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		//pg.setLocation()
 	}
 	
-	/*public void givePartToKit(PartGraphics part,KitGraphics k){
-		//Animation(k.location, 10);
-		partArray.remove(part);
-		derotateArm();
-		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
-		/**
-		 * gives the part to the kit
-		 * goes to a location to give a part
-		 * puts part in a specific location inside the kit
-		 
-	}*/
-	public void givesPartToKit(){
-		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
-	}
-	public void goesToKit(){
-		System.out.println("kit");
-	server.sendData(new Request(Constants.PARTS_ROBOT_GO_KIT_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
-	}
+	public void givePartToKit(PartGraphics part, KitGraphics kit) {
+		for(PartGraphics p : partArray) {
+			if (p == part) {
+				partArray.remove(p);
+			}
+		}
+		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, kit.getLocation()));
+	}	
 	
+	//rotates the arm
 	public void rotateArm(){
 		if (!isFullArm1())
 			arm1 = true;
@@ -108,11 +69,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 			arm3 = true;
 		else if (!isFullArm4())
 			arm4 = true;
-		i++;
-		
-		/**
-		 * rotates the arm
-		 */
+		i++;	
 	}
 	
 	public void derotateArm(){
@@ -124,94 +81,43 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 			arm2 = false;
 		else if (isFullArm1())
 			arm1 = false;
-		
 		i--;
 	}
 	
-	 
+
+	//returns true if arm1 is full
 	public boolean isFullArm1(){
 		return arm1;
-		/**
-		 *  returns true if arm1 is full
-		 */
 	}
 	
-	
+	//returns true if arm2 is full
 	public boolean isFullArm2(){
 		return arm2;
-		/**
-		 *  returns true if arm2 is full
-		 */
 	}
 	
+	//returns true if arm3 is full
 	public boolean isFullArm3(){
 		return arm3;
-		/**
-		 *  returns true if arm3 is full
-		 */
 	}
 	
+	//returns true if arm4 is full
 	public boolean isFullArm4(){
 		return arm4;
-		/**
-		 * returns true if arm4 is full
-		 */
 	}
 	
-	public void goHome(){
-		//Animation(initialLocation, 10);
-		currentLocation = initialLocation;
-		/**
-		 * depends on specific graphics implementation
-		 * sends the robot back to the initial location
-		 * makes sure that the robot doesn't collide
-		 * then send message that the action has been performed(either part is picked up or it's given to a kit)
-		 */
-		System.out.println("gohome");
-		server.sendData(new Request(Constants.PARTS_ROBOT_GO_HOME_COMMAND, Constants.PARTS_ROBOT_TARGET, null));
-	}
-	
+	//returns the current Location
 	public Location getLocation(){
 		return currentLocation;
-		/**
-		 * returns the current Location
-		 */
 	}
 	
 	public void receiveData(Request req) {
-		/*if (req.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST1_COMMAND)){
-			System.out.println("got to NEST1");
-			goToNest1();
-			//System.out.println("got to NEST1");
-		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_MOVE_TO_NEST2_COMMAND)){
-			goToNest2();
-		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_PICKUP_COMMAND)){
-			pickUpPart();
-		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GO_KIT_COMMAND)){
-			goesToKit();
-			System.out.println("gives part to kit");
-		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GO_HOME_COMMAND)){
-			goHome();
-			System.out.println("gohome");
-		} else if(req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND)){
-			givesPartToKit();
-		} else */if (req.getCommand().equals(Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
+		if (req.getCommand().equals(Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
 		    partsRobotAgent.msgPickUpPartDone();
 		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX)) {
 		    partsRobotAgent.msgGivePartToKitDone();
 		}
 	}
 
-	
-	
-	@Override
-	public void givePartToKit(PartGraphics part, KitGraphics kit) {
-		for(PartGraphics p : partArray) {
-			if (p == part) {
-				partArray.remove(p);
-			}
-		}
-		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, kit.getLocation()));
-	}	
+
 	
 }
