@@ -1,7 +1,5 @@
 package manager;
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,19 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import manager.panel.FactoryProductionManagerPanel;
-import DeviceGraphicsDisplay.CameraGraphicsDisplay;
-import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
-import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
-import DeviceGraphicsDisplay.FeederGraphicsDisplay;
-import DeviceGraphicsDisplay.GantryGraphicsDisplay;
-import DeviceGraphicsDisplay.KitGraphicsDisplay;
-import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
-import DeviceGraphicsDisplay.LaneGraphicsDisplay;
-import DeviceGraphicsDisplay.NestGraphicsDisplay;
-import DeviceGraphicsDisplay.PartsRobotDisplay;
-import DeviceGraphicsDisplay.StandGraphicsDisplay;
-import Networking.Client;
-import Networking.Request;
+import DeviceGraphicsDisplay.*;
+import Networking.*;
 import Utils.Constants;
 import factory.KitConfig;
 import factory.Order;
@@ -92,7 +79,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 		
-		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
+		// TODO: add back when we have a gantry image in constants, fix in GGD
+//		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
 		
 	}
 	

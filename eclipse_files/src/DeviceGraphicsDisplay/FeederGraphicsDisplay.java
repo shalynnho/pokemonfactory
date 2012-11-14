@@ -1,7 +1,6 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
@@ -9,7 +8,7 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
-import agent.data.PartType;
+import factory.PartType;
 
 /**
  * This class handles drawing of the feeder and diverter.
@@ -81,9 +80,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	/**
 	 * Display bin being received.
 	 */
-	public void receiveBin() {
+	public void receiveBin(PartType type) {
 		// TODO adjust bin location later
-		bgd = new BinGraphicsDisplay(new Location(feederLocation.getX() + FEEDER_WIDTH - 50, feederLocation.getY() + FEEDER_HEIGHT/2), PartType.B);
+		bgd = new BinGraphicsDisplay(new Location(feederLocation.getX() + FEEDER_WIDTH - 50, feederLocation.getY() + FEEDER_HEIGHT/2), type);
 		bgd.setFull(true);
 		haveBin = true;
 	}
@@ -96,7 +95,8 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 			diverterTop = !diverterTop;
 			client.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
 		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
-			receiveBin();
+			PartType type = (PartType) req.getData();
+			receiveBin(type);
 			// TODO figure out how to interface with gantry
 			haveBin = true;
 			client.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));

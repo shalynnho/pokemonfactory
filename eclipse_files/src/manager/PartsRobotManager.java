@@ -63,8 +63,6 @@ public class PartsRobotManager extends Client implements ActionListener{
 	
 	public void initDevices() {
 		// example:
-//		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 0));
-//		addDevice(Constants.LANE_TARGET, new LaneGraphicsDisplay(this, new Location(400, 100), 1));
 		addDevice(Constants.NEST_TARGET + 0, new NestGraphicsDisplay(this, 0));
 		addDevice(Constants.NEST_TARGET + 1, new NestGraphicsDisplay(this, 1));
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
