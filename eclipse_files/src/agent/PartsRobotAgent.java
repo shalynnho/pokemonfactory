@@ -153,11 +153,15 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			// Checks if there is an empty arm, if there is it fills it with a
 			// good part that the kit needs
 			if (IsAnyArmEmpty()) {
+				
 				synchronized (GoodParts) {
 					for (Nest nest : GoodParts.keySet()) {
+						
 						// Going through all the good parts
 						for (Part part : GoodParts.get(nest)) {
+							
 							for (MyKit mk : MyKits) {
+								
 								// Checking if the good part is needed by
 								// either kit
 								if (mk.kit.needPart(part)) {

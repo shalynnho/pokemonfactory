@@ -146,7 +146,7 @@ public class V1_Agents_Mock_Graphics {
 		mg.startThread();
 		partsRobot.startThread();
 		camera.startThread();
-		//stand.startThread();
+		stand.startThread();
 		kitRobot.startThread();
 		conveyor.startThread();
 		fcs.startThread();
