@@ -15,6 +15,7 @@ import DeviceGraphics.KitRobotGraphics;
 import DeviceGraphics.LaneGraphics;
 import DeviceGraphics.NestGraphics;
 import DeviceGraphics.PartsRobotGraphics;
+import DeviceGraphics.StandGraphics;
 import Utils.Constants;
 import agent.Agent;
 import agent.CameraAgent;
@@ -130,8 +131,10 @@ public class Server {
 			agents.put(Constants.NEST_TARGET + i, new NestAgent(
 					Constants.NEST_TARGET + i));
 		}
-		agents.put(Constants.STAND_TARGET, new StandAgent(
-				Constants.STAND_TARGET));
+		for (int i = 0; i < Constants.STAND_COUNT; i++) {
+			agents.put(Constants.STAND_TARGET + i, new StandAgent(
+					Constants.STAND_TARGET + i));
+		}
 	}
 
 	private void initDevices() {
@@ -157,6 +160,9 @@ public class Server {
 		for (int i = 0; i < Constants.NEST_COUNT; i++) {
 			devices.put(Constants.NEST_TARGET + i, new NestGraphics(this, i,
 					agents.get(Constants.NEST_TARGET + i)));
+		}
+		for (int i = 0; i < Constants.STAND_COUNT; i++) {
+			devices.put(Constants.STAND_TARGET + i, new StandGraphics(this, agents.get(Constants.STAND_TARGET + i), i));
 		}
 	}
 
@@ -202,19 +208,22 @@ public class Server {
 
 		KitRobotAgent kitrobot = (KitRobotAgent) agents
 				.get(Constants.KIT_ROBOT_TARGET);
-		StandAgent stand = (StandAgent) agents.get(Constants.STAND_TARGET);
 		PartsRobotAgent partsrobot = (PartsRobotAgent) agents
 				.get(Constants.PARTS_ROBOT_TARGET);
 		CameraAgent camera = (CameraAgent) agents.get(Constants.CAMERA_TARGET);
 		ConveyorAgent conveyor = (ConveyorAgent) agents
 				.get(Constants.CONVEYOR_TARGET);
 
-		stand.setKitrobot(kitrobot);
+		for (int i = 0; i < Constants.STAND_COUNT; i ++) {
+			StandAgent stand = (StandAgent) agents.get(Constants.STAND_TARGET + i);
+			stand.setKitrobot(kitrobot);
+			kitrobot.setStand(stand);
+			partsrobot.setStand(stand);
+		}
+
 		kitrobot.setCamera(camera);
 		kitrobot.setConveyor(conveyor);
-		kitrobot.setStand(stand);
 		conveyor.setKitrobot(kitrobot);
-		partsrobot.setStand(stand);
 		camera.setPartsRobot(partsrobot);
 		camera.setKitRobot(kitrobot);
 
