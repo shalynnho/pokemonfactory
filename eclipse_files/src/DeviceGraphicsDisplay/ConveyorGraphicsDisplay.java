@@ -41,18 +41,18 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		conveyorLinesBad = new ArrayList<Location>();
 		
 		//Filling Arrays with locations
-		for (int i = 0; i < 8; i++) {
-			conveyorLines.add(new Location(locationGood.getX() + (i * 20), locationGood.getY() + 120)); // creating an array list of conveyor line locations for painting
+		for (int i = 0; i < 7; i++) {
+			conveyorLines.add(new Location(locationGood.getX() + (i * 10), locationGood.getY() + 120)); // creating an array list of conveyor line locations for painting
 		}
 		
 		//Filling Arrays with locations
-		for (int i = 0; i < 13; i ++) {
-			conveyorLinesGood.add(new Location(locationGood.getX() + (i * 20), locationGood.getY()));
+		for (int i = 0; i < 16; i ++) {
+			conveyorLinesGood.add(new Location(locationGood.getX() + (i * 10), locationGood.getY()));
 		}
 		
 		//Filling Arrays with locations
-		for (int i = 0; i < 13; i ++) {
-			conveyorLinesBad.add(new Location(locationGood.getX() + (i * 20), locationGood.getY() + 240));
+		for (int i = 0; i < 16; i ++) {
+			conveyorLinesBad.add(new Location(locationGood.getX() + (i * 10), locationGood.getY() + 240));
 		}
 		
 		velocity = 5;
@@ -96,21 +96,21 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	@Override
 	public void draw(JComponent c, Graphics2D g2) {
-		g2.drawImage(Constants.CONVEYOR_IMAGE, -90, 185, c);
+		g2.drawImage(Constants.CONVEYOR_IMAGE, -90, 200, c);
 		for (int i = 0; i < conveyorLines.size(); i++) {
-			g2.drawImage(Constants.TEST_CONVEYOR_LINE_IMAGE, conveyorLines.get(i).getX(), conveyorLines.get(i).getY(),c);
+			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i).getX(), conveyorLines.get(i).getY(),c);
 			moveIn(i);
 		}
 		
-		g2.drawImage(Constants.CONVEYOR_IMAGE, 0, 65, c);
+		g2.drawImage(Constants.CONVEYOR_IMAGE, 0, 80, c);
 		for (int i = 0; i < conveyorLinesGood.size(); i++) {
-			g2.drawImage(Constants.TEST_CONVEYOR_LINE_IMAGE, conveyorLinesGood.get(i).getX(), conveyorLinesGood.get(i).getY(), c);
+			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLinesGood.get(i).getX(), conveyorLinesGood.get(i).getY(), c);
 			moveOut(i, conveyorLinesGood);
 		}
 		
-		g2.drawImage(Constants.CONVEYOR_IMAGE, 0, 305, c);
+		g2.drawImage(Constants.CONVEYOR_IMAGE, 0, 320, c);
 		for (int i = 0; i < conveyorLinesBad.size(); i++) {
-			g2.drawImage(Constants.TEST_CONVEYOR_LINE_IMAGE, conveyorLinesBad.get(i).getX(), conveyorLinesBad.get(i).getY(), c);
+			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLinesBad.get(i).getX(), conveyorLinesBad.get(i).getY(), c);
 			moveOut(i, conveyorLinesBad);
 		}
 		
@@ -118,12 +118,12 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 
 		for (int j = 0; j < kitsOnConveyor.size(); j++) {
-			if (kitsOnConveyor.get(0).getLocation().getX() < 90) {
+			if (kitsOnConveyor.get(0).getLocation().getX() < 10) {
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.draw(c, g2);
 				Location temp = tempKit.getLocation();
 				tempKit.setLocation(new Location(temp.getX() + velocity, temp.getY()));
-			} else if (kitsOnConveyor.get(0).getLocation().getX() >= 90){
+			} else if (kitsOnConveyor.get(0).getLocation().getX() >= 10){
 				velocity = 0;
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.draw(c, g2);
@@ -164,11 +164,11 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	public void moveIn(int i) {
 		// if bottom of black conveyor line is less than this y position
-		if (conveyorLines.get(i).getX() < 150){
+		if (conveyorLines.get(i).getX() < 65){
 			// when a conveyor is done being painted, move the location for next
 			// repaint
 			conveyorLines.get(i).setX(conveyorLines.get(i).getX() + velocity);
-		} else if (conveyorLines.get(i).getX() >= 150) {
+		} else if (conveyorLines.get(i).getX() >= 65) {
 			// if bottom of black conveyor line is greater than or equal to this
 			// y position
 			conveyorLines.get(i).setX(0);
@@ -185,7 +185,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			a.get(i).setX(a.get(i).getX() - velocity);
 			//ConveyorLines move backward this time.
 		} else if (a.get(i).getX() <= 0) {
-			a.get(i).setX(250);
+			a.get(i).setX(155);
 		}
 	}
 
