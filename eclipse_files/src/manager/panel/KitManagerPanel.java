@@ -111,6 +111,7 @@ public class KitManagerPanel extends JPanel{
 //		gbl_pnlParts.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		pnlParts.setLayout(gbl_pnlParts);
 
+		// This loop adds the 8 Part labels (Part 1, Part 2, ... Part 8) to the panel iteratevly
 		for (int i = 0; i < 4; i++) {
 			GridBagConstraints gbc_lblPart = new GridBagConstraints();
 			JLabel lblPart = new JLabel("Part " + (i+1) + ":");
