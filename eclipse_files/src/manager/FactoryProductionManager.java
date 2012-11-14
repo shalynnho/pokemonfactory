@@ -1,4 +1,5 @@
 package manager;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,14 +15,20 @@ import Utils.Constants;
 import factory.KitConfig;
 import factory.Order;
 
-
+/**
+ * This class processes new orders and animates the entire factory floor.
+ * @author Shalynn Ho, Harry Trieu
+ *
+ */
 public class FactoryProductionManager extends Client implements ActionListener {
 	// WINDOW DIMENSIONS
 	private static final int WINDOW_WIDTH = 1200;
 	private static final int WINDOW_HEIGHT = 700;
 	
+	// Create a new control panel for the FPM
 	private FactoryProductionManagerPanel fpmPanel;
 	
+	// Create a new timer
 	private Timer timer;
 	
 	/**
@@ -72,18 +79,16 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		}
 
 		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this));
-		
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
-		
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
-		
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
-		
-		// addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
-		
+		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
 	}
 	
-	@Override
+	/**
+	 * Forward network requests to devices or panel for processing
+	 * @param req incoming request
+	 */
 	public void receiveData(Request req) {
 		if (req.getTarget().equals(Constants.ALL_TARGET)) {
 			if (req.getCommand().equals(Constants.FCS_UPDATE_KITS)) {
@@ -96,10 +101,18 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Send a new order to the FCS for processing
+	 * @param o order
+	 */
 	public void createOrder(Order o) {
 		this.sendData(new Request(Constants.FCS_ADD_ORDER, Constants.FCS_TARGET, o));
 	}
 
+	/**
+	 * Main method sets up the JFrame
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -110,7 +123,9 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		frame.validate();
 	}
 	
-	@Override
+	/**
+	 * This function handles painting of graphics
+	 */
 	public void paintComponent(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
@@ -120,9 +135,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		}
 	}
 	
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	/**
+	 * This function handles action events.
+	 */
+	public void actionPerformed(ActionEvent ae) {
 		repaint();
 	}
 }
