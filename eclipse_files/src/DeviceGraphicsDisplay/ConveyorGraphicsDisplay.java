@@ -130,12 +130,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				Location temp = tempKit.getLocation();
 				tempKit.setLocation(new Location(temp.getX() + velocity, temp.getY()));
 				if (pickMe == true) {
-					 
 					 animationDone(new Request(
 								Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 										+ Constants.DONE_SUFFIX,
 								Constants.CONVEYOR_TARGET, null));
-				
 				pickMe = false;
 				}
 			}
