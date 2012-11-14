@@ -1,5 +1,6 @@
 package manager;
 import java.awt.BorderLayout;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
 import DeviceGraphicsDisplay.LaneGraphicsDisplay;
 import DeviceGraphicsDisplay.NestGraphicsDisplay;
 import DeviceGraphicsDisplay.PartsRobotDisplay;
+import DeviceGraphicsDisplay.GantryGraphicsDisplay;
 import GUI.FactoryProductionManagerPanel;
 import Networking.Client;
 import Networking.Request;
@@ -87,6 +89,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
+		
+		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
 		
 	}
 	
