@@ -28,7 +28,7 @@ import Utils.Constants;
 
 /**
 *
-*Authorship: Shalynn Ho, Harry Trieu and Matt Zecchini
+* @author Shalynn Ho, Harry Trieu and Matt Zecchini
 */
 
 public class FactoryProductionManagerPanel extends OverlayPanel implements ActionListener {
