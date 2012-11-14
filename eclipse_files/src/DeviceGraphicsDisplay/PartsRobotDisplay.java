@@ -275,7 +275,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	}
 	public void pickUpPart(){
 		//partArrayGraphics.add(pgd);
-		PartType partType = PartType.B;
+		PartType partType = Constants.DEFAULT_PARTTYPES.get(0);
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
 		
 		if (!arm1){
