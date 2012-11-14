@@ -75,9 +75,6 @@ public class KitRobotManager extends Client implements ActionListener {
 
 		panel.add(newKit);
 		panel.add(moveKitToLocation1);
-		panel.add(moveKitToLocation2);
-		panel.add(moveKitFromLocation1ToInspection);
-		panel.add(moveKitFromLocation2ToInspection);
 	}
 
 	public void initDevices() {
