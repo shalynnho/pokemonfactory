@@ -299,6 +299,8 @@ public class Server {
 
 		if (target.equals(Constants.SERVER_TARGET)) {
 
+		} else if (target.equals(Constants.FCS_TARGET)) {
+			fcs.receiveData(req);
 		} else {
 			devices.get(target).receiveData(req);
 		}
