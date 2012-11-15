@@ -30,6 +30,11 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	Client client;
 	boolean kitComingIn;
 	boolean pickMe;
+	private IncomingStatus incomingState;
+
+	private enum IncomingStatus {
+		NO_KIT_WAITING, KIT_WAITING
+	};
 
 	public ConveyorGraphicsDisplay(Client cli) {
 		locationGood = Constants.CONVEYOR_LOC; // location for exit lane, based
@@ -63,6 +68,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
 		kitsToLeave = new ArrayList<KitGraphicsDisplay>();
 		pickMe = true;
+		incomingState = IncomingStatus.NO_KIT_WAITING;
 	}
 
 	@Override
@@ -73,7 +79,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void newKit() {
 		print("Making new kit");
 		KitGraphicsDisplay temp = new KitGraphicsDisplay();
-		temp.setLocation(new Location(0, 200));
+		temp.setLocation(new Location(kitsOnConveyor.size() * -100, 200));
 		kitsOnConveyor.add(temp);
 		kitComingIn = true;
 	}
@@ -81,6 +87,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void giveKitAway() {
 		System.out.println("Give it away");
 		kitsOnConveyor.remove(0);
+		incomingState = IncomingStatus.NO_KIT_WAITING;
 		velocity = 5;
 		pickMe = true;
 	}
@@ -124,21 +131,29 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 
 		for (int j = 0; j < kitsOnConveyor.size(); j++) {
-			if (kitsOnConveyor.get(0).getLocation().getX() < 10) {
+			if (kitsOnConveyor.get(j).getLocation().getX() < 10 - j * 100) {
+				print("Kit " + j + " is at "
+						+ kitsOnConveyor.get(j).getLocation().getX());
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.draw(c, g2);
 				Location temp = tempKit.getLocation();
 				tempKit.setLocation(new Location(temp.getX() + velocity, temp
 						.getY()));
-			} else if (kitsOnConveyor.get(0).getLocation().getX() >= 10) {
-				velocity = 0;
-				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
-				tempKit.draw(c, g2);
-				Location temp = tempKit.getLocation();
-				tempKit.setLocation(new Location(temp.getX() + velocity, temp
-						.getY()));
+			} else if (kitsOnConveyor.get(j).getLocation().getX() >= 10 - j * 100) {
+				// velocity = 0;
+				print("Kit " + j + " is at "
+						+ kitsOnConveyor.get(j).getLocation().getX()
+						+ " and will stop");
+				print("There are " + kitsOnConveyor.size()
+						+ " kits on the incoming conveyor");
+				// KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
+				kitsOnConveyor.get(j).draw(c, g2);
+				// Location temp = tempKit.getLocation();
+				// tempKit.setLocation(new Location(temp.getX() + velocity, temp
+				// .getY()));
 				if (kitComingIn == true) {
 					kitComingIn = false;
+					incomingState = IncomingStatus.KIT_WAITING;
 					print("Sending bringEmptyKitDone");
 					animationDone(new Request(
 							Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
