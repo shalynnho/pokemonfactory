@@ -14,6 +14,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -61,9 +62,14 @@ public class PartsManagerPanelV2 extends JPanel{
 		
 		rightPanel = new PartsListPanel();
 		rightPanel.setVisible(true);
-		rightPanel.setBackground(new Color(0,0,0,30));
-		panels.add(rightPanel);
+		rightPanel.setBackground(new Color(0, 0, 0, 30));
 		
+		// TODO: make scrolling work!
+		// rightPanel.setPreferredSize(new Dimension(500,500));
+		//JScrollPane jsp = new JScrollPane(rightPanel);
+		
+		panels.add(rightPanel);
+
 		
 		setUpLeftPanel();
 	}

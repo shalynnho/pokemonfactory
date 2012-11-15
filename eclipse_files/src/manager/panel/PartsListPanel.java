@@ -32,6 +32,7 @@ public class PartsListPanel extends OverlayPanel {
 	public static final Border VERTICAL_PADDING = BorderFactory.createEmptyBorder(10, 0, 10, 0);
 	
 	public PartsListPanel() {
+		super();
 		partTypes = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES.clone();
 	
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
