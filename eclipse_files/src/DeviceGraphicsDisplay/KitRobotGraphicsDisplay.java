@@ -76,7 +76,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		initialJob = false;
 		finalJob = false;
 		jobIsDone = true;
-		degreeStep = 1;
+		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
 		currentDegree = 0;
 		finalDegree = 0;
 
@@ -153,11 +153,11 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void setPositiveDegreeStep() {
-		setDegreeStep(1);
+		setDegreeStep(Constants.KIT_ROBOT_DEGREE_STEP);
 	}
 
 	public void setNegativeDegreeStep() {
-		setDegreeStep(-1);
+		setDegreeStep(-Constants.KIT_ROBOT_DEGREE_STEP);
 	}
 
 	public void moveToInitialOrFinal() {
@@ -216,7 +216,20 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			} else {
 				setRotationConfigurations(0, Position.location2Position);
 			}
+		} else if(position.equals(Position.goodConveyorPosition)){
+			if(moveToPosition.equals(Command.moveToConveyor)){
+				setRotationConfigurations(-45, Position.conveyorPosition);
+			} else if(moveToPosition.equals(Command.moveToInspectionStand)){
+				setRotationConfigurations(90, Position.inspectionPosition);
+			} else if(moveToPosition.equals(Command.moveToLocation1)){
+				setRotationConfigurations(135, Position.location1Position);
+			} else if(moveToPosition.equals(Command.moveToLocation2)){
+				setRotationConfigurations(180, Position.location2Position);		
+			} else{
+				setRotationConfigurations(0,Position.goodConveyorPosition);
+			}
 		}
+		
 	}
 
 	public void setRotationConfigurations(int degreeCountDown, Position position) {

@@ -37,7 +37,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitLocation = Constants.KIT_LOC;
 		position = 0;
 		degreeCountDown=0;
-		degreeStep = 1;
+		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
 		rotationAxisX = 220;
 		rotationAxisY = 40;
 		trans.translate(0, 200);
@@ -100,11 +100,11 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		if(this.degreeCountDown<0)
 		{
-			this.degreeStep=-1;
+			this.degreeStep=-Constants.KIT_ROBOT_DEGREE_STEP;
 		}
 		else 
 		{
-			this.degreeStep=1;
+			this.degreeStep=Constants.KIT_ROBOT_DEGREE_STEP;
 		}
 	}
 	

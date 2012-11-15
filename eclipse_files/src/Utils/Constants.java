@@ -230,6 +230,7 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_ON_STAND_DONE = "robot display sends to robot logic that kit to stand is done";
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE="robot display sends to robot logic that kit to conveyor is done";
 	
+	public static final int KIT_ROBOT_DEGREE_STEP = 15;
 	// end kitrobot logic
 	
 	// kit positions
@@ -238,6 +239,8 @@ public abstract class Constants {
 	public static final String KIT_LOCATION2 = "Kit location2 area";
 	public static final String KIT_INITIAL = "Kit initial area";	
 	// end kit positions
+	
+	
 	
 	// stand commands
 	public static final String STAND_RECEIVE_KIT_COMMAND = "stand receive kit";

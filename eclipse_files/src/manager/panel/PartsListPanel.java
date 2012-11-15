@@ -50,6 +50,7 @@ public class PartsListPanel extends OverlayPanel {
 	public void parsePartTypes() {
 		panels.clear();
 		removeAll();
+
 		
 		for(PartType pt : partTypes) {
 			ClickablePanel panel = new ClickablePanel(new EditClickHandler(pt));
@@ -77,22 +78,24 @@ public class PartsListPanel extends OverlayPanel {
 			add(Box.createVerticalStrut(10));
 			panels.put(pt, panel);
 		}
+		validate();
 	}
 	
 	public void updatePartTypes(ArrayList<PartType> pt) {
 		partTypes = pt;
 		parsePartTypes();
-	}
-	
-	public interface PartsListPanelHandler {
-		public void editPart(PartType pt);
-		public void deletePart(PartType pt);
+		restoreColors();
 	}
 	
 	public void restoreColors() {
 		for(ClickablePanel panel : panels.values()) {
 			panel.restoreColor();
 		}
+	}
+	
+	public interface PartsListPanelHandler {
+		public void editPart(PartType pt);
+		public void deletePart(PartType pt);
 	}
 	
 	private class EditClickHandler implements ClickablePanelClickHandler{
