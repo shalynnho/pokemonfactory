@@ -255,17 +255,13 @@ public abstract class Constants {
 	
 	// partsrobot logic to display commands
 	
-	// parts robot moves to target nest
-	public static final String PARTS_ROBOT_MOVE_TO_NEST1_COMMAND = "nest1";
-	public static final String PARTS_ROBOT_MOVE_TO_NEST2_COMMAND = "nest2"; 	
+		
 	// parts robot rotate
 	public static final String PARTS_ROBOT_ROTATE_COMMAND = "rotate"; 
 	// pick up part
 	public static final String PARTS_ROBOT_PICKUP_COMMAND = "pickup"; 
 	// give part to kit
 	public static final String PARTS_ROBOT_GIVE_COMMAND = "give"; 
-	// parts robot goes back to initial location
-	public static final String PARTS_ROBOT_GO_HOME_COMMAND = "gohome"; 
 	// parts robot go to kit
 	public static final String PARTS_ROBOT_GO_KIT_COMMAND = "gokit"; 
 	// end partsrobot logic to display commands
