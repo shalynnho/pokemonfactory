@@ -216,7 +216,20 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			} else {
 				setRotationConfigurations(0, Position.location2Position);
 			}
+		} else if(position.equals(Position.goodConveyorPosition)){
+			if(moveToPosition.equals(Command.moveToConveyor)){
+				setRotationConfigurations(-45, Position.conveyorPosition);
+			} else if(moveToPosition.equals(Command.moveToInspectionStand)){
+				setRotationConfigurations(90, Position.inspectionPosition);
+			} else if(moveToPosition.equals(Command.moveToLocation1)){
+				setRotationConfigurations(135, Position.location1Position);
+			} else if(moveToPosition.equals(Command.moveToLocation2)){
+				setRotationConfigurations(180, Position.location2Position);		
+			} else{
+				setRotationConfigurations(0,Position.goodConveyorPosition);
+			}
 		}
+		
 	}
 
 	public void setRotationConfigurations(int degreeCountDown, Position position) {
