@@ -92,7 +92,7 @@ public class KitManager extends Client {
 	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT);
+		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT, "Kit Manager");
 		
 		KitManager km = new KitManager();
 		frame.add(km);

@@ -66,9 +66,9 @@ public abstract class Client extends JPanel{
 		writer.sendData(new Request(Constants.IDENTIFY_COMMAND, Constants.SERVER_TARGET, clientName));
 	}
 	
-	public static void setUpJFrame(JFrame frame, int width, int height) {
+	public static void setUpJFrame(JFrame frame, int width, int height, String name) {
 		frame.setBackground(Color.BLACK);
-		frame.setTitle("Factory Project - Lane Manager");
+		frame.setTitle(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(width, height);
 		frame.setVisible(true);

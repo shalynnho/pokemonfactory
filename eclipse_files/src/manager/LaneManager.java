@@ -106,7 +106,7 @@ public class LaneManager extends Client implements ActionListener{
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT);
+		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT, "Lane Manager");
 		
 		LaneManager mngr = new LaneManager();
 		frame.add(mngr);
