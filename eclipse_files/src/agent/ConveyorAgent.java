@@ -29,6 +29,11 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private MyKit incomingKit;
 	private MyKit outgoingKit;
 	private int numKitsToDeliver;
+	private ConveyorState state;
+
+	private enum ConveyorState {
+		IDLE, TRANSFERRING_KIT
+	};
 
 	// Used to prevent animations from overlapping
 	Semaphore animation = new Semaphore(0, true);
@@ -70,6 +75,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		this.name = name;
 		this.numKitsToDeliver = 0;
 		kitConfig = null;
+		state = ConveyorState.IDLE;
 	}
 
 	/*
@@ -140,32 +146,37 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				// conveyor where the kit robot can pick it up and the kit robot
 				// can
 				// pick it up.
-				if (mk.KS == KitStatus.PICKUP_REQUESTED) {
+				if (mk.KS == KitStatus.PICKUP_REQUESTED
+						&& state != ConveyorState.TRANSFERRING_KIT) {
+					state = ConveyorState.TRANSFERRING_KIT;
+					mk.KS = KitStatus.PICKED_UP;
 					print("About to send kit");
 					sendKit(mk);
-					return true;
-				}
-
-				// Send the kit if it has reached the "stop" position on the
-				// conveyor where the kit robot can pick it up.
-				if (mk.KS == KitStatus.ARRIVED_AT_PICKUP_LOCATION) {
-					mk.KS = KitStatus.AWAITING_PICKUP;
-					kitrobot.msgKitReadyForPickup();
 					return true;
 				}
 
 				// Place kit onto conveyor and start moving it out of the cell
 				// if
 				// the kit robot has dropped off a completed kit
-				if (mk.KS == KitStatus.AWAITING_DELIVERY) {
+				else if (mk.KS == KitStatus.AWAITING_DELIVERY) {
+					mk.KS = KitStatus.MOVING_OUT;
 					deliverKit(mk);
 					return true;
+				}
+
+				// Send the kit if it has reached the "stop" position on the
+				// conveyor where the kit robot can pick it up.
+				else if (mk.KS == KitStatus.ARRIVED_AT_PICKUP_LOCATION) {
+					mk.KS = KitStatus.AWAITING_PICKUP;
+					kitrobot.msgKitReadyForPickup();
+					// return true;
 				}
 			}
 
 			// Place kit onto conveyor and start moving it into the cell if a
 			// new kit was requested by the kit robot
 			if (numKitsToDeliver > 0) {
+				numKitsToDeliver--;
 				prepareKit();
 				return true;
 			}
@@ -174,6 +185,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 		if (kitsOnConveyor.size() == 0) {
 			kitrobot.msgNoKitsLeftOnConveyor();
+			// return true;
 		}
 
 		/*
@@ -196,7 +208,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		incomingKit = new MyKit(k);
 		// print("Got a permit");
 		kitsOnConveyor.add(incomingKit);
-		numKitsToDeliver--;
 		if (mockgraphics != null) {
 			mockgraphics.msgBringEmptyKit(k.kitGraphics);
 		}
@@ -223,7 +234,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 */
 	private void sendKit(MyKit mk) {
 		print("Sending kit to kit robot");
-		mk.KS = KitStatus.PICKED_UP;
 		if (mockgraphics != null) {
 			mockgraphics.msgGiveKitToKitRobot(mk.kit.kitGraphics);
 		}
@@ -237,8 +247,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			e.printStackTrace();
 		}
 		kitrobot.msgHereIsKit(mk.kit);
-
 		kitsOnConveyor.remove(mk);
+		state = ConveyorState.IDLE;
 
 		stateChanged();
 	}
@@ -252,7 +262,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); }
 		 */
-		mk.KS = KitStatus.MOVING_OUT;
 		if (mockgraphics != null) {
 			mockgraphics.msgReceiveKit(mk.kit.kitGraphics);
 		}
@@ -334,10 +343,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	public FCSAgent getFcs() {
 		return fcs;
-	}
-
-	public void setFcs(FCSAgent fcs) {
-		this.fcs = fcs;
 	}
 
 	public ConveyorGraphics getConveyorGraphics() {
