@@ -175,11 +175,12 @@ public class StandAgent extends Agent implements Stand {
 				for (MyKit mk : myKits.keySet()) {
 					// Received a kit from kit robot
 					if (mk.KS == KitStatus.RECEIVED) {
+						mk.KS = KitStatus.PLACED_ON_STAND;
 						placeKit(mk);
 						return true;
 					}
 					// Kit robot shipped a kit
-					if (mk.KS == KitStatus.SHIPPED) {
+					else if (mk.KS == KitStatus.SHIPPED) {
 						kitsOnStand.set(0, null);
 						print("Removing " + mk.kit.toString() + " (shipped)");
 						myKits.remove(mk);
@@ -187,7 +188,8 @@ public class StandAgent extends Agent implements Stand {
 					}
 
 					// Kit needs to be inspected
-					if (mk.KS == KitStatus.ASSEMBLED) {
+					else if (mk.KS == KitStatus.ASSEMBLED) {
+						mk.KS = KitStatus.AWAITING_INSPECTION;
 						requestInspection(mk);
 						return true;
 					}
@@ -263,8 +265,6 @@ public class StandAgent extends Agent implements Stand {
 		synchronized (myKits) {
 			int spot = 5;
 			// kitRequesteds--;
-
-			mk.KS = KitStatus.PLACED_ON_STAND;
 			spot = myKits.get(mk);
 			print("Found a spot at " + spot);
 
@@ -288,7 +288,6 @@ public class StandAgent extends Agent implements Stand {
 	 * @param k the kit to be inspected.
 	 */
 	private void requestInspection(MyKit mk) {
-		mk.KS = KitStatus.AWAITING_INSPECTION;
 		kitrobot.msgMoveKitToInspectionArea(mk.kit);
 		stateChanged();
 	}
@@ -346,10 +345,6 @@ public class StandAgent extends Agent implements Stand {
 
 	public PartsRobot getPartsrobot() {
 		return partsrobot;
-	}
-
-	public void setPartsrobot(PartsRobot partsrobot) {
-		this.partsrobot = partsrobot;
 	}
 
 	public FCS getFcs() {
