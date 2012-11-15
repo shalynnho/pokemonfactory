@@ -119,6 +119,8 @@ public class Server {
 				Constants.KIT_ROBOT_TARGET));
 		agents.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotAgent(
 				Constants.PARTS_ROBOT_TARGET));
+		agents.put(Constants.STAND_TARGET, new StandAgent(
+				Constants.STAND_TARGET));
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			agents.put(Constants.FEEDER_TARGET + i, new FeederAgent(
@@ -131,10 +133,6 @@ public class Server {
 		for (int i = 0; i < Constants.NEST_COUNT; i++) {
 			agents.put(Constants.NEST_TARGET + i, new NestAgent(
 					Constants.NEST_TARGET + i));
-		}
-		for (int i = 0; i < Constants.STAND_COUNT; i++) {
-			agents.put(Constants.STAND_TARGET + i, new StandAgent(
-					Constants.STAND_TARGET + i));
 		}
 	}
 
@@ -216,15 +214,9 @@ public class Server {
 		ConveyorAgent conveyor = (ConveyorAgent) agents
 				.get(Constants.CONVEYOR_TARGET);
 
-		for (int i = 1; i < Constants.STAND_COUNT - 1; i ++) {
-			StandAgent stand = (StandAgent) agents.get(Constants.STAND_TARGET + i);
-			stand.setKitrobot(kitrobot);
-		}
-		
-		// TODO: 201 kitrobot needs to keep track of all 3 stands (currently defaulting to inspection stand)
-		// TODO: 201 partsrobot needs to keep track of 2 stands (not inspection)
-		kitrobot.setStand((StandAgent) agents.get(Constants.STAND_TARGET + 0));
-		partsrobot.setStand((StandAgent) agents.get(Constants.STAND_TARGET + 1));
+		((StandAgent) agents.get(Constants.STAND_TARGET)).setKitrobot(kitrobot);
+		kitrobot.setStand((StandAgent) agents.get(Constants.STAND_TARGET));
+		partsrobot.setStand((StandAgent) agents.get(Constants.STAND_TARGET));
 
 		kitrobot.setCamera(camera);
 		kitrobot.setConveyor(conveyor);
