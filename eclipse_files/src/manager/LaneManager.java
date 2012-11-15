@@ -1,4 +1,5 @@
 package manager;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -21,14 +22,17 @@ import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
 
-
 public class LaneManager extends Client implements ActionListener{
 	// Temp values. Feel free to change
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
 	
+	// Create a new timer
 	private Timer timer;
 	
+	/**
+	 * Constructor
+	 */
 	public LaneManager() {
 		super();
 		clientName = Constants.LANE_MNGR_CLIENT;
@@ -38,6 +42,9 @@ public class LaneManager extends Client implements ActionListener{
 		initDevices();
 	}
 	
+	/**
+	 * Initialize the GUI and start the timer.
+	 */
 	public void initGUI() {
 		JLabel label = new JLabel("Lane Manager");
 		label.setForeground(Color.WHITE);
@@ -87,6 +94,9 @@ public class LaneManager extends Client implements ActionListener{
 		timer.start();
 	}
 	
+	/**
+	 * Initialize the devices
+	 */
 	public void initDevices() {
 		// TODO add all devices (4) feeders, (8) lanes
 		
@@ -95,15 +105,18 @@ public class LaneManager extends Client implements ActionListener{
 		addDevice(Constants.FEEDER_TARGET + 0, new FeederGraphicsDisplay(this, 0));
 	}
 	
-	@Override
+	/**
+	 * Forward network requests to devices processing
+	 * @param req incoming request
+	 */
 	public void receiveData(Request req) {
-		if (req.getTarget().equals(Constants.ALL_TARGET)) {
-			// TODO code to overwrite ArrayList with req.getData()
-		} else {
-			devices.get(req.getTarget()).receiveData(req);
-		}
+		devices.get(req.getTarget()).receiveData(req);
 	}
 
+	/**
+	 * Main method sets up the JFrame
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT, "Lane Manager");
@@ -114,7 +127,9 @@ public class LaneManager extends Client implements ActionListener{
 		frame.validate();
 	}
 	
-	@Override
+	/**
+	 * This function handles painting of graphics
+	 */
 	public void paintComponent(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
@@ -124,7 +139,9 @@ public class LaneManager extends Client implements ActionListener{
 		}
 	}
 
-	@Override
+	/**
+	 * This function handles action events.
+	 */
 	public void actionPerformed(ActionEvent arg0) {
 		repaint();
 		
