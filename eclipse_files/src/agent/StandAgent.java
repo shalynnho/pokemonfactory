@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TreeMap;
 
 import DeviceGraphics.DeviceGraphics;
+import DeviceGraphics.KitGraphics;
 import agent.data.Kit;
 import agent.interfaces.FCS;
 import agent.interfaces.KitRobot;
@@ -389,6 +390,18 @@ public class StandAgent extends Agent implements Stand {
 
 	public List<Kit> getKitsOnStand() {
 		return kitsOnStand;
+	}
+
+	// Faking kit completion, used by KitRobotManager
+	public void fakeKitCompletion(KitGraphics kg) {
+		synchronized (myKits) {
+			for (MyKit mk : myKits.keySet()) {
+				if (mk.kit.kitGraphics == kg) {
+					print("Faking kit completion for kit " + mk.kit.toString());
+					msgKitAssembled(mk.kit);
+				}
+			}
+		}
 	}
 
 	@Override
