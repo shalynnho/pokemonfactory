@@ -30,6 +30,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	private MyKit outgoingKit;
 	private int numKitsToDeliver;
 	private ConveyorState state;
+	private boolean start;
 
 	private enum ConveyorState {
 		IDLE, TRANSFERRING_KIT
@@ -76,6 +77,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		this.numKitsToDeliver = 0;
 		kitConfig = null;
 		state = ConveyorState.IDLE;
+		start = false;
 	}
 
 	/*
@@ -86,6 +88,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	public void msgNeedKit() {
 		print("Received msgNeedKit");
 		numKitsToDeliver++;
+		start = true;
 		stateChanged();
 	}
 
@@ -121,7 +124,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	public void msgGiveKitToKitRobotDone() {
 		print("Received msgGiveKitToKitRobotDone from graphics");
 		animation.release();
-		// stateChanged();
+		stateChanged();
 	}
 
 	@Override
@@ -129,7 +132,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		print("Received msgReceiveKitDone from graphics");
 		kitsOnConveyor.remove(outgoingKit);
 		// animation.release();
-		// stateChanged();
+		stateChanged();
 	}
 
 	/*
@@ -140,52 +143,62 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 
-		synchronized (kitsOnConveyor) {
-			for (MyKit mk : kitsOnConveyor) {
-				// Send the kit if it has reached the "stop" position on the
-				// conveyor where the kit robot can pick it up and the kit robot
-				// can
-				// pick it up.
-				if (mk.KS == KitStatus.PICKUP_REQUESTED
-						&& state != ConveyorState.TRANSFERRING_KIT) {
-					state = ConveyorState.TRANSFERRING_KIT;
-					mk.KS = KitStatus.PICKED_UP;
-					print("About to send kit");
-					sendKit(mk);
+		if (start) {
+			synchronized (kitsOnConveyor) {
+				for (MyKit mk : kitsOnConveyor) {
+					// Send the kit if it has reached the "stop" position on the
+					// conveyor where the kit robot can pick it up and the kit
+					// robot
+					// can
+					// pick it up.
+					if (mk.KS == KitStatus.PICKUP_REQUESTED
+							&& state != ConveyorState.TRANSFERRING_KIT) {
+						state = ConveyorState.TRANSFERRING_KIT;
+						mk.KS = KitStatus.PICKED_UP;
+						// print("About to send kit");
+						sendKit(mk);
+						return true;
+					}
+
+					// Place kit onto conveyor and start moving it out of the
+					// cell
+					// if
+					// the kit robot has dropped off a completed kit
+					else if (mk.KS == KitStatus.AWAITING_DELIVERY) {
+						mk.KS = KitStatus.MOVING_OUT;
+						deliverKit(mk);
+						return true;
+					}
+
+					// Send the kit if it has reached the "stop" position on the
+					// conveyor where the kit robot can pick it up.
+					else if (mk.KS == KitStatus.ARRIVED_AT_PICKUP_LOCATION) {
+						mk.KS = KitStatus.AWAITING_PICKUP;
+						kitrobot.msgKitReadyForPickup();
+						// return true;
+					}
+				}
+
+				// Place kit onto conveyor and start moving it into the cell if
+				// a
+				// new kit was requested by the kit robot
+				if (numKitsToDeliver > 0) {
+					numKitsToDeliver--;
+					prepareKit();
 					return true;
 				}
 
-				// Place kit onto conveyor and start moving it out of the cell
-				// if
-				// the kit robot has dropped off a completed kit
-				else if (mk.KS == KitStatus.AWAITING_DELIVERY) {
-					mk.KS = KitStatus.MOVING_OUT;
-					deliverKit(mk);
-					return true;
-				}
-
-				// Send the kit if it has reached the "stop" position on the
-				// conveyor where the kit robot can pick it up.
-				else if (mk.KS == KitStatus.ARRIVED_AT_PICKUP_LOCATION) {
-					mk.KS = KitStatus.AWAITING_PICKUP;
-					kitrobot.msgKitReadyForPickup();
-					// return true;
-				}
 			}
 
-			// Place kit onto conveyor and start moving it into the cell if a
-			// new kit was requested by the kit robot
-			if (numKitsToDeliver > 0) {
-				numKitsToDeliver--;
-				prepareKit();
-				return true;
+			if (kitsOnConveyor.size() == 0) {
+				kitrobot.msgNoKitsLeftOnConveyor();
+				start = false;
+				// return true;
+			} else {
+				print("There are " + kitsOnConveyor.size()
+						+ " kits on my conveyor list");
+				// return true;
 			}
-
-		}
-
-		if (kitsOnConveyor.size() == 0) {
-			kitrobot.msgNoKitsLeftOnConveyor();
-			// return true;
 		}
 
 		/*
@@ -247,8 +260,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			e.printStackTrace();
 		}
 		kitrobot.msgHereIsKit(mk.kit);
-		kitsOnConveyor.remove(mk);
 		state = ConveyorState.IDLE;
+		kitsOnConveyor.remove(mk);
 
 		stateChanged();
 	}
