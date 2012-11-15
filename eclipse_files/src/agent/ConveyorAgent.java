@@ -112,9 +112,9 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void msgBringEmptyKitDone() {
 		print("Received msgBringEmptyKitDone from graphics");
-		animation.release();
+		// animation.release();
 		incomingKit.KS = KitStatus.ARRIVED_AT_PICKUP_LOCATION;
-		// stateChanged();
+		stateChanged();
 	}
 
 	@Override
@@ -218,13 +218,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			}
 			conveyorGraphics.msgBringEmptyKit(k.kitGraphics);
 		}
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		print("Got permit");
+		// try {
+		// animation.acquire();
+		// } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// print("Got permit");
 		stateChanged();
 	}
 
