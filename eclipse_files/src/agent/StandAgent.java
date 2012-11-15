@@ -201,7 +201,7 @@ public class StandAgent extends Agent implements Stand {
 					count++;
 				}
 			}
-			if (numKitsToMake > numKitsMade && count > 0) {
+			if (numKitsToMake > 0 && numKitsToMake > numKitsMade && count > 0) {
 				print("NumKits to make greater than numKitsMade + count: "
 						+ count);
 				if (standPositions.get(1) == false
@@ -213,11 +213,13 @@ public class StandAgent extends Agent implements Stand {
 					return true;
 				} else if (standPositions.get(1) == false
 						|| standPositions.get(2) == false) {
-					print("One position full");
-					status = StandStatus.KIT_REQUESTED;
-					requestKit(loc = standPositions.get(1) == false ? 1 : 2);
-					print("I'm requesting a new kit at position " + loc);
-					return true;
+					if (numKitsToMake > 1) {
+						print("One position full, but need to make more than 1 kit.");
+						status = StandStatus.KIT_REQUESTED;
+						requestKit(loc = standPositions.get(1) == false ? 1 : 2);
+						print("I'm requesting a new kit at position " + loc);
+						return true;
+					}
 				}
 			}
 		}
