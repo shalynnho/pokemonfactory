@@ -170,8 +170,8 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	public void msgPlaceKitOnStand1(KitGraphics kit) {
 		// TODO Auto-generated method stub
-		System.out
-				.println(" asdfasddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+		// System.out
+		// .println(" asdfasddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 		// System.out.println("Check null: " + kit==null);
 		kitPositions.put(Constants.KIT_LOCATION1, kit);
 		server.sendData(new Request(
