@@ -180,14 +180,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * Purges lane of all parts
-	 */
-	public void purge() {
-		// TODO: lane should continue as is, parts fall off the lane
-		purging = true; // TODO: set purging to false again after all parts are cleared
-	}
-
-	/**
 	 * Receives and sorts messages/data from the server
 	 * 
 	 * @param r
@@ -218,7 +210,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				partsOnLane.add(pg);
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
-			partsOnLane.remove(0);
+			givePartToNest();
 			laneManager.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
 					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 
@@ -228,31 +220,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * Set amplitude of this lane
-	 * 
-	 * @param amp
-	 *            - the amplitude
-	 */
-	public void setAmplitude(int amp) {
-		amplitude = amp;
-	}
-
-	/**
 	 * Set location of this lane
 	 */
 	@Override
 	public void setLocation(Location newLocation) {
 		laneLoc = newLocation;
-	}
-
-	/**
-	 * On/Off switch for this lane
-	 * 
-	 * @param on
-	 *            - true if lane is on
-	 */
-	public void toggleSwitch(boolean on) {
-		laneOn = on;
 	}
 
 	/**
@@ -274,6 +246,16 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				}
 			}
 	}
+
+
+	/**
+	 * Purges lane of all parts
+	 */
+	private void purge() {
+		// TODO: lane should continue as is, parts fall off the lane
+		purging = true; // TODO: set purging to false again after all parts are cleared
+	}
+
 
 	/**
 	 * resets lane lines, animation
