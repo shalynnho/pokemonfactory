@@ -31,7 +31,7 @@ public class CameraAgent extends Agent implements Camera {
 
 	public List<MyNest> nests = Collections
 			.synchronizedList(new ArrayList<MyNest>());
-	private MyKit mk;
+	public MyKit mk;
 	
 	public CameraGraphics guiCamera;
 

@@ -283,12 +283,12 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 		camera.msgInspectKit(kit);
 
 		CameraAgent.MyKit CameraKit = null;
-		for (CameraAgent.MyKit mk : camera.getKits()) {
-			if (mk.kit == kit) {
-				CameraKit = mk;
-				break;
+		//for (CameraAgent.MyKit mk : camera.mk) {
+			if (camera.mk.kit == kit) {
+				CameraKit = camera.mk;
+				//break;
 			}
-		}
+		//}
 
 		camera.pickAndExecuteAnAction();
 
