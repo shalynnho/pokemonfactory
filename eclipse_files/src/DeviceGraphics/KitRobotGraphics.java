@@ -114,25 +114,20 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		if (command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION1)) {
 			
 			msgPlaceKitOnStand(testKit1, 1);
-		} 
-		else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION2)){
+		} else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION2)){
 			
 			msgPlaceKitOnStand(testKit2, 2);
-		}
-		else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_INSPECTION))
+		} else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_INSPECTION))
 		{
 			msgPlaceKitInInspectionArea(testKit1);
 		
-		}
-		else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_INSPECTION))
+		} else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_INSPECTION))
 		{
 			msgPlaceKitInInspectionArea(testKit2);
-		}
-		else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR))
+		} else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR))
 		{
 			msgPlaceKitOnConveyor();
-		} 
-		else if (command
+		} else if (command
 				.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
 			server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
 					Constants.CONVEYOR_TARGET, null));
@@ -142,6 +137,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		} else if (command.equals(Constants.KIT_ROBOT_ON_CONVEYOR_DONE)) {
 			System.out.println("placekitonconveyordone sent");
 			kitRobotAgent.msgPlaceKitOnConveyorDone();
+		} else if(command.equals(Constants.KIT_ROBOT_ON_INSPECTION_DONE)){
+			System.out.println("placekitoninspection sent");
+			kitRobotAgent.msgPlaceKitInInspectionAreaDone();
 		}
 
 		// else if(command.equals())
