@@ -191,12 +191,14 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			for (MyKit mk : myKits) {
 				// Kit needs to be shipped out of the kitting cell
 				if (mk.KS == KitStatus.INSPECTED) {
+					mk.KS = KitStatus.SHIPPED;
 					shipKit(mk);
 					return true;
 				}
 
 				// Kit needs to be inspected
 				if (mk.KS == KitStatus.MARKED_FOR_INSPECTION) {
+					mk.KS = KitStatus.AWAITING_INSPECTION;
 					placeKitInInspectionArea(mk);
 					return true;
 				}
@@ -228,7 +230,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		if (kitWaitingOnConveyor && standPositions.containsValue(true)
 				&& state != KitRobotState.HOLDING_KIT) {
 			conveyor.msgGiveMeKit();
-			return true;
+			// return true;
 		}
 
 		// If other rules fail and there's a spot on the stand, request a new
@@ -261,7 +263,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		conveyor.msgNeedKit();
 		print("So far I've requested: " + numKitsRequested + " out of "
 				+ numKitsToMake + " needed.");
-		stateChanged();
+		// stateChanged();
 	}
 
 	/**
@@ -305,7 +307,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * @param k the kit being placed.
 	 */
 	private void placeKitInInspectionArea(MyKit mk) {
-		mk.KS = KitStatus.AWAITING_INSPECTION;
 		if (mockgraphics != null) {
 			mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kitGraphics);
 		}
@@ -324,6 +325,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		print("Got permit");
 
 		// For testing, assume camera finishes after .1s
 		/*
@@ -343,7 +345,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * @param k the kit being shipped out of the kitting cell.
 	 */
 	private void shipKit(MyKit mk) {
-		mk.KS = KitStatus.SHIPPED;
 		if (mockgraphics != null) {
 			mockgraphics.msgPlaceKitOnConveyor();
 		}
