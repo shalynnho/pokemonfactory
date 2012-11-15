@@ -231,10 +231,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void PlacePart(Arm arm) {
 		synchronized(Arms){
-			
+
+			synchronized(MyKits){
 			for (MyKit mk : MyKits) {
 			
-			synchronized(mk.kit.partsExpected){
 			if (mk.kit.needPart(arm.part)) {
 				print("Placing part");
 				/* Animation messing up
@@ -272,15 +272,15 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void CheckMyKit(MyKit mk) {
-		synchronized(mk.kit.partsExpected){
-		int size = 1;
-		for (PartType type : mk.kit.partsExpected.getConfig().keySet()) {
-			for (int i = 0; i < mk.kit.partsExpected.getConfig().get(type); i++) {
+		synchronized(MyKits){
+		int size = 0;
+		for (PartType type : mk.partsLeft.getConfig().keySet()) {
+			for (int i = 0; i < mk.partsLeft.getConfig().get(type); i++) {
 				size++;
 			}
 		}
 
-		print("Need " + (size - mk.kit.parts.size())
+		print("Need " + (size) // - mk.kit.parts.size())
 				+ " more part(s) to finish kit.");
 		if (mk.kit.parts.size() == size) {
 			mk.MKS = MyKitStatus.Done;
