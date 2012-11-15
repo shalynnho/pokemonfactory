@@ -26,13 +26,14 @@ import factory.PartType;
 public class PartsManagerPanelV2 extends JPanel{
 	public static final Border PADDING = BorderFactory.createEmptyBorder(20, 20, 20, 20);
 	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+	public static final Border MEDIUM_PADDING = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 	public static final Border BOTTOM_PADDING = BorderFactory.createEmptyBorder(0, 0, 20, 0);
 	public static final Border TOP_PADDING = BorderFactory.createEmptyBorder(20, 0, 5, 0);
 	public static final Border VERTICAL_PADDING = BorderFactory.createEmptyBorder(10, 0, 10, 0);
 	
 	JPanel panels;
 	OverlayPanel leftPanel;
-	JPanel rightPanel;
+	PartsListPanel rightPanel;
 	
 	JLabel leftTitle;
 	
@@ -58,13 +59,13 @@ public class PartsManagerPanelV2 extends JPanel{
 		leftPanel.setVisible(true);
 		panels.add(leftPanel);
 		
-		rightPanel = new JPanel();
+		rightPanel = new PartsListPanel();
 		rightPanel.setVisible(true);
-		rightPanel.setBackground(new Color(0,0,0,40));
+		rightPanel.setBackground(new Color(0,0,0,30));
 		panels.add(rightPanel);
 		
+		
 		setUpLeftPanel();
-		setUpRightPanel();
 	}
 	
 	public void setUpLeftPanel() {
@@ -83,16 +84,14 @@ public class PartsManagerPanelV2 extends JPanel{
 		
 		JPanel namePanel = new JPanel();
 		namePanel.setBorder(TOP_PADDING); 
-		namePanel.setAlignmentX(0);
 		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.LINE_AXIS));
 		namePanel.setOpaque(false);
 		namePanel.setVisible(true);
+		namePanel.setAlignmentX(0);
 		leftPanel.add(namePanel);
 		
-			JLabel nameLabel = new WhiteLabel("Name");
-			nameLabel.setMinimumSize(new Dimension(100, 25));
-			nameLabel.setMaximumSize(new Dimension(100, 25));
-			nameLabel.setPreferredSize(new Dimension(100, 25));
+			WhiteLabel nameLabel = new WhiteLabel("Name");
+			nameLabel.setLabelSize(100, 25);
 			namePanel.add(nameLabel);
 			
 			JTextField nameField = new JTextField("name");
@@ -108,10 +107,8 @@ public class PartsManagerPanelV2 extends JPanel{
 		numPanel.setAlignmentX(0);
 		leftPanel.add(numPanel);
 		
-			JLabel numLabel = new WhiteLabel("Part no.");
-			numLabel.setMinimumSize(new Dimension(100, 25));
-			numLabel.setMaximumSize(new Dimension(100, 25));
-			numLabel.setPreferredSize(new Dimension(100, 25));
+			WhiteLabel numLabel = new WhiteLabel("Part no.");
+			numLabel.setLabelSize(100, 25);
 			numPanel.add(numLabel);
 			
 			JTextField numField = new JTextField("23");
@@ -127,10 +124,8 @@ public class PartsManagerPanelV2 extends JPanel{
 		descPanel.setAlignmentX(0);
 		leftPanel.add(descPanel);
 		
-			JLabel descLabel = new WhiteLabel("Description");
-			descLabel.setMinimumSize(new Dimension(100, 25));
-			descLabel.setMaximumSize(new Dimension(100, 25));
-			descLabel.setPreferredSize(new Dimension(100, 25));
+			WhiteLabel descLabel = new WhiteLabel("Description");
+			descLabel.setLabelSize(100, 25);
 			descPanel.add(descLabel);
 			
 			JTextArea descField = new JTextArea("Description...");
@@ -148,10 +143,8 @@ public class PartsManagerPanelV2 extends JPanel{
 		buttonPanel.setAlignmentX(0);
 		leftPanel.add(buttonPanel);
 		
-			JLabel fakeLabel = new WhiteLabel("");
-			fakeLabel.setMinimumSize(new Dimension(100, 25));
-			fakeLabel.setMaximumSize(new Dimension(100, 25));
-			fakeLabel.setPreferredSize(new Dimension(100, 25));
+			WhiteLabel fakeLabel = new WhiteLabel("");
+			fakeLabel.setLabelSize(100, 25);
 			buttonPanel.add(fakeLabel);
 			
 			JButton submitButton = new JButton("Submit >");
@@ -160,23 +153,6 @@ public class PartsManagerPanelV2 extends JPanel{
 			submitButton.setPreferredSize(new Dimension (200, 25));
 			submitButton.setAlignmentX(0);
 			buttonPanel.add(submitButton);
-	}
-	
-	public void setUpRightPanel() {
-		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
-		rightPanel.setAlignmentX(LEFT_ALIGNMENT);
-		rightPanel.setBorder(PADDING);
-		
-		for(PartType pt : partTypes) {
-			JPanel panel = new OverlayPanel();
-			panel.setBackground(new Color(255,255,255,20));
-			panel.setOpaque(false);
-			panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-			panel.setBorder(FIELD_PADDING);
-			panel.setAlignmentX(0);
-			panel.add(new WhiteLabel("Part: " + pt.getName()));
-			rightPanel.add(panel);
-		}
 	}
 	
 	@Override
