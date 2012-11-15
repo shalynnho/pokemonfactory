@@ -60,7 +60,16 @@ public class PartsManagerPanelV2 extends JPanel{
 		leftPanel.setVisible(true);
 		panels.add(leftPanel);
 		
-		rightPanel = new PartsListPanel();
+		rightPanel = new PartsListPanel(new PartsListPanel.PartsListPanelHandler() {
+			@Override
+			public void editPart(PartType pt) {
+				System.out.println("Editing a part..." + pt.getName());
+			}
+			@Override
+			public void deletePart(PartType pt) {
+				System.out.println("Deleting a part..." + pt.getName());
+			}
+		});
 		rightPanel.setVisible(true);
 		rightPanel.setBackground(new Color(0, 0, 0, 30));
 		
