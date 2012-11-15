@@ -92,7 +92,11 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	@Override
 	public void pickUpPart(PartGraphics part) {
-		// TODO Auto-generated method stub
+
+		print("PartsRobotGraphics received message msgpickupPart");
+
+		print("PartsRobotGraphics sending message msgPickUpPartDone() to partsrobot after 100ms");
+		 partsrobot.msgPickUpPartDone();
 
 	}
 
@@ -104,7 +108,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	@Override
 	public void receivePart(PartGraphics part) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -293,7 +297,11 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	@Override
 	public void givePartToKit(PartGraphics part, KitGraphics kit) {
-		// TODO Auto-generated method stub
+
+		print("PartsRobotGraphics received message msggivePartToKit");
+
+		print("PartsrobotGraphics sending message msgGivePartToKitDone() to partsrobot after 100ms");
+		partsrobot.msgGivePartToKitDone();
 
 	}
 

@@ -210,7 +210,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 		arm.AS = ArmStatus.Full;
 		arm.part = part;
-		/*Getting stuck on acquire
 		// Tells the graphics to pickup the part
 		if (partsRobotGraphics != null) {
 			partsRobotGraphics.pickUpPart(part.partGraphics);
@@ -220,7 +219,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				e.printStackTrace();
 			}
 		}
-		*/
 		
 		// Only takes 1 part from a nest at a time
 		nest.msgTakingPart(part);
@@ -238,7 +236,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			
 			if (mk.kit.needPart(arm.part)) {
 				print("Placing part");
-				/* Animation messing up
+				
 				if (partsRobotGraphics != null) {
 					partsRobotGraphics.givePartToKit(arm.part.partGraphics,
 							mk.kit.kitGraphics);
@@ -248,11 +246,9 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						e.printStackTrace();
 					}
 				}
-				*/
 				// Tells the kit it has the part now
 				mk.kit.parts.add(arm.part);
-				
-				/*Animation messing up
+				/* ANIMATION NOT WORKING THIS PART
 				if (mk.kit.kitGraphics != null) {
 					System.out.println("receiving part");
 					mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
