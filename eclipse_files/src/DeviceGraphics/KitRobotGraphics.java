@@ -165,9 +165,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		*/
 		} else if (location == 2) {
 			msgPlaceKitOnStand2(kit);
-			server.sendData(new Request(
+			/*server.sendData(new Request(
 					Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
 					Constants.CONVEYOR_TARGET, null));
+			*/
 		}
 
 	}
