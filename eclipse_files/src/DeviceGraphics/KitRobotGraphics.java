@@ -152,7 +152,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		// TODO Auto-generated method stub
 
 		kitPositions.put(Constants.KIT_LOCATION2, kit);
-		server.sendData(new Request("moveKitToStand2",
+		server.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2,
 				Constants.KIT_ROBOT_TARGET, null));
 	}
 	@Override
