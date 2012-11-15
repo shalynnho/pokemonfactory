@@ -1,11 +1,13 @@
 package manager;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 
-import manager.panel.PartsManagerPanel;
 import manager.panel.PartsManagerPanelV2;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
+import factory.PartType;
 
 /**
  * This class handles creation, change, and deletion of parts.
@@ -36,11 +38,25 @@ public class PartsManager extends Client {
 	 */
 	public void receiveData(Request req) {
 		if (req.getTarget().equals(Constants.ALL_TARGET)) {
-			// TODO
+			if (req.getCommand().equals(Constants.FCS_UPDATE_PARTS)) {
+				pmPanel.updatePartTypes((ArrayList<PartType>)req.getData());
+			}
 		} else {
 			System.out.println("PartsManager received a request addressed to: " + req.getTarget());
 			System.out.println("PartsManager cannot parse this request.");
 		}
+	}
+	
+	public void createPart(PartType pt) {
+		
+	}
+	
+	public void editPart(PartType pt) {
+		
+	}
+	
+	public void deletePart(PartType pt) {
+		
 	}
 	
 	/**
@@ -48,7 +64,7 @@ public class PartsManager extends Client {
 	 */
 	public void initGUI() {
 		// may have to pass in reference to this class
-		pmPanel = new PartsManagerPanelV2();
+		pmPanel = new PartsManagerPanelV2(this);
 		
 		add(pmPanel);
 		pmPanel.setVisible(true);
