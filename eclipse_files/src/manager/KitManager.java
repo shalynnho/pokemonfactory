@@ -20,6 +20,7 @@ import Utils.Constants;
  *
  */
 public class KitManager extends Client {
+	// Window dimensions
 	private static final int WINDOW_WIDTH = 400;
 	private static final int WINDOW_HEIGHT = 300;
 	
