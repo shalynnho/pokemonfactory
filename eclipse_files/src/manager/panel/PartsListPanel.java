@@ -26,7 +26,7 @@ import factory.PartType;
 public class PartsListPanel extends OverlayPanel {
 	PartsListPanelHandler handler;
 	ArrayList<PartType> partTypes = new ArrayList<PartType>();
-	HashMap<PartType, JPanel> panels = new HashMap<PartType, JPanel>();
+	HashMap<PartType, ClickablePanel> panels = new HashMap<PartType, ClickablePanel>();
 	
 	public static final Border PADDING = BorderFactory.createEmptyBorder(20, 20, 20, 20);
 	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -52,7 +52,7 @@ public class PartsListPanel extends OverlayPanel {
 		removeAll();
 		
 		for(PartType pt : partTypes) {
-			JPanel panel = new ClickablePanel(new EditClickHandler(pt));
+			ClickablePanel panel = new ClickablePanel(new EditClickHandler(pt));
 			panel.setSize(350, 50);
 			panel.setBorder(MEDIUM_PADDING);
 			panel.setAlignmentX(0);
@@ -60,13 +60,13 @@ public class PartsListPanel extends OverlayPanel {
 			add(panel);
 			
 			JLabel imageLabel = new JLabel(new ImageIcon(pt.getImage()));
-			imageLabel.setMinimumSize(new Dimension(50, 50));
-			imageLabel.setPreferredSize(new Dimension(50, 50));
-			imageLabel.setMaximumSize(new Dimension(50, 50));
+			imageLabel.setMinimumSize(new Dimension(50, 30));
+			imageLabel.setPreferredSize(new Dimension(50, 30));
+			imageLabel.setMaximumSize(new Dimension(50, 30));
 			panel.add(imageLabel);
 			
 			WhiteLabel nameLabel = new WhiteLabel("Part: " + pt.getName());
-			nameLabel.setLabelSize(190, 50);
+			nameLabel.setLabelSize(190, 30);
 			panel.add(nameLabel);
 			
 			JButton deleteButton = new JButton("delete");
@@ -97,11 +97,11 @@ public class PartsListPanel extends OverlayPanel {
 
 		@Override
 		public void mouseClicked() {
-			for(JPanel panel : panels.values()) {
-				panel.setBackground(new Color(255, 255, 255, 20));
+			for(ClickablePanel panel : panels.values()) {
+				panel.restoreColor();
 			}
 			handler.editPart(pt);
-			panels.get(pt).setBackground(new Color(5, 151, 255, 80));
+			panels.get(pt).setColor(new Color(5, 151, 255));
 		}
 	}
 	

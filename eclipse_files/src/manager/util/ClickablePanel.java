@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 
 public class ClickablePanel extends OverlayPanel {
 	private ClickablePanelClickHandler handler;
+	private Color color = new Color(255, 255, 255);
 	
 	public ClickablePanel(final ClickablePanelClickHandler handler) {
 		//transparent white background
@@ -23,15 +24,12 @@ public class ClickablePanel extends OverlayPanel {
 			
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				//TODO do not hardcode this
-				if(getBackground().equals(new Color(255,255,255,40))) {
-					setBackground(new Color(255,255,255,20));
-				}
+				setBackground(new Color(color.getRed(), color.getGreen(), color.getBlue(), 20));
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				setBackground(new Color(255,255,255,40));
+				setBackground(new Color(color.getRed(), color.getGreen(), color.getBlue(), 40));
 			}
 			
 			@Override
@@ -39,6 +37,20 @@ public class ClickablePanel extends OverlayPanel {
 				handler.mouseClicked();
 			}
 		});
+	}
+	
+	public Color getColor() {
+		return color;
+	}
+	
+	public void restoreColor() {
+		color = new Color(255, 255, 255);
+		setBackground(new Color(color.getRed(), color.getGreen(), color.getBlue(), 20));
+	}
+	
+	public void setColor(Color c) {
+		color = c;
+		setBackground(new Color(color.getRed(), color.getGreen(), color.getBlue(), 40));
 	}
 
 }
