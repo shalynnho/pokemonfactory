@@ -1,17 +1,16 @@
 package manager;
+
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import manager.panel.KitManagerPanel;
-
-import factory.KitConfig;
-import factory.Order;
-
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
+import factory.KitConfig;
+import factory.PartType;
 
 /**
  * This class handles creation, change, and deletion of kits.
@@ -43,23 +42,45 @@ public class KitManager extends Client {
 	public void receiveData(Request req) {
 		if (req.getTarget().equals(Constants.ALL_TARGET)) {
 			if (req.getCommand().equals(Constants.FCS_UPDATE_PARTS)) {
-				// TODO Panel must handle updating of parts.
+				kmPanel.updatePartTypes((ArrayList<PartType>)req.getData());
 			} else if (req.getCommand().equals(Constants.FCS_UPDATE_KITS)) {
-				// TODO Panel must handle updating of kits.
-				// TODO Does it care if kits are updated? It makes the change.
+				kmPanel.updateKits((ArrayList<KitConfig>)req.getData());
 			}
 		} else {
 			System.out.println("KitManager received a request not addressed to: " + req.getTarget());
 			System.out.println("PartsManager cannot parse this request.");
 		}		
 	}
+	
+	/**
+	 * This function tells FCS to create a new kit.
+	 * @param kc KitConfig created by the user.
+	 */
+	public void addKit(KitConfig kc) {
+		this.sendData(new Request(Constants.FCS_NEW_KIT, Constants.FCS_TARGET, kc));
+	}
+	
+	/**
+	 * This function tells FCS to edit an existing kit.
+	 * @param kc KitConfig selected by the user.
+	 */
+	public void editKit(KitConfig kc) {
+		this.sendData(new Request(Constants.FCS_EDIT_KIT, Constants.FCS_TARGET, kc));
+	}
+	
+	/**
+	 * This function tells FCS to delete an existing kit.
+	 * @param kc KitConfig selected by the user.
+	 */
+	public void deleteKit(KitConfig kc) {
+		this.sendData(new Request(Constants.FCS_DELETE_KIT, Constants.FCS_TARGET, kc));
+	}
 
 	/**
 	 * This function creates the GUI panel and adds it to the frame.
 	 */
 	public void initGUI() {
-		// may have to pass in reference to this class
-		kmPanel = new KitManagerPanel();
+		kmPanel = new KitManagerPanel(this);
 		
 		add(kmPanel, BorderLayout.CENTER);
 		kmPanel.setVisible(true);
