@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -18,6 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import manager.PartsManager;
 import manager.util.OverlayPanel;
 import manager.util.WhiteLabel;
 import Utils.Constants;
@@ -35,22 +38,25 @@ public class PartsManagerPanelV2 extends JPanel{
 	OverlayPanel leftPanel;
 	PartsListPanel rightPanel;
 	
-	JLabel leftTitle;
+	WhiteLabel leftTitle;
 	JTextField nameField;
 	JTextField numField;
 	JTextArea descField;
 	JButton submitButton;
+	
+	PartsManager manager;
 	
 	boolean isEditing;
 	boolean isDeleting;
 	
 	ArrayList<PartType> partTypes = new ArrayList<PartType>();
 	
-	public PartsManagerPanelV2() {
+	public PartsManagerPanelV2(PartsManager mngr) {
+		manager = mngr;
+		partTypes = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES.clone();
+		
 		setLayout(new BorderLayout());
 		setBorder(PADDING);
-		
-		partTypes = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES.clone();
 		
 		JLabel title = new WhiteLabel("Parts Manager");
 		title.setFont(new Font("Arial", Font.BOLD, 30));
@@ -70,11 +76,10 @@ public class PartsManagerPanelV2 extends JPanel{
 			@Override
 			public void editPart(PartType pt) {
 				startEditing(pt);
-				System.out.println("Editing a part..." + pt.getName());
 			}
 			@Override
 			public void deletePart(PartType pt) {
-				System.out.println("Deleting a part..." + pt.getName());
+				startDeleting(pt);
 			}
 		});
 		rightPanel.setVisible(true);
@@ -90,12 +95,15 @@ public class PartsManagerPanelV2 extends JPanel{
 	}
 
 	public void setUpLeftPanel() {
+		leftPanel.removeAll();
+		
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 		leftPanel.setBorder(PADDING);
 		
 		leftTitle = new WhiteLabel("Create a New Part");
 		leftTitle.setFont(new Font("Arial", Font.PLAIN, 20));
+		leftTitle.setLabelSize(300, 40);
 		leftTitle.setAlignmentX(0);
 		leftPanel.add(leftTitle);
 		
@@ -112,6 +120,7 @@ public class PartsManagerPanelV2 extends JPanel{
 			namePanel.add(nameLabel);
 			
 			nameField = new JTextField("name");
+			
 			nameField.setMaximumSize(new Dimension(200, 25));
 			nameField.setBorder(FIELD_PADDING);
 			namePanel.add(nameField);
@@ -160,9 +169,22 @@ public class PartsManagerPanelV2 extends JPanel{
 		buttonPanel.setAlignmentX(0);
 		leftPanel.add(buttonPanel);
 		
-			WhiteLabel fakeLabel = new WhiteLabel("");
-			fakeLabel.setLabelSize(100, 25);
-			buttonPanel.add(fakeLabel);
+			if(isEditing || isDeleting) {
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setMinimumSize(new Dimension (100, 25));
+				cancelButton.setMaximumSize(new Dimension (100, 25));
+				cancelButton.setPreferredSize(new Dimension (100, 25));
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent ae) {
+						restoreLeftPanel();
+					}
+				});
+				buttonPanel.add(cancelButton);
+			} else {
+				WhiteLabel fakeLabel = new WhiteLabel("");
+				fakeLabel.setLabelSize(100, 25);
+				buttonPanel.add(fakeLabel);
+			}
 			
 			submitButton = new JButton("Submit >");
 			submitButton.setMinimumSize(new Dimension (200, 25));
@@ -170,6 +192,18 @@ public class PartsManagerPanelV2 extends JPanel{
 			submitButton.setPreferredSize(new Dimension (200, 25));
 			submitButton.setAlignmentX(0);
 			buttonPanel.add(submitButton);
+			
+			submitButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					manager.createPart(new PartType(
+							nameField.getText(),
+							Integer.parseInt(numField.getText()),
+							descField.getText()
+					));
+					restoreLeftPanel();
+				}
+			});
 	}
 	
 	public void updatePartTypes(ArrayList<PartType> pt) {
@@ -178,12 +212,61 @@ public class PartsManagerPanelV2 extends JPanel{
 	
 	public void startEditing(PartType pt) {
 		isEditing = true;
+		isDeleting = false;
+		setUpLeftPanel();
 		
 		leftTitle.setText("Editing a Part");
 		nameField.setText(pt.getName());
 		numField.setText(String.valueOf(pt.getPartNum()));
 		descField.setText(pt.getDescription());
 		submitButton.setText("Edit >");
+		
+		submitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				manager.editPart(new PartType(
+						nameField.getText(),
+						Integer.parseInt(numField.getText()),
+						descField.getText()
+				));
+				restoreLeftPanel();
+			}
+		});
+	}
+	
+	public void startDeleting(PartType pt) {
+		isEditing = false;
+		isDeleting = true;
+		setUpLeftPanel();
+		
+		leftTitle.setText("Deleting a Part");
+		nameField.setEnabled(false);
+		numField.setEnabled(false);
+		descField.setEnabled(false);
+		submitButton.setText("Delete >");
+		
+		submitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				manager.deletePart(new PartType(
+						nameField.getText(),
+						Integer.parseInt(numField.getText()),
+						descField.getText()
+				));
+				restoreLeftPanel();
+			}
+		});
+	}
+	
+	public void restoreLeftPanel() {
+		isEditing = false;
+		isDeleting = false;
+		setUpLeftPanel();
+		
+		rightPanel.restoreColors();
+		
+		//hack to trigger a repaint
+		leftTitle.setText("Create a New Part.");
 	}
 	
 	@Override
