@@ -232,9 +232,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void PlacePart(Arm arm) {
 		synchronized(Arms){
-			//arm.AS = ArmStatus.Emptying;
-		
-		for (MyKit mk : MyKits) {
+			
+			for (MyKit mk : MyKits) {
 			
 			synchronized(mk.kit.partsExpected){
 			if (mk.kit.needPart(arm.part)) {
