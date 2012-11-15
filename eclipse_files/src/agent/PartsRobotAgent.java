@@ -39,7 +39,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	public class MyKit {
 		public Kit kit;
 		public MyKitStatus MKS;
-
 		public MyKit(Kit k) {
 			kit = k;
 			MKS = MyKitStatus.NotDone;
@@ -152,6 +151,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 			// Checks if there is an empty arm, if there is it fills it with a
 			// good part that the kit needs
+			synchronized(Arms){
 			if (IsAnyArmEmpty()) {
 				
 				synchronized (GoodParts) {
@@ -169,7 +169,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 									// //Don't know why this is needed -Mike
 									// {
 									print("Found a part I need");
-									synchronized(Arms){
+									
 									for (Arm arm : Arms) {
 										if (arm.AS == ArmStatus.Empty) {
 											// Find the empty arm
@@ -177,13 +177,14 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 											return true;
 										}
 									}
-									}
+									
 									// }
 								}
 							}
 						}
 					}
 				}
+			}
 			}
 		}
 
@@ -204,7 +205,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void PickUpPart(Arm arm, Part part, Nest nest) {
 		synchronized(Arms){
-		print("Picking up part of type: "+part.type.getName());
+		print("Picking up part");
 
 		arm.AS = ArmStatus.Full;
 		arm.part = part;
@@ -237,7 +238,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			
 			synchronized(mk.kit.partsExpected){
 			if (mk.kit.needPart(arm.part)) {
-				print("Placing part "+arm.part.type.getName());
+				print("Placing part");
 				/* Animation messing up
 				if (partsRobotGraphics != null) {
 					partsRobotGraphics.givePartToKit(arm.part.partGraphics,
@@ -275,7 +276,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void CheckMyKit(MyKit mk) {
 		synchronized(mk.kit.partsExpected){
-		int size = 0;
+		int size = 1;
 		for (PartType type : mk.kit.partsExpected.getConfig().keySet()) {
 			for (int i = 0; i < mk.kit.partsExpected.getConfig().get(type); i++) {
 				size++;
