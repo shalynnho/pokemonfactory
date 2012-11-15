@@ -28,6 +28,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	ArrayList<KitGraphicsDisplay> kitsToLeave;
 	int velocity;
 	Client client;
+	boolean kitComingIn;
 	boolean pickMe;
 
 	public ConveyorGraphicsDisplay(Client cli) {
@@ -74,6 +75,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		KitGraphicsDisplay temp = new KitGraphicsDisplay();
 		temp.setLocation(new Location(0, 200));
 		kitsOnConveyor.add(temp);
+		kitComingIn = true;
 	}
 
 	public void giveKitAway() {
@@ -135,8 +137,9 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				Location temp = tempKit.getLocation();
 				tempKit.setLocation(new Location(temp.getX() + velocity, temp
 						.getY()));
-				if (pickMe == true) {
-					pickMe = false;
+				if (kitComingIn == true) {
+					kitComingIn = false;
+					print("Sending bringEmptyKitDone");
 					animationDone(new Request(
 							Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 									+ Constants.DONE_SUFFIX,
