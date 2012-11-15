@@ -30,9 +30,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private Client client;
 	// the id of this nest
 	private int nestID;
-	
 	// location of the nest
 	private Location nestLocation;
+	// array of part locations in nest
+	private ArrayList<Location> partLocs;
 	
 	private boolean animate;
 	
@@ -50,17 +51,12 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		animate =false; 
 		isFull = true;
 		nestLocation = new Location(485 - NEST_WIDTH, 45 + nestID * 75);
+		generatePartLocations();
 		
-//		 TODO may need to remove temp later today - cannot create a random PartType
-		// VO, trash it
 		for (int i = 0; i < MAX_PARTS; i++) {
-			PartGraphicsDisplay temp = new PartGraphicsDisplay(Constants.DEFAULT_PARTTYPES.get(0));
-			if(i < 4) {
-				temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY() - PART_OFFSET)));
-			} else {
-				temp.setLocation(new Location((nestLocation.getX()+(i-4)*20),(nestLocation.getY() + BOTTOM_ROW_OFFSET - PART_OFFSET))); 
-			}
-			partsInNest.add(temp);
+			PartGraphicsDisplay pgd = new PartGraphicsDisplay(Constants.DEFAULT_PARTTYPES.get(0));
+			pgd.setLocation(partLocs.get(i));
+			partsInNest.add(pgd);
 		}
 	}
 	
@@ -72,10 +68,6 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 	}
 	
-	private void movePartsUp() {
-		
-	}
-
 	/**
 	 * Handles drawing of NestGraphicsDisplay objects
 	 */
@@ -118,7 +110,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 			client.sendData(new Request(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET+nestID, null));
 		}	
 	}
-
+	
 	/**
 	 * Allows another object to set the NestGraphicsDisplay location
 	 * This method should not be called.
@@ -130,23 +122,41 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	/**
+	 * Generates an array of Locations for the parts in the nest.
+	 */
+	private void generatePartLocations() {
+		partLocs = new ArrayList<Location>(MAX_PARTS);
+		for (int i = 0; i < MAX_PARTS; i++) {
+			if (i % 2 == 0) { // top row
+				partLocs.add(new Location((nestLocation.getX() + (i / 2) * PART_WIDTH),(nestLocation.getY() - PART_OFFSET)));
+			} else {	// bottom row
+				partLocs.add(new Location((nestLocation.getX() + (i / 2) * PART_WIDTH),(nestLocation.getY() + BOTTOM_ROW_OFFSET - PART_OFFSET)) );		
+			}
+		}
+	}
+
+	/**
 	 * add part to the correct location
 	 * @param temp
 	 * @param i
 	 */
-	public void addPartToCorrectLocation(PartGraphicsDisplay temp, int i){
+	private void addPartToCorrectLocation(PartGraphicsDisplay temp, int i){
 		if(i < 4) {
-			temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY()+1)));
+			temp.setLocation(new Location((nestLocation.getX()+i*20),(nestLocation.getY() - PART_OFFSET)));
 		} else {
-			temp.setLocation(new Location((nestLocation.getX()+(i-4)*20),(nestLocation.getY()+23))); 
+			temp.setLocation(new Location((nestLocation.getX()+(i-4)*20),(nestLocation.getY() + BOTTOM_ROW_OFFSET - PART_OFFSET))); 
 		}
 	}
 	
+	private void movePartsUp() {
+		
+	}
+
 	/**
 	 * update location of the parts
 	 * @param x
 	 */
-	public void updateLocationOfParts(ArrayList<PartGraphicsDisplay> x){
+	private void updateLocationOfParts(ArrayList<PartGraphicsDisplay> x){
 		for(int i=0; i<x.size(); i++){
 			addPartToCorrectLocation(x.get(i),i);
 		}
