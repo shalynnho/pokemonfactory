@@ -119,6 +119,8 @@ public class Server {
 				Constants.KIT_ROBOT_TARGET));
 		agents.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotAgent(
 				Constants.PARTS_ROBOT_TARGET));
+		agents.put(Constants.STAND_TARGET, new StandAgent(
+				Constants.STAND_TARGET));
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			agents.put(Constants.FEEDER_TARGET + i, new FeederAgent(
@@ -131,10 +133,6 @@ public class Server {
 		for (int i = 0; i < Constants.NEST_COUNT; i++) {
 			agents.put(Constants.NEST_TARGET + i, new NestAgent(
 					Constants.NEST_TARGET + i));
-		}
-		for (int i = 0; i < Constants.STAND_COUNT; i++) {
-			agents.put(Constants.STAND_TARGET + i, new StandAgent(
-					Constants.STAND_TARGET + i));
 		}
 	}
 
