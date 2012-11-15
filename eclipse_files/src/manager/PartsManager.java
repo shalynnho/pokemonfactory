@@ -16,9 +16,10 @@ import factory.PartType;
  *
  */
 public class PartsManager extends Client {
+	// Window dimensions
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
-	
+
 	private PartsManagerPanelV2 pmPanel;
 
 	/**
@@ -47,23 +48,34 @@ public class PartsManager extends Client {
 		}
 	}
 	
+	/**
+	 * This function tells FCS to create new part.
+	 * @param pt PartType selected by the user.
+	 */
 	public void createPart(PartType pt) {
-		
+		this.sendData(new Request(Constants.FCS_NEW_PART, Constants.FCS_TARGET, pt));
 	}
 	
+	/**
+	 * This function tells FCS to edit an existing part.
+	 * @param pt PartType selected by the user.
+	 */
 	public void editPart(PartType pt) {
-		
+		this.sendData(new Request(Constants.FCS_EDIT_PART, Constants.FCS_TARGET, pt));
 	}
 	
+	/**
+	 * This function tells FCS to delete an existing part.
+	 * @param pt PartType selected by the user.
+	 */
 	public void deletePart(PartType pt) {
-		
+		this.sendData(new Request(Constants.FCS_DELETE_PART, Constants.FCS_TARGET, pt));
 	}
 	
 	/**
 	 * This function initializes the GUI panel.
 	 */
 	public void initGUI() {
-		// may have to pass in reference to this class
 		pmPanel = new PartsManagerPanelV2(this);
 		
 		add(pmPanel);
