@@ -52,12 +52,12 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 		public MyKit(Kit k) {
 			this.kit = k;
-			this.KS = KitStatus.MovingIn;
+			this.KS = KitStatus.MOVING_IN;
 		}
 	}
 
 	public enum KitStatus {
-		MovingIn, ArrivedAtPickupLocation, AwaitingPickup, PickupRequested, PickedUp, AwaitingDelivery, MovingOut, Delivered
+		MOVING_IN, ARRIVED_AT_PICKUP_LOCATION, AWAITING_PICKUP, PICKUP_REQUESTED, PICKED_UP, AWAITING_DELIVERY, MOVING_OUT, DELIVERED
 	};
 
 	/**
@@ -87,7 +87,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	public void msgGiveMeKit() {
 		print("Received msgGiveMeKit");
 		if (kitsOnConveyor.size() > 0) {
-			kitsOnConveyor.get(0).KS = KitStatus.PickupRequested;
+			kitsOnConveyor.get(0).KS = KitStatus.PICKUP_REQUESTED;
 			print(kitsOnConveyor.get(0).toString() + " will be sent");
 		}
 		stateChanged();
@@ -98,7 +98,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		print("Received msgTakeKitAway");
 		MyKit mk = new MyKit(k);
 		outgoingKit = mk;
-		mk.KS = KitStatus.AwaitingDelivery;
+		mk.KS = KitStatus.AWAITING_DELIVERY;
 		kitsOnConveyor.add(mk);
 		stateChanged();
 	}
@@ -107,7 +107,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	public void msgBringEmptyKitDone() {
 		print("Received msgBringEmptyKitDone from graphics");
 		animation.release();
-		incomingKit.KS = KitStatus.ArrivedAtPickupLocation;
+		incomingKit.KS = KitStatus.ARRIVED_AT_PICKUP_LOCATION;
 		// stateChanged();
 	}
 
@@ -140,7 +140,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				// conveyor where the kit robot can pick it up and the kit robot
 				// can
 				// pick it up.
-				if (mk.KS == KitStatus.PickupRequested) {
+				if (mk.KS == KitStatus.PICKUP_REQUESTED) {
 					print("About to send kit");
 					sendKit(mk);
 					return true;
@@ -148,8 +148,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 				// Send the kit if it has reached the "stop" position on the
 				// conveyor where the kit robot can pick it up.
-				if (mk.KS == KitStatus.ArrivedAtPickupLocation) {
-					mk.KS = KitStatus.AwaitingPickup;
+				if (mk.KS == KitStatus.ARRIVED_AT_PICKUP_LOCATION) {
+					mk.KS = KitStatus.AWAITING_PICKUP;
 					kitrobot.msgKitReadyForPickup();
 					return true;
 				}
@@ -157,7 +157,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				// Place kit onto conveyor and start moving it out of the cell
 				// if
 				// the kit robot has dropped off a completed kit
-				if (mk.KS == KitStatus.AwaitingDelivery) {
+				if (mk.KS == KitStatus.AWAITING_DELIVERY) {
 					deliverKit(mk);
 					return true;
 				}
@@ -223,7 +223,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 */
 	private void sendKit(MyKit mk) {
 		print("Sending kit to kit robot");
-		mk.KS = KitStatus.PickedUp;
+		mk.KS = KitStatus.PICKED_UP;
 		if (mockgraphics != null) {
 			mockgraphics.msgGiveKitToKitRobot(mk.kit.kitGraphics);
 		}
@@ -252,7 +252,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); }
 		 */
-		mk.KS = KitStatus.MovingOut;
+		mk.KS = KitStatus.MOVING_OUT;
 		if (mockgraphics != null) {
 			mockgraphics.msgReceiveKit(mk.kit.kitGraphics);
 		}
