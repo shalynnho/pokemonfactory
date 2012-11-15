@@ -74,13 +74,13 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		KitGraphicsDisplay temp = new KitGraphicsDisplay();
 		temp.setLocation(new Location(0, 200));
 		kitsOnConveyor.add(temp);
+		System.out.println(kitsOnConveyor.size());
 	}
 
 	public void giveKitAway() {
 		System.out.println("Give it away");
 		kitsOnConveyor.remove(0);
 		velocity = 5;
-		pickMe = true;
 	}
 
 	public void sendOut() {
@@ -207,9 +207,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		String target = req.getTarget();
 		Object object = req.getData();
 
-		if (command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
+		if (command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND) && pickMe == false) {
 			giveKitAway();
 			print("Giving kit to Kit Robot");
+			pickMe = true;
 		} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
 			newKit();
 		} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
