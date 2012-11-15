@@ -33,6 +33,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			.synchronizedMap(new TreeMap<Integer, Boolean>());
 
 	private boolean kitWaitingOnConveyor;
+	private boolean kitRequested;
 	private int numKitsToMake;
 	private int numKitsRequested;
 
@@ -82,12 +83,13 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 		this.name = name;
 		kitWaitingOnConveyor = false;
+		kitRequested = false;
 		numKitsRequested = 0;
 		numKitsToMake = 0;
 		state = KitRobotState.IDLE;
 
 		// Don't assume stand is empty
-		standPositions.put(0, false);
+		standPositions.put(0, true);
 		standPositions.put(1, false);
 		standPositions.put(2, false);
 	}
@@ -121,9 +123,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	@Override
 	public void msgHereIsKit(Kit k) {
 		print("Received msgHereIsKit");
+		kitRequested = false;
 		MyKit mk = new MyKit(k);
 		myKits.add(mk);
-		// print("Still need " + numKitsToRequest);
 		stateChanged();
 	}
 
@@ -131,7 +133,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	public void msgNeedKit(int standLocation) {
 		print("Received msgNeedKit for stand location " + standLocation);
 		standPositions.put(standLocation, true);
-		// print("Still need " + numKitsToRequest);
 		stateChanged();
 	}
 
@@ -197,7 +198,8 @@ public class KitRobotAgent extends Agent implements KitRobot {
 				}
 
 				// Kit needs to be inspected
-				if (mk.KS == KitStatus.MARKED_FOR_INSPECTION) {
+				if (mk.KS == KitStatus.MARKED_FOR_INSPECTION
+				/* && standPositions.get(0) */) { // TODO: Re-enable this later
 					mk.KS = KitStatus.AWAITING_INSPECTION;
 					placeKitInInspectionArea(mk);
 					return true;
@@ -216,19 +218,13 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 		}
 
-		// Request a kit if the stand has an open spot
-		// int count = 0;
-		// for (int i = 0; i < 2; i++) {
-		// if (standPositions.get(i + 1)) {
-		// count++;
-		// }
-		// }
-
 		// We will always attempt to fill the stand, in case a kit fails
 		// inspection. If the last kit is unneeded, we'll just put it on the
 		// "bad" conveyor.
-		if (kitWaitingOnConveyor && standPositions.containsValue(true)
-				&& state != KitRobotState.HOLDING_KIT) {
+		if (kitWaitingOnConveyor && !kitRequested
+				&& state != KitRobotState.HOLDING_KIT
+				&& (standPositions.get(1) || standPositions.get(2))) {
+			kitRequested = true;
 			conveyor.msgGiveMeKit();
 			// return true;
 		}
@@ -277,7 +273,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 				standPositions.put(loc, false);
 				mk.location = loc;
 				mk.KS = KitStatus.ON_STAND;
-				// kitWaitingOnConveyor = false;
 				if (mockgraphics != null) {
 					mockgraphics.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
 				}
@@ -307,6 +302,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * @param k the kit being placed.
 	 */
 	private void placeKitInInspectionArea(MyKit mk) {
+		standPositions.put(0, false);
 		if (mockgraphics != null) {
 			mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kitGraphics);
 		}
@@ -359,6 +355,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		}
 		conveyor.msgTakeKitAway(mk.kit);
 		stand.msgShippedKit();
+		standPositions.put(0, true);
 		myKits.remove(mk);
 		stateChanged();
 	}
