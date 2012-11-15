@@ -89,6 +89,12 @@ public class PartsListPanel extends OverlayPanel {
 		public void deletePart(PartType pt);
 	}
 	
+	public void restoreColors() {
+		for(ClickablePanel panel : panels.values()) {
+			panel.restoreColor();
+		}
+	}
+	
 	private class EditClickHandler implements ClickablePanelClickHandler{
 		PartType pt;
 		public EditClickHandler(PartType pt) {
@@ -97,9 +103,7 @@ public class PartsListPanel extends OverlayPanel {
 
 		@Override
 		public void mouseClicked() {
-			for(ClickablePanel panel : panels.values()) {
-				panel.restoreColor();
-			}
+			restoreColors();
 			handler.editPart(pt);
 			panels.get(pt).setColor(new Color(5, 151, 255));
 		}
@@ -113,7 +117,9 @@ public class PartsListPanel extends OverlayPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			restoreColors();
 			handler.deletePart(pt);
+			panels.get(pt).setColor(new Color(150, 6, 6));
 		}
 	}
 }
