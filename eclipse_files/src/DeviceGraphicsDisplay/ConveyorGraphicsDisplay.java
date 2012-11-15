@@ -1,11 +1,8 @@
-//Radius of Rotation arm 190
+// Radius of Rotation arm 190
 
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -34,27 +31,33 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	boolean pickMe;
 
 	public ConveyorGraphicsDisplay(Client cli) {
-		locationGood = Constants.CONVEYOR_LOC; // location for exit lane, based off of input lane
+		locationGood = Constants.CONVEYOR_LOC; // location for exit lane, based
+												// off of input lane
 		client = cli;
 		conveyorLines = new ArrayList<Location>();
 		conveyorLinesGood = new ArrayList<Location>();
 		conveyorLinesBad = new ArrayList<Location>();
-		
-		//Filling Arrays with locations
+
+		// Filling Arrays with locations
 		for (int i = 0; i < 7; i++) {
-			conveyorLines.add(new Location(locationGood.getX() + (i * 10), locationGood.getY() + 120)); // creating an array list of conveyor line locations for painting
+			conveyorLines.add(new Location(locationGood.getX() + i * 10,
+					locationGood.getY() + 120)); // creating an array list of
+													// conveyor line locations
+													// for painting
 		}
-		
-		//Filling Arrays with locations
-		for (int i = 0; i < 16; i ++) {
-			conveyorLinesGood.add(new Location(locationGood.getX() + (i * 10), locationGood.getY()));
+
+		// Filling Arrays with locations
+		for (int i = 0; i < 16; i++) {
+			conveyorLinesGood.add(new Location(locationGood.getX() + i * 10,
+					locationGood.getY()));
 		}
-		
-		//Filling Arrays with locations
-		for (int i = 0; i < 16; i ++) {
-			conveyorLinesBad.add(new Location(locationGood.getX() + (i * 10), locationGood.getY() + 240));
+
+		// Filling Arrays with locations
+		for (int i = 0; i < 16; i++) {
+			conveyorLinesBad.add(new Location(locationGood.getX() + i * 10,
+					locationGood.getY() + 240));
 		}
-		
+
 		velocity = 5;
 		kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
 		kitsToLeave = new ArrayList<KitGraphicsDisplay>();
@@ -86,7 +89,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void newExitKit() {
 		KitGraphicsDisplay temp = new KitGraphicsDisplay();
-		temp.setLocation(new Location(0,400));
+		temp.setLocation(new Location(0, 400));
 		kitsToLeave.add(temp);
 	}
 
@@ -98,49 +101,52 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g2) {
 		g2.drawImage(Constants.CONVEYOR_IMAGE, -90, 200, c);
 		for (int i = 0; i < conveyorLines.size(); i++) {
-			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i).getX(), conveyorLines.get(i).getY(),c);
+			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i)
+					.getX(), conveyorLines.get(i).getY(), c);
 			moveIn(i);
 		}
-		
+
 		g2.drawImage(Constants.CONVEYOR_IMAGE, 0, 80, c);
 		for (int i = 0; i < conveyorLinesGood.size(); i++) {
-			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLinesGood.get(i).getX(), conveyorLinesGood.get(i).getY(), c);
+			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE,
+					conveyorLinesGood.get(i).getX(), conveyorLinesGood.get(i)
+							.getY(), c);
 			moveOut(i, conveyorLinesGood);
 		}
-		
+
 		g2.drawImage(Constants.CONVEYOR_IMAGE, 0, 320, c);
 		for (int i = 0; i < conveyorLinesBad.size(); i++) {
-			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLinesBad.get(i).getX(), conveyorLinesBad.get(i).getY(), c);
+			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLinesBad
+					.get(i).getX(), conveyorLinesBad.get(i).getY(), c);
 			moveOut(i, conveyorLinesBad);
 		}
-		
-		
-		
 
 		for (int j = 0; j < kitsOnConveyor.size(); j++) {
 			if (kitsOnConveyor.get(0).getLocation().getX() < 10) {
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.draw(c, g2);
 				Location temp = tempKit.getLocation();
-				tempKit.setLocation(new Location(temp.getX() + velocity, temp.getY()));
-			} else if (kitsOnConveyor.get(0).getLocation().getX() >= 10){
+				tempKit.setLocation(new Location(temp.getX() + velocity, temp
+						.getY()));
+			} else if (kitsOnConveyor.get(0).getLocation().getX() >= 10) {
 				velocity = 0;
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.draw(c, g2);
 				Location temp = tempKit.getLocation();
-				tempKit.setLocation(new Location(temp.getX() + velocity, temp.getY()));
+				tempKit.setLocation(new Location(temp.getX() + velocity, temp
+						.getY()));
 				if (pickMe == true) {
-					 animationDone(new Request(
-								Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
-										+ Constants.DONE_SUFFIX,
-								Constants.CONVEYOR_TARGET, null));
-				pickMe = false;
+					pickMe = false;
+					animationDone(new Request(
+							Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
+									+ Constants.DONE_SUFFIX,
+							Constants.CONVEYOR_TARGET, null));
 				}
 			}
 		}
 
 		for (int i = 0; i < kitsToLeave.size(); i++) {
-			
+
 			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
 			tempKit.draw(c, g2);
 			if (tempKit.getLocation().getX() == 800) {
@@ -159,10 +165,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Moves conveyor lines into the factory
 	 * @param i
 	 */
-	
+
 	public void moveIn(int i) {
 		// if bottom of black conveyor line is less than this y position
-		if (conveyorLines.get(i).getX() < 65){
+		if (conveyorLines.get(i).getX() < 65) {
 			// when a conveyor is done being painted, move the location for next
 			// repaint
 			conveyorLines.get(i).setX(conveyorLines.get(i).getX() + velocity);
@@ -177,16 +183,15 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Move conveyor lines out of the factory.
 	 * @param i
 	 */
-	
+
 	public void moveOut(int i, ArrayList<Location> a) {
 		if (a.get(i).getX() > 0) {
 			a.get(i).setX(a.get(i).getX() - velocity);
-			//ConveyorLines move backward this time.
+			// ConveyorLines move backward this time.
 		} else if (a.get(i).getX() <= 0) {
 			a.get(i).setX(155);
 		}
 	}
-
 
 	/**
 	 * Function created to change the velocity of the conveyor
@@ -213,7 +218,8 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			newExitKit();
 		}
 	}
-	
+
+	@Override
 	public String getName() {
 		return "ConveyorGD";
 	}

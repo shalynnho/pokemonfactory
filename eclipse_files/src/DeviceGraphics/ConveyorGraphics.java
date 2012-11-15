@@ -44,7 +44,10 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 	}
 
 	public void giveKitToKitRobot() {
-		server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,Constants.CONVEYOR_TARGET, null)); // temporary command name until Kit Robot finalized
+		server.sendData(new Request(
+				Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
+				Constants.CONVEYOR_TARGET, null)); // temporary command name
+													// until Kit Robot finalized
 		kitsOnConveyor.remove(0);
 	}
 
@@ -86,10 +89,10 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 				// server.sendData(new
 				// Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
 				// Constants.CONVEYOR_TARGET, null));
-				
-				//There is more than one stand now. Use this Test Stand
+
+				// There is more than one stand now. Use this Test Stand
 				StandAgent stand = (StandAgent) server.agents.get("Stand1");
-				stand.msgMakeKits(3);
+				stand.msgMakeKits(1);
 			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 					+ Constants.DONE_SUFFIX)) {
 				conveyorAgent.msgBringEmptyKitDone();

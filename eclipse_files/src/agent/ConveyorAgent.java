@@ -108,14 +108,14 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		print("Received msgBringEmptyKitDone from graphics");
 		animation.release();
 		incomingKit.KS = KitStatus.ArrivedAtPickupLocation;
-		stateChanged();
+		// stateChanged();
 	}
 
 	@Override
 	public void msgGiveKitToKitRobotDone() {
 		print("Received msgGiveKitToKitRobotDone from graphics");
 		animation.release();
-		stateChanged();
+		// stateChanged();
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		print("Received msgReceiveKitDone from graphics");
 		kitsOnConveyor.remove(outgoingKit);
 		// animation.release();
-		stateChanged();
+		// stateChanged();
 	}
 
 	/*
@@ -195,6 +195,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		Kit k = new Kit(kitConfig);
 		incomingKit = new MyKit(k);
 		// print("Got a permit");
+		kitsOnConveyor.add(incomingKit);
+		numKitsToDeliver--;
 		if (mockgraphics != null) {
 			mockgraphics.msgBringEmptyKit(k.kitGraphics);
 		}
@@ -212,9 +214,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			e.printStackTrace();
 		}
 		print("Got permit");
-
-		kitsOnConveyor.add(incomingKit);
-		numKitsToDeliver--;
 		stateChanged();
 	}
 
@@ -269,7 +268,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 */
 	public void setKitRobot(KitRobot kr) {
 		this.kitrobot = kr;
-		stateChanged();
 	}
 
 	/**
@@ -278,7 +276,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 */
 	public void setFCS(FCSAgent fcs) {
 		this.fcs = fcs;
-		stateChanged();
 	}
 
 	/**
@@ -288,7 +285,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics gc) {
 		this.conveyorGraphics = (ConveyorGraphics) gc;
-		stateChanged();
 	}
 
 	public MockGraphics getMockgraphics() {

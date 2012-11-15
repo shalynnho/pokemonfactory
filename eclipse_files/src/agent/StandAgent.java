@@ -146,7 +146,7 @@ public class StandAgent extends Agent implements Stand {
 				break;
 			}
 		}
-		 stateChanged();
+		stateChanged();
 	}
 
 	/*
@@ -162,10 +162,16 @@ public class StandAgent extends Agent implements Stand {
 		}
 
 		if (start) {
+			if (numKitsMade == numKitsToMake) {
+				finalizeOrder();
+				return true;
+			}
+
 			// print("NumKitsToMake greater than 0");
 			synchronized (myKits) {
-				// Received a kit from kit robot
+
 				for (MyKit mk : myKits.keySet()) {
+					// Received a kit from kit robot
 					if (mk.KS == KitStatus.Received) {
 						placeKit(mk);
 						return true;
@@ -173,6 +179,7 @@ public class StandAgent extends Agent implements Stand {
 					// Kit robot shipped a kit
 					if (mk.KS == KitStatus.Shipped) {
 						kitsOnStand.set(0, null);
+						print("Removing " + mk.kit.toString() + " (shipped)");
 						myKits.remove(mk);
 						return true;
 					}
@@ -185,21 +192,18 @@ public class StandAgent extends Agent implements Stand {
 				}
 			}
 
-			if (numKitsMade == numKitsToMake) {
-				finalizeOrder();
-				return true;
-			}
-
 			// Attempt to request a new kit if necessary
 			int loc = 0;
 			int count = 0;
 			// if (!kitRequested) {
 			for (int i = 0; i < 2; i++) {
-				if (standPositions.get(i + 1)) {
+				if (!standPositions.get(i + 1)) {
 					count++;
 				}
 			}
-			if (numKitsToMake > numKitsMade + count) {
+			if (numKitsToMake > numKitsMade && count > 0) {
+				print("NumKits to make greater than numKitsMade + count: "
+						+ count);
 				if (standPositions.get(1) == false
 						&& standPositions.get(2) == false) {
 					print("Neither position full");
@@ -309,7 +313,6 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	public void setPartsRobot(PartsRobot pr) {
 		this.partsrobot = pr;
-		stateChanged();
 	}
 
 	/**
@@ -318,7 +321,6 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	public void setKitRobot(KitRobot kr) {
 		this.kitrobot = kr;
-		stateChanged();
 	}
 
 	/**
@@ -327,7 +329,6 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	public void setFCS(FCS fcs) {
 		this.fcs = fcs;
-		stateChanged();
 	}
 
 	@Override

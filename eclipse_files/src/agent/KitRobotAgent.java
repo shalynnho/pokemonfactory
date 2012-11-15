@@ -67,7 +67,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	}
 
 	public enum KitStatus {
-		AwaitingPickup, Requested, PickedUp, OnStand, MarkedForInspection, AwaitingInspection, Inspected;
+		AwaitingPickup, Requested, PickedUp, OnStand, MarkedForInspection, AwaitingInspection, Inspected, Shipped;
 	};
 
 	/**
@@ -96,9 +96,10 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 	@Override
 	public void msgNeedThisManyKits(int total) {
-		print("Received msgNeedThisManyKits");
+		print("Received msgNeedThisManyKits with amount " + total);
 		numKitsToMake = total;
 		numKitsRequested = 0;
+		stateChanged();
 	}
 
 	@Override
@@ -126,7 +127,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 	@Override
 	public void msgNeedKit(int standLocation) {
-		print("Received msgNeedKit");
+		print("Received msgNeedKit for stand location " + standLocation);
 		standPositions.put(standLocation, true);
 		// print("Still need " + numKitsToRequest);
 		stateChanged();
@@ -160,21 +161,21 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	public void msgPlaceKitOnConveyorDone() {
 		print("Received msgPlaceKitOnConveyorDone from graphics");
 		animation.release();
-		stateChanged();
+		// stateChanged();
 	}
 
 	@Override
 	public void msgPlaceKitInInspectionAreaDone() {
 		print("Received msgPlaceKitInInspetionAreaDone from graphics");
 		animation.release();
-		stateChanged();
+		// stateChanged();
 	}
 
 	@Override
 	public void msgPlaceKitOnStandDone() {
 		print("Received msgPlaceKitOnStandDone from graphics");
 		animation.release();
-		stateChanged();
+		// stateChanged();
 	}
 
 	/*
@@ -185,7 +186,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	public boolean pickAndExecuteAnAction() {
 
 		synchronized (myKits) {
-			// Picked up a kit from conveyor
 			for (MyKit mk : myKits) {
 				// Kit needs to be shipped out of the kitting cell
 				if (mk.KS == KitStatus.Inspected) {
@@ -199,6 +199,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 					return true;
 				}
 
+				// Picking up a kit from conveyor
+				// AwaitingPickup is the default state for MyKit which is
+				// created when conveyor sends hereIsKit
 				if (mk.KS == KitStatus.AwaitingPickup) {
 					mk.KS = KitStatus.PickedUp;
 					placeKitOnStand(mk);
@@ -209,12 +212,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		}
 
 		// Request a kit if the stand has an open spot
-		int count = 0;
-		for (int i = 0; i < 2; i++) {
-			if (standPositions.get(i + 1)) {
-				count++;
-			}
-		}
+		// int count = 0;
+		// for (int i = 0; i < 2; i++) {
+		// if (standPositions.get(i + 1)) {
+		// count++;
+		// }
+		// }
 
 		// We will always attempt to fill the stand, in case a kit fails
 		// inspection. If the last kit is unneeded, we'll just put it on the
@@ -226,6 +229,8 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 		// If other rules fail and there's a spot on the stand, request a new
 		// kit if necessary.
+		print("Kit waiting? " + kitWaitingOnConveyor + ". Numkitsrequested "
+				+ numKitsRequested + " /Numkitstomake " + numKitsToMake);
 		if (!kitWaitingOnConveyor && numKitsRequested < numKitsToMake) {
 			if (standPositions.get(1) || standPositions.get(2)) {
 				numKitsRequested++;
@@ -263,26 +268,26 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		// Only need to check 1 and 2
 		for (int loc = 1; loc < 3; loc++) {
 			if (standPositions.get(loc) == true) {
+				standPositions.put(loc, false);
+				mk.location = loc;
+				mk.KS = KitStatus.OnStand;
 				// kitWaitingOnConveyor = false;
+				if (mockgraphics != null) {
+					mockgraphics.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
+				}
 				if (kitrobotGraphics != null) {
 					kitrobotGraphics
 							.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
 				}
-				if (mockgraphics != null) {
-					mockgraphics.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
-				}
-
 				try {
 					animation.acquire();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				standPositions.put(loc, false);
-				mk.location = loc;
-				mk.KS = KitStatus.OnStand;
+				print("got permit");
 				stand.msgHereIsKit(mk.kit, loc);
-				print("Placing kit on stand");
+				print("Kit placed. Now asking stand to place kit");
 				break;
 			}
 		}
@@ -296,6 +301,9 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 */
 	private void placeKitInInspectionArea(MyKit mk) {
 		mk.KS = KitStatus.AwaitingInspection;
+		if (mockgraphics != null) {
+			mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kitGraphics);
+		}
 		if (kitrobotGraphics != null) {
 			if (mk.kit == null) {
 				print("Inspection Kit is null");
@@ -305,8 +313,11 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			}
 			kitrobotGraphics.msgPlaceKitInInspectionArea(mk.kit.kitGraphics);
 		}
-		if (mockgraphics != null) {
-			mockgraphics.msgPlaceKitInInspectionArea(mk.kit.kitGraphics);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		// For testing, assume camera finishes after .1s
@@ -318,16 +329,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		 */
 		camera.msgInspectKit(mk.kit);
 
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		// TODO This can't happen until the kit is placed
-		// camera.msgInspectKit(mk.kit);
-
 		stand.msgMovedToInspectionArea(mk.kit, mk.location);
 		stateChanged();
 	}
@@ -337,11 +338,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * @param k the kit being shipped out of the kitting cell.
 	 */
 	private void shipKit(MyKit mk) {
-		if (kitrobotGraphics != null) {
-			kitrobotGraphics.msgPlaceKitOnConveyor();
-		}
+		mk.KS = KitStatus.Shipped;
 		if (mockgraphics != null) {
 			mockgraphics.msgPlaceKitOnConveyor();
+		}
+		if (kitrobotGraphics != null) {
+			kitrobotGraphics.msgPlaceKitOnConveyor();
 		}
 		try {
 			animation.acquire();
@@ -361,7 +363,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 */
 	public void setConveyor(Conveyor co) {
 		this.conveyor = co;
-		stateChanged();
 	}
 
 	/**
@@ -370,7 +371,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 */
 	public void setCamera(Camera ca) {
 		this.camera = ca;
-		stateChanged();
 	}
 
 	/**
@@ -379,7 +379,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 */
 	public void setStand(Stand st) {
 		this.stand = st;
-		stateChanged();
 	}
 
 	/**
@@ -389,7 +388,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics gkr) {
 		this.kitrobotGraphics = (KitRobotGraphics) gkr;
-		stateChanged();
 	}
 
 	public MockGraphics getMockGraphics() {
