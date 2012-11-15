@@ -88,6 +88,7 @@ public class StandAgent extends Agent implements Stand {
 		kitsOnStand.add(null);
 		kitsOnStand.add(null);
 
+		standPositions.put(0, false);
 		standPositions.put(1, false);
 		standPositions.put(2, false);
 		timer = new Timer();
@@ -196,30 +197,26 @@ public class StandAgent extends Agent implements Stand {
 			int loc = 0;
 			int count = 0;
 			// if (!kitRequested) {
-			for (int i = 0; i < 2; i++) {
-				if (!standPositions.get(i + 1)) {
+			for (int i = 1; i < 3; i++) {
+				if (!standPositions.get(i)) {
 					count++;
 				}
 			}
 			if (numKitsToMake > 0 && numKitsToMake > numKitsMade && count > 0) {
-				print("NumKits to make greater than numKitsMade + count: "
+				print("NumKits to make greater than numKitsMade. Stand positions empty count: "
 						+ count);
-				if (standPositions.get(1) == false
-						&& standPositions.get(2) == false) {
+				if (!standPositions.get(1) && !standPositions.get(2)) {
 					print("Neither position full");
 					status = StandStatus.KIT_REQUESTED;
 					requestKit(loc = 1);
 					print("I'm requesting a new kit at position 1");
 					return true;
-				} else if (standPositions.get(1) == false
-						|| standPositions.get(2) == false) {
-					if (numKitsToMake > 1) {
-						print("One position full, but need to make more than 1 kit.");
-						status = StandStatus.KIT_REQUESTED;
-						requestKit(loc = standPositions.get(1) == false ? 1 : 2);
-						print("I'm requesting a new kit at position " + loc);
-						return true;
-					}
+				} else {
+					print("One position full, but need to make more than 1 kit.");
+					status = StandStatus.KIT_REQUESTED;
+					requestKit(loc = standPositions.get(1) == false ? 1 : 2);
+					print("I'm requesting a new kit at position " + loc);
+					return true;
 				}
 			}
 		}
@@ -252,8 +249,8 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	private void requestKit(int index) {
 		status = StandStatus.IDLE;
-		kitrobot.msgNeedKit(index);
 		standPositions.put(index, true);
+		kitrobot.msgNeedKit(index);
 		stateChanged();
 	}
 
@@ -299,9 +296,9 @@ public class StandAgent extends Agent implements Stand {
 	 * Updates the FCS when a batch of kits has been completed.
 	 */
 	private void finalizeOrder() {
-		fcs.msgOrderFinished();
 		start = false;
 		status = StandStatus.DONE;
+		fcs.msgOrderFinished();
 		System.out.println("====================");
 		print("I FINISHED HURRAY");
 		System.out.println("====================");
