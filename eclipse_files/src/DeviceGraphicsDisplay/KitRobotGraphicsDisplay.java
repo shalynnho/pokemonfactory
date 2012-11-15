@@ -76,7 +76,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		initialJob = false;
 		finalJob = false;
 		jobIsDone = true;
-		degreeStep = 1;
+		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
 		currentDegree = 0;
 		finalDegree = 0;
 
@@ -153,11 +153,11 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void setPositiveDegreeStep() {
-		setDegreeStep(1);
+		setDegreeStep(Constants.KIT_ROBOT_DEGREE_STEP);
 	}
 
 	public void setNegativeDegreeStep() {
-		setDegreeStep(-1);
+		setDegreeStep(-Constants.KIT_ROBOT_DEGREE_STEP);
 	}
 
 	public void moveToInitialOrFinal() {
