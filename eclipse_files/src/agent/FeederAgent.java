@@ -76,7 +76,6 @@ public class FeederAgent extends Agent implements Feeder {
 	public void msgINeedPart(PartType type, LaneAgent lane) {
 		print("Received msgINeedPart");
 		boolean found = false;
-		synchronized(lanes) {
 		for (MyLane l : lanes) {
 			if (l.lane.equals(lane)) {
 				found = true;
@@ -86,7 +85,6 @@ public class FeederAgent extends Agent implements Feeder {
 					l.state = LaneStatus.NEEDS_PARTS;
 				}
 			}
-		}
 		}
 		if (!found) {
 			lanes.add(new MyLane(lane, type));
@@ -99,15 +97,14 @@ public class FeederAgent extends Agent implements Feeder {
 	public void msgHereAreParts(PartType type, Bin bin) {
 		print("Received msgHereAreParts " + type.toString());
 		this.bin = bin;
-		synchronized(lanes) {
 		for (MyLane lane : lanes) {
+			if(lane.type != null) {
 			if (lane.type.equals(type)) {
 				print("lane type is " + lane.type.toString());
 				lane.state = LaneStatus.GIVING_PARTS;
 				state = FeederStatus.FEEDING_PARTS;
-				break;
 			}
-		}
+			}
 		}
 		stateChanged();
 	}
@@ -123,6 +120,7 @@ public class FeederAgent extends Agent implements Feeder {
 	public void msgPurgeBinDone(Bin bin) {
 		print("Received msgPurgeBinDone from graphics");
 		// TODO Auto-generated method stub
+		state = FeederStatus.IDLE;
 		animation.release();
 	}
 
@@ -180,6 +178,7 @@ public class FeederAgent extends Agent implements Feeder {
 		lane.numPartsNeeded--;
 		lane.lane.msgHereIsPart(new Part(lane.type));
 		if (lane.numPartsNeeded == 0) {
+			print("shows up when working");
 			state=FeederStatus.PURGING;
 			lane.state = LaneStatus.DOES_NOT_NEED_PARTS;
 		}
@@ -188,13 +187,13 @@ public class FeederAgent extends Agent implements Feeder {
 
 	public void purgeBin() {
 		print("Purging this feeder");
-		/* feederGUI.purgeBin(bin.binGraphics);
+		feederGUI.purgeBin(bin.binGraphics);
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 
 		gantry.msgRemoveBinDone(bin);
 		bin = null;

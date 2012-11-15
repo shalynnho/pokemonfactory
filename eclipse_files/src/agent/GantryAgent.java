@@ -32,6 +32,7 @@ public class GantryAgent extends Agent implements Gantry {
 	public class MyFeeder {
 		public FeederAgent feeder;
 		public PartType requestedType;
+		public boolean request = false;
 		
 		public MyFeeder(FeederAgent feeder) {
 			this.feeder = feeder;
@@ -70,13 +71,16 @@ public class GantryAgent extends Agent implements Gantry {
 		boolean temp = true;
 		for(MyFeeder currentFeeder : feeders) {
 			if(currentFeeder.getFeeder() == feeder) {
-				currentFeeder.requestedType.equals(type);
+				currentFeeder.requestedType = type;
+				currentFeeder.request = true;
 				temp = false;
 				break;
 			}
 		}
 		if(temp == true) {
-			feeders.add(new MyFeeder(feeder, type));
+			MyFeeder currentFeeder = new MyFeeder(feeder, type);
+			currentFeeder.request = true;
+			feeders.add(currentFeeder);
 		}
 		stateChanged();
 	}
@@ -123,8 +127,9 @@ public class GantryAgent extends Agent implements Gantry {
 		if(waitForDrop == false) {
 			for (MyFeeder currentFeeder : feeders) {
 				for (Bin bin : binList) {
-					if (bin.part.type.equals(currentFeeder.getRequestedType()) && bin.binState == BinStatus.FULL) {
+					if (bin.part.type.equals(currentFeeder.getRequestedType()) && bin.binState == BinStatus.FULL && currentFeeder.request == true) {
 						print("Moving to feeder");
+						currentFeeder.request = false;
 						moveToFeeder(bin, currentFeeder.getFeeder());
 						return true;
 					}
@@ -180,9 +185,11 @@ public class GantryAgent extends Agent implements Gantry {
 	@Override
 	public void fillFeeder(Bin bin, FeederAgent feeder) {
 		print("Placing bin in feeder and filling feeder");
-		
+		bin.binState = BinStatus.FILLING_FEEDER;
+		waitForDrop = false;
 		
 		GUIGantry.dropBin(bin, feeder);
+		
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
@@ -190,7 +197,6 @@ public class GantryAgent extends Agent implements Gantry {
 			e.printStackTrace();
 		}
 		feeder.msgHereAreParts(bin.part.type, bin);
-		bin.binState = BinStatus.FILLING_FEEDER;
 
 		stateChanged();
 	}
@@ -199,7 +205,7 @@ public class GantryAgent extends Agent implements Gantry {
 	public void discardBin(Bin bin) {
 		print("Discarding bin");
 		bin.binState = BinStatus.DISCARDING;
-
+		
 		GUIGantry.removeBin(bin);
 		try {
 			animation.acquire();
