@@ -121,7 +121,7 @@ public class KitRobotManager extends Client implements ActionListener {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT);
+		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT, "Kit Robot Manager");
 
 		KitRobotManager mngr = new KitRobotManager();
 		frame.add(mngr);
