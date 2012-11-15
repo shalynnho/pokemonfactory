@@ -119,8 +119,6 @@ public class Server {
 				Constants.KIT_ROBOT_TARGET));
 		agents.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotAgent(
 				Constants.PARTS_ROBOT_TARGET));
-		agents.put(Constants.STAND_TARGET, new StandAgent(
-				Constants.STAND_TARGET));
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			agents.put(Constants.FEEDER_TARGET + i, new FeederAgent(
@@ -134,6 +132,10 @@ public class Server {
 			agents.put(Constants.NEST_TARGET + i, new NestAgent(
 					Constants.NEST_TARGET + i));
 		}
+		for (int i = 0; i < Constants.STAND_COUNT; i++) {
+			agents.put(Constants.STAND_TARGET + i, new StandAgent(
+					Constants.STAND_TARGET + i));
+		}
 	}
 
 	private void initDevices() {
@@ -142,7 +144,7 @@ public class Server {
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this,
 				agents.get(Constants.CONVEYOR_TARGET)));
 		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this,
-				agents.get(Constants.KIT_ROBOT_TARGET)));
+				agents.get(Constants.KIT_ROBOT_TARGET), agents.get(Constants.STAND_TARGET)));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this,
 				agents.get(Constants.PARTS_ROBOT_TARGET)));
 		devices.put(Constants.STAND_TARGET + 0, new InspectionStandGraphics(this, agents.get(Constants.STAND_TARGET + 0)));
