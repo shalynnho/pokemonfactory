@@ -91,7 +91,8 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 				// Constants.CONVEYOR_TARGET, null));
 
 				// There is more than one stand now. Use this Test Stand
-				StandAgent stand = (StandAgent) server.agents.get("Stand1");
+				StandAgent stand = (StandAgent) server.agents
+						.get(Constants.STAND_TARGET);
 				stand.msgMakeKits(1);
 			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 					+ Constants.DONE_SUFFIX)) {
