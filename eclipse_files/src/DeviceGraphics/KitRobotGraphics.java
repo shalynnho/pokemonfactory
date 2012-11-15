@@ -8,6 +8,7 @@ import Networking.Server;
 import Utils.Constants;
 import agent.Agent;
 import agent.KitRobotAgent;
+import agent.StandAgent;
 import agent.data.Kit;
 
 public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
@@ -23,14 +24,16 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	TreeMap<String, KitGraphics> kitPositions;
 
 	KitRobotAgent kitRobotAgent;
-
+	StandAgent standAgent;
+	
 	KitGraphics testKit1;
 	KitGraphics testKit2;
-	public KitRobotGraphics(Server s, Agent kra) {
+	public KitRobotGraphics(Server s, Agent kra, Agent sta) {
 		kitPositions = new TreeMap<String, KitGraphics>();
 		initKitPositions();
 		server = s;
 		kitRobotAgent = (KitRobotAgent) kra;
+		standAgent = (StandAgent)sta;
 		testKit1 = new KitGraphics(server);
 		testKit2 = new KitGraphics(server);
 	}
@@ -131,8 +134,20 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 				.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
 			server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
 					Constants.CONVEYOR_TARGET, null));
-		} else if (command.equals(Constants.KIT_ROBOT_ON_STAND_DONE)) {
+		} else if(command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT1_DONE)){
+			System.out.println("Is it null: " + (KitGraphics)kitPositions.get(Constants.KIT_LOCATION1)==null);
+			System.out.println("Is stand Agent null: " + standAgent==null);
+			System.out.println("Is kit Positions: " + kitPositions==null);
+			standAgent.fakeKitCompletion((KitGraphics)kitPositions.get(Constants.KIT_LOCATION1));
+			//kitRobotAgent.msgMoveKitToInspectionArea((KitGraphics)kitPositions.get(Constants.KIT_LOCATION1));
+		} else if(command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT2_DONE)){
+			
+			standAgent.fakeKitCompletion((KitGraphics)kitPositions.get(Constants.KIT_LOCATION2));
+		}
+		
+		else if (command.equals(Constants.KIT_ROBOT_ON_STAND_DONE)) {
 			System.out.println("placekitonStandDone sent");
+			//testing
 			kitRobotAgent.msgPlaceKitOnStandDone();
 		} else if (command.equals(Constants.KIT_ROBOT_ON_CONVEYOR_DONE)) {
 			System.out.println("placekitonconveyordone sent");
@@ -150,7 +165,8 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	public void msgPlaceKitOnStand1(KitGraphics kit) {
 		// TODO Auto-generated method stub
-
+		System.out.println(" asdfasddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+		//System.out.println("Check null: " + kit==null);
 		kitPositions.put(Constants.KIT_LOCATION1, kit);
 		server.sendData(new Request(
 				Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1,
@@ -167,7 +183,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	}
 	@Override
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
+		
 		if (location == 1) {
+			
 			msgPlaceKitOnStand1(kit);
 			/*server.sendData(new Request(
 					Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
