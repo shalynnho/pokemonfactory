@@ -172,14 +172,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * Give part to nest, removes from this lane
-	 */
-	public void givePartToNest() {
-		partsOnLane.remove(0);
-		partDoneCounter = 0;
-	}
-
-	/**
 	 * Receives and sorts messages/data from the server
 	 * 
 	 * @param r
@@ -203,16 +195,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
 				PartType type = (PartType) r.getData();
-				PartGraphicsDisplay pg = new PartGraphicsDisplay(type);
-				Location newLoc = new Location(laneLoc.getX() + LANE_LENGTH,
-						laneLoc.getY() + (PART_WIDTH / 2));
-				pg.setLocation(newLoc);
-				partsOnLane.add(pg);
+				receivePart(type);
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 			givePartToNest();
-			laneManager.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
-					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 
 		} else {
 			System.out.println("LANE_GD: command not recognized.");
@@ -226,6 +212,17 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void setLocation(Location newLocation) {
 		laneLoc = newLocation;
 	}
+
+	/**
+	 * Give part to nest, removes from this lane
+	 */
+	private void givePartToNest() {
+		partsOnLane.remove(0);
+		partDoneCounter = 0;
+		laneManager.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
+				+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
+	}
+
 
 	/**
 	 * Animates the lane lines
@@ -254,6 +251,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void purge() {
 		// TODO: lane should continue as is, parts fall off the lane
 		purging = true; // TODO: set purging to false again after all parts are cleared
+	}
+	
+	private void receivePart(PartType type) {
+		PartGraphicsDisplay pg = new PartGraphicsDisplay(type);
+		Location newLoc = new Location(laneLoc.getX() + LANE_LENGTH,
+				laneLoc.getY() + (PART_WIDTH / 2));
+		pg.setLocation(newLoc);
+		partsOnLane.add(pg);
 	}
 
 
