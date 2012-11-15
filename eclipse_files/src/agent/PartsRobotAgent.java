@@ -2,9 +2,9 @@ package agent;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.DeviceGraphics;
@@ -67,7 +67,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private KitConfig KitConfig;
 	private final List<MyKit> MyKits = Collections
 			.synchronizedList(new ArrayList<MyKit>());
-	public Map<Nest, List<Part>> GoodParts = new HashMap<Nest, List<Part>>();
+	public Map<Nest, List<Part>> GoodParts = new ConcurrentHashMap<Nest, List<Part>>();
 	public List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
 
 	List<Kit> KitsOnStand;
@@ -260,11 +260,11 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						// Checks if the kit is done
 						CheckMyKit(mk);
 					}
-					break;
 				}
 			}
-			stateChanged();
+
 		}
+		stateChanged();
 	}
 
 	private void CheckMyKit(MyKit mk) {
