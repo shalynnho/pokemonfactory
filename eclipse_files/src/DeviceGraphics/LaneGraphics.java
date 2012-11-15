@@ -78,7 +78,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		
 		// initialize lane components
 		partsOnLane = new ArrayList<PartGraphics>();
-//		agentPartsOnLane = new ArrayList<Part>();
 		amplitude = 5;
 		laneOn = true;
 		
