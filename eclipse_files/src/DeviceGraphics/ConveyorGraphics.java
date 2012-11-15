@@ -69,7 +69,8 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 			if (command
 					.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
 				// parsing object to kit object
-
+				System.out.println(this.toString()
+						+ " received server command to giveKitToKitRobot.");
 				giveKitToKitRobot();
 			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
 				System.out.println("Conveyor receives signal from kit");
@@ -93,9 +94,10 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 				// There is more than one stand now. Use this Test Stand
 				StandAgent stand = (StandAgent) server.agents
 						.get(Constants.STAND_TARGET);
-				stand.msgMakeKits(1);
+				stand.msgMakeKits(2);
 			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 					+ Constants.DONE_SUFFIX)) {
+				System.out.println(this.toString() + " sending emptyKitDone");
 				conveyorAgent.msgBringEmptyKitDone();
 			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND
 					+ Constants.DONE_SUFFIX)) {
