@@ -133,7 +133,11 @@ public class StandAgent extends Agent implements Stand {
 	public void msgMovedToInspectionArea(Kit k, int oldLocation) {
 		print("Received msgMovedToInspectionArea");
 		standPositions.put(oldLocation, false);
+		kitsOnStand.set(oldLocation, null);
+
+		standPositions.put(0, true);
 		kitsOnStand.set(0, k);
+
 		stateChanged();
 	}
 
@@ -148,6 +152,9 @@ public class StandAgent extends Agent implements Stand {
 				break;
 			}
 		}
+
+		standPositions.put(0, false);
+		kitsOnStand.set(0, null);
 		stateChanged();
 	}
 
@@ -200,7 +207,7 @@ public class StandAgent extends Agent implements Stand {
 			int loc = 0;
 			int count = 0;
 			// if (!kitRequested) {
-			for (int i = 1; i < 3; i++) {
+			for (int i = 0; i < 3; i++) {
 				if (!standPositions.get(i)) {
 					count++;
 				}
@@ -214,7 +221,8 @@ public class StandAgent extends Agent implements Stand {
 					requestKit(loc = 1);
 					print("I'm requesting a new kit at position 1");
 					return true;
-				} else {
+				} else if (!standPositions.get(1) && standPositions.get(2)
+						|| !standPositions.get(2) && standPositions.get(1)) {
 					print("One position full, but need to make more than 1 kit.");
 					status = StandStatus.KIT_REQUESTED;
 					requestKit(loc = standPositions.get(1) == false ? 1 : 2);
