@@ -2,6 +2,8 @@ package agent.data;
 
 import java.util.ArrayList;
 
+import Utils.Constants;
+
 import factory.KitConfig;
 import factory.PartType;
 
@@ -19,6 +21,7 @@ public class Kit {
 
 	public Kit() {
 		kitGraphics = new KitGraphics(null);
+		partsExpected = new KitConfig("default", Constants.DEFAULT_PARTTYPES.get(0));
 	}
 
 	public Kit(KitConfig expected) {
