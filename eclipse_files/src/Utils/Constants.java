@@ -225,7 +225,7 @@ public abstract class Constants {
 	
 	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_CONVEYOR = "robot logic moves loc2 to conv";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_CONVEYOR = "robot display moves kit to conv ";
-	
+
 	public static final String KIT_ROBOT_ON_INSPECTION_DONE = "robot display sends to robot logic that kit to inspeciton is done";
 	public static final String KIT_ROBOT_ON_STAND_DONE = "robot display sends to robot logic that kit to stand is done";
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE="robot display sends to robot logic that kit to conveyor is done";
@@ -240,7 +240,12 @@ public abstract class Constants {
 	public static final String KIT_INITIAL = "Kit initial area";	
 	// end kit positions
 	
+	//for kit robot agent test
+	public static final String KIT_ROBOT_AGENT_RECEIVES_KIT1_DONE = "sends agent kit1 full";
+	public static final String KIT_ROBOT_AGENT_RECEIVES_KIT2_DONE = "sends agent kit2 full";
 	
+	
+	// end kit robot agent test
 	
 	// stand commands
 	public static final String STAND_RECEIVE_KIT_COMMAND = "stand receive kit";
