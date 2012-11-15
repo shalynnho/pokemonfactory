@@ -151,12 +151,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 					}
 				}
 			}
-
 			// Checks if there is an empty arm, if there is it fills it with a
 			// good part that the kit needs
 			synchronized(Arms){
 			if (IsAnyArmEmpty()) {
-				
 				synchronized (GoodParts) {
 					for (Nest nest : GoodParts.keySet()) 
 					{	
@@ -167,8 +165,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 							{
 								// Checking if the good part is needed by
 								// either kit
+								
 								if(mk.partsLeft.getConfig().containsKey(part.type) && mk.partsLeft.getConfig().get(part.type) > 0)
 								{	
+									print("blocking 7");
 									print("Found a part I need");
 									for (Arm arm : Arms) 
 									{
@@ -205,6 +205,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void PickUpPart(Arm arm, Part part, Nest nest) {
 		synchronized(Arms){
+		
 		print("Picking up part");
 
 		arm.AS = ArmStatus.Full;
