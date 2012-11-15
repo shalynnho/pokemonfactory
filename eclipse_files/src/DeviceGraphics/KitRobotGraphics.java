@@ -24,11 +24,15 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	KitRobotAgent kitRobotAgent;
 
+	KitGraphics testKit1;
+	KitGraphics testKit2;
 	public KitRobotGraphics(Server s, Agent kra) {
 		kitPositions = new TreeMap<String, KitGraphics>();
 		initKitPositions();
 		server = s;
 		kitRobotAgent = (KitRobotAgent) kra;
+		testKit1 = new KitGraphics(server);
+		testKit2 = new KitGraphics(server);
 	}
 
 	public void initKitPositions() {
@@ -70,6 +74,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			if (tempKitGraphics==kit) {
 				kitPositions.put(kitGraphicsKey, null);
 				if (kitGraphicsKey.equals(Constants.KIT_LOCATION1)) {
+					server.sendData(new Request(
+							Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_INSPECTION,
+							Constants.KIT_ROBOT_TARGET, null));
 				} else {
 					server.sendData(new Request(
 							Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_INSPECTION,
@@ -78,9 +85,6 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			}
 
 		}
-		server.sendData(new Request(
-				Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_INSPECTION,
-				Constants.KIT_ROBOT_TARGET, null));
 		
 		kitPositions.put(Constants.KIT_INSPECTION_AREA, kit);
 
@@ -109,12 +113,20 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 		if (command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION1)) {
 			
-			msgPlaceKitOnStand(null, 1);
+			msgPlaceKitOnStand(testKit1, 1);
 		} 
+		else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION2)){
+			
+			msgPlaceKitOnStand(testKit2, 2);
+		}
 		else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_INSPECTION))
 		{
-			msgPlaceKitInInspectionArea(new KitGraphics(server));
+			msgPlaceKitInInspectionArea(testKit1);
 		
+		}
+		else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_INSPECTION))
+		{
+			msgPlaceKitInInspectionArea(testKit2);
 		}
 		else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR))
 		{
