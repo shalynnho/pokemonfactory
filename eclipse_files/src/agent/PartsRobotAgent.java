@@ -303,12 +303,14 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	// Checks if any of the arms are empty
 	private boolean IsAnyArmEmpty() {
+		synchronized(Arms){
 		for (Arm a : Arms) {
 			if (a.AS == ArmStatus.Empty) {
 				return true;
 			}
 		}
 		return false;
+		}
 	}
 
 	@Override
