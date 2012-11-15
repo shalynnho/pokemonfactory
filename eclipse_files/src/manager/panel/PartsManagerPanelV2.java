@@ -193,6 +193,7 @@ public class PartsManagerPanelV2 extends JPanel{
 			submitButton.setAlignmentX(0);
 			buttonPanel.add(submitButton);
 			
+			removeAllActionListener(submitButton);
 			submitButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
@@ -221,9 +222,11 @@ public class PartsManagerPanelV2 extends JPanel{
 		descField.setText(pt.getDescription());
 		submitButton.setText("Edit >");
 		
+		removeAllActionListener(submitButton);
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Edit name: " + nameField.getText());
 				manager.editPart(new PartType(
 						nameField.getText(),
 						Integer.parseInt(numField.getText()),
@@ -245,6 +248,7 @@ public class PartsManagerPanelV2 extends JPanel{
 		descField.setEnabled(false);
 		submitButton.setText("Delete >");
 		
+		removeAllActionListener(submitButton);
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -265,13 +269,22 @@ public class PartsManagerPanelV2 extends JPanel{
 		
 		rightPanel.restoreColors();
 		
-		//hack to trigger a repaint
-		leftTitle.setText("Create a New Part.");
+		validate();
 	}
 	
 	@Override
 	public void paintComponent(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
+	}
+	
+	/**
+	 * Removes all action listeners from a button. 
+	 * TODO consider moving this out, or starting own JButton subclass.
+	 */
+	public void removeAllActionListener(JButton button) {
+		for(ActionListener al : button.getActionListeners()) {
+			button.removeActionListener(al);
+		}
 	}
 }
