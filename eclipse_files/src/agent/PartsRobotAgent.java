@@ -66,7 +66,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		Empty, Full, Emptying
 	};
 
-	private KitConfig KitConfig;
+	private KitConfig Kitconfig;
 	private final List<MyKit> MyKits = Collections
 			.synchronizedList(new ArrayList<MyKit>());
 	public Map<Nest, List<Part>> GoodParts = new ConcurrentHashMap<Nest, List<Part>>();
@@ -89,7 +89,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	@Override
 	public void msgHereIsKitConfiguration(KitConfig config) {
 		print("Received msgHereIsKitConfiguration");
-		KitConfig = config;
+		Kitconfig = config;
 		stateChanged();
 	}
 
@@ -257,8 +257,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 					mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
 				}
 				*/
-				
-				mk.partsLeft.getConfig().put(arm.part.type, (mk.partsLeft.getConfig().get(arm.part) - 1));
+				mk.partsLeft.getConfig().put(arm.part.type, (mk.partsLeft.getConfig().get(arm.part.type)) - 1);
 				arm.part = null;
 				arm.AS = ArmStatus.Empty;
 			
@@ -321,11 +320,11 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	public KitConfig getKitConfig() {
-		return KitConfig;
+		return Kitconfig;
 	}
 
 	public void setKitConfig(KitConfig kitConfig) {
-		KitConfig = kitConfig;
+		Kitconfig = kitConfig;
 	}
 
 	public Map<Nest, List<Part>> getGoodParts() {
