@@ -186,7 +186,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void moveOut(int i, ArrayList<Location> a) {
 		if (a.get(i).getX() > 0) {
-			a.get(i).setX(a.get(i).getX() - velocity);
+			a.get(i).setX(a.get(i).getX() - 5);
 			// ConveyorLines move backward this time.
 		} else if (a.get(i).getX() <= 0) {
 			a.get(i).setX(155);
