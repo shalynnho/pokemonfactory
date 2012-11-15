@@ -86,13 +86,11 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public void msgReceivePartDone(PartGraphics part) {
 		print("Received msgReceivePartDone from graphics");
-		synchronized(currentParts) {
 		for (MyPart p : currentParts) {
 			if (p.status == PartStatus.BEGINNING_LANE) {
 				p.status = PartStatus.END_LANE;
 				break;
 			}
-		}
 		}
 		// animation.release();
 		stateChanged();
@@ -121,14 +119,14 @@ public class LaneAgent extends Agent implements Lane {
 			}
 			}
 		}
-		synchronized(currentParts) {
+		//synchronized(currentParts) {
 		for (MyPart part : currentParts) {
 			if (part.status == PartStatus.END_LANE) {
 				giveToNest(part.part);
 				return true;
 			}
 		}
-		}
+		//}
 		return false;
 	}
 
