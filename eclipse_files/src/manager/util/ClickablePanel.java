@@ -24,7 +24,9 @@ public class ClickablePanel extends OverlayPanel {
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				//TODO do not hardcode this
-				setBackground(new Color(255,255,255,20));
+				if(getBackground().equals(new Color(255,255,255,40))) {
+					setBackground(new Color(255,255,255,20));
+				}
 			}
 			
 			@Override

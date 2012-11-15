@@ -38,8 +38,8 @@ public abstract class Constants {
 	public static final int STAND_COUNT = 3;
 	
 	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(Arrays.asList(
-		new PartType("1"), new PartType("2"), new PartType("3"), new PartType("4"), 
-		new PartType("5"), new PartType("6"), new PartType("7"), new PartType("8")));
+		new PartType("1", 1, "Test"), new PartType("2", 2, "TestAB"), new PartType("3"), new PartType("4"), 
+		new PartType("5", 3, "More Test"), new PartType("6", 3, "Hello"), new PartType("7"), new PartType("8")));
 	
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(Arrays.asList(
 			new KitConfig("Default Kit", 

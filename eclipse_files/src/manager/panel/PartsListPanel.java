@@ -1,9 +1,11 @@
 package manager.panel;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -24,6 +26,7 @@ import factory.PartType;
 public class PartsListPanel extends OverlayPanel {
 	PartsListPanelHandler handler;
 	ArrayList<PartType> partTypes = new ArrayList<PartType>();
+	HashMap<PartType, JPanel> panels = new HashMap<PartType, JPanel>();
 	
 	public static final Border PADDING = BorderFactory.createEmptyBorder(20, 20, 20, 20);
 	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -45,7 +48,7 @@ public class PartsListPanel extends OverlayPanel {
 	}
 	
 	public void parsePartTypes() {
-		
+		panels.clear();
 		removeAll();
 		
 		for(PartType pt : partTypes) {
@@ -72,6 +75,7 @@ public class PartsListPanel extends OverlayPanel {
 			
 			// add padding
 			add(Box.createVerticalStrut(10));
+			panels.put(pt, panel);
 		}
 	}
 	
@@ -93,7 +97,11 @@ public class PartsListPanel extends OverlayPanel {
 
 		@Override
 		public void mouseClicked() {
+			for(JPanel panel : panels.values()) {
+				panel.setBackground(new Color(255, 255, 255, 20));
+			}
 			handler.editPart(pt);
+			panels.get(pt).setBackground(new Color(5, 151, 255, 80));
 		}
 	}
 	

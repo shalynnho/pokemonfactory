@@ -24,6 +24,13 @@ public class PartType implements Serializable {
 		// setImage();
 	}
 	
+	public PartType(String s, int num, String desc) {
+		name = s;
+		partNum = num;
+		description = desc;
+		this.id = StringUtil.md5(name);
+	}
+	
 	public String toString() {
 		return getName();
 	}

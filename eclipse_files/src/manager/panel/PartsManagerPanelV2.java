@@ -14,7 +14,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -37,6 +36,13 @@ public class PartsManagerPanelV2 extends JPanel{
 	PartsListPanel rightPanel;
 	
 	JLabel leftTitle;
+	JTextField nameField;
+	JTextField numField;
+	JTextArea descField;
+	JButton submitButton;
+	
+	boolean isEditing;
+	boolean isDeleting;
 	
 	ArrayList<PartType> partTypes = new ArrayList<PartType>();
 	
@@ -63,6 +69,7 @@ public class PartsManagerPanelV2 extends JPanel{
 		rightPanel = new PartsListPanel(new PartsListPanel.PartsListPanelHandler() {
 			@Override
 			public void editPart(PartType pt) {
+				startEditing(pt);
 				System.out.println("Editing a part..." + pt.getName());
 			}
 			@Override
@@ -79,15 +86,10 @@ public class PartsManagerPanelV2 extends JPanel{
 		
 		panels.add(rightPanel);
 
-		
 		setUpLeftPanel();
 	}
-	
+
 	public void setUpLeftPanel() {
-		setUpLeftPanel(null);
-	}
-	
-	public void setUpLeftPanel(PartType pt) {
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 		leftPanel.setBorder(PADDING);
@@ -109,7 +111,7 @@ public class PartsManagerPanelV2 extends JPanel{
 			nameLabel.setLabelSize(100, 25);
 			namePanel.add(nameLabel);
 			
-			JTextField nameField = new JTextField("name");
+			nameField = new JTextField("name");
 			nameField.setMaximumSize(new Dimension(200, 25));
 			nameField.setBorder(FIELD_PADDING);
 			namePanel.add(nameField);
@@ -126,7 +128,7 @@ public class PartsManagerPanelV2 extends JPanel{
 			numLabel.setLabelSize(100, 25);
 			numPanel.add(numLabel);
 			
-			JTextField numField = new JTextField("23");
+			numField = new JTextField("23");
 			numField.setMaximumSize(new Dimension(200, 25));
 			numField.setBorder(FIELD_PADDING);
 			numPanel.add(numField);
@@ -143,7 +145,7 @@ public class PartsManagerPanelV2 extends JPanel{
 			descLabel.setLabelSize(100, 25);
 			descPanel.add(descLabel);
 			
-			JTextArea descField = new JTextArea("Description...");
+			descField = new JTextArea("Description...");
 			descField.setMinimumSize(new Dimension(200, 100));
 			descField.setMaximumSize(new Dimension(200, 100));
 			descField.setPreferredSize(new Dimension(200, 100));
@@ -162,12 +164,26 @@ public class PartsManagerPanelV2 extends JPanel{
 			fakeLabel.setLabelSize(100, 25);
 			buttonPanel.add(fakeLabel);
 			
-			JButton submitButton = new JButton("Submit >");
+			submitButton = new JButton("Submit >");
 			submitButton.setMinimumSize(new Dimension (200, 25));
 			submitButton.setMaximumSize(new Dimension (200, 25));
 			submitButton.setPreferredSize(new Dimension (200, 25));
 			submitButton.setAlignmentX(0);
 			buttonPanel.add(submitButton);
+	}
+	
+	public void updatePartTypes(ArrayList<PartType> pt) {
+		rightPanel.updatePartTypes(pt);
+	}
+	
+	public void startEditing(PartType pt) {
+		isEditing = true;
+		
+		leftTitle.setText("Editing a Part");
+		nameField.setText(pt.getName());
+		numField.setText(String.valueOf(pt.getPartNum()));
+		descField.setText(pt.getDescription());
+		submitButton.setText("Edit >");
 	}
 	
 	@Override
