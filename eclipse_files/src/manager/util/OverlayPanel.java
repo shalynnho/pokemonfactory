@@ -32,13 +32,13 @@ public class OverlayPanel extends JPanel{
         super.paintComponent(g);
 	}
 	
-	public void setSize(Dimension d) {
+	public void setPanelSize(Dimension d) {
 		setPreferredSize(d);
 		setMinimumSize(d);
 		setMaximumSize(d);
 	}
 	
-	public void setSize(int width, int height) {
-		setSize(new Dimension(width, height));
+	public void setPanelSize(int width, int height) {
+		setPanelSize(new Dimension(width, height));
 	}
 }
