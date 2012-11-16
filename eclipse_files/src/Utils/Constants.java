@@ -100,7 +100,7 @@ public abstract class Constants {
 
 	// Kit Robot Images
 	public static final Image KIT_ROBOT_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "Square.jpg");
+			.getImage(IMAGE_PATH + "kit_robot.png");
 
 	// Gantry Robot Image
 	public static final Image GANTRY_ROBOT_IMAGE = Toolkit.getDefaultToolkit()
@@ -108,7 +108,7 @@ public abstract class Constants {
 
 	// Kit Images
 	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage(
-			IMAGE_PATH + "Kit.jpg");
+			IMAGE_PATH + "Kit.png");
 
 	// Nest Images
 	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit()
@@ -134,9 +134,7 @@ public abstract class Constants {
 
 	// Kit & Inspection Stand Images // TODO: add actual images
 	public static final Image STAND_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "Square.jpg");
-	public static final Image INSPECTION_STAND_IMAGE = Toolkit
-			.getDefaultToolkit().getImage(IMAGE_PATH + "Square.jpg");
+			.getImage(IMAGE_PATH + "stand.png");
 
 	// TARGET NAMES
 	// ==================================
