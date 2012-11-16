@@ -108,7 +108,7 @@ public abstract class Constants {
 
 	// Kit Images
 	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage(
-			IMAGE_PATH + "Kit.jpg");
+			IMAGE_PATH + "kit.png");
 
 	// Nest Images
 	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit()

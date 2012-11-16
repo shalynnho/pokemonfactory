@@ -77,7 +77,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void newKit() {
-		System.out.println("!~~~~~~~~~~~~~~~~~HERE!!!!");
 		KitGraphicsDisplay temp = new KitGraphicsDisplay();
 		temp.setLocation(new Location(kitsOnConveyor.size() * -100, 200));
 		kitsOnConveyor.add(temp);
@@ -85,7 +84,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void giveKitAway() {
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~Give it away");
 		kitsOnConveyor.remove(0);
 		incomingState = IncomingStatus.NO_KIT_WAITING;
 		velocity = 5;
@@ -97,7 +95,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void newExitKit() {
 		KitGraphicsDisplay temp = new KitGraphicsDisplay();
-		temp.setLocation(new Location(0, 400));
+		temp.setLocation(new Location(0, 80));
 		kitsToLeave.add(temp);
 	}
 
@@ -154,7 +152,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
 			tempKit.draw(c, g2);
-			if (tempKit.getLocation().getX() == 800) {
+			if (tempKit.getLocation().getX() == -80) {
 				animationDone(new Request(
 						Constants.CONVEYOR_RECEIVE_KIT_COMMAND
 								+ Constants.DONE_SUFFIX,
@@ -221,7 +219,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			// must take in int somehow
 		} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
 			newExitKit();
-			System.out.println("~~~~~~~~~~~~~~~EXITING!");
 		}
 	}
 
