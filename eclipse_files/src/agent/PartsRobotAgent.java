@@ -165,7 +165,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 							{
 								// Checking if the good part is needed by
 								// either kit
-								print("Kit needs: " + mk.kit.partsExpected.getConfig().toString());
+								//print("Kit needs: " + mk.kit.partsExpected.getConfig().toString());
 								if(mk.kit.needPart(part) > NumPartsInHand(part))
 								{	
 									print("Found a part I need");
