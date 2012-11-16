@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
+import manager.FactoryProductionManager;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -43,7 +44,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private ArrayList<Location> laneLines;
 
 	// the LaneManager (client) which talks to the Server
-	private Client laneManager;
+	private Client manager;
 	// the ID of this Lane
 	private int laneID;
 	// the amplitude of this lane
@@ -66,8 +67,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param lid
 	 *            - lane ID
 	 */
-	public LaneGraphicsDisplay(Client lm, int lid) {
-		laneManager = lm;
+	public LaneGraphicsDisplay(Client c, int lid) {
+		manager = c;
 		laneID = lid;
 
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
@@ -219,7 +220,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void givePartToNest() {
 		partsOnLane.remove(0);
 		partDoneCounter = 0;
-		laneManager.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
+		manager.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
 				+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 	}
 
@@ -298,7 +299,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	private void msgAgentReceivePartDone() {
 		if(partAtLaneEnd && (partDoneCounter == 0)) {
-			laneManager.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
+			manager.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
 					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 			partDoneCounter++;
 		}
