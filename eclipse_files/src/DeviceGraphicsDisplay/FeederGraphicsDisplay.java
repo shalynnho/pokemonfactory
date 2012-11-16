@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
 
+import manager.FactoryProductionManager;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -48,11 +49,16 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		// generate the feeder's location based on its ID
 		feederLocation = new Location(700, id*150 + 50);
 		
+		if (client instanceof FactoryProductionManager) {
+			System.out.println("Feeder created by FPM.");
+			System.out.println("OK to send done messages.");
+		} else {
+			System.out.println("Feeder not created by FPM.");
+			System.out.println("Not OK to send done messages.");
+		}
+		
 		// force an initial repaint to display feeder and diverter
 		// client.repaint();
-		
-		// set the feeder's default location
-		// feederLocation = loc;
 	}
 	
 	/**
@@ -64,10 +70,10 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (diverterTop) {
 			g.drawImage(Constants.LANE_LED_IMAGE, feederLocation.getX()+32, feederLocation.getY()+7, c);
 		}
-		
-		if (haveBin) {
-			bgd.draw(c, g);
-		}
+	
+//		if (haveBin) {
+//			bgd.draw(c, g);
+//		}
 	}
 	
 	/**
@@ -93,13 +99,20 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
 			diverterTop = !diverterTop;
-			client.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
+			
+			// Only send done messages if the client is FPM
+			if (client instanceof FactoryProductionManager) {
+				client.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
+			}
 		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			PartType type = (PartType) req.getData();
 			receiveBin(type);
 			// TODO figure out how to interface with gantry
 			haveBin = true;
-			client.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
+			
+			if (client instanceof FactoryProductionManager) {
+				client.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
+			}
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND)) {
 			// TODO future: move bin to purge area
 			
@@ -108,7 +121,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 				haveBin = false;
 			}
 			
-			client.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
+			if (client instanceof FactoryProductionManager) {
+				client.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
+			}
 		}
 	}
 }
