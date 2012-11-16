@@ -22,7 +22,7 @@ public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		g.drawImage(Constants.INSPECTION_STAND_IMAGE, location.getX(), location.getY(), c);
+		g.drawImage(Constants.STAND_IMAGE, location.getX(), location.getY(), c);
 		if (!isEmpty) {
 			kit.draw(c,g);
 		}	
