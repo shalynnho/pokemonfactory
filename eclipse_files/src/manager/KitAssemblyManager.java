@@ -8,7 +8,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import DeviceGraphicsDisplay.CameraGraphicsDisplay;
+import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
+import DeviceGraphicsDisplay.InspectionStandGraphicsDisplay;
+import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
+import DeviceGraphicsDisplay.NestGraphicsDisplay;
+import DeviceGraphicsDisplay.PartsRobotDisplay;
+import DeviceGraphicsDisplay.StandGraphicsDisplay;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -16,7 +23,7 @@ import Utils.Constants;
 public class KitAssemblyManager extends Client implements ActionListener {
 	// Window dimensions
 	private static final int WINDOW_WIDTH = 800;
-	private static final int WINDOW_HEIGHT = 600;
+	private static final int WINDOW_HEIGHT = 700;
 	
 	// Create a timer
 	private Timer timer;
@@ -26,7 +33,7 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	 */
 	public KitAssemblyManager() {
 		super();
-		clientName = Constants.GANTRY_ROBOT_MNGR_CLIENT;
+		clientName = Constants.KIT_ASSEMBLY_MNGR_CLIENT;
 		
 		initStreams();
 		initGUI();
@@ -54,6 +61,21 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	 */
 	public void initDevices() {
 		// TODO - add KitAssemblyManager devices here
+		
+		for (int i = 0; i < Constants.NEST_COUNT; i++) {
+			addDevice(Constants.NEST_TARGET + i, new NestGraphicsDisplay(this, i));
+		}
+		
+		addDevice(Constants.STAND_TARGET + 0, new InspectionStandGraphicsDisplay(this));
+		
+		for (int i = 1; i < Constants.STAND_COUNT; i++) {
+			addDevice(Constants.STAND_TARGET + i, new StandGraphicsDisplay(this, i));
+		}
+		
+		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this));
+		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
+		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
+		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 	}
 	
 	/**
@@ -62,9 +84,9 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT, "Kit Assembly Managers");
+		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT, "Kit Assembly Manager");
 		
-		FactoryProductionManager mngr = new FactoryProductionManager();
+		KitAssemblyManager mngr = new KitAssemblyManager();
 		frame.add(mngr);
 		mngr.setVisible(true);
 		frame.validate();

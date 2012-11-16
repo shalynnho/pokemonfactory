@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
+import DeviceGraphicsDisplay.FeederGraphicsDisplay;
+import DeviceGraphicsDisplay.GantryGraphicsDisplay;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -16,7 +18,7 @@ import Utils.Constants;
 public class GantryRobotManager extends Client implements ActionListener {
 	// Window dimensions
 	private static final int WINDOW_WIDTH = 800;
-	private static final int WINDOW_HEIGHT = 600;
+	private static final int WINDOW_HEIGHT = 700;
 
 	// Create a new timer
 	private Timer timer;
@@ -54,6 +56,14 @@ public class GantryRobotManager extends Client implements ActionListener {
 	 */
 	public void initDevices() {
 		// TODO - add GantryRobotManager devices here
+		
+		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
+			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));
+		}
+		
+		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
+
+		
 	}
 	
 	/**
@@ -64,7 +74,7 @@ public class GantryRobotManager extends Client implements ActionListener {
 		JFrame frame = new JFrame();
 		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT, "Gantry Robot Manager");
 		
-		FactoryProductionManager mngr = new FactoryProductionManager();
+		GantryRobotManager mngr = new GantryRobotManager();
 		frame.add(mngr);
 		mngr.setVisible(true);
 		frame.validate();
