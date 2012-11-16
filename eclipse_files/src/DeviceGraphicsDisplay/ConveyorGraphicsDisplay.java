@@ -156,6 +156,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 						Constants.CONVEYOR_RECEIVE_KIT_COMMAND
 								+ Constants.DONE_SUFFIX,
 						Constants.CONVEYOR_TARGET, null));
+				sendOut();
 			}
 			Location temp = tempKit.getLocation();
 			tempKit.setLocation(new Location(temp.getX() - 5, 85));

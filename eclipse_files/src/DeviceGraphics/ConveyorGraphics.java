@@ -58,9 +58,6 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 		kitsToLeave.add(kg);
 		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
 				Constants.CONVEYOR_TARGET, null));
-		System.out.println("~~~~~~~~~~~~~~~BOOOOO!");
-		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
-				Constants.CONVEYOR_TARGET, null));
 	}
 
 	@Override
@@ -116,7 +113,6 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 	@Override
 	public void msgReceiveKit(KitGraphics kit) {
 		receiveKit(kit);
-		System.out.println("QWERQWERQWERQWERQWERQWERQWERQWERQWERQERQWERQER...");
 	}
 
 }
