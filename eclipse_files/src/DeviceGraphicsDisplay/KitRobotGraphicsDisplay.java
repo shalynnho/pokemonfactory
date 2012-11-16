@@ -50,11 +50,11 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	int finalDegree;
 	int degreeCountDown;
 
-	int rotationAxisX;
-	int rotationAxisY;
+	double rotationAxisX;
+	double rotationAxisY;
 
-	int kitRobotPositionX;
-	int kitRobotPositionY;
+	double kitRobotPositionX;
+	double kitRobotPositionY;
 	AffineTransform trans;
 
 	Client kitRobotClient;
@@ -84,10 +84,10 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		// image =new
 		// ImageIcon(this.getClass().getResource("/resource/Square.jpg"));
-		rotationAxisX = 25;
-		rotationAxisY = 25;
-		kitRobotPositionX = 195;
-		kitRobotPositionY = 215;
+		rotationAxisX = 112.5;
+		rotationAxisY = 37.5;
+		kitRobotPositionX = 95;
+		kitRobotPositionY = 192.5;
 
 		trans.translate(kitRobotPositionX, kitRobotPositionY);
 		rectangle1 = new Rectangle2D.Double(0, 0, 600, 400);
