@@ -149,6 +149,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 					}
 				}
 			}
+		}
 			// Checks if there is an empty arm, if there is it fills it with a
 			// good part that the kit needs
 			synchronized(Arms){
@@ -159,14 +160,16 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						// Going through all the good parts
 						for (Part part : GoodParts.get(nest)) 
 						{
+							synchronized(MyKits){
 							for (MyKit mk : MyKits) 
 							{
 								// Checking if the good part is needed by
 								// either kit
-								
-								if(mk.kit.needPart(part))
+								//print("Kit needs: " + mk.kit.partsExpected.getConfig().toString());
+								if(mk.kit.needPart(part) > NumPartsInHand(part))
 								{	
 									print("Found a part I need");
+									
 									for (Arm arm : Arms) 
 									{
 										if (arm.AS == ArmStatus.Empty) 
@@ -176,19 +179,23 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 											return true;
 										}
 									}
+									
 								}
+							}
 							}
 						}
 					}
 				}
 			}
 			}
-		}
+		
 
 		// Checks if any arm is holding a part and places it if there is one
 		synchronized(Arms){
 		for (Arm arm : Arms) {
+			
 			if (arm.AS == ArmStatus.Full) {
+				print("Arm holding: " + arm.part.type.toString());
 				PlacePart(arm);
 				return true;
 			}
@@ -196,6 +203,20 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 		return false;
+	}
+
+	private int NumPartsInHand(Part part) {
+		synchronized(Arms){
+		int count = 0;
+		for(Arm a: Arms){
+			if(a.part != null){
+				if(a.part.type == part.type){
+					count++;
+				}
+			}
+		}
+		return count;
+		}
 	}
 
 	/********** ACTIONS **************/
@@ -227,40 +248,38 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void PlacePart(Arm arm) {
 		synchronized(Arms){
-
 			synchronized(MyKits){
-			for (MyKit mk : MyKits) {
-			
-			if (mk.kit.needPart(arm.part)) {
-				print("Placing part");
+				for (MyKit mk : MyKits) {
+					if (mk.kit.needPart(arm.part) > 0) {
+						print("Placing part");
 				
-				if (partsRobotGraphics != null) {
-					partsRobotGraphics.givePartToKit(arm.part.partGraphics,
+						if (partsRobotGraphics != null) {
+							partsRobotGraphics.givePartToKit(arm.part.partGraphics,
 							mk.kit.kitGraphics);
-					try {
-						animation.acquire();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+							try {
+								animation.acquire();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						// Tells the kit it has the part now
+						mk.kit.parts.add(arm.part);
+						/* ANIMATION NOT WORKING THIS PART
+						if (mk.kit.kitGraphics != null) {
+							System.out.println("receiving part");
+						mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
+						}
+						 */
+						arm.part = null;
+						arm.AS = ArmStatus.Empty;
+			
+						// Checks if the kit is done
+						CheckMyKit(mk);
+						break;
 					}
 				}
-				// Tells the kit it has the part now
-				mk.kit.parts.add(arm.part);
-				/* ANIMATION NOT WORKING THIS PART
-				if (mk.kit.kitGraphics != null) {
-					System.out.println("receiving part");
-					mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
-				}
-				*/
-				arm.part = null;
-				arm.AS = ArmStatus.Empty;
-			
-				// Checks if the kit is done
-				CheckMyKit(mk);
 			}
-				break;
-			}
-		}
-		stateChanged();
+			stateChanged();
 		}
 	}
 
