@@ -145,7 +145,7 @@ public class CameraAgent extends Agent implements Camera {
 		animation.release();
 		stateChanged();
 	}
-
+/*
 	// Hack for V0 Only
 	public void startV0Sequence(KitGraphics kg) {
 		Kit k = new Kit();
@@ -168,7 +168,7 @@ public class CameraAgent extends Agent implements Camera {
 			}
 		}
 	}
-
+*/
 	/*********** SCHEDULER **************/
 	@Override
 	public boolean pickAndExecuteAnAction() {
