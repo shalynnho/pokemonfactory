@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import manager.LaneManager;
+import manager.FactoryProductionManager;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -28,7 +28,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int BOTTOM_ROW_OFFSET = 23;
 
 	// the LaneManager (client) which talks to the Server
-	private LaneManager laneManager;
+	private Client manager;
 	// the id of this nest
 	private int nestID;
 	// location of the nest
@@ -45,7 +45,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Default constructor
 	 */
 	public NestGraphicsDisplay(Client c, int id) {
-		laneManager = (LaneManager) c;
+		manager = c;
 		nestID = id;
 		isFull = true;
 
@@ -117,7 +117,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void givePartToPartsRobot() {
 		partsInNest.remove(0); // TODO: later might need to animate this
 		setPartLocations();
-		laneManager.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND
+		manager.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND
 				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
 	}
 
@@ -126,14 +126,14 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		for (int i = 0; i < partsInNest.size(); i++) {
 			partsInNest.remove(0);
 		}
-		laneManager.sendData(new Request(Constants.NEST_PURGE_COMMAND
+		manager.sendData(new Request(Constants.NEST_PURGE_COMMAND
 				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
 	}
 
 	private void receivePart(PartType type) {
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(type);
 		partsInNest.add(pgd);
-		laneManager.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND
+		manager.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND
 				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
 	}
 
