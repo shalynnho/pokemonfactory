@@ -57,8 +57,11 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 	 */
 	public void receiveKit(KitGraphics kg) {
 		kitsToLeave.add(kg);
+		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
+				Constants.CONVEYOR_TARGET, null));
 		System.out.println("~~~~~~~~~~~~~~~BOOOOO!");
-		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
+		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
+				Constants.CONVEYOR_TARGET, null));
 	}
 
 	@Override
@@ -86,11 +89,13 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 				// There is more than one stand now. Use this Test Stand
 				StandAgent stand = (StandAgent) server.agents
 						.get(Constants.STAND_TARGET);
-				stand.msgMakeKits(1); // TODO: Change
+				stand.msgMakeKits(5); // TODO: Change
 			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 					+ Constants.DONE_SUFFIX)) {
 				System.out.println(this.toString() + " sending emptyKitDone");
-				//server.sendData(new Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND, Constants.CONVEYOR_TARGET, null));
+				// server.sendData(new
+				// Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
+				// Constants.CONVEYOR_TARGET, null));
 				conveyorAgent.msgBringEmptyKitDone();
 			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND
 					+ Constants.DONE_SUFFIX)) {

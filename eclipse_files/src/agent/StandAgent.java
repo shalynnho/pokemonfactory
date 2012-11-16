@@ -69,7 +69,7 @@ public class StandAgent extends Agent implements Stand {
 	}
 
 	public enum KitStatus {
-		RECEIVED, PLACED_ON_STAND, ASSEMBLED, MARKED_FOR_INSPECTION, AWAITING_INSPECTION, INSPECTED, SHIPPED;
+		RECEIVED, PLACED_ON_STAND, ASSEMBLED, MARKED_FOR_INSPECTION, AWAITING_INSPECTION, INSPECTED, SHIPPED, DELIVERED;
 	};
 
 	/**
@@ -188,6 +188,7 @@ public class StandAgent extends Agent implements Stand {
 					}
 					// Kit robot shipped a kit
 					else if (mk.KS == KitStatus.SHIPPED) {
+						// mk.KS = KitStatus.DELIVERED;
 						kitsOnStand.set(0, null);
 						print("Removing " + mk.kit.toString() + " (shipped)");
 						myKits.remove(mk);

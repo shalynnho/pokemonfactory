@@ -108,6 +108,7 @@ public abstract class Constants {
 
 	// Kit Images
 	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage(
+
 			IMAGE_PATH + "kit.png");
 
 	// Nest Images
@@ -134,9 +135,7 @@ public abstract class Constants {
 
 	// Kit & Inspection Stand Images // TODO: add actual images
 	public static final Image STAND_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "Square.jpg");
-	public static final Image INSPECTION_STAND_IMAGE = Toolkit
-			.getDefaultToolkit().getImage(IMAGE_PATH + "Square.jpg");
+			.getImage(IMAGE_PATH + "stand.png");
 
 	// TARGET NAMES
 	// ==================================
