@@ -144,8 +144,8 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				// print("Kit " + j + " is at "
 				// + kitsOnConveyor.get(j).getLocation().getX()
 				// + " and will stop");
-				print("There are " + kitsOnConveyor.size()
-						+ " kits on the incoming conveyor");
+				// print("There are " + kitsOnConveyor.size()
+				// + " kits on the incoming conveyor");
 				// KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				kitsOnConveyor.get(j).draw(c, g2);
 				// Location temp = tempKit.getLocation();
