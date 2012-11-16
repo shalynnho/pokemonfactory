@@ -1,38 +1,40 @@
 package manager.panel;
 
-import javax.swing.JPanel;
-import java.awt.GridLayout;
-import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
 import java.awt.CardLayout;
-import javax.swing.JSplitPane;
-import javax.swing.SpringLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.JTable;
-import java.awt.event.*;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import javax.swing.BoxLayout;
-import javax.swing.SwingConstants;
-import java.awt.Component;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
-import javax.swing.border.BevelBorder;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
-import Utils.Constants;
+
+import factory.KitConfig;
+import factory.Order;
+
 
 /*
-* Authorship: Aaron Harris
+* Authorship: Aaron Harris and Matt Zecchini
 */
 
 public class KitManagerPanel extends JPanel{
 	private JComboBox[] cbPart;
 	private JTable tblSched;
 	private JTextField tfName;
+	private DefaultComboBoxModel defaultComboBox;
+	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
+	private ArrayList<Order> schedule = new ArrayList<Order>();
 
 	/**
 	 * Create the panel.
@@ -51,7 +53,14 @@ public class KitManagerPanel extends JPanel{
 		JPanel pnlKitChooser = new JPanel();
 		managerPanel.add(pnlKitChooser, BorderLayout.NORTH);
 		
+		
 		JComboBox cbKits = new JComboBox();
+		defaultComboBox = (DefaultComboBoxModel)cbKits.getModel();
+		
+		//This populates the ComboBox at the top of the layout with the list of kitConfigs 
+		//from Constants
+		for(int i = 0; i<Utils.Constants.DEFAULT_KITCONFIGS.size();i++)
+			cbKits.addItem(Utils.Constants.DEFAULT_KITCONFIGS.get(i).getName());
 		pnlKitChooser.add(cbKits);
 		
 		JButton btnAddKit = new JButton("New Kit Arrangement");
@@ -76,6 +85,11 @@ public class KitManagerPanel extends JPanel{
 		pnlButtons.add(pnlEdit, "Edit Buttons");
 		
 		JButton btnSaveChg = new JButton("Save Changes");
+		btnSaveChg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				//TODO: call method that saves changes
+			}
+		});
 		pnlEdit.add(btnSaveChg);
 		
 		JButton btnCnclChg = new JButton("Cancel Changes");
@@ -117,7 +131,7 @@ public class KitManagerPanel extends JPanel{
 //		gbl_pnlParts.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		pnlParts.setLayout(gbl_pnlParts);
 
-		// This loop adds the 8 Part labels (Part 1, Part 2, ... Part 8) to the panel iteratevly
+		// This loop adds the 8 Part labels (Part 1, Part 2, ... Part 8) to the panel iteratively
 		for (int i = 0; i < 4; i++) {
 			GridBagConstraints gbc_lblPart = new GridBagConstraints();
 			JLabel lblPart = new JLabel("Part " + (i+1) + ":");
@@ -165,6 +179,11 @@ public class KitManagerPanel extends JPanel{
 		schedPanel.add(pnlRefresh, BorderLayout.NORTH);
 		
 		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent ae){
+				//TODO: call method to clear tblSched and then print new factory schedule from server
+			}
+		});
 		pnlRefresh.add(btnRefresh);
 		
 		tblSched = new JTable();
@@ -172,4 +191,22 @@ public class KitManagerPanel extends JPanel{
 		schedPanel.add(tblSched, BorderLayout.CENTER);
 
 	}
+
+
+	public void updateKitConfigs(ArrayList<KitConfig> kc)
+	{
+		kitConfigs = kc;
+	
+		//clear the JComboBox
+		defaultComboBox.removeAllElements();
+	
+		//finish implementation of this method to update the arraylist of available kitconfigs
+	}
+	
+	public void updateOrders(ArrayList<Order> o)
+	{
+		//if we used a JTextArea instead of a JTable for the schedule, we could just reuse the code
+		//from FactoryProductionManagerPanel here.
+	}
+
 }
