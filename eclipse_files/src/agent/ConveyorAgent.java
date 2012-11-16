@@ -23,6 +23,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	private final List<MyKit> kitsOnConveyor = Collections
 			.synchronizedList(new ArrayList<MyKit>());
+	private final List<MyKit> kitsOnOutboundConveyor = Collections
+			.synchronizedList(new ArrayList<MyKit>());
 
 	private KitConfig kitConfig;
 
@@ -108,9 +110,9 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	public void msgTakeKitAway(Kit k) {
 		print("Received msgTakeKitAway");
 		MyKit mk = new MyKit(k);
-		outgoingKit = mk;
 		mk.KS = KitStatus.AWAITING_DELIVERY;
-		kitsOnConveyor.add(mk);
+		kitsOnOutboundConveyor.add(mk);
+		print(mk.toString() + " was added to outbound conveyor.");
 		stateChanged();
 	}
 
@@ -132,7 +134,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void msgReceiveKitDone() {
 		print("Received msgReceiveKitDone from graphics");
-		kitsOnConveyor.remove(outgoingKit);
+		kitsOnOutboundConveyor.remove(0);
 		// animation.release();
 		stateChanged();
 	}
@@ -162,16 +164,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 						return true;
 					}
 
-					// Place kit onto conveyor and start moving it out of the
-					// cell
-					// if
-					// the kit robot has dropped off a completed kit
-					else if (mk.KS == KitStatus.AWAITING_DELIVERY) {
-						mk.KS = KitStatus.MOVING_OUT;
-						deliverKit(mk);
-						return true;
-					}
-
 					// Send the kit if it has reached the "stop" position on the
 					// conveyor where the kit robot can pick it up.
 					else if (mk.KS == KitStatus.ARRIVED_AT_PICKUP_LOCATION) {
@@ -192,9 +184,24 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 			}
 
+			// print("Checking kits on outbound conveyor");
+			synchronized (kitsOnOutboundConveyor) {
+				for (MyKit mk : kitsOnOutboundConveyor) {
+					// Place kit onto conveyor and start moving it out of
+					// the
+					// cell if the kit robot has dropped off a completed kit
+					if (mk.KS == KitStatus.AWAITING_DELIVERY) {
+						print(mk.toString() + " is awaiting delivery");
+						mk.KS = KitStatus.MOVING_OUT;
+						deliverKit(mk);
+						return true;
+					}
+				}
+			}
+
 			if (kitsOnConveyor.size() == 0) {
 				kitrobot.msgNoKitsLeftOnConveyor();
-				start = false;
+				// start = false;
 				// return true;
 			} else {
 				// print("There are " + kitsOnConveyor.size()
@@ -255,12 +262,12 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		if (conveyorGraphics != null) {
 			conveyorGraphics.msgGiveKitToKitRobot(mk.kit.kitGraphics);
 		}
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// try {
+		// animation.acquire();
+		// } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 		kitrobot.msgHereIsKit(mk.kit);
 		state = ConveyorState.IDLE;
 		kitsOnConveyor.remove(mk);
@@ -283,6 +290,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		if (conveyorGraphics != null) {
 			conveyorGraphics.msgReceiveKit(mk.kit.kitGraphics);
 		}
+		print("Asking graphics to deliver the kit");
 		stateChanged();
 	}
 
