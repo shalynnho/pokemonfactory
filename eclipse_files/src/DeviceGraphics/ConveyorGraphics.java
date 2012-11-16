@@ -59,6 +59,9 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 		kitsToLeave.add(kg);
 		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
 				Constants.CONVEYOR_TARGET, null));
+		System.out.println("~~~~~~~~~~~~~~~BOOOOO!");
+		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
+				Constants.CONVEYOR_TARGET, null));
 	}
 
 	@Override
@@ -75,11 +78,6 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 						+ " received server command to giveKitToKitRobot.");
 				giveKitToKitRobot();
 			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
-				System.out.println("Conveyor receives signal from kit");
-				kitsToLeave.add(new KitGraphics(server));
-				server.sendData(new Request(
-						Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
-						Constants.CONVEYOR_TARGET, null));
 
 			} else if (command
 					.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {
@@ -88,18 +86,16 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 					.equals(Constants.CONVEYOR_SEND_ANIMATION_COMMAND)) {
 				// still not quite sure how to implement this yet
 			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
-				// bringEmptyKit(new KitGraphics());
-				// server.sendData(new
-				// Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
-				// Constants.CONVEYOR_TARGET, null));
-
 				// There is more than one stand now. Use this Test Stand
 				StandAgent stand = (StandAgent) server.agents
 						.get(Constants.STAND_TARGET);
-				stand.msgMakeKits(5); // TODO: Change
+				stand.msgMakeKits(1); // TODO: Change
 			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 					+ Constants.DONE_SUFFIX)) {
 				System.out.println(this.toString() + " sending emptyKitDone");
+				// server.sendData(new
+				// Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
+				// Constants.CONVEYOR_TARGET, null));
 				conveyorAgent.msgBringEmptyKitDone();
 			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND
 					+ Constants.DONE_SUFFIX)) {
@@ -122,6 +118,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 	@Override
 	public void msgReceiveKit(KitGraphics kit) {
 		receiveKit(kit);
+		System.out.println("QWERQWERQWERQWERQWERQWERQWERQWERQWERQERQWERQER...");
 	}
 
 }

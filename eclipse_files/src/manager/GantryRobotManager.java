@@ -19,6 +19,9 @@ public class GantryRobotManager extends Client implements ActionListener {
 	// Window dimensions
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 700;
+	
+	// DISPLAY OFFSET, feel free to change
+	private static final int OFFSET = -400;
 
 	// Create a new timer
 	private Timer timer;
@@ -78,6 +81,14 @@ public class GantryRobotManager extends Client implements ActionListener {
 		frame.add(mngr);
 		mngr.setVisible(true);
 		frame.validate();
+	}
+	
+	/**
+	 * 
+	 * @return display offset
+	 */
+	public int getOffset() {
+		return OFFSET;
 	}
 	
 	/**

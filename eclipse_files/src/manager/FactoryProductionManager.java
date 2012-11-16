@@ -25,6 +25,9 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	private static final int WINDOW_WIDTH = 1200;
 	private static final int WINDOW_HEIGHT = 700;
 	
+	// DISPLAY OFFSET
+	private static final int OFFSET = 0;
+	
 	// Create a new control panel for the FPM
 	private FactoryProductionManagerPanel fpmPanel;
 	
@@ -109,6 +112,14 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 */
 	public void createOrder(Order o) {
 		this.sendData(new Request(Constants.FCS_ADD_ORDER, Constants.FCS_TARGET, o));
+	}
+	
+	/**
+	 * 
+	 * @return display offset
+	 */
+	public int getOffset() {
+		return OFFSET;
 	}
 
 	/**
