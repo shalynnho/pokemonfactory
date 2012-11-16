@@ -193,13 +193,15 @@ public class KitRobotAgent extends Agent implements KitRobot {
 				// Kit needs to be shipped out of the kitting cell
 				if (mk.KS == KitStatus.INSPECTED) {
 					mk.KS = KitStatus.SHIPPED;
+					numKitsToMake--;
 					shipKit(mk);
 					return true;
 				}
 
 				// Kit needs to be inspected
 				if (mk.KS == KitStatus.MARKED_FOR_INSPECTION
-				/* && standPositions.get(0) */) { // TODO: Re-enable this later
+						&& standPositions.get(0)) { // TODO: Re-enable this
+													// later
 					mk.KS = KitStatus.AWAITING_INSPECTION;
 					placeKitInInspectionArea(mk);
 					return true;
