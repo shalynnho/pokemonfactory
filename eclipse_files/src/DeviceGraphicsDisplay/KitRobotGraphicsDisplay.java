@@ -269,6 +269,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 							Constants.KIT_ROBOT_ON_STAND_DONE,
 							Constants.KIT_ROBOT_TARGET, null));
 				} else if (position.equals(Position.goodConveyorPosition)) {
+					kits.remove(currentKit);
 					kitRobotClient.sendData(new Request(
 							Constants.KIT_ROBOT_ON_CONVEYOR_DONE,
 							Constants.KIT_ROBOT_TARGET, null));
