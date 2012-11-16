@@ -27,6 +27,9 @@ public class LaneManager extends Client implements ActionListener{
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 700;
 	
+	// DISPLAY OFFSET, feel free to change
+	private static final int OFFSET = -300;
+	
 	// Create a new timer
 	private Timer timer;
 	
@@ -115,6 +118,14 @@ public class LaneManager extends Client implements ActionListener{
 		devices.get(req.getTarget()).receiveData(req);
 	}
 
+	/**
+	 * 
+	 * @return display offset
+	 */
+	public int getOffset() {
+		return OFFSET;
+	}
+	
 	/**
 	 * Main method sets up the JFrame
 	 * @param args
