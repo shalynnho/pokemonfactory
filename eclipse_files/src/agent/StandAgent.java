@@ -212,7 +212,8 @@ public class StandAgent extends Agent implements Stand {
 					count++;
 				}
 			}
-			if (numKitsToMake > 0 && numKitsToMake > numKitsMade && count > 0) {
+			if (numKitsToMake > 0 && numKitsToMake > numKitsMade + 3 - count
+					&& count > 0) { // TODO: Why count > 0?
 				print("NumKits to make greater than numKitsMade. Stand positions empty count: "
 						+ count);
 				if (!standPositions.get(1) && !standPositions.get(2)) {
