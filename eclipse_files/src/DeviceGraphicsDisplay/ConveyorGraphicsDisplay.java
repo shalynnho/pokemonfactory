@@ -149,7 +149,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 		}
 
-		System.out.println("asdkgj;kdgj;aksdgjksjdgkadgj!!!    " + kitsToLeave.size());
+		//System.out.println("asdkgj;kdgj;aksdgjksjdgkadgj!!!    " + kitsToLeave.size());
 		for (int i = 0; i < kitsToLeave.size(); i++) {
 
 			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
@@ -161,8 +161,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 						Constants.CONVEYOR_TARGET, null));
 			}
 			Location temp = tempKit.getLocation();
-			tempKit.setLocation(new Location(temp.getX() + 5, temp
-					.getY()));
+			tempKit.setLocation(new Location(temp.getX() - 5, 85));
 		}
 	}
 
