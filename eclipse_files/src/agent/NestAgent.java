@@ -173,7 +173,8 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void moveToPosition(Part part) {
 		print("Moving part to proper nest location");
-		if (nestGraphics != null) {
+		
+		/*if (nestGraphics != null) {
 			// TODO
 			nestGraphics.receivePart(part.partGraphics);
 		}
@@ -183,6 +184,7 @@ public class NestAgent extends Agent implements Nest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
