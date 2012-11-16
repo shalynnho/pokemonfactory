@@ -152,7 +152,7 @@ public class V1_Agents_Mock_Graphics {
 		fcs.startThread();
 
 		fcs.msgStartProduction();
-		fcs.msgAddKitsToQueue(new Order(kg, 1));
+		fcs.msgAddKitsToQueue(new Order(kg, 2));
 	}
 
 }

@@ -138,7 +138,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-
+print("wee");
 		// Checks if a kit is done and inspects it if it is
 		synchronized (MyKits) {
 			if (MyKits.size() > 0) {
@@ -222,9 +222,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	/********** ACTIONS **************/
 
 	private void PickUpPart(Arm arm, Part part, Nest nest) {
+
+		print("Picking up part");
 		synchronized(Arms){
 		
-		print("Picking up part");
 
 		arm.AS = ArmStatus.Full;
 		arm.part = part;
@@ -247,11 +248,12 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void PlacePart(Arm arm) {
+		print("Placing part");
 		synchronized(Arms){
 			synchronized(MyKits){
 				for (MyKit mk : MyKits) {
 					if (mk.kit.needPart(arm.part) > 0) {
-						print("Placing part");
+						
 				
 						if (partsRobotGraphics != null) {
 							partsRobotGraphics.givePartToKit(arm.part.partGraphics,
@@ -264,12 +266,12 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						}
 						// Tells the kit it has the part now
 						mk.kit.parts.add(arm.part);
-						/* ANIMATION NOT WORKING THIS PART
+						/*
 						if (mk.kit.kitGraphics != null) {
 							System.out.println("receiving part");
 						mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
 						}
-						 */
+						*/
 						arm.part = null;
 						arm.AS = ArmStatus.Empty;
 			
