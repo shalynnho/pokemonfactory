@@ -64,12 +64,12 @@ public class StandAgent extends Agent implements Stand {
 
 		public MyKit(Kit k) {
 			this.kit = k;
-			this.KS = KitStatus.Received;
+			this.KS = KitStatus.RECEIVED;
 		}
 	}
 
 	public enum KitStatus {
-		Received, PlacedOnStand, Assembled, MarkedForInspection, AwaitingInspection, Inspected, Shipped;
+		RECEIVED, PLACED_ON_STAND, ASSEMBLED, MARKED_FOR_INSPECTION, AWAITING_INSPECTION, INSPECTED, SHIPPED;
 	};
 
 	/**
@@ -122,7 +122,7 @@ public class StandAgent extends Agent implements Stand {
 		print("Received msgKitAssembled");
 		for (MyKit mk : myKits.keySet()) {
 			if (mk.kit == k) {
-				mk.KS = KitStatus.Assembled;
+				mk.KS = KitStatus.ASSEMBLED;
 				break;
 			}
 		}
@@ -133,7 +133,11 @@ public class StandAgent extends Agent implements Stand {
 	public void msgMovedToInspectionArea(Kit k, int oldLocation) {
 		print("Received msgMovedToInspectionArea");
 		standPositions.put(oldLocation, false);
+		kitsOnStand.set(oldLocation, null);
+
+		standPositions.put(0, true);
 		kitsOnStand.set(0, k);
+
 		stateChanged();
 	}
 
@@ -142,12 +146,15 @@ public class StandAgent extends Agent implements Stand {
 		print("Received msgShippedKit");
 		for (MyKit mk : myKits.keySet()) {
 			if (mk.kit == kitsOnStand.get(0)) {
-				mk.KS = KitStatus.Shipped;
+				mk.KS = KitStatus.SHIPPED;
 				numKitsMade++;
 				print(numKitsToMake - numKitsMade + " kits left to make");
 				break;
 			}
 		}
+
+		standPositions.put(0, false);
+		kitsOnStand.set(0, null);
 		stateChanged();
 	}
 
@@ -174,12 +181,13 @@ public class StandAgent extends Agent implements Stand {
 
 				for (MyKit mk : myKits.keySet()) {
 					// Received a kit from kit robot
-					if (mk.KS == KitStatus.Received) {
+					if (mk.KS == KitStatus.RECEIVED) {
+						mk.KS = KitStatus.PLACED_ON_STAND;
 						placeKit(mk);
 						return true;
 					}
 					// Kit robot shipped a kit
-					if (mk.KS == KitStatus.Shipped) {
+					else if (mk.KS == KitStatus.SHIPPED) {
 						kitsOnStand.set(0, null);
 						print("Removing " + mk.kit.toString() + " (shipped)");
 						myKits.remove(mk);
@@ -187,7 +195,8 @@ public class StandAgent extends Agent implements Stand {
 					}
 
 					// Kit needs to be inspected
-					if (mk.KS == KitStatus.Assembled) {
+					else if (mk.KS == KitStatus.ASSEMBLED) {
+						mk.KS = KitStatus.AWAITING_INSPECTION;
 						requestInspection(mk);
 						return true;
 					}
@@ -198,12 +207,13 @@ public class StandAgent extends Agent implements Stand {
 			int loc = 0;
 			int count = 0;
 			// if (!kitRequested) {
-			for (int i = 1; i < 3; i++) {
+			for (int i = 0; i < 3; i++) {
 				if (!standPositions.get(i)) {
 					count++;
 				}
 			}
-			if (numKitsToMake > 0 && numKitsToMake > numKitsMade && count > 0) {
+			if (numKitsToMake > 0 && numKitsToMake > numKitsMade + 3 - count
+					&& count > 0) { // TODO: Why count > 0?
 				print("NumKits to make greater than numKitsMade. Stand positions empty count: "
 						+ count);
 				if (!standPositions.get(1) && !standPositions.get(2)) {
@@ -212,7 +222,8 @@ public class StandAgent extends Agent implements Stand {
 					requestKit(loc = 1);
 					print("I'm requesting a new kit at position 1");
 					return true;
-				} else {
+				} else if (!standPositions.get(1) && standPositions.get(2)
+						|| !standPositions.get(2) && standPositions.get(1)) {
 					print("One position full, but need to make more than 1 kit.");
 					status = StandStatus.KIT_REQUESTED;
 					requestKit(loc = standPositions.get(1) == false ? 1 : 2);
@@ -263,8 +274,6 @@ public class StandAgent extends Agent implements Stand {
 		synchronized (myKits) {
 			int spot = 5;
 			// kitRequesteds--;
-
-			mk.KS = KitStatus.PlacedOnStand;
 			spot = myKits.get(mk);
 			print("Found a spot at " + spot);
 
@@ -288,7 +297,6 @@ public class StandAgent extends Agent implements Stand {
 	 * @param k the kit to be inspected.
 	 */
 	private void requestInspection(MyKit mk) {
-		mk.KS = KitStatus.AwaitingInspection;
 		kitrobot.msgMoveKitToInspectionArea(mk.kit);
 		stateChanged();
 	}
@@ -346,10 +354,6 @@ public class StandAgent extends Agent implements Stand {
 
 	public PartsRobot getPartsrobot() {
 		return partsrobot;
-	}
-
-	public void setPartsrobot(PartsRobot partsrobot) {
-		this.partsrobot = partsrobot;
 	}
 
 	public FCS getFcs() {

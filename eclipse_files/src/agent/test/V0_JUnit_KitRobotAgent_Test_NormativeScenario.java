@@ -157,7 +157,7 @@ public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
 
 			assertEquals(
 					"KitRobot should have set first MyKit's KitStatus to OnStand",
-					kitrobot.getMyKits().get(0).KS, KitStatus.OnStand);
+					kitrobot.getMyKits().get(0).KS, KitStatus.ON_STAND);
 
 			assertEquals("Stand should have " + (standLogSize + 1)
 					+ " event(s) in its log", standLogSize + 1,
@@ -175,7 +175,7 @@ public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
 			assertEquals(
 					"KitRobot should have set first MyKit's KitStatus to MarkedForInspection",
 					kitrobot.getMyKits().get(0).KS,
-					KitStatus.MarkedForInspection);
+					KitStatus.MARKED_FOR_INSPECTION);
 
 			/*
 			 * If the scheduler fires now, the code blocks if the previous
@@ -196,7 +196,7 @@ public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
 			assertEquals(
 					"KitRobot should have set first MyKit's KitStatus to AwaitingInspection",
 					kitrobot.getMyKits().get(0).KS,
-					KitStatus.AwaitingInspection);
+					KitStatus.AWAITING_INSPECTION);
 
 			assertEquals("KitRobotGraphics should have "
 					+ (kitrobotGraphicsLogSize + 2) + " event(s) in its log",
@@ -244,7 +244,7 @@ public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
 
 			assertEquals(
 					"KitRobot should have set first MyKit's KitStatus to Inspected",
-					kitrobot.getMyKits().get(0).KS, KitStatus.Inspected);
+					kitrobot.getMyKits().get(0).KS, KitStatus.INSPECTED);
 
 			// Again, release a permit before invoking the scheduler
 			kitrobot.msgPlaceKitInInspectionAreaDone();

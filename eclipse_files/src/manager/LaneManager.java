@@ -1,4 +1,5 @@
 package manager;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -21,14 +22,17 @@ import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
 
-
 public class LaneManager extends Client implements ActionListener{
 	// Temp values. Feel free to change
 	private static final int WINDOW_WIDTH = 800;
-	private static final int WINDOW_HEIGHT = 600;
+	private static final int WINDOW_HEIGHT = 700;
 	
+	// Create a new timer
 	private Timer timer;
 	
+	/**
+	 * Constructor
+	 */
 	public LaneManager() {
 		super();
 		clientName = Constants.LANE_MNGR_CLIENT;
@@ -38,16 +42,10 @@ public class LaneManager extends Client implements ActionListener{
 		initDevices();
 	}
 	
+	/**
+	 * Initialize the GUI and start the timer.
+	 */
 	public void initGUI() {
-		JLabel label = new JLabel("Lane Manager");
-		label.setForeground(Color.WHITE);
-		label.setFont(new Font("SansSerif", Font.PLAIN, 40));
-		label.setHorizontalAlignment(JLabel.CENTER);
-		add(label);
-		
-		OverlayPanel panel = new OverlayPanel();
-		add(panel, BorderLayout.SOUTH);
-		panel.setVisible(true);
 		
 		// TODO: scrap all of this as we will not need buttons in V1
 		
@@ -67,11 +65,11 @@ public class LaneManager extends Client implements ActionListener{
 		panel.add(testButton);*/
 		
 		// test bin on feeder
-		JButton haveBin = new JButton("Get Bin");
-		haveBin.addActionListener(new NetworkingButtonListener("TESTING_FEEDER", Constants.FEEDER_TARGET + 0, writer));
-		haveBin.addActionListener(new NetworkingButtonListener("TESTING_LANE", Constants.LANE_TARGET + 0, writer));
-		haveBin.addActionListener(new NetworkingButtonListener("TESTING_LANE", Constants.LANE_TARGET + 1, writer));
-		panel.add(haveBin);
+//		JButton haveBin = new JButton("Get Bin");
+//		haveBin.addActionListener(new NetworkingButtonListener("TESTING_FEEDER", Constants.FEEDER_TARGET + 0, writer));
+//		haveBin.addActionListener(new NetworkingButtonListener("TESTING_LANE", Constants.LANE_TARGET + 0, writer));
+//		haveBin.addActionListener(new NetworkingButtonListener("TESTING_LANE", Constants.LANE_TARGET + 1, writer));
+//		panel.add(haveBin);
 		
 		/*// test lane 0 receive part
 		JButton laneRecPart0 = new JButton("Send Part Top");
@@ -87,26 +85,43 @@ public class LaneManager extends Client implements ActionListener{
 		timer.start();
 	}
 	
+	/**
+	 * Initialize the devices
+	 */
 	public void initDevices() {
 		// TODO add all devices (4) feeders, (8) lanes
+
+		for (int i = 0; i < Constants.LANE_COUNT; i++) {
+			addDevice(Constants.LANE_TARGET + i, new LaneGraphicsDisplay(this, i));
+		}
+	
+		for (int i = 0; i < Constants.NEST_COUNT; i++) {
+			addDevice(Constants.NEST_TARGET + i, new NestGraphicsDisplay(this, i));
+		}
+
+		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
+			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));
+		}
 		
-		addDevice(Constants.LANE_TARGET + 0, new LaneGraphicsDisplay(this, 0));
-		addDevice(Constants.LANE_TARGET + 1, new LaneGraphicsDisplay(this, 1));
-		addDevice(Constants.FEEDER_TARGET + 0, new FeederGraphicsDisplay(this, 0));
+		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
+
 	}
 	
-	@Override
+	/**
+	 * Forward network requests to devices processing
+	 * @param req incoming request
+	 */
 	public void receiveData(Request req) {
-		if (req.getTarget().equals(Constants.ALL_TARGET)) {
-			// TODO code to overwrite ArrayList with req.getData()
-		} else {
-			devices.get(req.getTarget()).receiveData(req);
-		}
+		devices.get(req.getTarget()).receiveData(req);
 	}
 
+	/**
+	 * Main method sets up the JFrame
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT);
+		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT, "Lane Manager");
 		
 		LaneManager mngr = new LaneManager();
 		frame.add(mngr);
@@ -114,7 +129,9 @@ public class LaneManager extends Client implements ActionListener{
 		frame.validate();
 	}
 	
-	@Override
+	/**
+	 * This function handles painting of graphics
+	 */
 	public void paintComponent(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
@@ -124,7 +141,9 @@ public class LaneManager extends Client implements ActionListener{
 		}
 	}
 
-	@Override
+	/**
+	 * This function handles action events.
+	 */
 	public void actionPerformed(ActionEvent arg0) {
 		repaint();
 		

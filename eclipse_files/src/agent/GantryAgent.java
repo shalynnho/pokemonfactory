@@ -32,7 +32,6 @@ public class GantryAgent extends Agent implements Gantry {
 	public class MyFeeder {
 		public FeederAgent feeder;
 		public PartType requestedType;
-		public boolean request = false;
 		
 		public MyFeeder(FeederAgent feeder) {
 			this.feeder = feeder;
@@ -72,14 +71,12 @@ public class GantryAgent extends Agent implements Gantry {
 		for(MyFeeder currentFeeder : feeders) {
 			if(currentFeeder.getFeeder() == feeder) {
 				currentFeeder.requestedType = type;
-				currentFeeder.request = true;
 				temp = false;
 				break;
 			}
 		}
 		if(temp == true) {
 			MyFeeder currentFeeder = new MyFeeder(feeder, type);
-			currentFeeder.request = true;
 			feeders.add(currentFeeder);
 		}
 		stateChanged();
@@ -127,9 +124,8 @@ public class GantryAgent extends Agent implements Gantry {
 		if(waitForDrop == false) {
 			for (MyFeeder currentFeeder : feeders) {
 				for (Bin bin : binList) {
-					if (bin.part.type.equals(currentFeeder.getRequestedType()) && bin.binState == BinStatus.FULL && currentFeeder.request == true) {
+					if (bin.part.type.equals(currentFeeder.getRequestedType()) && bin.binState == BinStatus.FULL) {
 						print("Moving to feeder");
-						currentFeeder.request = false;
 						moveToFeeder(bin, currentFeeder.getFeeder());
 						return true;
 					}

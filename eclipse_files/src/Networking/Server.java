@@ -44,20 +44,20 @@ public class Server {
 	// GUI client reader/writers
 	private ClientReader factProdMngrReader;
 	private StreamWriter factProdMngrWriter;
-	
+
 	private ClientReader partsMngrReader;
 	private StreamWriter partsMngrWriter;
-	
+
 	private ClientReader kitMngrReader;
 	private StreamWriter kitMngrWriter;
-	
+
 	// Graphics only client reader/writers
 	private ClientReader gantryRobotMngrReader;
 	private StreamWriter gantryRobotMngrWriter;
-	
+
 	private ClientReader kitAssemblyMngrReader;
 	private StreamWriter kitAssemblyMngrWriter;
-	
+
 	private ClientReader laneMngrReader;
 	private StreamWriter laneMngrWriter;
 
@@ -73,14 +73,14 @@ public class Server {
 
 	public volatile LinkedHashMap<String, DeviceGraphics> devices = new LinkedHashMap<String, DeviceGraphics>();
 	public volatile LinkedHashMap<String, Agent> agents = new LinkedHashMap<String, Agent>();
-	
+
 	FCS fcs;
 	FCSAgent fcsAgent;
 
 	public Server() {
 		fcsAgent = new FCSAgent(Constants.FCS_TARGET);
 		fcs = new FCS(this, fcsAgent);
-		
+
 		initAgents();
 		initDevices();
 		connectAgentsWithEachOther();
@@ -119,6 +119,9 @@ public class Server {
 				Constants.KIT_ROBOT_TARGET));
 		agents.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotAgent(
 				Constants.PARTS_ROBOT_TARGET));
+		agents.put(Constants.STAND_TARGET, new StandAgent(
+				Constants.STAND_TARGET));
+		agents.put(Constants.FCS_TARGET, new FCSAgent(Constants.FCS_TARGET));
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			agents.put(Constants.FEEDER_TARGET + i, new FeederAgent(
@@ -132,10 +135,6 @@ public class Server {
 			agents.put(Constants.NEST_TARGET + i, new NestAgent(
 					Constants.NEST_TARGET + i));
 		}
-		for (int i = 0; i < Constants.STAND_COUNT; i++) {
-			agents.put(Constants.STAND_TARGET + i, new StandAgent(
-					Constants.STAND_TARGET + i));
-		}
 	}
 
 	private void initDevices() {
@@ -143,11 +142,15 @@ public class Server {
 				new CameraGraphics(this, agents.get(Constants.CAMERA_TARGET)));
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this,
 				agents.get(Constants.CONVEYOR_TARGET)));
-		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this,
-				agents.get(Constants.KIT_ROBOT_TARGET), agents.get(Constants.STAND_TARGET)));
+		devices.put(
+				Constants.KIT_ROBOT_TARGET,
+				new KitRobotGraphics(this, agents
+						.get(Constants.KIT_ROBOT_TARGET), agents
+						.get(Constants.STAND_TARGET)));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this,
 				agents.get(Constants.PARTS_ROBOT_TARGET)));
-		devices.put(Constants.STAND_TARGET + 0, new InspectionStandGraphics(this, agents.get(Constants.STAND_TARGET + 0)));
+		devices.put(Constants.STAND_TARGET + 0, new InspectionStandGraphics(
+				this, agents.get(Constants.STAND_TARGET + 0)));
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			devices.put(Constants.FEEDER_TARGET + i, new FeederGraphics(i,
@@ -164,7 +167,8 @@ public class Server {
 					agents.get(Constants.NEST_TARGET + i)));
 		}
 		for (int i = 1; i < Constants.STAND_COUNT; i++) {
-			devices.put(Constants.STAND_TARGET + i, new StandGraphics(this, agents.get(Constants.STAND_TARGET + i), i));
+			devices.put(Constants.STAND_TARGET + i, new StandGraphics(this,
+					agents.get(Constants.STAND_TARGET + i), i));
 		}
 	}
 
@@ -215,20 +219,19 @@ public class Server {
 		CameraAgent camera = (CameraAgent) agents.get(Constants.CAMERA_TARGET);
 		ConveyorAgent conveyor = (ConveyorAgent) agents
 				.get(Constants.CONVEYOR_TARGET);
+		FCSAgent fcs = (FCSAgent) agents.get(Constants.FCS_TARGET);
 
-		for (int i = 1; i < Constants.STAND_COUNT - 1; i ++) {
-			StandAgent stand = (StandAgent) agents.get(Constants.STAND_TARGET + i);
-			stand.setKitrobot(kitrobot);
-		}
-		
-		// TODO: 201 kitrobot needs to keep track of all 3 stands (currently defaulting to inspection stand)
-		// TODO: 201 partsrobot needs to keep track of 2 stands (not inspection)
-		kitrobot.setStand((StandAgent) agents.get(Constants.STAND_TARGET + 0));
-		partsrobot.setStand((StandAgent) agents.get(Constants.STAND_TARGET + 1));
+		((StandAgent) agents.get(Constants.STAND_TARGET)).setKitrobot(kitrobot);
+		((StandAgent) agents.get(Constants.STAND_TARGET)).setFCS(fcs);
+		((StandAgent) agents.get(Constants.STAND_TARGET))
+				.setPartsRobot(partsrobot);
+		kitrobot.setStand((StandAgent) agents.get(Constants.STAND_TARGET));
+		partsrobot.setStand((StandAgent) agents.get(Constants.STAND_TARGET));
 
 		kitrobot.setCamera(camera);
 		kitrobot.setConveyor(conveyor);
 		conveyor.setKitrobot(kitrobot);
+		// conveyor.setFCS(fcs);
 		camera.setPartsRobot(partsrobot);
 		camera.setKitRobot(kitrobot);
 
@@ -353,11 +356,11 @@ public class Server {
 		if (factProdMngrWriter != null) {
 			factProdMngrWriter.sendData(req);
 		}
-		
+
 		if (kitMngrWriter != null) {
 			kitMngrWriter.sendData(req);
 		}
-		
+
 		if (partsMngrWriter != null) {
 			partsMngrWriter.sendData(req);
 		}
