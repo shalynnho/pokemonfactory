@@ -144,7 +144,7 @@ public class Server {
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this,
 				agents.get(Constants.CONVEYOR_TARGET)));
 		devices.put(Constants.KIT_ROBOT_TARGET, new KitRobotGraphics(this,
-				agents.get(Constants.KIT_ROBOT_TARGET)));
+				agents.get(Constants.KIT_ROBOT_TARGET), agents.get(Constants.STAND_TARGET)));
 		devices.put(Constants.PARTS_ROBOT_TARGET, new PartsRobotGraphics(this,
 				agents.get(Constants.PARTS_ROBOT_TARGET)));
 		devices.put(Constants.STAND_TARGET + 0, new InspectionStandGraphics(this, agents.get(Constants.STAND_TARGET + 0)));
@@ -385,7 +385,6 @@ public class Server {
 		partsRobotMngrWriter.sendData(req);
 	}
 
-	
 	// Temporary Removal of camera requests
 	private void sendDataToCamera(Request req) {
 		// factProdMngrWriter.sendData(req);

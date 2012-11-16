@@ -57,6 +57,8 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 	 */
 	public void receiveKit(KitGraphics kg) {
 		kitsOnConveyor.add(kg);
+		System.out.println("!!!!!!!!!! I'M HERE!!");
+		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND, Constants.CONVEYOR_TARGET, null));
 	}
 
 	@Override
@@ -72,7 +74,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 
 				giveKitToKitRobot();
 			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
-				System.out.println("Conveyor receives signal from kit");
+				System.out.println("~~~~~~~~~~~~~~~BOOOOO!");
 				kitsToLeave.add(new KitGraphics(server));
 				server.sendData(new Request(
 						Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
