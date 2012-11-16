@@ -149,6 +149,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			standAgent.fakeKitCompletion(kitPositions
 					.get(Constants.KIT_LOCATION2));
 		}
+		if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT_INSPECTED)) {
+			// Hack for KitRobotManager
+			kitRobotAgent.msgKitPassedInspection();
+		}
 
 		else if (command.equals(Constants.KIT_ROBOT_ON_STAND_DONE)) {
 			System.out.println("placekitonStandDone sent");
