@@ -1,4 +1,5 @@
 package manager;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -7,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,14 +15,12 @@ import javax.swing.Timer;
 
 import manager.util.NetworkingButtonListener;
 import manager.util.OverlayPanel;
-
 import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
 import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
-import Utils.Location;
 
 public class KitRobotManager extends Client implements ActionListener {
 	// Temp values. Feel free to change
@@ -61,47 +59,59 @@ public class KitRobotManager extends Client implements ActionListener {
 				Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
 				Constants.CONVEYOR_TARGET, writer));
 
-		JButton moveKitToLocation1 =new JButton("ToLocation1");
-		moveKitToLocation1.addActionListener(new
-		NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION1,
-		Constants.KIT_ROBOT_TARGET,writer));
-
-		JButton moveKitToLocation2= new JButton("ToLocation2");
-		moveKitToLocation2.addActionListener(new
-		NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION2,
-		Constants.KIT_ROBOT_TARGET,writer));
-
-		JButton moveKitFromLocation1ToInspection = new JButton("Location1ToInspection");
-		moveKitFromLocation1ToInspection.addActionListener(new 
-		NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_INSPECTION,
-		Constants.KIT_ROBOT_TARGET,writer));
-		 
-		JButton moveKitFromLocation2ToInspection = new JButton("Location2ToInspection");
-		moveKitFromLocation2ToInspection.addActionListener(new
-		NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_INSPECTION,
-		Constants.KIT_ROBOT_TARGET,writer));
-		
-		JButton moveKitFromInspectionToGoodConveyor = new JButton ("InspectionToGoodConveyor");
-		moveKitFromInspectionToGoodConveyor.addActionListener(new
-		NetworkingButtonListener(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR,
-		Constants.KIT_ROBOT_TARGET,writer));
-		
+		/*
+		 * JButton moveKitToLocation1 =new JButton("ToLocation1");
+		 * moveKitToLocation1.addActionListener(new
+		 * NetworkingButtonListener(Constants
+		 * .KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION1,
+		 * Constants.KIT_ROBOT_TARGET,writer)); JButton moveKitToLocation2= new
+		 * JButton("ToLocation2"); moveKitToLocation2.addActionListener(new
+		 * NetworkingButtonListener
+		 * (Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION2,
+		 * Constants.KIT_ROBOT_TARGET,writer)); JButton
+		 * moveKitFromLocation1ToInspection = new
+		 * JButton("Location1ToInspection");
+		 * moveKitFromLocation1ToInspection.addActionListener(new
+		 * NetworkingButtonListener
+		 * (Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_INSPECTION,
+		 * Constants.KIT_ROBOT_TARGET,writer)); JButton
+		 * moveKitFromLocation2ToInspection = new
+		 * JButton("Location2ToInspection");
+		 * moveKitFromLocation2ToInspection.addActionListener(new
+		 * NetworkingButtonListener
+		 * (Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_INSPECTION,
+		 * Constants.KIT_ROBOT_TARGET,writer)); JButton
+		 * moveKitFromInspectionToGoodConveyor = new JButton
+		 * ("InspectionToGoodConveyor");
+		 * moveKitFromInspectionToGoodConveyor.addActionListener(new
+		 * NetworkingButtonListener
+		 * (Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR,
+		 * Constants.KIT_ROBOT_TARGET,writer));
+		 */
 		JButton Kit1Done = new JButton("Kit1Done");
-		Kit1Done.addActionListener(new NetworkingButtonListener(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT1_DONE,
-		Constants.KIT_ROBOT_TARGET,writer));
-		
+		Kit1Done.addActionListener(new NetworkingButtonListener(
+				Constants.KIT_ROBOT_AGENT_RECEIVES_KIT1_DONE,
+				Constants.KIT_ROBOT_TARGET, writer));
+
 		JButton Kit2Done = new JButton("Kit2Done");
-		Kit2Done.addActionListener(new NetworkingButtonListener(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT2_DONE,
-		Constants.KIT_ROBOT_TARGET,writer));
-		
-		 panel.add(newKit);
-		 panel.add(Kit1Done);
-		 panel.add(Kit2Done);
-		 panel.add(moveKitToLocation1);
-		 panel.add(moveKitToLocation2);
-		 panel.add(moveKitFromLocation1ToInspection);
-		 panel.add(moveKitFromLocation2ToInspection);
-		 panel.add(moveKitFromInspectionToGoodConveyor);
+		Kit2Done.addActionListener(new NetworkingButtonListener(
+				Constants.KIT_ROBOT_AGENT_RECEIVES_KIT2_DONE,
+				Constants.KIT_ROBOT_TARGET, writer));
+
+		JButton KitInspected = new JButton("KitInspected");
+		KitInspected.addActionListener(new NetworkingButtonListener(
+				Constants.KIT_ROBOT_AGENT_RECEIVES_KIT_INSPECTED,
+				Constants.KIT_ROBOT_TARGET, writer));
+
+		panel.add(newKit);
+		panel.add(Kit1Done);
+		panel.add(Kit2Done);
+		panel.add(KitInspected);
+		// panel.add(moveKitToLocation1);
+		// panel.add(moveKitToLocation2);
+		// panel.add(moveKitFromLocation1ToInspection);
+		// panel.add(moveKitFromLocation2ToInspection);
+		// panel.add(moveKitFromInspectionToGoodConveyor);
 	}
 
 	public void initDevices() {
@@ -121,7 +131,8 @@ public class KitRobotManager extends Client implements ActionListener {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT, "Kit Robot Manager");
+		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT,
+				"Kit Robot Manager");
 
 		KitRobotManager mngr = new KitRobotManager();
 		frame.add(mngr);
