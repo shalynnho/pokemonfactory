@@ -34,11 +34,11 @@ public class Kit {
 		this.kitID = kitID;
 	}
 
-	public boolean needPart(Part part) {
+	public int needPart(Part part) {
 		int count = 0;
 		for (PartType type : partsExpected.getConfig().keySet()) {
 			if (type == part.type) {
-				count++;
+				count = partsExpected.getConfig().get(type);
 			}
 		}
 		for (Part tempPart : parts) {
@@ -47,9 +47,9 @@ public class Kit {
 			}
 		}
 		if (count > 0) {
-			return true;
+			return count;
 		} else {
-			return false;
+			return 0;
 		}
 	}
 
