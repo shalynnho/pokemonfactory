@@ -42,9 +42,9 @@ public class KitManager extends Client {
 	public void receiveData(Request req) {
 		if (req.getTarget().equals(Constants.ALL_TARGET)) {
 			if (req.getCommand().equals(Constants.FCS_UPDATE_PARTS)) {
-				kmPanel.updatePartTypes((ArrayList<PartType>)req.getData());
+				//kmPanel.updatePartTypes((ArrayList<PartType>)req.getData());
 			} else if (req.getCommand().equals(Constants.FCS_UPDATE_KITS)) {
-				kmPanel.updateKitConfig((ArrayList<KitConfig>)req.getData());
+				//kmPanel.updateKitConfig((ArrayList<KitConfig>)req.getData());
 			}
 		} else {
 			System.out.println("KitManager received a request not addressed to: " + req.getTarget());

@@ -23,6 +23,7 @@ import java.awt.Component;
 import java.awt.Insets;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
+import Utils.Constants;
 
 /*
 * Authorship: Aaron Harris
@@ -36,7 +37,7 @@ public class KitManagerPanel extends JPanel{
 	/**
 	 * Create the panel.
 	 */
-	public KitManagerPanel() {
+	public KitManagerPanel(manager.KitManager k) {
 		setLayout(new GridLayout(1, 1));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -89,7 +90,7 @@ public class KitManagerPanel extends JPanel{
 		JButton btnClrFields = new JButton("Clear Fields");
 		pnlAdd.add(btnClrFields);
 
-		// The "Display" Panel is the central panel that displays the informaiton about a certain kit
+		// The "Display" Panel is the central panel that displays the information about a certain kit
 		JPanel pnlDisplay = new JPanel();
 		pnlDisplay.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		managerPanel.add(pnlDisplay, BorderLayout.CENTER);
@@ -120,14 +121,14 @@ public class KitManagerPanel extends JPanel{
 		for (int i = 0; i < 4; i++) {
 			GridBagConstraints gbc_lblPart = new GridBagConstraints();
 			JLabel lblPart = new JLabel("Part " + (i+1) + ":");
-			if (i =- 0) gbc_labelPart.anchor = GridBagConstraints.EAST;
+			if (i == 0) gbc_lblPart.anchor = GridBagConstraints.EAST;
 			gbc_lblPart.insets = new Insets(0, 0, 5, 5);
 			gbc_lblPart.gridx = 0;
-			if (i == 3) gbc_labelPart.insets = new Insets(0,0,0,5);
+			if (i == 3) gbc_lblPart.insets = new Insets(0,0,0,5);
 			gbc_lblPart.gridy = i;
 			pnlParts.add(lblPart, gbc_lblPart);
 
-			JLabel lblPart = new JLabel("Part " + (i+5) + ":");
+			lblPart = new JLabel("Part " + (i+5) + ":");
 			gbc_lblPart.gridx = 2;
 			gbc_lblPart.gridy = i;
 			pnlParts.add(lblPart, gbc_lblPart);
@@ -143,12 +144,16 @@ public class KitManagerPanel extends JPanel{
 			gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 			gbc_comboBox.gridx = 1;
 			gbc_comboBox.gridy = i;
+			for(int j = 0; j<Utils.Constants.DEFAULT_PARTTYPES.size();j++)
+				cbPart[i].addItem(Utils.Constants.DEFAULT_PARTTYPES.get(j).getName());
 			pnlParts.add(cbPart[i], gbc_comboBox);
 			
 			cbPart[i+1] = new JComboBox();
 			gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 			gbc_comboBox.gridx = 3;
 			gbc_comboBox.gridy = i;
+			for(int l = 0; l<Utils.Constants.DEFAULT_PARTTYPES.size();l++)
+				cbPart[i+1].addItem(Utils.Constants.DEFAULT_PARTTYPES.get(l).getName());
 			pnlParts.add(cbPart[i+1], gbc_comboBox);
 		}
 		

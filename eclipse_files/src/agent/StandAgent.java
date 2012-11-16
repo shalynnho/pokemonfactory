@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.TreeMap;
 
 import DeviceGraphics.DeviceGraphics;
@@ -69,7 +70,7 @@ public class StandAgent extends Agent implements Stand {
 	}
 
 	public enum KitStatus {
-		RECEIVED, PLACED_ON_STAND, ASSEMBLED, MARKED_FOR_INSPECTION, AWAITING_INSPECTION, INSPECTED, SHIPPED;
+		RECEIVED, PLACED_ON_STAND, ASSEMBLED, MARKED_FOR_INSPECTION, AWAITING_INSPECTION, INSPECTED, SHIPPED, DELIVERED;
 	};
 
 	/**
@@ -188,6 +189,7 @@ public class StandAgent extends Agent implements Stand {
 					}
 					// Kit robot shipped a kit
 					else if (mk.KS == KitStatus.SHIPPED) {
+						// mk.KS = KitStatus.DELIVERED;
 						kitsOnStand.set(0, null);
 						print("Removing " + mk.kit.toString() + " (shipped)");
 						myKits.remove(mk);
@@ -270,7 +272,7 @@ public class StandAgent extends Agent implements Stand {
 	 * Places a kit into the list of kits on the stand
 	 * @param k the kit being placed
 	 */
-	private void placeKit(MyKit mk) {
+	private void placeKit(final MyKit mk) {
 		synchronized (myKits) {
 			int spot = 5;
 			// kitRequesteds--;
@@ -281,13 +283,16 @@ public class StandAgent extends Agent implements Stand {
 			print("Kit ID is " + mk.kit.toString());
 			// print(kitsOnStand.size() + " kits on stand");
 			partsrobot.msgUseThisKit(mk.kit); // THIS DOESN'T WORK YET
-			/*
-			 * // For testing, assume parts robot finishes after 1s
-			 * timer.schedule(new TimerTask() {
-			 * @Override public void run() {
-			 * print("Faking partsrobot finishing kit assembly");
-			 * msgKitAssembled(k); } }, 100);
-			 */
+
+			// For testing, assume parts robot finishes after 1s
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					print("Faking partsrobot finishing kit assembly");
+					msgKitAssembled(mk.kit);
+				}
+			}, (int) (2000 + Math.random() * (5000 - 2000 + 1)));
+
 			stateChanged();
 		}
 	}

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 
@@ -36,6 +38,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	private boolean kitRequested;
 	private int numKitsToMake;
 	private int numKitsRequested;
+	private final Timer timer;
 
 	// Used to prevent animations from overlapping
 	Semaphore animation = new Semaphore(0, true);
@@ -87,6 +90,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		numKitsRequested = 0;
 		numKitsToMake = 0;
 		state = KitRobotState.IDLE;
+		timer = new Timer();
 
 		// Don't assume stand is empty
 		standPositions.put(0, true);
@@ -326,13 +330,16 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		print("Got permit");
 
 		// For testing, assume camera finishes after .1s
-		/*
-		 * timer.schedule(new TimerTask() {
-		 * @Override public void run() {
-		 * print("Faking camera finishing inspection");
-		 * msgKitPassedInspection(); } }, 100);
-		 */
-		camera.msgInspectKit(mk.kit);
+
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				print("Faking camera finishing inspection");
+				msgKitPassedInspection();
+			}
+		}, 1000);
+
+		// camera.msgInspectKit(mk.kit);
 
 		stand.msgMovedToInspectionArea(mk.kit, mk.location);
 		stateChanged();

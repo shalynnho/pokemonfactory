@@ -385,7 +385,6 @@ public class Server {
 
 	private void sendDataToNest(Request req) {
 		// factProdMngrWriter.sendData(req);
-		partsRobotMngrWriter.sendData(req);
 	}
 
 	// Temporary Removal of camera requests

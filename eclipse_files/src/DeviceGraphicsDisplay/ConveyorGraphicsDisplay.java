@@ -55,7 +55,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		// Filling Arrays with locations
 		for (int i = 0; i < 16; i++) {
 			conveyorLinesGood.add(new Location(locationGood.getX() + i * 10,
-					locationGood.getY()));
+					locationGood.getY() - 7));
 		}
 
 		// Filling Arrays with locations
@@ -67,7 +67,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		velocity = 5;
 		kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
 		kitsToLeave = new ArrayList<KitGraphicsDisplay>();
-		pickMe = true;
+		//pickMe = true;
 		incomingState = IncomingStatus.NO_KIT_WAITING;
 	}
 
@@ -77,7 +77,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void newKit() {
-		print("Making new kit");
 		KitGraphicsDisplay temp = new KitGraphicsDisplay();
 		temp.setLocation(new Location(kitsOnConveyor.size() * -100, 200));
 		kitsOnConveyor.add(temp);
@@ -85,11 +84,9 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void giveKitAway() {
-		System.out.println("Give it away");
 		kitsOnConveyor.remove(0);
 		incomingState = IncomingStatus.NO_KIT_WAITING;
 		velocity = 5;
-		pickMe = true;
 	}
 
 	public void sendOut() {
@@ -98,7 +95,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void newExitKit() {
 		KitGraphicsDisplay temp = new KitGraphicsDisplay();
-		temp.setLocation(new Location(0, 400));
+		temp.setLocation(new Location(10, 73));
 		kitsToLeave.add(temp);
 	}
 
@@ -115,7 +112,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			moveIn(i);
 		}
 
-		g2.drawImage(Constants.CONVEYOR_IMAGE, 0, 80, c);
+		g2.drawImage(Constants.CONVEYOR_IMAGE, 0, 73, c);
 		for (int i = 0; i < conveyorLinesGood.size(); i++) {
 			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE,
 					conveyorLinesGood.get(i).getX(), conveyorLinesGood.get(i)
@@ -132,29 +129,16 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		for (int j = 0; j < kitsOnConveyor.size(); j++) {
 			if (kitsOnConveyor.get(j).getLocation().getX() < 10 - j * 100) {
-				// print("Kit " + j + " is at "
-				// + kitsOnConveyor.get(j).getLocation().getX());
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.draw(c, g2);
 				Location temp = tempKit.getLocation();
 				tempKit.setLocation(new Location(temp.getX() + velocity, temp
 						.getY()));
 			} else if (kitsOnConveyor.get(j).getLocation().getX() >= 10 - j * 100) {
-				// velocity = 0;
-				// print("Kit " + j + " is at "
-				// + kitsOnConveyor.get(j).getLocation().getX()
-				// + " and will stop");
-				// print("There are " + kitsOnConveyor.size()
-				// + " kits on the incoming conveyor");
-				// KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				kitsOnConveyor.get(j).draw(c, g2);
-				// Location temp = tempKit.getLocation();
-				// tempKit.setLocation(new Location(temp.getX() + velocity, temp
-				// .getY()));
 				if (kitComingIn == true) {
 					kitComingIn = false;
 					incomingState = IncomingStatus.KIT_WAITING;
-					// print("Sending bringEmptyKitDone");
 					animationDone(new Request(
 							Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 									+ Constants.DONE_SUFFIX,
@@ -167,15 +151,15 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
 			tempKit.draw(c, g2);
-			if (tempKit.getLocation().getX() == 800) {
+			if (tempKit.getLocation().getX() == -80) {
 				animationDone(new Request(
 						Constants.CONVEYOR_RECEIVE_KIT_COMMAND
 								+ Constants.DONE_SUFFIX,
 						Constants.CONVEYOR_TARGET, null));
+				sendOut();
 			}
 			Location temp = tempKit.getLocation();
-			tempKit.setLocation(new Location(temp.getX() + velocity, temp
-					.getY()));
+			tempKit.setLocation(new Location(temp.getX() - 5, 85));
 		}
 	}
 
@@ -228,6 +212,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
 			giveKitAway();
 			print("Giving kit to Kit Robot");
+			//pickMe = true;
 		} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
 			newKit();
 		} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {

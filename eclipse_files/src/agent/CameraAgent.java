@@ -86,6 +86,7 @@ public class CameraAgent extends Agent implements Camera {
 	@Override
 	public void msgIAmFull(Nest nest) 
 	{
+		synchronized(nests){
 		print("Received msgIAmFull");
 		for (MyNest n : nests) 
 		{
@@ -94,7 +95,9 @@ public class CameraAgent extends Agent implements Camera {
 				n.state = NestStatus.READY;
 			}
 		}
+		}
 		stateChanged();
+		
 	}
 
 	@Override
