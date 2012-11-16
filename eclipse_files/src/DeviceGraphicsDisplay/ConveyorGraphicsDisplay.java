@@ -55,7 +55,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		// Filling Arrays with locations
 		for (int i = 0; i < 16; i++) {
 			conveyorLinesGood.add(new Location(locationGood.getX() + i * 10,
-					locationGood.getY()));
+					locationGood.getY() - 7));
 		}
 
 		// Filling Arrays with locations
@@ -95,7 +95,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void newExitKit() {
 		KitGraphicsDisplay temp = new KitGraphicsDisplay();
-		temp.setLocation(new Location(0, 85));
+		temp.setLocation(new Location(10, 73));
 		kitsToLeave.add(temp);
 	}
 
