@@ -56,7 +56,9 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 	 * @param kit - a kit must be received from KitRobot before sending it away
 	 */
 	public void receiveKit(KitGraphics kg) {
-		kitsOnConveyor.add(kg);
+		kitsToLeave.add(kg);
+		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
+				Constants.CONVEYOR_TARGET, null));
 	}
 
 	@Override
@@ -119,7 +121,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 
 	@Override
 	public void msgReceiveKit(KitGraphics kit) {
-		// TODO Auto-generated method stub
+		receiveKit(kit);
 	}
 
 }
