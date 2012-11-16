@@ -100,7 +100,7 @@ public abstract class Constants {
 
 	// Kit Robot Images
 	public static final Image KIT_ROBOT_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "Square.jpg");
+			.getImage(IMAGE_PATH + "kit_robot.png");
 
 	// Gantry Robot Image
 	public static final Image GANTRY_ROBOT_IMAGE = Toolkit.getDefaultToolkit()
