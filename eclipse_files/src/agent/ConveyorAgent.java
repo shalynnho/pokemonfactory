@@ -98,6 +98,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		if (kitsOnConveyor.size() > 0) {
 			kitsOnConveyor.get(0).KS = KitStatus.PICKUP_REQUESTED;
 			print(kitsOnConveyor.get(0).toString() + " will be sent");
+			print(kitsOnConveyor.get(0).toString() + " status is "
+					+ kitsOnConveyor.get(0).KS.toString());
 		}
 		stateChanged();
 	}
@@ -195,8 +197,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				start = false;
 				// return true;
 			} else {
-				print("There are " + kitsOnConveyor.size()
-						+ " kits on my conveyor list");
+				// print("There are " + kitsOnConveyor.size()
+				// + " kits on my conveyor list");
 				// return true;
 			}
 		}
