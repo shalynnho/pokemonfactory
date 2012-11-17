@@ -27,6 +27,11 @@ import manager.util.WhiteLabel;
 import Utils.Constants;
 import factory.PartType;
 
+/**
+ * Prettified PartsManagerPanel, powers PartsManager. Uses PartsListPanel to display parts.
+ * 
+ * @author Peter Zhang
+ */
 public class PartsManagerPanelV2 extends JPanel{
 	public static final Border PADDING = BorderFactory.createEmptyBorder(20, 20, 20, 20);
 	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(5, 5, 5, 5);
