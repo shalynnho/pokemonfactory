@@ -20,9 +20,11 @@ public class KitsListPanel extends OverlayPanel {
 	ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
 	HashMap<KitConfig, ClickablePanel> panels = new HashMap<KitConfig, ClickablePanel>();
 	
+	KitSelectHandler handler;
 	
-	public KitsListPanel() {
+	public KitsListPanel(KitSelectHandler h) {
 		super();
+		handler = h;
 		kitConfigs = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIGS.clone();
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -39,8 +41,8 @@ public class KitsListPanel extends OverlayPanel {
 		repaint();
 		
 		for(KitConfig kc : kitConfigs) {
-			ClickablePanel panel = new ClickablePanel(new EditClickHandler(kc));
-			panel.setSize(350, 50);
+			ClickablePanel panel = new ClickablePanel(new KitClickHandler(kc));
+			panel.setSize(300, 50);
 			panel.setBorder(Constants.MEDIUM_PADDING);
 			panel.setAlignmentX(0);
 			
@@ -79,15 +81,24 @@ public class KitsListPanel extends OverlayPanel {
 		public void editPart(PartType pt);
 	}
 	
-	private class EditClickHandler implements ClickablePanelClickHandler{
+	public HashMap<KitConfig, ClickablePanel> getPanels() {
+		return panels;
+	}
+	
+	public interface KitSelectHandler {
+		public void onKitSelect(KitConfig kc);
+	}
+	
+	private class KitClickHandler implements ClickablePanelClickHandler{
 		KitConfig kc;
-		public EditClickHandler(KitConfig kc) {
+		public KitClickHandler(KitConfig kc) {
 			this.kc = kc;
 		}
 
 		@Override
 		public void mouseClicked() {
 			restoreColors();
+			handler.onKitSelect(kc);
 			panels.get(kc).setColor(new Color(5, 151, 255));
 		}
 	}
