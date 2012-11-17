@@ -44,7 +44,7 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	}
 
 	/**
-	 * Forward network requests to devices processing
+	 * Forward network requests to devices for processing
 	 * @param req incoming request
 	 */
 	public void receiveData(Request req) {
@@ -104,7 +104,7 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	}
 	
 	/**
-	 * This function intercepts requests and calls client's sendData if the request is a DONE request.
+	 * This function intercepts requests and drops them if they are "DONE" requests.
 	 * @req Request to be sent.
 	 */
 	@Override

@@ -118,7 +118,7 @@ public class LaneManager extends Client implements ActionListener{
 	}
 	
 	/**
-	 * This function intercepts requests and calls client's sendData if the request is a DONE request.
+	 * This function intercepts requests and drops them if the request is a "DONE" request
 	 * @req Request to be sent.
 	 */
 	@Override
