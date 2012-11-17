@@ -86,7 +86,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		// ImageIcon(this.getClass().getResource("/resource/Square.jpg"));
 		rotationAxisX = 112.5;
 		rotationAxisY = 37.5;
-		kitRobotPositionX = 95;
+		kitRobotPositionX = 75;
 		kitRobotPositionY = 192.5;
 
 		trans.translate(kitRobotPositionX, kitRobotPositionY);
@@ -159,7 +159,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void setNegativeDegreeStep() {
 		setDegreeStep(-Constants.KIT_ROBOT_DEGREE_STEP);
 	}
-
 	public void moveToInitialOrFinal() {
 
 		if (initialJob) {
