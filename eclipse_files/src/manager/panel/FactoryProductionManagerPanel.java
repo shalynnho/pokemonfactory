@@ -1,7 +1,6 @@
 package manager.panel;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,13 +22,14 @@ import javax.swing.SpinnerNumberModel;
 import manager.FactoryProductionManager;
 import manager.panel.KitsListPanel.KitSelectHandler;
 import manager.util.ClickablePanel;
+import manager.util.ListPanel;
 import manager.util.OverlayInternalFrame;
 import factory.KitConfig;
 import factory.Order;
 
 /**
 *
-* @author Shalynn Ho, Harry Trieu and Matt Zecchini
+* @author Shalynn Ho, Harry Trieu, Matt Zecchini, Peter Zhang
 */
 
 public class FactoryProductionManagerPanel extends OverlayInternalFrame implements ActionListener, MouseListener {
@@ -75,7 +75,6 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		setMinimumSize(new Dimension(PANEL_WIDTH, height));
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
 		
-		// stuff for disappearing panel
 		this.height = height;
 		addMouseListener(this);
 		
@@ -101,18 +100,17 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		((JTextField)kitComboBox.getEditor().getEditorComponent()).addMouseListener(this);
 		*/
 		
+		// Setup KitsListPanel
 		kitsPanel = new KitsListPanel(new KitSelectHandler() {
 			@Override
 			public void onKitSelect(KitConfig kc) {
 				selectedKit = kc;
 			}
-			
 		});
+		
 		kitsPanel.setVisible(true);
 		kitsPanel.setBackground(new Color(0, 0, 0, 30));
-		for(ClickablePanel panel : kitsPanel.getPanels().values()) {
-			panel.addMouseListener(this);
-		}
+		addMouseListeners(kitsPanel);
 		
 		c.gridx = 0;
 		c.gridy = 0;
@@ -121,6 +119,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		
 		add(kitsPanel, c);
 		
+		// Setup JSpinner
 		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
 	    quantitySpinner = new JSpinner(spinnerModel);
 		c.gridx = 0;
@@ -130,18 +129,19 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		c.gridheight = 1;
 		c.anchor = GridBagConstraints.CENTER;
 		add(quantitySpinner, c);
-		quantitySpinner.addMouseListener(this);
+		// Add listener to nested components - for disappearing panel
 		for (int i = 0; i < quantitySpinner.getComponentCount(); i++) {
 			quantitySpinner.getComponents()[i].addMouseListener(this);
 		}
 		((JSpinner.DefaultEditor)quantitySpinner.getEditor()).getTextField().addMouseListener(this);
 		
+		// Setup order button
 		orderButton = new JButton("ORDER KITS");
 		orderButton.addActionListener(this);
 		c.gridx = 0;
 		c.gridy = 3;
 		add(orderButton, c);
-		orderButton.addMouseListener(this);
+//		orderButton.addMouseListener(this);
 		
 		/*
 		orderScheduleTextArea = new JTextArea();
@@ -169,6 +169,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		}
 		*/
 		
+		// Setup OrdersListPanel
 		OrdersListPanel.OrderSelectHandler selectHandler = new OrdersListPanel.OrderSelectHandler() {
 			@Override
 			public void onOrderSelect(Order o) {
@@ -178,7 +179,6 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		ordersPanel = new OrdersListPanel(selectHandler);
 		ordersPanel.setVisible(true);
 		ordersPanel.setBackground(new Color(0, 0, 0, 30));
-		
 		
 		c.gridx = 0;
 		c.gridy = 4;
@@ -190,6 +190,13 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
 		add(ordersPanel, c);
+		
+		// Add mouseListener to second-level components
+		for (int i = 0; i < getComponentCount(); i++) {
+			getComponents()[i].addMouseListener(this);
+		}
+		
+		
 	}
 
 	/**
@@ -223,6 +230,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	 */
 	public void updateKitConfigs(ArrayList<KitConfig> kc) {
 		kitConfigs = kc;
+		kitsPanel.updatePartTypes(kc);
+		addMouseListeners(kitsPanel);
 		
 		// Clear the JComboBox
 		defaultComboBox.removeAllElements();
@@ -241,11 +250,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		queue = o;
 		System.out.println("Queue size: " + queue.size());
 		ordersPanel.updateOrders(o);
-		
-		for(ClickablePanel panel : ordersPanel.getPanels().values()) {
-			panel.addMouseListener(this);
-		}
-		
+		addMouseListeners(ordersPanel);
+
 		/*
 		// Clear the contents of the JTextArea
 		orderScheduleTextArea.setText("");
@@ -262,9 +268,20 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		*/
 		
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) { }
+	
+	/**
+	 * Adds this FPMPanel as the mouseListener for the components of the ListPanel
+	 * @param panel - KitsListPanel or OrdersListPanel
+	 */
+	private void addMouseListeners(ListPanel panel) {
+		for(ClickablePanel p : panel.getPanels().values()) {
+			for(int i = 0; i < p.getMouseListeners().length; i++) {
+				if (!p.getMouseListeners()[i].equals(this)) {
+					p.addMouseListener(this);
+				}
+			}
+		}
+	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -289,15 +306,12 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseClicked(MouseEvent e) { }
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e) { }
+
+	@Override
+	public void mouseReleased(MouseEvent e) { }
 
 }
