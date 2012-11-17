@@ -61,6 +61,7 @@ public class FCS {
 		for(int i = 0; i < partTypes.size(); i++) {
 			if(partTypes.get(i).equals(pt)) {
 				partTypes.set(i, pt);
+				updateParts();
 			}
 		}
 	}
@@ -70,6 +71,7 @@ public class FCS {
 		for(int i = 0; i < partTypes.size(); i++) {
 			if(partTypes.get(i).equals(pt)) {
 				partTypes.remove(i);
+				updateParts();
 			}
 		}
 		

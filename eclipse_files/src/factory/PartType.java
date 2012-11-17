@@ -43,10 +43,17 @@ public class PartType implements Serializable {
 		return name;
 	}
 	
+	public void setPartNum(int partNum) {
+		this.partNum = partNum;
+	}
+	
 	public int getPartNum() {
 		return partNum;
 	}
 	
+	public void setDescription(String desc) {
+		this.description = desc;
+	}
 	public String getDescription() {
 		return description;
 	}

@@ -69,6 +69,7 @@ public class PartsManager extends Client {
 	 * @param pt PartType selected by the user.
 	 */
 	public void deletePart(PartType pt) {
+		System.out.println("[Delete pt] : name = " + pt.getName());
 		this.sendData(new Request(Constants.FCS_DELETE_PART, Constants.FCS_TARGET, pt));
 	}
 	
