@@ -204,6 +204,9 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		for (int i = 0; i < getComponentCount(); i++) {
+			getComponent(i).setVisible(true);
+		}
 		setPreferredSize(new Dimension(PANEL_WIDTH, height));
 		setMinimumSize(new Dimension(PANEL_WIDTH, height));
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
@@ -212,9 +215,12 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		setPreferredSize(new Dimension(5, height));
-		setMinimumSize(new Dimension(5, height));
-		setMaximumSize(new Dimension(5, height));
+		for (int i = 0; i < getComponentCount(); i++) {
+			getComponent(i).setVisible(false);
+		}
+		setPreferredSize(new Dimension(PANEL_WIDTH/4, height));
+		setMinimumSize(new Dimension(PANEL_WIDTH/4, height));
+		setMaximumSize(new Dimension(PANEL_WIDTH/4, height));
 		revalidate();
 	}
 
