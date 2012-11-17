@@ -46,11 +46,10 @@ public abstract class Constants {
 
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
 			Arrays.asList(new KitConfig("Default Kit", 
-					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1),
-					DEFAULT_PARTTYPES.get(2),DEFAULT_PARTTYPES.get(3),
-					DEFAULT_PARTTYPES.get(4),DEFAULT_PARTTYPES.get(5),
-					DEFAULT_PARTTYPES.get(6),DEFAULT_PARTTYPES.get(7)
-					)));
+					DEFAULT_PARTTYPES.get(0), DEFAULT_PARTTYPES.get(1),
+					DEFAULT_PARTTYPES.get(2), DEFAULT_PARTTYPES.get(3),
+					DEFAULT_PARTTYPES.get(4), DEFAULT_PARTTYPES.get(5),
+					DEFAULT_PARTTYPES.get(6), DEFAULT_PARTTYPES.get(7) )));
 
 	// DEVICE START LOCATIONS
 	// ==================================
