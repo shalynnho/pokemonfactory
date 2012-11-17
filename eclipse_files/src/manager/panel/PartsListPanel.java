@@ -51,10 +51,7 @@ public class PartsListPanel extends OverlayPanel {
 		setBorder(PADDING);
 		
 		parsePartTypes();
-		
-		add(new JButton("vansh"));
-//		JScrollPane scroller = new JScrollPane();
-//		this.getRootPane().add(scroller, BorderLayout.CENTER);  
+
 	}
 	
 	public void parsePartTypes() {
@@ -87,9 +84,7 @@ public class PartsListPanel extends OverlayPanel {
 			// add padding
 			add(Box.createVerticalStrut(10));
 			panels.put(pt, panel);
-			add(new JButton("vansh"));
 		}
-		validate();
 	}
 	
 	public void updatePartTypes(ArrayList<PartType> pt) {
