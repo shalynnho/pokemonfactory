@@ -11,21 +11,28 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 
 public class CustomButton extends JButton implements MouseListener {
-	private Color color = new Color(0, 0, 0);
+	private Color backgroundColor = new Color(255, 255, 255);
+	private Color borderColor = new Color(35, 35, 35);
+	private Color borderHoverColor = new Color(150, 150, 150);
 	private String name;
+	
+	Border border;
+	Border padding;
+	Border compoundBorder;
 	
 	public CustomButton(String name) {
 		super(name);
 		this.name = name;
 		
-		setForeground(new Color(95, 170, 220));
-		setBackground(new Color(0, 0, 0));
-		setOpaque(false);
+		setForeground(new Color(255, 255, 255));
 		
-		Border loweredEtched = BorderFactory.createLineBorder(new Color(35, 35, 35), 5, false);
-		Border padding = BorderFactory.createEmptyBorder(7, 20, 7, 20);
-		Border compound = new CompoundBorder(loweredEtched, padding);
-		setBorder(compound);
+		setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), 30));
+		setOpaque(true);
+		
+		border = BorderFactory.createLineBorder(borderColor, 1);
+		padding = BorderFactory.createEmptyBorder(4, 20, 4, 20);
+		compoundBorder = new CompoundBorder(border, padding);
+		setBorder(compoundBorder);
 		
 		addMouseListener(this);
 	}
@@ -38,13 +45,21 @@ public class CustomButton extends JButton implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		setBackground(new Color(0, 0, 0, 50));
-		setOpaque(true);
+		setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), 40));
+		
+		border = BorderFactory.createLineBorder(borderHoverColor, 1);
+		compoundBorder = new CompoundBorder(border, padding);
+		setBorder(compoundBorder);
+		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		setOpaque(false);
+		setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), 30));
+		
+		border = BorderFactory.createLineBorder(borderColor, 1);
+		compoundBorder = new CompoundBorder(border, padding);
+		setBorder(compoundBorder);
 	}
 
 	@Override

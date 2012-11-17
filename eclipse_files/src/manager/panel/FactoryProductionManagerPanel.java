@@ -137,7 +137,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		((JSpinner.DefaultEditor)quantitySpinner.getEditor()).getTextField().addMouseListener(this);
 		
 		// Setup order button
-		orderButton = new CustomButton("ORDER KITS");
+		orderButton = new CustomButton("Order Kits >");
 		orderButton.addActionListener(this);
 		c.gridx = 0;
 		c.gridy = 3;
