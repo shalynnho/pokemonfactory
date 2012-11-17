@@ -112,11 +112,11 @@ public class FCSAgent extends Agent implements FCS {
 	public boolean pickAndExecuteAnAction(){
 		print("I'm scheduling stuff");
 		if(state==myState.STARTED){
-			if(!binsSet){
+			if(!binsSet && gantry!=null){
 				initializeBins();
 				return true;
 			}
-			if(binsToAdd.size()>0){
+			if(binsToAdd.size()>0 && gantry!=null){
 				addBin();
 				return true;
 			}
