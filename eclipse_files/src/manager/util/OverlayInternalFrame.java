@@ -21,6 +21,11 @@ public class OverlayInternalFrame extends JInternalFrame{
 		setOpaque(false);
 		setBackground(BG_COLOR);
 		setBorder(PADDING);
+		
+		setResizable(true);
+		setRootPaneCheckingEnabled(false);
+		javax.swing.plaf.InternalFrameUI ifu= getUI();
+		((javax.swing.plaf.basic.BasicInternalFrameUI)ifu).setNorthPane(null);
 	}
 	
 	@Override

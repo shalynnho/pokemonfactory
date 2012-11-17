@@ -72,10 +72,6 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		// stuff for disappearing panel
 		this.height = height;
 		addMouseListener(this);
-		setResizable(true);
-		setRootPaneCheckingEnabled(false);
-		javax.swing.plaf.InternalFrameUI ifu= getUI();
-		((javax.swing.plaf.basic.BasicInternalFrameUI)ifu).setNorthPane(null);
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -98,6 +94,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		for (int i = 0; i < kitComboBox.getComponentCount(); i++) {
 			kitComboBox.getComponents()[i].addMouseListener(this);
 		}
+//		((JComboBox.ComboBoxEditor) kitComboBox.getEditor()).getTextField().addMouseListener(this);
 		
 		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
 	    quantitySpinner = new JSpinner(spinnerModel);
@@ -210,7 +207,6 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		setMinimumSize(new Dimension(PANEL_WIDTH, height));
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
 		revalidate();
-		repaint();
 	}
 
 	@Override
