@@ -74,7 +74,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgHereIsPart(Part p) {
 		print("Received msgHereIsPart");
-		//count++;
+		count++;
 		currentParts.add(new MyPart(p));
 		stateChanged();
 	}
@@ -174,7 +174,7 @@ public class NestAgent extends Agent implements Nest {
 
 	public void moveToPosition(Part part) {
 		print("Moving part to proper nest location");
-		count++;
+		//count++;
 		if (nestGraphics != null) {
 			// TODO
 			nestGraphics.receivePart(part.partGraphics);
