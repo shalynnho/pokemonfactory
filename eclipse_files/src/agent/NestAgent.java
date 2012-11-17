@@ -25,6 +25,7 @@ public class NestAgent extends Agent implements Nest {
 	public int countRequest = 0;
 	int full = 9;
 	public boolean takingParts = false;
+	public boolean messagedCamera = false;
 	
 	public NestGraphics nestGraphics;
 
@@ -106,6 +107,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgDoneTakingParts() {
 		print("Received msgDoneTakingParts");
+		messagedCamera=false;
 		takingParts = false;
 		stateChanged();
 	}
@@ -150,7 +152,7 @@ public class NestAgent extends Agent implements Nest {
 			}
 		}
 		}
-		if (count == full && takingParts == false) {
+		if (count == full && takingParts == false && !messagedCamera) {
 			nestFull();
 			return true;
 		}

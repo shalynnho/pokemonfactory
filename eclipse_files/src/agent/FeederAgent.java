@@ -134,7 +134,7 @@ public class FeederAgent extends Agent implements Feeder {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// / print("In the scheduler");
-		synchronized(lanes) {
+		//synchronized(lanes) {
 		if (state == FeederStatus.IDLE) {
 			for (MyLane lane : lanes) {
 				if (lane.state == LaneStatus.NEEDS_PARTS) {
@@ -158,7 +158,7 @@ public class FeederAgent extends Agent implements Feeder {
 				}
 			}
 		}
-		}
+		//}
 		if (state == FeederStatus.PURGING) {
 			purgeBin();
 		}

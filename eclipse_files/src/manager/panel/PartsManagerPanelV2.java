@@ -211,7 +211,7 @@ public class PartsManagerPanelV2 extends JPanel{
 		rightPanel.updatePartTypes(pt);
 	}
 	
-	public void startEditing(PartType pt) {
+	public void startEditing(final PartType pt) {
 		isEditing = true;
 		isDeleting = false;
 		setUpLeftPanel();
@@ -227,17 +227,17 @@ public class PartsManagerPanelV2 extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Edit name: " + nameField.getText());
-				manager.editPart(new PartType(
-						nameField.getText(),
-						Integer.parseInt(numField.getText()),
-						descField.getText()
-				));
+				pt.setName(nameField.getText());
+				pt.setPartNum(Integer.parseInt(numField.getText()));
+				pt.setDescription(descField.getText());
+				
+				manager.editPart(pt);
 				restoreLeftPanel();
 			}
 		});
 	}
 	
-	public void startDeleting(PartType pt) {
+	public void startDeleting(final PartType pt) {
 		isEditing = false;
 		isDeleting = true;
 		setUpLeftPanel();
@@ -252,11 +252,7 @@ public class PartsManagerPanelV2 extends JPanel{
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				manager.deletePart(new PartType(
-						nameField.getText(),
-						Integer.parseInt(numField.getText()),
-						descField.getText()
-				));
+				manager.deletePart(pt);
 				restoreLeftPanel();
 			}
 		});
