@@ -1,5 +1,6 @@
 package manager.panel;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -92,9 +93,10 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		add(kitComboBox, c);
 		kitComboBox.addMouseListener(this);
 		for (int i = 0; i < kitComboBox.getComponentCount(); i++) {
-			kitComboBox.getComponents()[i].addMouseListener(this);
+			Component comp = kitComboBox.getComponent(i);
+			comp.addMouseListener(this);
 		}
-//		((JComboBox.ComboBoxEditor) kitComboBox.getEditor()).getTextField().addMouseListener(this);
+		(kitComboBox.getEditor()).getEditorComponent().addMouseListener(this);
 		
 		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
 	    quantitySpinner = new JSpinner(spinnerModel);
