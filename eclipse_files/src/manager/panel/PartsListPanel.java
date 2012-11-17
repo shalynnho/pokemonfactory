@@ -1,5 +1,6 @@
 package manager.panel;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.swing.JScrollPane;
 
 import manager.util.ClickablePanel;
 import manager.util.ClickablePanelClickHandler;
@@ -22,6 +24,7 @@ import manager.util.OverlayPanel;
 import manager.util.WhiteLabel;
 import Utils.Constants;
 import factory.PartType;
+
 
 public class PartsListPanel extends OverlayPanel {
 	PartsListPanelHandler handler;
@@ -35,16 +38,23 @@ public class PartsListPanel extends OverlayPanel {
 	public static final Border TOP_PADDING = BorderFactory.createEmptyBorder(20, 0, 5, 0);
 	public static final Border VERTICAL_PADDING = BorderFactory.createEmptyBorder(10, 0, 10, 0);
 	
+	
+	
+	
 	public PartsListPanel(PartsListPanelHandler h) {
 		super();
 		handler = h;
 		partTypes = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES.clone();
-	
+		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		setAlignmentX(LEFT_ALIGNMENT);
 		setBorder(PADDING);
 		
 		parsePartTypes();
+		
+		add(new JButton("vansh"));
+//		JScrollPane scroller = new JScrollPane();
+//		this.getRootPane().add(scroller, BorderLayout.CENTER);  
 	}
 	
 	public void parsePartTypes() {
@@ -77,6 +87,7 @@ public class PartsListPanel extends OverlayPanel {
 			// add padding
 			add(Box.createVerticalStrut(10));
 			panels.put(pt, panel);
+			add(new JButton("vansh"));
 		}
 		validate();
 	}
