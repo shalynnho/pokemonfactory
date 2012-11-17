@@ -354,6 +354,8 @@ public class Server {
 			sendDataToPartsRobot(req);
 		} else if (target.contains(Constants.ALL_TARGET)) {
 			sendDataToGUIManagers(req);
+		} else if (target.contains(Constants.GANTRY_ROBOT_TARGET)) {
+			sendDataToGantry(req);
 		}
 	}
 
@@ -404,6 +406,10 @@ public class Server {
 	private void sendDataToLane(Request req) {
 		factProdMngrWriter.sendData(req);
 		laneMngrWriter.sendData(req);
+	}
+	
+	private void sendDataToGantry(Request req) {
+		factProdMngrWriter.sendData(req);
 	}
 
 	public static void main(String[] args) {
