@@ -87,7 +87,7 @@ public class PartsManagerPanelV2 extends JPanel{
 		rightPanel.setBackground(new Color(0, 0, 0, 30));
 		
 //		 TODO: make scrolling work!
-		rightPanel.setPreferredSize(new Dimension(500,500));
+//		rightPanel.setPreferredSize(new Dimension(500,500));
 		JScrollPane jsp = new JScrollPane(rightPanel);
 		jsp.setOpaque(false);
 		jsp.getViewport().setOpaque(false);

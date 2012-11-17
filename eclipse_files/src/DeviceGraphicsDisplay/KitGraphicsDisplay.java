@@ -6,8 +6,6 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import agent.data.Kit;
-
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
@@ -23,8 +21,8 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	private int degreeStep;
 	
 	
-	private int rotationAxisX;
-	private int rotationAxisY;
+	private double rotationAxisX;
+	private double rotationAxisY;
 	
 	private int position;
 	
@@ -40,9 +38,9 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		position = 0;
 		degreeCountDown=0;
 		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
-		rotationAxisX = 180;
-		rotationAxisY = 40;
-		trans.translate(0, 200);
+		rotationAxisX = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getXDouble();
+		rotationAxisY = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getYDouble();
+		trans.translate(Constants.KIT_ROBOT_KIT_LOC.getXDouble(), Constants.KIT_ROBOT_KIT_LOC.getYDouble());
 	}
 
 	public int getPosition() {
