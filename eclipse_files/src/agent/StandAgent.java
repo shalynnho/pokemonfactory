@@ -189,7 +189,7 @@ public class StandAgent extends Agent implements Stand {
 					// Kit robot shipped a kit
 					else if (mk.KS == KitStatus.SHIPPED) {
 						// mk.KS = KitStatus.DELIVERED;
-						kitsOnStand.set(0, null);
+						// kitsOnStand.set(0, null); //Caused a race condition where a second kit could be moved to the inspection area before this one is called
 						print("Removing " + mk.kit.toString() + " (shipped)");
 						myKits.remove(mk);
 						return true;
@@ -215,7 +215,7 @@ public class StandAgent extends Agent implements Stand {
 			}
 			if (numKitsToMake > 0 && numKitsToMake > numKitsMade + 3 - count
 					&& count > 0) { // TODO: Why count > 0?
-				print("NumKits to make greater than numKitsMade. Stand positions empty count: "
+				print("NumKits("+numKitsToMake+") to make greater than numKitsMade("+numKitsMade+"). Stand positions empty count: "
 						+ count);
 				if (!standPositions.get(1) && !standPositions.get(2)) {
 					print("Neither position full");

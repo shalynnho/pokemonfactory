@@ -152,11 +152,16 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		c.gridy = 4;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.gridheight = GridBagConstraints.REMAINDER;
+		c.anchor = GridBagConstraints.PAGE_END;
+
 		c.weightx = 1;
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
 		add(orderScrollPane, c);
 		orderScrollPane.addMouseListener(this);
+		for (int i = 0; i < orderScrollPane.getComponentCount(); i++) {
+			orderScrollPane.getComponents()[i].addMouseListener(this);
+		}
 	}
 
 	/**
