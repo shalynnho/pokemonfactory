@@ -47,7 +47,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		// V0 hack
 		Location tempLoc = new Location(550, 100);
 		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, tempLoc));
-		//pg.setLocation()
+		//server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, pg.getLocation()));
 	}
 	
 	public void givePartToKit(PartGraphics part, KitGraphics kit) {
