@@ -34,6 +34,9 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	private boolean rotate;
 	private boolean home;
 	private boolean pickup, givekit;
+	private boolean gotpart;
+	private boolean sendmsg;
+	private boolean gavepart;
 	
 	private ArrayList<Location> partStartLoc;
 	private ArrayList<Location> armLoc;
@@ -89,6 +92,9 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		
 		I = 0;
 			
+		gotpart = false;
+		sendmsg = false;
+		gavepart = false;
 	}
 	
 	public void draw(JComponent c, Graphics2D g){
@@ -136,37 +142,31 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				
 				if(currentLocation.getX() == loc.getX()-30 && currentLocation.getY() == loc.getY()){
 					System.out.println("at parts location");
-					I = 1;
-					Location tempLoc = armLoc.get(I-1);
-					while(armLoc.get(I-1).getX() != loc.getX()+90){
+			
+					
+					if(armLoc.get(I).getX() != loc.getX()+90 && !gotpart){
 						extendArm();
-						if(I==1)
-							g.drawImage(armImage1.get(1),armLoc.get(0).getX(),armLoc.get(0).getY(), c);
-						else if (I==2)
-							g.drawImage(armImage2.get(1),armLoc.get(1).getX(),armLoc.get(1).getY(), c);
-						else if (I==3)
-							g.drawImage(armImage3.get(1),armLoc.get(2).getX(),armLoc.get(2).getY(), c);
-						else if (I==4)
-							g.drawImage(armImage4.get(1),armLoc.get(3).getX(),armLoc.get(3).getY(), c);
-					}
-					System.out.println("pickedup");
-					pickUpPart();
-					System.out.println("picked up part");
-					if(armLoc.get(I-1).getX() == loc.getX()+90){ //&& armLoc.get(I-1).getY() == loc.getY()){
+						
+						if(armLoc.get(I).getX() == loc.getX()+90){
+						pickUpPart();
+						gotpart = true;}}
+					
+					else {
 						System.out.println("got to part loc");
-						while(armLoc.get(I-1).getX() != tempLoc.getX()){
+						
+						if(armLoc.get(I).getX() != loc.getX()+30){
 							System.out.println("retract arm");
 							retractArm();
-							if(I==1)
-								g.drawImage(armImage1.get(1),armLoc.get(0).getX(),armLoc.get(0).getY(), c);
-							else if (I==2)
-								g.drawImage(armImage2.get(1),armLoc.get(1).getX(),armLoc.get(1).getY(), c);
-							else if (I==3)
-								g.drawImage(armImage3.get(1),armLoc.get(2).getX(),armLoc.get(2).getY(), c);
-							else if (I==4)
-								g.drawImage(armImage4.get(1),armLoc.get(3).getX(),armLoc.get(3).getY(), c);
-
+							if(armLoc.get(I).getX() == loc.getX()+30){
+								pickup = false;
+								I++;
+								partsRobotClient.sendData(new Request(
+									    Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
+									    Constants.PARTS_ROBOT_TARGET,
+									    null));
+							}
 						}
+						
 					}
 					
 				}
@@ -180,73 +180,75 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				
 		}else if (givekit) {
 			for (int i = 0; i < 5; i++){
-				if(currentLocation.getX()>kitloc.getX()){
+				if(currentLocation.getX()>kitloc.getX()-30){
 					currentLocation.incrementX(-1);
-					partStartLoc.get(0).setX(currentLocation.getX());
-					partStartLoc.get(1).setX(currentLocation.getX()+30);
-					partStartLoc.get(2).setX(currentLocation.getX());
-					partStartLoc.get(3).setX(currentLocation.getX()+30);
+					int k;
+					for (k=0;k<4;k++){
+						armLoc.get(k).setX(currentLocation.getX()+60);
+						partStartLoc.get(k).setX(armLoc.get(k).getX()+30);	
+					}
 				}
 				else if(currentLocation.getY()>kitloc.getY()){
 					currentLocation.incrementY(-1);
-					partStartLoc.get(0).setY(currentLocation.getY());
-					partStartLoc.get(1).setY(currentLocation.getY());
-					partStartLoc.get(2).setY(currentLocation.getY()+30);
-					partStartLoc.get(3).setY(currentLocation.getY()+30);
-				}
-				else if(currentLocation.getY()<kitloc.getY()){
+					int k;
+					for (k=0;k<4;k++){
+						armLoc.get(k).setY(currentLocation.getY()+30*(k));
+						partStartLoc.get(k).setY(armLoc.get(k).getY()+30*k);
+					}
+				}else if(currentLocation.getY()<kitloc.getY()){
 					currentLocation.incrementY(1);
-					partStartLoc.get(0).setY(currentLocation.getY());
-					partStartLoc.get(1).setY(currentLocation.getY());
-					partStartLoc.get(2).setY(currentLocation.getY()+30);
-					partStartLoc.get(3).setY(currentLocation.getY()+30);
+					int k;
+					for (k=0;k<4;k++){
+						armLoc.get(k).setY(currentLocation.getY()+30*(k));
+						partStartLoc.get(k).setY(armLoc.get(k).getY()+30*k);
+					}
 				}
 				
-				g.drawImage(partsRobotImage, currentLocation.getX(), currentLocation.getY(), c);
-				int k;
-				for (k=0;k<3;k++){
-					g.drawImage(armImage1.get(k),armLocation.getX()+60, armLocation.getY(), c);
-					g.drawImage(armImage2.get(k),armLocation.getX()+60, armLocation.getY(), c);
-					g.drawImage(armImage3.get(k),armLocation.getX()+60, armLocation.getY(), c);
-					g.drawImage(armImage4.get(k),armLocation.getX()+60, armLocation.getY(), c);
-				}
 			}
-			if (currentLocation.getX() == kitloc.getX()+30 && currentLocation.getY() == kitloc.getY()){
-				Location tempLoc = armLoc.get(I-1);
-				while(armLoc.get(I-1).getX() != kitloc.getX()){
-					retractArm();
-					if(I==1)
-						g.drawImage(armImage1.get(1),armLoc.get(0).getX(),armLoc.get(0).getY(), c);
-					else if (I==2)
-						g.drawImage(armImage2.get(1),armLoc.get(1).getX(),armLoc.get(1).getY(), c);
-					else if (I==3)
-						g.drawImage(armImage3.get(1),armLoc.get(2).getX(),armLoc.get(2).getY(), c);
-					else if (I==4)
-						g.drawImage(armImage4.get(1),armLoc.get(3).getX(),armLoc.get(3).getY(), c);
-				}
-				if (armLoc.get(I-1).getX() == kitloc.getX()){
-					givePart();
-					while(armLocation.getX() != tempLoc.getX()){
-						extendArm();
-						if(I==1)
-							g.drawImage(armImage1.get(1),armLoc.get(0).getX(),armLoc.get(0).getY(), c);
-						else if (I==2)
-							g.drawImage(armImage2.get(1),armLoc.get(1).getX(),armLoc.get(1).getY(), c);
-						else if (I==3)
-							g.drawImage(armImage3.get(1),armLoc.get(2).getX(),armLoc.get(2).getY(), c);
-						else if (I==4)
-							g.drawImage(armImage4.get(1),armLoc.get(3).getX(),armLoc.get(3).getY(), c);}
-				}
+			g.drawImage(partsRobotImage, currentLocation.getX(), currentLocation.getY(), c);
+			
+			if (currentLocation.getX() == kitloc.getX()-30 && currentLocation.getY() == kitloc.getY()){
+				//Location tempLoc = armLoc.get(I-1);
+				System.out.println("got to kit location");
+				if(armLoc.get(I-1).getX() != kitloc.getX()+90 && !gavepart){
+					System.out.println("extending arm to kit");
+					extendArmToKit();
+					if(armLoc.get(I-1).getX() == kitloc.getX()+90){
+						System.out.println("giving part to kit");
+						
+						givePart();
+						gavepart = true;
+					}
+					}
+				else{
+					
+					if(armLoc.get(I-1).getX() != kitloc.getX()+30){
+						System.out.println("retract arm from kit");
+						retractArmFromKit();
+						if(armLoc.get(I-1).getX() == kitloc.getX()+30){
+							System.out.println("done giving to kit");
+							givekit = false;
+							I--;
+							partsRobotClient.sendData(new Request(
+								    Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX, 
+								    Constants.PARTS_ROBOT_TARGET,
+								    null));
+						}
+					}
+				}	
+			}
+			int k;
+			for (k=0;k<3;k++){
+				g.drawImage(armImage1.get(k),armLoc.get(0).getX(), armLoc.get(0).getY(), c);
+				g.drawImage(armImage2.get(k),armLoc.get(1).getX(), armLoc.get(1).getY(), c);
+				g.drawImage(armImage3.get(k),armLoc.get(2).getX(), armLoc.get(2).getY(), c);
+				g.drawImage(armImage4.get(k),armLoc.get(3).getX(), armLoc.get(3).getY(), c);
 			}
 		} else if (!givekit || !pickup) {
 			for (int i = 0; i < 5; i++){
 				if(currentLocation.getY()<450){
 					currentLocation.incrementY(1);
-					/*partStartLoc.get(0).setY(currentLocation.getY());
-					partStartLoc.get(1).setY(currentLocation.getY());
-					partStartLoc.get(2).setY(currentLocation.getY()+30);
-					partStartLoc.get(3).setY(currentLocation.getY()+30);
-					*/int k;
+					int k;
 					for (k=0;k<4;k++){
 						armLoc.get(k).setY(currentLocation.getY()+30*k);
 						partStartLoc.get(k).setY(armLoc.get(k).getY()+30*k);
@@ -254,11 +256,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				}
 				else if(currentLocation.getX()>250){
 					currentLocation.incrementX(-1);
-					/*partStartLoc.get(0).setX(currentLocation.getX());
-					partStartLoc.get(1).setX(currentLocation.getX()+30);
-					partStartLoc.get(2).setX(currentLocation.getX());
-					partStartLoc.get(3).setX(currentLocation.getX()+30);
-					*/int k;
+					int k;
 					for (k=0;k<4;k++){
 						armLoc.get(k).setX(currentLocation.getX()+60);
 						partStartLoc.get(k).setX(armLoc.get(k).getX()+30);
@@ -266,11 +264,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				}
 				else if(currentLocation.getX()<250){
 					currentLocation.incrementX(1);
-					/*partStartLoc.get(0).setX(currentLocation.getX());
-					partStartLoc.get(1).setX(currentLocation.getX()+30);
-					partStartLoc.get(2).setX(currentLocation.getX());
-					partStartLoc.get(3).setX(currentLocation.getX()+30);
-					*/int k;
+					int k;
 					for (k=0;k<4;k++){
 						armLoc.get(k).setX(currentLocation.getX()+60);
 						partStartLoc.get(k).setX(armLoc.get(k).getX()+30);
@@ -311,6 +305,8 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		home = false;
 		pickup = true;
 		givekit = false;
+		gotpart = false;
+		gavepart = false;
 	}
 	
 	public void giveKit(){
@@ -323,14 +319,11 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
 		
 		if (I<4){
-			pgd.setLocation(partStartLoc.get(I-1));
+			pgd.setLocation(partStartLoc.get(I));
 			partArrayGraphics.add(pgd);
-			I++;
-			pickup = false;
-			partsRobotClient.sendData(new Request(
-				    Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
-				    Constants.PARTS_ROBOT_TARGET,
-				    null));
+		
+			
+			
 		}
 		else
 			System.out.println("Can't pick up more parts.");
@@ -338,15 +331,13 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
 	public void givePart(){
 		
-		if(I>0 && I<=4){
-			I--;
-			partArrayGraphics.remove(I);
-			partsRobotClient.sendData(new Request(
-			    Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX, 
-			    Constants.PARTS_ROBOT_TARGET,
-			    null));
-		}
-		givekit = false;
+		if(I>0){
+			
+			partArrayGraphics.remove(I-1);
+			
+		}else
+			System.out.println("No parts to remove.");
+		
 		
 	}
 	
@@ -354,29 +345,94 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		
 			//if(armLocation.getX() != loc.getX()){
 		
-		if(I==1)
+		if(I==0){
 			armLoc.get(0).incrementX(1);
-		else if(I==2)
+			partStartLoc.get(0).setX(armLoc.get(0).getX()+30);
+		}
+		else if(I==1){
 			armLoc.get(1).incrementX(1);
-		else if(I==3)
+			partStartLoc.get(1).setX(armLoc.get(1).getX()+30);
+		}
+		else if(I==2){
 			armLoc.get(2).incrementX(1);
-		else if(I==4)
+			partStartLoc.get(2).setX(armLoc.get(2).getX()+30);
+		}
+		else if(I==3){
 			armLoc.get(3).incrementX(1);
+			partStartLoc.get(3).setX(armLoc.get(3).getX()+30);
+		}
 				
 		
 	}
+	public void extendArmToKit(){
+		
+		//if(armLocation.getX() != loc.getX()){
+	
+	if(I==1){
+		armLoc.get(0).incrementX(1);
+		partStartLoc.get(0).setX(armLoc.get(0).getX()+30);
+	}
+	else if(I==2){
+		armLoc.get(1).incrementX(1);
+		partStartLoc.get(1).setX(armLoc.get(1).getX()+30);
+	}
+	else if(I==3){
+		armLoc.get(2).incrementX(1);
+		partStartLoc.get(2).setX(armLoc.get(2).getX()+30);
+	}
+	else if(I==4){
+		armLoc.get(3).incrementX(1);
+		partStartLoc.get(3).setX(armLoc.get(3).getX()+30);
+	}
+			
+	
+}
 	
 	public void retractArm(){
 		
 		//if(armLocation.getX() == loc.getX()){
-		if(I==1)
+		
+		if(I==0){
 			armLoc.get(0).incrementX(-1);
-		else if(I==2)
+			partStartLoc.get(0).setX(armLoc.get(0).getX()+30);
+		}
+		else if(I==1){
 			armLoc.get(1).incrementX(-1);
-		else if(I==3)
+			partStartLoc.get(1).setX(armLoc.get(1).getX()+30);
+		}
+		else if(I==2){
 			armLoc.get(2).incrementX(-1);
-		else if(I==4)
+			partStartLoc.get(2).setX(armLoc.get(2).getX()+30);
+		}
+		else if(I==3){
 			armLoc.get(3).incrementX(-1);
+			partStartLoc.get(3).setX(armLoc.get(3).getX()+30);
+		}
+		
+	}
+	
+public void retractArmFromKit(){
+		
+		//if(armLocation.getX() == loc.getX()){
+	System.out.println("go to function");
+	if(I==1){
+		System.out.println("retracting");
+			armLoc.get(0).incrementX(-1);
+			System.out.println("RECTRACTING");
+			
+		}
+		else if(I==2){
+			armLoc.get(1).incrementX(-1);
+			
+		}
+		else if(I==3){
+			armLoc.get(2).incrementX(-1);
+			
+		}
+		else if(I==4){
+			armLoc.get(3).incrementX(-1);
+		
+		}
 		
 	}
 	
