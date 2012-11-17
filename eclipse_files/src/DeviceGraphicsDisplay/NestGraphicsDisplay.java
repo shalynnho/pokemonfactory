@@ -133,6 +133,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void receivePart(PartType type) {
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(type);
 		partsInNest.add(pgd);
+		setPartLocations();
 		manager.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND
 				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
 	}
