@@ -102,7 +102,7 @@ public class FCS {
 	}
 	
 	public void addOrder(Order o) {
-		if(o.getNumKits() < 1) {
+		if(o.getNumKits() > 0) {
 			//TODO: might not be necessary, since agent will update ours anyway.
 			queue.add(o);
 			updateQueue();
