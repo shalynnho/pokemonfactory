@@ -17,11 +17,11 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import manager.FactoryProductionManager;
 import manager.util.OverlayInternalFrame;
-import manager.util.OverlayPanel;
 import Utils.Constants;
 import factory.KitConfig;
 import factory.Order;
@@ -48,11 +48,11 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	/** JComponents **/
 	// Displays kits currently available for order
 	private JComboBox kitComboBox;
+	private DefaultComboBoxModel defaultComboBox;
 	// Displays current schedule of orders
 	private JTextArea orderScheduleTextArea;
 	private SpinnerNumberModel spinnerModel;
 	private JSpinner quantitySpinner;
-	private DefaultComboBoxModel defaultComboBox;
 	private JButton orderButton;
 	private JScrollPane orderScrollPane;
 	
@@ -78,7 +78,6 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		GridBagConstraints c = new GridBagConstraints();
 	
 		kitComboBox = new JComboBox();
-		defaultComboBox = (DefaultComboBoxModel)kitComboBox.getModel();
 		
 		// TODO: REMOVE - FOR TESTING ONLY
 		kitConfigs = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIGS.clone();
@@ -96,7 +95,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 			Component comp = kitComboBox.getComponent(i);
 			comp.addMouseListener(this);
 		}
-		(kitComboBox.getEditor()).getEditorComponent().addMouseListener(this);
+		((JTextField)kitComboBox.getEditor().getEditorComponent()).addMouseListener(this);
 		
 		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
 	    quantitySpinner = new JSpinner(spinnerModel);
