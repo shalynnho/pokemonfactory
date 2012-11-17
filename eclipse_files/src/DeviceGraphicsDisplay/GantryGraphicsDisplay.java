@@ -38,7 +38,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public GantryGraphicsDisplay (Client c) {
 		currentLocation = Constants.GANTRY_ROBOT_LOC;
-		destinationLocation = currentLocation;
+		destinationLocation = Constants.GANTRY_ROBOT_LOC;
 		binList = new ArrayList<BinGraphicsDisplay>();
 		client = c;
 		
@@ -51,9 +51,13 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
+		//System.out.println("GEBERT    " + destinationLocation.getX() + "    " + destinationLocation.getY());
+
 		
 		// If robot is at incorrect Y location, first move bot to inital X location
 		if (currentLocation.getY() != destinationLocation.getY() && currentLocation.getX() != Constants.GANTRY_ROBOT_LOC.getX()) {
+			//System.out.println("GEBERT move1");
+
 			if(currentLocation.getX() < Constants.GANTRY_ROBOT_LOC.getX()) {
 				currentLocation.incrementX(5);
 			}
@@ -64,6 +68,8 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		//If robot is in initial X, move to correct Y
 		if(currentLocation.getX() == Constants.GANTRY_ROBOT_LOC.getX() && currentLocation.getY() != destinationLocation.getY()) {
+			//System.out.println("GEBERT move2");
+
 			if(currentLocation.getY() < destinationLocation.getY()) {
 				currentLocation.incrementY(5);
 			}
@@ -90,7 +96,9 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		
 		//If robot is at correct Y and correct rotation, move to correct X
-		if (currentLocation.getY() == destinationLocation.getY()) { //&& currentDegree == finalDegree) {
+		if (currentLocation.getY() == destinationLocation.getY() && currentLocation.getX() != destinationLocation.getX()) { //&& currentDegree == finalDegree) {
+			//System.out.println("GEBERT move3");
+
 			if(currentLocation.getX() < destinationLocation.getX()) {
 				currentLocation.incrementX(5);
 			}
@@ -120,7 +128,6 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (req.getCommand().equals(Constants.GANTRY_ROBOT_GET_BIN_COMMAND)) {
 			tempBin = (BinData) req.getData();
 			heldBin = new BinGraphicsDisplay(currentLocation, tempBin.getBinPartType());
-			//heldBin.setFull(tempBin.getFull());
 			isBinHeld = true;
 			tempBin = null;
 		}
@@ -135,7 +142,6 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_ADD_NEW_BIN)) {
 			tempBin = (BinData) req.getData();
 			binList.add(new BinGraphicsDisplay(tempBin.getBinLocation(), tempBin.getBinPartType()));
-			isBinHeld = true;
 			tempBin = null;
 		}
 	}
