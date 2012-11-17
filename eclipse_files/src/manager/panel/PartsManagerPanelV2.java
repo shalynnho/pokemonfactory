@@ -50,11 +50,8 @@ public class PartsManagerPanelV2 extends JPanel{
 	boolean isEditing;
 	boolean isDeleting;
 	
-	ArrayList<PartType> partTypes = new ArrayList<PartType>();
-	
 	public PartsManagerPanelV2(PartsManager mngr) {
 		manager = mngr;
-		partTypes = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES.clone();
 		
 		setLayout(new BorderLayout());
 		setBorder(Constants.PADDING);
