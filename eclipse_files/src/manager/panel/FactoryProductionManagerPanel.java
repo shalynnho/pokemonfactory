@@ -1,6 +1,7 @@
 package manager.panel;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -57,6 +58,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	private JSpinner quantitySpinner;
 	private JButton orderButton;
 	private JScrollPane orderScrollPane;
+	private OrdersListPanel ordersPanel;
 	
 	private int height;
 	
@@ -118,20 +120,6 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		
 		add(kitsPanel, c);
 		
-		OrdersListPanel.OrderSelectHandler selectHandler = new OrdersListPanel.OrderSelectHandler() {
-			@Override
-			public void onOrderSelect(Order o) {
-				// add here.
-			}
-		};
-		OrdersListPanel ordersPanel = new OrdersListPanel(selectHandler);
-		
-		ordersPanel.setVisible(true);
-		ordersPanel.setBackground(new Color(0, 0, 0, 30));
-		for(ClickablePanel panel : ordersPanel.getPanels().values()) {
-			panel.addMouseListener(this);
-		}
-		
 		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
 	    quantitySpinner = new JSpinner(spinnerModel);
 		c.gridx = 0;
@@ -179,6 +167,33 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 			orderScrollPane.getComponents()[i].addMouseListener(this);
 		}
 		*/
+		
+		OrdersListPanel.OrderSelectHandler selectHandler = new OrdersListPanel.OrderSelectHandler() {
+			@Override
+			public void onOrderSelect(Order o) {
+				selectedOrder = o;
+			}
+		};
+		ordersPanel = new OrdersListPanel(selectHandler);
+		ordersPanel.setVisible(true);
+		ordersPanel.setBackground(new Color(0, 0, 0, 30));
+		for(ClickablePanel panel : ordersPanel.getPanels().values()) {
+			panel.addMouseListener(this);
+			for(int i = 0; i < panel.getComponentCount(); i++) {
+				panel.getComponents()[i].addMouseListener(this);
+			}
+		}
+		
+		c.gridx = 0;
+		c.gridy = 4;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.gridheight = GridBagConstraints.REMAINDER;
+		c.anchor = GridBagConstraints.PAGE_END;
+
+		c.weightx = 1;
+		c.weighty = 1;
+		c.fill = GridBagConstraints.BOTH;
+		add(ordersPanel, c);
 	}
 
 	/**
@@ -228,7 +243,9 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	 */
 	public void updateOrders(ArrayList<Order> o) {
 		queue = o;
-		
+		System.out.println("Queue size: " + queue.size());
+		ordersPanel.updateOrders(o);
+		/*
 		// Clear the contents of the JTextArea
 		orderScheduleTextArea.setText("");
 		
@@ -241,6 +258,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 			
 			orderScheduleTextArea.append("Kit Type: " + queue.get(i).getConfig().getName() + "  |  Quantity: " + queue.get(i).getNumKits() + "\n");
 		}
+		*/
+		
 	}
 
 	@Override
