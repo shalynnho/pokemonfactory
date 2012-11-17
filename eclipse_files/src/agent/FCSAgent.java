@@ -27,6 +27,7 @@ public class FCSAgent extends Agent implements FCS {
 	private Conveyor conveyor;
 	private myState state;    
 	private ArrayList<Order> orders;  
+	private int numOrdersFinished=0;
 	
 	private factory.FCS fcs;
 	
@@ -44,6 +45,7 @@ public class FCSAgent extends Agent implements FCS {
 		this.orders=new ArrayList<Order>();
 		binsSet=false;
 		binsToAdd= new ArrayList<PartType>();
+		state=myState.STARTED;
 	}
 	
 	public FCSAgent(){
@@ -51,6 +53,7 @@ public class FCSAgent extends Agent implements FCS {
 		this.name="FCS Agent";
 		binsSet=false;
 		binsToAdd= new ArrayList<PartType>();
+		state=myState.STARTED;
 	}
 
 	@Override
@@ -90,7 +93,8 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgOrderFinished(){  
-		print("Order Done!!!!");
+		numOrdersFinished++;
+		print("Order " + numOrdersFinished + " Done!!!!");
 		for(Order o:orders){
 			if(o.state == Order.orderState.ORDERED){
 				orders.remove(o);
