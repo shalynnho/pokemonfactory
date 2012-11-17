@@ -56,24 +56,6 @@ public class MockGantry extends MockAgent implements Gantry {
 	}
 
 	@Override
-	public void moveToFeeder(Bin bin, FeederAgent feeder) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void fillFeeder(Bin bin, FeederAgent feeder) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void discardBin(Bin bin) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void msgRemoveBin(Bin bin) {
 		// TODO Auto-generated method stub
 
