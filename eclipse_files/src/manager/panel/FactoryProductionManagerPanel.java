@@ -69,6 +69,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		setMinimumSize(new Dimension(PANEL_WIDTH, height));
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
 		
+		// stuff for disappearing panel
 		this.height = height;
 		addMouseListener(this);
 		setResizable(true);
@@ -210,7 +211,6 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
 		revalidate();
 		repaint();
-		System.out.println("ENTERED lskfjslkjlsdf");
 	}
 
 	@Override
@@ -219,7 +219,6 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		setMinimumSize(new Dimension(5, height));
 		setMaximumSize(new Dimension(5, height));
 		revalidate();
-		System.out.println("EXITED lskfjslkjlsdf");
 	}
 
 	@Override
