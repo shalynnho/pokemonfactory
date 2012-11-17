@@ -25,7 +25,6 @@ public class NestAgent extends Agent implements Nest {
 	public int countRequest = 0;
 	int full = 9;
 	public boolean takingParts = false;
-	public boolean messagedCamera = false;
 	
 	public NestGraphics nestGraphics;
 
@@ -75,7 +74,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgHereIsPart(Part p) {
 		print("Received msgHereIsPart");
-		count++;
+		//count++;
 		currentParts.add(new MyPart(p));
 		stateChanged();
 	}
@@ -107,7 +106,6 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgDoneTakingParts() {
 		print("Received msgDoneTakingParts");
-		messagedCamera=false;
 		takingParts = false;
 		stateChanged();
 	}
@@ -152,7 +150,7 @@ public class NestAgent extends Agent implements Nest {
 			}
 		}
 		}
-		if (count == full && takingParts == false && !messagedCamera) {
+		if (count == full && takingParts == false ) {
 			nestFull();
 			return true;
 		}
@@ -176,17 +174,17 @@ public class NestAgent extends Agent implements Nest {
 	public void moveToPosition(Part part) {
 		print("Moving part to proper nest location");
 		
-		/*if (nestGraphics != null) {
+		if (nestGraphics != null) {
 			// TODO
 			nestGraphics.receivePart(part.partGraphics);
+			try {
+				animation.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
+		count++;
 
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
