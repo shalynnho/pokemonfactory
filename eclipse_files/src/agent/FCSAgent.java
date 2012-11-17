@@ -145,7 +145,9 @@ public class FCSAgent extends Agent implements FCS {
 	    if(fcs!=null){
 	    	fcs.updateQueue();
 	    }
-	    
+	    if(conveyor==null){
+	    	print("conveyor is null");
+	    }
 	    conveyor.msgHereIsKitConfiguration(o.kitConfig);
 	    stand.msgMakeKits(o.numKits);    
 	    

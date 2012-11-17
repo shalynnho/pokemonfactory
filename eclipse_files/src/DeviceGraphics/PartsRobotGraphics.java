@@ -56,6 +56,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 				partArray.remove(p);
 			}
 		}
+		Location tempLoc = new Location(200, 400);
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, kit.getLocation()));
 	}	
 	

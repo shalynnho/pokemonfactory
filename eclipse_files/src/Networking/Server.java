@@ -11,6 +11,7 @@ import DeviceGraphics.CameraGraphics;
 import DeviceGraphics.ConveyorGraphics;
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.FeederGraphics;
+import DeviceGraphics.GantryGraphics;
 import DeviceGraphics.InspectionStandGraphics;
 import DeviceGraphics.KitRobotGraphics;
 import DeviceGraphics.LaneGraphics;
@@ -111,6 +112,7 @@ public class Server {
 	}
 
 	private void initAgents() {
+		agents.put(Constants.GANTRY_ROBOT_TARGET, new GantryAgent(Constants.GANTRY_ROBOT_TARGET));
 		agents.put(Constants.CAMERA_TARGET, new CameraAgent(
 				Constants.CAMERA_TARGET));
 		agents.put(Constants.CONVEYOR_TARGET, new ConveyorAgent(
@@ -121,7 +123,7 @@ public class Server {
 				Constants.PARTS_ROBOT_TARGET));
 		agents.put(Constants.STAND_TARGET, new StandAgent(
 				Constants.STAND_TARGET));
-		agents.put(Constants.FCS_TARGET, new FCSAgent(Constants.FCS_TARGET));
+		agents.put(Constants.FCS_TARGET, fcsAgent);
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			agents.put(Constants.FEEDER_TARGET + i, new FeederAgent(
@@ -138,6 +140,7 @@ public class Server {
 	}
 
 	private void initDevices() {
+		devices.put(Constants.GANTRY_ROBOT_TARGET, new GantryGraphics(this,agents.get(Constants.GANTRY_ROBOT_TARGET)));
 		devices.put(Constants.CAMERA_TARGET,
 				new CameraGraphics(this, agents.get(Constants.CAMERA_TARGET)));
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this,
@@ -195,6 +198,7 @@ public class Server {
 			((FeederAgent) agents.get(Constants.FEEDER_TARGET + i))
 					.setGantry((GantryAgent) agents
 							.get(Constants.GANTRY_ROBOT_TARGET));
+			((GantryAgent) agents.get(Constants.GANTRY_ROBOT_TARGET)).setFeeder((FeederAgent) agents.get(Constants.FEEDER_TARGET + i));
 		}
 
 		for (int i = 0; i < Constants.LANE_COUNT; i++) {
@@ -210,6 +214,7 @@ public class Server {
 							.get(Constants.CAMERA_TARGET));
 			((CameraAgent) agents.get(Constants.CAMERA_TARGET))
 					.setNest((NestAgent) agents.get(Constants.NEST_TARGET + i));
+			((FCSAgent) agents.get(Constants.FCS_TARGET)).setNest((NestAgent) agents.get(Constants.NEST_TARGET + i));
 		}
 
 		KitRobotAgent kitrobot = (KitRobotAgent) agents
@@ -244,6 +249,11 @@ public class Server {
 
 		camera.setNest(nest0);
 		camera.setNest(nest1);
+		
+		((FCSAgent) agents.get(Constants.FCS_TARGET)).setConveyor(conveyor);
+		((FCSAgent) agents.get(Constants.FCS_TARGET)).setGantry((GantryAgent) agents.get(Constants.GANTRY_ROBOT_TARGET));
+		((FCSAgent) agents.get(Constants.FCS_TARGET)).setPartsRobot((PartsRobotAgent) agents.get(Constants.PARTS_ROBOT_TARGET));
+		((FCSAgent) agents.get(Constants.FCS_TARGET)).setStand((StandAgent) agents.get(Constants.STAND_TARGET));
 
 	}
 

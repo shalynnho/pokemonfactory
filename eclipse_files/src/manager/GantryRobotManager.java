@@ -84,6 +84,17 @@ public class GantryRobotManager extends Client implements ActionListener {
 	}
 	
 	/**
+	 * This function intercepts requests and calls client's sendData if the request is a DONE request.
+	 * @req Request to be sent.
+	 */
+	@Override
+	public void sendData(Request req) {
+		if (!req.getCommand().endsWith(Constants.DONE_SUFFIX)) {
+			super.sendData(req);
+		}
+	}
+	
+	/**
 	 * 
 	 * @return display offset
 	 */
