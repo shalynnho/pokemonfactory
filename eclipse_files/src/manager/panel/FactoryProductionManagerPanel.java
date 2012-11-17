@@ -45,6 +45,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	private ArrayList<Order> queue = new ArrayList<Order>();
 	// Stores the selected kitConfig for a new order
 	private KitConfig selectedKit;
+	// Stores the selected Order
+	private Order selectedOrder;
 	
 	/** JComponents **/
 	// Displays kits currently available for order
@@ -117,6 +119,16 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		
 		add(kitsPanel, c);
 		
+		
+		OrdersListPanel ordersPanel = new OrdersListPanel(new OrderSelectHandler() {
+			
+		});
+		ordersPanel.setVisible(true);
+		ordersPanel.setBackground(new Color(0, 0, 0, 30));
+		for(ClickablePanel panel : ordersPanel.getPanels().values()) {
+			panel.addMouseListener(this);
+		}
+		
 		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
 	    quantitySpinner = new JSpinner(spinnerModel);
 		c.gridx = 0;
@@ -138,7 +150,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		c.gridy = 3;
 		add(orderButton, c);
 		orderButton.addMouseListener(this);
-				
+		
+		/*
 		orderScheduleTextArea = new JTextArea();
 		orderScheduleTextArea.setColumns(20);
 		orderScheduleTextArea.setRows(20);
@@ -162,6 +175,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		for (int i = 0; i < orderScrollPane.getComponentCount(); i++) {
 			orderScrollPane.getComponents()[i].addMouseListener(this);
 		}
+		*/
 	}
 
 	/**
