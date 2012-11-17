@@ -46,15 +46,9 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (currentLocation.getY() != destinationLocation.getY()) {
 			if(currentLocation.getX() < Constants.GANTRY_ROBOT_LOC.getX()) {
 				currentLocation.incrementX(5);
-				if (isBinHeld) {
-					heldBin.setLocation(currentLocation);
-				}
 			}
 			else if(currentLocation.getX() > Constants.GANTRY_ROBOT_LOC.getX()) {
 				currentLocation.incrementX(-5);
-				if (isBinHeld) {
-					heldBin.setLocation(currentLocation);
-				}
 			}
 		}
 		
@@ -62,15 +56,9 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		if(currentLocation.getX() == Constants.GANTRY_ROBOT_LOC.getX()) {
 			if(currentLocation.getY() < destinationLocation.getY()) {
 				currentLocation.incrementY(5);
-				if (isBinHeld) {
-					heldBin.setLocation(currentLocation);
-				}
 			}
 			if(currentLocation.getY() > destinationLocation.getY()) {
 				currentLocation.incrementY(-5);
-				if (isBinHeld) {
-					heldBin.setLocation(currentLocation);
-				}
 			}
 		}
 		
@@ -78,15 +66,9 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (currentLocation.getY() == destinationLocation.getY()) {
 			if(currentLocation.getX() < destinationLocation.getX()) {
 				currentLocation.incrementX(5);
-				if (isBinHeld) {
-					heldBin.setLocation(currentLocation);
-				}
 			}
 			else if(currentLocation.getX() > destinationLocation.getX()) {
 				currentLocation.incrementX(-5);
-				if (isBinHeld) {
-					heldBin.setLocation(currentLocation);
-				}
 			}
 		
 			if(currentLocation.getX() == destinationLocation.getX() && isMoving == true) {
@@ -98,6 +80,10 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 			for (int i = 0; i < binList.size(); i ++) {
 				binList.get(i).draw(c, g);
 			}
+			
+		if (isBinHeld) {
+			heldBin.setLocation(currentLocation);
+		}
 		g.drawImage(Constants.GANTRY_ROBOT_IMAGE, currentLocation.getX(), currentLocation.getY(), c);
 	}
 
