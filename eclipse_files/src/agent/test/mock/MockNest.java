@@ -69,42 +69,6 @@ public class MockNest extends MockAgent implements Nest {
 		return false;
 	}
 
-	@Override
-	public void getParts(PartType requestedType) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void moveToPosition(Part part) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void nestFull() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateParts() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setLane(LaneAgent lane) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setCamera(CameraAgent camera) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void setGraphicalRepresentation(DeviceGraphics nest) {
 		// TODO Auto-generated method stub
 		
