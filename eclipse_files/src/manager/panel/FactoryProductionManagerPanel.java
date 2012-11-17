@@ -23,7 +23,6 @@ import manager.FactoryProductionManager;
 import manager.panel.KitsListPanel.KitSelectHandler;
 import manager.util.ClickablePanel;
 import manager.util.OverlayInternalFrame;
-import Utils.Constants;
 import factory.KitConfig;
 import factory.Order;
 
@@ -119,10 +118,14 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		
 		add(kitsPanel, c);
 		
+		OrdersListPanel.OrderSelectHandler selectHandler = new OrdersListPanel.OrderSelectHandler() {
+			@Override
+			public void onOrderSelect(Order o) {
+				// add here.
+			}
+		};
+		OrdersListPanel ordersPanel = new OrdersListPanel(selectHandler);
 		
-		OrdersListPanel ordersPanel = new OrdersListPanel(new OrderSelectHandler() {
-			
-		});
 		ordersPanel.setVisible(true);
 		ordersPanel.setBackground(new Color(0, 0, 0, 30));
 		for(ClickablePanel panel : ordersPanel.getPanels().values()) {
