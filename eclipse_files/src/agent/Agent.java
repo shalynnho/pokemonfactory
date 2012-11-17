@@ -58,7 +58,7 @@ public abstract class Agent {
 		if (e != null) {
 			sb.append(StringUtil.stackTraceString(e));
 		}
-		// System.out.print(sb.toString());
+		 System.out.print(sb.toString());
 	}
 
 	/**

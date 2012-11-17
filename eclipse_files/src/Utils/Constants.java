@@ -5,6 +5,9 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+
 import factory.KitConfig;
 import factory.PartType;
 
@@ -50,6 +53,8 @@ public abstract class Constants {
 					DEFAULT_PARTTYPES.get(2),DEFAULT_PARTTYPES.get(3),
 					DEFAULT_PARTTYPES.get(4),DEFAULT_PARTTYPES.get(5),
 					DEFAULT_PARTTYPES.get(6),DEFAULT_PARTTYPES.get(7)
+					), new KitConfig("Simple Kit", 
+					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1)
 					)));
 
 	// DEVICE START LOCATIONS
@@ -332,6 +337,16 @@ public abstract class Constants {
 	public static final String GANTRY_ROBOT_MNGR_CLIENT = "GantryRobotMngr";
 	public static final String KIT_ASSEMBLY_MNGR_CLIENT = "KitAssemblyMngr";
 	public static final String LANE_MNGR_CLIENT = "LaneMngr";
+	
+	// UI TOOLS
+	// ==================================
+
+	public static final Border PADDING = BorderFactory.createEmptyBorder(20, 20, 20, 20);
+	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+	public static final Border MEDIUM_PADDING = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+	public static final Border BOTTOM_PADDING = BorderFactory.createEmptyBorder(0, 0, 20, 0);
+	public static final Border TOP_PADDING = BorderFactory.createEmptyBorder(20, 0, 5, 0);
+	public static final Border VERTICAL_PADDING = BorderFactory.createEmptyBorder(10, 0, 10, 0);
 
 	// Agent constants for StringUtil
 	/** The number of milliseconds in a second */

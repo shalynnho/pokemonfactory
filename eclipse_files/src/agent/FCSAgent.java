@@ -107,7 +107,6 @@ public class FCSAgent extends Agent implements FCS {
 			}
 		}
 		state = myState.STARTED;
-		System.out.println("ORDER FINISHED");
 		stateChanged();
 	}
 

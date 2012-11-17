@@ -82,9 +82,9 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgTakingPart(Part p) {
 		print("Received msgTakingPart");
-		if (nestGraphics != null) {
+		/*if (nestGraphics != null) {
 			nestGraphics.givePartToPartsRobot(p.partGraphics);
-		}
+		}*/
 		/*
 		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); }
@@ -94,7 +94,7 @@ public class NestAgent extends Agent implements Nest {
 				if (part.part.equals(p)) {
 					print("found part");
 					part.status=NestStatus.REMOVING;
-					currentParts.remove(part);
+					//currentParts.remove(part);
 					break;
 				}
 			}
@@ -134,12 +134,12 @@ public class NestAgent extends Agent implements Nest {
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		synchronized(requestList) {
-		for (PartType requestedPart : requestList) {
-			if (countRequest < full) {
-				getParts(requestedPart);
-				return true;
+			for (PartType requestedPart : requestList) {
+				if (countRequest < full) {
+					getParts(requestedPart);
+					return true;
+				}
 			}
-		}
 		}
 		synchronized(currentParts) {
 			for (MyPart currentPart : currentParts) {
@@ -153,13 +153,17 @@ public class NestAgent extends Agent implements Nest {
 				}
 			}
 		}
-		if (count == full && takingParts == false ) {
+		if (currentParts.size() == full && takingParts == false ) {
 			nestFull();
 			return true;
 		}
-		if (takingParts == true) {
-			updateParts();
-			return true;
+		synchronized(currentParts) {
+			for (MyPart currentPart : currentParts) {
+				if(currentPart.status==NestStatus.REMOVING){
+					updateParts();
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -196,14 +200,24 @@ public class NestAgent extends Agent implements Nest {
 	}
 	
 	public void removePart(MyPart part){
+		if (nestGraphics != null) {
+			nestGraphics.givePartToPartsRobot(part.part.partGraphics);
+			try {
+				animation.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		currentParts.remove(part);
 		count--;
 		countRequest--;
+		print("count request "+countRequest);
 		stateChanged();
 	}
 
 	public void nestFull() {
-		print("Telling camera that this nest is full");
+		print("Telling camera that this nest is full with "+count+" parts or "+currentParts.size());
 		camera.msgIAmFull(this);
 		takingParts = true;
 	}
