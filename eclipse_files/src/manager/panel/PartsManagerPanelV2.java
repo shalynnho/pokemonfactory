@@ -37,6 +37,7 @@ public class PartsManagerPanelV2 extends JPanel{
 	
 	JPanel panels;
 	OverlayPanel leftPanel;
+	JScrollPane jsp;
 	PartsListPanel rightPanel;
 	
 	WhiteLabel leftTitle;
@@ -86,7 +87,7 @@ public class PartsManagerPanelV2 extends JPanel{
 		rightPanel.setVisible(true);
 		rightPanel.setBackground(new Color(0, 0, 0, 30));
 		
-		JScrollPane jsp = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		jsp = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		jsp.setOpaque(false);
 		jsp.getViewport().setOpaque(false);
 		panels.add(jsp);
@@ -209,6 +210,7 @@ public class PartsManagerPanelV2 extends JPanel{
 	
 	public void updatePartTypes(ArrayList<PartType> pt) {
 		rightPanel.updatePartTypes(pt);
+		jsp.validate();
 	}
 	
 	public void startEditing(final PartType pt) {
