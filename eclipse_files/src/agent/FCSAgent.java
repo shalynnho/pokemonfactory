@@ -27,6 +27,7 @@ public class FCSAgent extends Agent implements FCS {
 	private Conveyor conveyor;
 	private myState state;    
 	private ArrayList<Order> orders;  
+	private int numOrdersFinished=0;
 	
 	private factory.FCS fcs;
 	
@@ -44,6 +45,7 @@ public class FCSAgent extends Agent implements FCS {
 		this.orders=new ArrayList<Order>();
 		binsSet=false;
 		binsToAdd= new ArrayList<PartType>();
+		state=myState.STARTED;
 	}
 	
 	public FCSAgent(){
@@ -51,6 +53,7 @@ public class FCSAgent extends Agent implements FCS {
 		this.name="FCS Agent";
 		binsSet=false;
 		binsToAdd= new ArrayList<PartType>();
+		state=myState.STARTED;
 	}
 
 	@Override
@@ -90,7 +93,8 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgOrderFinished(){  
-		print("Order Done!!!!");
+		numOrdersFinished++;
+		print("Order " + numOrdersFinished + " Done!!!!");
 		for(Order o:orders){
 			if(o.state == Order.orderState.ORDERED){
 				orders.remove(o);
@@ -108,11 +112,11 @@ public class FCSAgent extends Agent implements FCS {
 	public boolean pickAndExecuteAnAction(){
 		print("I'm scheduling stuff");
 		if(state==myState.STARTED){
-			if(!binsSet){
+			if(!binsSet && gantry!=null){
 				initializeBins();
 				return true;
 			}
-			if(binsToAdd.size()>0){
+			if(binsToAdd.size()>0 && gantry!=null){
 				addBin();
 				return true;
 			}
@@ -141,7 +145,9 @@ public class FCSAgent extends Agent implements FCS {
 	    if(fcs!=null){
 	    	fcs.updateQueue();
 	    }
-	    
+	    if(conveyor==null){
+	    	print("conveyor is null");
+	    }
 	    conveyor.msgHereIsKitConfiguration(o.kitConfig);
 	    stand.msgMakeKits(o.numKits);    
 	    
