@@ -69,6 +69,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			.synchronizedList(new ArrayList<MyKit>());
 	public Map<Nest, List<Part>> GoodParts = new ConcurrentHashMap<Nest, List<Part>>();
 	public List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
+	
+	public int kitsNum=0;
 
 	List<Kit> KitsOnStand;
 	// List<Nest> nests;
@@ -299,6 +301,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		print("Requesting inspection.");
 		stand.msgKitAssembled(mk.kit);
 		MyKits.remove(mk);
+		kitsNum++;
+		print("I have "+MyKits.size()+" kits left and I have made "+kitsNum+" number of kits");
 		stateChanged();
 	}
 
