@@ -288,7 +288,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 			print("Need " + (size - mk.kit.parts.size())
 					+ " more part(s) to finish kit.");
-			if (size == 0) {
+			if (size - mk.kit.parts.size() == 0) {
 				mk.MKS = MyKitStatus.Done;
 			}
 		}
