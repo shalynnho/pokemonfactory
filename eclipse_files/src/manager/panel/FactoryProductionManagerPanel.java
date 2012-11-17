@@ -22,6 +22,7 @@ import javax.swing.SpinnerNumberModel;
 import manager.FactoryProductionManager;
 import manager.panel.KitsListPanel.KitSelectHandler;
 import manager.util.ClickablePanel;
+import manager.util.CustomButton;
 import manager.util.ListPanel;
 import manager.util.OverlayInternalFrame;
 import factory.KitConfig;
@@ -136,7 +137,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		((JSpinner.DefaultEditor)quantitySpinner.getEditor()).getTextField().addMouseListener(this);
 		
 		// Setup order button
-		orderButton = new JButton("ORDER KITS");
+		orderButton = new CustomButton("ORDER KITS");
 		orderButton.addActionListener(this);
 		c.gridx = 0;
 		c.gridy = 3;
