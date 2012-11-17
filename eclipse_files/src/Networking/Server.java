@@ -11,6 +11,7 @@ import DeviceGraphics.CameraGraphics;
 import DeviceGraphics.ConveyorGraphics;
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.FeederGraphics;
+import DeviceGraphics.GantryGraphics;
 import DeviceGraphics.InspectionStandGraphics;
 import DeviceGraphics.KitRobotGraphics;
 import DeviceGraphics.LaneGraphics;
@@ -139,6 +140,7 @@ public class Server {
 	}
 
 	private void initDevices() {
+		devices.put(Constants.GANTRY_ROBOT_TARGET, new GantryGraphics(this,agents.get(Constants.GANTRY_ROBOT_TARGET)));
 		devices.put(Constants.CAMERA_TARGET,
 				new CameraGraphics(this, agents.get(Constants.CAMERA_TARGET)));
 		devices.put(Constants.CONVEYOR_TARGET, new ConveyorGraphics(this,

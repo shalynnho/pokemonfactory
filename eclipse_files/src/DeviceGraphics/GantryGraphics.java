@@ -16,7 +16,7 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 	
 	Bin heldBin; // Bin that gantry is carrying
 	private Server server;
-	ArrayList<BinGraphics> binList;
+	ArrayList<BinGraphics> binList = new ArrayList<BinGraphics>();
 	
 	boolean removeState = false;
 	boolean removeState2 = false;
