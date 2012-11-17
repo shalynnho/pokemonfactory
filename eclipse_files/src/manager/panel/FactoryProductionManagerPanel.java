@@ -179,9 +179,6 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		ordersPanel.setBackground(new Color(0, 0, 0, 30));
 		for(ClickablePanel panel : ordersPanel.getPanels().values()) {
 			panel.addMouseListener(this);
-			for(int i = 0; i < panel.getComponentCount(); i++) {
-				panel.getComponents()[i].addMouseListener(this);
-			}
 		}
 		
 		c.gridx = 0;
