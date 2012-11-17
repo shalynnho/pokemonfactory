@@ -59,6 +59,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	private JButton orderButton;
 	private JScrollPane orderScrollPane;
 	private OrdersListPanel ordersPanel;
+	private KitsListPanel kitsPanel;
 	
 	private int height;
 	
@@ -100,7 +101,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		((JTextField)kitComboBox.getEditor().getEditorComponent()).addMouseListener(this);
 		*/
 		
-		KitsListPanel kitsPanel = new KitsListPanel(new KitSelectHandler() {
+		kitsPanel = new KitsListPanel(new KitSelectHandler() {
 			@Override
 			public void onKitSelect(KitConfig kc) {
 				selectedKit = kc;
@@ -177,9 +178,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		ordersPanel = new OrdersListPanel(selectHandler);
 		ordersPanel.setVisible(true);
 		ordersPanel.setBackground(new Color(0, 0, 0, 30));
-		for(ClickablePanel panel : ordersPanel.getPanels().values()) {
-			panel.addMouseListener(this);
-		}
+		
 		
 		c.gridx = 0;
 		c.gridy = 4;
@@ -242,6 +241,11 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		queue = o;
 		System.out.println("Queue size: " + queue.size());
 		ordersPanel.updateOrders(o);
+		
+		for(ClickablePanel panel : ordersPanel.getPanels().values()) {
+			panel.addMouseListener(this);
+		}
+		
 		/*
 		// Clear the contents of the JTextArea
 		orderScheduleTextArea.setText("");
