@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import GraphicsInterfaces.FeederGraphics;
 import Networking.Request;
 import Networking.Server;
+import Utils.BinData;
 import Utils.Constants;
 import Utils.Location;
 import agent.Agent;
@@ -43,8 +44,10 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 	// Move robot to bin location
 	public void receiveBin(Bin newBin, FeederAgent feeder) {
 		heldBin = newBin;
-		moveTo(heldBin.binGraphics.getLocation());
+		newLocation = newBin.binGraphics.getInitialLocation();
+		moveTo(newLocation);
 		newLocation = feeder.feederGUI.getLocation();
+
 		receiveState = true;
 	}
 	
@@ -69,10 +72,10 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 	
 	@Override
 	public void receiveData(Request req) {
-		if (req.getCommand() == Constants.GANTRY_ROBOT_DONE_MOVE) {
+		if (req.getCommand().equals(Constants.GANTRY_ROBOT_DONE_MOVE)) {
 			// Robot is over bin, picks up bin and moves to feeder
 			if (receiveState) {
-				server.sendData(new Request(Constants.GANTRY_ROBOT_GET_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, heldBin));
+				server.sendData(new Request(Constants.GANTRY_ROBOT_GET_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, new BinData(heldBin.binGraphics.getLocation(), heldBin.part.type)));
 				moveTo(newLocation);
 				receiveState = false;
 				receiveState2 = true;
@@ -85,7 +88,7 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 			
 			// Pick up bin, move it back to initial location
 			else if (removeState) {
-				server.sendData(new Request(Constants.GANTRY_ROBOT_GET_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, heldBin));
+				server.sendData(new Request(Constants.GANTRY_ROBOT_GET_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, new BinData(heldBin.binGraphics.getLocation(), heldBin.part.type)));
 				moveTo (heldBin.binGraphics.getInitialLocation());
 				removeState = false;
 				removeState2 = true;
@@ -102,7 +105,7 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 
 	public void hereIsNewBin(Bin bin) {
 		binList.add(bin.binGraphics);
-		server.sendData(new Request(Constants.GANTRY_ROBOT_ADD_NEW_BIN, Constants.GANTRY_ROBOT_TARGET, bin));
+		server.sendData(new Request(Constants.GANTRY_ROBOT_ADD_NEW_BIN, Constants.GANTRY_ROBOT_TARGET, new BinData(heldBin.binGraphics.getInitialLocation(), heldBin.part.type)));
 	}
 
 
