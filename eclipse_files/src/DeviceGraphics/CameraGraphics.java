@@ -11,48 +11,52 @@ import agent.CameraAgent;
 
 /**
  * Server-side Camera object
- * 
  * @author Peter Zhang
  */
-public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.CameraGraphics {
-	
-	private Location location;
-	
-	private Server server;
-	private CameraAgent agent;
+public class CameraGraphics implements DeviceGraphics,
+		GraphicsInterfaces.CameraGraphics {
+
+	private final Location location;
+
+	private final Server server;
+	private final CameraAgent agent;
 
 	public CameraGraphics(Server myServer, Agent a) {
 		server = myServer;
-		agent = (CameraAgent)a;
-		
+		agent = (CameraAgent) a;
+
 		location = new Location(100, 100);
 	}
-	
+
 	@Override
-	public void takeNestPhoto(GraphicsInterfaces.NestGraphics nest1, GraphicsInterfaces.NestGraphics nest2) {
+	public void takeNestPhoto(GraphicsInterfaces.NestGraphics nest1,
+			GraphicsInterfaces.NestGraphics nest2) {
 		ArrayList<Location> nests = new ArrayList<Location>();
 		nests.add(nest1.getLocation());
 		nests.add(nest2.getLocation());
-		
-		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND, Constants.CAMERA_TARGET, nests));
+
+		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND,
+				Constants.CAMERA_TARGET, nests));
 		agent.msgTakePictureNestDone(nest1, true, nest2, true);
 	}
 
 	@Override
 	public void takeKitPhoto(KitGraphics kit) {
-		server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND, Constants.CAMERA_TARGET, null));
-		agent.msgTakePictureKitDone(kit,true);
-		//TODO Remove the kit reference because there is only one kit you can take a picture of. It'll always be on the Inspection stand.
+		server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND,
+				Constants.CAMERA_TARGET, null));
+		agent.msgTakePictureKitDone(kit, true);
+		// TODO Remove the kit reference because there is only one kit you can
+		// take a picture of. It'll always be on the Inspection stand.
 	}
-	
+
 	@Override
 	public void receiveData(Request req) {
-		if(req.getCommand().equals(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND)) {
+		if (req.getCommand().equals(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND)) {
 			KitGraphics kit = new KitGraphics(server);
 			kit.setLocation(new Location(20, 200));
-			
-			agent.startV0Sequence(kit);
-			
+
+			// agent.startV0Sequence(kit);
+
 		}
 	}
 
