@@ -2,7 +2,6 @@ package agent;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,6 +39,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	public class MyKit {
 		public Kit kit;
 		public MyKitStatus MKS;
+
 		public MyKit(Kit k) {
 			kit = k;
 			MKS = MyKitStatus.NotDone;
@@ -138,7 +138,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-print("wee");
+		// print("wee");
 		// Checks if a kit is done and inspects it if it is
 		synchronized (MyKits) {
 			if (MyKits.size() > 0) {
@@ -150,72 +150,66 @@ print("wee");
 				}
 			}
 		}
-			// Checks if there is an empty arm, if there is it fills it with a
-			// good part that the kit needs
-			synchronized(Arms){
+		// Checks if there is an empty arm, if there is it fills it with a
+		// good part that the kit needs
+		synchronized (Arms) {
 			if (IsAnyArmEmpty()) {
 				synchronized (GoodParts) {
-					for (Nest nest : GoodParts.keySet()) 
-					{	
+					for (Nest nest : GoodParts.keySet()) {
 						// Going through all the good parts
-						for (Part part : GoodParts.get(nest)) 
-						{
-							synchronized(MyKits){
-							for (MyKit mk : MyKits) 
-							{
-								// Checking if the good part is needed by
-								// either kit
-								//print("Kit needs: " + mk.kit.partsExpected.getConfig().toString());
-								if(mk.kit.needPart(part) > NumPartsInHand(part))
-								{	
-									print("Found a part I need");
-									
-									for (Arm arm : Arms) 
-									{
-										if (arm.AS == ArmStatus.Empty) 
-										{
-											// Find the empty arm
-											PickUpPart(arm, part, nest);
-											return true;
+						for (Part part : GoodParts.get(nest)) {
+							synchronized (MyKits) {
+								for (MyKit mk : MyKits) {
+									// Checking if the good part is needed by
+									// either kit
+									// print("Kit needs: " +
+									// mk.kit.partsExpected.getConfig().toString());
+									if (mk.kit.needPart(part) > NumPartsInHand(part)) {
+										print("Found a part I need");
+
+										for (Arm arm : Arms) {
+											if (arm.AS == ArmStatus.Empty) {
+												// Find the empty arm
+												PickUpPart(arm, part, nest);
+												return true;
+											}
 										}
+
 									}
-									
 								}
-							}
 							}
 						}
 					}
 				}
 			}
-			}
-		
+		}
 
 		// Checks if any arm is holding a part and places it if there is one
-		synchronized(Arms){
-		for (Arm arm : Arms) {
-			
-			if (arm.AS == ArmStatus.Full) {
-				print("Arm holding: " + arm.part.type.toString());
-				PlacePart(arm);
-				return true;
+		synchronized (Arms) {
+			for (Arm arm : Arms) {
+
+				if (arm.AS == ArmStatus.Full) {
+					print("Arm holding: " + arm.part.type.toString());
+					PlacePart(arm);
+					return true;
+				}
 			}
 		}
-	}
 
 		return false;
 	}
 
 	private int NumPartsInHand(Part part) {
-		synchronized(Arms){
-		int count = 0;
-		for(Arm a: Arms){
-			if(a.part != null){
-				if(a.part.type == part.type){
-					count++;
+		synchronized (Arms) {
+			int count = 0;
+			for (Arm a : Arms) {
+				if (a.part != null) {
+					if (a.part.type == part.type) {
+						count++;
+					}
 				}
 			}
-		}
-		return count;
+			return count;
 		}
 	}
 
@@ -224,40 +218,38 @@ print("wee");
 	private void PickUpPart(Arm arm, Part part, Nest nest) {
 
 		print("Picking up part");
-		synchronized(Arms){
-		
+		synchronized (Arms) {
 
-		arm.AS = ArmStatus.Full;
-		arm.part = part;
-		// Tells the graphics to pickup the part
-		if (partsRobotGraphics != null) {
-			partsRobotGraphics.pickUpPart(part.partGraphics);
-			try {
-				animation.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			arm.AS = ArmStatus.Full;
+			arm.part = part;
+			// Tells the graphics to pickup the part
+			if (partsRobotGraphics != null) {
+				partsRobotGraphics.pickUpPart(part.partGraphics);
+				try {
+					animation.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-		}
-		
-		// Only takes 1 part from a nest at a time
-		nest.msgTakingPart(part);
-		nest.msgDoneTakingParts();
 
-		stateChanged();
+			// Only takes 1 part from a nest at a time
+			nest.msgTakingPart(part);
+			nest.msgDoneTakingParts();
+
+			stateChanged();
 		}
 	}
 
 	private void PlacePart(Arm arm) {
 		print("Placing part");
-		synchronized(Arms){
-			synchronized(MyKits){
+		synchronized (Arms) {
+			synchronized (MyKits) {
 				for (MyKit mk : MyKits) {
 					if (mk.kit.needPart(arm.part) > 0) {
-						
-				
+
 						if (partsRobotGraphics != null) {
-							partsRobotGraphics.givePartToKit(arm.part.partGraphics,
-							mk.kit.kitGraphics);
+							partsRobotGraphics.givePartToKit(
+									arm.part.partGraphics, mk.kit.kitGraphics);
 							try {
 								animation.acquire();
 							} catch (InterruptedException e) {
@@ -267,14 +259,14 @@ print("wee");
 						// Tells the kit it has the part now
 						mk.kit.parts.add(arm.part);
 						/*
-						if (mk.kit.kitGraphics != null) {
-							System.out.println("receiving part");
-						mk.kit.kitGraphics.receivePart(arm.part.partGraphics);
-						}
-						*/
+						 * if (mk.kit.kitGraphics != null) {
+						 * System.out.println("receiving part");
+						 * mk.kit.kitGraphics
+						 * .receivePart(arm.part.partGraphics); }
+						 */
 						arm.part = null;
 						arm.AS = ArmStatus.Empty;
-			
+
 						// Checks if the kit is done
 						CheckMyKit(mk);
 						break;
@@ -286,19 +278,19 @@ print("wee");
 	}
 
 	private void CheckMyKit(MyKit mk) {
-		synchronized(MyKits){
-		int size = 0;
-		for (PartType type : mk.kit.partsExpected.getConfig().keySet()) {
-			for (int i = 0; i < mk.kit.partsExpected.getConfig().get(type); i++) {
-				size++;
+		synchronized (MyKits) {
+			int size = 0;
+			for (PartType type : mk.kit.partsExpected.getConfig().keySet()) {
+				for (int i = 0; i < mk.kit.partsExpected.getConfig().get(type); i++) {
+					size++;
+				}
 			}
-		}
 
-		print("Need " + (size - mk.kit.parts.size())
-				+ " more part(s) to finish kit.");
-		if (size == 0) {
-			mk.MKS = MyKitStatus.Done;
-		}
+			print("Need " + (size - mk.kit.parts.size())
+					+ " more part(s) to finish kit.");
+			if (size == 0) {
+				mk.MKS = MyKitStatus.Done;
+			}
 		}
 		// stateChanged();
 	}
@@ -314,13 +306,13 @@ print("wee");
 
 	// Checks if any of the arms are empty
 	private boolean IsAnyArmEmpty() {
-		synchronized(Arms){
-		for (Arm a : Arms) {
-			if (a.AS == ArmStatus.Empty) {
-				return true;
+		synchronized (Arms) {
+			for (Arm a : Arms) {
+				if (a.AS == ArmStatus.Empty) {
+					return true;
+				}
 			}
-		}
-		return false;
+			return false;
 		}
 	}
 

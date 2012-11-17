@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.TreeMap;
 
 import DeviceGraphics.DeviceGraphics;
@@ -285,14 +284,13 @@ public class StandAgent extends Agent implements Stand {
 			partsrobot.msgUseThisKit(mk.kit); // THIS DOESN'T WORK YET
 
 			// For testing, assume parts robot finishes after 1s
-			timer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					print("Faking partsrobot finishing kit assembly");
-					msgKitAssembled(mk.kit);
-				}
-			}, (int) (2000 + Math.random() * (5000 - 2000 + 1)));
-
+			/*
+			 * timer.schedule(new TimerTask() {
+			 * @Override public void run() {
+			 * print("Faking partsrobot finishing kit assembly");
+			 * msgKitAssembled(mk.kit); } }, (int) (2000 + Math.random() * (5000
+			 * - 2000 + 1)));
+			 */
 			stateChanged();
 		}
 	}

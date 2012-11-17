@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 
@@ -331,13 +330,12 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 		// For testing, assume camera finishes after .1s
 
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				print("Faking camera finishing inspection");
-				msgKitPassedInspection();
-			}
-		}, 1000);
+		/*
+		 * timer.schedule(new TimerTask() {
+		 * @Override public void run() {
+		 * print("Faking camera finishing inspection");
+		 * msgKitPassedInspection(); } }, 1000);
+		 */
 
 		// camera.msgInspectKit(mk.kit);
 
