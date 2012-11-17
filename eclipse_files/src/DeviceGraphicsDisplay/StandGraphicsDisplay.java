@@ -17,6 +17,10 @@ import factory.PartType;
  *
  */
 public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
+	
+	public static final int RIGHT_X_LOC = 280;
+	public static final int Y_OFFSET = 100;
+	public static final int STAND_WIDTH = 80;
 
 	// TODO: create this manager then uncomment
 //	protected KitAssemblyManager kitAssemManager;
@@ -42,8 +46,11 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		isEmpty = true;
 		kit = new KitGraphicsDisplay();
 		// TODO: set location of kit based on standID
-		// location = Constants.
-		location = new Location(280, standID*100 + 100);
+		if (id % 2 == 0) {
+			location = new Location(RIGHT_X_LOC - STAND_WIDTH/2, standID*Y_OFFSET + Y_OFFSET);
+		} else {
+			location = new Location(RIGHT_X_LOC, standID*Y_OFFSET + Y_OFFSET);
+		}
 	}
 	
 	@Override

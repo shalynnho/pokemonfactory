@@ -8,6 +8,7 @@ import Utils.Constants;
 import Utils.StringUtil;
 
 public class PartType implements Serializable {
+	private static final long serialVersionUID = 1;
 	private String name = "";
 	private final String id;
 	private int partNum;
@@ -43,10 +44,17 @@ public class PartType implements Serializable {
 		return name;
 	}
 	
+	public void setPartNum(int partNum) {
+		this.partNum = partNum;
+	}
+	
 	public int getPartNum() {
 		return partNum;
 	}
 	
+	public void setDescription(String desc) {
+		this.description = desc;
+	}
 	public String getDescription() {
 		return description;
 	}

@@ -50,7 +50,7 @@ public class PartsListPanel extends OverlayPanel {
 	public void parsePartTypes() {
 		panels.clear();
 		removeAll();
-
+		repaint();
 		
 		for(PartType pt : partTypes) {
 			ClickablePanel panel = new ClickablePanel(new EditClickHandler(pt));
