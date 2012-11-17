@@ -10,7 +10,7 @@ import java.util.concurrent.Semaphore;
  * 
  * @author Peter Zhang
  */
-public class StreamWriter {
+public class StreamWriter implements AbstractWriter {
 	private ObjectOutputStream oos;
 	private Semaphore lock = new Semaphore(1, true);
 	

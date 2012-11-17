@@ -43,30 +43,30 @@ public class Server {
 
 	// GUI client reader/writers
 	private ClientReader factProdMngrReader;
-	private StreamWriter factProdMngrWriter;
+	private AbstractWriter factProdMngrWriter = new DummyWriter();
 
 	private ClientReader partsMngrReader;
-	private StreamWriter partsMngrWriter;
+	private AbstractWriter partsMngrWriter = new DummyWriter();
 
 	private ClientReader kitMngrReader;
-	private StreamWriter kitMngrWriter;
+	private AbstractWriter kitMngrWriter = new DummyWriter(); 
 
 	// Graphics only client reader/writers
 	private ClientReader gantryRobotMngrReader;
-	private StreamWriter gantryRobotMngrWriter;
+	private AbstractWriter gantryRobotMngrWriter = new DummyWriter();
 
 	private ClientReader kitAssemblyMngrReader;
-	private StreamWriter kitAssemblyMngrWriter;
+	private AbstractWriter kitAssemblyMngrWriter = new DummyWriter();
 
 	private ClientReader laneMngrReader;
-	private StreamWriter laneMngrWriter;
+	private AbstractWriter laneMngrWriter = new DummyWriter();
 
 	// V0 Config (testing only - remove later)
 	private ClientReader kitRobotMngrReader;
-	private StreamWriter kitRobotMngrWriter;
+	private AbstractWriter kitRobotMngrWriter = new DummyWriter();
 
 	private ClientReader partsRobotMngrReader;
-	private StreamWriter partsRobotMngrWriter;
+	private AbstractWriter partsRobotMngrWriter = new DummyWriter();
 
 	// See how many clients have connected
 	private int numClients = 0;
@@ -366,35 +366,33 @@ public class Server {
 		}
 	}
 
-	// Temporarily got rid of all factory managers.
-
 	private void sendDataToConveyor(Request req) {
-		// factProdMngrWriter.sendData(req);
+		factProdMngrWriter.sendData(req);
 		kitRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToKitRobot(Request req) {
-		// factProdMngrWriter.sendData(req);
+		factProdMngrWriter.sendData(req);
 		kitRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToPartsRobot(Request req) {
-		// factProdMngrWriter.sendData(req);
+		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToNest(Request req) {
-		// factProdMngrWriter.sendData(req);
+		factProdMngrWriter.sendData(req);
 	}
 
 	// Temporary Removal of camera requests
 	private void sendDataToCamera(Request req) {
-		// factProdMngrWriter.sendData(req);
+		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 	}
 
 	private void sendDataToLane(Request req) {
-		// factProdMngrWriter.sendData(req);
+		factProdMngrWriter.sendData(req);
 		laneMngrWriter.sendData(req);
 	}
 
