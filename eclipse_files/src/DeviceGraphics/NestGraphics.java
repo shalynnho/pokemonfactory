@@ -69,7 +69,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	@Override
 	public void receivePart(PartGraphics pg) {
 		partsInNest.add(pg);
-		addPartToCorrectLocation(pg, partsInNest.size()); // set part location
+//		addPartToCorrectLocation(pg, partsInNest.size()); // set part location
 															// to next empty
 															// spot
 		PartType type = pg.getPartType();
@@ -137,25 +137,25 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 
 	}
 
-	public void addPartToCorrectLocation(PartGraphics temp, int i) {
-		if (i < 4) {
-			temp.setLocation(new Location(location.getX() + i * 20, location
-					.getY() + 1));
-		} else {
-			temp.setLocation(new Location(location.getX() + (i - 4) * 20,
-					location.getY() + 23));
-		}
-	}
+//	public void addPartToCorrectLocation(PartGraphics temp, int i) {
+//		if (i < 4) {
+//			temp.setLocation(new Location(location.getX() + i * 20, location
+//					.getY() + 1));
+//		} else {
+//			temp.setLocation(new Location(location.getX() + (i - 4) * 20,
+//					location.getY() + 23));
+//		}
+//	}
 
-	/**
-	 * update location of the parts
-	 * @param x
-	 */
-	public void updateLocationOfParts(ArrayList<PartGraphics> x) {
-		for (int i = 0; i < x.size(); i++) {
-			addPartToCorrectLocation(x.get(i), i);
-		}
-	}
+//	/**
+//	 * update location of the parts
+//	 * @param x
+//	 */
+//	public void updateLocationOfParts(ArrayList<PartGraphics> x) {
+//		for (int i = 0; i < x.size(); i++) {
+//			addPartToCorrectLocation(x.get(i), i);
+//		}
+//	}
 
 	/**
 	 * @return
