@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -17,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 
 import manager.FactoryProductionManager;
+import manager.util.OverlayInternalFrame;
 import manager.util.OverlayPanel;
 import Utils.Constants;
 import factory.KitConfig;
@@ -27,7 +30,7 @@ import factory.Order;
 * @author Shalynn Ho, Harry Trieu and Matt Zecchini
 */
 
-public class FactoryProductionManagerPanel extends OverlayPanel implements ActionListener {
+public class FactoryProductionManagerPanel extends OverlayInternalFrame implements ActionListener, MouseListener {
 	// Width of the JPanel
 	private static final int PANEL_WIDTH = 300;
 	
@@ -52,6 +55,8 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 	private JButton orderButton;
 	private JScrollPane orderScrollPane;
 	
+	private int height;
+	
 	/**
 	 * Constructor
 	 * @param f a reference to the FactoryProductionManager client.
@@ -63,6 +68,14 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		setPreferredSize(new Dimension(PANEL_WIDTH, height));
 		setMinimumSize(new Dimension(PANEL_WIDTH, height));
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
+		
+		// stuff for disappearing panel
+		this.height = height;
+		addMouseListener(this);
+		setResizable(true);
+		setRootPaneCheckingEnabled(false);
+		javax.swing.plaf.InternalFrameUI ifu= getUI();
+		((javax.swing.plaf.basic.BasicInternalFrameUI)ifu).setNorthPane(null);
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -81,6 +94,10 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.PAGE_START;
 		add(kitComboBox, c);
+		kitComboBox.addMouseListener(this);
+		for (int i = 0; i < kitComboBox.getComponentCount(); i++) {
+			kitComboBox.getComponents()[i].addMouseListener(this);
+		}
 		
 		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
 	    quantitySpinner = new JSpinner(spinnerModel);
@@ -90,6 +107,11 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		c.insets = new Insets(50,0,0,0);
 		c.anchor = GridBagConstraints.CENTER;
 		add(quantitySpinner, c);
+		quantitySpinner.addMouseListener(this);
+		for (int i = 0; i < quantitySpinner.getComponentCount(); i++) {
+			quantitySpinner.getComponents()[i].addMouseListener(this);
+		}
+		((JSpinner.DefaultEditor)quantitySpinner.getEditor()).getTextField().addMouseListener(this);
 		
 		orderButton = new JButton("ORDER KITS");
 		orderButton.addActionListener(this);
@@ -97,6 +119,7 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		c.gridy = 2;
 		c.anchor = GridBagConstraints.PAGE_END;
 		add(orderButton, c);
+		orderButton.addMouseListener(this);
 				
 		orderScheduleTextArea = new JTextArea();
 		orderScheduleTextArea.setColumns(20);
@@ -104,6 +127,7 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		orderScheduleTextArea.setLineWrap(true);
 		orderScheduleTextArea.setEditable(false);
 		orderScheduleTextArea.setWrapStyleWord(true);
+		orderScheduleTextArea.addMouseListener(this);
 		
 		orderScrollPane = new JScrollPane(orderScheduleTextArea);
 		c.gridx = 0;
@@ -112,6 +136,7 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.anchor = GridBagConstraints.PAGE_END;
 		add(orderScrollPane, c);
+		orderScrollPane.addMouseListener(this);
 	}
 
 	/**
@@ -175,4 +200,37 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 			orderScheduleTextArea.append("Kit Type: " + queue.get(i).getConfig().getName() + "  |  Quantity: " + queue.get(i).getNumKits() + "\n");
 		}
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) { }
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		setPreferredSize(new Dimension(PANEL_WIDTH, height));
+		setMinimumSize(new Dimension(PANEL_WIDTH, height));
+		setMaximumSize(new Dimension(PANEL_WIDTH, height));
+		revalidate();
+		repaint();
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		setPreferredSize(new Dimension(5, height));
+		setMinimumSize(new Dimension(5, height));
+		setMaximumSize(new Dimension(5, height));
+		revalidate();
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

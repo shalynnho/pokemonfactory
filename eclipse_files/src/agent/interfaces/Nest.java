@@ -27,17 +27,4 @@ public interface Nest {
 
 	public abstract boolean pickAndExecuteAnAction();
 
-	//ACTIONS
-	public abstract void getParts(PartType requestedType);
-
-	public abstract void moveToPosition(Part part);
-
-	public abstract void nestFull();
-
-	public abstract void updateParts();
-	
-	public void setLane(LaneAgent lane);
-	
-	public void setCamera(CameraAgent camera);
-
 }
