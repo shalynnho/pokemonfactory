@@ -9,8 +9,8 @@ import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.PartGraphics;
 import GraphicsInterfaces.LaneGraphics;
 import agent.data.Part;
-import factory.PartType;
 import agent.interfaces.Lane;
+import factory.PartType;
 
 /**
  * Lane delivers parts to the nest
@@ -18,8 +18,10 @@ import agent.interfaces.Lane;
  */
 public class LaneAgent extends Agent implements Lane {
 
-	public List<PartType> requestList = Collections.synchronizedList(new ArrayList<PartType>());
-	public List<MyPart> currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
+	public List<PartType> requestList = Collections
+			.synchronizedList(new ArrayList<PartType>());
+	public List<MyPart> currentParts = Collections
+			.synchronizedList(new ArrayList<MyPart>());
 
 	public int currentNum = 0;
 	public int topLimit = 9;
@@ -70,15 +72,11 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public void msgHereIsPart(Part p) {
 		print("Received msgHereIsPart");
-		currentNum++;
 		currentParts.add(new MyPart(p));
+		currentNum++;
 		if (laneGUI != null) {
 			laneGUI.receivePart(p.partGraphics);
 		}
-		/*
-		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
-		 * Auto-generated catch block e.printStackTrace(); }
-		 */// lane can have multiple parts moving along it at a time
 
 		stateChanged();
 	}
@@ -106,35 +104,35 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// print("In the Scheduler");
-		if (currentNum >= topLimit) {
-			state = LaneStatus.DONE_FILLING;
-		} else if (requestList.size() > lowerThreshold) {
-			state = LaneStatus.FILLING;
-		}
-		if (state == LaneStatus.FILLING) {
-			synchronized(requestList) {
-			for (PartType requestedType : requestList) {
-				getParts(requestedType);
-				return true;
+		synchronized (requestList) {
+			if (currentNum >= topLimit) {
+				state = LaneStatus.DONE_FILLING;
+			} else if (requestList.size() > lowerThreshold) {
+				state = LaneStatus.FILLING;
 			}
-			}
-		}
-		//synchronized(currentParts) {
-		for (MyPart part : currentParts) {
-			if (part.status == PartStatus.END_LANE) {
-				giveToNest(part.part);
-				return true;
+			if (state == LaneStatus.FILLING) {
+				for (PartType requestedType : requestList) {
+					getParts(requestedType);
+					return true;
+				}
 			}
 		}
-		//}
+		synchronized (currentParts) {
+			for (MyPart part : currentParts) {
+				if (part.status == PartStatus.END_LANE) {
+					giveToNest(part.part);
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public void getParts(PartType requestedType) {
 		print("Telling Feeder that it needs a part");
-		feeder.msgINeedPart(requestedType, this);
 		requestList.remove(requestedType);
+		feeder.msgINeedPart(requestedType, this);
 		stateChanged();
 	}
 
@@ -154,13 +152,13 @@ public class LaneAgent extends Agent implements Lane {
 		if (nest != null) {
 			nest.msgHereIsPart(part);
 		}
-		synchronized(currentParts) {
-		for (MyPart currentPart : currentParts) {
-			if (currentPart.part == part) {
-				currentParts.remove(currentPart);
-				return;
+		synchronized (currentParts) {
+			for (MyPart currentPart : currentParts) {
+				if (currentPart.part == part) {
+					currentParts.remove(currentPart);
+					return;
+				}
 			}
-		}
 		}
 		stateChanged();
 	}
