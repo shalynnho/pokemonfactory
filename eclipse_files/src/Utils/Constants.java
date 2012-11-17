@@ -44,7 +44,7 @@ public abstract class Constants {
 					"6", 6, "Type6"), new PartType("7", 7, "Type7"),
 					new PartType("8", 8, "Type8")));
 
-	public static final ArrayList<KitConfig> DEFAULT_KITCONFIG = new ArrayList<KitConfig>(
+	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
 			Arrays.asList(new KitConfig("Default Kit", new PartType("1", 1,
 					"Type1"), new PartType("2", 2, "Type2"), new PartType("3",
 					3, "Type3"), new PartType("4", 4, "Type4"), new PartType(
