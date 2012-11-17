@@ -132,11 +132,17 @@ public class StandAgent extends Agent implements Stand {
 	@Override
 	public void msgMovedToInspectionArea(Kit k, int oldLocation) {
 		print("Received msgMovedToInspectionArea");
-		standPositions.put(oldLocation, false);
-		kitsOnStand.set(oldLocation, null);
 
-		standPositions.put(0, true);
-		kitsOnStand.set(0, k);
+		while (standPositions.get(0)) {
+		}
+		;
+		if (!standPositions.get(0)) {
+			standPositions.put(oldLocation, false);
+			kitsOnStand.set(oldLocation, null);
+
+			standPositions.put(0, true);
+			kitsOnStand.set(0, k);
+		}
 
 		stateChanged();
 	}
@@ -144,14 +150,16 @@ public class StandAgent extends Agent implements Stand {
 	@Override
 	public void msgShippedKit() {
 		print("Received msgShippedKit");
-		for (MyKit mk : myKits.keySet()) {
-			if (mk.kit == kitsOnStand.get(0)) {
-				mk.KS = KitStatus.SHIPPED;
-				numKitsMade++;
-				print(numKitsToMake - numKitsMade + " kits left to make");
-				break;
+		numKitsMade++;
+		synchronized (myKits) {
+			for (MyKit mk : myKits.keySet()) {
+				if (mk.kit == kitsOnStand.get(0)) {
+					mk.KS = KitStatus.SHIPPED;
+					break;
+				}
 			}
 		}
+		print(numKitsToMake - numKitsMade + " kits left to make");
 
 		standPositions.put(0, false);
 		kitsOnStand.set(0, null);
@@ -189,7 +197,6 @@ public class StandAgent extends Agent implements Stand {
 					// Kit robot shipped a kit
 					else if (mk.KS == KitStatus.SHIPPED) {
 						// mk.KS = KitStatus.DELIVERED;
-						// kitsOnStand.set(0, null); //Caused a race condition where a second kit could be moved to the inspection area before this one is called
 						print("Removing " + mk.kit.toString() + " (shipped)");
 						myKits.remove(mk);
 						return true;
@@ -214,9 +221,10 @@ public class StandAgent extends Agent implements Stand {
 				}
 			}
 			if (numKitsToMake > 0 && numKitsToMake > numKitsMade + 3 - count
-					&& count > 0) { // TODO: Why count > 0?
-				print("NumKits("+numKitsToMake+") to make greater than numKitsMade("+numKitsMade+"). Stand positions empty count: "
-						+ count);
+					&& (!standPositions.get(1) || !standPositions.get(2))) {
+				print("NumKits(" + numKitsToMake
+						+ ") to make greater than numKitsMade(" + numKitsMade
+						+ "). Stand positions empty count: " + count);
 				if (!standPositions.get(1) && !standPositions.get(2)) {
 					print("Neither position full");
 					status = StandStatus.KIT_REQUESTED;
@@ -271,7 +279,7 @@ public class StandAgent extends Agent implements Stand {
 	 * Places a kit into the list of kits on the stand
 	 * @param k the kit being placed
 	 */
-	private void placeKit(final MyKit mk) {
+	private void placeKit(MyKit mk) {
 		synchronized (myKits) {
 			int spot = 5;
 			// kitRequesteds--;
@@ -281,16 +289,8 @@ public class StandAgent extends Agent implements Stand {
 			kitsOnStand.set(spot, mk.kit);
 			print("Kit ID is " + mk.kit.toString());
 			// print(kitsOnStand.size() + " kits on stand");
-			partsrobot.msgUseThisKit(mk.kit); // THIS DOESN'T WORK YET
+			partsrobot.msgUseThisKit(mk.kit);
 
-			// For testing, assume parts robot finishes after 1s
-			/*
-			 * timer.schedule(new TimerTask() {
-			 * @Override public void run() {
-			 * print("Faking partsrobot finishing kit assembly");
-			 * msgKitAssembled(mk.kit); } }, (int) (2000 + Math.random() * (5000
-			 * - 2000 + 1)));
-			 */
 			stateChanged();
 		}
 	}
@@ -413,6 +413,5 @@ public class StandAgent extends Agent implements Stand {
 
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
-		// Currently has no graphical representation (changing in v1)
 	}
 }
