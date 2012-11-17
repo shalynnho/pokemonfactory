@@ -40,7 +40,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		position = 0;
 		degreeCountDown=0;
 		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
-		rotationAxisX = 220;
+		rotationAxisX = 180;
 		rotationAxisY = 40;
 		trans.translate(0, 200);
 	}
