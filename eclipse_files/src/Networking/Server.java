@@ -195,6 +195,7 @@ public class Server {
 			((FeederAgent) agents.get(Constants.FEEDER_TARGET + i))
 					.setGantry((GantryAgent) agents
 							.get(Constants.GANTRY_ROBOT_TARGET));
+			((GantryAgent) agents.get(Constants.GANTRY_ROBOT_TARGET)).setFeeder((FeederAgent) agents.get(Constants.FEEDER_TARGET + i));
 		}
 
 		for (int i = 0; i < Constants.LANE_COUNT; i++) {
@@ -210,6 +211,7 @@ public class Server {
 							.get(Constants.CAMERA_TARGET));
 			((CameraAgent) agents.get(Constants.CAMERA_TARGET))
 					.setNest((NestAgent) agents.get(Constants.NEST_TARGET + i));
+			((FCSAgent) agents.get(Constants.FCS_TARGET)).setNest((NestAgent) agents.get(Constants.NEST_TARGET + i));
 		}
 
 		KitRobotAgent kitrobot = (KitRobotAgent) agents
@@ -244,6 +246,11 @@ public class Server {
 
 		camera.setNest(nest0);
 		camera.setNest(nest1);
+		
+		((FCSAgent) agents.get(Constants.FCS_TARGET)).setConveyor(conveyor);
+		((FCSAgent) agents.get(Constants.FCS_TARGET)).setGantry((GantryAgent) agents.get(Constants.GANTRY_ROBOT_TARGET));
+		((FCSAgent) agents.get(Constants.FCS_TARGET)).setPartsRobot((PartsRobotAgent) agents.get(Constants.PARTS_ROBOT_TARGET));
+		((FCSAgent) agents.get(Constants.FCS_TARGET)).setStand((StandAgent) agents.get(Constants.STAND_TARGET));
 
 	}
 
