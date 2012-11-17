@@ -7,10 +7,11 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class OverlayPanel extends JPanel{
+public class OverlayPanel extends JPanel {
 	
 	private static final Color BG_COLOR = new Color(0,0,0,80);
 	private static final Border PADDING = BorderFactory.createEmptyBorder(10, 10, 10, 10);
