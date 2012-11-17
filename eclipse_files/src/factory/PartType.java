@@ -7,7 +7,7 @@ import java.io.Serializable;
 import Utils.Constants;
 import Utils.StringUtil;
 
-public class PartType implements Serializable {
+public class PartType implements Serializable, FactoryData {
 	private static final long serialVersionUID = 1;
 	private String name = "";
 	private final String id;
