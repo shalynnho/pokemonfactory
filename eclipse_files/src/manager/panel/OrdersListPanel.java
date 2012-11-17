@@ -44,11 +44,14 @@ public class OrdersListPanel extends OverlayPanel {
 			panel.setBorder(Constants.MEDIUM_PADDING);
 			panel.setAlignmentX(0);
 			
-			add(panel);
-			
-			WhiteLabel nameLabel = new WhiteLabel("Kit: " + o.getConfig().getName());
+			WhiteLabel nameLabel = new WhiteLabel(o.getConfig().getName() + ": ");
+			WhiteLabel numLabel = new WhiteLabel("" + o.getNumKits());
 			nameLabel.setLabelSize(165, 30);
+			numLabel.setLabelSize(50, 30);
 			panel.add(nameLabel);
+			panel.add(numLabel);
+			
+			add(panel);
 			
 			/*
 			JButton deleteButton = new JButton("delete");
