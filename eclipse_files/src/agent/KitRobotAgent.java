@@ -337,7 +337,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		 * msgKitPassedInspection(); } }, 1000);
 		 */
 
-		// camera.msgInspectKit(mk.kit);
+		 camera.msgInspectKit(mk.kit);
 
 		stand.msgMovedToInspectionArea(mk.kit, mk.location);
 		stateChanged();

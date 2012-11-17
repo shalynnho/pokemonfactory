@@ -44,6 +44,7 @@ public class V1_Agents_Mock_Graphics {
 		FCSAgent fcs = new FCSAgent("FCS Agent");
 
 		for (int i = 0; i < 8; i++) {
+			gantry.setFeeder(feeders.get(i/2));
 			feeders.get(i / 2).setGantry(gantry);
 			feeders.get(i / 2).setLane(lanes.get(i));
 			lanes.get(i).setFeeder(feeders.get(i / 2));
