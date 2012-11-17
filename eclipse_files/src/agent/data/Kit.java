@@ -2,12 +2,10 @@ package agent.data;
 
 import java.util.ArrayList;
 
+import DeviceGraphics.KitGraphics;
 import Utils.Constants;
-
 import factory.KitConfig;
 import factory.PartType;
-
-import DeviceGraphics.KitGraphics;
 
 public class Kit {
 
@@ -21,7 +19,8 @@ public class Kit {
 
 	public Kit() {
 		kitGraphics = new KitGraphics(null);
-		partsExpected = new KitConfig("default", Constants.DEFAULT_PARTTYPES.get(0));
+		partsExpected = new KitConfig("default",
+				Constants.DEFAULT_PARTTYPES.get(0));
 	}
 
 	public Kit(KitConfig expected) {
@@ -39,6 +38,7 @@ public class Kit {
 		for (PartType type : partsExpected.getConfig().keySet()) {
 			if (type == part.type) {
 				count = partsExpected.getConfig().get(type);
+				break;
 			}
 		}
 		for (Part tempPart : parts) {
@@ -46,11 +46,7 @@ public class Kit {
 				count--;
 			}
 		}
-		if (count > 0) {
-			return count;
-		} else {
-			return 0;
-		}
+		return count > 0 ? count : 0;
 	}
 
 }
