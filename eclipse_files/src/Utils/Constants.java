@@ -38,19 +38,19 @@ public abstract class Constants {
 	public static final int STAND_COUNT = 3;
 
 	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(
-			Arrays.asList(new PartType("1", 1, "Type1"), new PartType("2", 2,
-					"Type2"), new PartType("3", 3, "Type3"), new PartType("4",
-					4, "Type4"), new PartType("5", 5, "Type5"), new PartType(
-					"6", 6, "Type6"), new PartType("7", 7, "Type7"),
+			Arrays.asList(new PartType("1", 1, "Type1"), 
+					new PartType("2", 2, "Type2"), new PartType("3", 3, "Type3"), 
+					new PartType("4", 4, "Type4"), new PartType("5", 5, "Type5"),
+					new PartType("6", 6, "Type6"), new PartType("7", 7, "Type7"),
 					new PartType("8", 8, "Type8")));
 
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
-			Arrays.asList(new KitConfig("Default Kit", new PartType("1", 1,
-					"Type1"), new PartType("2", 2, "Type2"), new PartType("3",
-					3, "Type3"), new PartType("4", 4, "Type4"), new PartType(
-					"5", 5, "Type5"), new PartType("6", 6, "Type6"),
-					new PartType("7", 7, "Type7"),
-					new PartType("8", 8, "Type8"))));
+			Arrays.asList(new KitConfig("Default Kit", 
+					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1),
+					DEFAULT_PARTTYPES.get(2),DEFAULT_PARTTYPES.get(3),
+					DEFAULT_PARTTYPES.get(4),DEFAULT_PARTTYPES.get(5),
+					DEFAULT_PARTTYPES.get(6),DEFAULT_PARTTYPES.get(7)
+					)));
 
 	// DEVICE START LOCATIONS
 	// ==================================
