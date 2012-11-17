@@ -58,17 +58,6 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	@Override
 	public void msgPlaceKitInInspectionArea(KitGraphics kit) {
-
-		/*
-		 * Integer tempI = Search(kit); if (tempI.equals(new Integer(3))) {
-		 * server.sendData(new Request("moveKitInLocation1ToInspection",
-		 * Constants.KIT_ROBOT_TARGET, null)); positions[2] = kit; } else if
-		 * (tempI == 4) { server.sendData(new
-		 * Request("moveKitInLocation2ToInspection", Constants.KIT_ROBOT_TARGET,
-		 * null)); positions[2] = kit; } else {
-		 * System.out.println("Kit isn't in one of the locations"); }
-		 */
-
 		for (String kitGraphicsKey : kitPositions.keySet()) {
 			KitGraphics tempKitGraphics = kitPositions.get(kitGraphicsKey);
 			if (tempKitGraphics == null) {
@@ -173,10 +162,6 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	}
 
 	public void msgPlaceKitOnStand1(KitGraphics kit) {
-		// TODO Auto-generated method stub
-		// System.out
-		// .println(" asdfasddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-		// System.out.println("Check null: " + kit==null);
 		kitPositions.put(Constants.KIT_LOCATION1, kit);
 		server.sendData(new Request(
 				Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1,
@@ -195,22 +180,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	@Override
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
-
 		if (location == 1) {
-
 			msgPlaceKitOnStand1(kit);
-			/*
-			 * server.sendData(new Request(
-			 * Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
-			 * Constants.CONVEYOR_TARGET, null));
-			 */
 		} else if (location == 2) {
 			msgPlaceKitOnStand2(kit);
-			/*
-			 * server.sendData(new Request(
-			 * Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
-			 * Constants.CONVEYOR_TARGET, null));
-			 */
 		}
 
 	}
