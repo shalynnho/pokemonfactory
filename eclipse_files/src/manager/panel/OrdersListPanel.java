@@ -1,36 +1,31 @@
 package manager.panel;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 
 import manager.util.ClickablePanel;
 import manager.util.ClickablePanelClickHandler;
+import manager.util.ListPanel;
 import manager.util.OverlayPanel;
 import manager.util.WhiteLabel;
 import Utils.Constants;
+import factory.FactoryData;
 import factory.Order;
-import factory.PartType;
 
 
-public class OrdersListPanel extends OverlayPanel {
-	OrdersListPanelHandler handler;
+public class OrdersListPanel extends OverlayPanel implements ListPanel {
 	ArrayList<Order> orders = new ArrayList<Order>();
-	HashMap<PartType, ClickablePanel> panels = new HashMap<PartType, ClickablePanel>();
+	HashMap<FactoryData, ClickablePanel> panels = new HashMap<FactoryData, ClickablePanel>();
 	
+	OrderSelectHandler handler;
 	
-	public OrdersListPanel(OrdersListPanelHandler h) {
+	public OrdersListPanel(OrderSelectHandler orderSelectHandler) {
 		super();
-		handler = h;
+		handler = orderSelectHandler;
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		setAlignmentX(LEFT_ALIGNMENT);
@@ -46,26 +41,25 @@ public class OrdersListPanel extends OverlayPanel {
 		repaint();
 		
 		for(Order o : orders) {
-			ClickablePanel panel = new ClickablePanel(new EditClickHandler(o));
-			panel.setSize(350, 50);
+			ClickablePanel panel = new ClickablePanel(new OrderClickHandler(o));
+			panel.setSize(300, 50);
 			panel.setBorder(Constants.MEDIUM_PADDING);
 			panel.setAlignmentX(0);
 			
+			WhiteLabel nameLabel = new WhiteLabel(o.getConfig().getName() + ": ");
+			WhiteLabel numLabel = new WhiteLabel("" + o.getNumKits());
+			nameLabel.setLabelSize(165, 30);
+			numLabel.setLabelSize(50, 30);
+			panel.add(nameLabel);
+			panel.add(numLabel);
+			
 			add(panel);
 			
-			JLabel imageLabel = new JLabel(new ImageIcon(o.getImage()));
-			imageLabel.setMinimumSize(new Dimension(50, 30));
-			imageLabel.setPreferredSize(new Dimension(50, 30));
-			imageLabel.setMaximumSize(new Dimension(50, 30));
-			panel.add(imageLabel);
-			
-			WhiteLabel nameLabel = new WhiteLabel("Part: " + o.getName());
-			nameLabel.setLabelSize(165, 30);
-			panel.add(nameLabel);
-			
+			/*
 			JButton deleteButton = new JButton("delete");
-			deleteButton.addActionListener(new DeleteClickHandler(o));
+			deleteButton.addActionListener(new DeleteClickHandler(pt));
 			panel.add(deleteButton);
+			*/
 			
 			// add padding
 			add(Box.createVerticalStrut(10));
@@ -74,8 +68,8 @@ public class OrdersListPanel extends OverlayPanel {
 		validate();
 	}
 	
-	public void updatePartTypes(ArrayList<PartType> pt) {
-		partTypes = pt;
+	public void updateOrders(ArrayList<Order> o) {
+		orders = o;
 		parseOrders();
 		restoreColors();
 	}
@@ -86,36 +80,30 @@ public class OrdersListPanel extends OverlayPanel {
 		}
 	}
 	
-	public interface OrdersListPanelHandler {
-		public void editPart(PartType pt);
-		public void deletePart(PartType pt);
+	public interface OrderPanelHandler {
+		public void editOrder(Order o);
 	}
 	
-	private class EditClickHandler implements ClickablePanelClickHandler{
-		PartType pt;
-		public EditClickHandler(PartType pt) {
-			this.pt = pt;
+	public HashMap<FactoryData, ClickablePanel> getPanels() {
+		return panels;
+	}
+	
+	public interface OrderSelectHandler {
+		public void onOrderSelect(Order o);
+	}
+	
+	private class OrderClickHandler implements ClickablePanelClickHandler{
+		Order o;
+		public OrderClickHandler(Order o) {
+			this.o = o;
 		}
 
 		@Override
 		public void mouseClicked() {
 			restoreColors();
-			handler.editPart(pt);
-			panels.get(pt).setColor(new Color(5, 151, 255));
+			handler.onOrderSelect(o);
+			panels.get(o).setColor(new Color(5, 151, 255));
 		}
 	}
-	
-	private class DeleteClickHandler implements ActionListener{
-		PartType pt;
-		public DeleteClickHandler(PartType pt) {
-			this.pt = pt;
-		}
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			restoreColors();
-			handler.deletePart(pt);
-			panels.get(pt).setColor(new Color(150, 6, 6));
-		}
-	}
 }

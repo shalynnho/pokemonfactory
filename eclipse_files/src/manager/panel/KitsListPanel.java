@@ -9,16 +9,18 @@ import javax.swing.BoxLayout;
 
 import manager.util.ClickablePanel;
 import manager.util.ClickablePanelClickHandler;
+import manager.util.ListPanel;
 import manager.util.OverlayPanel;
 import manager.util.WhiteLabel;
 import Utils.Constants;
+import factory.FactoryData;
 import factory.KitConfig;
 import factory.PartType;
 
 
-public class KitsListPanel extends OverlayPanel {
+public class KitsListPanel extends OverlayPanel implements ListPanel {
 	ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
-	HashMap<KitConfig, ClickablePanel> panels = new HashMap<KitConfig, ClickablePanel>();
+	HashMap<FactoryData, ClickablePanel> panels = new HashMap<FactoryData, ClickablePanel>();
 	
 	KitSelectHandler handler;
 	
@@ -81,7 +83,7 @@ public class KitsListPanel extends OverlayPanel {
 		public void editPart(PartType pt);
 	}
 	
-	public HashMap<KitConfig, ClickablePanel> getPanels() {
+	public HashMap<FactoryData, ClickablePanel> getPanels() {
 		return panels;
 	}
 	

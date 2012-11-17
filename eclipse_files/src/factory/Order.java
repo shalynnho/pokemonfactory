@@ -3,7 +3,7 @@ package factory;
 import java.io.Serializable;
 
 
-public class Order implements Serializable{    
+public class Order implements Serializable, FactoryData {    
 	public orderState state;    
 	public KitConfig kitConfig;    
 	public int numKits;  
@@ -24,5 +24,18 @@ public class Order implements Serializable{
 	
 	public int getNumKits() {
 		return numKits;
+	}
+
+	@Override
+	public void setName(String name) {	}
+
+	@Override
+	public String getName() {
+		return null;
+	}
+
+	@Override
+	public String getID() {
+		return "";
 	}
 }

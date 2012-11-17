@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import Utils.StringUtil;
 
-public class KitConfig implements Serializable {
+public class KitConfig implements Serializable, FactoryData {
 
 	private HashMap<PartType, Integer> config;
 	private final String id;
