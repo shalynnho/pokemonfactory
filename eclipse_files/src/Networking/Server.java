@@ -111,6 +111,7 @@ public class Server {
 	}
 
 	private void initAgents() {
+		agents.put(Constants.GANTRY_ROBOT_TARGET, new GantryAgent(Constants.GANTRY_ROBOT_TARGET));
 		agents.put(Constants.CAMERA_TARGET, new CameraAgent(
 				Constants.CAMERA_TARGET));
 		agents.put(Constants.CONVEYOR_TARGET, new ConveyorAgent(
@@ -121,7 +122,7 @@ public class Server {
 				Constants.PARTS_ROBOT_TARGET));
 		agents.put(Constants.STAND_TARGET, new StandAgent(
 				Constants.STAND_TARGET));
-		agents.put(Constants.FCS_TARGET, new FCSAgent(Constants.FCS_TARGET));
+		agents.put(Constants.FCS_TARGET, fcsAgent);
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			agents.put(Constants.FEEDER_TARGET + i, new FeederAgent(
