@@ -9,15 +9,17 @@ import javax.swing.BoxLayout;
 
 import manager.util.ClickablePanel;
 import manager.util.ClickablePanelClickHandler;
+import manager.util.ListPanel;
 import manager.util.OverlayPanel;
 import manager.util.WhiteLabel;
 import Utils.Constants;
+import factory.FactoryData;
 import factory.Order;
 
 
-public class OrdersListPanel extends OverlayPanel {
+public class OrdersListPanel extends OverlayPanel implements ListPanel {
 	ArrayList<Order> orders = new ArrayList<Order>();
-	HashMap<Order, ClickablePanel> panels = new HashMap<Order, ClickablePanel>();
+	HashMap<FactoryData, ClickablePanel> panels = new HashMap<FactoryData, ClickablePanel>();
 	
 	OrderSelectHandler handler;
 	
@@ -82,7 +84,7 @@ public class OrdersListPanel extends OverlayPanel {
 		public void editOrder(Order o);
 	}
 	
-	public HashMap<Order, ClickablePanel> getPanels() {
+	public HashMap<FactoryData, ClickablePanel> getPanels() {
 		return panels;
 	}
 	
