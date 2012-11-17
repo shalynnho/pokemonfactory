@@ -8,6 +8,7 @@ import Utils.Constants;
 import Utils.StringUtil;
 
 public class PartType implements Serializable {
+	private static final long serialVersionUID = 1;
 	private String name = "";
 	private final String id;
 	private int partNum;
