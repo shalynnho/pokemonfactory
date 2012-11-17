@@ -33,21 +33,18 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	};
 
 	Command moveToInitialPosition;
-	Command moveToPosition;
 	Command moveToFinalPosition;
-
+	Command moveToPosition; //current command
+	
 	boolean initialJob;
 	boolean finalJob;
 	boolean jobIsDone;
 
 	int degreeStep;
-
 	public void setDegreeStep(int degreeStep) {
 		this.degreeStep = degreeStep;
 	}
 
-	int currentDegree;
-	int finalDegree;
 	int degreeCountDown;
 
 	double rotationAxisX;
@@ -61,12 +58,9 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location location;
 	ArrayList<KitGraphicsDisplay> kits = new ArrayList<KitGraphicsDisplay>();
 	KitGraphicsDisplay currentKit = new KitGraphicsDisplay();
-
-	// just for v0
-
+	
 	public KitRobotGraphicsDisplay(Client cli) {
 
-		// super();
 		location = Constants.KIT_ROBOT_LOC;
 		kitRobotClient = cli;
 
@@ -77,13 +71,8 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		finalJob = false;
 		jobIsDone = true;
 		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
-		currentDegree = 0;
-		finalDegree = 0;
-
 		trans = new AffineTransform();
 
-		// image =new
-		// ImageIcon(this.getClass().getResource("/resource/Square.jpg"));
 		rotationAxisX = Constants.KIT_ROBOT_ROTATION_AXIS_LOC.getXDouble();
 		rotationAxisY = Constants.KIT_ROBOT_ROTATION_AXIS_LOC.getYDouble();
 		kitRobotPositionX = Constants.KIT_ROBOT_LOC.getXDouble();
@@ -100,7 +89,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		this.moveToInitialPosition = initialCommand;
 		this.moveToFinalPosition = finalCommand;
 	}
-
+	//begin paths
 	public void InspectionToGoodConveyor() {
 		setCommands(Command.moveToInspectionStand, Command.moveToGoodConveyor);
 		moveToInitialOrFinal();
@@ -135,7 +124,8 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		setCommands(Command.moveToLocation1, Command.moveToLocation2);
 		moveToInitialOrFinal();
 	}
-
+	
+	//end paths
 	public void setPositiveDegreeStep() {
 		setDegreeStep(Constants.KIT_ROBOT_DEGREE_STEP);
 	}
@@ -143,7 +133,9 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void setNegativeDegreeStep() {
 		setDegreeStep(-Constants.KIT_ROBOT_DEGREE_STEP);
 	}
-
+	/*
+	 * sets the rotation configurations based on the commands
+	 */
 	public void moveToInitialOrFinal() {
 
 		if (initialJob) {
@@ -215,7 +207,12 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 
 	}
-
+	
+	/**
+	 * set the rotation configurations.
+	 * degreeCountdown-increments till it reaches 0. designates how much to rotate
+	 * position- sets the position in the statemachine logic
+	 */
 	public void setRotationConfigurations(int degreeCountDown, Position position) {
 		this.degreeCountDown = degreeCountDown;
 		if (this.degreeCountDown >= 0) {
@@ -227,6 +224,10 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		this.position = position;
 	}
 
+	/**
+	 * sends the done messages when the degreecountdown reaches 0
+	 * the done messages are based on what position the kit robot reaches
+	 */
 	public void sendDoneMessages() {
 		if (position.equals(Position.location1Position)
 				|| position.equals(Position.location2Position)) {
@@ -244,21 +245,21 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 					Constants.KIT_ROBOT_TARGET, null));
 		}
 	}
-
+	/**
+	 * changes which job it's doing based on the booleans
+	 */
 	public void checkDegrees() {
 
 		if (degreeCountDown == 0) {
 			if (initialJob) {
 				initialJob = false;
 				finalJob = true;
-				currentDegree = 0;
 				moveToInitialOrFinal();
 				currentKit.startRotating();
 			} else if (finalJob) {
 				finalJob = false;
 				jobIsDone = true;
 				sendDoneMessages();
-				currentDegree = 0;
 			}
 		}
 	}
@@ -270,7 +271,11 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		currentKit.setPosition(position);
 	}
 
-	@Override
+	/*
+	 * receives data and does stuff based on the request command
+	 * (non-Javadoc)
+	 * @see DeviceGraphicsDisplay.DeviceGraphicsDisplay#receiveData(Networking.Request)
+	 */
 	public void receiveData(Request req) {
 		String command = req.getCommand();
 		String target = req.getTarget();
@@ -320,7 +325,9 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 
 	}
-
+	/**
+	 * rotates the kit robot if you are doing a job
+	 */
 	public void doJob() {
 		if (!jobIsDone) {
 			trans.rotate(Math.toRadians(degreeStep), rotationAxisX,
@@ -330,7 +337,11 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 
-	@Override
+	/*
+	 * draws the kit robot and kit
+	 * (non-Javadoc)
+	 * @see DeviceGraphicsDisplay.DeviceGraphicsDisplay#draw(javax.swing.JComponent, java.awt.Graphics2D)
+	 */
 	public void draw(JComponent c, Graphics2D g) {
 		checkDegrees();
 		doJob();
@@ -338,7 +349,9 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(Constants.KIT_ROBOT_IMAGE, trans, null);
 
 	}
-
+	/*
+	 * draws the kits in the kit robot area
+	 */
 	public void drawtheKits(JComponent c, Graphics2D g) {
 		for (int i = 0; i < kits.size(); i++) {
 

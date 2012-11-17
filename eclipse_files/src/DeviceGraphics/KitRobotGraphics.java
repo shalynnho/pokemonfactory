@@ -19,9 +19,8 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	// KitGraphics[] positions;
 
-	ArrayList<KitGraphics> kitsOnKitRobot;
 
-	TreeMap<String, KitGraphics> kitPositions;
+	TreeMap<String, KitGraphics> kitPositions; // keeps track of where the kits are
 
 	KitRobotAgent kitRobotAgent;
 	StandAgent standAgent;
@@ -39,6 +38,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		testKit2 = new KitGraphics(server);
 	}
 
+	/**
+	 * Initializes the Treemap of kits.
+	 */
 	public void initKitPositions() {
 
 		KitGraphics tempKitGraphics = new KitGraphics(server);
@@ -51,12 +53,12 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		kitPositions.put(Constants.KIT_LOCATION2, tempKitGraphics);
 
 	}
-
-	public void addKit(KitGraphics kg) {
-		kitsOnKitRobot.add(kg);
-	}
-
-	@Override
+	/*
+	 * sends message to KitRobotGraphicsDisplay to move a kit to inspection area
+	 * (non-Javadoc)
+	 * @see GraphicsInterfaces.KitRobotGraphics#msgPlaceKitInInspectionArea(DeviceGraphics.KitGraphics)
+	 *	passes the kit that will move to the inspection area
+	 */
 	public void msgPlaceKitInInspectionArea(KitGraphics kit) {
 		for (String kitGraphicsKey : kitPositions.keySet()) {
 			KitGraphics tempKitGraphics = kitPositions.get(kitGraphicsKey);
@@ -84,20 +86,23 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		// TODO Auto-generated method stub
 	}
 
-	@Override
+	/*
+	 * messages KitRobotGraphicsDisplay to move a kit to the GoodConveyor
+	 * (non-Javadoc)
+	 * @see GraphicsInterfaces.KitRobotGraphics#msgPlaceKitOnConveyor()
+	 */
 	public void msgPlaceKitOnConveyor() {
 		kitPositions.put(Constants.KIT_INSPECTION_AREA, null);
 		server.sendData(new Request(
 				Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_GOOD_CONVEYOR,
 				Constants.KIT_ROBOT_TARGET, null));
-
-		// server.sendData(new
-		// Request(Constants.CONVEYOR_RECEIVES_KIT_ROBOT_PICK_COMMAND,
-		// Constants.KIT_ROBOT_TARGET, null ));
-		// TODO Auto-generated method stub
 	}
 
-	@Override
+	/*
+	 * receives request that will send commands based on the request
+	 * @see DeviceGraphics.DeviceGraphics#receiveData(Networking.Request)
+	 *	request is a class that has a command target and data
+	 */
 	public void receiveData(Request req) {
 		String target = req.getTarget();
 		String command = req.getCommand();
@@ -126,13 +131,8 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
 					Constants.CONVEYOR_TARGET, null));
 		} else if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT1_DONE)) {
-			// System.out.println("Is it null: " +
-			// (KitGraphics)kitPositions.get(Constants.KIT_LOCATION1)==null);
-			// System.out.println("Is stand Agent null: " + standAgent==null);
-			// System.out.println("Is kit Positions: " + kitPositions==null);
 			standAgent.fakeKitCompletion(kitPositions
 					.get(Constants.KIT_LOCATION1));
-			// kitRobotAgent.msgMoveKitToInspectionArea((KitGraphics)kitPositions.get(Constants.KIT_LOCATION1));
 		} else if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT2_DONE)) {
 
 			standAgent.fakeKitCompletion(kitPositions
@@ -154,11 +154,6 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			System.out.println("placekitoninspection sent");
 			kitRobotAgent.msgPlaceKitInInspectionAreaDone();
 		}
-
-		// else if(command.equals())
-
-		// if()
-		// TODO Auto-generated method stub
 	}
 
 	public void msgPlaceKitOnStand1(KitGraphics kit) {
@@ -178,7 +173,11 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 				Constants.KIT_ROBOT_TARGET, null));
 	}
 
-	@Override
+	/*
+	 * Moves the kit to a stand location
+	 * (non-Javadoc)
+	 * @see GraphicsInterfaces.KitRobotGraphics#msgPlaceKitOnStand(DeviceGraphics.KitGraphics, int)
+	 */
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
 		if (location == 1) {
 			msgPlaceKitOnStand1(kit);

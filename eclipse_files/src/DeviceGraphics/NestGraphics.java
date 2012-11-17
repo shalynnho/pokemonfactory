@@ -14,7 +14,7 @@ import agent.NestAgent;
 
 /**
  * This class represents the graphics logic for a nest.
- * @author Shalynn Ho, Aaron Harris, Harry Trieu
+ * @author Shalynn Ho, Harry Trieu
  */
 public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		DeviceGraphics {
@@ -33,8 +33,6 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphics> partsInNest;
 
-	// true during Nest purge cycle, can't receive parts
-	private boolean isPurging;
 	// true if nest is full, can't receive parts
 	private final boolean isFull;
 	// true if spot is filled, false if not
@@ -46,21 +44,8 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		nestAgent = (NestAgent) agent;
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
 		nestSpots = new ArrayList<Boolean>(MAX_PARTS);
-
+		isFull = false;
 		location = new Location(600, 100 + nestID * 75);
-
-		// Begin V0 requirements
-		isFull = true;
-		for (int i = 0; i < 8; i++) {
-			PartGraphics temp = new PartGraphics(Constants.DEFAULT_PARTTYPES.get(0));
-
-			if (i < 4) {
-				temp.setLocation(new Location(119 + i * 20, location.getY() + 1));
-			} else {
-				temp.setLocation(new Location(119 + (i - 4) * 20, location.getY() + 23));
-			}
-			partsInNest.add(temp);
-		}
 	}
 
 	/**
@@ -69,9 +54,6 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	@Override
 	public void receivePart(PartGraphics pg) {
 		partsInNest.add(pg);
-//		addPartToCorrectLocation(pg, partsInNest.size()); // set part location
-															// to next empty
-															// spot
 		PartType type = pg.getPartType();
 		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND,
 				Constants.NEST_TARGET + nestID, type));
@@ -105,7 +87,6 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	 */
 	@Override
 	public void purge() {
-		// purging = true;
 		partsInNest.clear();
 		server.sendData(new Request(Constants.NEST_PURGE_COMMAND,
 				Constants.NEST_TARGET + nestID, null));
@@ -119,17 +100,21 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND)) {
 			nestAgent.msgReceivePartDone();
+			
 		} else if (req.getCommand().equals(
 				Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)) {
 			nestAgent.msgGivePartToPartsRobotDone();
+			
 		} else if (req.getCommand().equals(
 				Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
 			nestAgent.msgPurgingDone();
+			
 		} else if (req.getCommand().equals(
 				Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)) {
 			server.sendData(new Request(
 					Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND,
 					Constants.NEST_TARGET + nestID, null));
+			
 		} else if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND)) {
 			server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND,
 					Constants.NEST_TARGET + nestID, null));
@@ -137,31 +122,11 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 
 	}
 
-//	public void addPartToCorrectLocation(PartGraphics temp, int i) {
-//		if (i < 4) {
-//			temp.setLocation(new Location(location.getX() + i * 20, location
-//					.getY() + 1));
-//		} else {
-//			temp.setLocation(new Location(location.getX() + (i - 4) * 20,
-//					location.getY() + 23));
-//		}
-//	}
-
-//	/**
-//	 * update location of the parts
-//	 * @param x
-//	 */
-//	public void updateLocationOfParts(ArrayList<PartGraphics> x) {
-//		for (int i = 0; i < x.size(); i++) {
-//			addPartToCorrectLocation(x.get(i), i);
-//		}
-//	}
-
 	/**
 	 * @return
 	 */
 	public boolean isFull() {
-		return partsInNest.size() == MAX_PARTS;
+		return partsInNest.size() >= MAX_PARTS;
 	}
 
 	/**

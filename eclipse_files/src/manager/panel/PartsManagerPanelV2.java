@@ -27,16 +27,16 @@ import manager.util.WhiteLabel;
 import Utils.Constants;
 import factory.PartType;
 
+/**
+ * Prettified PartsManagerPanel, powers PartsManager. Uses PartsListPanel to display parts.
+ * 
+ * @author Peter Zhang
+ */
 public class PartsManagerPanelV2 extends JPanel{
-	public static final Border PADDING = BorderFactory.createEmptyBorder(20, 20, 20, 20);
-	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-	public static final Border MEDIUM_PADDING = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-	public static final Border BOTTOM_PADDING = BorderFactory.createEmptyBorder(0, 0, 20, 0);
-	public static final Border TOP_PADDING = BorderFactory.createEmptyBorder(20, 0, 5, 0);
-	public static final Border VERTICAL_PADDING = BorderFactory.createEmptyBorder(10, 0, 10, 0);
 	
 	JPanel panels;
 	OverlayPanel leftPanel;
+	JScrollPane jsp;
 	PartsListPanel rightPanel;
 	
 	WhiteLabel leftTitle;
@@ -50,18 +50,15 @@ public class PartsManagerPanelV2 extends JPanel{
 	boolean isEditing;
 	boolean isDeleting;
 	
-	ArrayList<PartType> partTypes = new ArrayList<PartType>();
-	
 	public PartsManagerPanelV2(PartsManager mngr) {
 		manager = mngr;
-		partTypes = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES.clone();
 		
 		setLayout(new BorderLayout());
-		setBorder(PADDING);
+		setBorder(Constants.PADDING);
 		
 		JLabel title = new WhiteLabel("Parts Manager");
 		title.setFont(new Font("Arial", Font.BOLD, 30));
-		title.setBorder(VERTICAL_PADDING);
+		title.setBorder(Constants.VERTICAL_PADDING);
 		add(title, BorderLayout.NORTH);
 		
 		panels = new JPanel(new GridLayout(1,2));
@@ -86,7 +83,7 @@ public class PartsManagerPanelV2 extends JPanel{
 		rightPanel.setVisible(true);
 		rightPanel.setBackground(new Color(0, 0, 0, 30));
 		
-		JScrollPane jsp = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		jsp = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		jsp.setOpaque(false);
 		jsp.getViewport().setOpaque(false);
 		panels.add(jsp);
@@ -99,7 +96,7 @@ public class PartsManagerPanelV2 extends JPanel{
 		
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
-		leftPanel.setBorder(PADDING);
+		leftPanel.setBorder(Constants.PADDING);
 		
 		leftTitle = new WhiteLabel("Create a New Part");
 		leftTitle.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -108,7 +105,7 @@ public class PartsManagerPanelV2 extends JPanel{
 		leftPanel.add(leftTitle);
 		
 		JPanel namePanel = new JPanel();
-		namePanel.setBorder(TOP_PADDING); 
+		namePanel.setBorder(Constants.TOP_PADDING); 
 		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.LINE_AXIS));
 		namePanel.setOpaque(false);
 		namePanel.setVisible(true);
@@ -122,11 +119,11 @@ public class PartsManagerPanelV2 extends JPanel{
 			nameField = new JTextField("name");
 			
 			nameField.setMaximumSize(new Dimension(200, 25));
-			nameField.setBorder(FIELD_PADDING);
+			nameField.setBorder(Constants.FIELD_PADDING);
 			namePanel.add(nameField);
 		
 		JPanel numPanel = new JPanel();
-		numPanel.setBorder(TOP_PADDING); 
+		numPanel.setBorder(Constants.TOP_PADDING); 
 		numPanel.setLayout(new BoxLayout(numPanel, BoxLayout.LINE_AXIS));
 		numPanel.setOpaque(false);
 		numPanel.setVisible(true);
@@ -139,11 +136,11 @@ public class PartsManagerPanelV2 extends JPanel{
 			
 			numField = new JTextField("23");
 			numField.setMaximumSize(new Dimension(200, 25));
-			numField.setBorder(FIELD_PADDING);
+			numField.setBorder(Constants.FIELD_PADDING);
 			numPanel.add(numField);
 		
 		JPanel descPanel = new JPanel();
-		descPanel.setBorder(TOP_PADDING); 
+		descPanel.setBorder(Constants.TOP_PADDING); 
 		descPanel.setLayout(new BoxLayout(descPanel, BoxLayout.LINE_AXIS));
 		descPanel.setOpaque(false);
 		descPanel.setVisible(true);
@@ -158,11 +155,11 @@ public class PartsManagerPanelV2 extends JPanel{
 			descField.setMinimumSize(new Dimension(200, 100));
 			descField.setMaximumSize(new Dimension(200, 100));
 			descField.setPreferredSize(new Dimension(200, 100));
-			descField.setBorder(FIELD_PADDING);
+			descField.setBorder(Constants.FIELD_PADDING);
 			descPanel.add(descField);
 		
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.setBorder(TOP_PADDING); 
+		buttonPanel.setBorder(Constants.TOP_PADDING); 
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
 		buttonPanel.setOpaque(false);
 		buttonPanel.setVisible(true);
@@ -209,6 +206,7 @@ public class PartsManagerPanelV2 extends JPanel{
 	
 	public void updatePartTypes(ArrayList<PartType> pt) {
 		rightPanel.updatePartTypes(pt);
+		jsp.validate();
 	}
 	
 	public void startEditing(final PartType pt) {

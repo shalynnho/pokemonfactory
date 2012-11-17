@@ -1,6 +1,5 @@
 package manager.panel;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -8,15 +7,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.JScrollPane;
 
 import manager.util.ClickablePanel;
 import manager.util.ClickablePanelClickHandler;
@@ -31,13 +26,6 @@ public class PartsListPanel extends OverlayPanel {
 	ArrayList<PartType> partTypes = new ArrayList<PartType>();
 	HashMap<PartType, ClickablePanel> panels = new HashMap<PartType, ClickablePanel>();
 	
-	public static final Border PADDING = BorderFactory.createEmptyBorder(20, 20, 20, 20);
-	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-	public static final Border MEDIUM_PADDING = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-	public static final Border BOTTOM_PADDING = BorderFactory.createEmptyBorder(0, 0, 20, 0);
-	public static final Border TOP_PADDING = BorderFactory.createEmptyBorder(20, 0, 5, 0);
-	public static final Border VERTICAL_PADDING = BorderFactory.createEmptyBorder(10, 0, 10, 0);
-	
 	
 	public PartsListPanel(PartsListPanelHandler h) {
 		super();
@@ -46,7 +34,7 @@ public class PartsListPanel extends OverlayPanel {
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		setAlignmentX(LEFT_ALIGNMENT);
-		setBorder(PADDING);
+		setBorder(Constants.PADDING);
 		
 		parsePartTypes();
 
@@ -60,7 +48,7 @@ public class PartsListPanel extends OverlayPanel {
 		for(PartType pt : partTypes) {
 			ClickablePanel panel = new ClickablePanel(new EditClickHandler(pt));
 			panel.setSize(350, 50);
-			panel.setBorder(MEDIUM_PADDING);
+			panel.setBorder(Constants.MEDIUM_PADDING);
 			panel.setAlignmentX(0);
 			
 			add(panel);

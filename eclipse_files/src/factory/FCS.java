@@ -102,11 +102,13 @@ public class FCS {
 	}
 	
 	public void addOrder(Order o) {
-		//TODO: might not be necessary, since agent will update ours anyway.
-		queue.add(o);
-		updateQueue();
-		
-		agent.msgAddKitsToQueue(o);
+		if(o.getNumKits() > 0) {
+			//TODO: might not be necessary, since agent will update ours anyway.
+			queue.add(o);
+			updateQueue();
+			
+			agent.msgAddKitsToQueue(o);
+		}
 	}
 	
 	public void startProduction() {

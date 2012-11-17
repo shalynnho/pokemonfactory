@@ -30,7 +30,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	private ArrayList<PartGraphicsDisplay> parts = new ArrayList<PartGraphicsDisplay>();
 
 	private AffineTransform trans = new AffineTransform();
-
+	
 	public KitGraphicsDisplay() {
 
 		kitLocation = Constants.KIT_LOC;

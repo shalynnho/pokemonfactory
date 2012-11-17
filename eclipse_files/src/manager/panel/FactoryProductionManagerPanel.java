@@ -1,6 +1,6 @@
 package manager.panel;
 
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,8 +20,9 @@ import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 
 import manager.FactoryProductionManager;
+import manager.panel.KitsListPanel.KitSelectHandler;
+import manager.util.ClickablePanel;
 import manager.util.OverlayInternalFrame;
-import manager.util.OverlayPanel;
 import Utils.Constants;
 import factory.KitConfig;
 import factory.Order;
@@ -48,11 +49,11 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	/** JComponents **/
 	// Displays kits currently available for order
 	private JComboBox kitComboBox;
+	private DefaultComboBoxModel defaultComboBox;
 	// Displays current schedule of orders
 	private JTextArea orderScheduleTextArea;
 	private SpinnerNumberModel spinnerModel;
 	private JSpinner quantitySpinner;
-	private DefaultComboBoxModel defaultComboBox;
 	private JButton orderButton;
 	private JScrollPane orderScrollPane;
 	
@@ -77,11 +78,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 	
+		/*
 		kitComboBox = new JComboBox();
-		defaultComboBox = (DefaultComboBoxModel)kitComboBox.getModel();
-		
-		// TODO: REMOVE - FOR TESTING ONLY
-		kitConfigs = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIGS.clone();
 		
 		for (int i = 0; i < kitConfigs.size(); i++) {
 			kitComboBox.addItem(kitConfigs.get(i).getName());
@@ -96,14 +94,36 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 			Component comp = kitComboBox.getComponent(i);
 			comp.addMouseListener(this);
 		}
-		(kitComboBox.getEditor()).getEditorComponent().addMouseListener(this);
+		((JTextField)kitComboBox.getEditor().getEditorComponent()).addMouseListener(this);
+		*/
+		
+		KitsListPanel kitsPanel = new KitsListPanel(new KitSelectHandler() {
+			@Override
+			public void onKitSelect(KitConfig kc) {
+				selectedKit = kc;
+			}
+			
+		});
+		kitsPanel.setVisible(true);
+		kitsPanel.setBackground(new Color(0, 0, 0, 30));
+		for(ClickablePanel panel : kitsPanel.getPanels().values()) {
+			panel.addMouseListener(this);
+		}
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.gridheight = 2;
+		
+		add(kitsPanel, c);
 		
 		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
 	    quantitySpinner = new JSpinner(spinnerModel);
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		// Top padding
 		c.insets = new Insets(50,0,0,0);
+		c.gridheight = 1;
 		c.anchor = GridBagConstraints.CENTER;
 		add(quantitySpinner, c);
 		quantitySpinner.addMouseListener(this);
@@ -115,8 +135,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		orderButton = new JButton("ORDER KITS");
 		orderButton.addActionListener(this);
 		c.gridx = 0;
-		c.gridy = 2;
-		c.anchor = GridBagConstraints.PAGE_END;
+		c.gridy = 3;
 		add(orderButton, c);
 		orderButton.addMouseListener(this);
 				
@@ -130,12 +149,19 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		
 		orderScrollPane = new JScrollPane(orderScheduleTextArea);
 		c.gridx = 0;
-		c.gridy = 3;
+		c.gridy = 4;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.anchor = GridBagConstraints.PAGE_END;
+
+		c.weightx = 1;
+		c.weighty = 1;
+		c.fill = GridBagConstraints.BOTH;
 		add(orderScrollPane, c);
 		orderScrollPane.addMouseListener(this);
+		for (int i = 0; i < orderScrollPane.getComponentCount(); i++) {
+			orderScrollPane.getComponents()[i].addMouseListener(this);
+		}
 	}
 
 	/**
@@ -143,22 +169,22 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	 * @param ae action event
 	 */
 	public void actionPerformed(ActionEvent ae) {
-		if (ae.getSource() == orderButton) {			
-			// match kitComboBox selection with list of kitConfigs
-			for (int i = 0; i < kitConfigs.size(); i++) {
-				if (kitConfigs.get(i).getName().equals(kitComboBox.getSelectedItem())) {
-					selectedKit = kitConfigs.get(i);
-				}
+		if (ae.getSource() == orderButton) {	
+			
+			KitConfig kitToMake;
+			
+			if(selectedKit != null) {
+				kitToMake = selectedKit;
+				
+				//Set variable quantityToMake equal to number user enters in spinnerModel
+				int quantityToMake = spinnerModel.getNumber().intValue();
+				
+				//Creates new Order and passes it the kit the User selects and the quantity to make
+				Order newOrder = new Order(kitToMake, quantityToMake);
+				
+				//sends message to FCS with order info
+				fpmClient.createOrder(newOrder);
 			}
-			
-			//Set variable quantityToMake equal to number user enters in spinnerModel
-			int quantityToMake = spinnerModel.getNumber().intValue();
-			
-			//Creates new Order and passes it the kit the User selects and the quantity to make
-			Order newOrder = new Order(selectedKit, quantityToMake);
-			
-			//sends message to FCS with order info
-			fpmClient.createOrder(newOrder);
 		}
 	}
 		
@@ -205,6 +231,9 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		for (int i = 0; i < getComponentCount(); i++) {
+			getComponent(i).setVisible(true);
+		}
 		setPreferredSize(new Dimension(PANEL_WIDTH, height));
 		setMinimumSize(new Dimension(PANEL_WIDTH, height));
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
@@ -213,9 +242,12 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		setPreferredSize(new Dimension(5, height));
-		setMinimumSize(new Dimension(5, height));
-		setMaximumSize(new Dimension(5, height));
+		for (int i = 0; i < getComponentCount(); i++) {
+			getComponent(i).setVisible(false);
+		}
+		setPreferredSize(new Dimension(PANEL_WIDTH/4, height));
+		setMinimumSize(new Dimension(PANEL_WIDTH/4, height));
+		setMaximumSize(new Dimension(PANEL_WIDTH/4, height));
 		revalidate();
 	}
 

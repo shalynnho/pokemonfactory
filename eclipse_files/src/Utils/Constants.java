@@ -5,6 +5,9 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+
 import factory.KitConfig;
 import factory.PartType;
 
@@ -38,19 +41,21 @@ public abstract class Constants {
 	public static final int STAND_COUNT = 3;
 
 	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(
-			Arrays.asList(new PartType("1", 1, "Type1"), new PartType("2", 2,
-					"Type2"), new PartType("3", 3, "Type3"), new PartType("4",
-					4, "Type4"), new PartType("5", 5, "Type5"), new PartType(
-					"6", 6, "Type6"), new PartType("7", 7, "Type7"),
+			Arrays.asList(new PartType("1", 1, "Type1"), 
+					new PartType("2", 2, "Type2"), new PartType("3", 3, "Type3"), 
+					new PartType("4", 4, "Type4"), new PartType("5", 5, "Type5"),
+					new PartType("6", 6, "Type6"), new PartType("7", 7, "Type7"),
 					new PartType("8", 8, "Type8")));
 
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
-			Arrays.asList(new KitConfig("Default Kit", new PartType("1", 1,
-					"Type1"), new PartType("2", 2, "Type2"), new PartType("3",
-					3, "Type3"), new PartType("4", 4, "Type4"), new PartType(
-					"5", 5, "Type5"), new PartType("6", 6, "Type6"),
-					new PartType("7", 7, "Type7"),
-					new PartType("8", 8, "Type8"))));
+			Arrays.asList(new KitConfig("Default Kit", 
+					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1),
+					DEFAULT_PARTTYPES.get(2),DEFAULT_PARTTYPES.get(3),
+					DEFAULT_PARTTYPES.get(4),DEFAULT_PARTTYPES.get(5),
+					DEFAULT_PARTTYPES.get(6),DEFAULT_PARTTYPES.get(7)
+					), new KitConfig("Simple Kit", 
+					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1)
+					)));
 
 	// DEVICE START LOCATIONS
 	// ==================================
@@ -67,7 +72,7 @@ public abstract class Constants {
 	public static final Location CONVEYOR_LOC = new Location(0, 80); // 185
 	public static final Location KIT_LOC = new Location(150, 200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250, 450);
-	public static final Location GANTRY_ROBOT_LOC = new Location(735, 180);
+	public static final Location GANTRY_ROBOT_LOC = new Location(885, 180);
 
 	// TODO: get exact location coordinates
 	public static final Location BIN_STORAGE_LOC = new Location(800, 1000);
@@ -332,6 +337,16 @@ public abstract class Constants {
 	public static final String GANTRY_ROBOT_MNGR_CLIENT = "GantryRobotMngr";
 	public static final String KIT_ASSEMBLY_MNGR_CLIENT = "KitAssemblyMngr";
 	public static final String LANE_MNGR_CLIENT = "LaneMngr";
+	
+	// UI TOOLS
+	// ==================================
+
+	public static final Border PADDING = BorderFactory.createEmptyBorder(20, 20, 20, 20);
+	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+	public static final Border MEDIUM_PADDING = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+	public static final Border BOTTOM_PADDING = BorderFactory.createEmptyBorder(0, 0, 20, 0);
+	public static final Border TOP_PADDING = BorderFactory.createEmptyBorder(20, 0, 5, 0);
+	public static final Border VERTICAL_PADDING = BorderFactory.createEmptyBorder(10, 0, 10, 0);
 
 	// Agent constants for StringUtil
 	/** The number of milliseconds in a second */
