@@ -67,7 +67,7 @@ public abstract class Constants {
 	public static final Location CONVEYOR_LOC = new Location(0, 80); // 185
 	public static final Location KIT_LOC = new Location(150, 200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250, 450);
-	public static final Location GANTRY_ROBOT_LOC = new Location(735, 180);
+	public static final Location GANTRY_ROBOT_LOC = new Location(885, 180);
 
 	// TODO: get exact location coordinates
 	public static final Location BIN_STORAGE_LOC = new Location(800, 1000);

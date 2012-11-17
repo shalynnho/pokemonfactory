@@ -49,7 +49,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		nestID = id;
 		isFull = true;
 
-		nestLocation = new Location(485 - NEST_WIDTH, 45 + nestID * 75);
+		nestLocation = new Location(640 - NEST_WIDTH, 45 + nestID * 75);
 		partsInNest = new ArrayList<PartGraphicsDisplay>();
 		generatePartLocations();
 	}
