@@ -1,6 +1,8 @@
 package manager;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,8 +11,19 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import manager.panel.FactoryProductionManagerPanel;
-import DeviceGraphicsDisplay.*;
-import Networking.*;
+import DeviceGraphicsDisplay.CameraGraphicsDisplay;
+import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
+import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
+import DeviceGraphicsDisplay.FeederGraphicsDisplay;
+import DeviceGraphicsDisplay.GantryGraphicsDisplay;
+import DeviceGraphicsDisplay.InspectionStandGraphicsDisplay;
+import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
+import DeviceGraphicsDisplay.LaneGraphicsDisplay;
+import DeviceGraphicsDisplay.NestGraphicsDisplay;
+import DeviceGraphicsDisplay.PartsRobotDisplay;
+import DeviceGraphicsDisplay.StandGraphicsDisplay;
+import Networking.Client;
+import Networking.Request;
 import Utils.Constants;
 import factory.KitConfig;
 import factory.Order;
