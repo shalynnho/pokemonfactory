@@ -152,9 +152,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				for (MyKit mk : kitsOnConveyor) {
 					// Send the kit if it has reached the "stop" position on the
 					// conveyor where the kit robot can pick it up and the kit
-					// robot
-					// can
-					// pick it up.
+					// robot can pick it up.
 					if (mk.KS == KitStatus.PICKUP_REQUESTED
 							&& state != ConveyorState.TRANSFERRING_KIT) {
 						state = ConveyorState.TRANSFERRING_KIT;
@@ -174,8 +172,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				}
 
 				// Place kit onto conveyor and start moving it into the cell if
-				// a
-				// new kit was requested by the kit robot
+				// a new kit was requested by the kit robot
 				if (numKitsToDeliver > 0) {
 					numKitsToDeliver--;
 					prepareKit();
@@ -188,8 +185,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			synchronized (kitsOnOutboundConveyor) {
 				for (MyKit mk : kitsOnOutboundConveyor) {
 					// Place kit onto conveyor and start moving it out of
-					// the
-					// cell if the kit robot has dropped off a completed kit
+					// the cell if the kit robot has dropped off a completed kit
 					if (mk.KS == KitStatus.AWAITING_DELIVERY) {
 						print(mk.toString() + " is awaiting delivery");
 						mk.KS = KitStatus.MOVING_OUT;
