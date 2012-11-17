@@ -39,8 +39,6 @@ public class PartsListPanel extends OverlayPanel {
 	public static final Border VERTICAL_PADDING = BorderFactory.createEmptyBorder(10, 0, 10, 0);
 	
 	
-	
-	
 	public PartsListPanel(PartsListPanelHandler h) {
 		super();
 		handler = h;
@@ -74,7 +72,7 @@ public class PartsListPanel extends OverlayPanel {
 			panel.add(imageLabel);
 			
 			WhiteLabel nameLabel = new WhiteLabel("Part: " + pt.getName());
-			nameLabel.setLabelSize(190, 30);
+			nameLabel.setLabelSize(165, 30);
 			panel.add(nameLabel);
 			
 			JButton deleteButton = new JButton("delete");
@@ -85,6 +83,7 @@ public class PartsListPanel extends OverlayPanel {
 			add(Box.createVerticalStrut(10));
 			panels.put(pt, panel);
 		}
+		validate();
 	}
 	
 	public void updatePartTypes(ArrayList<PartType> pt) {
