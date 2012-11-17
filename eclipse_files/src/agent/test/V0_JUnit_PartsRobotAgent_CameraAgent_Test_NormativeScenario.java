@@ -273,7 +273,7 @@ public class V0_JUnit_PartsRobotAgent_CameraAgent_Test_NormativeScenario extends
 
 		// Kit is now done
 		assertEquals("Parts Robot's MyKit's status should now be 'Done'",
-				MyKitStatus.Done, MyKit.MKS);
+				MyKitStatus.DONE, MyKit.MKS);
 
 		/*
 		 * Wake up camera to perform the final inspection of the kit before it
