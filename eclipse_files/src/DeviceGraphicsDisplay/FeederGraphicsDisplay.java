@@ -49,14 +49,6 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		// generate the feeder's location based on its ID
 		feederLocation = new Location(700, id*150 + 50);
 		
-		if (client instanceof FactoryProductionManager) {
-			System.out.println("Feeder created by FPM.");
-			System.out.println("OK to send done messages.");
-		} else {
-			System.out.println("Feeder not created by FPM.");
-			System.out.println("Not OK to send done messages.");
-		}
-		
 		// force an initial repaint to display feeder and diverter
 		// client.repaint();
 	}
@@ -100,19 +92,14 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (req.getCommand().equals(Constants.FEEDER_FLIP_DIVERTER_COMMAND)) {
 			diverterTop = !diverterTop;
 			
-			// Only send done messages if the client is FPM
-			if (client instanceof FactoryProductionManager) {
-				client.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
-			}
+			client.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
 		} else if (req.getCommand().equals(Constants.FEEDER_RECEIVED_BIN_COMMAND)) {
 			PartType type = (PartType) req.getData();
 			receiveBin(type);
 			// TODO figure out how to interface with gantry
 			haveBin = true;
 			
-			if (client instanceof FactoryProductionManager) {
-				client.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
-			}
+			client.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
 		} else if (req.getCommand().equals(Constants.FEEDER_PURGE_BIN_COMMAND)) {
 			// TODO future: move bin to purge area
 			
@@ -121,9 +108,7 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 				haveBin = false;
 			}
 			
-			if (client instanceof FactoryProductionManager) {
-				client.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
-			}
+			client.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND + Constants.DONE_SUFFIX, Constants.FEEDER_TARGET + feederID , null));
 		}
 	}
 }

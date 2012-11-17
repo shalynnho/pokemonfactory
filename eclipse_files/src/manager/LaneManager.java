@@ -116,7 +116,18 @@ public class LaneManager extends Client implements ActionListener{
 			device.draw(this, g);
 		}
 	}
-
+	
+	/**
+	 * This function intercepts requests and calls client's sendData if the request is a DONE request.
+	 * @req Request to be sent.
+	 */
+	@Override
+	public void sendData(Request req) {
+		if (!req.getCommand().endsWith(Constants.DONE_SUFFIX)) {
+			super.sendData(req);
+		}
+	}
+	
 	/**
 	 * This function handles action events.
 	 */
