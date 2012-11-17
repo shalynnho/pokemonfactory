@@ -13,7 +13,7 @@ import Utils.Location;
 import factory.PartType;
 
 /**
- * @author Vansh Jain, Shalynn Ho, Harry Trieu
+ * @author Shalynn Ho, Harry Trieu
  * 
  */
 public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
@@ -39,7 +39,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// boolean if the nest is full
 	private boolean isFull;
 	// dynamically stores the parts currently in the Nest
-	private ArrayList<PartGraphicsDisplay> partsInNest = new ArrayList<PartGraphicsDisplay>();
+	private ArrayList<PartGraphicsDisplay> partsInNest;
 
 	/**
 	 * Default constructor
@@ -50,15 +50,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		isFull = true;
 
 		nestLocation = new Location(485 - NEST_WIDTH, 45 + nestID * 75);
+		partsInNest = new ArrayList<PartGraphicsDisplay>();
 		generatePartLocations();
-
-		// TEST HACK, remove later
-		for (int i = 0; i < MAX_PARTS; i++) {
-			PartGraphicsDisplay pgd = new PartGraphicsDisplay(
-					Constants.DEFAULT_PARTTYPES.get(0));
-			pgd.setLocation(partLocs.get(i));
-			partsInNest.add(pgd);
-		}
 	}
 
 	/**
@@ -133,6 +126,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void receivePart(PartType type) {
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(type);
 		partsInNest.add(pgd);
+		setPartLocations();
 		manager.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND
 				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
 	}
