@@ -8,9 +8,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
-import javax.swing.border.EtchedBorder;
 
-public class CustomButton extends JButton implements MouseListener {
+public class CustomButton extends JButton {
 	private Color backgroundColor = new Color(255, 255, 255);
 	private Color borderColor = new Color(35, 35, 35);
 	private Color borderHoverColor = new Color(150, 150, 150);
@@ -34,44 +33,33 @@ public class CustomButton extends JButton implements MouseListener {
 		compoundBorder = new CompoundBorder(border, padding);
 		setBorder(compoundBorder);
 		
-		addMouseListener(this);
-	}
+		addMouseListener(new MouseListener() {
+			@Override public void mouseClicked(MouseEvent e) { }
+			@Override public void mousePressed(MouseEvent e) { }
+			@Override public void mouseReleased(MouseEvent e) { }
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), 40));
+				
+				border = BorderFactory.createLineBorder(borderHoverColor, 1);
+				compoundBorder = new CompoundBorder(border, padding);
+				setBorder(compoundBorder);
+				
+			}
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), 40));
-		
-		border = BorderFactory.createLineBorder(borderHoverColor, 1);
-		compoundBorder = new CompoundBorder(border, padding);
-		setBorder(compoundBorder);
-		
-	}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), 30));
+				
+				border = BorderFactory.createLineBorder(borderColor, 1);
+				compoundBorder = new CompoundBorder(border, padding);
+				setBorder(compoundBorder);
+			}
 
-	@Override
-	public void mouseExited(MouseEvent e) {
-		setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), 30));
-		
-		border = BorderFactory.createLineBorder(borderColor, 1);
-		compoundBorder = new CompoundBorder(border, padding);
-		setBorder(compoundBorder);
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+			
+			
+		});
 	}
 
 }

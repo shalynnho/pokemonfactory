@@ -21,6 +21,8 @@ public class FCS {
 	private FCSAgent agent;
 	private Server server;
 	
+	private boolean productionStarted = false;
+	
 	public FCS(Server server, Agent a) {
 		agent = (FCSAgent) a;
 		this.server = server;
@@ -108,6 +110,12 @@ public class FCS {
 			updateQueue();
 			
 			agent.msgAddKitsToQueue(o);
+			
+			//TODO: put "start production" button
+			if(!productionStarted) {
+				agent.msgStartProduction();
+				productionStarted = true;
+			}
 		}
 	}
 	

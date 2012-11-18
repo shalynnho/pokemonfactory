@@ -1,15 +1,8 @@
 package agent;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TreeMap;
 
 import DeviceGraphics.DeviceGraphics;
-import DeviceGraphics.KitGraphics;
 import agent.data.Kit;
 import agent.interfaces.FCS;
 import agent.interfaces.KitRobot;
@@ -30,29 +23,16 @@ public class StandAgent extends Agent implements Stand {
 
 	private final String name;
 
-	// Kits received but not yet placed. Should only have <= 2 keys at any given
-	// time.
-	private final Map<MyKit, Integer> myKits = Collections
-			.synchronizedMap(new HashMap<MyKit, Integer>());
+	private final ArrayList<MyKit> MyKits;
 
 	private int numKitsToMake;
 	private int numKitsMade;
 	private boolean start;
-	private final Timer timer;
 	private StandStatus status;
 
 	private enum StandStatus {
 		IDLE, NEED_TO_INITIALIZE, KIT_REQUESTED, DONE
 	};
-
-	// Tracks stand positions and whether or not they are open (false indicates
-	// 'not occupied')
-	// Note that this is the inverse of what the KitRobot uses in its
-	// standPositions
-	private final Map<Integer, Boolean> standPositions = Collections
-			.synchronizedMap(new TreeMap<Integer, Boolean>());
-	private final List<Kit> kitsOnStand = Collections
-			.synchronizedList(new ArrayList<Kit>());
 
 	/**
 	 * Inner class encapsulates kit and adds states relevant to the stand
@@ -69,7 +49,7 @@ public class StandAgent extends Agent implements Stand {
 	}
 
 	public enum KitStatus {
-		RECEIVED, PLACED_ON_STAND, ASSEMBLED, MARKED_FOR_INSPECTION, AWAITING_INSPECTION, INSPECTED, SHIPPED, DELIVERED;
+		HOLDING, RECEIVED, PLACED_ON_STAND, ASSEMBLED, MARKED_FOR_INSPECTION, AWAITING_INSPECTION, INSPECTED, SHIPPED, DELIVERED;
 	};
 
 	/**
@@ -85,14 +65,10 @@ public class StandAgent extends Agent implements Stand {
 		start = false;
 		status = StandStatus.IDLE;
 
-		kitsOnStand.add(null);
-		kitsOnStand.add(null);
-		kitsOnStand.add(null);
-
-		standPositions.put(0, false);
-		standPositions.put(1, false);
-		standPositions.put(2, false);
-		timer = new Timer();
+		MyKits = new ArrayList<MyKit>();
+		MyKits.add(0, null);
+		MyKits.add(1, null);
+		MyKits.add(2, null);
 	}
 
 	/*
@@ -111,19 +87,25 @@ public class StandAgent extends Agent implements Stand {
 
 	@Override
 	public void msgHereIsKit(Kit k, int destination) {
+		print(k.toString());
 		print("Received msgHereIsKit with destination " + destination);
 		status = StandStatus.IDLE;
-		myKits.put(new MyKit(k), destination);
+		MyKits.set(destination, new MyKit(k));
 		stateChanged();
 	}
 
 	@Override
 	public void msgKitAssembled(Kit k) {
 		print("Received msgKitAssembled");
-		for (MyKit mk : myKits.keySet()) {
-			if (mk.kit == k) {
-				mk.KS = KitStatus.ASSEMBLED;
-				break;
+		for (MyKit mk : MyKits) {
+			if (mk != null) {
+				if (mk.KS != KitStatus.HOLDING) {
+					if (mk.kit == k) {
+						print(k.toString() + " was assembled.");
+						mk.KS = KitStatus.ASSEMBLED;
+						break;
+					}
+				}
 			}
 		}
 		stateChanged();
@@ -132,17 +114,12 @@ public class StandAgent extends Agent implements Stand {
 	@Override
 	public void msgMovedToInspectionArea(Kit k, int oldLocation) {
 		print("Received msgMovedToInspectionArea");
-
-		while (standPositions.get(0)) {
+		if (MyKits.get(oldLocation) == null) {
+			print("OMGNOOOO");
 		}
-		;
-		if (!standPositions.get(0)) {
-			standPositions.put(oldLocation, false);
-			kitsOnStand.set(oldLocation, null);
-
-			standPositions.put(0, true);
-			kitsOnStand.set(0, k);
-		}
+		MyKits.set(0, MyKits.get(oldLocation));
+		print(MyKits.get(0).kit.toString() + " is now in the inspection area");
+		MyKits.set(oldLocation, null);
 
 		stateChanged();
 	}
@@ -151,18 +128,9 @@ public class StandAgent extends Agent implements Stand {
 	public void msgShippedKit() {
 		print("Received msgShippedKit");
 		numKitsMade++;
-		synchronized (myKits) {
-			for (MyKit mk : myKits.keySet()) {
-				if (mk.kit == kitsOnStand.get(0)) {
-					mk.KS = KitStatus.SHIPPED;
-					break;
-				}
-			}
-		}
+		MyKits.set(0, null);
+		// MyKits.get(0).KS = KitStatus.SHIPPED;
 		print(numKitsToMake - numKitsMade + " kits left to make");
-
-		standPositions.put(0, false);
-		kitsOnStand.set(0, null);
 		stateChanged();
 	}
 
@@ -173,8 +141,11 @@ public class StandAgent extends Agent implements Stand {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 
+		if (MyKits.get(0) != null) {
+			print(MyKits.get(0).kit.toString() + " is in the inspection area");
+		}
 		if (status == StandStatus.NEED_TO_INITIALIZE) {
-			initializeKitRobot();
+			initialize();
 			return true;
 		}
 
@@ -184,29 +155,28 @@ public class StandAgent extends Agent implements Stand {
 				return true;
 			}
 
-			// print("NumKitsToMake greater than 0");
-			synchronized (myKits) {
-
-				for (MyKit mk : myKits.keySet()) {
-					// Received a kit from kit robot
-					if (mk.KS == KitStatus.RECEIVED) {
-						mk.KS = KitStatus.PLACED_ON_STAND;
-						placeKit(mk);
-						return true;
+			for (MyKit mk : MyKits) {
+				if (mk != null) {
+					if (mk.KS != KitStatus.HOLDING) {
+						// Received a kit from kit robot
+						if (mk.KS == KitStatus.RECEIVED) {
+							mk.KS = KitStatus.PLACED_ON_STAND;
+							placeKit(mk);
+							return true;
+						}
 					}
-					// Kit robot shipped a kit
-					else if (mk.KS == KitStatus.SHIPPED) {
-						// mk.KS = KitStatus.DELIVERED;
-						print("Removing " + mk.kit.toString() + " (shipped)");
-						myKits.remove(mk);
-						return true;
-					}
+				}
+			}
 
-					// Kit needs to be inspected
-					else if (mk.KS == KitStatus.ASSEMBLED) {
-						mk.KS = KitStatus.AWAITING_INSPECTION;
-						requestInspection(mk);
-						return true;
+			for (MyKit mk : MyKits) {
+				if (mk != null) {
+					if (mk.KS != KitStatus.HOLDING) {
+						// Kit needs to be inspected
+						if (mk.KS == KitStatus.ASSEMBLED) {
+							mk.KS = KitStatus.AWAITING_INSPECTION;
+							requestInspection(mk);
+							return true;
+						}
 					}
 				}
 			}
@@ -214,28 +184,27 @@ public class StandAgent extends Agent implements Stand {
 			// Attempt to request a new kit if necessary
 			int loc = 0;
 			int count = 0;
-			// if (!kitRequested) {
 			for (int i = 0; i < 3; i++) {
-				if (!standPositions.get(i)) {
+				if (MyKits.get(i) == null) {
 					count++;
 				}
 			}
 			if (numKitsToMake > 0 && numKitsToMake > numKitsMade + 3 - count
-					&& (!standPositions.get(1) || !standPositions.get(2))) {
+					&& (MyKits.get(1) == null || MyKits.get(2) == null)) {
 				print("NumKits(" + numKitsToMake
 						+ ") to make greater than numKitsMade(" + numKitsMade
 						+ "). Stand positions empty count: " + count);
-				if (!standPositions.get(1) && !standPositions.get(2)) {
+				if (MyKits.get(1) == null && MyKits.get(2) == null) {
 					print("Neither position full");
 					status = StandStatus.KIT_REQUESTED;
 					requestKit(loc = 1);
 					print("I'm requesting a new kit at position 1");
 					return true;
-				} else if (!standPositions.get(1) && standPositions.get(2)
-						|| !standPositions.get(2) && standPositions.get(1)) {
+				} else if (MyKits.get(1) == null && MyKits.get(2) != null
+						|| MyKits.get(2) == null && MyKits.get(1) != null) {
 					print("One position full, but need to make more than 1 kit.");
 					status = StandStatus.KIT_REQUESTED;
-					requestKit(loc = standPositions.get(1) == false ? 1 : 2);
+					requestKit(loc = MyKits.get(1) == null ? 1 : 2);
 					print("I'm requesting a new kit at position " + loc);
 					return true;
 				}
@@ -256,8 +225,8 @@ public class StandAgent extends Agent implements Stand {
 	/**
 	 * Tells the kitrobot how many kits it should expect to make.
 	 */
-	private void initializeKitRobot() {
-		print("Initializing KitRobot.");
+	private void initialize() {
+		print("Initializing KitRobot and Conveyor");
 		status = StandStatus.IDLE;
 		kitrobot.msgNeedThisManyKits(numKitsToMake);
 		stateChanged();
@@ -270,7 +239,12 @@ public class StandAgent extends Agent implements Stand {
 	 */
 	private void requestKit(int index) {
 		status = StandStatus.IDLE;
-		standPositions.put(index, true);
+		if (index == 0) {
+			print("WTFISTHISSHIT");
+		}
+		MyKit mk = new MyKit(null);
+		mk.KS = KitStatus.HOLDING;
+		MyKits.set(index, mk);
 		kitrobot.msgNeedKit(index);
 		stateChanged();
 	}
@@ -280,19 +254,14 @@ public class StandAgent extends Agent implements Stand {
 	 * @param k the kit being placed
 	 */
 	private void placeKit(MyKit mk) {
-		synchronized (myKits) {
-			int spot = 5;
-			// kitRequesteds--;
-			spot = myKits.get(mk);
-			print("Found a spot at " + spot);
+		// kitRequested--;
 
-			kitsOnStand.set(spot, mk.kit);
-			print("Kit ID is " + mk.kit.toString());
-			// print(kitsOnStand.size() + " kits on stand");
-			partsrobot.msgUseThisKit(mk.kit);
+		print("Kit ID is " + mk.kit.toString());
+		// print(kitsOnStand.size() + " kits on stand");
+		partsrobot.msgUseThisKit(mk.kit);
 
-			stateChanged();
-		}
+		stateChanged();
+
 	}
 
 	/**
@@ -311,7 +280,7 @@ public class StandAgent extends Agent implements Stand {
 		start = false;
 		status = StandStatus.DONE;
 		fcs.msgOrderFinished();
-		System.out.println("====================");
+		System.out.println("\n====================");
 		print("I FINISHED HURRAY");
 		System.out.println("====================");
 		// No need to call stateChanged() here as presumably the kitting cell is
@@ -381,34 +350,6 @@ public class StandAgent extends Agent implements Stand {
 
 	public void setStart(boolean start) {
 		this.start = start;
-	}
-
-	public Map<MyKit, Integer> getMyKits() {
-		return myKits;
-	}
-
-	public Timer getTimer() {
-		return timer;
-	}
-
-	public Map<Integer, Boolean> getStandPositions() {
-		return standPositions;
-	}
-
-	public List<Kit> getKitsOnStand() {
-		return kitsOnStand;
-	}
-
-	// Faking kit completion, used by KitRobotManager
-	public void fakeKitCompletion(KitGraphics kg) {
-		synchronized (myKits) {
-			for (MyKit mk : myKits.keySet()) {
-				if (mk.kit.kitGraphics == kg) {
-					print("Faking kit completion for kit " + mk.kit.toString());
-					msgKitAssembled(mk.kit);
-				}
-			}
-		}
 	}
 
 	@Override

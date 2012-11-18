@@ -50,4 +50,10 @@ public class MockCamera extends MockAgent implements Camera {
 
 	}
 
+	@Override
+	public void msgResetSelf() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

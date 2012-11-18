@@ -9,20 +9,19 @@ import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.FeederGraphics;
 import agent.data.Bin;
 import agent.data.Part;
-import factory.PartType;
 import agent.interfaces.Feeder;
+import factory.PartType;
 
 /**
  * Feeder receives parts from gantry and feeds the lanes
- * @author Arjun Bhargava
+ * @author Arjun Bhargava, Michael Gendotti
  */
 public class FeederAgent extends Agent implements Feeder {
 
 	private GantryAgent gantry;
-	public List<MyLane> lanes = Collections.synchronizedList(new ArrayList<MyLane>()); // Top Lane is the
-															// first lane,
-															// bottom is the
-															// second
+	// Top Lane is the first lane, bottom is the second
+	public List<MyLane> lanes = Collections
+			.synchronizedList(new ArrayList<MyLane>());
 	public FeederGraphics feederGUI;
 
 	private int currentOrientation;// 0 for Top, 1 for Bottom
@@ -31,7 +30,7 @@ public class FeederAgent extends Agent implements Feeder {
 
 	private FeederStatus state;
 
-	String name;
+	private final String name;
 
 	public Semaphore animation = new Semaphore(0, true);
 
@@ -74,15 +73,17 @@ public class FeederAgent extends Agent implements Feeder {
 
 	@Override
 	public void msgINeedPart(PartType type, LaneAgent lane) {
-		print("Received msgINeedPart for type "+type.getName());
+		print("Received msgINeedPart for type " + type.getName());
 		boolean found = false;
-		for (MyLane l : lanes) {
-			if (l.lane.equals(lane)) {
-				found = true;
-				l.numPartsNeeded++;
-				l.type = type;
-				if (l.state == LaneStatus.DOES_NOT_NEED_PARTS) {
-					l.state = LaneStatus.NEEDS_PARTS;
+		synchronized (lanes) {
+			for (MyLane l : lanes) {
+				if (l.lane.equals(lane)) {
+					found = true;
+					l.numPartsNeeded++;
+					l.type = type;
+					if (l.state == LaneStatus.DOES_NOT_NEED_PARTS) {
+						l.state = LaneStatus.NEEDS_PARTS;
+					}
 				}
 			}
 		}
@@ -98,13 +99,15 @@ public class FeederAgent extends Agent implements Feeder {
 	public void msgHereAreParts(PartType type, Bin bin) {
 		print("Received msgHereAreParts " + type.toString());
 		this.bin = bin;
-		for (MyLane lane : lanes) {
-			if(lane.type != null) {
-			if (lane.type.equals(type)) {
-				print("lane type is " + lane.type.toString());
-				lane.state = LaneStatus.GIVING_PARTS;
-				state = FeederStatus.RECEIVING_BIN;
-			}
+		synchronized (lanes) {
+			for (MyLane lane : lanes) {
+				if (lane.type != null) {
+					if (lane.type.equals(type)) {
+						print("lane type is " + lane.type.toString());
+						lane.state = LaneStatus.GIVING_PARTS;
+						state = FeederStatus.RECEIVING_BIN;
+					}
+				}
 			}
 		}
 		stateChanged();
@@ -132,42 +135,46 @@ public class FeederAgent extends Agent implements Feeder {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// / print("In the scheduler");
-		//synchronized(lanes) {
+		// synchronized(lanes) {
 		if (state == FeederStatus.IDLE) {
-			for (MyLane lane : lanes) {
-				if (lane.state == LaneStatus.NEEDS_PARTS) {
-					getParts(lane);
-					return true;
-				}
-			}
-		}
-		if(state == FeederStatus.RECEIVING_BIN) {
-			receiveBin();
-			return true;
-		}
-		if (state == FeederStatus.FEEDING_PARTS) {
-			for (MyLane lane : lanes) {
-				if (lane.state == LaneStatus.GIVING_PARTS) {
-					print("Giving parts to lane "+lane.type.getName());
-					if (lanes.get(currentOrientation).equals(lane)) {
-						givePart(lane);
-						return true;
-					} else {
-						print("Flipping Diverter");
-						flipDiverter();
+			synchronized (lanes) {
+				for (MyLane lane : lanes) {
+					if (lane.state == LaneStatus.NEEDS_PARTS) {
+						getParts(lane);
 						return true;
 					}
 				}
 			}
 		}
-		//}
+		if (state == FeederStatus.RECEIVING_BIN) {
+			receiveBin();
+			return true;
+		}
+		if (state == FeederStatus.FEEDING_PARTS) {
+			synchronized (lanes) {
+				for (MyLane lane : lanes) {
+					if (lane.state == LaneStatus.GIVING_PARTS) {
+						print("Giving parts to lane " + lane.type.getName());
+						if (lanes.get(currentOrientation).equals(lane)) {
+							givePart(lane);
+							return true;
+						} else {
+							print("Flipping Diverter");
+							flipDiverter();
+							return true;
+						}
+					}
+				}
+			}
+		}
+		// }
 		if (state == FeederStatus.PURGING) {
 			purgeBin();
 		}
 		return false;
 	}
 
-	public void getParts(MyLane lane) {
+	public void getParts(final MyLane lane) {
 		print("Telling gantry that I needs parts");
 		if (gantry != null) {
 			gantry.msgINeedParts(lane.type, this);
@@ -181,8 +188,9 @@ public class FeederAgent extends Agent implements Feeder {
 		lane.numPartsNeeded--;
 		lane.lane.msgHereIsPart(new Part(lane.type));
 		if (lane.numPartsNeeded == 0) {
-			print("shows up when lane "+lane.type.getName()+" does not need more parts");
-			state=FeederStatus.PURGING;
+			print("shows up when lane " + lane.type.getName()
+					+ " does not need more parts");
+			state = FeederStatus.PURGING;
 			lane.state = LaneStatus.DOES_NOT_NEED_PARTS;
 		}
 		stateChanged();
@@ -205,13 +213,13 @@ public class FeederAgent extends Agent implements Feeder {
 
 	public void flipDiverter() {
 		print("Flipping the diverter");
-		if(feederGUI != null) {
-		feederGUI.flipDiverter();
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		if (feederGUI != null) {
+			feederGUI.flipDiverter();
+			try {
+				animation.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 
 		if (currentOrientation == 0) {
@@ -221,11 +229,11 @@ public class FeederAgent extends Agent implements Feeder {
 		}
 		stateChanged();
 	}
-	
+
 	public void receiveBin() {
 		print("Telling FeederGraphics to receiveBin");
-		state=FeederStatus.FEEDING_PARTS;
-		if(feederGUI != null) {
+		state = FeederStatus.FEEDING_PARTS;
+		if (feederGUI != null) {
 			feederGUI.receiveBin(bin.binGraphics);
 			try {
 				animation.acquire();

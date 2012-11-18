@@ -89,19 +89,30 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void msgNeedKit() {
 		print("Received msgNeedKit");
-		numKitsToDeliver++;
+		// numKitsToDeliver++;
+		start = true;
+		stateChanged();
+	}
+
+	@Override
+	public void msgNeedThisManyKits(int num) {
+		this.numKitsToDeliver = num;
 		start = true;
 		stateChanged();
 	}
 
 	@Override
 	public void msgGiveMeKit() {
-		print("Received msgGiveMeKit");
+		print("Received msgGiveMeKit with numkits left " + numKitsToDeliver);
+		// synchronized (kitsOnConveyor) {
+		print("Kits on conveyor size " + kitsOnConveyor.size());
+		// for (MyKit mk : kitsOnConveyor) {
+		// if (mk.KS != KitStatus.PICKED_UP) {
 		if (kitsOnConveyor.size() > 0) {
 			kitsOnConveyor.get(0).KS = KitStatus.PICKUP_REQUESTED;
-			print(kitsOnConveyor.get(0).toString() + " will be sent");
-			print(kitsOnConveyor.get(0).toString() + " status is "
-					+ kitsOnConveyor.get(0).KS.toString());
+			// print(kitsOnConveyor.get(0).toString() + " will be sent");
+			// print(kitsOnConveyor.get(0).toString() + " status is "
+			// + kitsOnConveyor.get(0).KS.toString());
 		}
 		stateChanged();
 	}
@@ -109,6 +120,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void msgTakeKitAway(Kit k) {
 		print("Received msgTakeKitAway");
+		print("Taking " + k.toString() + " away");
 		MyKit mk = new MyKit(k);
 		mk.KS = KitStatus.AWAITING_DELIVERY;
 		kitsOnOutboundConveyor.add(mk);
@@ -119,7 +131,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void msgBringEmptyKitDone() {
 		print("Received msgBringEmptyKitDone from graphics");
-		// animation.release();
+		animation.release();
 		incomingKit.KS = KitStatus.ARRIVED_AT_PICKUP_LOCATION;
 		stateChanged();
 	}
@@ -135,7 +147,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	public void msgReceiveKitDone() {
 		print("Received msgReceiveKitDone from graphics");
 		kitsOnOutboundConveyor.remove(0);
-		// animation.release();
+		animation.release();
 		stateChanged();
 	}
 
@@ -161,24 +173,27 @@ public class ConveyorAgent extends Agent implements Conveyor {
 						sendKit(mk);
 						return true;
 					}
+				}
+			}
 
+			synchronized (kitsOnConveyor) {
+				for (MyKit mk : kitsOnConveyor) {
 					// Send the kit if it has reached the "stop" position on the
 					// conveyor where the kit robot can pick it up.
-					else if (mk.KS == KitStatus.ARRIVED_AT_PICKUP_LOCATION) {
+					if (mk.KS == KitStatus.ARRIVED_AT_PICKUP_LOCATION) {
 						mk.KS = KitStatus.AWAITING_PICKUP;
 						kitrobot.msgKitReadyForPickup();
 						// return true;
 					}
 				}
+			}
 
-				// Place kit onto conveyor and start moving it into the cell if
-				// a new kit was requested by the kit robot
-				if (numKitsToDeliver > 0) {
-					numKitsToDeliver--;
-					prepareKit();
-					return true;
-				}
-
+			// Place kit onto conveyor and start moving it into the cell if
+			// a new kit was requested by the kit robot
+			if (numKitsToDeliver > 0) {
+				numKitsToDeliver--;
+				prepareKit();
+				return true;
 			}
 
 			// print("Checking kits on outbound conveyor");
@@ -200,10 +215,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				// start = false;
 				// return true;
 			} else {
+				print("KitRobot needs to pick up kit");
+				kitrobot.msgKitReadyForPickup();
 				// print("There are " + kitsOnConveyor.size()
 				// + " kits on my conveyor list");
 				// return true;
 			}
+
 		}
 
 		/*
@@ -236,12 +254,12 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			}
 			conveyorGraphics.msgBringEmptyKit(k.kitGraphics);
 		}
-		// try {
-		// animation.acquire();
-		// } catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// print("Got permit");
 		stateChanged();
 	}
@@ -258,12 +276,12 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		if (conveyorGraphics != null) {
 			conveyorGraphics.msgGiveKitToKitRobot(mk.kit.kitGraphics);
 		}
-		// try {
-		// animation.acquire();
-		// } catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		kitrobot.msgHereIsKit(mk.kit);
 		state = ConveyorState.IDLE;
 		kitsOnConveyor.remove(mk);
@@ -276,16 +294,20 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * @param k the kit being delivered.
 	 */
 	private void deliverKit(MyKit mk) {
-		/*
-		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
-		 * Auto-generated catch block e.printStackTrace(); }
-		 */
 		if (mockgraphics != null) {
 			mockgraphics.msgReceiveKit(mk.kit.kitGraphics);
 		}
 		if (conveyorGraphics != null) {
 			conveyorGraphics.msgReceiveKit(mk.kit.kitGraphics);
 		}
+
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		print("Asking graphics to deliver the kit");
 		stateChanged();
 	}

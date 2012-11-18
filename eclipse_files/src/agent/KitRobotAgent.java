@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 
@@ -37,7 +36,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	private boolean kitRequested;
 	private int numKitsToMake;
 	private int numKitsRequested;
-	private final Timer timer;
 
 	// Used to prevent animations from overlapping
 	Semaphore animation = new Semaphore(0, true);
@@ -89,7 +87,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		numKitsRequested = 0;
 		numKitsToMake = 0;
 		state = KitRobotState.IDLE;
-		timer = new Timer();
 
 		// Don't assume stand is empty
 		standPositions.put(0, true);
@@ -104,8 +101,10 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	@Override
 	public void msgNeedThisManyKits(int total) {
 		print("Received msgNeedThisManyKits with amount " + total);
+		conveyor.msgNeedThisManyKits(total);
 		numKitsToMake = total;
 		numKitsRequested = 0;
+		kitRequested = false;
 		stateChanged();
 	}
 
@@ -126,6 +125,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	@Override
 	public void msgHereIsKit(Kit k) {
 		print("Received msgHereIsKit");
+		print("Adding kit " + k.toString());
 		kitRequested = false;
 		MyKit mk = new MyKit(k);
 		myKits.add(mk);
@@ -142,10 +142,16 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	@Override
 	public void msgMoveKitToInspectionArea(Kit k) {
 		print("Received msgMoveKitToInspectionArea");
-		for (MyKit mk : myKits) {
-			if (mk.kit == k) {
-				mk.KS = KitStatus.MARKED_FOR_INSPECTION;
-				break;
+		print(k.toString() + " should be moved.");
+		synchronized (myKits) {
+			// print("Acquiring in MKTIA");
+			print("Mykits size: " + myKits.size());
+			for (MyKit mk : myKits) {
+				if (mk.kit.equals(k)) {
+					mk.KS = KitStatus.MARKED_FOR_INSPECTION;
+					print("Found kit to inspect");
+					break;
+				}
 			}
 		}
 		stateChanged();
@@ -154,10 +160,13 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	@Override
 	public void msgKitPassedInspection() {
 		print("Received msgKitPassedInspection");
-		for (MyKit mk : myKits) {
-			if (mk.KS == KitStatus.AWAITING_INSPECTION) {
-				mk.KS = KitStatus.INSPECTED;
-				break;
+		synchronized (myKits) {
+			// print("Acquiring in KPI");
+			for (MyKit mk : myKits) {
+				if (mk.KS == KitStatus.AWAITING_INSPECTION) {
+					mk.KS = KitStatus.INSPECTED;
+					break;
+				}
 			}
 		}
 		stateChanged();
@@ -172,7 +181,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 	@Override
 	public void msgPlaceKitInInspectionAreaDone() {
-		print("Received msgPlaceKitInInspetionAreaDone from graphics");
+		print("Received msgPlaceKitInInspectionAreaDone from graphics");
 		animation.release();
 		// stateChanged();
 	}
@@ -191,35 +200,46 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 
+		// Kit needs to be shipped out of the kitting cell
 		synchronized (myKits) {
+			// print("Acquiring in scheduler");
 			for (MyKit mk : myKits) {
-				// Kit needs to be shipped out of the kitting cell
 				if (mk.KS == KitStatus.INSPECTED) {
 					mk.KS = KitStatus.SHIPPED;
 					numKitsToMake--;
 					shipKit(mk);
 					return true;
 				}
+			}
+		}
 
-				// Kit needs to be inspected
+		// Kit needs to be inspected
+		synchronized (myKits) {
+			print("Acquiring in scheduler");
+			for (MyKit mk : myKits) {
 				if (mk.KS == KitStatus.MARKED_FOR_INSPECTION
 						&& standPositions.get(0)) {
 					mk.KS = KitStatus.AWAITING_INSPECTION;
 					placeKitInInspectionArea(mk);
 					return true;
 				}
+			}
+		}
 
-				// Picking up a kit from conveyor
-				// AwaitingPickup is the default state for MyKit which is
-				// created when conveyor sends hereIsKit
-				if (mk.KS == KitStatus.AWAITING_PICKUP) {
+		// Picking up a kit from conveyor
+		// AwaitingPickup is the default state for MyKit which is
+		// created when conveyor sends hereIsKit
+		synchronized (myKits) {
+			// print("Acquiring in scheduler");
+			for (MyKit mk : myKits) {
+				if (mk.KS == KitStatus.AWAITING_PICKUP
+						&& (standPositions.get(1) || standPositions.get(2))) {
 					mk.KS = KitStatus.PICKED_UP;
 					state = KitRobotState.HOLDING_KIT;
 					placeKitOnStand(mk);
 					return true;
 				}
 			}
-
 		}
 
 		// We will always attempt to fill the stand, in case a kit fails
@@ -233,18 +253,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			// return true;
 		}
 
-		// If other rules fail and there's a spot on the stand, request a new
-		// kit if necessary.
-		print("Kit waiting? " + kitWaitingOnConveyor + ". Numkitsrequested "
-				+ numKitsRequested + " /Numkitstomake " + numKitsToMake);
-		if (!kitWaitingOnConveyor && numKitsRequested < numKitsToMake) {
-			if (standPositions.get(1) || standPositions.get(2)) {
-				numKitsRequested++;
-				requestKit();
-				return true;
-			}
-		}
-
 		/*
 		 * Tried all rules and found no actions to fire. Return false to the
 		 * main loop of abstract base class Agent and wait.
@@ -255,16 +263,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	/*
 	 * Actions
 	 */
-
-	/**
-	 * Requests a kit from the conveyor.
-	 */
-	private void requestKit() {
-		conveyor.msgNeedKit();
-		print("So far I've requested: " + numKitsRequested + " out of "
-				+ numKitsToMake + " needed.");
-		// stateChanged();
-	}
 
 	/**
 	 * Takes a kit from the conveyor and place it on the stand.
@@ -338,6 +336,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * @param k the kit being shipped out of the kitting cell.
 	 */
 	private void shipKit(MyKit mk) {
+		print("Removing " + mk.kit.toString());
 		myKits.remove(mk);
 		if (mockgraphics != null) {
 			mockgraphics.msgPlaceKitOnConveyor();

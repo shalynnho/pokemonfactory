@@ -64,7 +64,6 @@ public class CameraAgent extends Agent implements Camera {
 
 	public class MyNest {
 		public NestAgent nest;
-		// public List<Part> Parts;
 		public NestStatus state;
 
 		public MyNest(NestAgent nest) {
@@ -73,9 +72,8 @@ public class CameraAgent extends Agent implements Camera {
 		}
 	}
 
-	/********** MESSAGES ************/
-	/**
-	 * 
+	/*
+	 * Messages
 	 */
 	@Override
 	public void msgInspectKit(Kit kit) {
@@ -83,20 +81,14 @@ public class CameraAgent extends Agent implements Camera {
 		mk = new MyKit(kit);
 		stateChanged();
 
-		// timer.schedule(new TimerTask() {
-		// @Override
-		// public void run() {
-		// print("Faking camera finishing inspection");
-		// kitRobot.msgKitPassedInspection();
-		// }
-		// }, 1000);
-
 	}
 
 	@Override
 	public void msgIAmFull(Nest nest) {
 		synchronized (nests) {
-			print("Received msgIAmFull");
+
+			print("Received msgIAmFull from nest with type "
+					+ ((NestAgent) nest).currentPartType);
 			for (MyNest n : nests) {
 				if (n.nest == nest) {
 					n.state = NestStatus.READY;
@@ -107,17 +99,17 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();
 
 	}
-	
+
 	@Override
 	public void msgResetSelf() {
 		print("Reseting Self");
 		synchronized (nests) {
 			for (MyNest n : nests) {
-				n.state=NestStatus.NOT_READY;
+				n.state = NestStatus.NOT_READY;
 			}
 		}
-		mk=null;
-		//stateChanged();
+		mk = null;
+		// stateChanged();
 	}
 
 	@Override
@@ -162,33 +154,13 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();
 	}
 
-	// Hack for V0 Only
 	/*
-	 * public void startV0Sequence(KitGraphics kg) { Kit k = new Kit();
-	 * k.kitGraphics = kg; ArrayList<PartType> list = new ArrayList<PartType>();
-	 * for (int i = 0; i < 9; i++) { // list.add(PartType.A); } //
-	 * k.partsExpected = list; // partRobot.InitializeArms(); //
-	 * partRobot.msgUseThisKit(k); if (guiCamera != null) {
-	 * guiCamera.takeNestPhoto(nests.get(0).nest.nestGraphics,
-	 * nests.get(1).nest.nestGraphics); try { animation.acquire(); } catch
-	 * (InterruptedException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); } } }
+	 * Scheduler (non-Javadoc)
+	 * @see agent.Agent#pickAndExecuteAnAction()
 	 */
-
-	/*********** SCHEDULER **************/
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		synchronized (nests) {
-			/*
-			 * for (int i = 0; i < nests.size(); i += 2) { if (nests.size() > i
-			 * + 1) { // Quick check to make sure there // is a nest paired with
-			 * this // one if (nests.get(i).state == NestStatus.READY &&
-			 * nests.get(i + 1).state == NestStatus.READY) {
-			 * print("Taking photos of nests"); takePictureOfNest(nests.get(i),
-			 * nests.get(i + 1)); // takePictureOfNest(nests.get(i + 1)); return
-			 * true; } } /* else { if (nests.get(i).state == NestStatus.READY) {
-			 * takePictureOfNest(nests.get(i)); return true; } }
-			 */
 			for (int i = 0; i < nests.size(); i += 2) {
 				if (nests.size() > i + 1) { // Quick check to make sure there
 											// is a nest paired with this
@@ -203,7 +175,6 @@ public class CameraAgent extends Agent implements Camera {
 				}
 			}
 		}
-			
 
 		synchronized (nests) {
 			for (MyNest n : nests) {
@@ -227,7 +198,9 @@ public class CameraAgent extends Agent implements Camera {
 		return false;
 	}
 
-	/*********** ACTIONS *******************/
+	/*
+	 * Actions
+	 */
 	private void tellKitRobot(MyKit kit) {
 		mk = null;
 		kitRobot.msgKitPassedInspection();
@@ -252,7 +225,7 @@ public class CameraAgent extends Agent implements Camera {
 
 	private void tellPartsRobot(MyNest n) {
 		List<Part> goodParts = new ArrayList<Part>();
-		if(n.nest.currentParts.size()==n.nest.full){
+		if (n.nest.currentParts.size() >= n.nest.full) {
 			for (MyPart part : n.nest.currentParts) {
 				if (part.part.isGood) {
 					goodParts.add(part.part);
@@ -286,7 +259,7 @@ public class CameraAgent extends Agent implements Camera {
 			stateChanged();
 		}
 	}
-	
+
 	public void setNest(NestAgent nest) {
 		nests.add(new MyNest(nest));
 	}

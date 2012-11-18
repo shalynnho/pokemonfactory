@@ -69,15 +69,15 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	@Override
-	public void msgPurgeParts(){
+	public void msgPurgeParts() {
 		print("Received msgPurgeParts");
-		state=LaneStatus.PURGING;
+		state = LaneStatus.PURGING;
 		stateChanged();
 	}
-	
+
 	@Override
 	public void msgHereIsPart(Part p) {
-		print("Received msgHereIsPart of type "+p.type.getName());
+		print("Received msgHereIsPart of type " + p.type.getName());
 		currentParts.add(new MyPart(p));
 		if (laneGUI != null) {
 			laneGUI.receivePart(p.partGraphics);
@@ -100,9 +100,9 @@ public class LaneAgent extends Agent implements Lane {
 		// animation.release();
 		stateChanged();
 	}
-	
+
 	@Override
-	public void msgPurgeDone(){
+	public void msgPurgeDone() {
 		print("Received msgPurgeDone");
 		animation.release();
 		stateChanged();
@@ -118,15 +118,10 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// print("In the Scheduler");
-		
-		if(state == LaneStatus.PURGING){
-			purgeSelf();
-		}
 
-		if (currentParts.size() >= topLimit) {
-			state = LaneStatus.DONE_FILLING;
-		} else if (requestList.size() > lowerThreshold) {
-			state = LaneStatus.FILLING;
+		if (state == LaneStatus.PURGING) {
+			purgeSelf();
+			return true;
 		}
 
 		if (state == LaneStatus.FILLING) {
@@ -148,13 +143,13 @@ public class LaneAgent extends Agent implements Lane {
 		}
 		return false;
 	}
-	
+
 	public void purgeSelf() {
 		print("Purging self");
 		state = LaneStatus.FILLING;
 		requestList = Collections.synchronizedList(new ArrayList<PartType>());
 		currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
-		if(laneGUI!=null){
+		if (laneGUI != null) {
 			laneGUI.purge();
 			try {
 				animation.acquire();
@@ -163,11 +158,12 @@ public class LaneAgent extends Agent implements Lane {
 				e.printStackTrace();
 			}
 		}
+		nest.msgLanePurgeDone();
 		stateChanged();
 	}
 
 	@Override
-	public void getParts(PartType requestedType) {
+	public void getParts(final PartType requestedType) {
 		print("Telling Feeder that it needs a part");
 		requestList.remove(requestedType);
 		feeder.msgINeedPart(requestedType, this);
@@ -176,7 +172,7 @@ public class LaneAgent extends Agent implements Lane {
 
 	@Override
 	public void giveToNest(Part part) {
-		print("Giving part to Nest");
+		print("Giving part to Nest of type " + part.type.getName());
 		if (laneGUI != null) {
 			laneGUI.givePartToNest(part.partGraphics);
 		}

@@ -51,6 +51,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	private OrdersListPanel ordersPanel;
 	private JScrollPane ordersScrollPane;
 	
+	private PanelMouseListener panelListener = new PanelMouseListener();
+	
 	private boolean visible = true;
 	private int height;
 	
@@ -67,7 +69,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		setMaximumSize(new Dimension(PANEL_WIDTH, height));
 		
 		this.height = height;
-		addMouseListener(new PanelMouseListener());
+		addMouseListener(panelListener);
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -112,9 +114,9 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		add(quantitySpinner, c);
 		// Add listener to nested components - for disappearing panel
 		for (int i = 0; i < quantitySpinner.getComponentCount(); i++) {
-			quantitySpinner.getComponents()[i].addMouseListener(new PanelMouseListener());
+			quantitySpinner.getComponents()[i].addMouseListener(panelListener);
 		}
-		((JSpinner.DefaultEditor)quantitySpinner.getEditor()).getTextField().addMouseListener(new PanelMouseListener());
+		((JSpinner.DefaultEditor)quantitySpinner.getEditor()).getTextField().addMouseListener(panelListener);
 		
 		// Setup order button
 		orderButton = new CustomButton("Order Kits >");
@@ -157,7 +159,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		
 		// Add mouseListener to second-level components
 		for (int i = 0; i < getComponentCount(); i++) {
-			getComponents()[i].addMouseListener(new PanelMouseListener());
+			getComponents()[i].addMouseListener(panelListener);
 		}
 		
 		
@@ -187,7 +189,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	 */
 	private void addMouseListeners(ListPanel<?> panel) {
 		for(ClickablePanel p : panel.getPanels().values()) {
-			p.addMouseListener(new PanelMouseListener());
+			p.removeMouseListener(panelListener);
+			p.addMouseListener(panelListener);
 		}
 	}
 	

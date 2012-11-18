@@ -18,14 +18,15 @@ import agent.test.mock.MockFCS;
 import agent.test.mock.MockKitRobot;
 import agent.test.mock.MockPartsRobot;
 
-
 /**
  * This tests the normative scenario for the stand in the kitting cell. The UUT
  * is the StandAgent. This tests the creation of a single kit. Since the stand
  * is mainly responsible for manipulating lists for the kits, results of data
- * manipulation instead of messages are asserted.
+ * manipulation instead of messages are asserted. No longer useful in V1.
  * @author Daniel Paje
  */
+
+@Deprecated
 public class V0_JUnit_StandAgent_Test_NormativeScenario extends TestCase {
 	protected StandAgent stand;
 	protected Date date;
