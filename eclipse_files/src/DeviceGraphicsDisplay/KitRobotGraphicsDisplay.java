@@ -14,11 +14,7 @@ import Utils.Constants;
 import Utils.Location;
 
 public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
-	// double x,y;
-
-	// Rectangle2D.Double rectangle;
-	Rectangle2D.Double rectangle1;
-	JLabel imageLabel;
+	
 
 	// Positions
 	public enum Position {
@@ -32,9 +28,9 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		moveToConveyor, moveToGoodConveyor, moveToInspectionStand, moveToLocation1, moveToLocation2
 	};
 
-	Command moveToInitialPosition;
-	Command moveToFinalPosition;
-	Command moveToPosition; //current command
+	Command moveToInitialPosition;	//initial command
+	Command moveToFinalPosition;	//final command
+	Command moveToPosition; 		//current command
 	
 	boolean initialJob;
 	boolean finalJob;
@@ -52,12 +48,13 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	double kitRobotPositionX;
 	double kitRobotPositionY;
+	
 	AffineTransform trans;
 
 	Client kitRobotClient;
 	Location location;
 	ArrayList<KitGraphicsDisplay> kits = new ArrayList<KitGraphicsDisplay>();
-	KitGraphicsDisplay currentKit = new KitGraphicsDisplay();
+	KitGraphicsDisplay currentKit; 
 	
 	public KitRobotGraphicsDisplay(Client cli) {
 
@@ -73,13 +70,13 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
 		trans = new AffineTransform();
 
-		rotationAxisX = Constants.KIT_ROBOT_ROTATION_AXIS_LOC.getXDouble();
+		rotationAxisX = Constants.KIT_ROBOT_ROTATION_AXIS_LOC.getXDouble() ;
 		rotationAxisY = Constants.KIT_ROBOT_ROTATION_AXIS_LOC.getYDouble();
-		kitRobotPositionX = Constants.KIT_ROBOT_LOC.getXDouble();
+		kitRobotPositionX = Constants.KIT_ROBOT_LOC.getXDouble() + kitRobotClient.getOffset();
 		kitRobotPositionY = Constants.KIT_ROBOT_LOC.getYDouble();
 
+		currentKit= new KitGraphicsDisplay();
 		trans.translate(kitRobotPositionX, kitRobotPositionY);
-		rectangle1 = new Rectangle2D.Double(0, 0, 600, 400);
 
 	}
 
@@ -89,6 +86,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		this.moveToInitialPosition = initialCommand;
 		this.moveToFinalPosition = finalCommand;
 	}
+	
 	//begin paths
 	public void InspectionToGoodConveyor() {
 		setCommands(Command.moveToInspectionStand, Command.moveToGoodConveyor);
@@ -133,6 +131,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void setNegativeDegreeStep() {
 		setDegreeStep(-Constants.KIT_ROBOT_DEGREE_STEP);
 	}
+	
 	/*
 	 * sets the rotation configurations based on the commands
 	 */
@@ -286,12 +285,14 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1)) {
 
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
+				tempKit.setTranslation(kitRobotClient.getOffset());
 				setKitConfigurations(tempKit, 180, 5);
 				kits.add(currentKit);
 				ConveyorToLocation1();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2)) {
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
+				tempKit.setTranslation(kitRobotClient.getOffset());
 				setKitConfigurations(tempKit, 225, 6);
 				kits.add(currentKit);
 				ConveyorToLocation2();
@@ -362,7 +363,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void setLocation(Location newLocation) {
 		location = newLocation;
-		// TODO Auto-generated method stub
 	}
 
 }
