@@ -18,8 +18,6 @@ import factory.PartType;
  */
 
 public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
-	// this will store a reference to the client
-	private Client client;
 	// feeder image dimensions
 	private static final int FEEDER_HEIGHT = 120;
 	private static final int FEEDER_WIDTH = 120;
@@ -58,24 +56,17 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * This function handles drawing of feeder components.
 	 */
 	public void draw(JComponent c, Graphics2D g) {
-		g.drawImage(Constants.FEEDER_IMAGE, feederLocation.getX(), feederLocation.getY(), c);
+		g.drawImage(Constants.FEEDER_IMAGE, feederLocation.getX() + client.getOffset(), feederLocation.getY(), c);
 		
 		if (diverterTop) {
-			g.drawImage(Constants.LANE_LED_IMAGE, feederLocation.getX()+32, feederLocation.getY()+7, c);
+			g.drawImage(Constants.LANE_LED_IMAGE, feederLocation.getX() + 32 + client.getOffset(), feederLocation.getY() + 7, c);
 		}
 	
 //		if (haveBin) {
 //			bgd.draw(c, g);
 //		}
 	}
-	
-	/**
-	 * Inherited method.
-	 */
-	public void setLocation(Location newLocation) {
-		// unused for feeder
-	}
-	
+
 	/**
 	 * Display bin being received.
 	 */
