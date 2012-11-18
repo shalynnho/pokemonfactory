@@ -104,6 +104,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		
 		for (int i = 0; i < binList.size(); i ++) {
+			System.out.println("BIN NUMBER " + i);
 			binList.get(i).draw(c, g);
 		}
 			
@@ -139,8 +140,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	@Override
 	public void setLocation(Location newLocation) {
-		destinationLocation = newLocation;
-		
+		destinationLocation = newLocation;	
 	}
 
 }
