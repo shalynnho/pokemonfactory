@@ -77,6 +77,7 @@ public class V1_Agents_Mock_Graphics {
 		fcs.setGantry(gantry);
 		fcs.setPartsRobot(partsRobot);
 		fcs.setStand(stand);
+		fcs.setCamera(camera);
 
 		MockGraphics mg = new MockGraphics("Mock Graphics");
 		ArrayList<MockFeederGraphics> mockFeeders = new ArrayList<MockFeederGraphics>();
