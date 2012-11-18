@@ -176,11 +176,7 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		pnlView.add(btnEditPartType);
 		
 		btnDeletePartType = new JButton("Delete Part Type");
-		btnDeletePartType.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				deletePart((String) cbPart.getSelectedItem());
-			}
-		});
+		btnDeletePartType.addActionListener(this);
 		pnlView.add(btnDeletePartType);
 		
 		pnlEdit = new JPanel();
@@ -188,11 +184,7 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		pnlButtons.add(pnlEdit, "Edit Part Type");
 		
 		btnSaveChanges = new JButton("Save Changes");
-		btnSaveChanges.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				savePartEdit((String) cbPart.getSelectedItem());
-			}
-		});
+		btnSaveChanges.addActionListener(this);
 		pnlEdit.add(btnSaveChanges);
 		
 		btnCnclChanges = new JButton("Cancel Changes");
@@ -232,6 +224,10 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 			showAddPanel();
 		} else if (ae.getSource() == btnEditPartType) {
 			editPart((String) cbPart.getSelectedItem());
+		} else if (ae.getSource() == btnDeletePartType) {
+			deletePart((String) cbPart.getSelectedItem());
+		} else if (ae.getSource() == btnSaveChanges) {
+//			savePartEdit((String) cbPart.getSelectedItem());
 		}
 	}
 	
