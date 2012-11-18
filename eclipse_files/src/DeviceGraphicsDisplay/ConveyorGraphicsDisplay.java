@@ -55,7 +55,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		// Filling Arrays with locations
 		for (int i = 0; i < 16; i++) {
 			conveyorLinesGood.add(new Location(locationGood.getX() + i * 10,
-					locationGood.getY() - 7));
+					locationGood.getY() + 23));
 		}
 
 		// Filling Arrays with locations
@@ -95,7 +95,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void newExitKit() {
 		KitGraphicsDisplay temp = new KitGraphicsDisplay();
-		temp.setLocation(new Location(10, 73));
+		temp.setLocation(new Location(30, 100));
 		kitsToLeave.add(temp);
 	}
 
@@ -113,7 +113,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			moveIn(i);
 		}
 
-		g2.drawImage(Constants.CONVEYOR_IMAGE, 0 + client.getOffset(), 73, c);
+		g2.drawImage(Constants.CONVEYOR_IMAGE, 0 + client.getOffset(), 100, c);
 		for (int i = 0; i < conveyorLinesGood.size(); i++) {
 			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE,
 					conveyorLinesGood.get(i).getX() + client.getOffset(), 
@@ -161,7 +161,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 						Constants.CONVEYOR_TARGET, null));
 				sendOut();
 			}
-			tempKit.setLocation(new Location(tempLoc.getX() - 5, 85));
+			tempKit.setLocation(new Location(tempLoc.getX() - 5, 100));
 		}
 	}
 
