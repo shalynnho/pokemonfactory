@@ -81,6 +81,10 @@ public class BinGraphics implements DeviceGraphics  {
 	public Bin getBin() {
 		return bin;
 	}
+	
+	public void setLocation(Location newLocation) {
+		binLocation = new Location (newLocation);
+	}
 
 	public Location getLocation() {
 		return binLocation;

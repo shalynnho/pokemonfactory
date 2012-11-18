@@ -36,7 +36,7 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param newLoc the new location of the bin
 	 */
 	public void setLocation (Location newLoc) {
-		binLocation = newLoc;
+		binLocation = new Location(newLoc.getX(), newLoc.getY());
 	}
 	
 	/**
