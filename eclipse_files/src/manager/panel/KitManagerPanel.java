@@ -35,6 +35,7 @@ public class KitManagerPanel extends JPanel{
 	private DefaultComboBoxModel defaultComboBox;
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
 	private ArrayList<Order> schedule = new ArrayList<Order>();
+	private JPanel pnlButtons;
 
 	/**
 	 * Create the panel.
@@ -64,16 +65,24 @@ public class KitManagerPanel extends JPanel{
 		pnlKitChooser.add(cbKits);
 		
 		JButton btnAddKit = new JButton("New Kit Arrangement");
+		btnAddKit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				showButtons("Add");
+				tfName.setText("");
+				tfName.setEnabled(true);
+				// set each combo box to [No Item]
+			}
+		});
 		pnlKitChooser.add(btnAddKit);
 		
 		// This panel is what allows us to combine the View/Add/Edit/Delete screens together
 		// Each "screen" is instead a Panel of the buttons that that screen would have
-		JPanel pnlButtons = new JPanel();
+		pnlButtons = new JPanel();
 		managerPanel.add(pnlButtons, BorderLayout.SOUTH);
 		pnlButtons.setLayout(new CardLayout(0, 0));
 		
 		JPanel pnlView = new JPanel();
-		pnlButtons.add(pnlView, "View Buttons");
+		pnlButtons.add(pnlView, "View");
 		
 		JButton btnEditKit = new JButton("Edit Kit Arrangement");
 		pnlView.add(btnEditKit);
@@ -82,7 +91,7 @@ public class KitManagerPanel extends JPanel{
 		pnlView.add(btnDeleteKit);
 		
 		JPanel pnlEdit = new JPanel();
-		pnlButtons.add(pnlEdit, "Edit Buttons");
+		pnlButtons.add(pnlEdit, "Edit");
 		
 		JButton btnSaveChg = new JButton("Save Changes");
 		btnSaveChg.addActionListener(new ActionListener() {
@@ -96,7 +105,7 @@ public class KitManagerPanel extends JPanel{
 		pnlEdit.add(btnCnclChg);
 		
 		JPanel pnlAdd = new JPanel();
-		pnlButtons.add(pnlAdd, "Add Buttons");
+		pnlButtons.add(pnlAdd, "Add");
 		
 		JButton btnCreateKit = new JButton("Create Kit Arrangement");
 		pnlAdd.add(btnCreateKit);
@@ -208,5 +217,9 @@ public class KitManagerPanel extends JPanel{
 		//if we used a JTextArea instead of a JTable for the schedule, we could just reuse the code
 		//from FactoryProductionManagerPanel here.
 	}
-
+	
+	public void showButtons(String panel) {
+		CardLayout cl = (CardLayout)(pnlButtons.getLayout());
+        cl.show(pnlButtons, panel);
+	}
 }
