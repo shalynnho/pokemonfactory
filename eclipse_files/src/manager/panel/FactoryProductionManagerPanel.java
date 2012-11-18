@@ -219,10 +219,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		for (int i = 0; i < getComponentCount(); i++) {
 			getComponent(i).setVisible(true);
 		}
-		setPreferredSize(new Dimension(PANEL_WIDTH, height));
-		setMinimumSize(new Dimension(PANEL_WIDTH, height));
-		setMaximumSize(new Dimension(PANEL_WIDTH, height));
-		revalidate();
+		setPanelSize(PANEL_WIDTH, height);
+		// revalidate();
 	}
 
 	@Override
@@ -230,10 +228,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		for (int i = 0; i < getComponentCount(); i++) {
 			getComponent(i).setVisible(false);
 		}
-		setPreferredSize(new Dimension(PANEL_WIDTH/4, height));
-		setMinimumSize(new Dimension(PANEL_WIDTH/4, height));
-		setMaximumSize(new Dimension(PANEL_WIDTH/4, height));
-		revalidate();
+		setPanelSize(PANEL_WIDTH/4, height);
+		// revalidate();
 	}
 
 	@Override
