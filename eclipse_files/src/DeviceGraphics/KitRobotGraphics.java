@@ -155,11 +155,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
 					Constants.CONVEYOR_TARGET, null));
 		} else if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT1_DONE)) {
-			standAgent.fakeKitCompletion(kitPositions
-					.get(Constants.KIT_LOCATION1));
+			// standAgent.fakeKitCompletion(kitPositions.get(Constants.KIT_LOCATION1));
 		} else if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT2_DONE)) {
-			standAgent.fakeKitCompletion(kitPositions
-					.get(Constants.KIT_LOCATION2));
+			// standAgent.fakeKitCompletion(kitPositions.get(Constants.KIT_LOCATION2));
 		} else if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT_INSPECTED)) {
 			// Hack for KitRobotManager
 			kitRobotAgent.msgKitPassedInspection();
