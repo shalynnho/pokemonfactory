@@ -54,7 +54,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	Client kitRobotClient;
 	Location location;
 	ArrayList<KitGraphicsDisplay> kits = new ArrayList<KitGraphicsDisplay>();
-	KitGraphicsDisplay currentKit = new KitGraphicsDisplay();
+	KitGraphicsDisplay currentKit; 
 	
 	public KitRobotGraphicsDisplay(Client cli) {
 
@@ -70,11 +70,12 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
 		trans = new AffineTransform();
 
-		rotationAxisX = Constants.KIT_ROBOT_ROTATION_AXIS_LOC.getXDouble();
+		rotationAxisX = Constants.KIT_ROBOT_ROTATION_AXIS_LOC.getXDouble() ;
 		rotationAxisY = Constants.KIT_ROBOT_ROTATION_AXIS_LOC.getYDouble();
-		kitRobotPositionX = Constants.KIT_ROBOT_LOC.getXDouble();
+		kitRobotPositionX = Constants.KIT_ROBOT_LOC.getXDouble() + kitRobotClient.getOffset();
 		kitRobotPositionY = Constants.KIT_ROBOT_LOC.getYDouble();
 
+		currentKit= new KitGraphicsDisplay();
 		trans.translate(kitRobotPositionX, kitRobotPositionY);
 
 	}
@@ -284,12 +285,14 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1)) {
 
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
+				tempKit.setTranslation(kitRobotClient.getOffset());
 				setKitConfigurations(tempKit, 180, 5);
 				kits.add(currentKit);
 				ConveyorToLocation1();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2)) {
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
+				tempKit.setTranslation(kitRobotClient.getOffset());
 				setKitConfigurations(tempKit, 225, 6);
 				kits.add(currentKit);
 				ConveyorToLocation2();
