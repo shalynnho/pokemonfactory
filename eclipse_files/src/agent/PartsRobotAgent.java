@@ -211,7 +211,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 									// print("Kit needs: " +
 									// mk.kit.partsExpected.getConfig().toString());
 									if (mk.kit.needPart(part) > NumPartsInHand(part)) {
-										print("Found a part I need");
+										print("Found a part I need of type "+part.type.getName()+" for kit "+MyKits.indexOf(mk)+" "+mk.kit.PartsStillNeeded());
 										for (Arm arm : Arms) {
 											if (arm.AS == ArmStatus.EMPTY) {
 												// Find the empty arm

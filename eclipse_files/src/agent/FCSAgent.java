@@ -124,7 +124,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		print("I'm scheduling stuff");
+		//print("I'm scheduling stuff");
 		if (state == myState.STARTED) {
 			if (!binsSet && gantry != null) {
 				initializeBins();
