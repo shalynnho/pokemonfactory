@@ -65,11 +65,7 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		managerPanel.add(pnlPartChooser, BorderLayout.NORTH);
 		
 		cbPart = new JComboBox();
-		cbPart.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent ie) {
-				viewPart((String) ie.getItem());
-			}
-		});
+		cbPart.addActionListener(this);
 		pnlPartChooser.add(cbPart);
 		
 		JButton btnNewPart = new JButton("New Part Type");
@@ -232,7 +228,9 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent ae) {
-		
+		if (ae.getSource() == cbPart) {
+			viewPart((String) cbPart.getSelectedItem());
+		}
 	}
 	
 	protected void showAddPanel() {
