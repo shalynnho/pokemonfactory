@@ -19,7 +19,7 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void setLocation (Location newLocation) {
-		partLocation = newLocation;
+		partLocation = new Location(newLocation);
 	}
 
 	public void draw(JComponent c, Graphics2D g) {
