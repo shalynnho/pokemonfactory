@@ -96,7 +96,9 @@ public class CameraAgent extends Agent implements Camera {
 	@Override
 	public void msgIAmFull(Nest nest) {
 		synchronized (nests) {
-			print("Received msgIAmFull");
+
+			print("Received msgIAmFull from nest with type "
+					+ ((NestAgent) nest).currentPartType);
 			for (MyNest n : nests) {
 				if (n.nest == nest) {
 					n.state = NestStatus.READY;
@@ -107,17 +109,17 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();
 
 	}
-	
+
 	@Override
 	public void msgResetSelf() {
 		print("Reseting Self");
 		synchronized (nests) {
 			for (MyNest n : nests) {
-				n.state=NestStatus.NOT_READY;
+				n.state = NestStatus.NOT_READY;
 			}
 		}
-		mk=null;
-		//stateChanged();
+		mk = null;
+		// stateChanged();
 	}
 
 	@Override
@@ -203,7 +205,6 @@ public class CameraAgent extends Agent implements Camera {
 				}
 			}
 		}
-			
 
 		synchronized (nests) {
 			for (MyNest n : nests) {
@@ -252,7 +253,7 @@ public class CameraAgent extends Agent implements Camera {
 
 	private void tellPartsRobot(MyNest n) {
 		List<Part> goodParts = new ArrayList<Part>();
-		if(n.nest.currentParts.size()==n.nest.full){
+		if (n.nest.currentParts.size() >= n.nest.full) {
 			for (MyPart part : n.nest.currentParts) {
 				if (part.part.isGood) {
 					goodParts.add(part.part);
@@ -286,7 +287,7 @@ public class CameraAgent extends Agent implements Camera {
 			stateChanged();
 		}
 	}
-	
+
 	public void setNest(NestAgent nest) {
 		nests.add(new MyNest(nest));
 	}
