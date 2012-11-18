@@ -3,8 +3,8 @@ package agent.test.mock;
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.PartGraphics;
 import agent.data.Part;
-import factory.PartType;
 import agent.interfaces.Lane;
+import factory.PartType;
 
 /**
  * Mock Lane
@@ -63,6 +63,18 @@ public class MockLane extends MockAgent implements Lane {
 
 	@Override
 	public void msgGivePartToNestDone(PartGraphics part) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgPurgeParts() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgPurgeDone() {
 		// TODO Auto-generated method stub
 
 	}

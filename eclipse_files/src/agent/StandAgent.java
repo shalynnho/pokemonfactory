@@ -311,7 +311,7 @@ public class StandAgent extends Agent implements Stand {
 		start = false;
 		status = StandStatus.DONE;
 		fcs.msgOrderFinished();
-		System.out.println("====================");
+		System.out.println("\n====================");
 		print("I FINISHED HURRAY");
 		System.out.println("====================");
 		// No need to call stateChanged() here as presumably the kitting cell is

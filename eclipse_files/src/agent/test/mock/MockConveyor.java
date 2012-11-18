@@ -64,4 +64,10 @@ public class MockConveyor extends MockAgent implements Conveyor {
 
 	}
 
+	@Override
+	public void msgNeedThisManyKits(int num) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
