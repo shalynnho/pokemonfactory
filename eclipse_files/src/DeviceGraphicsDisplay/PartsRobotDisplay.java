@@ -137,7 +137,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				}
 				g.drawImage(partsRobotImage, currentLocation.getX() + client.getOffset(), currentLocation.getY(), c);
 				
-				if(currentLocation.getX() == loc.getX()-30 && currentLocation.getY() == loc.getY()){
+				if(currentLocation.getX() == loc.getX()-30 && currentLocation.getY()+30*I == loc.getY()){
 					System.out.println("at parts location");
 			
 					
@@ -204,7 +204,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			}
 			g.drawImage(partsRobotImage, currentLocation.getX() + client.getOffset(), currentLocation.getY(), c);
 			
-			if (currentLocation.getX() == kitloc.getX()-30 && currentLocation.getY() == kitloc.getY()){
+			if (currentLocation.getX() == kitloc.getX()-30 && currentLocation.getY()+30*I == kitloc.getY()){
 				//Location tempLoc = armLoc.get(I-1);
 				System.out.println("got to kit location");
 				if(armLoc.get(I-1).getX() != kitloc.getX()+90 && !gavepart){
