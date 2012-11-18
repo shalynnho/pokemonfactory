@@ -229,7 +229,6 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	private void receivePart(PartType type) {
-		setPartLocations();
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(type);
 		pgd.setLocation(partStartLoc);
 		partsInNest.add(pgd);

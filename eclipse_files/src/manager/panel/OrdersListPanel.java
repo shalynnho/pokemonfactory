@@ -1,9 +1,12 @@
 package manager.panel;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+
+import Utils.Constants;
 
 import manager.util.ClickablePanel;
 import manager.util.ClickablePanelClickHandler;
@@ -13,15 +16,20 @@ import factory.Order;
 
 
 public class OrdersListPanel extends ListPanel<Order> {
-	OrderSelectHandler handler;
+	private OrderSelectHandler handler;
 	
-	public OrdersListPanel(OrderSelectHandler orderSelectHandler) {
+	private String header;
+	private WhiteLabel headerLabel;
+	
+	public OrdersListPanel(String header, OrderSelectHandler orderSelectHandler) {
 		super();
 		handler = orderSelectHandler;
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		setAlignmentX(LEFT_ALIGNMENT);
 		setBorder(generalPadding);
+		
+		this.header = header;
 		
 		parseList();
 	}
@@ -30,6 +38,11 @@ public class OrdersListPanel extends ListPanel<Order> {
 		panels.clear();
 		removeAll();
 		repaint();
+		
+		headerLabel = new WhiteLabel(header);
+		headerLabel.setBorder(Constants.LIGHT_BOTTOM_PADDING);
+		headerLabel.setFont(headerLabel.getFont().deriveFont(Font.BOLD));
+		add(headerLabel);
 		
 		for(Order o : itemList) {
 			ClickablePanel panel = new ClickablePanel(new OrderClickHandler(o));

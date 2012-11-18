@@ -1,6 +1,7 @@
 package manager.panel;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -17,17 +18,16 @@ import factory.PartType;
 
 
 public class KitsListPanel extends ListPanel<KitConfig> {
+	private String header;
+	private WhiteLabel headerLabel;
 	
-	private Border generalPadding = Constants.MEDIUM_PADDING;
-	private Border itemPadding = Constants.FIELD_PADDING;
-	private int itemMargin = 5;
+	private KitSelectHandler handler;
 	
-	KitSelectHandler handler;
-	
-	public KitsListPanel(KitSelectHandler h) {
+	public KitsListPanel(String header, KitSelectHandler h) {
 		super();
 		handler = h;
 		itemList = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIGS.clone();
+		this.header = header;
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		setAlignmentX(LEFT_ALIGNMENT);
@@ -40,6 +40,11 @@ public class KitsListPanel extends ListPanel<KitConfig> {
 		panels.clear();
 		removeAll();
 		repaint();
+		
+		headerLabel = new WhiteLabel(header);
+		headerLabel.setBorder(Constants.LIGHT_BOTTOM_PADDING);
+		headerLabel.setFont(headerLabel.getFont().deriveFont(Font.BOLD));
+		add(headerLabel);
 		
 		for(KitConfig kc : itemList) {
 			ClickablePanel panel = new ClickablePanel(new KitClickHandler(kc));

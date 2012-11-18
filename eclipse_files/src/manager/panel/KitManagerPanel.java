@@ -137,7 +137,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		JPanel pnlParts = new JPanel();
 		pnlDisplay.add(pnlParts, BorderLayout.CENTER);
 		GridBagLayout gbl_pnlParts = new GridBagLayout();
-//      The below code aligns the GridBagLayout in the upper left corner of the panel
+//      The below code aligns the GridBagLayout in the upper left corner of the panel; We don't want this
 //		gbl_pnlParts.columnWidths = new int[]{0, 0, 0, 0, 0};
 //		gbl_pnlParts.rowHeights = new int[]{0, 0};
 //		gbl_pnlParts.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -193,6 +193,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			enableFields();
 		} else if (ae.getSource() == btnCreateKit) {
 			KitConfig k = createKit();
+			km.addKit(k);
 			viewKit(k);
 		} else if (ae.getSource() == cbKits) {
 			disableFields();
@@ -201,6 +202,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			clearFields();
 		} else if (ae.getSource() == btnEditKit) {
 			enableFields();
+			tfName.setEnabled(false);
 			showButtons("Edit");
 		} else if (ae.getSource() == btnDeleteKit) {
 			int choice = JOptionPane.showConfirmDialog(null,
@@ -211,9 +213,12 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	        	deleteKit((KitConfig) cbKits.getSelectedItem());
 	        }
 		} else if (ae.getSource() == btnSaveChg) {
-			
+			KitConfig editedKit = createKit();
+			km.editKit(editedKit);
+			viewKit(editedKit);
 		} else if (ae.getSource() == btnCnclChg) {
 			enableFields();
+			tfName.setEnabled(false);
 			viewKit((KitConfig) cbKits.getSelectedItem());
 		}
 	}
@@ -224,6 +229,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		for (int i = 0; i < parts.size(); i++) {
 			cbPart[i].setSelectedItem((Object) parts.get(i));
 		}
+		cbKits.setSelectedItem(kit);
 	}
 	
 	public KitConfig createKit() {
@@ -238,7 +244,6 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			}
 		}
 		newKit.setConfig(config);
-		km.addKit(newKit);
 		return newKit;
 	}
 	
