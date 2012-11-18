@@ -16,16 +16,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
 import factory.KitConfig;
-import factory.Order;
 import factory.PartType;
-
-import javax.swing.JTextArea;
-
 
 /*
 * Authorship: Aaron Harris and Matt Zecchini
@@ -222,8 +217,7 @@ public class KitManagerPanel extends JPanel{
 	}
 	
 	public void updatePartComboModels() {
-		// makes sure comboBoxModel is up to date.
-		
+		// makes sure comboBoxModel for cbPart is up to date.
 		for (int i = 0; i < 8; i++ ){
 			cbPart[i].setModel(partModel);
 		}
