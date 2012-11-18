@@ -68,8 +68,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		partsOnLane = new ArrayList<PartGraphics>();
 		amplitude = 5;
 		laneOn = true;
-		
-		endY = laneLoc.getY();
 	}
 
 	/**
