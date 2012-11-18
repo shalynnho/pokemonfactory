@@ -73,7 +73,7 @@ public class NestAgent extends Agent implements Nest {
 
 		//if (currentPartType != type) {
 			state = NestState.PURGING;
-			
+			camera.msgResetSelf();
 			currentPartType = type;
 			stateChanged();
 		}
