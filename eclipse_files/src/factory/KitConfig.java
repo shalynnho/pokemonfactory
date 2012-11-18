@@ -1,6 +1,7 @@
 package factory;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import Utils.StringUtil;
@@ -78,6 +79,16 @@ public class KitConfig implements Serializable, FactoryData {
 	
 	public boolean equals(KitConfig k) {
 		return this.id.equals(k.getID());
+	}
+	
+	public ArrayList<PartType> getParts() {
+		ArrayList<PartType> parts = new ArrayList<PartType>(8);
+		for (PartType p : config.keySet()) {
+			for (int i = config.get(p).intValue(); i > 0; i--) {
+				parts.add(p);
+			}
+		}
+		return parts;
 	}
 
 }
