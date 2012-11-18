@@ -16,7 +16,6 @@ import java.awt.event.ItemListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -36,7 +35,7 @@ import Utils.Constants;
 * Authorship: Aaron Harris
 */
 
-public class PartsManagerPanel extends JPanel {
+public class PartsManagerPanel extends JPanel implements ActionListener {
 	private JPanel pnlButtons;
 	private JPanel pnlView;
 	private JPanel pnlEdit;
@@ -230,6 +229,10 @@ public class PartsManagerPanel extends JPanel {
 			}
 		});
 		pnlAdd.add(btnClearFields);
+	}
+	
+	public void actionPerformed(ActionEvent ae) {
+		
 	}
 	
 	protected void showAddPanel() {
