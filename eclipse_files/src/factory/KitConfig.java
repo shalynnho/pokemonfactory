@@ -59,6 +59,10 @@ public class KitConfig implements Serializable, FactoryData {
 	public String getName() {
 		return name;
 	}
+	
+	public String toString() {
+		return getName();
+	}
 
 	public HashMap<PartType, Integer> getConfig() {
 		return config;

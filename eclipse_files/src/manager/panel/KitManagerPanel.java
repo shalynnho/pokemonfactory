@@ -260,6 +260,7 @@ public class KitManagerPanel extends JPanel{
 		kitConfigs = kc;
 		//clear the JComboBox
 		kitModel.removeAllElements();
+		// re-add all the elements. Unfortunately, DefaultComboBoxModel doesn't have a faster way to do this.
 		for (KitConfig k : kitConfigs) kitModel.addElement(k);
 	}
 	
