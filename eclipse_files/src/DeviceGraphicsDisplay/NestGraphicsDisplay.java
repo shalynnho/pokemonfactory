@@ -164,13 +164,11 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		// TODO: (later) animate parts out of nest
 		purging = true;
 		
-		
-		
-		
-		
 		for (int i = 0; i < partsInNest.size(); i++) {
 			partsInNest.remove(0);
 		}
+		
+		msgAgentPurgingDone();
 
 	}
 
