@@ -20,16 +20,11 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	private int feederID;
 	// a reference to the FeederAgent
 	private FeederAgent feederAgent;
-	
-	//REMOVE FOR V1 REMOVE IN DEVICES TOO
-	// private LaneAgent lane1;
-	// private LaneAgent lane2;
-	
 	// true if the diverter is pointing to the top lane
 	private boolean diverterTop;
 	// a bin
 	private BinGraphics binGraphics;
-	
+	// location of the feeder
 	private Location feederLocation;
 	
 	/**
@@ -40,14 +35,14 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	public FeederGraphics(int id, Server myServer, Agent a) {
 		feederID = id;
 		
-		System.out.println("Feeder created! ID: " + feederID);
+		// System.out.println("Feeder created! ID: " + feederID);
 		
 		server = myServer;
 		feederAgent = (FeederAgent)a;
 		feederLocation = new Location(Constants.FEEDER_LOC);
 		feederLocation.incrementY(id*Constants.FEEDER_Y_STEP);
 		
-		System.out.println("Feeder ID: " + feederID + " | X: " + feederLocation.getX() + " | Y: " + feederLocation.getY());
+		// System.out.println("Feeder ID: " + feederID + " | X: " + feederLocation.getX() + " | Y: " + feederLocation.getY());
 		
 		// diverter defaults to the top lane
 		diverterTop = true;
@@ -61,6 +56,8 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 		binGraphics = bg;
 		PartType type = bg.getPart().getPartType();
 		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, type));
+		
+		System.out.println("[FEEDER]: Received a bin.");
 	}
 	
 	/**
@@ -70,6 +67,8 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	public void purgeBin(BinGraphics bg) {
 		bg.setFull(false);
 		server.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, null));
+		
+		System.out.println("[FEEDER]: Bin purged.");
 	}
 	
 	/**
@@ -78,6 +77,8 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	public void flipDiverter() {
 		diverterTop = !diverterTop;
 		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET + feederID, null));
+		
+		System.out.println("[FEEDER]: Diverter flipping.");
 	}
 	
 	/**

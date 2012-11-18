@@ -19,8 +19,8 @@ import factory.PartType;
 
 public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	// feeder image dimensions
-	private static final int FEEDER_HEIGHT = 120;
-	private static final int FEEDER_WIDTH = 120;
+	private static final int FEEDER_HEIGHT = 50;
+	private static final int FEEDER_WIDTH = 135;
 	// true if the diverter is pointing to the top lane
 	private boolean diverterTop;
 	// true if a bin has been received
@@ -47,9 +47,6 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		// generate the feeder's location based on its ID
 		feederLocation = new Location(Constants.FEEDER_LOC);
 		feederLocation.incrementY(id*Constants.FEEDER_Y_STEP);
-		
-		// force an initial repaint to display feeder and diverter
-		// client.repaint();
 	}
 	
 	/**
@@ -61,10 +58,6 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (diverterTop) {
 			g.drawImage(Constants.LANE_LED_IMAGE, feederLocation.getX() + 32 + client.getOffset(), feederLocation.getY() + 7, c);
 		}
-	
-//		if (haveBin) {
-//			bgd.draw(c, g);
-//		}
 	}
 
 	/**
