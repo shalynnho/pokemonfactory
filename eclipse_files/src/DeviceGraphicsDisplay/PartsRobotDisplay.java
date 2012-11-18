@@ -28,9 +28,6 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	private Location currentLocation;
 	private Location armLocation;
 	
-	
-	private Client partsRobotClient;
-	
 	private boolean rotate;
 	private boolean home;
 	private boolean pickup, givekit;
@@ -43,7 +40,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	private int I;
 	
 	public PartsRobotDisplay(Client prc){
-		partsRobotClient = prc;
+		client = prc;
 		
 		initialLocation = Constants.PARTS_ROBOT_LOC; //new Location(250,450);
 		currentLocation = initialLocation;
@@ -160,7 +157,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 							if(armLoc.get(I).getX() == loc.getX()+30){
 								pickup = false;
 								I++;
-								partsRobotClient.sendData(new Request(
+								client.sendData(new Request(
 									    Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX, 
 									    Constants.PARTS_ROBOT_TARGET,
 									    null));
@@ -229,7 +226,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 							System.out.println("done giving to kit");
 							givekit = false;
 							I--;
-							partsRobotClient.sendData(new Request(
+							client.sendData(new Request(
 								    Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX, 
 								    Constants.PARTS_ROBOT_TARGET,
 								    null));
