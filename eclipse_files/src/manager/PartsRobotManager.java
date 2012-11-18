@@ -25,7 +25,7 @@ import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
 
-
+@Deprecated
 public class PartsRobotManager extends Client implements ActionListener{
 	// Temp values. Feel free to change
 	private static final int WINDOW_WIDTH = 800;

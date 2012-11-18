@@ -22,6 +22,7 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 
+@Deprecated
 public class KitRobotManager extends Client implements ActionListener {
 	// Temp values. Feel free to change
 	private static final int WINDOW_WIDTH = 800;

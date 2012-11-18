@@ -103,4 +103,8 @@ public class Location implements Serializable {
 	public int compareToY(Location l) {
 		return getY() - l.getY();
 	}
+	
+	public String toString() {
+		return "Location (" + x + ", " + y + ")";
+	}
 }

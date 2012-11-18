@@ -25,9 +25,6 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 700;
 	
-	// DISPLAY OFFSET, feel free to change
-	private static final int OFFSET = 300;
-	
 	// Create a timer
 	private Timer timer;
 	
@@ -37,6 +34,8 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	public KitAssemblyManager() {
 		super();
 		clientName = Constants.KIT_ASSEMBLY_MNGR_CLIENT;
+		offset = 300;
+		
 		
 		initStreams();
 		initGUI();
@@ -79,14 +78,6 @@ public class KitAssemblyManager extends Client implements ActionListener {
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
-	}
-	
-	/**
-	 * 
-	 * @return display offset
-	 */
-	public int getOffset() {
-		return OFFSET;
 	}
 	
 	/**
