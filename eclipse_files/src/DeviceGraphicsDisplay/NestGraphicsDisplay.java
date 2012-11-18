@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import manager.FactoryProductionManager;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -31,10 +30,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// array of part locations in nest
 	private ArrayList<Location> partLocs;
 
-	// true if the nest is full
+	// boolean if the nest is full
 	private boolean isFull;
-	// 
-	private boolean partInNest
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphicsDisplay> partsInNest;
 
@@ -58,8 +55,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(Constants.NEST_IMAGE, location.getX() + client.getOffset()
 				, location.getY(), c);
 		for (PartGraphicsDisplay part : partsInNest) {
-			part.getLocation().incrementX(client.getOffset());
-			part.draw(c, g);
+			part.drawWithOffset(c, g, client.getOffset());
 		}
 	}
 

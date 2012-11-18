@@ -293,8 +293,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		
 		for (int i = 0; i < partArrayGraphics.size(); i++){
 			PartGraphicsDisplay pgd = partArrayGraphics.get(i);
-			pgd.getLocation().incrementX(client.getOffset());
-			pgd.draw(c, g);
+			pgd.drawWithOffset(c, g, client.getOffset());
 		}
 	
 	}

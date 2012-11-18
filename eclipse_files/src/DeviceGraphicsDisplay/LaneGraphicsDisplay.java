@@ -147,7 +147,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					}
 					vibrateParts(loc);
 					pgd.setLocation(loc);
-					pgd.drawWithOffset(c, g);
+					pgd.drawWithOffset(c, g, client.getOffset());
 					
 //					System.out.println("lane"+laneID+": drawing "+ partsOnLane.size()+" parts" );
 //					for(PartGraphicsDisplay p : partsOnLane) {

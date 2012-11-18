@@ -56,7 +56,7 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		g.drawImage(Constants.STAND_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
 		if (!isEmpty) {
-			kit.drawWithOffset(c,g);
+			kit.drawWithOffset(c,g, client.getOffset());
 		}	
 	}
 
