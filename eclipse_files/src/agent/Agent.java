@@ -65,13 +65,11 @@ public abstract class Agent {
 		if (e != null) {
 			sb.append(StringUtil.stackTraceString(e));
 		}
-		if (this.getClass() == agent.FCSAgent.class
-				|| this.getClass() == agent.StandAgent.class
-				|| this.getClass() == agent.KitRobotAgent.class
-				|| this.getClass() == agent.ConveyorAgent.class
-				|| this.getClass() == agent.LaneAgent.class) {
-
-		} else {
+		if (this.getClass() != agent.FCSAgent.class
+				&& this.getClass() != agent.StandAgent.class
+				&& this.getClass() != agent.KitRobotAgent.class
+				&& this.getClass() != agent.ConveyorAgent.class
+				&& this.getClass() != agent.LaneAgent.class) {
 			System.out.print(sb.toString());
 		}
 		print.release();
