@@ -35,7 +35,6 @@ public class KitManagerPanel extends JPanel{
 	private manager.KitManager km;
 	
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
-	private ArrayList<Order> schedule = new ArrayList<Order>();
 	private ArrayList<PartType> partTypes = new ArrayList<PartType>();
 	
 	private JComboBox<PartType>[] cbPart;
@@ -72,14 +71,9 @@ public class KitManagerPanel extends JPanel{
 		JPanel pnlKitChooser = new JPanel();
 		managerPanel.add(pnlKitChooser, BorderLayout.NORTH);
 		
-		
-		cbKits = new JComboBox();
-		kitModel = (DefaultComboBoxModel)cbKits.getModel();
-		
-		//This populates the ComboBox at the top of the layout with the list of kitConfigs 
-		//from Constants
-		for(int i = 0; i<Utils.Constants.DEFAULT_KITCONFIGS.size();i++)
-			cbKits.addItem(Utils.Constants.DEFAULT_KITCONFIGS.get(i));
+		// Creates a ComboBoxModel with all the KitConfigs, This populates the ComboBox at the top of the layout with the list of kitConfigs
+		kitModel = new DefaultComboBoxModel<KitConfig>((KitConfig[]) Utils.Constants.DEFAULT_KITCONFIGS.toArray());
+		cbKits = new JComboBox<KitConfig>(kitModel);
 		pnlKitChooser.add(cbKits);
 		
 		btnAddKit = new JButton("New Kit Arrangement");
@@ -255,13 +249,21 @@ public class KitManagerPanel extends JPanel{
 		}
 	}
 
-	public void updateKitConfigs(ArrayList<KitConfig> kc)
+	public void updateKitConfig(ArrayList<KitConfig> kc)
 	{
 		kitConfigs = kc;
-		//clear the JComboBox
+		//clear the ComboBoxModel
 		kitModel.removeAllElements();
 		// re-add all the elements. Unfortunately, DefaultComboBoxModel doesn't have a faster way to do this.
 		for (KitConfig k : kitConfigs) kitModel.addElement(k);
+	}
+	
+	public void updatePartTypes(ArrayList<PartType> pt){
+		partTypes = pt;
+		// clear the ComboBoxModel
+		partModel.removeAllElements();
+		// re-add all the elements
+		for (PartType p : partTypes) partModel.addElement(p);
 	}
 	
 	public void showButtons(String panel) {
