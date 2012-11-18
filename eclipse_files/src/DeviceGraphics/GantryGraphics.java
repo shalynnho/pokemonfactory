@@ -41,7 +41,7 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 		heldBin = newBin;
 		newLocation = newBin.binGraphics.getInitialLocation();
 		moveTo(newLocation);
-		newLocation = feeder.feederGUI.getLocation();
+		newLocation = new Location (feeder.feederGUI.getLocation());
 		newLocation.incrementX(50);
 		newLocation.incrementY(35);
 
