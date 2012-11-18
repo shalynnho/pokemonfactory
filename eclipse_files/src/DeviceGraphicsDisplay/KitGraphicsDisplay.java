@@ -39,7 +39,10 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
 		rotationAxisX = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getXDouble();
 		rotationAxisY = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getYDouble();
-		trans.translate(Constants.KIT_ROBOT_KIT_LOC.getXDouble(),
+	}
+	
+	public void setTranslation(int offset){
+		trans.translate(Constants.KIT_ROBOT_KIT_LOC.getXDouble() + offset,
 				Constants.KIT_ROBOT_KIT_LOC.getYDouble());
 	}
 

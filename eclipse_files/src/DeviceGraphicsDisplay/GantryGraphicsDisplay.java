@@ -104,14 +104,14 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		
 		for (int i = 0; i < binList.size(); i ++) {
-			System.out.println("BIN NUMBER " + i);
+			binList.get(i).getLocation().incrementX(client.getOffset());
 			binList.get(i).draw(c, g);
 		}
 			
 		if (isBinHeld) {
 			heldBin.setLocation(currentLocation);
 		}
-		g.drawImage(Constants.GANTRY_ROBOT_IMAGE, currentLocation.getX(), currentLocation.getY(), c);
+		g.drawImage(Constants.GANTRY_ROBOT_IMAGE, currentLocation.getX() + client.getOffset(), currentLocation.getY(), c);
 	}
 
 	@Override
