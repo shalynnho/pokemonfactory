@@ -73,14 +73,13 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				// get last part added to nest
 				int index = partsInNest.size() - 1;
 				PartGraphicsDisplay pgd = partsInNest.get(index);
-				pgd.setLocation(partStartLoc);
 				Location partLoc = pgd.getLocation();
 				Location endLoc = partLocs.get(index);
 				
 				// check x-coord
-				updateXLoc(partLoc, endLoc, 1);
+				updateXLoc(partLoc, endLoc, 3);
 				// check y-coord
-				updateYLoc(partLoc, endLoc, 1);
+				updateYLoc(partLoc, endLoc, 3);
 //				if((index % 2 == 0) && partLoc.getY() >= endLoc.getY()) { // top row
 //					partLoc.incrementY(-1);
 //				} else if((index % 2 != 0) && partLoc.getY() <= endLoc.getY()) { // bottom row
@@ -173,6 +172,9 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param increment - a POSITIVE value representing number of pixels moved each call to draw
 	 */
 	private void updateXLoc(Location loc, Location end, int increment) {
+		if(Math.abs(end.getX() - loc.getX()) < increment) {
+			loc.setX(end.getX());
+		}
 		if(loc.getX() > end.getX()) {	// moving left
 			loc.incrementX(-increment);
 		} else if (loc.getX() < end.getX()) {	// moving right
@@ -187,6 +189,9 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param increment - a POSITIVE value representing number of pixels moved each call to draw
 	 */
 	private void updateYLoc(Location loc, Location end, int increment) {
+		if(Math.abs(end.getY() - loc.getY()) < increment) {
+			loc.setY(end.getY());
+		}
 		if(loc.getY() > end.getY()) {	// moving up
 			loc.incrementY(-increment);
 		} else if (loc.getY() < end.getY()) {	// moving down
@@ -224,9 +229,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	private void receivePart(PartType type) {
-		PartGraphicsDisplay pgd = new PartGraphicsDisplay(type);
-		partsInNest.add(pgd);
 		setPartLocations();
+		PartGraphicsDisplay pgd = new PartGraphicsDisplay(type);
+		pgd.setLocation(partStartLoc);
+		partsInNest.add(pgd);
 		receivingPart = true;
 		receivePartDoneSent = false;
 	}
