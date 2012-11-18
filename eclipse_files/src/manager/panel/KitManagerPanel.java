@@ -15,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -210,7 +211,13 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			enableFields();
 			showButtons("Edit");
 		} else if (ae.getSource() == btnDeleteKit) {
-			km.deleteKit((KitConfig) cbKits.getSelectedItem());
+			int choice = JOptionPane.showConfirmDialog(null,
+	        		"Are you sure you want to delete this part type?\nNote: the action cannot be undone.",
+	                "Delete Part",
+	                JOptionPane.YES_NO_OPTION);
+	        if (choice == 0){
+	        	deleteKit((KitConfig) cbKits.getSelectedItem());
+	        }
 		}
 	}
 	
@@ -237,6 +244,16 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		km.addKit(newKit);
 		return newKit;
 	}
+	
+	public void deleteKit(KitConfig deadKit) {
+    	// changes the comboBox to look at the previous item in the list
+    	cbKits.setSelectedIndex(cbKits.getSelectedIndex()-1);
+    	viewKit((KitConfig) cbKits.getSelectedItem());
+    	kitModel.removeElement(deadKit);
+    	// send a message to fcs that the kit is now dead
+    	km.deleteKit(deadKit);
+	}
+	
 	
 	public void updatePartComboModels() {
 		// makes sure comboBoxModel for cbPart is up to date.
