@@ -10,10 +10,14 @@ public interface Lane {
 	public abstract void msgINeedPart(PartType type);
 
 	public abstract void msgHereIsPart(Part p);
+	
+	public abstract void msgPurgeParts();
 
 	public abstract void msgReceivePartDone(PartGraphics part);
 
 	public abstract void msgGivePartToNestDone(PartGraphics part);
+	
+	public abstract void msgPurgeDone();
 
 	public abstract boolean pickAndExecuteAnAction();
 

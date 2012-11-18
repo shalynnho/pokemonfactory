@@ -47,7 +47,7 @@ public class LaneAgent extends Agent implements Lane {
 	};
 
 	public enum LaneStatus {
-		FILLING, DONE_FILLING
+		FILLING, DONE_FILLING, PURGING
 	};
 
 	FeederAgent feeder;
@@ -68,6 +68,13 @@ public class LaneAgent extends Agent implements Lane {
 		stateChanged();
 	}
 
+	@Override
+	public void msgPurgeParts(){
+		print("Received msgPurgeParts");
+		state=LaneStatus.PURGING;
+		stateChanged();
+	}
+	
 	@Override
 	public void msgHereIsPart(Part p) {
 		print("Received msgHereIsPart");
@@ -93,6 +100,13 @@ public class LaneAgent extends Agent implements Lane {
 		// animation.release();
 		stateChanged();
 	}
+	
+	@Override
+	public void msgPurgeDone(){
+		print("Received msgPurgeDone");
+		animation.release();
+		stateChanged();
+	}
 
 	@Override
 	public void msgGivePartToNestDone(PartGraphics part) {
@@ -104,6 +118,10 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// print("In the Scheduler");
+		
+		if(state == LaneStatus.PURGING){
+			purgeSelf();
+		}
 
 		if (currentParts.size() >= topLimit) {
 			state = LaneStatus.DONE_FILLING;
@@ -129,6 +147,23 @@ public class LaneAgent extends Agent implements Lane {
 			}
 		}
 		return false;
+	}
+	
+	public void purgeSelf() {
+		print("Purging self");
+		state = LaneStatus.FILLING;
+		requestList = Collections.synchronizedList(new ArrayList<PartType>());
+		currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
+		if(laneGUI!=null){
+			laneGUI.purge();
+			try {
+				animation.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		stateChanged();
 	}
 
 	@Override

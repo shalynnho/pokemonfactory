@@ -8,6 +8,8 @@ import java.util.concurrent.Semaphore;
 import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.NestGraphics;
 import Utils.Constants;
+import agent.CameraAgent.MyNest;
+import agent.CameraAgent.NestStatus;
 import agent.data.Part;
 import agent.interfaces.Nest;
 import factory.PartType;
@@ -66,14 +68,15 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgHereIsPartType(PartType type) {
 		print("Received msgHereIsPartType");
-		if (currentPartType != type) {
+		//if (currentPartType != type) {
 
 		//if (currentPartType != type) {
 			state = NestState.PURGING;
+			lane.msgPurgeParts();
 			camera.msgResetSelf();
 			currentPartType = type;
-			stateChanged();
-		}
+		//}
+		stateChanged();
 	}
 
 	@Override
@@ -81,6 +84,7 @@ public class NestAgent extends Agent implements Nest {
 		print("Received msgHereIsPart");
 		count++;
 		currentParts.add(new MyPart(p));
+		print("Received a part of type: "+p.type.getName()+" I have "+currentParts.size()+" parts and have requested "+countRequest);
 		stateChanged();
 	}
 
@@ -138,6 +142,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		//print("In scheduler");
 		if(state == NestState.PURGING){
 			purgeSelf();
 			return true;
@@ -166,14 +171,14 @@ public class NestAgent extends Agent implements Nest {
 			nestFull();
 			return true;
 		}
-		synchronized (currentParts) {
+		/*synchronized (currentParts) {
 			for (MyPart currentPart : currentParts) {
 				if (currentPart.status == NestStatus.REMOVING) {
 					updateParts();
 					return true;
 				}
 			}
-		}
+		}*/
 		return false;
 	}
 
@@ -190,10 +195,14 @@ public class NestAgent extends Agent implements Nest {
 			}
 		}
 
+		takingParts=false;
+		requestList = Collections.synchronizedList(new ArrayList<PartType>());
+		currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
 		countRequest = 0;
 		count = 0;
 		requestList.clear();
 		requestList.add(currentPartType);
+		stateChanged();
 	}
 	
 	public void getParts(PartType requestedType) {

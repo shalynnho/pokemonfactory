@@ -26,7 +26,7 @@ public class MockLaneGraphics extends Agent implements DeviceGraphics, LaneGraph
 	@Override
 	public void purge() {
 		// TODO Auto-generated method stub
-		
+		lane.msgPurgeDone();
 	}
 
 	@Override
