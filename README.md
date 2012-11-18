@@ -8,8 +8,12 @@ Adiran Cagaanan, Chris Gebert, Neetu George, Aaron Harris, Shalynn Ho, Vansh Jai
 **Follow the symlink _source_ to view the code.**    
 You may also import the directory eclipse_fies/ into Eclipse to view the project. Actual codes are located under eclipse_files/src/
 
-**Servers and clients are already properly implemented.**    
-To run our application, **start Networking/Server** first, and then run either of our managers:    
-* LaneManager
-* KitRobotManager
-* PartsRobotManager
+**Servers and clients are properly implemented.**    
+To run our application, **start Networking/Server** first, and then run our managers:    
+
+* manager.FactoryProductionManager
+* manager.PartsManager
+* manager.KitManager
+* manager.KitAssemblyManager
+* manager.LaneManager
+* manager.GantryRobotManager
