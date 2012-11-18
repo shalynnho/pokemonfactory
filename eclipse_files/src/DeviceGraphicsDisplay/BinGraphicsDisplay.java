@@ -63,7 +63,7 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	public void drawWithOffset(JComponent c, Graphics2D g, int offset) {
 	//	if (isFull)
-			g.drawImage(Constants.BIN_FULL_IMAGE, binLocation.getX() + offset, binLocation.getY(), c);
+			g.drawImage(partType.getBinImage(), binLocation.getX() + offset, binLocation.getY(), c);
 	//	else
 	//		g.drawImage(Constants.BIN_EMPTY_IMAGE, binLocation.getX() + offset, binLocation.getY(), c);
 	}

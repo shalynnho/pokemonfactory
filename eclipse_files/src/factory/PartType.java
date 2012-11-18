@@ -67,6 +67,10 @@ public class PartType implements Serializable, FactoryData {
 		return Toolkit.getDefaultToolkit().getImage(Constants.PART_IMAGE_PATH + name + ".png");
 	}
 	
+	public Image getBinImage() {
+		return Toolkit.getDefaultToolkit().getImage(Constants.BIN_IMAGE_PATH + name + ".png");
+	}
+	
 	public boolean equals(PartType pt) {
 		return this.id.equals(pt.getID());
 	}
