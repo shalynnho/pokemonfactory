@@ -99,20 +99,11 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		pnlButtons.add(pnlEdit, "Edit");
 		
 		btnSaveChg = new JButton("Save Changes");
-		btnSaveChg.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				//TODO: call method that saves changes
-			}
-		});
+		btnSaveChg.addActionListener(this);
 		pnlEdit.add(btnSaveChg);
 		
 		btnCnclChg = new JButton("Cancel Changes");
-		btnCnclChg.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				enableFields();
-				viewKit((KitConfig) cbKits.getSelectedItem());
-			}
-		});
+		btnCnclChg.addActionListener(this);
 		pnlEdit.add(btnCnclChg);
 		
 		JPanel pnlAdd = new JPanel();
@@ -204,6 +195,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			KitConfig k = createKit();
 			viewKit(k);
 		} else if (ae.getSource() == cbKits) {
+			disableFields();
 			viewKit((KitConfig) cbKits.getSelectedItem());
 		} else if (ae.getSource() ==  btnClrFields) {
 			clearFields();
@@ -218,6 +210,11 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	        if (choice == 0){
 	        	deleteKit((KitConfig) cbKits.getSelectedItem());
 	        }
+		} else if (ae.getSource() == btnSaveChg) {
+			
+		} else if (ae.getSource() == btnCnclChg) {
+			enableFields();
+			viewKit((KitConfig) cbKits.getSelectedItem());
 		}
 	}
 	
@@ -253,7 +250,6 @@ public class KitManagerPanel extends JPanel implements ActionListener {
     	// send a message to fcs that the kit is now dead
     	km.deleteKit(deadKit);
 	}
-	
 	
 	public void updatePartComboModels() {
 		// makes sure comboBoxModel for cbPart is up to date.
