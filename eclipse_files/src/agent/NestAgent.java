@@ -29,7 +29,7 @@ public class NestAgent extends Agent implements Nest {
 	public boolean takingParts = false;
 
 	public NestGraphics nestGraphics;
-	private NestState state;
+	private NestState state; 
 
 	public Semaphore animation = new Semaphore(0, true);
 
@@ -51,7 +51,7 @@ public class NestAgent extends Agent implements Nest {
 	public enum NestStatus {
 		IN_NEST, IN_NEST_POSITION, REMOVING
 	};
-
+	
 	public enum NestState {
 		PURGING, NOT_PURGING
 	};
@@ -71,9 +71,9 @@ public class NestAgent extends Agent implements Nest {
 				nestGraphics.purge();
 			}
 
-			// if (currentPartType != type) {
+		//if (currentPartType != type) {
 			state = NestState.PURGING;
-
+			
 			currentPartType = type;
 			stateChanged();
 		}
@@ -141,7 +141,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		if (state == NestState.PURGING) {
+		if(state == NestState.PURGING){
 			purgeSelf();
 		}
 		synchronized (requestList) {
@@ -180,7 +180,7 @@ public class NestAgent extends Agent implements Nest {
 	}
 
 	// ACTIONS
-	public void purgeSelf() {
+	public void purgeSelf(){
 		state = NestState.NOT_PURGING;
 		if (nestGraphics != null) {
 			nestGraphics.purge();
@@ -197,7 +197,7 @@ public class NestAgent extends Agent implements Nest {
 		requestList.clear();
 		requestList.add(currentPartType);
 	}
-
+	
 	public void getParts(PartType requestedType) {
 		print("Telling lane it need a part and incrementing count");
 		countRequest++;
