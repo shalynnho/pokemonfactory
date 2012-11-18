@@ -24,6 +24,8 @@ public abstract class Client extends JPanel{
 	protected ServerReader reader;
 	protected StreamWriter writer;
 	
+	protected int offset;
+	
 	/**
 	 * To identify client with server. 
 	 */
@@ -82,4 +84,9 @@ public abstract class Client extends JPanel{
 	public void sendData(Request req) {
 		writer.sendData(req);
 	}
+	
+	public int getOffset() {
+		return offset;
+	}
+
 }
