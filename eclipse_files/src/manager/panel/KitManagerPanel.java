@@ -200,22 +200,22 @@ public class KitManagerPanel extends JPanel{
 		// This is used to make sure all comboBoxes are made the same way.
 		cbPart = new JComboBox[8];
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		
+		// First construct the ComboBoxModel for the PartTypes, then iterate through to add PartTypes
+		partModel = new DefaultComboBoxModel<PartType>((PartType[]) Utils.Constants.DEFAULT_PARTTYPES.toArray());	
+		
 		for (int i = 0; i < 4; i++) {
-			cbPart[i] = new JComboBox();
+			cbPart[i] = new JComboBox<PartType>(partModel);
 			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 			gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 			gbc_comboBox.gridx = 1;
 			gbc_comboBox.gridy = i;
-			for(int j = 0; j<Utils.Constants.DEFAULT_PARTTYPES.size();j++)
-				cbPart[i].addItem(Utils.Constants.DEFAULT_PARTTYPES.get(j));
 			pnlParts.add(cbPart[i], gbc_comboBox);
 			
-			cbPart[i+1] = new JComboBox();
+			cbPart[i+1] = new JComboBox<PartType>(partModel);
 			gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 			gbc_comboBox.gridx = 3;
 			gbc_comboBox.gridy = i;
-			for(int l = 0; l<Utils.Constants.DEFAULT_PARTTYPES.size();l++)
-				cbPart[i+1].addItem(Utils.Constants.DEFAULT_PARTTYPES.get(l));
 			pnlParts.add(cbPart[i+1], gbc_comboBox);
 		}
 
@@ -225,7 +225,7 @@ public class KitManagerPanel extends JPanel{
 		// validates 4-8 parts set
 		KitConfig newKit = new KitConfig(tfName.getText());
 		// for each of the comboboxes
-		// 
+		
 	}
 	
 	public void updatePartComboModels() {
