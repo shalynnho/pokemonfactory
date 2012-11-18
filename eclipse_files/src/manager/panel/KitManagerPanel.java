@@ -30,6 +30,8 @@ import javax.swing.JTextArea;
 */
 
 public class KitManagerPanel extends JPanel{
+	private manager.KitManager km;
+	
 	private JComboBox[] cbPart;
 	private JTextField tfName;
 	private DefaultComboBoxModel defaultComboBox;
@@ -41,6 +43,9 @@ public class KitManagerPanel extends JPanel{
 	 * Create the panel.
 	 */
 	public KitManagerPanel(manager.KitManager k) {
+		// store a reference to the KitManager to get access to ArrayList
+		km = k;
+		
 		setLayout(new GridLayout(1, 1));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
