@@ -52,7 +52,7 @@ public class FCSAgent extends Agent implements FCS {
 		this.orders = new ArrayList<Order>();
 		binsSet = false;
 		binsToAdd = new ArrayList<PartType>();
-		state = myState.STARTED;
+		state = myState.PENDING;
 	}
 
 	public FCSAgent() {
@@ -60,7 +60,7 @@ public class FCSAgent extends Agent implements FCS {
 		this.name = "FCS Agent";
 		binsSet = false;
 		binsToAdd = new ArrayList<PartType>();
-		state = myState.STARTED;
+		state = myState.PENDING;
 	}
 
 	@Override
@@ -69,6 +69,9 @@ public class FCSAgent extends Agent implements FCS {
 		orders.add(o);
 		if (fcs != null) {
 			fcs.updateQueue();
+		}
+		if(state==myState.PENDING){
+			state=myState.STARTED;
 		}
 		stateChanged();
 	}
