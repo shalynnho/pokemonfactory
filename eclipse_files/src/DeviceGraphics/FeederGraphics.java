@@ -39,10 +39,15 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 */
 	public FeederGraphics(int id, Server myServer, Agent a) {
 		feederID = id;
+		
+		System.out.println("Feeder created! ID: " + feederID);
+		
 		server = myServer;
 		feederAgent = (FeederAgent)a;
-		feederLocation = Constants.FEEDER_LOC;
+		feederLocation = new Location(Constants.FEEDER_LOC);
 		feederLocation.incrementY(id*Constants.FEEDER_Y_STEP);
+		
+		System.out.println("Feeder ID: " + feederID + " | X: " + feederLocation.getX() + " | Y: " + feederLocation.getY());
 		
 		// diverter defaults to the top lane
 		diverterTop = true;

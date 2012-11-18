@@ -27,12 +27,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int PART_OFFSET = 19;
 	private static final int BOTTOM_ROW_OFFSET = 23;
 
-	// the LaneManager (client) which talks to the Server
-	private Client manager;
 	// the id of this nest
 	private int nestID;
-	// location of the nest
-	private Location nestLocation;
 	// array of part locations in nest
 	private ArrayList<Location> partLocs;
 
@@ -45,11 +41,11 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Default constructor
 	 */
 	public NestGraphicsDisplay(Client c, int id) {
-		manager = c;
+		client = c;
 		nestID = id;
 		isFull = true;
 
-		nestLocation = new Location(640 - NEST_WIDTH, 45 + nestID * 75);
+		location = new Location(640 - NEST_WIDTH, 45 + nestID * 75);
 		partsInNest = new ArrayList<PartGraphicsDisplay>();
 		generatePartLocations();
 	}
@@ -58,9 +54,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Handles drawing of NestGraphicsDisplay objects
 	 */
 	public void draw(JComponent c, Graphics2D g) {
-		g.drawImage(Constants.NEST_IMAGE, nestLocation.getX(),
-				nestLocation.getY(), c);
+		g.drawImage(Constants.NEST_IMAGE, location.getX() + + client.getOffset()
+				, location.getY(), c);
 		for (PartGraphicsDisplay part : partsInNest) {
+			part.getLocation().incrementX(client.getOffset());
 			part.draw(c, g);
 		}
 	}
@@ -97,12 +94,12 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		partLocs = new ArrayList<Location>(MAX_PARTS);
 		for (int i = 0; i < MAX_PARTS; i++) {
 			if (i % 2 == 0) { // top row
-				partLocs.add(new Location((nestLocation.getX() + (i / 2)
-						* PART_WIDTH), (nestLocation.getY() - PART_OFFSET)));
+				partLocs.add(new Location((location.getX() + (i / 2)
+						* PART_WIDTH), (location.getY() - PART_OFFSET)));
 			} else { // bottom row
-				partLocs.add(new Location((nestLocation.getX() + (i / 2)
+				partLocs.add(new Location((location.getX() + (i / 2)
 						* PART_WIDTH),
-						(nestLocation.getY() + BOTTOM_ROW_OFFSET - PART_OFFSET)));
+						(location.getY() + BOTTOM_ROW_OFFSET - PART_OFFSET)));
 			}
 		}
 	}
@@ -110,7 +107,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void givePartToPartsRobot() {
 		partsInNest.remove(0); // TODO: later might need to animate this
 		setPartLocations();
-		manager.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND
+		client.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND
 				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
 	}
 
@@ -119,7 +116,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		for (int i = 0; i < partsInNest.size(); i++) {
 			partsInNest.remove(0);
 		}
-		manager.sendData(new Request(Constants.NEST_PURGE_COMMAND
+		client.sendData(new Request(Constants.NEST_PURGE_COMMAND
 				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
 	}
 
@@ -127,7 +124,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(type);
 		partsInNest.add(pgd);
 		setPartLocations();
-		manager.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND
+		client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND
 				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
 	}
 
@@ -136,22 +133,9 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	private void setPartLocations() {
 		// whichever is less
-		int min = (MAX_PARTS < partsInNest.size()) ? MAX_PARTS : partsInNest
-				.size();
+		int min = (MAX_PARTS < partsInNest.size()) ? MAX_PARTS : partsInNest.size();
 		for (int i = 0; i < min; i++) {
 			partsInNest.get(i).setLocation(partLocs.get(i));
 		}
-	}
-
-	/**
-	 * Allows another object to set the NestGraphicsDisplay location This method
-	 * should not be called.
-	 * 
-	 * @param newLocation
-	 *            - the new location of the nest
-	 */
-	public void setLocation(Location newLocation) {
-		// TODO Auto-generated method stub
-
 	}
 }
