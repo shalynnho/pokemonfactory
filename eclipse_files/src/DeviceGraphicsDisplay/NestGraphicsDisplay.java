@@ -178,8 +178,6 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		setPartLocations();
 		receivingPart = true;
 		receivePartDoneSent = false;
-		
-		msgAgentReceivePartDone();
 	}
 	
 	private boolean isFull() {
