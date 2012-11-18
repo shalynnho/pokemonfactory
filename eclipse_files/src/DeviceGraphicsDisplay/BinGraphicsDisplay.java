@@ -57,10 +57,10 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Handles drawing of the bin components
 	 */
 	public void draw (JComponent c, Graphics2D g) {
-		if (isFull)
+		//if (isFull)
 			g.drawImage(Constants.BIN_FULL_IMAGE, binLocation.getX(), binLocation.getY(), c);
-		else
-			g.drawImage(Constants.BIN_EMPTY_IMAGE, binLocation.getX(), binLocation.getY(), c);
+		/*else
+			g.drawImage(Constants.BIN_EMPTY_IMAGE, binLocation.getX(), binLocation.getY(), c);*/
 	}
 	
 	/**

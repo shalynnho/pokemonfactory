@@ -59,7 +59,6 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 	public void dropBin (Bin newBin, FeederAgent feeder) {
 		server.sendData(new Request(Constants.GANTRY_ROBOT_DROP_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, null));
 		gantryAgent.msgDropBinDone(newBin);
-		heldBin = null;
 	}
 		
 	
@@ -72,10 +71,6 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 		if (req.getCommand().equals(Constants.GANTRY_ROBOT_DONE_MOVE)) {
 			// Robot is over bin, picks up bin and moves to feeder
 			if (receiveState) {
-				if (heldBin.binGraphics.getLocation() == null)
-					System.out.println("GEBERT location null");
-				else if (heldBin.part.type == null)
-					System.out.println("GEBERT part type null");
 				server.sendData(new Request(Constants.GANTRY_ROBOT_GET_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, new BinData(heldBin.binGraphics.getLocation(), heldBin.part.type)));
 				moveTo(newLocation);
 				receiveState = false;
@@ -98,7 +93,6 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 			else if (removeState2) {
 				server.sendData(new Request(Constants.GANTRY_ROBOT_GET_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, null));
 				gantryAgent.msgRemoveBinDone(heldBin);
-				heldBin = null;
 				removeState2 = false;
 			}
 		}

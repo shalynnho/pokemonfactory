@@ -104,6 +104,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		
 		for (int i = 0; i < binList.size(); i ++) {
+			//System.out.println(binList.get(i).getLocation().getX() + "    " + binList.get(i).getLocation().getY());
 			binList.get(i).getLocation().incrementX(client.getOffset());
 			binList.get(i).draw(c, g);
 		}
@@ -119,15 +120,19 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		if (req.getCommand().equals(Constants.GANTRY_ROBOT_GET_BIN_COMMAND)) {
 			tempBin = (BinData) req.getData();
-			heldBin = new BinGraphicsDisplay(currentLocation, tempBin.getBinPartType());
-			isBinHeld = true;
+			for (int i = 0; i < binList.size(); i ++) 
+				if (binList.get(i).getPartType().equals(tempBin.getBinPartType())){
+					heldBin = binList.get(i);
+					isBinHeld = true;
+			}
+			//heldBin = new BinGraphicsDisplay(currentLocation, tempBin.getBinPartType());
 			tempBin = null;
 		}
 		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_MOVE_TO_LOC_COMMAND)) {
 			destinationLocation = (Location) req.getData();
 			isMoving = true;
 		}
-		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_DROP_BIN_COMMAND)) {
+		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_DROP_BIN_COMMAND)) {			
 			heldBin = null;
 			isBinHeld = false;
 		}
