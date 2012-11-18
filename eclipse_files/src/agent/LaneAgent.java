@@ -104,19 +104,22 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// print("In the Scheduler");
-		synchronized (requestList) {
-			if (currentParts.size() >= topLimit) {
-				state = LaneStatus.DONE_FILLING;
-			} else if (requestList.size() > lowerThreshold) {
-				state = LaneStatus.FILLING;
-			}
-			if (state == LaneStatus.FILLING) {
+
+		if (currentParts.size() >= topLimit) {
+			state = LaneStatus.DONE_FILLING;
+		} else if (requestList.size() > lowerThreshold) {
+			state = LaneStatus.FILLING;
+		}
+
+		if (state == LaneStatus.FILLING) {
+			synchronized (requestList) {
 				for (PartType requestedType : requestList) {
 					getParts(requestedType);
 					return true;
 				}
 			}
 		}
+
 		synchronized (currentParts) {
 			for (MyPart part : currentParts) {
 				if (part.status == PartStatus.END_LANE) {
@@ -148,14 +151,13 @@ public class LaneAgent extends Agent implements Lane {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (nest != null) {
-			nest.msgHereIsPart(part);
-		}
+
+		nest.msgHereIsPart(part);
 		synchronized (currentParts) {
 			for (MyPart currentPart : currentParts) {
 				if (currentPart.part == part) {
 					currentParts.remove(currentPart);
-					return;
+					break;
 				}
 			}
 		}

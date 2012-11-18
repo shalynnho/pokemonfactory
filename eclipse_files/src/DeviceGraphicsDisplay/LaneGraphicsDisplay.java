@@ -19,6 +19,8 @@ import factory.PartType;
  * 
  */
 public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
+	private static final int PART_OFFSET = 19;
+
 	// horizontal length of the Lane image
 	private static final int LANE_LENGTH = 210;
 	// start and end x-coordinates of Part on the Lane
@@ -37,14 +39,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// stores the parts on the lane
 	private ArrayList<PartGraphicsDisplay> partsOnLane;
 	// Location of this lane
-	private Location laneLoc;
+	private Location location;
 	// start location of parts on this lane
 	private final Location partStartLoc;
 	// array list of locations of the lane lines
 	private ArrayList<Location> laneLines;
 
 	// the LaneManager (client) which talks to the Server
-	private Client manager;
+	private Client client;
 	// the ID of this Lane
 	private int laneID;
 	// the amplitude of this lane
@@ -68,14 +70,16 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 *            - lane ID
 	 */
 	public LaneGraphicsDisplay(Client c, int lid) {
-		manager = c;
+		client = c;
 		laneID = lid;
 
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
 
 		// set start locations
-		laneLoc = new Location(LANE_END_X, 53 + laneID * 75);
-		partStartLoc = new Location(LANE_BEG_X, laneLoc.getY()
+		location = new Location(LANE_END_X, 53 + laneID * 75);
+		
+		
+		partStartLoc = new Location(LANE_BEG_X, location.getY()
 				+ (PART_WIDTH / 2));
 
 		// create array list of location for lane lines
@@ -96,9 +100,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		if (laneOn) {
 			if (laneID % 2 == 0) {
-				g.drawImage(Constants.LANE_IMAGE1, laneLoc.getX(), laneLoc.getY(), c);
+				g.drawImage(Constants.LANE_IMAGE1, location.getX(), location.getY(), c);
 			} else {
-				g.drawImage(Constants.LANE_IMAGE2, laneLoc.getX(), laneLoc.getY(), c);
+				g.drawImage(Constants.LANE_IMAGE2, location.getX(), location.getY(), c);
 			}
 
 			// animate lane movements using lines
@@ -152,16 +156,21 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 							loc.incrementX(-amplitude);
 						}
 					}
-					vibrateParts(moveCounter, loc);
+//					vibrateParts(moveCounter, loc);
 					pgd.setLocation(loc);
 					pgd.draw(c, g);
+					
+//					System.out.println("lane"+laneID+": drawing "+ partsOnLane.size()+" parts" );
+//					for(PartGraphicsDisplay p : partsOnLane) {
+//						System.out.println("LOC x: "+p.getLocation().getX()+", y: "+p.getLocation().getY());
+//					}
 				}
 			}
 		} else { // lane is off
 			if (laneID % 2 == 0) {
-				g.drawImage(Constants.LANE_IMAGE1, laneLoc.getX(), laneLoc.getY(), c);
+				g.drawImage(Constants.LANE_IMAGE1, location.getX(), location.getY(), c);
 			} else {
-				g.drawImage(Constants.LANE_IMAGE2, laneLoc.getX(), laneLoc.getY(), c);
+				g.drawImage(Constants.LANE_IMAGE2, location.getX(), location.getY(), c);
 			}
 			
 			// draw lane lines
@@ -192,7 +201,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			laneOn = (Boolean) r.getData();
 
 		} else if (cmd.equals(Constants.LANE_SET_STARTLOC_COMMAND)) {
-			laneLoc = (Location) r.getData();
+			location = (Location) r.getData();
 			
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
 				PartType type = (PartType) r.getData();
@@ -211,7 +220,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	@Override
 	public void setLocation(Location newLocation) {
-		laneLoc = newLocation;
+		location = newLocation;
 	}
 
 	/**
@@ -220,7 +229,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void givePartToNest() {
 		partsOnLane.remove(0);
 		partDoneCounter = 0;
-		manager.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
+		client.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
 				+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 	}
 
@@ -256,8 +265,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	private void receivePart(PartType type) {
 		PartGraphicsDisplay pg = new PartGraphicsDisplay(type);
-		Location newLoc = new Location(laneLoc.getX() + LANE_LENGTH,
-				laneLoc.getY() + (PART_WIDTH / 2));
+		Location newLoc = new Location(location.getX() + LANE_LENGTH,
+				location.getY() + (PART_WIDTH / 2) - PART_OFFSET);
 		pg.setLocation(newLoc);
 		partsOnLane.add(pg);
 	}
@@ -271,7 +280,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		laneLines = new ArrayList<Location>(NUMLINES);
 		int startLineX = LANE_END_X + LINE_WIDTH;
 		for (int i = 0; i < NUMLINES; i++) {
-			laneLines.add(new Location(startLineX, laneLoc.getY()));
+			laneLines.add(new Location(startLineX, location.getY()));
 			startLineX += LINESPACE;
 		}
 	}
@@ -299,7 +308,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	private void msgAgentReceivePartDone() {
 		if(partAtLaneEnd && (partDoneCounter == 0)) {
-			manager.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
+			client.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
 					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 			partDoneCounter++;
 		}
