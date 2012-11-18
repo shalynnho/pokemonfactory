@@ -69,7 +69,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		managerPanel.add(pnlKitChooser, BorderLayout.NORTH);
 		
 		// Creates a ComboBoxModel with all the KitConfigs, This populates the ComboBox at the top of the layout with the list of kitConfigs
-		kitModel = new DefaultComboBoxModel((KitConfig[]) Utils.Constants.DEFAULT_KITCONFIGS.toArray());
+		kitModel = new DefaultComboBoxModel(Utils.Constants.DEFAULT_KITCONFIGS.toArray());
 		cbKits = new JComboBox(kitModel);
 		cbKits.addActionListener(this);
 		pnlKitChooser.add(cbKits);
@@ -167,7 +167,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		
 		// First construct the ComboBoxModel for the PartTypes, then iterate through to add PartTypes
-		partModel = new DefaultComboBoxModel((PartType[]) Utils.Constants.DEFAULT_PARTTYPES.toArray());	
+		partModel = new DefaultComboBoxModel(Utils.Constants.DEFAULT_PARTTYPES.toArray());	
 		
 		for (int i = 0; i < 4; i++) {
 			cbPart[i] = new JComboBox(partModel);

@@ -41,6 +41,16 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 	private JComboBox cbPart;
 	private String[] backupFields; // used for temporarily storing old field data in case a user wants to revert
 	private JTextField tfName;
+	private JButton btnNewPart;
+	private JSpinner spinner;
+	private JTextArea textArea;
+	private JComboBox cbImges;
+	private JButton btnEditPartType;
+	private JButton btnDeletePartType;
+	private JButton btnCreatePartType;
+	private JButton btnClearFields;
+	private JButton btnSaveChanges;
+	private JButton btnCnclChanges;
 	
 	/**
 	 * Create the panel.
@@ -64,12 +74,8 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		cbPart.addActionListener(this);
 		pnlPartChooser.add(cbPart);
 		
-		JButton btnNewPart = new JButton("New Part Type");
-		btnNewPart.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				showAddPanel();
-			}
-		});
+		btnNewPart = new JButton("New Part Type");
+		btnNewPart.addActionListener(this);
 		pnlPartChooser.add(btnNewPart);
 		
 		JPanel pnlForm = new OverlayPanel();
@@ -93,7 +99,7 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		gbc_lblNumber.gridy = 0;
 		pnlForm.add(lblNumber, gbc_lblNumber);
 		
-		JSpinner spinner = new JSpinner();
+		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(new Integer(1), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinner = new GridBagConstraints();
 		gbc_spinner.anchor = GridBagConstraints.WEST;
@@ -137,7 +143,7 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		pnlForm.add(panel, gbc_panel);
 		panel.setLayout(new GridLayout(1, 1));
 		
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		textArea.setFont(UIManager.getFont("Button.font"));
 		panel.add(textArea);
 		
@@ -149,7 +155,7 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		gbc_lblImagePath.gridy = 3;
 		pnlForm.add(lblImagePath, gbc_lblImagePath);
 		
-		JComboBox cbImges = new JComboBox();
+		cbImges = new JComboBox();
 		GridBagConstraints gbc_cbImges = new GridBagConstraints();
 		gbc_cbImges.anchor = GridBagConstraints.WEST;
 		gbc_cbImges.gridx = 1;
@@ -165,67 +171,57 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		pnlView.setOpaque(false);
 		pnlButtons.add(pnlView, "View Part Type");
 		
-		JButton btnEditPartType = new JButton("Edit Part Type");
-		btnEditPartType.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				editPart((String) cbPart.getSelectedItem());
-			}
-		});
+		btnEditPartType = new JButton("Edit Part Type");
+		btnEditPartType.addActionListener(this);
 		pnlView.add(btnEditPartType);
 		
-		JButton btnDeletePartType = new JButton("Delete Part Type");
-		btnDeletePartType.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				deletePart((String) cbPart.getSelectedItem());
-			}
-		});
+		btnDeletePartType = new JButton("Delete Part Type");
+		btnDeletePartType.addActionListener(this);
 		pnlView.add(btnDeletePartType);
 		
 		pnlEdit = new JPanel();
 		pnlEdit.setOpaque(false);
 		pnlButtons.add(pnlEdit, "Edit Part Type");
 		
-		JButton btnSaveChanges = new JButton("Save Changes");
-		btnSaveChanges.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				savePartEdit((String) cbPart.getSelectedItem());
-			}
-		});
+		btnSaveChanges = new JButton("Save Changes");
+		btnSaveChanges.addActionListener(this);
 		pnlEdit.add(btnSaveChanges);
 		
-		JButton btnCnclChanges = new JButton("Cancel Changes");
-		btnCnclChanges.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cancelEdit();
-				viewPart((String) cbPart.getSelectedItem());
-			}
-		});
+		btnCnclChanges = new JButton("Cancel Changes");
+		btnCnclChanges.addActionListener(this);
 		pnlEdit.add(btnCnclChanges);
 		
 		pnlAdd = new JPanel();
 		pnlAdd.setOpaque(false);
 		pnlButtons.add(pnlAdd, "Add Part Type");
 		
-		JButton btnCreatePartType = new JButton("Create Part Type");
-		btnCreatePartType.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				createPart();
-			}
-		});
+		btnCreatePartType = new JButton("Create Part Type");
+		btnCreatePartType.addActionListener(this);
 		pnlAdd.add(btnCreatePartType);
 		
-		JButton btnClearFields = new JButton("Clear Fields");
-		btnClearFields.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clearFields();
-			}
-		});
+		btnClearFields = new JButton("Clear Fields");
+		btnClearFields.addActionListener(this);
 		pnlAdd.add(btnClearFields);
 	}
 	
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == cbPart) {
 			viewPart((String) cbPart.getSelectedItem());
+		} else if (ae.getSource() == btnNewPart) {
+			showAddPanel();
+		} else if (ae.getSource() == btnEditPartType) {
+			editPart((String) cbPart.getSelectedItem());
+		} else if (ae.getSource() == btnDeletePartType) {
+			deletePart((String) cbPart.getSelectedItem());
+		} else if (ae.getSource() == btnSaveChanges) {
+//		TODO: savePartEdit((String) cbPart.getSelectedItem());
+		} else if (ae.getSource() == btnCnclChanges) {
+			cancelEdit();
+			viewPart((String) cbPart.getSelectedItem());
+		} else if (ae.getSource() == btnCreatePartType) {
+			createPart();
+		} else if (ae.getSource() == btnClearFields) {
+			clearFields();
 		}
 	}
 	
