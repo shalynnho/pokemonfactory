@@ -66,12 +66,17 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgHereIsPartType(PartType type) {
 		print("Received msgHereIsPartType");
+		if (currentPartType != type) {
+			if (nestGraphics != null) {
+				nestGraphics.purge();
+			}
+
 		//if (currentPartType != type) {
 			state = NestState.PURGING;
-			
+			camera.msgResetSelf();
 			currentPartType = type;
 			stateChanged();
-		//}
+		}
 	}
 
 	@Override
