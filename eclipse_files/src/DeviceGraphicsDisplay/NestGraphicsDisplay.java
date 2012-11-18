@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import manager.FactoryProductionManager;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -53,11 +52,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Handles drawing of NestGraphicsDisplay objects
 	 */
 	public void draw(JComponent c, Graphics2D g) {
-		g.drawImage(Constants.NEST_IMAGE, location.getX() + + client.getOffset()
+		g.drawImage(Constants.NEST_IMAGE, location.getX() + client.getOffset()
 				, location.getY(), c);
 		for (PartGraphicsDisplay part : partsInNest) {
-			part.getLocation().incrementX(client.getOffset());
-			part.draw(c, g);
+			part.drawWithOffset(c, g, client.getOffset());
 		}
 	}
 

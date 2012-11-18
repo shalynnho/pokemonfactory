@@ -67,9 +67,6 @@ public class NestAgent extends Agent implements Nest {
 	public void msgHereIsPartType(PartType type) {
 		print("Received msgHereIsPartType");
 		if (currentPartType != type) {
-			if (nestGraphics != null) {
-				nestGraphics.purge();
-			}
 
 		//if (currentPartType != type) {
 			state = NestState.PURGING;
@@ -143,6 +140,7 @@ public class NestAgent extends Agent implements Nest {
 	public boolean pickAndExecuteAnAction() {
 		if(state == NestState.PURGING){
 			purgeSelf();
+			return true;
 		}
 		synchronized (requestList) {
 			for (PartType requestedPart : requestList) {
@@ -299,11 +297,11 @@ public class NestAgent extends Agent implements Nest {
 	}
 
 	// HACK for v0 only
-	public void FillWithParts() {
+	/*public void FillWithParts() {
 		for (int i = 1; i < full; i++) {
 			currentParts.add(new MyPart(new Part(Constants.DEFAULT_PARTTYPES
 					.get(0))));
 		}
-	}
+	}*/
 
 }

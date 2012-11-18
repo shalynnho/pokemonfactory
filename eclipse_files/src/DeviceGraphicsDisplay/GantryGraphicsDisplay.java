@@ -104,8 +104,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		
 		for (int i = 0; i < binList.size(); i ++) {
-			binList.get(i).getLocation().incrementX(client.getOffset());
-			binList.get(i).draw(c, g);
+			binList.get(i).drawWithOffset(c, g, client.getOffset());
 		}
 			
 		if (isBinHeld) {

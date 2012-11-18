@@ -22,6 +22,9 @@ import javax.swing.border.EtchedBorder;
 
 import factory.KitConfig;
 import factory.Order;
+import factory.PartType;
+
+import javax.swing.JTextArea;
 
 
 /*
@@ -29,17 +32,23 @@ import factory.Order;
 */
 
 public class KitManagerPanel extends JPanel{
+	private manager.KitManager km;
+	
 	private JComboBox[] cbPart;
-	private JTable tblSched;
 	private JTextField tfName;
 	private DefaultComboBoxModel defaultComboBox;
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
 	private ArrayList<Order> schedule = new ArrayList<Order>();
+	private ArrayList<PartType> partTypes = new ArrayList<PartType>();
+	private JPanel pnlButtons;
 
 	/**
 	 * Create the panel.
 	 */
 	public KitManagerPanel(manager.KitManager k) {
+		// store a reference to the KitManager to get access to ArrayList
+		km = k;
+		
 		setLayout(new GridLayout(1, 1));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -47,7 +56,7 @@ public class KitManagerPanel extends JPanel{
 		
 		JPanel managerPanel = new JPanel();
 		tabbedPane.addTab("Manage Kits", managerPanel);
-		managerPanel.setLayout(new BorderLayout(0, 0));
+		managerPanel.setLayout(new BorderLayout());
 		
 		//   This creates the panel at the top of the layout that lets the user select what kit to view/edit/delete
 		JPanel pnlKitChooser = new JPanel();
@@ -64,25 +73,39 @@ public class KitManagerPanel extends JPanel{
 		pnlKitChooser.add(cbKits);
 		
 		JButton btnAddKit = new JButton("New Kit Arrangement");
+		btnAddKit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				showButtons("Add");
+				tfName.setText("");
+				tfName.setEnabled(true);
+				// set each combo box to [No Item]
+			}
+		});
 		pnlKitChooser.add(btnAddKit);
 		
 		// This panel is what allows us to combine the View/Add/Edit/Delete screens together
 		// Each "screen" is instead a Panel of the buttons that that screen would have
-		JPanel pnlButtons = new JPanel();
+		pnlButtons = new JPanel();
 		managerPanel.add(pnlButtons, BorderLayout.SOUTH);
 		pnlButtons.setLayout(new CardLayout(0, 0));
 		
 		JPanel pnlView = new JPanel();
-		pnlButtons.add(pnlView, "View Buttons");
+		pnlButtons.add(pnlView, "View");
 		
 		JButton btnEditKit = new JButton("Edit Kit Arrangement");
+		btnEditKit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tf.setEnabled(true);
+				// enables the comboBoxes
+			}
+		});
 		pnlView.add(btnEditKit);
 		
 		JButton btnDeleteKit = new JButton("Delete Kit Arrangement");
 		pnlView.add(btnDeleteKit);
 		
 		JPanel pnlEdit = new JPanel();
-		pnlButtons.add(pnlEdit, "Edit Buttons");
+		pnlButtons.add(pnlEdit, "Edit");
 		
 		JButton btnSaveChg = new JButton("Save Changes");
 		btnSaveChg.addActionListener(new ActionListener() {
@@ -96,12 +119,22 @@ public class KitManagerPanel extends JPanel{
 		pnlEdit.add(btnCnclChg);
 		
 		JPanel pnlAdd = new JPanel();
-		pnlButtons.add(pnlAdd, "Add Buttons");
+		pnlButtons.add(pnlAdd, "Add");
 		
 		JButton btnCreateKit = new JButton("Create Kit Arrangement");
+		btnCreateKit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createKit();
+			}
+		});
 		pnlAdd.add(btnCreateKit);
 		
 		JButton btnClrFields = new JButton("Clear Fields");
+		btnClrFields.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearFields();
+			}
+		});
 		pnlAdd.add(btnClrFields);
 
 		// The "Display" Panel is the central panel that displays the information about a certain kit
@@ -186,12 +219,36 @@ public class KitManagerPanel extends JPanel{
 		});
 		pnlRefresh.add(btnRefresh);
 		
-		tblSched = new JTable();
-		tblSched.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		schedPanel.add(tblSched, BorderLayout.CENTER);
+		JTextArea taSched = new JTextArea();
+		schedPanel.add(taSched, BorderLayout.CENTER);
 
 	}
+	
+	public void createKit() {
+		// validates 4-8 parts set
+		KitConfig newKit = new KitConfig(tfName.getText());
+		// for each of the comboboxes
+		// 
+	}
 
+	public void clearFields() {
+		tfName.setText("");
+		// each of the comboBoxes set to No Item
+	}
+	
+	public void enableFields() {
+		tfName.setEnabled(true);
+		for (int i = 0; i < 8; i++) {
+			cbPart[i].setEnabled(true);
+		}
+	}
+	
+	public void disableFields() {
+		tfName.setEnabled(false);
+		for (int i = 0; i < 8; i++) {
+			cbPart[i].setEnabled(false);
+		}
+	}
 
 	public void updateKitConfigs(ArrayList<KitConfig> kc)
 	{
@@ -208,5 +265,9 @@ public class KitManagerPanel extends JPanel{
 		//if we used a JTextArea instead of a JTable for the schedule, we could just reuse the code
 		//from FactoryProductionManagerPanel here.
 	}
-
+	
+	public void showButtons(String panel) {
+		CardLayout cl = (CardLayout)(pnlButtons.getLayout());
+        cl.show(pnlButtons, panel);
+	}
 }
