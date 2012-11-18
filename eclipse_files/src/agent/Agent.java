@@ -69,7 +69,13 @@ public abstract class Agent {
 				&& this.getClass() != agent.StandAgent.class
 				&& this.getClass() != agent.KitRobotAgent.class
 				&& this.getClass() != agent.ConveyorAgent.class
-				&& this.getClass() != agent.LaneAgent.class) {
+				&& this.getClass() != agent.LaneAgent.class
+				&& this.getClass() != agent.GantryAgent.class
+				&& this.getClass() != agent.CameraAgent.class
+				&& this.getClass() != agent.NestAgent.class
+				&& this.getClass() != agent.FeederAgent.class
+				//&& this.getClass() != agent.PartsRobotAgent.class
+				) {
 			System.out.print(sb.toString());
 		}
 		print.release();
