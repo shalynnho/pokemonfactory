@@ -50,8 +50,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private int amplitude = 1;
 	// true if Lane is on
 	private boolean laneOn = true;
-	// counters
-	private int moveCounter = 0;
 	// use to make sure only 1 message is sent to agent for each part that reaches end of lane
 	private int partDoneCounter = 0;
 	// V0 only, stops parts from going down lane without bin
@@ -69,17 +67,15 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		laneID = lid;
 
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
-
-		// set start locations
+		// generate lane start location
 		location = new Location(LANE_END_X, 53 + laneID * 75);
 		
-		
+		// for reference only
 		partStartLoc = new Location(LANE_BEG_X, location.getY()
-				+ (PART_WIDTH / 2));
+				+ (PART_WIDTH / 2) - PART_OFFSET);
+		
 
-		// create array list of location for lane lines
 		resetLaneLineLocs();
-
 	}
 
 
@@ -149,7 +145,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 							loc.incrementX(-amplitude);
 						}
 					}
-//					vibrateParts(moveCounter, loc);
+					vibrateParts(loc);
 					pgd.setLocation(loc);
 					pgd.getLocation().incrementX(client.getOffset());
 					pgd.draw(c, g);
@@ -267,7 +263,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 
 	/**
-	 * resets lane lines, animation
+	 * Creates an array list of Locations for the lane lines
 	 */
 	private void resetLaneLineLocs() {
 		// create array list of location for lane lines
@@ -287,12 +283,12 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param loc
 	 *            - location of the current part
 	 */
-	private void vibrateParts(int i, Location loc) {
+	private void vibrateParts(Location loc) {
 		// to show vibration down lane (may have to adjust values)
-		if (i % 2 == 0) {
-			loc.incrementY(2);
-		} else {
+		if (loc.getY() >= (partStartLoc.getY() + 2)) {
 			loc.incrementY(-2);
+		} else if (loc.getY() <= (partStartLoc.getY() - 2)){
+			loc.incrementY(2);
 		}
 	}
 	
