@@ -203,7 +203,7 @@ public class PartsManagerPanelV2 extends JPanel{
 	}
 	
 	public void updatePartTypes(ArrayList<PartType> pt) {
-		rightPanel.updatePartTypes(pt);
+		rightPanel.updateList(pt);
 		jsp.validate();
 	}
 	

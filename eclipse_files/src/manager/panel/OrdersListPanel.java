@@ -1,8 +1,6 @@
 package manager.panel;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -10,17 +8,11 @@ import javax.swing.BoxLayout;
 import manager.util.ClickablePanel;
 import manager.util.ClickablePanelClickHandler;
 import manager.util.ListPanel;
-import manager.util.OverlayPanel;
 import manager.util.WhiteLabel;
-import Utils.Constants;
-import factory.FactoryData;
 import factory.Order;
 
 
-public class OrdersListPanel extends OverlayPanel implements ListPanel {
-	ArrayList<Order> orders = new ArrayList<Order>();
-	HashMap<FactoryData, ClickablePanel> panels = new HashMap<FactoryData, ClickablePanel>();
-	
+public class OrdersListPanel extends ListPanel<Order> {
 	OrderSelectHandler handler;
 	
 	public OrdersListPanel(OrderSelectHandler orderSelectHandler) {
@@ -29,63 +21,36 @@ public class OrdersListPanel extends OverlayPanel implements ListPanel {
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		setAlignmentX(LEFT_ALIGNMENT);
-		setBorder(Constants.PADDING);
+		setBorder(generalPadding);
 		
-		parseOrders();
-
+		parseList();
 	}
 	
-	public void parseOrders() {
+	public void parseList() {
 		panels.clear();
 		removeAll();
 		repaint();
 		
-		for(Order o : orders) {
+		for(Order o : itemList) {
 			ClickablePanel panel = new ClickablePanel(new OrderClickHandler(o));
-			panel.setSize(300, 50);
-			panel.setBorder(Constants.MEDIUM_PADDING);
+			panel.setPanelSize(itemWidth, itemHeight);
+			panel.setBorder(itemPadding);
 			panel.setAlignmentX(0);
 			
 			WhiteLabel nameLabel = new WhiteLabel(o.getConfig().getName() + ": ");
 			WhiteLabel numLabel = new WhiteLabel("" + o.getNumKits());
-			nameLabel.setLabelSize(165, 30);
-			numLabel.setLabelSize(50, 30);
+			nameLabel.setLabelSize((int)(itemWidth * 0.7), itemHeight);
+			numLabel.setLabelSize((int)(itemWidth * 0.3), itemHeight);
 			panel.add(nameLabel);
 			panel.add(numLabel);
 			
 			add(panel);
 			
-			/*
-			JButton deleteButton = new JButton("delete");
-			deleteButton.addActionListener(new DeleteClickHandler(pt));
-			panel.add(deleteButton);
-			*/
-			
 			// add padding
-			add(Box.createVerticalStrut(10));
+			add(Box.createVerticalStrut(itemMargin));
 			panels.put(o, panel);
 		}
 		validate();
-	}
-	
-	public void updateOrders(ArrayList<Order> o) {
-		orders = o;
-		parseOrders();
-		restoreColors();
-	}
-	
-	public void restoreColors() {
-		for(ClickablePanel panel : panels.values()) {
-			panel.restoreColor();
-		}
-	}
-	
-	public interface OrderPanelHandler {
-		public void editOrder(Order o);
-	}
-	
-	public HashMap<FactoryData, ClickablePanel> getPanels() {
-		return panels;
 	}
 	
 	public interface OrderSelectHandler {

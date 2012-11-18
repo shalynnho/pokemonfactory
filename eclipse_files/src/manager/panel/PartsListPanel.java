@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -15,37 +14,34 @@ import javax.swing.JLabel;
 
 import manager.util.ClickablePanel;
 import manager.util.ClickablePanelClickHandler;
-import manager.util.OverlayPanel;
+import manager.util.ListPanel;
 import manager.util.WhiteLabel;
 import Utils.Constants;
 import factory.PartType;
 
 
-public class PartsListPanel extends OverlayPanel {
+public class PartsListPanel extends ListPanel<PartType> {
 	PartsListPanelHandler handler;
-	ArrayList<PartType> partTypes = new ArrayList<PartType>();
-	HashMap<PartType, ClickablePanel> panels = new HashMap<PartType, ClickablePanel>();
 	
 	
 	public PartsListPanel(PartsListPanelHandler h) {
 		super();
 		handler = h;
-		partTypes = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES.clone();
+		itemList = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES.clone();
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		setAlignmentX(LEFT_ALIGNMENT);
 		setBorder(Constants.PADDING);
 		
-		parsePartTypes();
-
+		parseList();
 	}
 	
-	public void parsePartTypes() {
+	public void parseList() {
 		panels.clear();
 		removeAll();
 		repaint();
 		
-		for(PartType pt : partTypes) {
+		for(PartType pt : itemList) {
 			ClickablePanel panel = new ClickablePanel(new EditClickHandler(pt));
 			panel.setSize(350, 50);
 			panel.setBorder(Constants.MEDIUM_PADDING);
@@ -72,18 +68,6 @@ public class PartsListPanel extends OverlayPanel {
 			panels.put(pt, panel);
 		}
 		validate();
-	}
-	
-	public void updatePartTypes(ArrayList<PartType> pt) {
-		partTypes = pt;
-		parsePartTypes();
-		restoreColors();
-	}
-	
-	public void restoreColors() {
-		for(ClickablePanel panel : panels.values()) {
-			panel.restoreColor();
-		}
 	}
 	
 	public interface PartsListPanelHandler {

@@ -78,10 +78,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	public void initDevices() {
 		// TODO: adjust LOCATIONS of each device
 		
-		for (int i = 0; i < Constants.LANE_COUNT; i++) {
-			addDevice(Constants.LANE_TARGET + i, new LaneGraphicsDisplay(this, i));
-		}
-	
 		for (int i = 0; i < Constants.NEST_COUNT; i++) {
 			addDevice(Constants.NEST_TARGET + i, new NestGraphicsDisplay(this, i));
 		}
@@ -101,6 +97,11 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
+		
+		for (int i = 0; i < Constants.LANE_COUNT; i++) {
+			addDevice(Constants.LANE_TARGET + i, new LaneGraphicsDisplay(this, i));
+		}
+
 	}
 	
 	/**

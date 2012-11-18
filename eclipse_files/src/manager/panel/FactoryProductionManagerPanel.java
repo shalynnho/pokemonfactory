@@ -117,6 +117,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		c.gridy = 0;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.gridheight = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		
 		add(kitsPanel, c);
 		
@@ -231,9 +232,10 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	 */
 	public void updateKitConfigs(ArrayList<KitConfig> kc) {
 		kitConfigs = kc;
-		kitsPanel.updatePartTypes(kc);
+		kitsPanel.updateList(kc);
 		addMouseListeners(kitsPanel);
 		
+		/*
 		// Clear the JComboBox
 		defaultComboBox.removeAllElements();
 		
@@ -241,6 +243,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 		for (int i = 0; i < kitConfigs.size(); i++) {
 			kitComboBox.addItem(kitConfigs.get(i).getName());
 		}
+		*/
 	}
 	
 	/**
@@ -250,7 +253,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	public void updateOrders(ArrayList<Order> o) {
 		queue = o;
 		System.out.println("Queue size: " + queue.size());
-		ordersPanel.updateOrders(o);
+		ordersPanel.updateList(o);
 		addMouseListeners(ordersPanel);
 
 		/*
@@ -274,7 +277,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame implemen
 	 * Adds this FPMPanel as the mouseListener for the components of the ListPanel
 	 * @param panel - KitsListPanel or OrdersListPanel
 	 */
-	private void addMouseListeners(ListPanel panel) {
+	private void addMouseListeners(ListPanel<?> panel) {
 		for(ClickablePanel p : panel.getPanels().values()) {
 			for(int i = 0; i < p.getMouseListeners().length; i++) {
 				if (!p.getMouseListeners()[i].equals(this)) {
