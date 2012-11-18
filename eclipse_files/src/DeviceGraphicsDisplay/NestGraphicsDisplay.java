@@ -31,8 +31,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// array of part locations in nest
 	private ArrayList<Location> partLocs;
 
-	// boolean if the nest is full
+	// true if the nest is full
 	private boolean isFull;
+	// 
+	private boolean partInNest
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphicsDisplay> partsInNest;
 

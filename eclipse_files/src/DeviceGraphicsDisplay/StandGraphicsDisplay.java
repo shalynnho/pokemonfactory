@@ -46,9 +46,9 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		kit = new KitGraphicsDisplay();
 		// TODO: set location of kit based on standID
 		if (id % 2 == 0) {
-			location = new Location((RIGHT_X_LOC - STAND_WIDTH/2) + client.getOffset(), standID*Y_OFFSET + Y_OFFSET);
+			location = new Location((RIGHT_X_LOC - STAND_WIDTH/2), standID*Y_OFFSET + Y_OFFSET);
 		} else {
-			location = new Location(RIGHT_X_LOC + client.getOffset(), standID*Y_OFFSET + Y_OFFSET);
+			location = new Location(RIGHT_X_LOC, standID*Y_OFFSET + Y_OFFSET);
 		}
 	}
 	
@@ -56,7 +56,7 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		g.drawImage(Constants.STAND_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
 		if (!isEmpty) {
-			kit.draw(c,g);
+			kit.drawWithOffset(c,g);
 		}	
 	}
 
