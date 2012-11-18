@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
 
@@ -24,23 +23,20 @@ import factory.PartType;
  */
 public class PartsRobotAgent extends Agent implements PartsRobot {
 
-	public PartsRobotAgent(String name) {
-		super();
+	private String name;
 
-		this.name = name;
+	private KitConfig Kitconfig;
+	private final List<MyKit> MyKits = Collections
+			.synchronizedList(new ArrayList<MyKit>());
+	private Map<Nest, List<Part>> GoodParts = new ConcurrentHashMap<Nest, List<Part>>();
+	private List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
 
-		// Add arms
-		for (int i = 0; i < 4; i++) {
-			this.Arms.add(new Arm());
-		}
+	private int kitsNum = 0;
 
-		timer = new Timer();
-		state = PRState.IDLE;
-	}
+	private List<Kit> KitsOnStand;
 
-	String name;
-	Timer timer;
-	PRState state;
+	private Stand stand;
+	private PartsRobotGraphics partsRobotGraphics;
 
 	public class MyKit {
 		public Kit kit;
@@ -66,33 +62,37 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}
 	}
 
-	private enum PRState {
-		IDLE, PICKING_UP, PLACING
-	};
-
 	private enum ArmStatus {
 		EMPTY, FULL, EMPTYING
 	};
 
-	private KitConfig Kitconfig;
-	private final List<MyKit> MyKits = Collections
-			.synchronizedList(new ArrayList<MyKit>());
-	public Map<Nest, List<Part>> GoodParts = new ConcurrentHashMap<Nest, List<Part>>();
-	public List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
+	private PartsRobotStatus status;
 
-	public int kitsNum = 0;
-
-	List<Kit> KitsOnStand;
-	// List<Nest> nests;
-
-	Stand stand;
-	PartsRobotGraphics partsRobotGraphics;
+	private enum PartsRobotStatus {
+		IDLE, PICKING_UP, PLACING
+	};
 
 	public Semaphore animation = new Semaphore(0, true);
 
 	// public Semaphore accessKit = new Semaphore(0, true);
 
-	/***** MESSAGES ***************************************/
+	public PartsRobotAgent(String name) {
+		super();
+
+		this.name = name;
+
+		// Add arms
+		for (int i = 0; i < 4; i++) {
+			this.Arms.add(new Arm());
+		}
+
+		status = PartsRobotStatus.IDLE;
+	}
+
+	/*
+	 * Messages
+	 */
+
 	/**
 	 * Changes the configuration for the kits From FCS
 	 */
@@ -131,14 +131,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				+ " nests");
 		stateChanged();
 
-		// timer.schedule(new TimerTask() {
-		// @Override
-		// public void run() {
-		// print("Faking partsrobot finishing kit assembly");
-		// stand.msgKitAssembled(k);
-		// }
-		// }, (int) (2000 + Math.random() * (5000 - 2000 + 1)));
-
 	}
 
 	/**
@@ -163,11 +155,14 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		stateChanged();
 	}
 
-	/**************** SCHEDULER ***********************/
+	/*
+	 * Scheduler
+	 * @see agent.Agent#pickAndExecuteAnAction()
+	 */
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		// print("wee");
+
 		// Checks if a kit is done and inspects it if it is
 		synchronized (MyKits) {
 			if (MyKits.size() > 0) {
@@ -181,7 +176,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}
 
 		// Checks if any arm is holding a part and places it if there is one
-		if (state == PRState.PLACING) {
+		if (status == PartsRobotStatus.PLACING) {
 			synchronized (Arms) {
 				for (Arm arm : Arms) {
 
@@ -194,7 +189,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			}
 
 			if (allArmsEmpty()) {
-				state = PRState.PICKING_UP;
+				status = PartsRobotStatus.PICKING_UP;
 			}
 		}
 
@@ -228,35 +223,23 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 											}
 										}
 
-									}
+									} // Why is this so awful
 								}
 							}
 						}
 					}
 				}
 			} else {
-				state = PRState.PLACING;
+				status = PartsRobotStatus.PLACING;
 			}
 		}
 
 		return false;
 	}
 
-	private int NumPartsInHand(Part part) {
-		synchronized (Arms) {
-			int count = 0;
-			for (Arm a : Arms) {
-				if (a.part != null) {
-					if (a.part.type == part.type) {
-						count++;
-					}
-				}
-			}
-			return count;
-		}
-	}
-
-	/********** ACTIONS **************/
+	/*
+	 * Actions
+	 */
 
 	private void PickUpPart(Arm arm, Part part, Nest nest) {
 
@@ -306,12 +289,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						}
 						// Tells the kit it has the part now
 						mk.kit.parts.add(arm.part);
-						/*
-						 * if (mk.kit.kitGraphics != null) {
-						 * System.out.println("receiving part");
-						 * mk.kit.kitGraphics
-						 * .receivePart(arm.part.partGraphics); }
-						 */
 						arm.part = null;
 						arm.AS = ArmStatus.EMPTY;
 
@@ -354,6 +331,20 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	// Helper methods
+
+	private int NumPartsInHand(Part part) {
+		synchronized (Arms) {
+			int count = 0;
+			for (Arm a : Arms) {
+				if (a.part != null) {
+					if (a.part.type == part.type) {
+						count++;
+					}
+				}
+			}
+			return count;
+		}
+	}
 
 	// Checks if any of the arms are empty
 	private boolean IsAnyArmEmpty() {

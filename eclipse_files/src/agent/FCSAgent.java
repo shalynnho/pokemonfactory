@@ -18,7 +18,7 @@ import factory.Order;
 import factory.PartType;
 
 /**
- * Unused in V0
+ * Controls orders that go into the kitting cell.
  * @author Daniel Paje, Michael Gendotti
  */
 public class FCSAgent extends Agent implements FCS {
