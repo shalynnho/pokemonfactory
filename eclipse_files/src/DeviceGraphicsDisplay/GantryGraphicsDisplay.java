@@ -124,14 +124,13 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 					heldBin = binList.get(i);
 					isBinHeld = true;
 			}
-			//heldBin = new BinGraphicsDisplay(currentLocation, tempBin.getBinPartType());
 			tempBin = null;
 		}
 		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_MOVE_TO_LOC_COMMAND)) {
 			destinationLocation = (Location) req.getData();
 			isMoving = true;
 		}
-		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_DROP_BIN_COMMAND)) {			
+		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_DROP_BIN_COMMAND)) {	
 			heldBin = null;
 			isBinHeld = false;
 		}
