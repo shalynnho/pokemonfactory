@@ -1,6 +1,8 @@
 package agent;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import DeviceGraphics.DeviceGraphics;
 import Utils.Constants;
@@ -26,7 +28,8 @@ public class FCSAgent extends Agent implements FCS {
 	private ArrayList<Nest> nests;
 	private Conveyor conveyor;
 	private myState state;
-	private ArrayList<Order> orders;
+	private List<Order> orders = Collections
+			.synchronizedList(new ArrayList<Order>());
 	private int numOrdersFinished = 0;
 
 	private factory.FCS fcs;
@@ -70,11 +73,13 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgStopMakingKit(Order o) {
-		for (Order order : orders) {
-			if (order.equals(o)) {
-				o.cancel = true;
-				if (fcs != null) {
-					fcs.updateQueue();
+		synchronized (orders) {
+			for (Order order : orders) {
+				if (order.equals(o)) {
+					o.cancel = true;
+					if (fcs != null) {
+						fcs.updateQueue();
+					}
 				}
 			}
 		}
@@ -96,14 +101,16 @@ public class FCSAgent extends Agent implements FCS {
 	@Override
 	public void msgOrderFinished() {
 		numOrdersFinished++;
-		print("Order " + numOrdersFinished + " Done!!!!");
-		for (Order o : orders) {
-			if (o.state == Order.orderState.ORDERED) {
-				orders.remove(o);
-				if (fcs != null) {
-					fcs.updateQueue();
+		System.out.print("Order " + numOrdersFinished + " Done!!!!");
+		synchronized (orders) {
+			for (Order o : orders) {
+				if (o.state == Order.orderState.ORDERED) {
+					orders.remove(o);
+					if (fcs != null) {
+						fcs.updateQueue();
+					}
+					break;
 				}
-				break;
 			}
 		}
 		state = myState.STARTED;
@@ -123,16 +130,18 @@ public class FCSAgent extends Agent implements FCS {
 				return true;
 			}
 			if (!orders.isEmpty()) {
-				for (Order o : orders) {
-					if (o.cancel) {
-						cancelOrder(o);
-						return true;
+				synchronized (orders) {
+					for (Order o : orders) {
+						if (o.cancel) {
+							cancelOrder(o);
+							return true;
+						}
 					}
-				}
-				for (Order o : orders) {
-					if (o.state == Order.orderState.PENDING) {
-						placeOrder(o);
-						return true;
+					for (Order o : orders) {
+						if (o.state == Order.orderState.PENDING) {
+							placeOrder(o);
+							return true;
+						}
 					}
 				}
 			}
@@ -260,7 +269,7 @@ public class FCSAgent extends Agent implements FCS {
 	}
 
 	public ArrayList<Order> getOrders() {
-		return orders;
+		return (ArrayList<Order>) orders;
 	}
 
 	public void setFCS(factory.FCS fcs) {
