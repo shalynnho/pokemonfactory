@@ -167,7 +167,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		
 		// First construct the ComboBoxModel for the PartTypes, then iterate through to add PartTypes
-		partModel = new DefaultComboBoxModel((PartType[]) Utils.Constants.DEFAULT_PARTTYPES.toArray());	
+		partModel = new DefaultComboBoxModel(Utils.Constants.DEFAULT_PARTTYPES.toArray());	
 		
 		for (int i = 0; i < 4; i++) {
 			cbPart[i] = new JComboBox(partModel);
