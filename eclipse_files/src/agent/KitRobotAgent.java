@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 
@@ -37,7 +36,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	private boolean kitRequested;
 	private int numKitsToMake;
 	private int numKitsRequested;
-	private final Timer timer;
 
 	// Used to prevent animations from overlapping
 	Semaphore animation = new Semaphore(0, true);
@@ -89,7 +87,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		numKitsRequested = 0;
 		numKitsToMake = 0;
 		state = KitRobotState.IDLE;
-		timer = new Timer();
 
 		// Don't assume stand is empty
 		standPositions.put(0, true);
@@ -256,18 +253,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			// return true;
 		}
 
-		// If other rules fail and there's a spot on the stand, request a
-		// new kit if necessary.
-		// print("Kit waiting? " + kitWaitingOnConveyor + ". Numkitsrequested "
-		// + numKitsRequested + " /Numkitstomake " + numKitsToMake);
-		// if (!kitWaitingOnConveyor && numKitsRequested < numKitsToMake) {
-		// if (standPositions.get(1) || standPositions.get(2)) {
-		// numKitsRequested++;
-		// requestKit();
-		// return true;
-		// }
-		// }
-
 		/*
 		 * Tried all rules and found no actions to fire. Return false to the
 		 * main loop of abstract base class Agent and wait.
@@ -278,16 +263,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	/*
 	 * Actions
 	 */
-
-	/**
-	 * Requests a kit from the conveyor.
-	 */
-	// private void requestKit() {
-	// conveyor.msgNeedKit();
-	// print("So far I've requested: " + numKitsRequested + " out of "
-	// + numKitsToMake + " needed.");
-	// stateChanged();
-	// }
 
 	/**
 	 * Takes a kit from the conveyor and place it on the stand.
@@ -378,15 +353,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		conveyor.msgTakeKitAway(mk.kit);
 		stand.msgShippedKit();
 		standPositions.put(0, true);
-		/*
-		 * if (myKits.size() > 0) { print(myKits.get(0).KS.toString()); } else {
-		 * System.out.println(kitWaitingOnConveyor);
-		 * System.out.println(kitRequested); System.out.println(state !=
-		 * KitRobotState.HOLDING_KIT);
-		 * System.out.println(standPositions.get(1));
-		 * System.out.println(standPositions.get(2)); }
-		 * print("Calling stateChanged()");
-		 */
 		stateChanged();
 	}
 

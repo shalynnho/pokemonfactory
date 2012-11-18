@@ -1,7 +1,6 @@
 package agent;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
 import DeviceGraphics.DeviceGraphics;
 import agent.data.Kit;
@@ -26,23 +25,9 @@ public class StandAgent extends Agent implements Stand {
 
 	private final ArrayList<MyKit> MyKits;
 
-	// Kits received but not yet placed. Should only have <= 2 keys at any given
-	// time.
-	// private final Map<MyKit, Integer> myKits = Collections
-	// .synchronizedMap(new HashMap<MyKit, Integer>());
-	// Tracks stand positions and whether or not they are open (false indicates
-	// 'not occupied')
-	// Note that this is the inverse of what the KitRobot uses in its
-	// standPositions
-	// private final Map<Integer, Boolean> standPositions = Collections
-	// .synchronizedMap(new TreeMap<Integer, Boolean>());
-	// private final List<Kit> kitsOnStand = Collections
-	// .synchronizedList(new ArrayList<Kit>());
-
 	private int numKitsToMake;
 	private int numKitsMade;
 	private boolean start;
-	private final Timer timer;
 	private StandStatus status;
 
 	private enum StandStatus {
@@ -56,7 +41,6 @@ public class StandAgent extends Agent implements Stand {
 	private class MyKit {
 		public Kit kit;
 		public KitStatus KS;
-		int standPosition;
 
 		public MyKit(Kit k) {
 			this.kit = k;
@@ -80,8 +64,6 @@ public class StandAgent extends Agent implements Stand {
 		numKitsMade = 0;
 		start = false;
 		status = StandStatus.IDLE;
-
-		timer = new Timer();
 
 		MyKits = new ArrayList<MyKit>();
 		MyKits.add(0, null);
@@ -173,7 +155,6 @@ public class StandAgent extends Agent implements Stand {
 				return true;
 			}
 
-			// print("NumKitsToMake greater than 0");
 			for (MyKit mk : MyKits) {
 				if (mk != null) {
 					if (mk.KS != KitStatus.HOLDING) {
@@ -186,17 +167,6 @@ public class StandAgent extends Agent implements Stand {
 					}
 				}
 			}
-
-			// if (MyKits.get(0) != null) {
-			// Kit robot shipped a kit
-			// if (MyKits.get(0).KS == KitStatus.SHIPPED) {
-			// mk.KS = KitStatus.DELIVERED;
-			// print("Removing " + MyKits.get(0).kit.toString()
-			// + " (shipped)");
-			// MyKits.set(0, null);
-			// return true;
-			// }
-			// }
 
 			for (MyKit mk : MyKits) {
 				if (mk != null) {
@@ -214,7 +184,6 @@ public class StandAgent extends Agent implements Stand {
 			// Attempt to request a new kit if necessary
 			int loc = 0;
 			int count = 0;
-			// if (!kitRequested) {
 			for (int i = 0; i < 3; i++) {
 				if (MyKits.get(i) == null) {
 					count++;
@@ -285,7 +254,7 @@ public class StandAgent extends Agent implements Stand {
 	 * @param k the kit being placed
 	 */
 	private void placeKit(MyKit mk) {
-		// kitRequesteds--;
+		// kitRequested--;
 
 		print("Kit ID is " + mk.kit.toString());
 		// print(kitsOnStand.size() + " kits on stand");
