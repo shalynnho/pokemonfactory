@@ -26,7 +26,7 @@ public class BinGraphics implements DeviceGraphics  {
 		isFull = true;
 		bin = b;
 		binNum = i;
-		initialLocation = new Location(840, 30 + binNum*75);
+		initialLocation = new Location(1005, 30 + binNum*75);
 	}
 	
 	/**

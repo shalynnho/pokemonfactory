@@ -37,8 +37,8 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	int finalDegree;
 
 	public GantryGraphicsDisplay (Client c) {
-		currentLocation = new Location (Constants.GANTRY_ROBOT_LOC.getX(), Constants.GANTRY_ROBOT_LOC.getY());
-		destinationLocation = new Location (Constants.GANTRY_ROBOT_LOC.getX(), Constants.GANTRY_ROBOT_LOC.getY());
+		currentLocation = new Location (Constants.GANTRY_ROBOT_LOC);
+		destinationLocation = new Location (Constants.GANTRY_ROBOT_LOC);
 		binList = new ArrayList<BinGraphicsDisplay>();
 		client = c;
 		

@@ -34,11 +34,6 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 		heldBin = null;
 		server = s;
 		gantryAgent = (GantryAgent) ga;
-		
-		/*// TODO Find out correct name for constant array list
-		for (int i = 0; i < Constants.ARRAY_LIST_OF_PART_TYPES.size(); i ++) {
-			initialBins.add(new BinGraphics(new Bin(Constants.ARRAY_LIST_OF_PART_TYPES.get(i)), i));
-		}*/
 	}
 	
 	// Move robot to bin location

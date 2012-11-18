@@ -1,6 +1,5 @@
 package DeviceGraphics;
 
-import java.util.ArrayList;
 import java.util.TreeMap;
 
 import Networking.Request;
@@ -9,24 +8,20 @@ import Utils.Constants;
 import agent.Agent;
 import agent.KitRobotAgent;
 import agent.StandAgent;
-import agent.data.Kit;
 
 public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		DeviceGraphics {
 
-	private Kit kit;
 	private final Server server;
-
-	// KitGraphics[] positions;
 
 
 	TreeMap<String, KitGraphics> kitPositions; // keeps track of where the kits are
 
-	KitRobotAgent kitRobotAgent;
-	StandAgent standAgent;
+	KitRobotAgent kitRobotAgent; 
+	StandAgent standAgent; // for testing
 
-	KitGraphics testKit1;
-	KitGraphics testKit2;
+	KitGraphics testKit1; // for testing
+	KitGraphics testKit2; // for testing
 
 	public KitRobotGraphics(Server s, Agent kra, Agent sta) {
 		kitPositions = new TreeMap<String, KitGraphics>();
@@ -38,8 +33,8 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		testKit2 = new KitGraphics(server);
 	}
 
-	/**
-	 * Initializes the Treemap of kits.
+	/*
+	 * initializes the Treemap of kits.
 	 */
 	public void initKitPositions() {
 
@@ -83,7 +78,6 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 		kitPositions.put(Constants.KIT_INSPECTION_AREA, kit);
 
-		// TODO Auto-generated method stub
 	}
 
 	/*
@@ -98,6 +92,36 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 				Constants.KIT_ROBOT_TARGET, null));
 	}
 
+	public void msgPlaceKitOnStand1(KitGraphics kit) {
+		kitPositions.put(Constants.KIT_LOCATION1, kit);
+		server.sendData(new Request(
+				Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1,
+				Constants.KIT_ROBOT_TARGET, null));
+
+	}
+
+	public void msgPlaceKitOnStand2(KitGraphics kit) {
+
+		kitPositions.put(Constants.KIT_LOCATION2, kit);
+		server.sendData(new Request(
+				Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2,
+				Constants.KIT_ROBOT_TARGET, null));
+	}
+	
+	/*
+	 * Moves the kit to a stand location
+	 * (non-Javadoc)
+	 * @see GraphicsInterfaces.KitRobotGraphics#msgPlaceKitOnStand(DeviceGraphics.KitGraphics, int)
+	 */
+	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
+		if (location == 1) {
+			msgPlaceKitOnStand1(kit);
+		} else if (location == 2) {
+			msgPlaceKitOnStand2(kit);
+		}
+
+	}
+	
 	/*
 	 * receives request that will send commands based on the request
 	 * @see DeviceGraphics.DeviceGraphics#receiveData(Networking.Request)
@@ -134,57 +158,18 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			standAgent.fakeKitCompletion(kitPositions
 					.get(Constants.KIT_LOCATION1));
 		} else if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT2_DONE)) {
-
 			standAgent.fakeKitCompletion(kitPositions
 					.get(Constants.KIT_LOCATION2));
-		}
-		if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT_INSPECTED)) {
+		} else if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT_INSPECTED)) {
 			// Hack for KitRobotManager
 			kitRobotAgent.msgKitPassedInspection();
-		}
-
-		else if (command.equals(Constants.KIT_ROBOT_ON_STAND_DONE)) {
-			System.out.println("placekitonStandDone sent");
-			// testing
+		} else if (command.equals(Constants.KIT_ROBOT_ON_STAND_DONE)) {
 			kitRobotAgent.msgPlaceKitOnStandDone();
 		} else if (command.equals(Constants.KIT_ROBOT_ON_CONVEYOR_DONE)) {
-			System.out.println("placekitonconveyordone sent");
 			kitRobotAgent.msgPlaceKitOnConveyorDone();
 		} else if (command.equals(Constants.KIT_ROBOT_ON_INSPECTION_DONE)) {
-			System.out.println("placekitoninspection sent");
 			kitRobotAgent.msgPlaceKitInInspectionAreaDone();
 		}
-	}
-
-	public void msgPlaceKitOnStand1(KitGraphics kit) {
-		kitPositions.put(Constants.KIT_LOCATION1, kit);
-		server.sendData(new Request(
-				Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1,
-				Constants.KIT_ROBOT_TARGET, null));
-
-	}
-
-	public void msgPlaceKitOnStand2(KitGraphics kit) {
-		// TODO Auto-generated method stub
-
-		kitPositions.put(Constants.KIT_LOCATION2, kit);
-		server.sendData(new Request(
-				Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2,
-				Constants.KIT_ROBOT_TARGET, null));
-	}
-
-	/*
-	 * Moves the kit to a stand location
-	 * (non-Javadoc)
-	 * @see GraphicsInterfaces.KitRobotGraphics#msgPlaceKitOnStand(DeviceGraphics.KitGraphics, int)
-	 */
-	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
-		if (location == 1) {
-			msgPlaceKitOnStand1(kit);
-		} else if (location == 2) {
-			msgPlaceKitOnStand2(kit);
-		}
-
 	}
 
 }
