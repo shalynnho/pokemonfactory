@@ -34,13 +34,15 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private int nestID;
 	// array of part locations in nest
 	private ArrayList<Location> partLocs;
-
 	// controls animation
-	private boolean receivingPart;
+	private boolean receivingPart, purging;
+	private boolean receivePartDoneSent = false, purgeDoneSent = false;
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphicsDisplay> partsInNest;
 	// start location of a part entering the nest
 	private Location partStartLoc;
+	// purge location
+	private Location purgeLoc;
 
 	/**
 	 * Default constructor
@@ -49,11 +51,13 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		client = c;
 		nestID = id;
 		receivingPart = false;
+		purging = false;
 
 		location = new Location(LANE_END_X - NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
 		partsInNest = new ArrayList<PartGraphicsDisplay>();
 		partStartLoc = new Location(LANE_END_X, location.getY()
 				+ (PART_WIDTH / 2) - PART_OFFSET);
+		purgeLoc = new Location(location.getX() - PART_WIDTH, partStartLoc.getY());
 		generatePartLocations();
 	}
 
@@ -63,6 +67,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		g.drawImage(Constants.NEST_IMAGE, location.getX() + client.getOffset()
 				, location.getY(), c);
+		
 		if (!isFull()) {
 			if(receivingPart) {	// part in motion
 				// get last part added to nest
@@ -86,9 +91,20 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				// check if part in place
 				if (partLoc.equals(endLoc)) {
 					receivingPart = false;
+					msgAgentReceivePartDone();
 				}
 			}
 		}
+		
+		if(purging) {
+			// TODO
+			// check x-coord
+			// check y-coord
+			// remove first part
+			// move all parts up a space in nest, animate
+			
+		}
+		
 		for (PartGraphicsDisplay part : partsInNest) {
 			part.getLocation().incrementX(client.getOffset());
 			part.draw(c, g);
@@ -146,11 +162,16 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	private void purge() {
 		// TODO: (later) animate parts out of nest
+		purging = true;
+		
+		
+		
+		
+		
 		for (int i = 0; i < partsInNest.size(); i++) {
 			partsInNest.remove(0);
 		}
-		client.sendData(new Request(Constants.NEST_PURGE_COMMAND
-				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
+
 	}
 
 	private void receivePart(PartType type) {
@@ -158,10 +179,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		partsInNest.add(pgd);
 		setPartLocations();
 		receivingPart = true;
-		
-		
-		client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND
-				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
+		receivePartDoneSent = false;
 	}
 	
 	private boolean isFull() {
@@ -176,6 +194,30 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		int min = (MAX_PARTS < partsInNest.size()) ? MAX_PARTS : partsInNest.size();
 		for (int i = 0; i < min; i++) {
 			partsInNest.get(i).setLocation(partLocs.get(i));
+		}
+	}
+	
+	/**
+	 * Tells the agent that the part has reached its place in the nest.
+	 * Make sure only sends message once for each part, not on every call to draw.
+	 */
+	private void msgAgentReceivePartDone() {
+		if(!receivingPart && (!receivePartDoneSent)) {
+			client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND
+					+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
+			receivePartDoneSent = true;
+		}
+	}
+	
+	/**
+	 * Tells the agent that purging is done.
+	 * Make sure only sends message once for each part, not on every call to draw.
+	 */
+	private void msgAgentPurgingDone() {
+		if((partsInNest.size() == 0) && (!purgeDoneSent)) {
+			client.sendData(new Request(Constants.NEST_PURGE_COMMAND
+					+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
+			purgeDoneSent = true;
 		}
 	}
 }
