@@ -25,6 +25,10 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		g.drawImage(partImage, partLocation.getX(), partLocation.getY(), c);
 	}
+	
+	public void drawWithOffset(JComponent c, Graphics2D g, int offset) {
+		g.drawImage(partImage, partLocation.getX() + offset, partLocation.getY(), c);
+	}
 
 	public Location getLocation () {
 		return partLocation;

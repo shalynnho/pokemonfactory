@@ -61,13 +61,18 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	public Location getLocation() {
 		return kitLocation;
 	}
-
+	
 	public void draw(JComponent c, Graphics2D g) {
-		g.drawImage(Constants.KIT_IMAGE, kitLocation.getX(),
+		draw(c, g, 0);
+	}
+
+	public void draw(JComponent c, Graphics2D g, int offset) {
+		g.drawImage(Constants.KIT_IMAGE, kitLocation.getX() + offset,
 				kitLocation.getY(), c);
 
+		//TODO fix so that it draws the actual parts
 		for (PartGraphicsDisplay part : parts) {
-			g.drawImage(Constants.PART_IMAGE, part.getLocation().getX(), part
+			g.drawImage(Constants.PART_IMAGE, part.getLocation().getX() + offset, part
 					.getLocation().getY(), c);
 		}
 
