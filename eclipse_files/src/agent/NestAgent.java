@@ -3,13 +3,12 @@ package agent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.NestGraphics;
-import Utils.Constants;
-import agent.CameraAgent.MyNest;
-import agent.CameraAgent.NestStatus;
 import agent.data.Part;
 import agent.interfaces.Nest;
 import factory.PartType;
@@ -28,10 +27,11 @@ public class NestAgent extends Agent implements Nest {
 	public int count = 0;
 	public int countRequest = 0;
 	int full = 9;
+	private final Timer timer;
 	public boolean takingParts = false;
 
 	public NestGraphics nestGraphics;
-	private NestState state; 
+	private NestState state;
 
 	public Semaphore animation = new Semaphore(0, true);
 
@@ -53,7 +53,7 @@ public class NestAgent extends Agent implements Nest {
 	public enum NestStatus {
 		IN_NEST, IN_NEST_POSITION, REMOVING
 	};
-	
+
 	public enum NestState {
 		PURGING, NOT_PURGING
 	};
@@ -62,20 +62,21 @@ public class NestAgent extends Agent implements Nest {
 		super();
 		state = NestState.NOT_PURGING;
 		this.name = name;
+		timer = new Timer();
 	}
 
 	// MESSAGES
 	@Override
 	public void msgHereIsPartType(PartType type) {
 		print("Received msgHereIsPartType");
-		//if (currentPartType != type) {
+		// if (currentPartType != type) {
 
-		//if (currentPartType != type) {
-			state = NestState.PURGING;
-			lane.msgPurgeParts();
-			camera.msgResetSelf();
-			currentPartType = type;
-		//}
+		// if (currentPartType != type) {
+		state = NestState.PURGING;
+		lane.msgPurgeParts();
+		camera.msgResetSelf();
+		currentPartType = type;
+		// }
 		stateChanged();
 	}
 
@@ -84,7 +85,9 @@ public class NestAgent extends Agent implements Nest {
 		print("Received msgHereIsPart");
 		count++;
 		currentParts.add(new MyPart(p));
-		print("Received a part of type: "+p.type.getName()+" I have "+currentParts.size()+" parts and have requested "+countRequest);
+		print("Received a part of type: " + p.type.getName() + " I have "
+				+ currentParts.size() + " parts and have requested "
+				+ countRequest);
 		stateChanged();
 	}
 
@@ -142,8 +145,8 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		//print("In scheduler");
-		if(state == NestState.PURGING){
+		// print("In scheduler");
+		if (state == NestState.PURGING) {
 			purgeSelf();
 			return true;
 		}
@@ -171,19 +174,16 @@ public class NestAgent extends Agent implements Nest {
 			nestFull();
 			return true;
 		}
-		/*synchronized (currentParts) {
-			for (MyPart currentPart : currentParts) {
-				if (currentPart.status == NestStatus.REMOVING) {
-					updateParts();
-					return true;
-				}
-			}
-		}*/
+		/*
+		 * synchronized (currentParts) { for (MyPart currentPart : currentParts)
+		 * { if (currentPart.status == NestStatus.REMOVING) { updateParts();
+		 * return true; } } }
+		 */
 		return false;
 	}
 
 	// ACTIONS
-	public void purgeSelf(){
+	public void purgeSelf() {
 		state = NestState.NOT_PURGING;
 		if (nestGraphics != null) {
 			nestGraphics.purge();
@@ -195,7 +195,7 @@ public class NestAgent extends Agent implements Nest {
 			}
 		}
 
-		takingParts=false;
+		takingParts = false;
 		requestList = Collections.synchronizedList(new ArrayList<PartType>());
 		currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
 		countRequest = 0;
@@ -204,11 +204,19 @@ public class NestAgent extends Agent implements Nest {
 		requestList.add(currentPartType);
 		stateChanged();
 	}
-	
-	public void getParts(PartType requestedType) {
+
+	public void getParts(final PartType requestedType) {
 		print("Telling lane it need a part and incrementing count");
 		countRequest++;
-		lane.msgINeedPart(requestedType);
+		// lane.msgINeedPart(requestedType);
+
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				print("Faking lane giving me a part.");
+				msgHereIsPart(new Part(requestedType));
+			}
+		}, 10);
 		stateChanged();
 	}
 
@@ -306,11 +314,10 @@ public class NestAgent extends Agent implements Nest {
 	}
 
 	// HACK for v0 only
-	/*public void FillWithParts() {
-		for (int i = 1; i < full; i++) {
-			currentParts.add(new MyPart(new Part(Constants.DEFAULT_PARTTYPES
-					.get(0))));
-		}
-	}*/
+	/*
+	 * public void FillWithParts() { for (int i = 1; i < full; i++) {
+	 * currentParts.add(new MyPart(new Part(Constants.DEFAULT_PARTTYPES
+	 * .get(0)))); } }
+	 */
 
 }
