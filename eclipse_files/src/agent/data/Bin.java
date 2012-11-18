@@ -14,18 +14,14 @@ public class Bin {
 	};
 
 	public BinStatus binState = BinStatus.PENDING;
-
-	public Bin() {
-
-	}
 	
 	public Bin(Part part, int BinNum) {
-		binGraphics= new BinGraphics(this,BinNum);
 		this.part = part;
+		binGraphics= new BinGraphics(this,BinNum,part.partGraphics);
 	}
 
 	public Bin(PartType type, int BinNum) {
-		binGraphics= new BinGraphics(this,BinNum);
 		this.part = new Part(type);
+		binGraphics= new BinGraphics(this,BinNum,part.partGraphics);
 	}
 }

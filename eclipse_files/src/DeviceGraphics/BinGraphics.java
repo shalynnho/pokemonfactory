@@ -22,10 +22,11 @@ public class BinGraphics implements DeviceGraphics  {
 		bin = b;
 	}*/
 	
-	public BinGraphics (Bin b, int i) {
+	public BinGraphics (Bin b, int i, PartGraphics part) {
 		isFull = true;
 		bin = b;
 		binNum = i;
+		this.part=part;
 		initialLocation = new Location(1005, 30 + binNum*75);
 	}
 	
