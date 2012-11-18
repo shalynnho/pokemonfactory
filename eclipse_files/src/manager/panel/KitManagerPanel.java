@@ -80,9 +80,8 @@ public class KitManagerPanel extends JPanel{
 		btnAddKit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				showButtons("Add");
-				tfName.setText("");
-				tfName.setEnabled(true);
-				// set each combo box to [No Item]
+				clearFields();
+				enableFields();
 			}
 		});
 		pnlKitChooser.add(btnAddKit);
@@ -232,7 +231,8 @@ public class KitManagerPanel extends JPanel{
 
 	public void clearFields() {
 		tfName.setText("");
-		// each of the comboBoxes set to No Item
+		// each of the comboBoxes set to first Item
+		for (int i = 0; i < 8; i++) cbPart[i].setSelectedIndex(0);
 	}
 	
 	public void enableFields() {
