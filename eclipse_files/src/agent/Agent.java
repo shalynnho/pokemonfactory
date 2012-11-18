@@ -8,6 +8,7 @@ import Utils.StringUtil;
 /** Base class for simple agents */
 public abstract class Agent {
 	Semaphore stateChange = new Semaphore(1, true);// binary semaphore, fair
+	Semaphore print = new Semaphore(1, true);
 	private AgentThread agentThread;
 
 	protected Agent() {
@@ -49,6 +50,12 @@ public abstract class Agent {
 
 	/** Print message with exception stack trace */
 	protected void print(String msg, Throwable e) {
+		try {
+			print.acquire();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		StringBuffer sb = new StringBuffer();
 		sb.append("[Agent]");
 		sb.append(getName());
@@ -58,7 +65,16 @@ public abstract class Agent {
 		if (e != null) {
 			sb.append(StringUtil.stackTraceString(e));
 		}
-		// System.out.print(sb.toString());
+		if (this.getClass() == agent.FCSAgent.class
+				|| this.getClass() == agent.StandAgent.class
+				|| this.getClass() == agent.KitRobotAgent.class
+				|| this.getClass() == agent.ConveyorAgent.class
+				|| this.getClass() == agent.LaneAgent.class) {
+
+		} else {
+			System.out.print(sb.toString());
+		}
+		print.release();
 	}
 
 	/**

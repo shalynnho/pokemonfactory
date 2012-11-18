@@ -9,8 +9,8 @@ import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.NestGraphics;
 import Utils.Constants;
 import agent.data.Part;
-import factory.PartType;
 import agent.interfaces.Nest;
+import factory.PartType;
 
 /**
  * Nests hold parts
@@ -18,14 +18,16 @@ import agent.interfaces.Nest;
  */
 public class NestAgent extends Agent implements Nest {
 
-	public List<PartType> requestList = Collections.synchronizedList(new ArrayList<PartType>());
+	public List<PartType> requestList = Collections
+			.synchronizedList(new ArrayList<PartType>());
 	PartType currentPartType;
-	public List<MyPart> currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
+	public List<MyPart> currentParts = Collections
+			.synchronizedList(new ArrayList<MyPart>());
 	public int count = 0;
 	public int countRequest = 0;
 	int full = 9;
 	public boolean takingParts = false;
-	
+
 	public NestGraphics nestGraphics;
 
 	public Semaphore animation = new Semaphore(0, true);
@@ -59,9 +61,11 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgHereIsPartType(PartType type) {
 		print("Received msgHereIsPartType");
-		if(currentPartType != type) {
-			if(nestGraphics != null) { nestGraphics.purge(); }
-			 
+		if (currentPartType != type) {
+			if (nestGraphics != null) {
+				nestGraphics.purge();
+			}
+
 			currentPartType = type;
 			countRequest = 0;
 			count = 0;
@@ -82,19 +86,20 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgTakingPart(Part p) {
 		print("Received msgTakingPart");
-		/*if (nestGraphics != null) {
-			nestGraphics.givePartToPartsRobot(p.partGraphics);
-		}*/
+		/*
+		 * if (nestGraphics != null) {
+		 * nestGraphics.givePartToPartsRobot(p.partGraphics); }
+		 */
 		/*
 		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); }
 		 */
-		synchronized(currentParts) {
+		synchronized (currentParts) {
 			for (MyPart part : currentParts) {
 				if (part.part.equals(p)) {
 					print("found part");
-					part.status=NestStatus.REMOVING;
-					//currentParts.remove(part);
+					part.status = NestStatus.REMOVING;
+					// currentParts.remove(part);
 					break;
 				}
 			}
@@ -133,7 +138,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		synchronized(requestList) {
+		synchronized (requestList) {
 			for (PartType requestedPart : requestList) {
 				if (countRequest < full) {
 					getParts(requestedPart);
@@ -141,7 +146,7 @@ public class NestAgent extends Agent implements Nest {
 				}
 			}
 		}
-		synchronized(currentParts) {
+		synchronized (currentParts) {
 			for (MyPart currentPart : currentParts) {
 				if (currentPart.status == NestStatus.REMOVING) {
 					removePart(currentPart);
@@ -153,13 +158,13 @@ public class NestAgent extends Agent implements Nest {
 				}
 			}
 		}
-		if (currentParts.size() == full && takingParts == false ) {
+		if (currentParts.size() == full && takingParts == false) {
 			nestFull();
 			return true;
 		}
-		synchronized(currentParts) {
+		synchronized (currentParts) {
 			for (MyPart currentPart : currentParts) {
-				if(currentPart.status==NestStatus.REMOVING){
+				if (currentPart.status == NestStatus.REMOVING) {
 					updateParts();
 					return true;
 				}
@@ -178,7 +183,7 @@ public class NestAgent extends Agent implements Nest {
 
 	public void moveToPosition(Part part) {
 		print("Moving part to proper nest location");
-		//count++;
+		// count++;
 		if (nestGraphics != null) {
 			// TODO
 			nestGraphics.receivePart(part.partGraphics);
@@ -189,7 +194,7 @@ public class NestAgent extends Agent implements Nest {
 				e.printStackTrace();
 			}
 		}
-		//count++;
+		// count++;
 
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
@@ -198,8 +203,8 @@ public class NestAgent extends Agent implements Nest {
 		}
 		stateChanged();
 	}
-	
-	public void removePart(MyPart part){
+
+	public void removePart(MyPart part) {
 		if (nestGraphics != null) {
 			nestGraphics.givePartToPartsRobot(part.part.partGraphics);
 			try {
@@ -212,12 +217,13 @@ public class NestAgent extends Agent implements Nest {
 		currentParts.remove(part);
 		count--;
 		countRequest--;
-		print("count request "+countRequest);
+		print("count request " + countRequest);
 		stateChanged();
 	}
 
 	public void nestFull() {
-		print("Telling camera that this nest is full with "+count+" parts or "+currentParts.size());
+		print("Telling camera that this nest is full with " + count
+				+ " parts or " + currentParts.size());
 		camera.msgIAmFull(this);
 		takingParts = true;
 	}
@@ -250,7 +256,7 @@ public class NestAgent extends Agent implements Nest {
 
 	public List<Part> getParts() {
 		List<Part> parts = new ArrayList<Part>();
-		synchronized(currentParts) {
+		synchronized (currentParts) {
 			for (MyPart p : currentParts) {
 				parts.add(p.part);
 			}
@@ -260,7 +266,7 @@ public class NestAgent extends Agent implements Nest {
 
 	public ArrayList<PartType> getTypesOfParts() {
 		ArrayList<PartType> types = new ArrayList<PartType>();
-		synchronized(currentParts) {
+		synchronized (currentParts) {
 			for (MyPart p : currentParts) {
 				types.add(p.part.type);
 			}
@@ -271,7 +277,8 @@ public class NestAgent extends Agent implements Nest {
 	// HACK for v0 only
 	public void FillWithParts() {
 		for (int i = 1; i < full; i++) {
-			currentParts.add(new MyPart(new Part(Constants.DEFAULT_PARTTYPES.get(0))));
+			currentParts.add(new MyPart(new Part(Constants.DEFAULT_PARTTYPES
+					.get(0))));
 		}
 	}
 

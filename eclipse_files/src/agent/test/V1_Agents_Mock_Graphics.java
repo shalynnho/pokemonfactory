@@ -94,12 +94,16 @@ public class V1_Agents_Mock_Graphics {
 
 		mg.setCamera(camera);
 		mg.setConveyor(conveyor);
-		// mg.setFeeder(feeder);
 		mg.setGantry(gantry);
 		mg.setKitrobot(kitRobot);
-		// mg.setLane(lane);
-		// mg.setNest(nest);
 		mg.setPartsrobot(partsRobot);
+
+		partsRobot.setGraphicalRepresentation(mg);
+		camera.setGraphicalRepresentation(mg);
+		stand.setGraphicalRepresentation(mg);
+		kitRobot.setGraphicalRepresentation(mg);
+		conveyor.setGraphicalRepresentation(mg);
+		fcs.setGraphicalRepresentation(mg);
 
 		gantry.setGraphicalRepresentation(mg);
 		for (int i = 0; i < 4; i++) {
@@ -114,12 +118,6 @@ public class V1_Agents_Mock_Graphics {
 			nests.get(i).setGraphicalRepresentation(mockNests.get(i));
 			mockNests.get(i).setNestAgent(nests.get(i));
 		}
-		partsRobot.setGraphicalRepresentation(mg);
-		camera.setGraphicalRepresentation(mg);
-		stand.setGraphicalRepresentation(mg);
-		kitRobot.setGraphicalRepresentation(mg);
-		conveyor.setGraphicalRepresentation(mg);
-		fcs.setGraphicalRepresentation(mg);
 
 		KitConfig kg = new KitConfig("Kit config");
 		kg.addItem(new PartType("1"), 1);
@@ -154,7 +152,7 @@ public class V1_Agents_Mock_Graphics {
 
 		fcs.msgStartProduction();
 		for (int i = 0; i < 1000; i++) {
-			fcs.msgAddKitsToQueue(new Order(kg, 1));
+			fcs.msgAddKitsToQueue(new Order(kg, 2));
 		}
 	}
 

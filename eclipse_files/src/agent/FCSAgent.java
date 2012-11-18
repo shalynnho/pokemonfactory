@@ -28,8 +28,12 @@ public class FCSAgent extends Agent implements FCS {
 	private ArrayList<Nest> nests;
 	private Conveyor conveyor;
 	private myState state;
+<<<<<<< HEAD
 	private List<Order> orders = Collections
 			.synchronizedList(new ArrayList<Order>());
+=======
+	private List<Order> orders;
+>>>>>>> branch 'master' of https://github.com/usc-csci200-fall2012/team09.git
 	private int numOrdersFinished = 0;
 
 	private factory.FCS fcs;
@@ -47,7 +51,7 @@ public class FCSAgent extends Agent implements FCS {
 		super();
 		this.name = name;
 		this.nests = new ArrayList<Nest>();
-		this.orders = new ArrayList<Order>();
+		this.orders = Collections.synchronizedList(new ArrayList<Order>());
 		binsSet = false;
 		binsToAdd = new ArrayList<PartType>();
 		state = myState.STARTED;
@@ -100,6 +104,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgOrderFinished() {
+<<<<<<< HEAD
 		numOrdersFinished++;
 		System.out.print("Order " + numOrdersFinished + " Done!!!!");
 		synchronized (orders) {
@@ -109,17 +114,45 @@ public class FCSAgent extends Agent implements FCS {
 					if (fcs != null) {
 						fcs.updateQueue();
 					}
+=======
+		print("Recieved msgOrderFinished");
+		synchronized(orders){
+			for (Order o : orders) {
+				if (o.state == Order.orderState.ORDERED) {
+					o.state = Order.orderState.FINISHED;
+>>>>>>> branch 'master' of https://github.com/usc-csci200-fall2012/team09.git
 					break;
 				}
 			}
 		}
-		state = myState.STARTED;
 		stateChanged();
 	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		print("I'm scheduling stuff");
+		//print("I'm scheduling stuff");
+		if (!orders.isEmpty()) {
+			synchronized(orders){
+				for (Order o : orders) {
+					if (o.cancel) {
+						cancelOrder(o);
+						return true;
+					}
+				}
+			}
+		}
+		if( state == myState.LOADED) {
+			if (!orders.isEmpty()) {
+				synchronized(orders){
+					for (Order o : orders) {
+						if (o.state == Order.orderState.FINISHED) {
+							finishOrder(o);
+							return true;
+						}
+					}
+				}
+			}
+		}
 		if (state == myState.STARTED) {
 			if (!binsSet && gantry != null) {
 				initializeBins();
@@ -130,6 +163,7 @@ public class FCSAgent extends Agent implements FCS {
 				return true;
 			}
 			if (!orders.isEmpty()) {
+<<<<<<< HEAD
 				synchronized (orders) {
 					for (Order o : orders) {
 						if (o.cancel) {
@@ -137,6 +171,9 @@ public class FCSAgent extends Agent implements FCS {
 							return true;
 						}
 					}
+=======
+				synchronized(orders){
+>>>>>>> branch 'master' of https://github.com/usc-csci200-fall2012/team09.git
 					for (Order o : orders) {
 						if (o.state == Order.orderState.PENDING) {
 							placeOrder(o);
@@ -188,6 +225,17 @@ public class FCSAgent extends Agent implements FCS {
 		if (fcs != null) {
 			fcs.updateQueue();
 		}
+		stateChanged();
+	}
+	
+	public void finishOrder(Order o) {
+		numOrdersFinished++;
+		System.out.println("Order " + numOrdersFinished + " Done!!!!");
+		orders.remove(o);
+		if (fcs != null) {
+			fcs.updateQueue();
+		}
+		state = myState.STARTED;
 		stateChanged();
 	}
 
@@ -268,8 +316,13 @@ public class FCSAgent extends Agent implements FCS {
 		return null;
 	}
 
+<<<<<<< HEAD
 	public ArrayList<Order> getOrders() {
 		return (ArrayList<Order>) orders;
+=======
+	public List<Order> getOrders() {
+		return orders;
+>>>>>>> branch 'master' of https://github.com/usc-csci200-fall2012/team09.git
 	}
 
 	public void setFCS(factory.FCS fcs) {

@@ -9,7 +9,7 @@ public class Order implements Serializable, FactoryData {
 	public int numKits;  
 	public boolean cancel;
 	
-	public static enum orderState {PENDING, ORDERED, CANCEL};
+	public static enum orderState {PENDING, ORDERED, CANCEL, FINISHED};
 	
 	public Order(KitConfig kc, int numKits){    
 		this.state = orderState.PENDING;    
