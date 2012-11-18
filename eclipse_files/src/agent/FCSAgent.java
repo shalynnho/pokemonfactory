@@ -165,7 +165,7 @@ public class FCSAgent extends Agent implements FCS {
 		int k = 0;
 		for (PartType type : o.kitConfig.getConfig().keySet()) {
 			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
-				//((NestAgent) nests.get(k)).stopThread();
+				((NestAgent) nests.get(k)).stopThread();
 				k++;
 			}
 		}
@@ -174,7 +174,7 @@ public class FCSAgent extends Agent implements FCS {
 		for (PartType type : o.kitConfig.getConfig().keySet()) {
 			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
 				nests.get(k).msgHereIsPartType(type);
-				//((NestAgent) nests.get(k)).startThread();
+				((NestAgent) nests.get(k)).startThread();
 				k++;
 			}
 		}

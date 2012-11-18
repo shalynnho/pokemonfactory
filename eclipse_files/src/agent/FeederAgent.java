@@ -3,6 +3,8 @@ package agent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.DeviceGraphics;
@@ -30,6 +32,8 @@ public class FeederAgent extends Agent implements Feeder {
 	public Bin bin;
 
 	private FeederStatus state;
+	
+	private final Timer timer;
 
 	String name;
 
@@ -70,19 +74,22 @@ public class FeederAgent extends Agent implements Feeder {
 		this.name = name;
 		currentOrientation = 0;
 		bin = null;
+		timer = new Timer();
 	}
 
 	@Override
 	public void msgINeedPart(PartType type, LaneAgent lane) {
 		print("Received msgINeedPart for type "+type.getName());
 		boolean found = false;
-		for (MyLane l : lanes) {
-			if (l.lane.equals(lane)) {
-				found = true;
-				l.numPartsNeeded++;
-				l.type = type;
-				if (l.state == LaneStatus.DOES_NOT_NEED_PARTS) {
-					l.state = LaneStatus.NEEDS_PARTS;
+		synchronized(lanes){
+			for (MyLane l : lanes) {
+				if (l.lane.equals(lane)) {
+					found = true;
+					l.numPartsNeeded++;
+					l.type = type;
+					if (l.state == LaneStatus.DOES_NOT_NEED_PARTS) {
+						l.state = LaneStatus.NEEDS_PARTS;
+					}
 				}
 			}
 		}
@@ -98,13 +105,15 @@ public class FeederAgent extends Agent implements Feeder {
 	public void msgHereAreParts(PartType type, Bin bin) {
 		print("Received msgHereAreParts " + type.toString());
 		this.bin = bin;
-		for (MyLane lane : lanes) {
-			if(lane.type != null) {
-			if (lane.type.equals(type)) {
-				print("lane type is " + lane.type.toString());
-				lane.state = LaneStatus.GIVING_PARTS;
-				state = FeederStatus.RECEIVING_BIN;
-			}
+		synchronized(lanes){
+			for (MyLane lane : lanes) {
+				if(lane.type != null) {
+					if (lane.type.equals(type)) {
+						print("lane type is " + lane.type.toString());
+						lane.state = LaneStatus.GIVING_PARTS;
+						state = FeederStatus.RECEIVING_BIN;
+					}
+				}
 			}
 		}
 		stateChanged();
@@ -134,10 +143,12 @@ public class FeederAgent extends Agent implements Feeder {
 		// / print("In the scheduler");
 		//synchronized(lanes) {
 		if (state == FeederStatus.IDLE) {
-			for (MyLane lane : lanes) {
-				if (lane.state == LaneStatus.NEEDS_PARTS) {
-					getParts(lane);
-					return true;
+			synchronized(lanes){
+				for (MyLane lane : lanes) {
+					if (lane.state == LaneStatus.NEEDS_PARTS) {
+						getParts(lane);
+						return true;
+					}
 				}
 			}
 		}
@@ -146,16 +157,18 @@ public class FeederAgent extends Agent implements Feeder {
 			return true;
 		}
 		if (state == FeederStatus.FEEDING_PARTS) {
-			for (MyLane lane : lanes) {
-				if (lane.state == LaneStatus.GIVING_PARTS) {
-					print("Giving parts to lane "+lane.type.getName());
-					if (lanes.get(currentOrientation).equals(lane)) {
-						givePart(lane);
-						return true;
-					} else {
-						print("Flipping Diverter");
-						flipDiverter();
-						return true;
+			synchronized(lanes){
+				for (MyLane lane : lanes) {
+					if (lane.state == LaneStatus.GIVING_PARTS) {
+						print("Giving parts to lane "+lane.type.getName());
+						if (lanes.get(currentOrientation).equals(lane)) {
+							givePart(lane);
+							return true;
+						} else {
+							print("Flipping Diverter");
+							flipDiverter();
+							return true;
+						}
 					}
 				}
 			}
@@ -167,11 +180,18 @@ public class FeederAgent extends Agent implements Feeder {
 		return false;
 	}
 
-	public void getParts(MyLane lane) {
+	public void getParts(final MyLane lane) {
 		print("Telling gantry that I needs parts");
 		if (gantry != null) {
 			gantry.msgINeedParts(lane.type, this);
 		}
+		/*timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				print("Faking lane giving me a part.");
+				msgHereAreParts(lane.type,new Bin(new Part(lane.type),0));
+			}
+		}, 10);*/
 		state = FeederStatus.REQUESTED_PARTS;
 		stateChanged();
 	}
