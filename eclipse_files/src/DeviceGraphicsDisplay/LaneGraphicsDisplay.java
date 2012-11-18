@@ -37,8 +37,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	// stores the parts on the lane
 	private ArrayList<PartGraphicsDisplay> partsOnLane;
-	// Location of this lane
-	private Location location;
 	// start location of parts on this lane
 	private final Location partStartLoc;
 	// array list of locations of the lane lines

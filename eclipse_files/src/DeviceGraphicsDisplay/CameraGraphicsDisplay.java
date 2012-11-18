@@ -32,7 +32,7 @@ public class CameraGraphicsDisplay extends DeviceGraphicsDisplay{
 	public void draw(JComponent c, Graphics2D g) {
 		if(flashOn >= 0) {
 			for(Location loc : locs) {
-				g.drawImage(Constants.CAMERA_IMAGE, loc.getX(), loc.getY(), c);
+				g.drawImage(Constants.CAMERA_IMAGE, loc.getX() + client.getOffset(), loc.getY(), c);
 			}
 			flashOn--;
 		} else {
