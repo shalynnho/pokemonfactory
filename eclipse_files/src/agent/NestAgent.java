@@ -61,7 +61,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgHereIsPartType(PartType type) {
 		print("Received msgHereIsPartType");
-		//if (currentPartType != type) {
+		if (currentPartType != type) {
 			if (nestGraphics != null) {
 				nestGraphics.purge();
 			}
@@ -72,7 +72,7 @@ public class NestAgent extends Agent implements Nest {
 			requestList.clear();
 			requestList.add(type);
 			stateChanged();
-		//}
+		}
 	}
 
 	@Override
