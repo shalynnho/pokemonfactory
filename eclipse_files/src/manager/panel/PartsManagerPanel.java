@@ -188,12 +188,7 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		pnlEdit.add(btnSaveChanges);
 		
 		btnCnclChanges = new JButton("Cancel Changes");
-		btnCnclChanges.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cancelEdit();
-				viewPart((String) cbPart.getSelectedItem());
-			}
-		});
+		btnCnclChanges.addActionListener(this);
 		pnlEdit.add(btnCnclChanges);
 		
 		pnlAdd = new JPanel();
@@ -228,6 +223,9 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 			deletePart((String) cbPart.getSelectedItem());
 		} else if (ae.getSource() == btnSaveChanges) {
 //			savePartEdit((String) cbPart.getSelectedItem());
+		} else if (ae.getSource() == btnCnclChanges) {
+			cancelEdit();
+			viewPart((String) cbPart.getSelectedItem());
 		}
 	}
 	
