@@ -85,6 +85,12 @@ public class KitManagerPanel extends JPanel{
 		pnlButtons.add(pnlView, "View");
 		
 		JButton btnEditKit = new JButton("Edit Kit Arrangement");
+		btnEditKit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tf.setEnabled(true);
+				// enables the comboBoxes
+			}
+		});
 		pnlView.add(btnEditKit);
 		
 		JButton btnDeleteKit = new JButton("Delete Kit Arrangement");
@@ -220,6 +226,20 @@ public class KitManagerPanel extends JPanel{
 	public void clearFields() {
 		tfName.setText("");
 		// each of the comboBoxes set to No Item
+	}
+	
+	public void enableFields() {
+		tfName.setEnabled(true);
+		for (int i = 0; i < 8; i++) {
+			cbPart[i].setEnabled(true);
+		}
+	}
+	
+	public void disableFields() {
+		tfName.setEnabled(false);
+		for (int i = 0; i < 8; i++) {
+			cbPart[i].setEnabled(false);
+		}
 	}
 
 	public void updateKitConfigs(ArrayList<KitConfig> kc)
