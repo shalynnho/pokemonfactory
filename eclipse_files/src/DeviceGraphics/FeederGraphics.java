@@ -41,7 +41,8 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 		id = feederID;
 		server = myServer;
 		feederAgent = (FeederAgent)a;
-		feederLocation = new Location(500, id*2 + 150);
+		feederLocation = Constants.FEEDER_LOC;
+		feederLocation.incrementY(id*Constants.FEEDER_Y_STEP);
 		
 		// diverter defaults to the top lane
 		diverterTop = true;

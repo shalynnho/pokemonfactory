@@ -60,10 +60,8 @@ public abstract class Constants {
 	// DEVICE START LOCATIONS
 	// ==================================
 
-	public static final Location FEEDER0_LOC = new Location(600, 100);
-	// public static final Location FEEDER1_LOC = new Location(600, );
-	// public static final Location FEEDER2_LOC = new Location(600, );
-	// public static final Location FEEDER3_LOC = new Location(600, );
+	public static final Location FEEDER_LOC = new Location(850, 50);
+	public static final int FEEDER_Y_STEP = 150;
 
 	public static final Location KIT_ROBOT_LOC = new Location(75, 192.5);
 	public static final Location KIT_ROBOT_ROTATION_AXIS_LOC = new Location(112.5,37.5);
