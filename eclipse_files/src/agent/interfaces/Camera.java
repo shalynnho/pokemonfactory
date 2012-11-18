@@ -9,6 +9,8 @@ public interface Camera {
 	public abstract void msgInspectKit(Kit kit);
 
 	public abstract void msgIAmFull(Nest nest);
+	
+	public abstract void msgResetSelf();
 
 	/**
 	 * For v0, nests will never have bad parts.

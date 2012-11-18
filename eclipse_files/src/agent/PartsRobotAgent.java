@@ -100,6 +100,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	public void msgHereIsKitConfiguration(KitConfig config) {
 		print("Received msgHereIsKitConfiguration");
 		Kitconfig = config;
+		GoodParts = new ConcurrentHashMap<Nest, List<Part>>();
 		// stateChanged();
 	}
 
@@ -108,8 +109,9 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgHereAreGoodParts(Nest n, List<Part> goodParts) {
-		print("Received msgHereAreGoodParts");
+		print("Received msgHereAreGoodParts of type "+goodParts.get(0).type.getName());
 		GoodParts.put(n, goodParts);
+		print("I have "+MyKits.size()+" kits and "+GoodParts.size()+" nests");
 		stateChanged();
 	}
 
@@ -122,6 +124,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 		MyKit mk = new MyKit(k);
 		MyKits.add(mk);
+		print("I have "+MyKits.size()+" kits and "+GoodParts.size()+" nests");
 		stateChanged();
 
 		// timer.schedule(new TimerTask() {
@@ -254,22 +257,24 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 			arm.AS = ArmStatus.FULL;
 			arm.part = part;
+			GoodParts.remove(nest);
 			// Tells the graphics to pickup the part
 			if (partsRobotGraphics != null) {
 				partsRobotGraphics.pickUpPart(part.partGraphics);
 				try {
-					print("Blocking");
+					//print("Blocking");
 					animation.acquire();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				print("Got permit");
+				//print("Got permit");
 			}
+			
 
 			// Only takes 1 part from a nest at a time
 			nest.msgTakingPart(part);
 			nest.msgDoneTakingParts();
-
+			
 			stateChanged();
 		}
 	}
@@ -285,12 +290,12 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 							partsRobotGraphics.givePartToKit(
 									arm.part.partGraphics, mk.kit.kitGraphics);
 							try {
-								print("Blocking");
+								//print("Blocking");
 								animation.acquire();
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							print("Got permit");
+							//print("Got permit");
 						}
 						// Tells the kit it has the part now
 						mk.kit.parts.add(arm.part);
@@ -334,6 +339,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		MyKits.remove(mk);
 		stand.msgKitAssembled(mk.kit);
 		kitsNum++;
+		print("I have "+MyKits.size()+" kits and "+GoodParts.size()+" nests");
 		print("I have " + MyKits.size() + " kits on the stand and I have made "
 				+ kitsNum + " kits");
 		stateChanged();

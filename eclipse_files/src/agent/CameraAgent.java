@@ -107,6 +107,18 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();
 
 	}
+	
+	@Override
+	public void msgResetSelf() {
+		print("Reseting Self");
+		synchronized (nests) {
+			for (MyNest n : nests) {
+				n.state=NestStatus.NOT_READY;
+			}
+		}
+		mk=null;
+		//stateChanged();
+	}
 
 	@Override
 	public void msgTakePictureNestDone(NestGraphics nest, boolean done,

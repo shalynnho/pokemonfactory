@@ -7,6 +7,7 @@ import java.util.List;
 import DeviceGraphics.DeviceGraphics;
 import Utils.Constants;
 import agent.data.Bin;
+import agent.interfaces.Camera;
 import agent.interfaces.Conveyor;
 import agent.interfaces.FCS;
 import agent.interfaces.Gantry;
@@ -31,6 +32,7 @@ public class FCSAgent extends Agent implements FCS {
 	private List<Order> orders = Collections
 			.synchronizedList(new ArrayList<Order>());
 	private int numOrdersFinished = 0;
+	private Camera camera;
 
 	private factory.FCS fcs;
 
@@ -156,25 +158,31 @@ public class FCSAgent extends Agent implements FCS {
 		if (fcs != null) {
 			fcs.updateQueue();
 		}
-		if (conveyor == null) {
-			print("conveyor is null");
+		
+		int k = 0;
+		for (PartType type : o.kitConfig.getConfig().keySet()) {
+			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
+				((NestAgent) nests.get(k)).stopThread();
+				k++;
+			}
 		}
+		camera.msgResetSelf();
+		k = 0;
+		for (PartType type : o.kitConfig.getConfig().keySet()) {
+			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
+				nests.get(k).msgHereIsPartType(type);
+				((NestAgent) nests.get(k)).startThread();
+				k++;
+			}
+		}
+		partsRobot.msgHereIsKitConfiguration(o.kitConfig);
 		conveyor.msgHereIsKitConfiguration(o.kitConfig);
 		stand.msgMakeKits(o.numKits);
-
-		partsRobot.msgHereIsKitConfiguration(o.kitConfig);
 
 		/*
 		 * for(PartType type:o.kitConfig.getConfig().keySet()) {
 		 * gantry.msgHereIsBinConfig(new Bin(o.parts.get(i),i+1)); }
 		 */
-		int k = 0;
-		for (PartType type : o.kitConfig.getConfig().keySet()) {
-			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
-				nests.get(k).msgHereIsPartType(type);
-				k++;
-			}
-		}
 		stateChanged();
 	}
 
@@ -274,6 +282,10 @@ public class FCSAgent extends Agent implements FCS {
 
 	public void setFCS(factory.FCS fcs) {
 		this.fcs = fcs;
+	}
+	
+	public void setCamera(Camera camera) {
+		this.camera = camera;
 	}
 
 }

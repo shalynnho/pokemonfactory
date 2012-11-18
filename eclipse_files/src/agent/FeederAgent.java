@@ -36,7 +36,7 @@ public class FeederAgent extends Agent implements Feeder {
 	public Semaphore animation = new Semaphore(0, true);
 
 	public enum FeederStatus {
-		IDLE, REQUESTED_PARTS, FEEDING_PARTS, PURGING
+		IDLE, REQUESTED_PARTS, FEEDING_PARTS, PURGING, RECEIVING_BIN
 	}
 
 	public enum LaneStatus {
@@ -74,7 +74,7 @@ public class FeederAgent extends Agent implements Feeder {
 
 	@Override
 	public void msgINeedPart(PartType type, LaneAgent lane) {
-		print("Received msgINeedPart");
+		print("Received msgINeedPart for type "+type.getName());
 		boolean found = false;
 		for (MyLane l : lanes) {
 			if (l.lane.equals(lane)) {
@@ -103,7 +103,7 @@ public class FeederAgent extends Agent implements Feeder {
 			if (lane.type.equals(type)) {
 				print("lane type is " + lane.type.toString());
 				lane.state = LaneStatus.GIVING_PARTS;
-				state = FeederStatus.FEEDING_PARTS;
+				state = FeederStatus.RECEIVING_BIN;
 			}
 			}
 		}
@@ -113,14 +113,12 @@ public class FeederAgent extends Agent implements Feeder {
 	@Override
 	public void msgReceiveBinDone(Bin bin) {
 		print("Received msgReceiveBinDone from graphics");
-		// TODO Auto-generated method stub
 		animation.release();
 	}
 
 	@Override
 	public void msgPurgeBinDone(Bin bin) {
 		print("Received msgPurgeBinDone from graphics");
-		// TODO Auto-generated method stub
 		state = FeederStatus.IDLE;
 		animation.release();
 	}
@@ -143,10 +141,14 @@ public class FeederAgent extends Agent implements Feeder {
 				}
 			}
 		}
+		if(state == FeederStatus.RECEIVING_BIN) {
+			receiveBin();
+			return true;
+		}
 		if (state == FeederStatus.FEEDING_PARTS) {
 			for (MyLane lane : lanes) {
 				if (lane.state == LaneStatus.GIVING_PARTS) {
-					print("Giving parts to lanes");
+					print("Giving parts to lane "+lane.type.getName());
 					if (lanes.get(currentOrientation).equals(lane)) {
 						givePart(lane);
 						return true;
@@ -179,7 +181,7 @@ public class FeederAgent extends Agent implements Feeder {
 		lane.numPartsNeeded--;
 		lane.lane.msgHereIsPart(new Part(lane.type));
 		if (lane.numPartsNeeded == 0) {
-			print("shows up when working");
+			print("shows up when lane "+lane.type.getName()+" does not need more parts");
 			state=FeederStatus.PURGING;
 			lane.state = LaneStatus.DOES_NOT_NEED_PARTS;
 		}
@@ -192,7 +194,6 @@ public class FeederAgent extends Agent implements Feeder {
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -209,7 +210,6 @@ public class FeederAgent extends Agent implements Feeder {
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		}
@@ -219,6 +219,21 @@ public class FeederAgent extends Agent implements Feeder {
 		} else {
 			currentOrientation = 0;
 		}
+		stateChanged();
+	}
+	
+	public void receiveBin() {
+		print("Telling FeederGraphics to receiveBin");
+		state=FeederStatus.FEEDING_PARTS;
+		if(feederGUI != null) {
+			feederGUI.receiveBin(bin.binGraphics);
+			try {
+				animation.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		stateChanged();
 	}
 
 	// GETTERS AND SETTERS
