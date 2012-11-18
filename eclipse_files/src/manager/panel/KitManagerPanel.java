@@ -251,12 +251,6 @@ public class KitManagerPanel extends JPanel{
 		//finish implementation of this method to update the arraylist of available kitconfigs
 	}
 	
-	public void updateOrders(ArrayList<Order> o)
-	{
-		//if we used a JTextArea instead of a JTable for the schedule, we could just reuse the code
-		//from FactoryProductionManagerPanel here.
-	}
-	
 	public void showButtons(String panel) {
 		CardLayout cl = (CardLayout)(pnlButtons.getLayout());
         cl.show(pnlButtons, panel);
