@@ -1,6 +1,8 @@
 package agent;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import DeviceGraphics.DeviceGraphics;
 import Utils.Constants;
@@ -26,7 +28,7 @@ public class FCSAgent extends Agent implements FCS {
 	private ArrayList<Nest> nests;
 	private Conveyor conveyor;
 	private myState state;
-	private ArrayList<Order> orders;
+	private List<Order> orders;
 	private int numOrdersFinished = 0;
 
 	private factory.FCS fcs;
@@ -44,7 +46,7 @@ public class FCSAgent extends Agent implements FCS {
 		super();
 		this.name = name;
 		this.nests = new ArrayList<Nest>();
-		this.orders = new ArrayList<Order>();
+		this.orders = Collections.synchronizedList(new ArrayList<Order>());
 		binsSet = false;
 		binsToAdd = new ArrayList<PartType>();
 		state = myState.STARTED;
@@ -95,24 +97,43 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgOrderFinished() {
-		numOrdersFinished++;
-		print("Order " + numOrdersFinished + " Done!!!!");
-		for (Order o : orders) {
-			if (o.state == Order.orderState.ORDERED) {
-				orders.remove(o);
-				if (fcs != null) {
-					fcs.updateQueue();
+		print("Recieved msgOrderFinished");
+		synchronized(orders){
+			for (Order o : orders) {
+				if (o.state == Order.orderState.ORDERED) {
+					o.state = Order.orderState.FINISHED;
+					break;
 				}
-				break;
 			}
 		}
-		state = myState.STARTED;
 		stateChanged();
 	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		print("I'm scheduling stuff");
+		//print("I'm scheduling stuff");
+		if (!orders.isEmpty()) {
+			synchronized(orders){
+				for (Order o : orders) {
+					if (o.cancel) {
+						cancelOrder(o);
+						return true;
+					}
+				}
+			}
+		}
+		if( state == myState.LOADED) {
+			if (!orders.isEmpty()) {
+				synchronized(orders){
+					for (Order o : orders) {
+						if (o.state == Order.orderState.FINISHED) {
+							finishOrder(o);
+							return true;
+						}
+					}
+				}
+			}
+		}
 		if (state == myState.STARTED) {
 			if (!binsSet && gantry != null) {
 				initializeBins();
@@ -123,16 +144,12 @@ public class FCSAgent extends Agent implements FCS {
 				return true;
 			}
 			if (!orders.isEmpty()) {
-				for (Order o : orders) {
-					if (o.cancel) {
-						cancelOrder(o);
-						return true;
-					}
-				}
-				for (Order o : orders) {
-					if (o.state == Order.orderState.PENDING) {
-						placeOrder(o);
-						return true;
+				synchronized(orders){
+					for (Order o : orders) {
+						if (o.state == Order.orderState.PENDING) {
+							placeOrder(o);
+							return true;
+						}
 					}
 				}
 			}
@@ -179,6 +196,17 @@ public class FCSAgent extends Agent implements FCS {
 		if (fcs != null) {
 			fcs.updateQueue();
 		}
+		stateChanged();
+	}
+	
+	public void finishOrder(Order o) {
+		numOrdersFinished++;
+		System.out.println("Order " + numOrdersFinished + " Done!!!!");
+		orders.remove(o);
+		if (fcs != null) {
+			fcs.updateQueue();
+		}
+		state = myState.STARTED;
 		stateChanged();
 	}
 
@@ -259,7 +287,7 @@ public class FCSAgent extends Agent implements FCS {
 		return null;
 	}
 
-	public ArrayList<Order> getOrders() {
+	public List<Order> getOrders() {
 		return orders;
 	}
 
