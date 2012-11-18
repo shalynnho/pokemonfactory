@@ -12,6 +12,14 @@ public class Location implements Serializable {
 	}
 	
 	/**
+	 * Taming dat stupid Java. Pass in a location from Constants. 
+	 */
+	public Location(Location loc) {
+		x = loc.getX();
+		y = loc.getY();
+	}
+	
+	/**
 	 * Find the distance from one Location object to another by passing in another Location object -Aaron
 	 */
 	public double distance(Location l) {
