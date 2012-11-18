@@ -70,8 +70,8 @@ public class FCSAgent extends Agent implements FCS {
 		if (fcs != null) {
 			fcs.updateQueue();
 		}
-		if(state==myState.PENDING){
-			state=myState.STARTED;
+		if (state == myState.PENDING) {
+			state = myState.STARTED;
 		}
 		stateChanged();
 	}
@@ -124,7 +124,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		//print("I'm scheduling stuff");
+		// print("I'm scheduling stuff");
 		if (state == myState.STARTED) {
 			if (!binsSet && gantry != null) {
 				initializeBins();
@@ -161,11 +161,11 @@ public class FCSAgent extends Agent implements FCS {
 		if (fcs != null) {
 			fcs.updateQueue();
 		}
-		
+
 		int k = 0;
 		for (PartType type : o.kitConfig.getConfig().keySet()) {
 			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
-				((NestAgent) nests.get(k)).stopThread();
+				// ((NestAgent) nests.get(k)).stopThread();
 				k++;
 			}
 		}
@@ -174,7 +174,7 @@ public class FCSAgent extends Agent implements FCS {
 		for (PartType type : o.kitConfig.getConfig().keySet()) {
 			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
 				nests.get(k).msgHereIsPartType(type);
-				((NestAgent) nests.get(k)).startThread();
+				// ((NestAgent) nests.get(k)).startThread();
 				k++;
 			}
 		}
@@ -286,7 +286,7 @@ public class FCSAgent extends Agent implements FCS {
 	public void setFCS(factory.FCS fcs) {
 		this.fcs = fcs;
 	}
-	
+
 	public void setCamera(Camera camera) {
 		this.camera = camera;
 	}
