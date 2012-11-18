@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -227,6 +228,13 @@ public class KitManagerPanel extends JPanel{
 		// validates 4-8 parts set
 		KitConfig newKit = new KitConfig(tfName.getText());
 		// for each of the comboboxes
+		HashMap<PartType, Integer> config = new HashMap<PartType, Integer>();
+		for (int i = 0; i < 8; i++) {
+			PartType p = (PartType) cbPart[i].getSelectedItem();
+			if (config.containsKey(p)) {
+				config.put(p, (Integer) config.get(p).intValue()+1);
+			}
+		}
 		
 	}
 	
