@@ -36,7 +36,8 @@ public class KitManagerPanel extends JPanel{
 	
 	private JComboBox[] cbPart;
 	private JTextField tfName;
-	private DefaultComboBoxModel defaultComboBox;
+	private DefaultComboBoxModel partModel;
+	private DefaultComboBoxModel kitModel;
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
 	private ArrayList<Order> schedule = new ArrayList<Order>();
 	private ArrayList<PartType> partTypes = new ArrayList<PartType>();
@@ -64,7 +65,7 @@ public class KitManagerPanel extends JPanel{
 		
 		
 		JComboBox cbKits = new JComboBox();
-		defaultComboBox = (DefaultComboBoxModel)cbKits.getModel();
+		kitModel = (DefaultComboBoxModel)cbKits.getModel();
 		
 		//This populates the ComboBox at the top of the layout with the list of kitConfigs 
 		//from Constants
@@ -230,6 +231,14 @@ public class KitManagerPanel extends JPanel{
 		// for each of the comboboxes
 		// 
 	}
+	
+	public void updatePartComboModels() {
+		// makes sure comboBoxModel is up to date.
+		
+		for (int i = 0; i < 8; i++ ){
+			cbPart[i].setModel(defaultComboBox);
+		}
+	}
 
 	public void clearFields() {
 		tfName.setText("");
@@ -255,7 +264,7 @@ public class KitManagerPanel extends JPanel{
 		kitConfigs = kc;
 	
 		//clear the JComboBox
-		defaultComboBox.removeAllElements();
+		kitModel.removeAllElements();
 	
 		//finish implementation of this method to update the arraylist of available kitconfigs
 	}
