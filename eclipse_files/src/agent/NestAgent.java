@@ -55,12 +55,12 @@ public class NestAgent extends Agent implements Nest {
 	};
 
 	public enum NestState {
-		PURGING, NOT_PURGING
+		PURGING, NOT_PURGING, DONE_PURGING
 	};
 
 	public NestAgent(String name) {
 		super();
-		state = NestState.NOT_PURGING;
+		state = NestState.DONE_PURGING;
 		this.name = name;
 		timer = new Timer();
 	}
@@ -73,8 +73,8 @@ public class NestAgent extends Agent implements Nest {
 
 		// if (currentPartType != type) {
 		state = NestState.PURGING;
-		lane.msgPurgeParts();
-		camera.msgResetSelf();
+		
+		//camera.msgResetSelf();
 		currentPartType = type;
 		// }
 		stateChanged();
@@ -115,6 +115,12 @@ public class NestAgent extends Agent implements Nest {
 		}
 		stateChanged();
 	}
+	
+	@Override
+	public void msgLanePurgeDone() {
+		state = NestState.DONE_PURGING;
+		stateChanged();
+	}
 
 	@Override
 	public void msgDoneTakingParts() {
@@ -151,33 +157,35 @@ public class NestAgent extends Agent implements Nest {
 			purgeSelf();
 			return true;
 		}
-		synchronized (requestList) {
-			for (PartType requestedPart : requestList) {
-				if (countRequest < full) {
-					getParts(requestedPart);
-					return true;
+		else if(state == NestState.DONE_PURGING){
+			synchronized (requestList) {
+				for (PartType requestedPart : requestList) {
+					if (countRequest < full) {
+						getParts(requestedPart);
+						return true;
+					}
 				}
 			}
-		}
-		synchronized (currentParts) {
-			for (MyPart currentPart : currentParts) {
-				if (currentPart.status == NestStatus.REMOVING) {
-					removePart(currentPart);
-					return true;
+			synchronized (currentParts) {
+				for (MyPart currentPart : currentParts) {
+					if (currentPart.status == NestStatus.REMOVING) {
+						removePart(currentPart);
+						return true;
+					}
 				}
 			}
-		}
-		synchronized (currentParts) {
-			for (MyPart currentPart : currentParts) {
-				if (currentPart.status == NestStatus.IN_NEST) {
-					moveToPosition(currentPart.part);
-					return true;
+			synchronized (currentParts) {
+				for (MyPart currentPart : currentParts) {
+					if (currentPart.status == NestStatus.IN_NEST) {
+						moveToPosition(currentPart.part);
+						return true;
+					}
 				}
 			}
-		}
-		if (currentParts.size() >= full && takingParts == false) {
-			nestFull();
-			return true;
+			if (currentParts.size() >= full && takingParts == false) {
+				nestFull();
+				return true;
+			}
 		}
 		/*
 		 * synchronized (currentParts) { for (MyPart currentPart : currentParts)
@@ -207,21 +215,22 @@ public class NestAgent extends Agent implements Nest {
 		count = 0;
 		requestList.clear();
 		requestList.add(currentPartType);
+		lane.msgPurgeParts();
 		stateChanged();
 	}
 
 	public void getParts(final PartType requestedType) {
 		print("Telling lane it need a part and incrementing count");
 		countRequest++;
-		// lane.msgINeedPart(requestedType);
+		lane.msgINeedPart(requestedType);
 
-		timer.schedule(new TimerTask() {
+		/*timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				print("Faking lane giving me a part.");
 				msgHereIsPart(new Part(requestedType));
 			}
-		}, 10);
+		}, 10);*/
 		stateChanged();
 	}
 

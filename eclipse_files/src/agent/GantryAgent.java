@@ -72,11 +72,11 @@ public class GantryAgent extends Agent implements Gantry {
 
 	@Override
 	public void msgINeedParts(PartType type, FeederAgent feeder) {
-		print("Received msgINeedParts");
+		print("Received msgINeedParts from "+feeder.toString());
 		boolean temp = true;
 		for(MyFeeder currentFeeder : feeders) {
 			if(currentFeeder.getFeeder() == feeder) {
-				print("found feeder");
+				//print("found feeder");
 				currentFeeder.requestedType = type;
 				currentFeeder.state = FeederStatus.REQUESTED_PARTS;
 				temp = false;
@@ -136,6 +136,7 @@ public class GantryAgent extends Agent implements Gantry {
 	//SCHEDULER
 	@Override
 	public boolean pickAndExecuteAnAction() {
+
 			for(Bin bin:binList) {
 				if(bin.binState==BinStatus.PENDING){
 					addBinToGraphics(bin);
@@ -170,7 +171,7 @@ public class GantryAgent extends Agent implements Gantry {
 	
 	//ACTIONS 
 	public void moveToFeeder(Bin bin, MyFeeder feeder) {
-		print("Moving bin to over feeder");
+		print("Moving bin to over feeder "+feeder.feeder.toString());
 		bin.binState = BinStatus.MOVING;
 		feeder.state=FeederStatus.BEING_MOVED_TO;
 
@@ -188,7 +189,7 @@ public class GantryAgent extends Agent implements Gantry {
 	}
 
 	public void fillFeeder(Bin bin, MyFeeder feeder) {
-		print("Placing bin in feeder and filling feeder");
+		print("Placing bin in feeder and filling feeder "+feeder.feeder.toString());
 		bin.binState = BinStatus.FILLING_FEEDER;
 		feeder.state=FeederStatus.FULL;
 		//waitForDrop = false;
@@ -208,7 +209,7 @@ public class GantryAgent extends Agent implements Gantry {
 
 	public void discardBin(Bin bin) {
 		print("Discarding bin");
-		bin.binState = BinStatus.DISCARDING;
+		bin.binState = BinStatus.FULL;
 		
 		GUIGantry.removeBin(bin);
 		try {
