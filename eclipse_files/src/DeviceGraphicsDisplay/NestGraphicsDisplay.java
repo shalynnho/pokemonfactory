@@ -78,15 +78,14 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				Location endLoc = partLocs.get(index);
 				
 				// check x-coord
-				if(partLoc.getX() >= endLoc.getX()) {
-					partLoc.incrementX(-1);
-				}
+				updateXLoc(partLoc, endLoc, 1);
 				// check y-coord
-				if((index % 2 == 0) && partLoc.getY() >= endLoc.getY()) { // top row
-					partLoc.incrementY(-1);
-				} else if((index % 2 != 0) && partLoc.getY() <= endLoc.getY()) { // bottom row
-					partLoc.incrementY();
-				}
+				updateYLoc(partLoc, endLoc, 1);
+//				if((index % 2 == 0) && partLoc.getY() >= endLoc.getY()) { // top row
+//					partLoc.incrementY(-1);
+//				} else if((index % 2 != 0) && partLoc.getY() <= endLoc.getY()) { // bottom row
+//					partLoc.incrementY();
+//				}
 				
 				// check if part in place
 				if (partLoc.equals(endLoc)) {
@@ -97,12 +96,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		
 		if(purging) {
-			// TODO
-			// check x-coord
-			// check y-coord
-			// remove first part
-			// move all parts up a space in nest, animate
-			
+			animatePurge();			
 		}
 		
 		for (PartGraphicsDisplay part : partsInNest) {
@@ -135,6 +129,70 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 			purge();
 		}
 	}
+	
+	/**
+	 * Sets part locations to animate horizontal purge
+	 */
+	private void animatePurge() {	
+		if(partsInNest.size() > 1 && partsInNest.get(1) != null) {
+			movePartToPurgeLoc(partsInNest.get(1));
+			if (partsInNest.get(1).getLocation().equals(purgeLoc)) {
+				partsInNest.remove(1);
+			}
+		}
+		
+		if(partsInNest.size() > 0 && partsInNest.get(0) != null) {
+			movePartToPurgeLoc(partsInNest.get(0));
+			if (partsInNest.get(0).getLocation().equals(purgeLoc)) {
+				partsInNest.remove(0);
+			}
+		} else { // nest is empty
+			purging = false;
+			msgAgentPurgingDone();
+		}
+		
+		// move remaining parts left horizontally toward purge loc
+		int numRemaining = partsInNest.size() - 2;
+		if (numRemaining > 0) {
+			for(int i = 2; i < numRemaining + 2; i++) {
+				updateXLoc(partsInNest.get(i).getLocation(), partLocs.get(i - 2), 1);
+				updateYLoc(partsInNest.get(i).getLocation(), partLocs.get(i - 2), 1);
+			}
+		}
+	}
+	
+	private void movePartToPurgeLoc(PartGraphicsDisplay pgd) {
+		updateXLoc(pgd.getLocation(), purgeLoc, 1);
+		updateYLoc(pgd.getLocation(), purgeLoc, 1);
+	}
+	
+	/**
+	 * Increments the X-coordinate
+	 * @param loc - the location being incremented
+	 * @param end - the end location toward which loc is being incremented
+	 * @param increment - a POSITIVE value representing number of pixels moved each call to draw
+	 */
+	private void updateXLoc(Location loc, Location end, int increment) {
+		if(loc.getX() > end.getX()) {	// moving left
+			loc.incrementX(-increment);
+		} else if (loc.getX() < end.getX()) {	// moving right
+			loc.incrementX(increment);
+		}
+	}
+	
+	/**
+	 * Increments the Y-coordinate
+	 * @param loc - the location being incremented
+	 * @param end - the end location toward which loc is being incremented
+	 * @param increment - a POSITIVE value representing number of pixels moved each call to draw
+	 */
+	private void updateYLoc(Location loc, Location end, int increment) {
+		if(loc.getY() > end.getY()) {	// moving up
+			loc.incrementY(-increment);
+		} else if (loc.getY() < end.getY()) {	// moving down
+			loc.incrementY(increment);
+		}
+	}
 
 	/**
 	 * Generates an array of Locations for the parts in the nest.
@@ -163,15 +221,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void purge() {
 		// TODO: (later) animate parts out of nest
 		purging = true;
-		
-		
-		
-		
-		
-		for (int i = 0; i < partsInNest.size(); i++) {
-			partsInNest.remove(0);
-		}
-
+		purgeDoneSent = false;
 	}
 
 	private void receivePart(PartType type) {
