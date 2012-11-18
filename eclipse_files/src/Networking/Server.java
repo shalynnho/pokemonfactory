@@ -241,19 +241,19 @@ public class Server {
 		kitrobot.setCamera(camera);
 		kitrobot.setConveyor(conveyor);
 		conveyor.setKitrobot(kitrobot);
-		// conveyor.setFCS(fcs);
+		conveyor.setFCS((FCSAgent) agents.get(Constants.FCS_TARGET));
 		camera.setPartsRobot(partsrobot);
 		camera.setKitRobot(kitrobot);
 
 		// V0 heck
-		NestAgent nest0 = (NestAgent) agents.get(Constants.NEST_TARGET + 0);
+		/*NestAgent nest0 = (NestAgent) agents.get(Constants.NEST_TARGET + 0);
 		NestAgent nest1 = (NestAgent) agents.get(Constants.NEST_TARGET + 1);
-		nest0.FillWithParts();
-		nest1.FillWithParts();
+		//nest0.FillWithParts();
+		//nest1.FillWithParts();
 		// end V0 heck
 
 		camera.setNest(nest0);
-		camera.setNest(nest1);
+		camera.setNest(nest1);*/
 
 		((FCSAgent) agents.get(Constants.FCS_TARGET)).setConveyor(conveyor);
 		((FCSAgent) agents.get(Constants.FCS_TARGET))
