@@ -22,6 +22,7 @@ import javax.swing.border.EtchedBorder;
 
 import factory.KitConfig;
 import factory.Order;
+import javax.swing.JTextArea;
 
 
 /*
@@ -30,7 +31,6 @@ import factory.Order;
 
 public class KitManagerPanel extends JPanel{
 	private JComboBox[] cbPart;
-	private JTable tblSched;
 	private JTextField tfName;
 	private DefaultComboBoxModel defaultComboBox;
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
@@ -108,6 +108,11 @@ public class KitManagerPanel extends JPanel{
 		pnlButtons.add(pnlAdd, "Add");
 		
 		JButton btnCreateKit = new JButton("Create Kit Arrangement");
+		btnCreateKit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createKit();
+			}
+		});
 		pnlAdd.add(btnCreateKit);
 		
 		JButton btnClrFields = new JButton("Clear Fields");
@@ -195,10 +200,16 @@ public class KitManagerPanel extends JPanel{
 		});
 		pnlRefresh.add(btnRefresh);
 		
-		tblSched = new JTable();
-		tblSched.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		schedPanel.add(tblSched, BorderLayout.CENTER);
+		JTextArea taSched = new JTextArea();
+		schedPanel.add(taSched, BorderLayout.CENTER);
 
+	}
+	
+	public void createKit() {
+		// validates 4-8 parts set
+		KitConfig newKit = new KitConfig(tfName.getText());
+		// for each of the comboboxes
+		// 
 	}
 
 
