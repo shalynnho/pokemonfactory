@@ -116,6 +116,11 @@ public class KitManagerPanel extends JPanel{
 		pnlAdd.add(btnCreateKit);
 		
 		JButton btnClrFields = new JButton("Clear Fields");
+		btnClrFields.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearFields();
+			}
+		});
 		pnlAdd.add(btnClrFields);
 
 		// The "Display" Panel is the central panel that displays the information about a certain kit
@@ -212,6 +217,10 @@ public class KitManagerPanel extends JPanel{
 		// 
 	}
 
+	public void clearFields() {
+		tfName.setText("");
+		// each of the comboBoxes set to No Item
+	}
 
 	public void updateKitConfigs(ArrayList<KitConfig> kc)
 	{
