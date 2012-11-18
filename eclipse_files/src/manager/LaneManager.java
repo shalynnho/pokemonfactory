@@ -1,26 +1,21 @@
 package manager;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.Timer;
 
-import manager.util.NetworkingButtonListener;
-import manager.util.OverlayPanel;
-
-import DeviceGraphicsDisplay.*;
+import DeviceGraphicsDisplay.CameraGraphicsDisplay;
+import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
+import DeviceGraphicsDisplay.FeederGraphicsDisplay;
+import DeviceGraphicsDisplay.LaneGraphicsDisplay;
+import DeviceGraphicsDisplay.NestGraphicsDisplay;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
-import Utils.Location;
 
 public class LaneManager extends Client implements ActionListener{
 	// Temp values. Feel free to change

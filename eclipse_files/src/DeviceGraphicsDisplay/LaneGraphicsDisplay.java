@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import manager.FactoryProductionManager;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -38,8 +37,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	// stores the parts on the lane
 	private ArrayList<PartGraphicsDisplay> partsOnLane;
-	// Location of this lane
-	private Location location;
 	// start location of parts on this lane
 	private final Location partStartLoc;
 	// array list of locations of the lane lines
@@ -64,10 +61,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	/**
 	 * LGD constructor
 	 * 
-	 * @param lm
-	 *            - the lane manager (client)
-	 * @param lid
-	 *            - lane ID
+	 * @param lm - the lane manager (client)
+	 * @param lid  - lane ID
 	 */
 	public LaneGraphicsDisplay(Client c, int lid) {
 		client = c;
@@ -91,24 +86,22 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	/**
 	 * Animates lane movement and sets location of parts moving down lane
 	 * 
-	 * @param c
-	 *            - component on which this is drawn
-	 * @param g
-	 *            - the graphics component on which this draws
+	 * @param c - component on which this is drawn
+	 * @param g - the graphics component on which this draws
 	 */
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
 		if (laneOn) {
 			if (laneID % 2 == 0) {
-				g.drawImage(Constants.LANE_IMAGE1, location.getX(), location.getY(), c);
+				g.drawImage(Constants.LANE_IMAGE1, location.getX() + client.getOffset(), location.getY(), c);
 			} else {
-				g.drawImage(Constants.LANE_IMAGE2, location.getX(), location.getY(), c);
+				g.drawImage(Constants.LANE_IMAGE2, location.getX() + client.getOffset(), location.getY(), c);
 			}
 
 			// animate lane movements using lines
 			for (int i = 0; i < laneLines.size(); i++) {
-				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX(), laneLines.get(i)
-						.getY(), c);
+				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX() + client.getOffset(),
+						laneLines.get(i).getY(), c);
 			}
 			moveLane();
 
@@ -158,6 +151,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					}
 //					vibrateParts(moveCounter, loc);
 					pgd.setLocation(loc);
+					pgd.getLocation().incrementX(client.getOffset());
 					pgd.draw(c, g);
 					
 //					System.out.println("lane"+laneID+": drawing "+ partsOnLane.size()+" parts" );
@@ -168,14 +162,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 		} else { // lane is off
 			if (laneID % 2 == 0) {
-				g.drawImage(Constants.LANE_IMAGE1, location.getX(), location.getY(), c);
+				g.drawImage(Constants.LANE_IMAGE1, location.getX() + client.getOffset(), location.getY(), c);
 			} else {
-				g.drawImage(Constants.LANE_IMAGE2, location.getX(), location.getY(), c);
+				g.drawImage(Constants.LANE_IMAGE2, location.getX() + client.getOffset(), location.getY(), c);
 			}
 			
 			// draw lane lines
 			for (int i = 0; i < laneLines.size(); i++) {
-				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX(), laneLines.get(i)
+				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX() + client.getOffset(), laneLines.get(i)
 						.getY(), c);
 			}
 		}
