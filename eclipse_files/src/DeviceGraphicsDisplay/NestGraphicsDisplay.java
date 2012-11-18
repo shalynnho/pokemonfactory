@@ -251,7 +251,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Make sure only sends message once for each part, not on every call to draw.
 	 */
 	private void msgAgentReceivePartDone() {
-		if(!receivingPart && (!receivePartDoneSent)) {
+		if(!receivePartDoneSent) {
 			client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND
 					+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
 			receivePartDoneSent = true;
