@@ -19,7 +19,7 @@ import Utils.Constants;
 
 public class LaneManager extends Client implements ActionListener{
 	// Temp values. Feel free to change
-	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_WIDTH = 400;
 	private static final int WINDOW_HEIGHT = 700;
 	
 	// Create a new timer
@@ -31,7 +31,7 @@ public class LaneManager extends Client implements ActionListener{
 	public LaneManager() {
 		super();
 		clientName = Constants.LANE_MNGR_CLIENT;
-		offset = -300;
+		offset = -540;
 		
 		initStreams();
 		initGUI();
