@@ -204,24 +204,6 @@ public class KitManagerPanel extends JPanel{
 				cbPart[i+1].addItem(Utils.Constants.DEFAULT_PARTTYPES.get(l).getName());
 			pnlParts.add(cbPart[i+1], gbc_comboBox);
 		}
-		
-		JPanel schedPanel = new JPanel();
-		tabbedPane.addTab("View Schedule", null, schedPanel, null);
-		schedPanel.setLayout(new BorderLayout(0, 0));
-		
-		JPanel pnlRefresh = new JPanel();
-		schedPanel.add(pnlRefresh, BorderLayout.NORTH);
-		
-		JButton btnRefresh = new JButton("Refresh");
-		btnRefresh.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent ae){
-				//TODO: call method to clear tblSched and then print new factory schedule from server
-			}
-		});
-		pnlRefresh.add(btnRefresh);
-		
-		JTextArea taSched = new JTextArea();
-		schedPanel.add(taSched, BorderLayout.CENTER);
 
 	}
 	
@@ -236,7 +218,7 @@ public class KitManagerPanel extends JPanel{
 		// makes sure comboBoxModel is up to date.
 		
 		for (int i = 0; i < 8; i++ ){
-			cbPart[i].setModel(defaultComboBox);
+			cbPart[i].setModel(partModel);
 		}
 	}
 
