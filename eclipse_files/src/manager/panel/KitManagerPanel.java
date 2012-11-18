@@ -22,6 +22,8 @@ import javax.swing.border.EtchedBorder;
 
 import factory.KitConfig;
 import factory.Order;
+import factory.PartType;
+
 import javax.swing.JTextArea;
 
 
@@ -37,6 +39,7 @@ public class KitManagerPanel extends JPanel{
 	private DefaultComboBoxModel defaultComboBox;
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
 	private ArrayList<Order> schedule = new ArrayList<Order>();
+	private ArrayList<PartType> partTypes = new ArrayList<PartType>();
 	private JPanel pnlButtons;
 
 	/**
@@ -53,7 +56,7 @@ public class KitManagerPanel extends JPanel{
 		
 		JPanel managerPanel = new JPanel();
 		tabbedPane.addTab("Manage Kits", managerPanel);
-		managerPanel.setLayout(new BorderLayout(0, 0));
+		managerPanel.setLayout(new BorderLayout());
 		
 		//   This creates the panel at the top of the layout that lets the user select what kit to view/edit/delete
 		JPanel pnlKitChooser = new JPanel();
