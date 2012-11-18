@@ -136,8 +136,8 @@ public abstract class Constants {
 	public static final String PART_IMAGE_PATH = IMAGE_PATH + "part_";
 
 	// Bin Images
-	public static final Image BIN_FULL_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "samplebin.png");
+	public static final String BIN_IMAGE_PATH = IMAGE_PATH + "bin_";
+	
 	public static final Image BIN_EMPTY_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage("");
 
@@ -344,6 +344,7 @@ public abstract class Constants {
 	public static final Border PADDING = BorderFactory.createEmptyBorder(20, 20, 20, 20);
 	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 	public static final Border MEDIUM_PADDING = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+	public static final Border LIGHT_BOTTOM_PADDING = BorderFactory.createEmptyBorder(0, 0, 5, 0);
 	public static final Border BOTTOM_PADDING = BorderFactory.createEmptyBorder(0, 0, 20, 0);
 	public static final Border TOP_PADDING = BorderFactory.createEmptyBorder(20, 0, 5, 0);
 	public static final Border VERTICAL_PADDING = BorderFactory.createEmptyBorder(10, 0, 10, 0);

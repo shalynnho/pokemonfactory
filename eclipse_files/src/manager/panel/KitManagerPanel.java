@@ -15,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -27,7 +28,7 @@ import factory.PartType;
 * Authorship: Aaron Harris and Matt Zecchini
 */
 
-public class KitManagerPanel extends JPanel{
+public class KitManagerPanel extends JPanel implements ActionListener {
 	private manager.KitManager km;
 	
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
@@ -70,21 +71,11 @@ public class KitManagerPanel extends JPanel{
 		// Creates a ComboBoxModel with all the KitConfigs, This populates the ComboBox at the top of the layout with the list of kitConfigs
 		kitModel = new DefaultComboBoxModel((KitConfig[]) Utils.Constants.DEFAULT_KITCONFIGS.toArray());
 		cbKits = new JComboBox(kitModel);
-		cbKits.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				viewKit((KitConfig) cbKits.getSelectedItem());
-			}
-		});
+		cbKits.addActionListener(this);
 		pnlKitChooser.add(cbKits);
 		
 		btnAddKit = new JButton("New Kit Arrangement");
-		btnAddKit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				showButtons("Add");
-				clearFields();
-				enableFields();
-			}
-		});
+		btnAddKit.addActionListener(this);
 		pnlKitChooser.add(btnAddKit);
 		
 		// This panel is what allows us to combine the View/Add/Edit/Delete screens together
@@ -97,53 +88,33 @@ public class KitManagerPanel extends JPanel{
 		pnlButtons.add(pnlView, "View");
 		
 		btnEditKit = new JButton("Edit Kit Arrangement");
-		btnEditKit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				enableFields();
-				showButtons("Edit");
-			}
-		});
+		btnEditKit.addActionListener(this);
 		pnlView.add(btnEditKit);
 		
 		btnDeleteKit = new JButton("Delete Kit Arrangement");
-		btnDeleteKit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				km.deleteKit((KitConfig) cbKits.getSelectedItem());
-			}
-		});
+		btnDeleteKit.addActionListener(this);
 		pnlView.add(btnDeleteKit);
 		
 		JPanel pnlEdit = new JPanel();
 		pnlButtons.add(pnlEdit, "Edit");
 		
 		btnSaveChg = new JButton("Save Changes");
-		btnSaveChg.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				//TODO: call method that saves changes
-			}
-		});
+		btnSaveChg.addActionListener(this);
 		pnlEdit.add(btnSaveChg);
 		
 		btnCnclChg = new JButton("Cancel Changes");
+		btnCnclChg.addActionListener(this);
 		pnlEdit.add(btnCnclChg);
 		
 		JPanel pnlAdd = new JPanel();
 		pnlButtons.add(pnlAdd, "Add");
 		
 		btnCreateKit = new JButton("Create Kit Arrangement");
-		btnCreateKit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				createKit();
-			}
-		});
+		btnCreateKit.addActionListener(this);
 		pnlAdd.add(btnCreateKit);
 		
 		btnClrFields = new JButton("Clear Fields");
-		btnClrFields.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clearFields();
-			}
-		});
+		btnClrFields.addActionListener(this);
 		pnlAdd.add(btnClrFields);
 
 		// The "Display" Panel is the central panel that displays the information about a certain kit
@@ -215,8 +186,39 @@ public class KitManagerPanel extends JPanel{
 
 	}
 	
+	public void actionPerformed(ActionEvent ae) {
+		if (ae.getSource() == btnAddKit) {
+			showButtons("Add");
+			clearFields();
+			enableFields();
+		} else if (ae.getSource() == btnCreateKit) {
+			KitConfig k = createKit();
+			viewKit(k);
+		} else if (ae.getSource() == cbKits) {
+			disableFields();
+			viewKit((KitConfig) cbKits.getSelectedItem());
+		} else if (ae.getSource() ==  btnClrFields) {
+			clearFields();
+		} else if (ae.getSource() == btnEditKit) {
+			enableFields();
+			showButtons("Edit");
+		} else if (ae.getSource() == btnDeleteKit) {
+			int choice = JOptionPane.showConfirmDialog(null,
+	        		"Are you sure you want to delete this part type?\nNote: the action cannot be undone.",
+	                "Delete Part",
+	                JOptionPane.YES_NO_OPTION);
+	        if (choice == 0){
+	        	deleteKit((KitConfig) cbKits.getSelectedItem());
+	        }
+		} else if (ae.getSource() == btnSaveChg) {
+			
+		} else if (ae.getSource() == btnCnclChg) {
+			enableFields();
+			viewKit((KitConfig) cbKits.getSelectedItem());
+		}
+	}
+	
 	public void viewKit(KitConfig kit) {
-		disableFields();
 		tfName.setText(kit.getName());
 		ArrayList<PartType> parts = kit.getParts();
 		for (int i = 0; i < parts.size(); i++) {
@@ -224,7 +226,7 @@ public class KitManagerPanel extends JPanel{
 		}
 	}
 	
-	public void createKit() {
+	public KitConfig createKit() {
 		// validates 4-8 parts set
 		KitConfig newKit = new KitConfig(tfName.getText());
 		// for each of the comboboxes
@@ -237,6 +239,16 @@ public class KitManagerPanel extends JPanel{
 		}
 		newKit.setConfig(config);
 		km.addKit(newKit);
+		return newKit;
+	}
+	
+	public void deleteKit(KitConfig deadKit) {
+    	// changes the comboBox to look at the previous item in the list
+    	cbKits.setSelectedIndex(cbKits.getSelectedIndex()-1);
+    	viewKit((KitConfig) cbKits.getSelectedItem());
+    	kitModel.removeElement(deadKit);
+    	// send a message to fcs that the kit is now dead
+    	km.deleteKit(deadKit);
 	}
 	
 	public void updatePartComboModels() {
