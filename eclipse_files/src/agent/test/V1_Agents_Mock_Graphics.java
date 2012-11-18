@@ -77,6 +77,7 @@ public class V1_Agents_Mock_Graphics {
 		fcs.setGantry(gantry);
 		fcs.setPartsRobot(partsRobot);
 		fcs.setStand(stand);
+		fcs.setCamera(camera);
 
 		MockGraphics mg = new MockGraphics("Mock Graphics");
 		ArrayList<MockFeederGraphics> mockFeeders = new ArrayList<MockFeederGraphics>();
@@ -128,6 +129,10 @@ public class V1_Agents_Mock_Graphics {
 		kg.addItem(new PartType("6"), 1);
 		kg.addItem(new PartType("7"), 1);
 		kg.addItem(new PartType("8"), 1);
+		KitConfig kg2 = new KitConfig("Kit config");
+		kg2.addItem(new PartType("1"), 1);
+		kg2.addItem(new PartType("2"), 1);
+		kg2.addItem(new PartType("4"), 5);
 
 		gantry.startThread();
 		for (int i = 0; i < 4; i++) {
@@ -151,8 +156,9 @@ public class V1_Agents_Mock_Graphics {
 		fcs.startThread();
 
 		fcs.msgStartProduction();
-		for (int i = 0; i < 1000; i++) {
-			fcs.msgAddKitsToQueue(new Order(kg, 2));
+		for (int i = 0; i < 3; i++) {
+			fcs.msgAddKitsToQueue(new Order(kg, 100));
+			fcs.msgAddKitsToQueue(new Order(kg2, 100));
 		}
 	}
 

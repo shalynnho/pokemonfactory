@@ -10,6 +10,8 @@ public interface Conveyor {
 	 */
 	public abstract void msgNeedKit();
 
+	public abstract void msgNeedThisManyKits(int num);
+
 	/**
 	 * KitRobot sends this when it is ready to pick up a kit that is waiting on
 	 * the conveyor

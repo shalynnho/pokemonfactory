@@ -25,8 +25,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	// max number of parts that can be on a Lane
 	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
 	// start and end x-coordinates of Part on the Lane
-	private static final int LANE_BEG_X = 599;
-	private static final int LANE_END_X = 199;
+	private static final int LANE_BEG_X = 850, LANE_END_X = 640;
 
 	// start location of the part
 	private Location laneLoc;
@@ -68,8 +67,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		partsOnLane = new ArrayList<PartGraphics>();
 		amplitude = 5;
 		laneOn = true;
-		
-		endY = laneLoc.getY();
 	}
 
 	/**

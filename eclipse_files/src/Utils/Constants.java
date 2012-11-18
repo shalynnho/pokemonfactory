@@ -309,7 +309,7 @@ public abstract class Constants {
 	public static final String FCS_NEW_KIT = "newKit";
 	public static final String FCS_EDIT_KIT = "editKit";
 	public static final String FCS_DELETE_KIT = "deleteKit";
-	public static final String FCS_ADD_ORDER = "addKit";
+	public static final String FCS_ADD_ORDER = "addOrder";
 	public static final String FCS_STOP_KIT = "stopKit";
 
 	public static final String FCS_STOP_PRODUCTION = "stopProduction";

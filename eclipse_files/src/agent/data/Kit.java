@@ -37,7 +37,7 @@ public class Kit {
 		int count = 0;
 		for (PartType type : partsExpected.getConfig().keySet()) {
 			if (type == part.type) {
-				count = partsExpected.getConfig().get(type);
+				count += partsExpected.getConfig().get(type);
 				break;
 			}
 		}
@@ -47,6 +47,32 @@ public class Kit {
 			}
 		}
 		return count > 0 ? count : 0;
+	}
+
+	public String PartsStillNeeded() {
+		String temp = "Needs ";
+		for (PartType inputtype : partsExpected.getConfig().keySet()) {
+			int count = 0;
+			for (PartType type : partsExpected.getConfig().keySet()) {
+				if (type == inputtype) {
+					count = partsExpected.getConfig().get(type);
+					break;
+				}
+			}
+			for (Part tempPart : parts) {
+				if (tempPart.type == inputtype) {
+					count--;
+				}
+			}
+			if (count > 0) {
+				temp = temp.concat("" + count + ":" + inputtype + " ");
+			}
+		}
+		return temp;
+	}
+
+	public boolean equals(Kit k) {
+		return k.kitGraphics.toString().equals(this.kitGraphics.toString());
 	}
 
 }

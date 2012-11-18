@@ -100,6 +100,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	public void msgHereIsKitConfiguration(KitConfig config) {
 		print("Received msgHereIsKitConfiguration");
 		Kitconfig = config;
+		kitsNum = 0;
 		GoodParts = new ConcurrentHashMap<Nest, List<Part>>();
 		// stateChanged();
 	}
@@ -109,9 +110,11 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgHereAreGoodParts(Nest n, List<Part> goodParts) {
-		print("Received msgHereAreGoodParts of type "+goodParts.get(0).type.getName());
+		print("Received msgHereAreGoodParts of type "
+				+ goodParts.get(0).type.getName());
 		GoodParts.put(n, goodParts);
-		print("I have "+MyKits.size()+" kits and "+GoodParts.size()+" nests");
+		print("I have " + MyKits.size() + " kits and " + GoodParts.size()
+				+ " nests");
 		stateChanged();
 	}
 
@@ -124,7 +127,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 		MyKit mk = new MyKit(k);
 		MyKits.add(mk);
-		print("I have "+MyKits.size()+" kits and "+GoodParts.size()+" nests");
+		print("I have " + MyKits.size() + " kits and " + GoodParts.size()
+				+ " nests");
 		stateChanged();
 
 		// timer.schedule(new TimerTask() {
@@ -210,8 +214,12 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 									// either kit
 									// print("Kit needs: " +
 									// mk.kit.partsExpected.getConfig().toString());
-									if (mk.kit.needPart(part) > NumPartsInHand(part)) {
-										print("Found a part I need");
+									if (NumTotalPartsNeeded(part) > NumPartsInHand(part)) {
+										print("Found a part I need of type "
+												+ part.type.getName()
+												+ " for kit "
+												+ MyKits.indexOf(mk) + " "
+												+ mk.kit.PartsStillNeeded());
 										for (Arm arm : Arms) {
 											if (arm.AS == ArmStatus.EMPTY) {
 												// Find the empty arm
@@ -252,7 +260,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void PickUpPart(Arm arm, Part part, Nest nest) {
 
-		print("Picking up part");
+		print("Picking up part" + getPartTypesInArms());
 		synchronized (Arms) {
 
 			arm.AS = ArmStatus.FULL;
@@ -262,19 +270,18 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			if (partsRobotGraphics != null) {
 				partsRobotGraphics.pickUpPart(part.partGraphics);
 				try {
-					//print("Blocking");
+					// print("Blocking");
 					animation.acquire();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				//print("Got permit");
+				// print("Got permit");
 			}
-			
 
 			// Only takes 1 part from a nest at a time
 			nest.msgTakingPart(part);
 			nest.msgDoneTakingParts();
-			
+
 			stateChanged();
 		}
 	}
@@ -290,12 +297,12 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 							partsRobotGraphics.givePartToKit(
 									arm.part.partGraphics, mk.kit.kitGraphics);
 							try {
-								//print("Blocking");
+								// print("Blocking");
 								animation.acquire();
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							//print("Got permit");
+							// print("Got permit");
 						}
 						// Tells the kit it has the part now
 						mk.kit.parts.add(arm.part);
@@ -339,7 +346,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		MyKits.remove(mk);
 		stand.msgKitAssembled(mk.kit);
 		kitsNum++;
-		print("I have "+MyKits.size()+" kits and "+GoodParts.size()+" nests");
+		print("I have " + MyKits.size() + " kits and " + GoodParts.size()
+				+ " nests");
 		print("I have " + MyKits.size() + " kits on the stand and I have made "
 				+ kitsNum + " kits");
 		stateChanged();
@@ -359,6 +367,18 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}
 	}
 
+	private int NumTotalPartsNeeded(Part p) {
+		int temp = 0;
+
+		synchronized (MyKits) {
+			for (MyKit mk : MyKits) {
+				temp += mk.kit.needPart(p);
+			}
+		}
+
+		return temp;
+	}
+
 	/**
 	 * Check if all arms are empty
 	 * @return true if all arms empty
@@ -373,6 +393,18 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			}
 		}
 		return true;
+	}
+
+	private String getPartTypesInArms() {
+		String temp = new String();
+		synchronized (Arms) {
+			for (Arm a : Arms) {
+				if (a.part != null) {
+					temp = temp.concat(" " + a.part.type.getName());
+				}
+			}
+		}
+		return temp;
 	}
 
 	@Override

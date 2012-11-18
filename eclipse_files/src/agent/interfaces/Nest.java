@@ -18,6 +18,8 @@ public interface Nest {
 	public abstract void msgTakingPart(Part p);
 
 	public abstract void msgDoneTakingParts();
+	
+	public abstract void msgLanePurgeDone();
 
 	public abstract void msgReceivePartDone();
 

@@ -70,7 +70,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 				currentLocation.incrementY(-5);
 			}
 		}
-		
+		// For v2
 	/*	//If robot is at correct Y, rotate
 		if (currentLocation.getY() == destinationLocation.getY()) {
 			if (finalDegree == 0 || finalDegree == 180) {
@@ -136,14 +136,14 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_ADD_NEW_BIN)) {
 			tempBin = (BinData) req.getData();
-			binList.add(new BinGraphicsDisplay(tempBin.getBinLocation(), tempBin.getBinPartType()));
+			binList.add(new BinGraphicsDisplay(new Location(tempBin.getBinLocation()), tempBin.getBinPartType()));
 			tempBin = null;
 		}
 	}
 
 	@Override
 	public void setLocation(Location newLocation) {
-		destinationLocation = newLocation;	
+		destinationLocation = new Location(newLocation);	
 	}
 
 }

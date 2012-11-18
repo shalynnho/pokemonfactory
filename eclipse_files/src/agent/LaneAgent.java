@@ -3,6 +3,8 @@ package agent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.DeviceGraphics;
@@ -23,6 +25,7 @@ public class LaneAgent extends Agent implements Lane {
 	public List<MyPart> currentParts = Collections
 			.synchronizedList(new ArrayList<MyPart>());
 
+	private final Timer timer;
 	public int topLimit = 9;
 	public int lowerThreshold = 3;
 
@@ -59,6 +62,7 @@ public class LaneAgent extends Agent implements Lane {
 
 		this.name = name;
 		state = LaneStatus.FILLING;
+		timer = new Timer();
 	}
 
 	@Override
@@ -77,7 +81,7 @@ public class LaneAgent extends Agent implements Lane {
 	
 	@Override
 	public void msgHereIsPart(Part p) {
-		print("Received msgHereIsPart");
+		print("Received msgHereIsPart of type "+p.type.getName());
 		currentParts.add(new MyPart(p));
 		if (laneGUI != null) {
 			laneGUI.receivePart(p.partGraphics);
@@ -121,13 +125,14 @@ public class LaneAgent extends Agent implements Lane {
 		
 		if(state == LaneStatus.PURGING){
 			purgeSelf();
+			return true;
 		}
 
-		if (currentParts.size() >= topLimit) {
+		/*if (currentParts.size() >= topLimit) {
 			state = LaneStatus.DONE_FILLING;
 		} else if (requestList.size() > lowerThreshold) {
 			state = LaneStatus.FILLING;
-		}
+		}*/
 
 		if (state == LaneStatus.FILLING) {
 			synchronized (requestList) {
@@ -163,20 +168,28 @@ public class LaneAgent extends Agent implements Lane {
 				e.printStackTrace();
 			}
 		}
+		nest.msgLanePurgeDone();
 		stateChanged();
 	}
 
 	@Override
-	public void getParts(PartType requestedType) {
+	public void getParts(final PartType requestedType) {
 		print("Telling Feeder that it needs a part");
 		requestList.remove(requestedType);
 		feeder.msgINeedPart(requestedType, this);
+		/*timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				print("Faking lane giving me a part.");
+				msgHereIsPart(new Part(requestedType));
+			}
+		}, 10);*/
 		stateChanged();
 	}
 
 	@Override
 	public void giveToNest(Part part) {
-		print("Giving part to Nest");
+		print("Giving part to Nest of type "+part.type.getName());
 		if (laneGUI != null) {
 			laneGUI.givePartToNest(part.partGraphics);
 		}

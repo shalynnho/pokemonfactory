@@ -51,8 +51,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// true if Lane is on
 	private boolean laneOn = true;
 	// use to make sure only 1 message is sent to agent for each part that reaches end of lane
-	private int partDoneCounter = 0;
-	private int purgeDoneCounter = 0;
+	private boolean receivePartDoneSent = false;
+	private boolean purgeDoneSent = false;
 	// V0 only, stops parts from going down lane without bin
 	private boolean partAtLaneEnd = false;
 	private boolean purging = false;
@@ -103,8 +103,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			moveLane();
 
 			// animate parts moving down lane
-			if (partsOnLane != null) {
-				
+			if (partsOnLane.size() > 0) {
+								
 				int min = (MAX_PARTS < partsOnLane.size()) ? MAX_PARTS
 						: partsOnLane.size(); // whichever is less
 				
@@ -128,7 +128,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 										partsOnLane.remove(0);
 									} else {	// all parts removed, done purging
 										purging = false;
-										msgAgentReceivePartDone();
+										msgAgentPurgingDone();
 									}
 								}
 							}
@@ -151,14 +151,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					pgd.setLocation(loc);
 					pgd.drawWithOffset(c, g, client.getOffset());
 					
-//					System.out.println("lane"+laneID+": drawing "+ partsOnLane.size()+" parts" );
-//					for(PartGraphicsDisplay p : partsOnLane) {
-//						System.out.println("LOC x: "+p.getLocation().getX()+", y: "+p.getLocation().getY());
-//					}
-				}
-			} else if(purging) {
+				} // end for loop
+				
+			} else if (purging) {
 				purging = false;
-				msgAgentReceivePartDone();
+				msgAgentPurgingDone();
 			}
 		} else { // lane is off
 			if (laneID % 2 == 0) {
@@ -222,7 +219,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	private void givePartToNest() {
 		partsOnLane.remove(0);
-		partDoneCounter = 0;
+		receivePartDoneSent = false; // reset
 		client.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
 				+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 	}
@@ -253,9 +250,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Purges lane of all parts
 	 */
 	private void purge() {
+		System.out.println(laneID + ": lane purge() called");
 		// TODO: lane should continue as is, parts fall off the lane
-		purgeDoneCounter = 0;
-		purging = true; // TODO: set purging to false again after all parts are cleared
+		purgeDoneSent = false;
+		purging = true;
 	}
 	
 	private void receivePart(PartType type) {
@@ -302,10 +300,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Make sure only sends message once for each part, not on every call to draw.
 	 */
 	private void msgAgentReceivePartDone() {
-		if(partAtLaneEnd && (partDoneCounter == 0)) {
+		if(partAtLaneEnd && (!receivePartDoneSent)) {
 			client.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
 					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
-			partDoneCounter++;
+			receivePartDoneSent = true;
 		}
 	}
 	
@@ -314,10 +312,15 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Make sure only sends message once for each part, not on every call to draw.
 	 */
 	private void msgAgentPurgingDone() {
-		if((partsOnLane.size() == 0) && (purgeDoneCounter == 0)) {
+		System.out.println(laneID + "msgAgentPurgingDone called. partsOnLane: "+partsOnLane.size() + ", purgeDoneSent: "+purgeDoneSent);
+
+		if((partsOnLane.size() == 0) && (!purgeDoneSent)) {
 			client.sendData(new Request(Constants.LANE_PURGE_COMMAND
 					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
-			purgeDoneCounter++;
+			
+			System.out.println(laneID + ": lane purge done sent");
+
+			purgeDoneSent = true;
 		}
 	}
 
