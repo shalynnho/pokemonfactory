@@ -21,9 +21,8 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 	public static final int RIGHT_X_LOC = 280;
 	public static final int Y_OFFSET = 100;
 	public static final int STAND_WIDTH = 80;
-
-	// TODO: create this manager then uncomment
-//	protected KitAssemblyManager kitAssemManager;
+	
+	protected Client client;
 	protected int standID;
 	
 	// the kit that is currently on the stand
@@ -40,22 +39,22 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param km - the kit manager
 	 * @param id - stand ID - 1,2: kit stands; 0: inspection stand
 	 */
-	public StandGraphicsDisplay(Client kam, int id) {
-//		kitAssemManager = (KitAssemblyManager) kam;	// TODO: add back
+	public StandGraphicsDisplay(Client c, int id) {
+		client = c;
 		standID = id;
 		isEmpty = true;
 		kit = new KitGraphicsDisplay();
 		// TODO: set location of kit based on standID
 		if (id % 2 == 0) {
-			location = new Location(RIGHT_X_LOC - STAND_WIDTH/2, standID*Y_OFFSET + Y_OFFSET);
+			location = new Location((RIGHT_X_LOC - STAND_WIDTH/2) + client.getOffset(), standID*Y_OFFSET + Y_OFFSET);
 		} else {
-			location = new Location(RIGHT_X_LOC, standID*Y_OFFSET + Y_OFFSET);
+			location = new Location(RIGHT_X_LOC + client.getOffset(), standID*Y_OFFSET + Y_OFFSET);
 		}
 	}
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		g.drawImage(Constants.STAND_IMAGE, location.getX(), location.getY(), c);
+		g.drawImage(Constants.STAND_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
 		if (!isEmpty) {
 			kit.draw(c,g);
 		}	
