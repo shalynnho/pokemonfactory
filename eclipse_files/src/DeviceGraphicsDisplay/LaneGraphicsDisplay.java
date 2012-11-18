@@ -156,6 +156,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 //						System.out.println("LOC x: "+p.getLocation().getX()+", y: "+p.getLocation().getY());
 //					}
 				}
+			} else if(purging) {
+				purging = false;
+				msgAgentReceivePartDone();
 			}
 		} else { // lane is off
 			if (laneID % 2 == 0) {
