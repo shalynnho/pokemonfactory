@@ -140,8 +140,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	@Override
 	public void setLocation(Location newLocation) {
-		destinationLocation = newLocation;
-		
+		destinationLocation = newLocation;	
 	}
 
 }
