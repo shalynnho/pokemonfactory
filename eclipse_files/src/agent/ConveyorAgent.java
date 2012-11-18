@@ -114,10 +114,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			// print(kitsOnConveyor.get(0).toString() + " status is "
 			// + kitsOnConveyor.get(0).KS.toString());
 		}
-		// break;
-		// }
-		// }
-		// }
 		stateChanged();
 	}
 
@@ -307,7 +303,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 		try {
 			animation.acquire();
-		} catch (InterruptedException e) { // TODO Auto-generated catch block
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
