@@ -84,7 +84,7 @@ public class NestAgent extends Agent implements Nest {
 		print("Received msgHereIsPart");
 		count++;
 		currentParts.add(new MyPart(p));
-		print("Received a part of type: "+p.type.getName()+" I have "+currentParts.size()+" parts and have requested "+countRequest);
+		print("Received a part of type "+p.type.getName()+" I have "+currentParts.size()+" parts and have requested "+countRequest);
 		stateChanged();
 	}
 

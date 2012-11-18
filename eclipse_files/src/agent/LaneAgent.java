@@ -77,7 +77,7 @@ public class LaneAgent extends Agent implements Lane {
 	
 	@Override
 	public void msgHereIsPart(Part p) {
-		print("Received msgHereIsPart");
+		print("Received msgHereIsPart of type "+p.type.getName());
 		currentParts.add(new MyPart(p));
 		if (laneGUI != null) {
 			laneGUI.receivePart(p.partGraphics);
