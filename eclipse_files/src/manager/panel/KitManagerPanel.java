@@ -95,8 +95,8 @@ public class KitManagerPanel extends JPanel{
 		JButton btnEditKit = new JButton("Edit Kit Arrangement");
 		btnEditKit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tfName.setEnabled(true);
-				// enables the comboBoxes
+				enableFields();
+				showButtons("Edit");
 			}
 		});
 		pnlView.add(btnEditKit);
