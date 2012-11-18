@@ -22,7 +22,7 @@ import Utils.Constants;
 
 public class KitAssemblyManager extends Client implements ActionListener {
 	// Window dimensions
-	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_WIDTH = 600;
 	private static final int WINDOW_HEIGHT = 700;
 	
 	// Create a timer
@@ -34,7 +34,7 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	public KitAssemblyManager() {
 		super();
 		clientName = Constants.KIT_ASSEMBLY_MNGR_CLIENT;
-		offset = 300;
+		offset = 0;
 		
 		
 		initStreams();

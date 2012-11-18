@@ -11,13 +11,14 @@ import javax.swing.Timer;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
 import DeviceGraphicsDisplay.FeederGraphicsDisplay;
 import DeviceGraphicsDisplay.GantryGraphicsDisplay;
+import DeviceGraphicsDisplay.LaneGraphicsDisplay;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 
 public class GantryRobotManager extends Client implements ActionListener {
 	// Window dimensions
-	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_WIDTH = 400;
 	private static final int WINDOW_HEIGHT = 700;
 
 	// Create a new timer
@@ -29,7 +30,7 @@ public class GantryRobotManager extends Client implements ActionListener {
 	public GantryRobotManager() {
 		super();
 		clientName = Constants.GANTRY_ROBOT_MNGR_CLIENT;
-		offset = -400;
+		offset = -800;
 		
 		initStreams();
 		initGUI();
@@ -62,9 +63,11 @@ public class GantryRobotManager extends Client implements ActionListener {
 			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));
 		}
 		
-		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
-
+		for (int i = 0; i < Constants.LANE_COUNT; i++) {
+			addDevice(Constants.LANE_TARGET + i, new LaneGraphicsDisplay(this, i));
+		}
 		
+		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
 	}
 	
 	/**
