@@ -10,13 +10,10 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -36,14 +33,13 @@ import Utils.Constants;
 * Authorship: Aaron Harris
 */
 
-public class PartsManagerPanel extends JPanel {
+public class PartsManagerPanel extends JPanel implements ActionListener {
 	private JPanel pnlButtons;
 	private JPanel pnlView;
 	private JPanel pnlEdit;
 	private JPanel pnlAdd;
 	private JComboBox cbPart;
 	private String[] backupFields; // used for temporarily storing old field data in case a user wants to revert
-	private final JFileChooser fc;
 	private JTextField tfName;
 	
 	/**
@@ -51,7 +47,6 @@ public class PartsManagerPanel extends JPanel {
 	 */
 	public PartsManagerPanel() {
 		setLayout(new GridLayout(1, 1));
-		fc = new JFileChooser();
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		JPanel managerPanel = new JPanel();
@@ -66,11 +61,7 @@ public class PartsManagerPanel extends JPanel {
 		managerPanel.add(pnlPartChooser, BorderLayout.NORTH);
 		
 		cbPart = new JComboBox();
-		cbPart.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent ie) {
-				viewPart((String) ie.getItem());
-			}
-		});
+		cbPart.addActionListener(this);
 		pnlPartChooser.add(cbPart);
 		
 		JButton btnNewPart = new JButton("New Part Type");
@@ -230,6 +221,12 @@ public class PartsManagerPanel extends JPanel {
 			}
 		});
 		pnlAdd.add(btnClearFields);
+	}
+	
+	public void actionPerformed(ActionEvent ae) {
+		if (ae.getSource() == cbPart) {
+			viewPart((String) cbPart.getSelectedItem());
+		}
 	}
 	
 	protected void showAddPanel() {
