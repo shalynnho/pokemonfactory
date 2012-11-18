@@ -20,8 +20,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS = 8;
 	// width and height of the nest
-	private static final int NEST_WIDTH = 75;
-	private static final int NEST_HEIGHT = 70;
+	private static final int NEST_WIDTH = 75, NEST_HEIGHT = 70;
 	// width and height of a part
 	private static final int PART_WIDTH = 20, PART_HEIGHT = 50;
 	private static final int PART_OFFSET = 19;
@@ -54,7 +53,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Handles drawing of NestGraphicsDisplay objects
 	 */
 	public void draw(JComponent c, Graphics2D g) {
-		g.drawImage(Constants.NEST_IMAGE, location.getX() + + client.getOffset()
+		g.drawImage(Constants.NEST_IMAGE, location.getX() + client.getOffset()
 				, location.getY(), c);
 		for (PartGraphicsDisplay part : partsInNest) {
 			part.getLocation().incrementX(client.getOffset());
