@@ -25,6 +25,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int PART_WIDTH = 20, PART_HEIGHT = 50;
 	private static final int PART_OFFSET = 19;
 	private static final int BOTTOM_ROW_OFFSET = 23;
+	// end x-coordinates of the Lane
+	private static final int LANE_END_X = 640;
+	// y-coordinates of the nest0
+	private static final int NEST_Y = 45, NEST_Y_INCR = 75;
 
 	// the id of this nest
 	private int nestID;
@@ -35,6 +39,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private boolean receivingPart;
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphicsDisplay> partsInNest;
+	// start location of a part entering the nest
+	private Location partStartLoc;
 
 	/**
 	 * Default constructor
@@ -44,8 +50,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		nestID = id;
 		receivingPart = false;
 
-		location = new Location(640 - NEST_WIDTH, 45 + nestID * 75);
+		location = new Location(LANE_END_X - NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
 		partsInNest = new ArrayList<PartGraphicsDisplay>();
+		partStartLoc = new Location(LANE_END_X, location.getY()
+				+ (PART_WIDTH / 2) - PART_OFFSET);
 		generatePartLocations();
 	}
 
@@ -55,14 +63,32 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		g.drawImage(Constants.NEST_IMAGE, location.getX() + client.getOffset()
 				, location.getY(), c);
-		if (receivingPart && !isFull()) {
-			
-			
-			
+		if (!isFull()) {
+			if(receivingPart) {	// part in motion
+				// get last part added to nest
+				int index = partsInNest.size() - 1;
+				PartGraphicsDisplay pgd = partsInNest.get(index);
+				pgd.setLocation(partStartLoc);
+				Location partLoc = pgd.getLocation();
+				Location endLoc = partLocs.get(index);
+				
+				// check x-coord
+				if(partLoc.getX() >= endLoc.getX()) {
+					partLoc.incrementX(-1);
+				}
+				// check y-coord
+				if((index % 2 == 0) && partLoc.getY() >= endLoc.getY()) { // top row
+					partLoc.incrementY(-1);
+				} else if((index % 2 != 0) && partLoc.getY() <= endLoc.getY()) { // bottom row
+					partLoc.incrementY();
+				}
+				
+				// check if part in place
+				if (partLoc.equals(endLoc)) {
+					receivingPart = false;
+				}
+			}
 		}
-		
-		
-		
 		for (PartGraphicsDisplay part : partsInNest) {
 			part.getLocation().incrementX(client.getOffset());
 			part.draw(c, g);
