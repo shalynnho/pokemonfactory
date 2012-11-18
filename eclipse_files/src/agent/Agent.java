@@ -78,6 +78,7 @@ public abstract class Agent {
 				&& this.getClass() != agent.test.mock.MockGraphics.class) {
 			System.out.print(sb.toString());
 		}
+		// }
 		print.release();
 	}
 

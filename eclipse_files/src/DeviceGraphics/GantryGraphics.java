@@ -41,7 +41,7 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 		heldBin = newBin;
 		newLocation = newBin.binGraphics.getInitialLocation();
 		moveTo(newLocation);
-		newLocation = feeder.feederGUI.getLocation();
+		newLocation = new Location (feeder.feederGUI.getLocation());
 		newLocation.incrementX(50);
 		newLocation.incrementY(35);
 
@@ -73,6 +73,7 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 			if (receiveState) {
 				server.sendData(new Request(Constants.GANTRY_ROBOT_GET_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, new BinData(heldBin.binGraphics.getLocation(), heldBin.part.type)));
 				moveTo(newLocation);
+				heldBin.binGraphics.setLocation(newLocation);
 				receiveState = false;
 				receiveState2 = true;
 			}
@@ -91,7 +92,7 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 			}
 			// Robot is above initial bin location, removes bin
 			else if (removeState2) {
-				server.sendData(new Request(Constants.GANTRY_ROBOT_GET_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, null));
+				server.sendData(new Request(Constants.GANTRY_ROBOT_DROP_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, null));
 				gantryAgent.msgRemoveBinDone(heldBin);
 				removeState2 = false;
 			}

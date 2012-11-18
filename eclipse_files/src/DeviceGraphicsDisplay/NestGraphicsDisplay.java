@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
+import manager.FactoryProductionManager;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -30,8 +31,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// array of part locations in nest
 	private ArrayList<Location> partLocs;
 
-	// boolean if the nest is full
-	private boolean isFull;
+	// controls animation
+	private boolean receivingPart;
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphicsDisplay> partsInNest;
 
@@ -41,7 +42,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public NestGraphicsDisplay(Client c, int id) {
 		client = c;
 		nestID = id;
-		isFull = true;
+		receivingPart = false;
 
 		location = new Location(640 - NEST_WIDTH, 45 + nestID * 75);
 		partsInNest = new ArrayList<PartGraphicsDisplay>();
@@ -54,8 +55,17 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		g.drawImage(Constants.NEST_IMAGE, location.getX() + client.getOffset()
 				, location.getY(), c);
+		if (receivingPart && !isFull()) {
+			
+			
+			
+		}
+		
+		
+		
 		for (PartGraphicsDisplay part : partsInNest) {
-			part.drawWithOffset(c, g, client.getOffset());
+			part.getLocation().incrementX(client.getOffset());
+			part.draw(c, g);
 		}
 	}
 
@@ -121,8 +131,15 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(type);
 		partsInNest.add(pgd);
 		setPartLocations();
+		receivingPart = true;
+		
+		
 		client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND
 				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
+	}
+	
+	private boolean isFull() {
+		return partsInNest.size() >= MAX_PARTS;
 	}
 
 	/**
