@@ -38,7 +38,7 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 * @param myServer a reference to the Server
 	 */
 	public FeederGraphics(int id, Server myServer, Agent a) {
-		id = feederID;
+		feederID = id;
 		server = myServer;
 		feederAgent = (FeederAgent)a;
 		feederLocation = Constants.FEEDER_LOC;
@@ -75,6 +75,9 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 		server.sendData(new Request(Constants.FEEDER_FLIP_DIVERTER_COMMAND, Constants.FEEDER_TARGET + feederID, null));
 	}
 	
+	/**
+	 * Returns the location of the feeder.
+	 */
 	public Location getLocation() {
 		return feederLocation;
 	}
