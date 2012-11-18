@@ -69,6 +69,11 @@ public class KitManagerPanel extends JPanel{
 		// Creates a ComboBoxModel with all the KitConfigs, This populates the ComboBox at the top of the layout with the list of kitConfigs
 		kitModel = new DefaultComboBoxModel<KitConfig>((KitConfig[]) Utils.Constants.DEFAULT_KITCONFIGS.toArray());
 		cbKits = new JComboBox<KitConfig>(kitModel);
+		cbKits.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				viewKit((KitConfig) cbKits.getSelectedItem())
+			}
+		});
 		pnlKitChooser.add(cbKits);
 		
 		btnAddKit = new JButton("New Kit Arrangement");
@@ -207,6 +212,15 @@ public class KitManagerPanel extends JPanel{
 			pnlParts.add(cbPart[i+1], gbc_comboBox);
 		}
 
+	}
+	
+	public void viewKit(KitConfig kit) {
+		disableFields();
+		tfName.setText(kit.getName());
+		ArrayList<PartType> parts = kit.getParts();
+		for (int i = 0; i < parts.size(); i++) {
+			cbPart[i].setSelectedItem((Object) parts.get(i));
+		}
 	}
 	
 	public void createKit() {
