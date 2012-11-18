@@ -29,7 +29,9 @@ public abstract class DeviceGraphicsDisplay {
 	 */
 	public abstract void receiveData(Request req);
 
-	public abstract void setLocation(Location newLocation);
+	public void setLocation(Location newLocation) {
+		location = newLocation;
+	}
 
 	/**
 	 * Print message. This should be used instead of System.out.println() as it
