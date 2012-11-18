@@ -56,7 +56,7 @@ public class KitManagerPanel extends JPanel{
 	 * Create the panel.
 	 */
 	public KitManagerPanel(manager.KitManager k) {
-		// store a reference to the KitManager to get access to ArrayList
+		// store a reference to the KitManager to sent/receive items from client/server.
 		km = k;
 		
 		setLayout(new GridLayout(1, 1));
@@ -258,11 +258,9 @@ public class KitManagerPanel extends JPanel{
 	public void updateKitConfigs(ArrayList<KitConfig> kc)
 	{
 		kitConfigs = kc;
-	
 		//clear the JComboBox
 		kitModel.removeAllElements();
-	
-		//finish implementation of this method to update the arraylist of available kitconfigs
+		for (KitConfig k : kitConfigs) kitModel.addElement(k);
 	}
 	
 	public void showButtons(String panel) {
