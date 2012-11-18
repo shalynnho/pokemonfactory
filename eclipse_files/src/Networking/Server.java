@@ -264,6 +264,7 @@ public class Server {
 						.get(Constants.PARTS_ROBOT_TARGET));
 		((FCSAgent) agents.get(Constants.FCS_TARGET))
 				.setStand((StandAgent) agents.get(Constants.STAND_TARGET));
+		((FCSAgent) agents.get(Constants.FCS_TARGET)).setCamera((CameraAgent) agents.get(Constants.CAMERA_TARGET));
 
 	}
 
