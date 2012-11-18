@@ -200,11 +200,7 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		pnlAdd.add(btnCreatePartType);
 		
 		btnClearFields = new JButton("Clear Fields");
-		btnClearFields.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clearFields();
-			}
-		});
+		btnClearFields.addActionListener(this);
 		pnlAdd.add(btnClearFields);
 	}
 	
@@ -218,12 +214,14 @@ public class PartsManagerPanel extends JPanel implements ActionListener {
 		} else if (ae.getSource() == btnDeletePartType) {
 			deletePart((String) cbPart.getSelectedItem());
 		} else if (ae.getSource() == btnSaveChanges) {
-//			savePartEdit((String) cbPart.getSelectedItem());
+//		TODO: savePartEdit((String) cbPart.getSelectedItem());
 		} else if (ae.getSource() == btnCnclChanges) {
 			cancelEdit();
 			viewPart((String) cbPart.getSelectedItem());
 		} else if (ae.getSource() == btnCreatePartType) {
 			createPart();
+		} else if (ae.getSource() == btnClearFields) {
+			clearFields();
 		}
 	}
 	
