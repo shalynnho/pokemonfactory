@@ -14,11 +14,7 @@ import Utils.Constants;
 import Utils.Location;
 
 public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
-	// double x,y;
-
-	// Rectangle2D.Double rectangle;
-	Rectangle2D.Double rectangle1;
-	JLabel imageLabel;
+	
 
 	// Positions
 	public enum Position {
@@ -32,9 +28,9 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		moveToConveyor, moveToGoodConveyor, moveToInspectionStand, moveToLocation1, moveToLocation2
 	};
 
-	Command moveToInitialPosition;
-	Command moveToFinalPosition;
-	Command moveToPosition; //current command
+	Command moveToInitialPosition;	//initial command
+	Command moveToFinalPosition;	//final command
+	Command moveToPosition; 		//current command
 	
 	boolean initialJob;
 	boolean finalJob;
@@ -52,6 +48,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	double kitRobotPositionX;
 	double kitRobotPositionY;
+	
 	AffineTransform trans;
 
 	Client kitRobotClient;
@@ -79,7 +76,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitRobotPositionY = Constants.KIT_ROBOT_LOC.getYDouble();
 
 		trans.translate(kitRobotPositionX, kitRobotPositionY);
-		rectangle1 = new Rectangle2D.Double(0, 0, 600, 400);
 
 	}
 
@@ -89,6 +85,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		this.moveToInitialPosition = initialCommand;
 		this.moveToFinalPosition = finalCommand;
 	}
+	
 	//begin paths
 	public void InspectionToGoodConveyor() {
 		setCommands(Command.moveToInspectionStand, Command.moveToGoodConveyor);
@@ -133,6 +130,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void setNegativeDegreeStep() {
 		setDegreeStep(-Constants.KIT_ROBOT_DEGREE_STEP);
 	}
+	
 	/*
 	 * sets the rotation configurations based on the commands
 	 */
@@ -362,7 +360,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void setLocation(Location newLocation) {
 		location = newLocation;
-		// TODO Auto-generated method stub
 	}
 
 }
