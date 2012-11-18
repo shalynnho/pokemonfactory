@@ -51,13 +51,8 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		//System.out.println("GEBERT    " + destinationLocation.getX() + "    " + destinationLocation.getY());
-
-		
 		// If robot is at incorrect Y location, first move bot to inital X location
 		if (currentLocation.getY() != destinationLocation.getY() && currentLocation.getX() != Constants.GANTRY_ROBOT_LOC.getX()) {
-			System.out.println("GEBERT move1");
-
 			if(currentLocation.getX() < Constants.GANTRY_ROBOT_LOC.getX()) {
 				currentLocation.incrementX(5);
 			}
@@ -68,8 +63,6 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		//If robot is in initial X, move to correct Y
 		if(currentLocation.getX() == Constants.GANTRY_ROBOT_LOC.getX() && currentLocation.getY() != destinationLocation.getY()) {
-			//System.out.println("GEBERT move2");
-
 			if(currentLocation.getY() < destinationLocation.getY()) {
 				currentLocation.incrementY(5);
 			}
@@ -97,8 +90,6 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		//If robot is at correct Y and correct rotation, move to correct X
 		if (currentLocation.getY() == destinationLocation.getY() && currentLocation.getX() != destinationLocation.getX()) { //&& currentDegree == finalDegree) {
-			//System.out.println("GEBERT move3");
-
 			if(currentLocation.getX() < destinationLocation.getX()) {
 				currentLocation.incrementX(5);
 			}
@@ -114,7 +105,6 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		for (int i = 0; i < binList.size(); i ++) {
 			binList.get(i).draw(c, g);
-			System.out.println("GEBERT    " + i);
 		}
 			
 		if (isBinHeld) {
@@ -141,8 +131,6 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 			isBinHeld = false;
 		}
 		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_ADD_NEW_BIN)) {
-			System.out.println("GEBERT    bin");
-
 			tempBin = (BinData) req.getData();
 			binList.add(new BinGraphicsDisplay(tempBin.getBinLocation(), tempBin.getBinPartType()));
 			tempBin = null;
