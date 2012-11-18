@@ -205,7 +205,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			g.drawImage(partsRobotImage, currentLocation.getX() + client.getOffset(), currentLocation.getY(), c);
 			
 			if (currentLocation.getX() == kitloc.getX()-30 && currentLocation.getY()+30*I == kitloc.getY()){
-				//Location tempLoc = armLoc.get(I-1);
+				
 				System.out.println("got to kit location");
 				if(armLoc.get(I-1).getX() != kitloc.getX()+90 && !gavepart){
 					System.out.println("extending arm to kit");
@@ -311,7 +311,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		givekit = true;
 	}
 	public void pickUpPart(){
-		//partArrayGraphics.add(pgd);
+		
 		PartType partType = Constants.DEFAULT_PARTTYPES.get(0);
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
 		
@@ -340,7 +340,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
 	public void extendArm(){
 		
-			//if(armLocation.getX() != loc.getX()){
+		
 		
 		if(I==0){
 			armLoc.get(0).incrementX(1);
@@ -363,7 +363,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	}
 	public void extendArmToKit(){
 		
-		//if(armLocation.getX() != loc.getX()){
+		
 	
 	if(I==1){
 		armLoc.get(0).incrementX(1);
@@ -387,7 +387,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
 	public void retractArm(){
 		
-		//if(armLocation.getX() == loc.getX()){
+		
 		
 		if(I==0){
 			armLoc.get(0).incrementX(-1);
@@ -410,7 +410,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
 public void retractArmFromKit(){
 		
-		//if(armLocation.getX() == loc.getX()){
+		
 	System.out.println("go to function");
 	if(I==1){
 		System.out.println("retracting");
