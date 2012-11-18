@@ -52,6 +52,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private boolean laneOn = true;
 	// use to make sure only 1 message is sent to agent for each part that reaches end of lane
 	private int partDoneCounter = 0;
+	private int purgeDoneCounter = 0;
 	// V0 only, stops parts from going down lane without bin
 	private boolean partAtLaneEnd = false;
 	private boolean purging = false;
@@ -127,6 +128,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 										partsOnLane.remove(0);
 									} else {	// all parts removed, done purging
 										purging = false;
+										msgAgentReceivePartDone();
 									}
 								}
 							}
@@ -249,6 +251,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	private void purge() {
 		// TODO: lane should continue as is, parts fall off the lane
+		purgeDoneCounter = 0;
 		purging = true; // TODO: set purging to false again after all parts are cleared
 	}
 	
@@ -300,6 +303,18 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			client.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
 					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 			partDoneCounter++;
+		}
+	}
+	
+	/**
+	 * Tells the agent that purging is done.
+	 * Make sure only sends message once for each part, not on every call to draw.
+	 */
+	private void msgAgentPurgingDone() {
+		if((partsOnLane.size() == 0) && (purgeDoneCounter == 0)) {
+			client.sendData(new Request(Constants.LANE_PURGE_COMMAND
+					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
+			purgeDoneCounter++;
 		}
 	}
 

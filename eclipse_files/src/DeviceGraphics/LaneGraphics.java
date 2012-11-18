@@ -113,7 +113,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 * Purges this lane of all parts
 	 */
 	public void purge() {
-		partsOnLane.clear();
 		// TODO: set location of parts to fall off lane
 			// currently doing this in Display side only
 		server.sendData(new Request(Constants.LANE_PURGE_COMMAND,
@@ -142,7 +141,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 * @param r - the request
 	 */
 	public void receiveData(Request r) {
-		String cmd = r.getCommand();	
+		String cmd = r.getCommand();
 		
 //		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {	// testing purposes only, remove later
 //			receivePart(new PartGraphics(PartType.A));	
@@ -156,6 +155,10 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
 			laneAgent.msgGivePartToNestDone(partsOnLane.get(0));
 			partsOnLane.remove(0);
+			
+		} else if (cmd.equals(Constants.LANE_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
+			partsOnLane.clear();
+			laneAgent.msgPurgeDone();
 		}
 //		else if (cmd.equals("TESTING_LANE")) {
 //			System.out.println("Got TESTING_LANE request");
