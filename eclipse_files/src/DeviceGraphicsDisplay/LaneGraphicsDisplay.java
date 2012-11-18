@@ -250,7 +250,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Purges lane of all parts
 	 */
 	private void purge() {
-		System.out.println(laneID + ": lane purge() called");
 		// TODO: lane should continue as is, parts fall off the lane
 		purgeDoneSent = false;
 		purging = true;
@@ -312,14 +311,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * Make sure only sends message once for each part, not on every call to draw.
 	 */
 	private void msgAgentPurgingDone() {
-		System.out.println(laneID + "msgAgentPurgingDone called. partsOnLane: "+partsOnLane.size() + ", purgeDoneSent: "+purgeDoneSent);
-
 		if((partsOnLane.size() == 0) && (!purgeDoneSent)) {
 			client.sendData(new Request(Constants.LANE_PURGE_COMMAND
 					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
-			
-			System.out.println(laneID + ": lane purge done sent");
-
 			purgeDoneSent = true;
 		}
 	}
