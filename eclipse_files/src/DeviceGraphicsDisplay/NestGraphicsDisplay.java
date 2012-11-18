@@ -219,19 +219,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	private void purge() {
-		// TODO: (later) animate parts out of nest
 		purging = true;
-<<<<<<< HEAD
 		purgeDoneSent = false;
-=======
-		
-		for (int i = 0; i < partsInNest.size(); i++) {
-			partsInNest.remove(0);
-		}
-		
-		msgAgentPurgingDone();
-
->>>>>>> branch 'master' of https://github.com/usc-csci200-fall2012/team09.git
 	}
 
 	private void receivePart(PartType type) {
