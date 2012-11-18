@@ -33,10 +33,10 @@ public class KitManagerPanel extends JPanel{
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
 	private ArrayList<PartType> partTypes = new ArrayList<PartType>();
 	
-	private JComboBox<PartType>[] cbPart;
-	private JComboBox<KitConfig> cbKits;
-	private DefaultComboBoxModel<PartType> partModel;
-	private DefaultComboBoxModel<KitConfig> kitModel;
+	private JComboBox[] cbPart;
+	private JComboBox cbKits;
+	private DefaultComboBoxModel partModel;
+	private DefaultComboBoxModel kitModel;
 	private JTextField tfName;
 	private JPanel pnlButtons;
 	private JButton btnAddKit;
@@ -68,11 +68,11 @@ public class KitManagerPanel extends JPanel{
 		managerPanel.add(pnlKitChooser, BorderLayout.NORTH);
 		
 		// Creates a ComboBoxModel with all the KitConfigs, This populates the ComboBox at the top of the layout with the list of kitConfigs
-		kitModel = new DefaultComboBoxModel<KitConfig>((KitConfig[]) Utils.Constants.DEFAULT_KITCONFIGS.toArray());
-		cbKits = new JComboBox<KitConfig>(kitModel);
+		kitModel = new DefaultComboBoxModel((KitConfig[]) Utils.Constants.DEFAULT_KITCONFIGS.toArray());
+		cbKits = new JComboBox(kitModel);
 		cbKits.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				viewKit((KitConfig) cbKits.getSelectedItem())
+				viewKit((KitConfig) cbKits.getSelectedItem());
 			}
 		});
 		pnlKitChooser.add(cbKits);
@@ -196,17 +196,17 @@ public class KitManagerPanel extends JPanel{
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		
 		// First construct the ComboBoxModel for the PartTypes, then iterate through to add PartTypes
-		partModel = new DefaultComboBoxModel<PartType>((PartType[]) Utils.Constants.DEFAULT_PARTTYPES.toArray());	
+		partModel = new DefaultComboBoxModel((PartType[]) Utils.Constants.DEFAULT_PARTTYPES.toArray());	
 		
 		for (int i = 0; i < 4; i++) {
-			cbPart[i] = new JComboBox<PartType>(partModel);
+			cbPart[i] = new JComboBox(partModel);
 			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 			gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 			gbc_comboBox.gridx = 1;
 			gbc_comboBox.gridy = i;
 			pnlParts.add(cbPart[i], gbc_comboBox);
 			
-			cbPart[i+1] = new JComboBox<PartType>(partModel);
+			cbPart[i+1] = new JComboBox(partModel);
 			gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 			gbc_comboBox.gridx = 3;
 			gbc_comboBox.gridy = i;
@@ -235,7 +235,8 @@ public class KitManagerPanel extends JPanel{
 				config.put(p, (Integer) config.get(p).intValue()+1);
 			}
 		}
-		
+		newKit.setConfig(config);
+		km.addKit(newKit);
 	}
 	
 	public void updatePartComboModels() {
