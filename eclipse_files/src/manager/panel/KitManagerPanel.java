@@ -34,14 +34,23 @@ import javax.swing.JTextArea;
 public class KitManagerPanel extends JPanel{
 	private manager.KitManager km;
 	
-	private JComboBox[] cbPart;
-	private JTextField tfName;
-	private DefaultComboBoxModel partModel;
-	private DefaultComboBoxModel kitModel;
 	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
 	private ArrayList<Order> schedule = new ArrayList<Order>();
 	private ArrayList<PartType> partTypes = new ArrayList<PartType>();
+	
+	private JComboBox<PartType>[] cbPart;
+	private JComboBox<KitConfig> cbKits;
+	private DefaultComboBoxModel<PartType> partModel;
+	private DefaultComboBoxModel<KitConfig> kitModel;
+	private JTextField tfName;
 	private JPanel pnlButtons;
+	private JButton btnAddKit;
+	private JButton btnEditKit;
+	private JButton btnDeleteKit;
+	private JButton btnCreateKit;
+	private JButton btnClrFields;
+	private JButton btnSaveChg;
+	private JButton btnCnclChg;
 
 	/**
 	 * Create the panel.
@@ -64,16 +73,16 @@ public class KitManagerPanel extends JPanel{
 		managerPanel.add(pnlKitChooser, BorderLayout.NORTH);
 		
 		
-		JComboBox cbKits = new JComboBox();
+		cbKits = new JComboBox();
 		kitModel = (DefaultComboBoxModel)cbKits.getModel();
 		
 		//This populates the ComboBox at the top of the layout with the list of kitConfigs 
 		//from Constants
 		for(int i = 0; i<Utils.Constants.DEFAULT_KITCONFIGS.size();i++)
-			cbKits.addItem(Utils.Constants.DEFAULT_KITCONFIGS.get(i).getName());
+			cbKits.addItem(Utils.Constants.DEFAULT_KITCONFIGS.get(i));
 		pnlKitChooser.add(cbKits);
 		
-		JButton btnAddKit = new JButton("New Kit Arrangement");
+		btnAddKit = new JButton("New Kit Arrangement");
 		btnAddKit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				showButtons("Add");
@@ -93,7 +102,7 @@ public class KitManagerPanel extends JPanel{
 		JPanel pnlView = new JPanel();
 		pnlButtons.add(pnlView, "View");
 		
-		JButton btnEditKit = new JButton("Edit Kit Arrangement");
+		btnEditKit = new JButton("Edit Kit Arrangement");
 		btnEditKit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				enableFields();
@@ -102,13 +111,18 @@ public class KitManagerPanel extends JPanel{
 		});
 		pnlView.add(btnEditKit);
 		
-		JButton btnDeleteKit = new JButton("Delete Kit Arrangement");
+		btnDeleteKit = new JButton("Delete Kit Arrangement");
+		btnDeleteKit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				km.deleteKit((KitConfig) cbKits.getSelectedItem());
+			}
+		});
 		pnlView.add(btnDeleteKit);
 		
 		JPanel pnlEdit = new JPanel();
 		pnlButtons.add(pnlEdit, "Edit");
 		
-		JButton btnSaveChg = new JButton("Save Changes");
+		btnSaveChg = new JButton("Save Changes");
 		btnSaveChg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				//TODO: call method that saves changes
@@ -116,13 +130,13 @@ public class KitManagerPanel extends JPanel{
 		});
 		pnlEdit.add(btnSaveChg);
 		
-		JButton btnCnclChg = new JButton("Cancel Changes");
+		btnCnclChg = new JButton("Cancel Changes");
 		pnlEdit.add(btnCnclChg);
 		
 		JPanel pnlAdd = new JPanel();
 		pnlButtons.add(pnlAdd, "Add");
 		
-		JButton btnCreateKit = new JButton("Create Kit Arrangement");
+		btnCreateKit = new JButton("Create Kit Arrangement");
 		btnCreateKit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createKit();
@@ -130,7 +144,7 @@ public class KitManagerPanel extends JPanel{
 		});
 		pnlAdd.add(btnCreateKit);
 		
-		JButton btnClrFields = new JButton("Clear Fields");
+		btnClrFields = new JButton("Clear Fields");
 		btnClrFields.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				clearFields();
@@ -193,7 +207,7 @@ public class KitManagerPanel extends JPanel{
 			gbc_comboBox.gridx = 1;
 			gbc_comboBox.gridy = i;
 			for(int j = 0; j<Utils.Constants.DEFAULT_PARTTYPES.size();j++)
-				cbPart[i].addItem(Utils.Constants.DEFAULT_PARTTYPES.get(j).getName());
+				cbPart[i].addItem(Utils.Constants.DEFAULT_PARTTYPES.get(j));
 			pnlParts.add(cbPart[i], gbc_comboBox);
 			
 			cbPart[i+1] = new JComboBox();
@@ -201,7 +215,7 @@ public class KitManagerPanel extends JPanel{
 			gbc_comboBox.gridx = 3;
 			gbc_comboBox.gridy = i;
 			for(int l = 0; l<Utils.Constants.DEFAULT_PARTTYPES.size();l++)
-				cbPart[i+1].addItem(Utils.Constants.DEFAULT_PARTTYPES.get(l).getName());
+				cbPart[i+1].addItem(Utils.Constants.DEFAULT_PARTTYPES.get(l));
 			pnlParts.add(cbPart[i+1], gbc_comboBox);
 		}
 
