@@ -40,6 +40,7 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 	public void receiveBin(Bin newBin, FeederAgent feeder) {
 		heldBin = newBin;
 		newLocation = newBin.binGraphics.getInitialLocation();
+		newLocation.incrementX(-10);
 		moveTo(newLocation);
 		newLocation = new Location (feeder.feederGUI.getLocation());
 		newLocation.incrementX(50);
@@ -51,7 +52,9 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 	// Move to bin location
 	public void removeBin(Bin newBin) {
 		heldBin = newBin;
-		moveTo (heldBin.binGraphics.getLocation());
+		newLocation = heldBin.binGraphics.getLocation();
+		newLocation.incrementX(-10);
+		moveTo (newLocation);
 		removeState = true;
 	}
 	
@@ -86,7 +89,9 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 			// Pick up bin, move it back to initial location
 			else if (removeState) {
 				server.sendData(new Request(Constants.GANTRY_ROBOT_GET_BIN_COMMAND, Constants.GANTRY_ROBOT_TARGET, new BinData(heldBin.binGraphics.getLocation(), heldBin.part.type)));
-				moveTo (heldBin.binGraphics.getInitialLocation());
+				newLocation = heldBin.binGraphics.getInitialLocation();
+				newLocation.incrementX(-10);
+				moveTo (newLocation);
 				removeState = false;
 				removeState2 = true;
 			}
