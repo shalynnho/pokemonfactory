@@ -87,6 +87,9 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		kitsScrollPane = new JScrollPane(kitsPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		kitsScrollPane.setOpaque(false);
 		kitsScrollPane.getViewport().setOpaque(false);
+		for (int i = 0; i < kitsScrollPane.getComponentCount(); i++) {
+			kitsScrollPane.getComponents()[i].addMouseListener(new PanelMouseListener());
+		}
 		
 		c.gridx = 0;
 		c.gridy = 0;
@@ -137,6 +140,9 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		ordersScrollPane = new JScrollPane(ordersPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		ordersScrollPane.setOpaque(false);
 		ordersScrollPane.getViewport().setOpaque(false);
+		for (int i = 0; i < ordersScrollPane.getComponentCount(); i++) {
+			ordersScrollPane.getComponents()[i].addMouseListener(new PanelMouseListener());
+		}		
 		
 		c.gridx = 0;
 		c.gridy = 5;
