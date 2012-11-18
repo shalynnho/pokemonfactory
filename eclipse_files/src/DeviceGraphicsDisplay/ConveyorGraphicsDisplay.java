@@ -132,9 +132,8 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		for (int j = 0; j < kitsOnConveyor.size(); j++) {
 			if (kitsOnConveyor.get(j).getLocation().getX() < 10 - j * 100) {
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
+				tempKit.drawWithOffset(c, g2, client.getOffset());
 				Location tempLoc = tempKit.getLocation();
-				tempKit.getLocation().incrementX(client.getOffset());
-				tempKit.draw(c, g2);
 				tempKit.setLocation(new Location(tempLoc.getX() + velocity, tempLoc.getY()));
 			} else if (kitsOnConveyor.get(j).getLocation().getX() >= 10 - j * 100) {
 				kitsOnConveyor.get(j).draw(c, g2);
@@ -151,9 +150,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		for (int i = 0; i < kitsToLeave.size(); i++) {
 			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
-			Location tempLoc = tempKit.getLocation();
-			tempKit.getLocation().incrementX(client.getOffset());
-			tempKit.draw(c, g2);
+			tempKit.drawWithOffset(c, g2, client.getOffset());
 			if (tempKit.getLocation().getX() == -80) {
 				animationDone(new Request(
 						Constants.CONVEYOR_RECEIVE_KIT_COMMAND
@@ -161,6 +158,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 						Constants.CONVEYOR_TARGET, null));
 				sendOut();
 			}
+			Location tempLoc = tempKit.getLocation();
 			tempKit.setLocation(new Location(tempLoc.getX() - 5, 100));
 		}
 	}
