@@ -23,7 +23,6 @@ public class LaneAgent extends Agent implements Lane {
 	public List<MyPart> currentParts = Collections
 			.synchronizedList(new ArrayList<MyPart>());
 
-	public int currentNum = 0;
 	public int topLimit = 9;
 	public int lowerThreshold = 3;
 
@@ -73,7 +72,6 @@ public class LaneAgent extends Agent implements Lane {
 	public void msgHereIsPart(Part p) {
 		print("Received msgHereIsPart");
 		currentParts.add(new MyPart(p));
-		currentNum++;
 		if (laneGUI != null) {
 			laneGUI.receivePart(p.partGraphics);
 		}
@@ -84,10 +82,12 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public void msgReceivePartDone(PartGraphics part) {
 		print("Received msgReceivePartDone from graphics");
-		for (MyPart p : currentParts) {
-			if (p.status == PartStatus.BEGINNING_LANE) {
-				p.status = PartStatus.END_LANE;
-				break;
+		synchronized (currentParts) {
+			for (MyPart p : currentParts) {
+				if (p.status == PartStatus.BEGINNING_LANE) {
+					p.status = PartStatus.END_LANE;
+					break;
+				}
 			}
 		}
 		// animation.release();
@@ -105,7 +105,7 @@ public class LaneAgent extends Agent implements Lane {
 	public boolean pickAndExecuteAnAction() {
 		// print("In the Scheduler");
 		synchronized (requestList) {
-			if (currentNum >= topLimit) {
+			if (currentParts.size() >= topLimit) {
 				state = LaneStatus.DONE_FILLING;
 			} else if (requestList.size() > lowerThreshold) {
 				state = LaneStatus.FILLING;
@@ -148,7 +148,6 @@ public class LaneAgent extends Agent implements Lane {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		currentNum--;
 		if (nest != null) {
 			nest.msgHereIsPart(part);
 		}
