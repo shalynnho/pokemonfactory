@@ -43,10 +43,8 @@ public class CameraGraphics implements DeviceGraphics,
 	@Override
 	public void takeKitPhoto(KitGraphics kit) {
 		server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND,
-				Constants.CAMERA_TARGET, null));
+				Constants.CAMERA_TARGET, kit.getLocation()));
 		agent.msgTakePictureKitDone(kit, true);
-		// TODO Remove the kit reference because there is only one kit you can
-		// take a picture of. It'll always be on the Inspection stand.
 	}
 
 	@Override
