@@ -1,5 +1,6 @@
 package Networking;
 
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -88,6 +89,10 @@ public class Server {
 		connectAgentsWithDevices();
 
 		initStreams();
+		
+		//add the save file method (at bottom) to the server
+		addShutdownHook();
+		
 		// will never run anything after init Streams
 	}
 
@@ -430,9 +435,48 @@ public class Server {
 		laneMngrWriter.sendData(req);
 		gantryRobotMngrWriter.sendData(req);
 	}
+	
+	//TODO: make sure this works
+	private void addShutdownHook() {
+        Thread hook = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                	try
+                	{
+                		//save kit configs to KitConfigBackup.sav
+                		FileOutputStream saveKitConfigs = new FileOutputStream("KitConfigBackup.sav");
+                		ObjectOutputStream outputKC = new ObjectOutputStream(saveKitConfigs);
+                		
+                		outputKC.writeObject(fcs.getKitConfigs());
+                		
+                		//save part types to PartTypesBackup.sav
+                		FileOutputStream savePartTypes = new FileOutputStream("PartTypesBackup.sav");
+                		ObjectOutputStream outputPT = new ObjectOutputStream(savePartTypes);
+                		
+                		outputPT.writeObject(fcs.getPartTypes());
+                		
+                		//close both output streams... also closes both files
+                		outputKC.close();
+                		outputPT.close();
+                	}
+                	
+                	catch(Exception exc)
+                	{
+                		//print error info if error occurs
+                		exc.printStackTrace();
+                	}
+                        
+                }
+        });
+        Runtime.getRuntime().addShutdownHook(hook);
+}
 
 	public static void main(String[] args) {
 		Server server = new Server();
 	}
 
+	
+	
+	
+	
 }

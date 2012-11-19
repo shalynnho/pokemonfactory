@@ -54,7 +54,8 @@ public abstract class Constants {
 					DEFAULT_PARTTYPES.get(4),DEFAULT_PARTTYPES.get(5),
 					DEFAULT_PARTTYPES.get(6),DEFAULT_PARTTYPES.get(7)
 					), new KitConfig("Simple Kit", 
-					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1)
+					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1),
+					DEFAULT_PARTTYPES.get(4),DEFAULT_PARTTYPES.get(5)
 					)));
 
 	// DEVICE START LOCATIONS
