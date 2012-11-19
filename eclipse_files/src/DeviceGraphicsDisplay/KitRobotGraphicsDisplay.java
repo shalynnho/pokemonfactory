@@ -321,6 +321,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 5) {
+						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
 						setKitConfigurations(kits.get(i), -45, 4);
 					}
 				}
@@ -329,6 +330,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_INSPECTION)) {
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 6) {
+						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
 						setKitConfigurations(kits.get(i), -90, 4);
 					}
 				}
