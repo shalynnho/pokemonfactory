@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import factory.KitConfig;
 import factory.PartType;
 
+/**
+ * This class contains the functions needed to read data from files and parse them into objects
+ * @author Neetu George
+ *
+ */
+
 public abstract class ReadSaveData {
     
     /**
@@ -19,10 +25,10 @@ public abstract class ReadSaveData {
      * @param File f
      * @return ArrayList<KitConfig>
      */
-    public static ArrayList<KitConfig> readKitConfig(File f) {
+    public static ArrayList<KitConfig> readKitConfig() {
     	ArrayList<KitConfig> kitConfigs = null;
     	try{
-    		InputStream is = new FileInputStream(f);
+    		InputStream is = new FileInputStream("KitConfigBackup.sav");
     		InputStream buffer = new BufferedInputStream(is);
     		ObjectInput oi = new ObjectInputStream(buffer);
     		try {
@@ -45,14 +51,16 @@ public abstract class ReadSaveData {
      * @param File
      * @return ArrayList<PartType>
      */
-    public static ArrayList<PartType> readPartType(File f) {
+    public static ArrayList<PartType> readPartType() {
     	ArrayList<PartType> partTypes = null;
     	try{
-    		InputStream is = new FileInputStream(f);
+    		System.out.println("I'm inside ReadPartType()");
+    		InputStream is = new FileInputStream("PartTypesBackup.sav");
     		InputStream buffer = new BufferedInputStream(is);
     		ObjectInput oi = new ObjectInputStream(buffer);
     		try {
     			partTypes = (ArrayList<PartType>)oi.readObject();
+    			System.out.println("I'm trying to ParsePartTypes()");
     		}
     		catch (ClassNotFoundException ex) {
     			System.out.println("Can't parse object");

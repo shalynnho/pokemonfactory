@@ -7,6 +7,7 @@ import manager.panel.PartsManagerPanelV2;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
+import Utils.ReadSaveData;
 import factory.PartType;
 
 /**
@@ -32,7 +33,8 @@ public class PartsManager extends Client {
 		initStreams();
 		initGUI();
 		
-		//pmPanel
+		//if there's a read error, comment this out --Neetu
+		pmPanel.updatePartTypes(ReadSaveData.readPartType());
 	}
 	
 	/**

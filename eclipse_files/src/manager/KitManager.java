@@ -9,6 +9,7 @@ import manager.panel.KitManagerPanel;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
+import Utils.ReadSaveData;
 import factory.KitConfig;
 import factory.PartType;
 
@@ -34,6 +35,9 @@ public class KitManager extends Client {
 		
 		initStreams();
 		initGUI();
+		
+		//If there's a read error, comment this out. -- Neetu
+		kmPanel.updateKitConfig(ReadSaveData.readKitConfig());
 	}
 
 	/**
