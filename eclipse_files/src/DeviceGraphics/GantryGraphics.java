@@ -23,8 +23,6 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 	boolean removeState2 = false;
 	boolean receiveState = false;
 	boolean receiveState2 = false;
-	boolean dropState = false;
-	boolean newBinState = false;
 	
 	GantryAgent gantryAgent;
 	
