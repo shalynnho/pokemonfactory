@@ -168,6 +168,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 						
 						if(armLoc.get(I).getX() == loc.getX()){
 						pickUpPart();
+						System.out.println("Array Size after Pickup: " +partArrayGraphics.size());
 						gotpart = true;}}
 					
 					else {

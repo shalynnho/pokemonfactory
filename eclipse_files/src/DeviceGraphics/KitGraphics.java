@@ -23,6 +23,7 @@ public class KitGraphics implements DeviceGraphics {
 	public KitGraphics (Server server) {
 		this.server = server;
 		isFull = false;
+		kitLocation = new Location(0,0);
 	}
 	
 	
