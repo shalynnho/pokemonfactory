@@ -2,14 +2,15 @@ package manager.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -71,8 +72,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		this.height = height;
 		addMouseListener(panelListener);
 		
-		setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
+	
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	
 		// Setup KitsListPanel
 		kitsPanel = new KitsListPanel("Select a Kit to order... ", new KitSelectHandler() {
@@ -92,27 +93,21 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		for (int i = 0; i < kitsScrollPane.getComponentCount(); i++) {
 			kitsScrollPane.getComponents()[i].addMouseListener(new PanelMouseListener());
 		}
+		kitsScrollPane.setPreferredSize(new Dimension(PANEL_WIDTH,height/2));
 		
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.gridheight = 2;
-		c.weighty = 1;
-		c.fill = GridBagConstraints.BOTH;
 		
-		add(kitsScrollPane, c);
+		add(kitsScrollPane);
 		
 		// Setup JSpinner
 		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
 	    quantitySpinner = new JSpinner(spinnerModel);
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridheight = 1;
-		c.weighty = 0;
-		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		add(quantitySpinner, c);
-		// Add listener to nested components - for disappearing panel
+	    
+		quantitySpinner.setBorder(BorderFactory.createEmptyBorder(5,0,5,0));
+	    
+	    
+		add(quantitySpinner);
+	    
+	    // Add listener to nested components - for disappearing panel
 		for (int i = 0; i < quantitySpinner.getComponentCount(); i++) {
 			quantitySpinner.getComponents()[i].addMouseListener(panelListener);
 		}
@@ -121,12 +116,10 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		// Setup order button
 		orderButton = new CustomButton("Order Kits >");
 		orderButton.addActionListener(new OrderButtonListener());
-		c.gridx = 0;
-		c.gridy = 3;
-		c.gridheight = 2;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.NORTH;
-		add(orderButton, c);
+		
+		
+		add(orderButton);
+		
 		
 		// Setup OrdersListPanel
 		OrdersListPanel.OrderSelectHandler selectHandler = new OrdersListPanel.OrderSelectHandler() {
@@ -146,16 +139,11 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 			ordersScrollPane.getComponents()[i].addMouseListener(new PanelMouseListener());
 		}		
 		
-		c.gridx = 0;
-		c.gridy = 5;
-		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.gridheight = GridBagConstraints.REMAINDER;
-		c.anchor = GridBagConstraints.PAGE_END;
-
-		c.weightx = 1;
-		c.weighty = 1;
-		c.fill = GridBagConstraints.BOTH;
-		add(ordersScrollPane, c);
+		
+		ordersScrollPane.setPreferredSize(new Dimension(PANEL_WIDTH, height/2));
+		
+		add(Box.createVerticalStrut(8));
+		add(ordersScrollPane);
 		
 		// Add mouseListener to second-level components
 		for (int i = 0; i < getComponentCount(); i++) {
