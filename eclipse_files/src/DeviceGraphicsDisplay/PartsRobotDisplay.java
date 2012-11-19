@@ -110,9 +110,12 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 					
 					int k;
 					for (k=0;k<4;k++){
-						armLoc.get(k).setX(currentLocation.getX()+60);
-						partStartLoc.get(k).setX(armLoc.get(k).getX()+30);	
-						
+						armLoc.get(k).setX(currentLocation.getX()+60);	
+					}
+					int j;
+					for (j = 0; j<partArrayGraphics.size();j++){
+						partStartLoc.get(j).setX(armLoc.get(j).getX()+30);	
+						partArrayGraphics.get(j).setLocation(partStartLoc.get(j));
 					}
 					
 				
@@ -121,29 +124,36 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 					
 					int k;
 					for (k=0;k<4;k++){
-						armLoc.get(k).setX(currentLocation.getX()+60);
-						partStartLoc.get(k).setX(armLoc.get(k).getX()+30);
-	
+						armLoc.get(k).setX(currentLocation.getX()+60);				
 					}
-					
+					int j;
+					for (j = 0; j<partArrayGraphics.size();j++){
+						partStartLoc.get(j).setX(armLoc.get(j).getX()+30);	
+						partArrayGraphics.get(j).setLocation(partStartLoc.get(j));
+					}
 				}else if(currentLocation.getY()>loc.getY()){
 					currentLocation.incrementY(-1);
 					
 					int k;
 					for (k=0;k<4;k++){
-						armLoc.get(k).setY(currentLocation.getY()+30*(k));
-						partStartLoc.get(k).setY(armLoc.get(k).getY()+30*k);
-						
+						armLoc.get(k).setY(currentLocation.getY()+30*(k));					
 					}
-					//partArrayGraphics.get(I).setLocation(partStartLoc.get(I));
+					int j;
+					for (j = 0; j<partArrayGraphics.size();j++){
+						partStartLoc.get(j).setY(armLoc.get(j).getY());	
+						partArrayGraphics.get(j).setLocation(partStartLoc.get(j));
+					}
 				}else if(currentLocation.getY()<loc.getY()){
 					currentLocation.incrementY(1);
 					
 					int k;
 					for (k=0;k<4;k++){
-						armLoc.get(k).setY(currentLocation.getY()+30*(k));
-						partStartLoc.get(k).setY(armLoc.get(k).getY()+30*k);
-						
+						armLoc.get(k).setY(currentLocation.getY()+30*(k));				
+					}
+					int j;
+					for (j = 0; j<partArrayGraphics.size();j++){
+						partStartLoc.get(j).setY(armLoc.get(j).getY());	
+						partArrayGraphics.get(j).setLocation(partStartLoc.get(j));
 					}
 				}
 			}
@@ -209,21 +219,26 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 					int k;
 					for (k=0;k<4;k++){
 						armLoc.get(k).setY(currentLocation.getY()+30*(k));
-						partStartLoc.get(k).setY(armLoc.get(k).getY()+30*k);
+						
 					}
 					int j;
-					for (j = 0; j<partArrayGraphics.size();j++)
+					for (j = 0; j<partArrayGraphics.size();j++){
+						partStartLoc.get(j).setY(armLoc.get(j).getY());
+					
 						partArrayGraphics.get(j).setLocation(partStartLoc.get(j));
+					}
 				}else if(currentLocation.getY()<kitloc.getY()){
 					currentLocation.incrementY(1);
 					int k;
 					for (k=0;k<4;k++){
 						armLoc.get(k).setY(currentLocation.getY()+30*(k));
-						partStartLoc.get(k).setY(armLoc.get(k).getY()+30*k);
+						
 					}
 					int j;
-					for (j = 0; j<partArrayGraphics.size();j++)
+					for (j = 0; j<partArrayGraphics.size();j++){
+						partStartLoc.get(j).setY(armLoc.get(j).getY());
 						partArrayGraphics.get(j).setLocation(partStartLoc.get(j));
+					}
 				}
 				
 			}
@@ -280,34 +295,40 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 					int k;
 					for (k=0;k<4;k++){
 						armLoc.get(k).setY(currentLocation.getY()+30*k);
-						partStartLoc.get(k).setY(armLoc.get(k).getY()+30*k);
+						
 						
 					}
 					int j;
-					for (j = 0; j<partArrayGraphics.size();j++)
+					for (j = 0; j<partArrayGraphics.size();j++){
+						partStartLoc.get(j).setY(armLoc.get(j).getY());	
 						partArrayGraphics.get(j).setLocation(partStartLoc.get(j));
+					}
 				}
 				else if(currentLocation.getX()>250){
 					currentLocation.incrementX(-1);
 					int k;
 					for (k=0;k<4;k++){
 						armLoc.get(k).setX(currentLocation.getX()+60);
-						partStartLoc.get(k).setX(armLoc.get(k).getX()+30);
+						
 					}
 					int j;
-					for (j = 0; j<partArrayGraphics.size();j++)
+					for (j = 0; j<partArrayGraphics.size();j++){
+						partStartLoc.get(j).setX(armLoc.get(j).getX()+30);	
 						partArrayGraphics.get(j).setLocation(partStartLoc.get(j));
+					}
 				}
 				else if(currentLocation.getX()<250){
 					currentLocation.incrementX(1);
 					int k;
 					for (k=0;k<4;k++){
 						armLoc.get(k).setX(currentLocation.getX()+60);
-						partStartLoc.get(k).setX(armLoc.get(k).getX()+30);
+						
 					}
 					int j;
-					for (j = 0; j<partArrayGraphics.size();j++)
+					for (j = 0; j<partArrayGraphics.size();j++){
+						partStartLoc.get(j).setX(armLoc.get(j).getX()+30);	
 						partArrayGraphics.get(j).setLocation(partStartLoc.get(j));
+					}
 				}
 				
 				
@@ -394,18 +415,22 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		if(I==0){
 			armLoc.get(0).incrementX(1);
 			partStartLoc.get(0).setX(armLoc.get(0).getX()+30);
+			partStartLoc.get(0).setY(armLoc.get(0).getY());
 		}
 		else if(I==1){
 			armLoc.get(1).incrementX(1);
 			partStartLoc.get(1).setX(armLoc.get(1).getX()+30);
+			partStartLoc.get(1).setY(armLoc.get(1).getY());
 		}
 		else if(I==2){
 			armLoc.get(2).incrementX(1);
 			partStartLoc.get(2).setX(armLoc.get(2).getX()+30);
+			partStartLoc.get(2).setY(armLoc.get(2).getY());
 		}
 		else if(I==3){
 			armLoc.get(3).incrementX(1);
 			partStartLoc.get(3).setX(armLoc.get(3).getX()+30);
+			partStartLoc.get(3).setY(armLoc.get(3).getY());
 		}
 				
 		
@@ -449,14 +474,17 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		else if(I==1){
 			armLoc.get(1).incrementX(-1);
 			partStartLoc.get(1).setX(armLoc.get(1).getX()+30);
+			partArrayGraphics.get(1).setLocation(partStartLoc.get(1));
 		}
 		else if(I==2){
 			armLoc.get(2).incrementX(-1);
 			partStartLoc.get(2).setX(armLoc.get(2).getX()+30);
+			partArrayGraphics.get(2).setLocation(partStartLoc.get(2));
 		}
 		else if(I==3){
 			armLoc.get(3).incrementX(-1);
 			partStartLoc.get(3).setX(armLoc.get(3).getX()+30);
+			partArrayGraphics.get(3).setLocation(partStartLoc.get(3));
 		}
 		
 	}

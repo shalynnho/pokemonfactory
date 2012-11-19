@@ -20,7 +20,7 @@ import factory.PartType;
 public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	// feeder image dimensions
 	private static final int FEEDER_HEIGHT = 50;
-	private static final int FEEDER_WIDTH = 135;
+	private static final int FEEDER_WIDTH = 140;
 	// true if the diverter is pointing to the top lane
 	private boolean diverterTop;
 	// true if a bin has been received
