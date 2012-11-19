@@ -93,8 +93,6 @@ public class Server {
 		
 		initStreams();
 		
-		
-		
 		// will never run anything after init Streams
 	}
 
@@ -445,43 +443,39 @@ public class Server {
         Thread hook = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                	try
-                	{
-                		//save kit configs to KitConfigBackup.sav
-                		FileOutputStream saveKitConfigs = new FileOutputStream("KitConfigBackup.sav");
-                		ObjectOutputStream outputKC = new ObjectOutputStream(saveKitConfigs);
-                		
-                		outputKC.writeObject(fcs.getKitConfigs());
-                		System.out.println("Hook Called On Exit");
-                		
-                		//save part types to PartTypesBackup.sav
-                		FileOutputStream savePartTypes = new FileOutputStream("PartTypesBackup.sav");
-                		ObjectOutputStream outputPT = new ObjectOutputStream(savePartTypes);
-                		
-                		outputPT.writeObject(fcs.getPartTypes());
-                		
-                		//close both output streams... also closes both files
-                		outputKC.close();
-                		outputPT.close();
-                	}
-                	
-                	catch(Exception exc)
-                	{
-                		//print error info if error occurs
-                		exc.printStackTrace();
-                	}
-                        
+                	saveFCSData();
                 }
         });
         Runtime.getRuntime().addShutdownHook(hook);
-}
+	}
+	
+	private void saveFCSData() {
+		System.out.println("[Server]: saveFCSData() called");
+		
+    	try {
+    		//save kit configs to KitConfigBackup.sav
+    		FileOutputStream saveKitConfigs = new FileOutputStream("KitConfigBackup.sav");
+    		ObjectOutputStream outputKC = new ObjectOutputStream(saveKitConfigs);
+    		
+    		outputKC.writeObject(fcs.getKitConfigs());
+    		
+    		//save part types to PartTypesBackup.sav
+    		FileOutputStream savePartTypes = new FileOutputStream("PartTypesBackup.sav");
+    		ObjectOutputStream outputPT = new ObjectOutputStream(savePartTypes);
+    		
+    		outputPT.writeObject(fcs.getPartTypes());
+    		
+    		//close both output streams... also closes both files
+    		outputKC.close();
+    		outputPT.close();
+    	} catch(Exception exc) {
+    		//print error info if error occurs
+    		exc.printStackTrace();
+    	}
+	}
 
 	public static void main(String[] args) {
 		Server server = new Server();
 	}
 
-	
-	
-	
-	
 }
