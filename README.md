@@ -27,3 +27,5 @@ To run our application, **start Networking/Server** first, and then run our mana
 * manager.KitAssemblyManager
 * manager.LaneManager
 * manager.GantryRobotManager
+
+**Read the V1 Submission Notes**
