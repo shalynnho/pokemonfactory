@@ -408,7 +408,6 @@ public class Server {
 		factProdMngrWriter.sendData(req);
 	}
 
-	// Temporary Removal of camera requests
 	private void sendDataToCamera(Request req) {
 		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
@@ -417,10 +416,13 @@ public class Server {
 	private void sendDataToLane(Request req) {
 		factProdMngrWriter.sendData(req);
 		laneMngrWriter.sendData(req);
+		gantryRobotMngrWriter.sendData(req);
 	}
 	
 	private void sendDataToGantry(Request req) {
 		factProdMngrWriter.sendData(req);
+		laneMngrWriter.sendData(req);
+		gantryRobotMngrWriter.sendData(req);
 	}
 
 	public static void main(String[] args) {

@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -51,6 +52,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	private JScrollPane kitsScrollPane;
 	private OrdersListPanel ordersPanel;
 	private JScrollPane ordersScrollPane;
+	private JPanel quantityOrderPanel;
 	
 	private PanelMouseListener panelListener = new PanelMouseListener();
 	
@@ -98,14 +100,22 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		
 		add(kitsScrollPane);
 		
+		//Setup new panel to hold the Spinner and the OrderButton
+		quantityOrderPanel = new JPanel();
+		quantityOrderPanel.setLayout(new BoxLayout(quantityOrderPanel, BoxLayout.X_AXIS));
+		
+		
 		// Setup JSpinner
 		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
 	    quantitySpinner = new JSpinner(spinnerModel);
 	    
 		quantitySpinner.setBorder(BorderFactory.createEmptyBorder(5,0,5,0));
 	    
-	    
-		add(quantitySpinner);
+	    //add spinner to quantityOrderPanel
+		quantityOrderPanel.add(quantitySpinner);
+		quantityOrderPanel.add(Box.createHorizontalStrut(8));
+		quantityOrderPanel.setOpaque(false);
+		
 	    
 	    // Add listener to nested components - for disappearing panel
 		for (int i = 0; i < quantitySpinner.getComponentCount(); i++) {
@@ -115,10 +125,13 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		
 		// Setup order button
 		orderButton = new CustomButton("Order Kits >");
+		orderButton.addMouseListener(panelListener);
 		orderButton.addActionListener(new OrderButtonListener());
 		
+		//add OrderButton to quantityOrderPanel adjacent to Spinner
+		quantityOrderPanel.add(orderButton);
 		
-		add(orderButton);
+		add(quantityOrderPanel);
 		
 		
 		// Setup OrdersListPanel
@@ -142,7 +155,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		
 		ordersScrollPane.setPreferredSize(new Dimension(PANEL_WIDTH, height/2));
 		
-		add(Box.createVerticalStrut(8));
+		
 		add(ordersScrollPane);
 		
 		// Add mouseListener to second-level components

@@ -11,6 +11,7 @@ import javax.swing.Timer;
 import DeviceGraphicsDisplay.CameraGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
 import DeviceGraphicsDisplay.FeederGraphicsDisplay;
+import DeviceGraphicsDisplay.GantryGraphicsDisplay;
 import DeviceGraphicsDisplay.LaneGraphicsDisplay;
 import DeviceGraphicsDisplay.NestGraphicsDisplay;
 import Networking.Client;
@@ -50,8 +51,6 @@ public class LaneManager extends Client implements ActionListener{
 	 * Initialize the devices
 	 */
 	public void initDevices() {
-		// TODO add all devices (4) feeders, (8) lanes
-
 		for (int i = 0; i < Constants.LANE_COUNT; i++) {
 			addDevice(Constants.LANE_TARGET + i, new LaneGraphicsDisplay(this, i));
 		}
@@ -65,6 +64,8 @@ public class LaneManager extends Client implements ActionListener{
 		}
 		
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
+		
+		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
 
 	}
 	
