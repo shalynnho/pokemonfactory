@@ -49,12 +49,7 @@ public abstract class Constants {
 					new PartType("10", 10, "Type10")));
 
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
-			Arrays.asList(new KitConfig("Default Kit", 
-					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1),
-					DEFAULT_PARTTYPES.get(2),DEFAULT_PARTTYPES.get(3),
-					DEFAULT_PARTTYPES.get(4),DEFAULT_PARTTYPES.get(5),
-					DEFAULT_PARTTYPES.get(6),DEFAULT_PARTTYPES.get(7)
-					), new KitConfig("Simple Kit", 
+			Arrays.asList(new KitConfig("Simple Kit", 
 					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1),
 					DEFAULT_PARTTYPES.get(4),DEFAULT_PARTTYPES.get(5)
 					)));
