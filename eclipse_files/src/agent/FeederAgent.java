@@ -112,11 +112,11 @@ public class FeederAgent extends Agent implements Feeder {
 		}
 		stateChanged();
 	}
-	
+
 	@Override
-	public void msgRemoveBinDone(){
+	public void msgRemoveBinDone() {
 		print("Gantry has removed bin from feeder");
-		state=FeederStatus.IDLE;
+		state = FeederStatus.IDLE;
 		stateChanged();
 	}
 
@@ -166,7 +166,7 @@ public class FeederAgent extends Agent implements Feeder {
 							givePart(lane);
 							return true;
 						} else {
-							print("Flipping Diverter");
+							// print("Flipping Diverter");
 							flipDiverter();
 							return true;
 						}
@@ -229,11 +229,7 @@ public class FeederAgent extends Agent implements Feeder {
 			}
 		}
 
-		if (currentOrientation == 0) {
-			currentOrientation = 1;
-		} else {
-			currentOrientation = 0;
-		}
+		currentOrientation = currentOrientation == 0 ? 1 : 0;
 		stateChanged();
 	}
 

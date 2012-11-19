@@ -1,11 +1,9 @@
 package agent.test.mock;
 
-import agent.CameraAgent;
-import agent.LaneAgent;
-import agent.data.Part;
-import factory.PartType;
-import agent.interfaces.Nest;
 import DeviceGraphics.DeviceGraphics;
+import agent.data.Part;
+import agent.interfaces.Nest;
+import factory.PartType;
 
 /**
  * Mock nest
@@ -71,7 +69,13 @@ public class MockNest extends MockAgent implements Nest {
 
 	public void setGraphicalRepresentation(DeviceGraphics nest) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void msgLanePurgeDone() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

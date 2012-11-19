@@ -1,11 +1,11 @@
 package agent.test.mock;
 
-import factory.PartType;
 import DeviceGraphics.DeviceGraphics;
 import agent.GantryAgent;
 import agent.LaneAgent;
 import agent.data.Bin;
 import agent.interfaces.Feeder;
+import factory.PartType;
 
 /**
  * Mock feeder.
@@ -72,6 +72,12 @@ public class MockFeeder extends MockAgent implements Feeder {
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void msgRemoveBinDone() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
