@@ -73,9 +73,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				PartGraphicsDisplay pgd = partsInNest.get(index);
 				Location partLoc = pgd.getLocation();
 				Location endLoc = partLocs.get(index);
-				
-				System.out.println("PARTSINNEST: "+partsInNest.size());
-				
+								
 				// check x-coord
 				updateXLoc(partLoc, endLoc, 3);
 				// check y-coord
@@ -231,10 +229,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void receivePart(PartType type) {
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(type);
 		pgd.setLocation(partStartLoc);
-		partsInNest.add(pgd);
-		
-		System.out.println("	NESTGD"+nestID+": receivePart called, receiving part number "+partsInNest.size());
-		
+		partsInNest.add(pgd);		
 		receivingPart = true;
 		receivePartDoneSent = false;
 	}
