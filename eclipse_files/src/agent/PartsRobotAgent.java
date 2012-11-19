@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
 
@@ -35,6 +36,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private final Date time;
 
 	private int kitsNum = 0;
+	private final Timer timer;
 
 	private List<Kit> KitsOnStand;
 
@@ -84,6 +86,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 		this.name = name;
 		time = new Date();
+		timer = new Timer();
 
 		// Add arms
 		for (int i = 0; i < 4; i++) {
@@ -193,13 +196,13 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 			if (allArmsEmpty()) {
 				status = PartsRobotStatus.PICKING_UP;
+				return true;
 			}
 		}
 
 		// Checks if there is an empty arm, if there is it fills it with a
 		// good part that the kit needs
 		synchronized (Arms) {
-			status = PartsRobotStatus.PLACING;
 			if (IsAnyArmEmpty()) {
 				status = PartsRobotStatus.PICKING_UP;
 				time.setTime(System.currentTimeMillis());
@@ -235,11 +238,15 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						}
 					}
 				}
-			} else if (System.currentTimeMillis() - time.getTime() > 3000) {
-				// Last rule is to place parts if the parts robot has been idle
-				// too long
-				time.setTime(System.currentTimeMillis());
 			}
+		}
+
+		if (System.currentTimeMillis() - time.getTime() > 3000) {
+			// Last rule is to place parts if the parts robot has been idle
+			// too long
+			time.setTime(System.currentTimeMillis());
+			status = PartsRobotStatus.PLACING;
+			return true;
 		}
 
 		return false;
