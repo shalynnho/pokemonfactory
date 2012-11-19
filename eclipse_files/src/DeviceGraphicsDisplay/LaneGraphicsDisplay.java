@@ -24,12 +24,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int LANE_LENGTH = 210;
 	// start and end x-coordinates of Part on the Lane
 	private static final int LANE_BEG_X = 850, LANE_END_X = 640;
-	// width and height of the part
-	private static final int PART_WIDTH = 20;
 	// max number of parts that can be on a Lane
-	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
+	private static final int MAX_PARTS = LANE_LENGTH / Constants.PART_WIDTH;
 	// number of lines on the lane
-	private static final int NUMLINES = 1 + LANE_LENGTH / (4 * PART_WIDTH);
+	private static final int NUMLINES = 1 + LANE_LENGTH / (4 * Constants.PART_WIDTH);
 	// space between each line
 	private static final int LINESPACE = LANE_LENGTH / NUMLINES;
 	// width of lane lines
@@ -73,7 +71,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		// for reference only
 		partStartLoc = new Location(LANE_BEG_X, location.getY()
-				+ (PART_WIDTH / 2) - PART_OFFSET);
+				+ (Constants.PART_WIDTH / 2) - PART_OFFSET);
 		
 
 		resetLaneLineLocs();
@@ -124,8 +122,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 								msgAgentReceivePartDone();
 							} else {	// purging, continue till off lane
 								
-								if (loc.getX() > LANE_END_X - PART_WIDTH) {
-									updateXLoc(loc, LANE_END_X - PART_WIDTH, amplitude);
+								if (loc.getX() > LANE_END_X - Constants.PART_WIDTH) {
+									updateXLoc(loc, LANE_END_X - Constants.PART_WIDTH, amplitude);
 //									loc.incrementX(-amplitude);
 								} else {	// once off lane and not visible, remove
 									if (partsOnLane.size() > 0) {
@@ -146,8 +144,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 						// makes sure parts are spaced out as they appear on
 						// lane, but don't overlap part in front
-						if (locInFront.getX() <= (LANE_BEG_X - (2 * PART_WIDTH))
-								&& (loc.getX() > (locInFront.getX() + PART_WIDTH))) {
+						if (locInFront.getX() <= (LANE_BEG_X - (2 * Constants.PART_WIDTH))
+								&& (loc.getX() > (locInFront.getX() + Constants.PART_WIDTH))) {
 //							loc.incrementX(-amplitude);
 							updateXLoc(loc, LANE_END_X, amplitude);
 						}
@@ -281,7 +279,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void receivePart(PartType type) {
 		PartGraphicsDisplay pg = new PartGraphicsDisplay(type);
 		Location newLoc = new Location(location.getX() + LANE_LENGTH,
-				location.getY() + (PART_WIDTH / 2) - PART_OFFSET);
+				location.getY() + (Constants.PART_WIDTH / 2) - PART_OFFSET);
 		pg.setLocation(newLoc);
 		partsOnLane.add(pg);
 	}

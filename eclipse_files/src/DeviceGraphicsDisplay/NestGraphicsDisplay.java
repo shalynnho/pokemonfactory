@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import manager.FactoryProductionManager;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -19,14 +18,7 @@ import factory.PartType;
 public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS = 8;
-	// width and height of the nest
-	private static final int NEST_WIDTH = 75, NEST_HEIGHT = 70;
-	// width and height of a part
-	private static final int PART_WIDTH = 20, PART_HEIGHT = 50;
-	private static final int PART_OFFSET = 19;
 	private static final int BOTTOM_ROW_OFFSET = 23;
-	// end x-coordinates of the Lane
-	private static final int LANE_END_X = 640;
 	// y-coordinates of the nest0
 	private static final int NEST_Y = 45, NEST_Y_INCR = 75;
 
@@ -51,11 +43,11 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		client = c;
 		nestID = id;
 		
-		location = new Location(LANE_END_X - NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
+		location = new Location(Constants.LANE_END_X - Constants.NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
 		partsInNest = new ArrayList<PartGraphicsDisplay>();
-		partStartLoc = new Location(LANE_END_X, location.getY()
-				+ (PART_WIDTH / 2) - PART_OFFSET);
-		purgeLoc = new Location(location.getX() - PART_WIDTH, partStartLoc.getY());
+		partStartLoc = new Location(Constants.LANE_END_X, location.getY()
+				+ (Constants.PART_WIDTH / 2) - Constants.PART_OFFSET);
+		purgeLoc = new Location(location.getX() - Constants.PART_WIDTH, partStartLoc.getY());
 		generatePartLocations();
 	}
 
@@ -74,7 +66,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				Location endLoc = partLocs.get(index);
 								
 				// check x-coord
-				updateXLoc(partLoc, endLoc, 4);
+				updateXLoc(partLoc, endLoc, 3);
 				// check y-coord
 				updateYLoc(partLoc, endLoc, 1);
 				
@@ -144,14 +136,14 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		int numRemaining = partsInNest.size() - 2;
 		if (numRemaining > 0) {
 			for(int i = 2; i < numRemaining + 2; i++) {
-				updateXLoc(partsInNest.get(i).getLocation(), partLocs.get(i - 2), 5);
+				updateXLoc(partsInNest.get(i).getLocation(), partLocs.get(i - 2), 3);
 				updateYLoc(partsInNest.get(i).getLocation(), partLocs.get(i - 2), 1);
 			}
 		}
 	}
 	
 	private void movePartToPurgeLoc(PartGraphicsDisplay pgd) {
-		updateXLoc(pgd.getLocation(), purgeLoc, 5);
+		updateXLoc(pgd.getLocation(), purgeLoc, 3);
 		updateYLoc(pgd.getLocation(), purgeLoc, 1);
 	}
 	
@@ -197,11 +189,11 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		for (int i = 0; i < MAX_PARTS; i++) {
 			if (i % 2 == 0) { // top row
 				partLocs.add(new Location((location.getX() + (i / 2)
-						* PART_WIDTH), (location.getY() - PART_OFFSET)));
+						* Constants.PART_WIDTH), (location.getY() - Constants.PART_OFFSET)));
 			} else { // bottom row
 				partLocs.add(new Location((location.getX() + (i / 2)
-						* PART_WIDTH),
-						(location.getY() + BOTTOM_ROW_OFFSET - PART_OFFSET)));
+						* Constants.PART_WIDTH),
+						(location.getY() + BOTTOM_ROW_OFFSET - Constants.PART_OFFSET)));
 			}
 		}
 	}

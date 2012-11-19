@@ -270,8 +270,8 @@ public class FCSAgent extends Agent implements FCS {
 	}
 
 	@Override
-	public void setGraphicalRepresentation(DeviceGraphics dg) {
-		// fcsGraphics=(fcsGraphics) dg;
+	public void setGraphicalRepresentation(DeviceGraphics fcs) {
+	    // not used, Use setFCS instead
 	}
 
 	public DeviceGraphics getGraphicalRepresentation() {

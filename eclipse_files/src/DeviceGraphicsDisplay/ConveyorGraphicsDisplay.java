@@ -147,6 +147,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		for (int i = 0; i < kitsToLeave.size(); i++) {
 			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
+			tempKit.setKitImage(Constants.KIT_DONE_IMAGE);
 			tempKit.drawWithOffset(c, g2, client.getOffset());
 			if (tempKit.getLocation().getX() == -80) {
 				animationDone(new Request(
