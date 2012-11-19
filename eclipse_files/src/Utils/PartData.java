@@ -9,10 +9,19 @@ public class PartData implements Serializable{
 
 	Location loc;
 	PartType pt;
+	Location kitloc;
 	
 	public PartData(Location l, PartType p){
 		loc = l;
 		pt = p;
+	}
+	
+	public PartData(Location l){
+		kitloc = l;
+	}
+	
+	public Location getKitLocation(){
+		return kitloc;
 	}
 	
 	public Location getLocation(){
