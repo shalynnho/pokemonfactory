@@ -18,6 +18,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	Location currentLocation;
 	Location destinationLocation;
+	Location binLocation;
 	
 	ArrayList<BinGraphicsDisplay> binList;
 	
@@ -103,14 +104,16 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 		}
 		
+		if (isBinHeld) {
+			binLocation = new Location (currentLocation);
+			heldBin.setLocation(binLocation);
+		}
+		
 		for (int i = 0; i < binList.size(); i ++) {
 			binList.get(i).drawWithOffset(c, g, client.getOffset());
 			binList.get(i).draw(c, g);
 		}
 			
-		if (isBinHeld) {
-			heldBin.setLocation(currentLocation);
-		}
 		g.drawImage(Constants.GANTRY_ROBOT_IMAGE, currentLocation.getX() + client.getOffset(), currentLocation.getY(), c);
 	}
 
