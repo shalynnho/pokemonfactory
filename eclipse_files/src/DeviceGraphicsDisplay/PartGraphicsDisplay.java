@@ -11,11 +11,13 @@ import factory.PartType;
 
 public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location partLocation;
+	PartType partType;
 	
 	private Image partImage;
 
 	public PartGraphicsDisplay (PartType pt) {
-		partImage = pt.getImage();
+		partType = pt;
+		partImage = partType.getImage();
 	}
 	
 	public void setLocation (Location newLocation) {
@@ -32,6 +34,10 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public Location getLocation () {
 		return partLocation;
+	}
+	
+	public PartType getPartType() {
+		return partType;
 	}
 	
 	public void receiveData(Request req) {
