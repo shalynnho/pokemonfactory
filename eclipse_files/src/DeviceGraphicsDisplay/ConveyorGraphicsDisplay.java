@@ -23,13 +23,11 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	ArrayList<Location> conveyorLines;
 	ArrayList<Location> conveyorLinesGood;
 	ArrayList<Location> conveyorLinesBad;
-	ArrayList<Location> exitLines;
 	ArrayList<KitGraphicsDisplay> kitsOnConveyor;
 	ArrayList<KitGraphicsDisplay> kitsToLeave;
 	int velocity;
 	Client client;
 	boolean kitComingIn;
-	boolean pickMe;
 	private IncomingStatus incomingState;
 
 	private enum IncomingStatus {
@@ -67,7 +65,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		velocity = 5;
 		kitsOnConveyor = new ArrayList<KitGraphicsDisplay>();
 		kitsToLeave = new ArrayList<KitGraphicsDisplay>();
-		//pickMe = true;
 		incomingState = IncomingStatus.NO_KIT_WAITING;
 	}
 
@@ -212,7 +209,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (command.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
 			giveKitAway();
 			print("Giving kit to Kit Robot");
-			//pickMe = true;
 		} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND)) {
 			newKit();
 		} else if (command.equals(Constants.CONVEYOR_CHANGE_VELOCITY_COMMAND)) {

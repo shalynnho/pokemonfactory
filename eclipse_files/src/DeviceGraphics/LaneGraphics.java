@@ -37,9 +37,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	private int laneID;
 	// the lane agent
 	private LaneAgent laneAgent;
-
-	//REMOVE FOR V1 AND IN CONSTRUCTOR/DEVICES
-	FeederAgent feederAgent;
 	
 	// dynamically stores Parts currently on Lane
 	private ArrayList<PartGraphics> partsOnLane;
@@ -53,19 +50,17 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 * 
 	 * @param s - the Server
 	 * @param id - ID of this lane
-	 * @param la - the LaneAgent
+	 * @param a - the LaneAgent
 	 */
 
-	public LaneGraphics(Server s, int id, Agent la, Agent f) {
+	public LaneGraphics(Server s, int id, Agent a) {
 		server = s;
 		laneID = id;
-
-		laneAgent = (LaneAgent) la;
-		feederAgent = (FeederAgent) f;
+		laneAgent = (LaneAgent) a;
 
 		// initialize lane components
 		partsOnLane = new ArrayList<PartGraphics>();
-		amplitude = 5;
+		amplitude = 1;
 		laneOn = true;
 	}
 
@@ -85,7 +80,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 *            - the part passed to the nest associated with this lane
 	 */
 	public void givePartToNest(PartGraphics pg) {
-		System.out.println("givePartToNest called, laneID: "+laneID);
 		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET + laneID, null));
 	}
 
@@ -162,13 +156,4 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		server.sendData(new Request(Constants.LANE_TOGGLE_COMMAND,
 				Constants.LANE_TARGET + laneID, laneOn));
 	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}	
-	
 }
