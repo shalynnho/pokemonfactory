@@ -392,25 +392,30 @@ public class Server {
 	private void sendDataToConveyor(Request req) {
 		factProdMngrWriter.sendData(req);
 		kitRobotMngrWriter.sendData(req);
+		kitAssemblyMngrWriter.sendData(req);
 	}
 
 	private void sendDataToKitRobot(Request req) {
 		factProdMngrWriter.sendData(req);
 		kitRobotMngrWriter.sendData(req);
+		kitAssemblyMngrWriter.sendData(req);
 	}
 
 	private void sendDataToPartsRobot(Request req) {
 		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
+		kitAssemblyMngrWriter.sendData(req);
 	}
 
 	private void sendDataToNest(Request req) {
 		factProdMngrWriter.sendData(req);
+		kitAssemblyMngrWriter.sendData(req);
 	}
 
 	private void sendDataToCamera(Request req) {
 		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
+		kitAssemblyMngrWriter.sendData(req);
 	}
 
 	private void sendDataToLane(Request req) {
