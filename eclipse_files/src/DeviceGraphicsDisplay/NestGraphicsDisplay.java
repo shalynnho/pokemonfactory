@@ -35,7 +35,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// array of part locations in nest
 	private ArrayList<Location> partLocs;
 	// controls animation
-	private boolean receivingPart, purging;
+	private boolean receivingPart = false, purging = false;
 	private boolean receivePartDoneSent = false, purgeDoneSent = false;
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphicsDisplay> partsInNest;
@@ -50,9 +50,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	public NestGraphicsDisplay(Client c, int id) {
 		client = c;
 		nestID = id;
-		receivingPart = false;
-		purging = false;
-
+		
 		location = new Location(LANE_END_X - NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
 		partsInNest = new ArrayList<PartGraphicsDisplay>();
 		partStartLoc = new Location(LANE_END_X, location.getY()
@@ -68,13 +66,15 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(Constants.NEST_IMAGE, location.getX() + client.getOffset()
 				, location.getY(), c);
 		
-		if (!isFull()) {
+//		if (!isFull()) {
 			if(receivingPart) {	// part in motion
 				// get last part added to nest
 				int index = partsInNest.size() - 1;
 				PartGraphicsDisplay pgd = partsInNest.get(index);
 				Location partLoc = pgd.getLocation();
 				Location endLoc = partLocs.get(index);
+				
+				System.out.println("PARTSINNEST: "+partsInNest.size());
 				
 				// check x-coord
 				updateXLoc(partLoc, endLoc, 3);
@@ -92,7 +92,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 					msgAgentReceivePartDone();
 				}
 			}
-		}
+//		}
 		
 		if(purging) {
 			animatePurge();			
@@ -232,6 +232,9 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(type);
 		pgd.setLocation(partStartLoc);
 		partsInNest.add(pgd);
+		
+		System.out.println("	NESTGD"+nestID+": receivePart called, receiving part number "+partsInNest.size());
+		
 		receivingPart = true;
 		receivePartDoneSent = false;
 	}

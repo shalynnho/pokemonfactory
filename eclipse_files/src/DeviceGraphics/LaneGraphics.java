@@ -86,7 +86,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 */
 	public void givePartToNest(PartGraphics pg) {
 		System.out.println("givePartToNest called, laneID: "+laneID);
-//		partsOnLane.remove(0); // make sure to check that correct part is removed
 		server.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST, Constants.LANE_TARGET + laneID, null));
 	}
 
@@ -130,9 +129,9 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 			laneAgent.msgReceivePartDone(p);
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
-			System.out.println("LaneGivePartToNest "+laneID+", partsOnLane.size(): "+partsOnLane.size());
 			laneAgent.msgGivePartToNestDone(partsOnLane.get(0));
 			partsOnLane.remove(0);
+			System.out.println("LaneGivePartToNest DONE "+laneID+", partsOnLane.size(): "+partsOnLane.size());
 			
 		} else if (cmd.equals(Constants.LANE_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
 			partsOnLane.clear();

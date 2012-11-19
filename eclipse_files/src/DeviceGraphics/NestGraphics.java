@@ -36,14 +36,12 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	// true if nest is full, can't receive parts
 	private final boolean isFull;
 	// true if spot is filled, false if not
-	private final ArrayList<Boolean> nestSpots;
 
 	public NestGraphics(Server s, int nid, Agent agent) {
 		server = s;
 		nestID = nid;
 		nestAgent = (NestAgent) agent;
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
-		nestSpots = new ArrayList<Boolean>(MAX_PARTS);
 		isFull = false;
 		location = new Location(600, 100 + nestID * 75);
 	}
@@ -54,6 +52,9 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	@Override
 	public void receivePart(PartGraphics pg) {
 		partsInNest.add(pg);
+		
+		System.out.println("		NEST"+nestID+": receivePart called, receiving part number "+partsInNest.size());
+
 		PartType type = pg.getPartType();
 		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND,
 				Constants.NEST_TARGET + nestID, type));
