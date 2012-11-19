@@ -148,6 +148,15 @@ public abstract class Constants {
 	// Kit & Inspection Stand Images // TODO: add actual images
 	public static final Image STAND_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "stand.png");
+	
+	// IMAGE SIZES
+	public static final int PART_WIDTH = 20, PART_HEIGHT = 50;
+	public static final int PART_OFFSET = 19;
+	
+	public static final int LANE_LENGTH = 210;
+	public static final int LANE_BEG_X = 850, LANE_END_X = 640;
+	
+	public static final int NEST_WIDTH = 75, NEST_HEIGHT = 70;
 
 	// TARGET NAMES
 	// ==================================

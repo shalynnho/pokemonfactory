@@ -18,18 +18,12 @@ import agent.NestAgent;
  */
 public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		DeviceGraphics {
+	
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS = 8;
-	// width and height of the nest
-	private static final int NEST_WIDTH = 75, NEST_HEIGHT = 70;
 	// y-coordinates of the nest0
 	private static final int NEST_Y = 45, NEST_Y_INCR = 75;
-	// width and height of a part
-	private static final int PART_WIDTH = 20, PART_HEIGHT = 50;
-	private static final int PART_OFFSET = 19;
 	private static final int BOTTOM_ROW_OFFSET = 23;
-	// start and end x-coordinates of Part on the Lane
-	private static final int LANE_END_X = 640;
 
 	// instructions to display graphics will be sent through the server
 	private final Server server;
@@ -50,7 +44,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		nestAgent = (NestAgent) agent;
 		
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
-		location = new Location(LANE_END_X - NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
+		location = new Location(Constants.LANE_END_X - Constants.NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
 		generatePartLocations();
 	}
 
@@ -62,11 +56,11 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		for (int i = 0; i < MAX_PARTS; i++) {
 			if (i % 2 == 0) { // top row
 				partLocs.add(new Location((location.getX() + (i / 2)
-						* PART_WIDTH), (location.getY() - PART_OFFSET)));
+						* Constants.PART_WIDTH), (location.getY() - Constants.PART_OFFSET)));
 			} else { // bottom row
 				partLocs.add(new Location((location.getX() + (i / 2)
-						* PART_WIDTH),
-						(location.getY() + BOTTOM_ROW_OFFSET - PART_OFFSET)));
+						* Constants.PART_WIDTH),
+						(location.getY() + BOTTOM_ROW_OFFSET - Constants.PART_OFFSET)));
 			}
 		}
 	}
