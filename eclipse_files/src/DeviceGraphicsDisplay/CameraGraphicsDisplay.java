@@ -30,7 +30,9 @@ public class CameraGraphicsDisplay extends DeviceGraphicsDisplay{
 
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		if(flashOn >= 0) {
+	    	if(flashOn >= 3) {
+	    	    flashOn--;
+	    	} else if(flashOn >= 0) {
 			for(Location loc : locs) {
 				g.drawImage(Constants.CAMERA_IMAGE, loc.getX() + client.getOffset(), loc.getY(), c);
 			}
@@ -44,10 +46,10 @@ public class CameraGraphicsDisplay extends DeviceGraphicsDisplay{
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND)) {
 			locs = (ArrayList<Location>) req.getData();
-			flashOn = 3;
+			flashOn = 10;
 		} else if (req.getCommand().equals(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND)) {
 			locs.add((Location) req.getData());
-			flashOn = 3;
+			flashOn = 10;
 		}
 	}
 
