@@ -51,11 +51,16 @@ public class FCS {
 		queue = q;
 	} 
 	
-	public void newPart(PartType pt) {
+	public boolean newPart(PartType pt) {
+		for(int i = 0; i < partTypes.size(); i++){
+			if(partTypes.get(i).equals(pt))
+				return false;
+		}
+		
 		partTypes.add(pt);
 		updateParts();
-		
 		agent.msgAddNewPartType(pt);
+		return true;
 	}
 	
 	public void editPart(PartType pt) {
