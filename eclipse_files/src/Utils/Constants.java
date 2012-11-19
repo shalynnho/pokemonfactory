@@ -54,7 +54,8 @@ public abstract class Constants {
 					DEFAULT_PARTTYPES.get(4),DEFAULT_PARTTYPES.get(5),
 					DEFAULT_PARTTYPES.get(6),DEFAULT_PARTTYPES.get(7)
 					), new KitConfig("Simple Kit", 
-					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1)
+					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1),
+					DEFAULT_PARTTYPES.get(4),DEFAULT_PARTTYPES.get(5)
 					)));
 
 	// DEVICE START LOCATIONS
@@ -84,8 +85,8 @@ public abstract class Constants {
 	// Feeder Images
 	public static final Image FEEDER_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "Feeder.png");
-	public static final Image FEEDER_GREEN_LED = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "LED_green.png");
+	public static final Image FEEDER_BLUE_LED = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "LED_blue.png");
 	public static final Image FEEDER_RED_LED = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "LED_red.png");
 
@@ -243,7 +244,7 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_ON_STAND_DONE = "robot display sends to robot logic that kit to stand is done";
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE = "robot display sends to robot logic that kit to conveyor is done";
 
-	public static final int KIT_ROBOT_DEGREE_STEP = 15;
+	public static final int KIT_ROBOT_DEGREE_STEP = 5;
 	// end kitrobot logic
 
 	// kit positions

@@ -163,5 +163,21 @@ public class FCS {
 			// agents aren't ready
 		}
 	}
+
+	public ArrayList<KitConfig> getKitConfigs() {
+	    return kitConfigs;
+	}
+
+	public void setKitConfigs(ArrayList<KitConfig> kitConfigs) {
+	    this.kitConfigs = kitConfigs;
+	}
+
+	public ArrayList<PartType> getPartTypes() {
+	    return partTypes;
+	}
+
+	public void setPartTypes(ArrayList<PartType> partTypes) {
+	    this.partTypes = partTypes;
+	}
 	
 }
