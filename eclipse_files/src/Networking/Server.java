@@ -422,6 +422,7 @@ public class Server {
 		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 		kitAssemblyMngrWriter.sendData(req);
+		laneMngrWriter.sendData(req);
 	}
 
 	private void sendDataToLane(Request req) {
