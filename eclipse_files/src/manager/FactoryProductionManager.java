@@ -83,8 +83,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		
 		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this));
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
-		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
-		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
 		
 		for (int i = 0; i < Constants.LANE_COUNT; i++) {
@@ -94,6 +92,9 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		for (int i = 0; i < Constants.NEST_COUNT; i++) {
 			addDevice(Constants.NEST_TARGET + i, new NestGraphicsDisplay(this, i));
 		}
+		
+		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
+		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));

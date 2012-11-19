@@ -223,6 +223,7 @@ public class GantryAgent extends Agent implements Gantry {
 			if (currentFeeder.state == FeederStatus.PURGING
 					&& currentFeeder.requestedType.equals(bin.part.type)) {
 				currentFeeder.state = FeederStatus.PENDING;
+				currentFeeder.feeder.msgRemoveBinDone();
 			}
 		}
 

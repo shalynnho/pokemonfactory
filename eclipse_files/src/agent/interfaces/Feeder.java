@@ -12,6 +12,8 @@ public interface Feeder {
 	public abstract void msgINeedPart(PartType type, LaneAgent lane);
 
 	public abstract void msgHereAreParts(PartType type, Bin bin);
+	
+	public abstract void msgRemoveBinDone();
 
 	public abstract void msgReceiveBinDone(Bin bin);
 	
