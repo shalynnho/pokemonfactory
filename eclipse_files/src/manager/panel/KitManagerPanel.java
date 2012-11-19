@@ -270,7 +270,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	                "Not Enough Parts",
 	                JOptionPane.ERROR_MESSAGE);
 			return null;
-		} else if (!alreadyNamed(tfName.getText())) {
+		} else if (!nameClear(tfName.getText())) {
 			JOptionPane.showMessageDialog(km,
 	        		"The Kit Name you have entered has already been taken",
 	                "Name Taken",
@@ -342,13 +342,13 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	 * Iterates through the list of KitConfigs to determine whether 
 	 * a Kit has already been named the same as an input string.
 	 */
-	public boolean alreadyNamed(String s) {
+	public boolean nameClear(String s) {
 		for (KitConfig k : kitConfigs) {
 			if (k.getName().equals(s)) {
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	public void showButtons(String panel) {
