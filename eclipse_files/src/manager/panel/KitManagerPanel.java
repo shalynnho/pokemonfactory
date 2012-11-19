@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.swing.DefaultComboBoxModel;
@@ -49,6 +50,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	private JButton btnCnclChg;
 	
 	private final PartType noPart = new PartType("No Part");
+	private JPanel pnlParts;
 
 	/**
 	 * Create the panel.
@@ -137,7 +139,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		pnlName.add(tfName);
 		tfName.setColumns(10);
 		
-		JPanel pnlParts = new JPanel();
+		pnlParts = new JPanel();
 		pnlDisplay.add(pnlParts, BorderLayout.CENTER);
 		GridBagLayout gbl_pnlParts = new GridBagLayout();
 //      The below code aligns the GridBagLayout in the upper left corner of the panel; We don't want this
@@ -201,10 +203,12 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			enableFields();
 		} else if (ae.getSource() == btnCreateKit) {
 			KitConfig k = createKit();
-			km.addKit(k);
-			viewKit(k);
-			disableFields();
-			cbKits.setSelectedIndex(cbKits.getModel().getSize()-1);
+			if (k != null) {
+				km.addKit(k);
+				viewKit(k);
+				disableFields();
+				cbKits.setSelectedIndex(cbKits.getModel().getSize()-1);
+			}
 		} else if (ae.getSource() == cbKits) {
 			disableFields();
 			viewKit((KitConfig) cbKits.getSelectedItem());
@@ -224,12 +228,14 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	        	deleteKit((KitConfig) cbKits.getSelectedItem());
 	        }
 		} else if (ae.getSource() == btnSaveChg) {
-			disableFields();
 			KitConfig editedKit = createKit();
-			km.editKit(editedKit);
-			viewKit(editedKit);
-			showButtons("View");
-			cbKits.setSelectedItem(editedKit);
+			if (editedKit != null) {
+				disableFields();
+				km.editKit(editedKit);
+				viewKit(editedKit);
+				showButtons("View");
+				cbKits.setSelectedItem(editedKit);
+			}
 		} else if (ae.getSource() == btnCnclChg) {
 			disableFields();
 			viewKit((KitConfig) cbKits.getSelectedItem());
@@ -249,23 +255,31 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	}
 	
 	public KitConfig createKit() {
-		// validates 4-8 parts set
-		KitConfig newKit = new KitConfig(tfName.getText());
 		// for each of the comboboxes
-		HashMap<PartType, Integer> config = new HashMap<PartType, Integer>();
+		ArrayList<PartType> parts = new ArrayList<PartType>(8);
 		for (int i = 0; i < 8; i++) {
 			PartType p = (PartType) cbPart[i].getSelectedItem();
 			if (!p.equals(noPart)) {
-				if (config.containsKey(p)) {
-					config.put(p, (Integer) config.get(p).intValue()+1);
-				} else {
-					config.put(p, (Integer) 1);
-				}
-				System.out.println(p);
+				parts.add(p);
 			}
 		}
-		newKit.setConfig(config);
-		return newKit;
+		// validates 4-8 parts set
+		if (parts.size() < 4) {
+			JOptionPane.showMessageDialog(km,
+	        		"You have not selected at least 4 parts for the kit arrangement",
+	                "Not Enough Parts",
+	                JOptionPane.ERROR_MESSAGE);
+			return null;
+		} else if (!nameClear(tfName.getText())) {
+			JOptionPane.showMessageDialog(km,
+	        		"The Kit Name you have entered has already been taken",
+	                "Name Taken",
+	                JOptionPane.ERROR_MESSAGE);
+			return null;
+		} else {
+			KitConfig newKit = new KitConfig(tfName.getText(), parts);
+			return newKit;
+		}
 	}
 	
 	public void deleteKit(KitConfig deadKit) {
@@ -322,6 +336,19 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		partTypes.add(0,noPart);
 		partModel = pt.toArray();
 		updatePartComboModels();
+	}
+	
+	/*
+	 * Iterates through the list of KitConfigs to determine whether 
+	 * a Kit has already been named the same as an input string.
+	 */
+	public boolean nameClear(String s) {
+		for (KitConfig k : kitConfigs) {
+			if (k.getName().equals(s)) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public void showButtons(String panel) {
