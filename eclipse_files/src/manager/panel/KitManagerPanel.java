@@ -31,12 +31,12 @@ import factory.PartType;
 public class KitManagerPanel extends JPanel implements ActionListener {
 	private manager.KitManager km;
 	
-	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
-	private ArrayList<PartType> partTypes = new ArrayList<PartType>();
+	private ArrayList<KitConfig> kitConfigs;
+	private ArrayList<PartType> partTypes;
 	
 	private JComboBox[] cbPart;
 	private JComboBox cbKits;
-	private DefaultComboBoxModel partModel;
+	private Object[] partModel;
 	private DefaultComboBoxModel kitModel;
 	private JTextField tfName;
 	private JPanel pnlButtons;
@@ -47,6 +47,8 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	private JButton btnClrFields;
 	private JButton btnSaveChg;
 	private JButton btnCnclChg;
+	
+	private final PartType noPart = new PartType("No Part");
 
 	/**
 	 * Create the panel.
@@ -69,7 +71,8 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		managerPanel.add(pnlKitChooser, BorderLayout.NORTH);
 		
 		// Creates a ComboBoxModel with all the KitConfigs, This populates the ComboBox at the top of the layout with the list of kitConfigs
-		kitModel = new DefaultComboBoxModel(Utils.Constants.DEFAULT_KITCONFIGS.toArray());
+		kitConfigs = Utils.Constants.DEFAULT_KITCONFIGS;
+		kitModel = new DefaultComboBoxModel(kitConfigs.toArray());
 		cbKits = new JComboBox(kitModel);
 		cbKits.addActionListener(this);
 		pnlKitChooser.add(cbKits);
@@ -167,7 +170,9 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		
 		// First construct the ComboBoxModel for the PartTypes, then iterate through to add PartTypes
-		partModel = new DefaultComboBoxModel(Utils.Constants.DEFAULT_PARTTYPES.toArray());	
+		partTypes = Utils.Constants.DEFAULT_PARTTYPES;
+		partTypes.add(0,noPart);
+		partModel = partTypes.toArray();
 		
 		for (int i = 0; i < 4; i++) {
 			cbPart[i] = new JComboBox(partModel);
@@ -177,13 +182,16 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			gbc_comboBox.gridy = i;
 			pnlParts.add(cbPart[i], gbc_comboBox);
 			
-			cbPart[i+1] = new JComboBox(partModel);
+			cbPart[i+4] = new JComboBox(partModel);
 			gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 			gbc_comboBox.gridx = 3;
 			gbc_comboBox.gridy = i;
-			pnlParts.add(cbPart[i+1], gbc_comboBox);
+			pnlParts.add(cbPart[i+4], gbc_comboBox);
 		}
-
+		
+		disableFields();
+		viewKit((KitConfig) cbKits.getSelectedItem());
+		showButtons("View");
 	}
 	
 	public void actionPerformed(ActionEvent ae) {
@@ -195,9 +203,12 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			KitConfig k = createKit();
 			km.addKit(k);
 			viewKit(k);
+			disableFields();
+			cbKits.setSelectedIndex(cbKits.getModel().getSize()-1);
 		} else if (ae.getSource() == cbKits) {
 			disableFields();
 			viewKit((KitConfig) cbKits.getSelectedItem());
+			showButtons("View");
 		} else if (ae.getSource() ==  btnClrFields) {
 			clearFields();
 		} else if (ae.getSource() == btnEditKit) {
@@ -213,12 +224,14 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	        	deleteKit((KitConfig) cbKits.getSelectedItem());
 	        }
 		} else if (ae.getSource() == btnSaveChg) {
+			disableFields();
 			KitConfig editedKit = createKit();
 			km.editKit(editedKit);
 			viewKit(editedKit);
+			showButtons("View");
+			cbKits.setSelectedItem(editedKit);
 		} else if (ae.getSource() == btnCnclChg) {
-			enableFields();
-			tfName.setEnabled(false);
+			disableFields();
 			viewKit((KitConfig) cbKits.getSelectedItem());
 		}
 	}
@@ -226,10 +239,13 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	public void viewKit(KitConfig kit) {
 		tfName.setText(kit.getName());
 		ArrayList<PartType> parts = kit.getParts();
-		for (int i = 0; i < parts.size(); i++) {
-			cbPart[i].setSelectedItem((Object) parts.get(i));
+		for (int i = 0; i < 8; i++) {
+			if (i < parts.size()) {
+				cbPart[i].setSelectedItem((Object) parts.get(i));
+			} else {
+				cbPart[i].setSelectedIndex(0);
+			}
 		}
-		cbKits.setSelectedItem(kit);
 	}
 	
 	public KitConfig createKit() {
@@ -239,8 +255,12 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		HashMap<PartType, Integer> config = new HashMap<PartType, Integer>();
 		for (int i = 0; i < 8; i++) {
 			PartType p = (PartType) cbPart[i].getSelectedItem();
-			if (config.containsKey(p)) {
-				config.put(p, (Integer) config.get(p).intValue()+1);
+			if (!p.equals(noPart)) {
+				if (config.containsKey(p)) {
+					config.put(p, (Integer) config.get(p).intValue()+1);
+				} else {
+					config.put(p, (Integer) 1);
+				}
 			}
 		}
 		newKit.setConfig(config);
@@ -249,7 +269,11 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	
 	public void deleteKit(KitConfig deadKit) {
     	// changes the comboBox to look at the previous item in the list
-    	cbKits.setSelectedIndex(cbKits.getSelectedIndex()-1);
+		if (cbKits.getSelectedIndex() < 1) {
+			cbKits.setSelectedIndex(0);
+		} else {
+			cbKits.setSelectedIndex(cbKits.getSelectedIndex()-1);
+		}
     	viewKit((KitConfig) cbKits.getSelectedItem());
     	kitModel.removeElement(deadKit);
     	// send a message to fcs that the kit is now dead
@@ -259,7 +283,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	public void updatePartComboModels() {
 		// makes sure comboBoxModel for cbPart is up to date.
 		for (int i = 0; i < 8; i++ ){
-			cbPart[i].setModel(partModel);
+			cbPart[i].setModel(new DefaultComboBoxModel(partModel));
 		}
 	}
 
@@ -286,18 +310,17 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	public void updateKitConfig(ArrayList<KitConfig> kc)
 	{
 		kitConfigs = kc;
-		//clear the ComboBoxModel
-		kitModel.removeAllElements();
-		// re-add all the elements. Unfortunately, DefaultComboBoxModel doesn't have a faster way to do this.
-		for (KitConfig k : kitConfigs) kitModel.addElement(k);
+		kitModel = new DefaultComboBoxModel(kc.toArray());
+		// sets a new Object Array that acts as the model for the comboboxes
+		cbKits.setModel(kitModel);
 	}
 	
 	public void updatePartTypes(ArrayList<PartType> pt){
 		partTypes = pt;
-		// clear the ComboBoxModel
-		partModel.removeAllElements();
-		// re-add all the elements
-		for (PartType p : partTypes) partModel.addElement(p);
+		// sets a new Object Array that acts as the model for the comboboxes
+		partTypes.add(0,noPart);
+		partModel = pt.toArray();
+		updatePartComboModels();
 	}
 	
 	public void showButtons(String panel) {

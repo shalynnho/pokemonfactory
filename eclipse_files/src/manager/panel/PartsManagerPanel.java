@@ -29,8 +29,8 @@ import manager.util.WhiteLabel;
 import Utils.Constants;
 
 /**
-*
-* Authorship: Aaron Harris
+* THIS PANEL IS NOW DEPRECATED
+* Original Authorship: Aaron Harris
 */
 
 public class PartsManagerPanel extends JPanel implements ActionListener {

@@ -209,7 +209,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	private void givePartToPartsRobot() {
-		partsInNest.remove(0); // TODO: later might need to animate this
+		// TODO: V2: are we supporting PR removal of parts from any loc in the nest?
+		partsInNest.remove(0);
 		setPartLocations();
 		client.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND
 				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));

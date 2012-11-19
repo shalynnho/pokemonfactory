@@ -5,6 +5,7 @@ import java.util.TreeMap;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
+import Utils.Location;
 import agent.Agent;
 import agent.KitRobotAgent;
 import agent.StandAgent;
@@ -23,6 +24,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	KitGraphics testKit1; // for testing
 	KitGraphics testKit2; // for testing
 
+	Location inspectionLocation;
+	Location location1;
+	Location location2;
+	
 	public KitRobotGraphics(Server s, Agent kra, Agent sta) {
 		kitPositions = new TreeMap<String, KitGraphics>();
 		initKitPositions();
@@ -31,6 +36,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		standAgent = (StandAgent) sta;
 		testKit1 = new KitGraphics(server);
 		testKit2 = new KitGraphics(server);
+		inspectionLocation = new Location(240, 100);
+		location1 = new Location(280, 200);
+		location2= new Location(240, 300);
 	}
 
 	/*
@@ -93,6 +101,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	}
 
 	public void msgPlaceKitOnStand1(KitGraphics kit) {
+		kit.setLocation(location1);
 		kitPositions.put(Constants.KIT_LOCATION1, kit);
 		server.sendData(new Request(
 				Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1,
@@ -101,7 +110,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	}
 
 	public void msgPlaceKitOnStand2(KitGraphics kit) {
-
+		kit.setLocation(location2);
 		kitPositions.put(Constants.KIT_LOCATION2, kit);
 		server.sendData(new Request(
 				Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2,

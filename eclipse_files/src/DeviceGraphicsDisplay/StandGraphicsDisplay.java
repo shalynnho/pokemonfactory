@@ -103,6 +103,10 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		location = newLocation;
 	}
 	
+	public Location getLocation() {
+		return location;
+	}
+	
 	/**
 	 * @param args
 	 */
