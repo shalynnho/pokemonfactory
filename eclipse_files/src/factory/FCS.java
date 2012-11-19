@@ -52,8 +52,8 @@ public class FCS {
 	} 
 	
 	public boolean newPart(PartType pt) {
-		for(int i = 0; i < partTypes.size(); i++){
-			if(partTypes.get(i).equals(pt))
+		for(PartType p : partTypes) {
+			if(p.getName().equals(pt.getName()))
 				return false;
 		}
 		
@@ -85,9 +85,14 @@ public class FCS {
 		//TODO: add in agent call so to stop drawing bin
 	}
 	
-	public void newKit(KitConfig kc) {
+	public boolean newKit(KitConfig kc) {
+		for(KitConfig p : kitConfigs) {
+			if(p.getName().equals(kc.getName()))
+				return false;
+		}
 		kitConfigs.add(kc);
 		updateKits();
+		return true;
 	}
 	
 	public void editKit(KitConfig kc) {
