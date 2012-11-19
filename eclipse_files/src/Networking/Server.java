@@ -439,7 +439,7 @@ public class Server {
 	
 	//TODO: make sure this works
 	private void addShutdownHook() {
-		System.out.println("shutdown hook called");
+		System.out.println("[Server]: Shutdown hook called.");
         Thread hook = new Thread(new Runnable() {
                 @Override
                 public void run() {
