@@ -15,7 +15,7 @@ import agent.FCSAgent;
  */
 public class FCS {
 	private ArrayList<Order> queue = new ArrayList<Order>();
-	private ArrayList<KitConfig> kitConfigs = new ArrayList<KitConfig>();
+	private ArrayList<KitConfig> kitConfigs = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIGS.clone();
 	private ArrayList<PartType> partTypes = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES.clone();
 	
 	private FCSAgent agent;
