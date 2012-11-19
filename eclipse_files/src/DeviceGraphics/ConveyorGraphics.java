@@ -88,9 +88,6 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 			} else if (command.equals(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
 					+ Constants.DONE_SUFFIX)) {
 				System.out.println(this.toString() + " sending emptyKitDone");
-				// server.sendData(new
-				// Request(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND,
-				// Constants.CONVEYOR_TARGET, null));
 				conveyorAgent.msgBringEmptyKitDone();
 			} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND
 					+ Constants.DONE_SUFFIX)) {

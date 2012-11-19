@@ -27,8 +27,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	// start and end x-coordinates of Part on the Lane
 	private static final int LANE_BEG_X = 850, LANE_END_X = 640;
 
-	// start location of the part
-	private Location laneLoc;
+	// start y-coord of the part
 	private int endY;
 
 	// instructions to display graphics will be sent through the server
@@ -87,8 +86,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 * Purges this lane of all parts
 	 */
 	public void purge() {
-		// TODO: set location of parts to fall off lane
-			// currently doing this in Display side only
 		server.sendData(new Request(Constants.LANE_PURGE_COMMAND,
 				Constants.LANE_TARGET + laneID, null));
 	}
@@ -103,7 +100,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		partsOnLane.add(pg);
 		pg.setLocation(new Location (LANE_BEG_X, endY + (PART_WIDTH / 2)));
 		PartType type = pg.getPartType();
-		
 		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET + laneID, type));
 		
 		// TODO: (V2) later pass if good/bad part
@@ -132,6 +128,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 			laneAgent.msgPurgeDone();
 		}
 	}
+	
 
 	/**
 	 * Sets the vibration amplitude of this lane (how quickly parts vibrate down
@@ -145,6 +142,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		server.sendData(new Request(Constants.LANE_SET_AMPLITUDE_COMMAND,
 				Constants.LANE_TARGET + laneID, amp));
 	}
+	
 
 	/**
 	 * Turns lane on or off

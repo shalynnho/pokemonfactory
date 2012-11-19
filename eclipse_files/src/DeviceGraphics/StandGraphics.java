@@ -5,19 +5,25 @@ import factory.PartType;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
+import Utils.Location;
 import agent.Agent;
 import agent.StandAgent;
 
 /**
  * Represents the stand for the two kitting stands and the parent class for the inspection stand.
  * 
- * @author Shalynn Ho, Matt Zecchini
+ * @author Shalynn Ho
  */
 public class StandGraphics implements DeviceGraphics {
+	
+	public static final int RIGHT_X_LOC = 280;
+	public static final int Y_OFFSET = 100;
+	public static final int STAND_WIDTH = 80;
 	
 	protected Server server;
 	protected StandAgent standAgent;
 	protected int standID;
+	protected Location location;
 	
 	// the kit on this stand
 	protected KitGraphics kit;
@@ -34,6 +40,12 @@ public class StandGraphics implements DeviceGraphics {
 		server = s;
 		standAgent = (StandAgent) a;
 		standID = id;
+		// set location of kit based on standID
+		if (id % 2 == 0) {
+			location = new Location((RIGHT_X_LOC - STAND_WIDTH/2), standID*Y_OFFSET + Y_OFFSET);
+		} else {
+			location = new Location(RIGHT_X_LOC, standID*Y_OFFSET + Y_OFFSET);
+		}
 		
 		isEmpty = true;
 	}
@@ -58,9 +70,10 @@ public class StandGraphics implements DeviceGraphics {
 	public void receiveKit(KitGraphics kg) {
 		if (isEmpty) {
 			kit = kg;
+			kit.setLocation(location);
 			KitConfig config = kit.getKitConfig();
 			isEmpty = false;
-			server.sendData(new Request(Constants.STAND_RECEIVE_KIT_COMMAND, Constants.STAND_TARGET, config));
+			server.sendData(new Request(Constants.STAND_RECEIVE_KIT_COMMAND, Constants.STAND_TARGET + standID, config));
 		}
 	}
 
