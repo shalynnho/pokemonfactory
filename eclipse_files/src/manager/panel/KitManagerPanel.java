@@ -47,6 +47,8 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	private JButton btnClrFields;
 	private JButton btnSaveChg;
 	private JButton btnCnclChg;
+	
+	private final PartType noPart = new PartType("No Part");
 
 	/**
 	 * Create the panel.
@@ -169,7 +171,8 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		
 		// First construct the ComboBoxModel for the PartTypes, then iterate through to add PartTypes
 		partTypes = Utils.Constants.DEFAULT_PARTTYPES;
-		partModel = partTypes.toArray();	
+		partTypes.add(0,noPart);
+		partModel = partTypes.toArray();
 		
 		for (int i = 0; i < 4; i++) {
 			cbPart[i] = new JComboBox(partModel);
@@ -234,6 +237,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		ArrayList<PartType> parts = kit.getParts();
 		for (int i = 0; i < 8; i++) {
 			if (i < parts.size()) cbPart[i].setSelectedItem((Object) parts.get(i));
+			else cbPart[i].setSelectedIndex(0);
 		}
 		cbKits.setSelectedItem(kit);
 	}
@@ -245,8 +249,12 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		HashMap<PartType, Integer> config = new HashMap<PartType, Integer>();
 		for (int i = 0; i < 8; i++) {
 			PartType p = (PartType) cbPart[i].getSelectedItem();
-			if (config.containsKey(p)) {
-				config.put(p, (Integer) config.get(p).intValue()+1);
+			if (!p.equals(noPart)) {
+				if (config.containsKey(p)) {
+					config.put(p, (Integer) config.get(p).intValue()+1);
+				} else {
+					config.put(p, (Integer) 1);
+				}
 			}
 		}
 		newKit.setConfig(config);
@@ -300,6 +308,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	public void updatePartTypes(ArrayList<PartType> pt){
 		partTypes = pt;
 		// sets a new Object Array that acts as the model for the comboboxes
+		partTypes.add(0,noPart);
 		partModel = pt.toArray();
 		updatePartComboModels();
 	}
