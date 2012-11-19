@@ -79,7 +79,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void drawWithOffset(JComponent c, Graphics2D g, int offset) {
-		g.drawImage(Constants.KIT_IMAGE, kitLocation.getX() + offset,
+		g.drawImage(kitImage, kitLocation.getX() + offset,
 				kitLocation.getY(), c);
 
 		//TODO fix so that it draws the actual parts
