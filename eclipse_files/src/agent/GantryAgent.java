@@ -211,6 +211,7 @@ public class GantryAgent extends Agent implements Gantry {
 		bin.binState = BinStatus.FULL;
 
 		gantryGraphics.removeBin(bin);
+
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
