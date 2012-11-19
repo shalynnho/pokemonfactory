@@ -68,7 +68,7 @@ public class FCSAgent extends Agent implements FCS {
 		print("Received new order");
 		orders.add(o);
 		if (fcs != null) {
-			fcs.updateQueue();
+			fcs.updateQueue((ArrayList<Order>)orders);
 		}
 		if (state == myState.PENDING) {
 			state = myState.STARTED;
@@ -83,7 +83,7 @@ public class FCSAgent extends Agent implements FCS {
 				if (order.equals(o)) {
 					o.cancel = true;
 					if (fcs != null) {
-						fcs.updateQueue();
+						fcs.updateQueue((ArrayList<Order>)orders);
 					}
 				}
 			}
@@ -112,7 +112,7 @@ public class FCSAgent extends Agent implements FCS {
 				if (o.state == Order.orderState.ORDERED) {
 					orders.remove(o);
 					if (fcs != null) {
-						fcs.updateQueue();
+						fcs.updateQueue((ArrayList<Order>)orders);
 					}
 					break;
 				}
@@ -159,7 +159,7 @@ public class FCSAgent extends Agent implements FCS {
 		o.state = Order.orderState.ORDERED;
 		state = myState.LOADED;
 		if (fcs != null) {
-			fcs.updateQueue();
+			fcs.updateQueue((ArrayList<Order>)orders);
 		}
 
 		int k = 0;
@@ -197,7 +197,7 @@ public class FCSAgent extends Agent implements FCS {
 			orders.remove(o);
 		}
 		if (fcs != null) {
-			fcs.updateQueue();
+			fcs.updateQueue((ArrayList<Order>)orders);
 		}
 		stateChanged();
 	}

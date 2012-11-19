@@ -2,6 +2,7 @@ package agent;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,6 +31,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			.synchronizedList(new ArrayList<MyKit>());
 	private Map<Nest, List<Part>> GoodParts = new ConcurrentHashMap<Nest, List<Part>>();
 	private List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
+
+	private final Date time;
 
 	private int kitsNum = 0;
 
@@ -80,6 +83,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		super();
 
 		this.name = name;
+		time = new Date();
 
 		// Add arms
 		for (int i = 0; i < 4; i++) {
@@ -179,7 +183,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		if (status == PartsRobotStatus.PLACING) {
 			synchronized (Arms) {
 				for (Arm arm : Arms) {
-
 					if (arm.AS == ArmStatus.FULL) {
 						print("Arm holding: " + arm.part.type.toString());
 						PlacePart(arm);
@@ -196,7 +199,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		// Checks if there is an empty arm, if there is it fills it with a
 		// good part that the kit needs
 		synchronized (Arms) {
+			status = PartsRobotStatus.PLACING;
 			if (IsAnyArmEmpty()) {
+				status = PartsRobotStatus.PICKING_UP;
+				time.setTime(System.currentTimeMillis());
 				synchronized (GoodParts) {
 					for (Nest nest : GoodParts.keySet()) {
 						// Going through all the good parts
@@ -229,8 +235,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						}
 					}
 				}
-			} else {
-				status = PartsRobotStatus.PLACING;
+			} else if (System.currentTimeMillis() - time.getTime() > 3000) {
+				// Last rule is to place parts if the parts robot has been idle
+				// too long
+				time.setTime(System.currentTimeMillis());
 			}
 		}
 
