@@ -72,7 +72,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		//TODO fix so that it draws the actual parts
 		for (PartGraphicsDisplay part : parts) {
-			g.drawImage(Constants.PART_IMAGE, part.getLocation().getX() + offset, part
+			g.drawImage(part.getPartType().getImage(), part.getLocation().getX() + offset, part
 					.getLocation().getY(), c);
 		}
 
