@@ -92,8 +92,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		
 		for (PartGraphicsDisplay part : partsInNest) {
-			part.getLocation().incrementX(client.getOffset());
-			part.draw(c, g);
+			part.drawWithOffset(c, g, client.getOffset());
 		}
 	}
 
