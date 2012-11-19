@@ -232,8 +232,8 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	public void viewKit(KitConfig kit) {
 		tfName.setText(kit.getName());
 		ArrayList<PartType> parts = kit.getParts();
-		for (int i = 0; i < parts.size(); i++) {
-			cbPart[i].setSelectedItem((Object) parts.get(i));
+		for (int i = 0; i < 8; i++) {
+			if (i < parts.size()) cbPart[i].setSelectedItem((Object) parts.get(i));
 		}
 		cbKits.setSelectedItem(kit);
 	}
