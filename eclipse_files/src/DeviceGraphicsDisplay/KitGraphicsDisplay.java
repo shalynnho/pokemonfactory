@@ -3,6 +3,7 @@ package DeviceGraphicsDisplay;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.awt.Image;
 
 import javax.swing.JComponent;
 
@@ -31,6 +32,16 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	private AffineTransform trans = new AffineTransform();
 	
+	Image kitImage;
+	
+	public Image getKitImage() {
+		return kitImage;
+	}
+
+	public void setKitImage(Image kitImage) {
+		this.kitImage = kitImage;
+	}
+
 	public KitGraphicsDisplay() {
 
 		kitLocation = Constants.KIT_LOC;
@@ -39,6 +50,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
 		rotationAxisX = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getXDouble();
 		rotationAxisY = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getYDouble();
+		kitImage = Constants.KIT_IMAGE;
 	}
 	
 	public void setTranslation(int offset){
@@ -67,7 +79,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void drawWithOffset(JComponent c, Graphics2D g, int offset) {
-		g.drawImage(Constants.KIT_IMAGE, kitLocation.getX() + offset,
+		g.drawImage(kitImage, kitLocation.getX() + offset,
 				kitLocation.getY(), c);
 
 		//TODO fix so that it draws the actual parts
@@ -119,7 +131,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void drawRotate(JComponent c, Graphics2D g) {
 		rotate();
 		checkDegrees();
-		g.drawImage(Constants.KIT_IMAGE, trans, null);
+		g.drawImage(kitImage, trans, null);
 	}
 
 	public void rotate() {

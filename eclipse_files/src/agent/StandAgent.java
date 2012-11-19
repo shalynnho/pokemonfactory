@@ -352,6 +352,10 @@ public class StandAgent extends Agent implements Stand {
 		this.start = start;
 	}
 
+	public ArrayList<MyKit> getMyKits() {
+		return MyKits;
+	}
+
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
 	}

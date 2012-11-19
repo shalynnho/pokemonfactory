@@ -38,4 +38,8 @@ Desktop.ini
 .Trashes
 .Trash
 
+# Factory Saved Files #
+#######################
+*.sav
+
 source
