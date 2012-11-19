@@ -24,7 +24,7 @@ public class NestAgent extends Agent implements Nest {
 			.synchronizedList(new ArrayList<MyPart>());
 	public int count = 0;
 	public int countRequest = 0;
-	int full = 9;
+	int full = 8;
 	public boolean takingParts = false;
 
 	public NestGraphics nestGraphics;

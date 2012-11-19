@@ -23,7 +23,7 @@ public class LaneAgent extends Agent implements Lane {
 	public List<MyPart> currentParts = Collections
 			.synchronizedList(new ArrayList<MyPart>());
 
-	public int topLimit = 9;
+	public int topLimit = 8;
 	public int lowerThreshold = 3;
 
 	public LaneStatus state;
