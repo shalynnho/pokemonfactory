@@ -25,6 +25,7 @@ import manager.util.WhiteLabel;
 import Utils.Constants;
 import factory.PartType;
 
+
 /**
  * Prettified PartsManagerPanel, powers PartsManager. Uses PartsListPanel to display parts.
  * 
@@ -39,7 +40,7 @@ public class PartsManagerPanelV2 extends JPanel{
 	
 	WhiteLabel leftTitle;
 	JTextField nameField;
-	JTextField numField;
+	WhiteLabel numField;
 	JTextArea descField;
 	JButton submitButton;
 	
@@ -132,7 +133,7 @@ public class PartsManagerPanelV2 extends JPanel{
 			numLabel.setLabelSize(100, 25);
 			numPanel.add(numLabel);
 			
-			numField = new JTextField("23");
+			numField = new WhiteLabel("" + (rightPanel.getItemList().size()+1));
 			numField.setMaximumSize(new Dimension(200, 25));
 			numField.setBorder(Constants.FIELD_PADDING);
 			numPanel.add(numField);

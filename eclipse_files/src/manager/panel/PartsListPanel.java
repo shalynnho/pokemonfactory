@@ -36,6 +36,11 @@ public class PartsListPanel extends ListPanel<PartType> {
 		parseList();
 	}
 	
+	public ArrayList<PartType> getItemList()
+	{
+		return itemList;	
+	}
+	
 	public void parseList() {
 		panels.clear();
 		removeAll();
