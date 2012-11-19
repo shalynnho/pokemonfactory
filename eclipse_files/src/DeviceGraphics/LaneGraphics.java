@@ -33,7 +33,6 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	
 	// dynamically stores Parts currently on Lane
 	private ArrayList<PartGraphics> partsOnLane;
-
 	// vibration setting; how quickly parts vibrate down Lane
 	private int amplitude;
 	// true if Lane is on
