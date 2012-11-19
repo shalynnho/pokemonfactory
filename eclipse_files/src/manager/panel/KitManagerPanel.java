@@ -203,6 +203,8 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			KitConfig k = createKit();
 			km.addKit(k);
 			viewKit(k);
+			disableFields();
+			cbKits.setSelectedIndex(cbKits.getModel().getSize()-1);
 		} else if (ae.getSource() == cbKits) {
 			disableFields();
 			viewKit((KitConfig) cbKits.getSelectedItem());
@@ -222,12 +224,14 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	        	deleteKit((KitConfig) cbKits.getSelectedItem());
 	        }
 		} else if (ae.getSource() == btnSaveChg) {
+			disableFields();
 			KitConfig editedKit = createKit();
 			km.editKit(editedKit);
 			viewKit(editedKit);
+			showButtons("View");
+			cbKits.setSelectedItem(editedKit);
 		} else if (ae.getSource() == btnCnclChg) {
-			enableFields();
-			tfName.setEnabled(false);
+			disableFields();
 			viewKit((KitConfig) cbKits.getSelectedItem());
 		}
 	}
@@ -236,10 +240,12 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		tfName.setText(kit.getName());
 		ArrayList<PartType> parts = kit.getParts();
 		for (int i = 0; i < 8; i++) {
-			if (i < parts.size()) cbPart[i].setSelectedItem((Object) parts.get(i));
-			else cbPart[i].setSelectedIndex(0);
+			if (i < parts.size()) {
+				cbPart[i].setSelectedItem((Object) parts.get(i));
+			} else {
+				cbPart[i].setSelectedIndex(0);
+			}
 		}
-		cbKits.setSelectedItem(kit);
 	}
 	
 	public KitConfig createKit() {
@@ -263,7 +269,11 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	
 	public void deleteKit(KitConfig deadKit) {
     	// changes the comboBox to look at the previous item in the list
-    	cbKits.setSelectedIndex(cbKits.getSelectedIndex()-1);
+		if (cbKits.getSelectedIndex() < 1) {
+			cbKits.setSelectedIndex(0);
+		} else {
+			cbKits.setSelectedIndex(cbKits.getSelectedIndex()-1);
+		}
     	viewKit((KitConfig) cbKits.getSelectedItem());
     	kitModel.removeElement(deadKit);
     	// send a message to fcs that the kit is now dead
