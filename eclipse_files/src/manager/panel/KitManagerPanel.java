@@ -183,7 +183,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 			gbc_comboBox.gridx = 3;
 			gbc_comboBox.gridy = i;
-			pnlParts.add(cbPart[i+1], gbc_comboBox);
+			pnlParts.add(cbPart[i+4], gbc_comboBox);
 		}
 		
 		disableFields();
