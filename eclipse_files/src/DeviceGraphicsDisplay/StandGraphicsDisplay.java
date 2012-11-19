@@ -44,7 +44,7 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		standID = id;
 		isEmpty = true;
 		kit = new KitGraphicsDisplay();
-		// TODO: set location of kit based on standID
+		// set location of kit based on standID
 		if (id % 2 == 0) {
 			location = new Location((RIGHT_X_LOC - STAND_WIDTH/2), standID*Y_OFFSET + Y_OFFSET);
 		} else {

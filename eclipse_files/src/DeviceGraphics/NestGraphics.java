@@ -109,6 +109,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		partsInNest.add(pg);
 		pg.setLocation(partLocs.get(partsInNest.size() - 1));
 		PartType type = pg.getPartType();
+		System.out.println("NEST" + nestID + " RECEIVING PART " + partsInNest.size());
 		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND,
 				Constants.NEST_TARGET + nestID, type));
 	}
@@ -133,19 +134,6 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 			partsInNest.clear();
 			nestAgent.msgPurgingDone();
 		} 
-//		else if (req.getCommand().equals(
-//			// is this necessary?
-//			Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND)) {
-//			server.sendData(new Request(
-//					Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND,
-//					Constants.NEST_TARGET + nestID, null));
-//			
-//		} else if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND)) {
-//			// is this necessary?
-//			server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND,
-//					Constants.NEST_TARGET + nestID, null));
-//		}
-
 	}
 
 	/**
@@ -204,13 +192,6 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	public Map<PartGraphics, Boolean> getQualityOfParts() {
 		// TODO: IMPLEMENT THIS METHOD FOR V2
 		return null;
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 	}
 
 	public int getNestID() {
