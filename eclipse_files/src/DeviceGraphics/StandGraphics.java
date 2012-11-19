@@ -73,7 +73,7 @@ public class StandGraphics implements DeviceGraphics {
 			kit.setLocation(location);
 			KitConfig config = kit.getKitConfig();
 			isEmpty = false;
-			server.sendData(new Request(Constants.STAND_RECEIVE_KIT_COMMAND, Constants.STAND_TARGET, config));
+			server.sendData(new Request(Constants.STAND_RECEIVE_KIT_COMMAND, Constants.STAND_TARGET + standID, config));
 		}
 	}
 
