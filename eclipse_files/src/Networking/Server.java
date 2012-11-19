@@ -88,10 +88,12 @@ public class Server {
 		connectAgentsWithEachOther();
 		connectAgentsWithDevices();
 
-		initStreams();
-		
 		//add the save file method (at bottom) to the server
 		addShutdownHook();
+		
+		initStreams();
+		
+		
 		
 		// will never run anything after init Streams
 	}
@@ -439,6 +441,7 @@ public class Server {
 	
 	//TODO: make sure this works
 	private void addShutdownHook() {
+		System.out.println("shutdown hook called");
         Thread hook = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -449,6 +452,7 @@ public class Server {
                 		ObjectOutputStream outputKC = new ObjectOutputStream(saveKitConfigs);
                 		
                 		outputKC.writeObject(fcs.getKitConfigs());
+                		System.out.println("Hook Called On Exit");
                 		
                 		//save part types to PartTypesBackup.sav
                 		FileOutputStream savePartTypes = new FileOutputStream("PartTypesBackup.sav");
