@@ -10,6 +10,7 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import Utils.PartData;
 import factory.PartType;
 
 public class PartsRobotDisplay extends DeviceGraphicsDisplay {
@@ -27,6 +28,8 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	private Location initialLocation;
 	private Location currentLocation;
 	private Location armLocation;
+	
+	private PartType pt;
 	
 	private boolean rotate;
 	private boolean home;
@@ -141,7 +144,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				}
 				g.drawImage(partsRobotImage, currentLocation.getX() + client.getOffset(), currentLocation.getY(), c);
 				
-				if(currentLocation.getX() == loc.getX()-30 && currentLocation.getY()+30*I == loc.getY()){
+				if(currentLocation.getX() == loc.getX()-30 && currentLocation.getY() == loc.getY()){
 					System.out.println("at parts location");
 			
 					
@@ -172,10 +175,10 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 					
 				}
 				int z = 0;
-				g.drawImage(armImage1.get(z),armLoc.get(0).getX() + client.getOffset(), armLoc.get(0).getY(), c);
-				g.drawImage(armImage2.get(z),armLoc.get(1).getX() + client.getOffset(), armLoc.get(1).getY(), c);
-				g.drawImage(armImage3.get(z),armLoc.get(2).getX() + client.getOffset(), armLoc.get(2).getY(), c);
-				g.drawImage(armImage4.get(z),armLoc.get(3).getX() + client.getOffset(), armLoc.get(3).getY(), c);
+				g.drawImage(armImage1.get(z),armLoc.get(4).getX() + client.getOffset(), armLoc.get(4).getY(), c);
+				g.drawImage(armImage2.get(z),armLoc.get(5).getX() + client.getOffset(), armLoc.get(5).getY(), c);
+				g.drawImage(armImage3.get(z),armLoc.get(6).getX() + client.getOffset(), armLoc.get(6).getY(), c);
+				g.drawImage(armImage4.get(z),armLoc.get(7).getX() + client.getOffset(), armLoc.get(7).getY(), c);
 			
 				int k = 1;
 				//for (k=0;k<3;k++){
@@ -244,13 +247,19 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 					}
 				}	
 			}
-			int k;
-			for (k=0;k<3;k++){
+			int z = 0;
+			g.drawImage(armImage1.get(z),armLoc.get(4).getX() + client.getOffset(), armLoc.get(4).getY(), c);
+			g.drawImage(armImage2.get(z),armLoc.get(5).getX() + client.getOffset(), armLoc.get(5).getY(), c);
+			g.drawImage(armImage3.get(z),armLoc.get(6).getX() + client.getOffset(), armLoc.get(6).getY(), c);
+			g.drawImage(armImage4.get(z),armLoc.get(7).getX() + client.getOffset(), armLoc.get(7).getY(), c);
+		
+			int k = 1;
+			//for (k=0;k<3;k++){
 				g.drawImage(armImage1.get(k),armLoc.get(0).getX() + client.getOffset(), armLoc.get(0).getY(), c);
 				g.drawImage(armImage2.get(k),armLoc.get(1).getX() + client.getOffset(), armLoc.get(1).getY(), c);
 				g.drawImage(armImage3.get(k),armLoc.get(2).getX() + client.getOffset(), armLoc.get(2).getY(), c);
 				g.drawImage(armImage4.get(k),armLoc.get(3).getX() + client.getOffset(), armLoc.get(3).getY(), c);
-			}
+			//}
 		} else if (!givekit || !pickup) {
 			for (int i = 0; i < 5; i++){
 				if(currentLocation.getY()<450){
@@ -281,10 +290,10 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				
 				g.drawImage(partsRobotImage, currentLocation.getX() + client.getOffset(), currentLocation.getY(), c);
 				int z = 0;
-				g.drawImage(armImage1.get(z),armLoc.get(0).getX() + client.getOffset(), armLoc.get(0).getY(), c);
-				g.drawImage(armImage2.get(z),armLoc.get(1).getX() + client.getOffset(), armLoc.get(1).getY(), c);
-				g.drawImage(armImage3.get(z),armLoc.get(2).getX() + client.getOffset(), armLoc.get(2).getY(), c);
-				g.drawImage(armImage4.get(z),armLoc.get(3).getX() + client.getOffset(), armLoc.get(3).getY(), c);
+				g.drawImage(armImage1.get(z),armLoc.get(4).getX() + client.getOffset(), armLoc.get(4).getY(), c);
+				g.drawImage(armImage2.get(z),armLoc.get(5).getX() + client.getOffset(), armLoc.get(5).getY(), c);
+				g.drawImage(armImage3.get(z),armLoc.get(6).getX() + client.getOffset(), armLoc.get(6).getY(), c);
+				g.drawImage(armImage4.get(z),armLoc.get(7).getX() + client.getOffset(), armLoc.get(7).getY(), c);
 			
 				int k = 1;
 				//for (k=0;k<2;k++){
@@ -328,7 +337,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	}
 	public void pickUpPart(){
 		
-		PartType partType = Constants.DEFAULT_PARTTYPES.get(0);
+		PartType partType = pt;
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
 		
 		if (I<4){
@@ -462,7 +471,8 @@ public void retractArmFromKit(){
 			kitloc = (Location) r.getData();
 			giveKit();
 		}else if (r.getCommand().equals(Constants.PARTS_ROBOT_PICKUP_COMMAND)){
-			loc = (Location) r.getData();
+			loc = ((PartData) r.getData()).getLocation();
+			pt = ((PartData) r.getData()).getPartType();
 			pickUp();
 			System.out.println("before pick up");
 		}
