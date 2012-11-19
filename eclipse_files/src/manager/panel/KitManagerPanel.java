@@ -157,10 +157,9 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		// First construct the ComboBoxModel for the PartTypes, then iterate through to add PartTypes
 		partTypes = Utils.Constants.DEFAULT_PARTTYPES;
 		
-		makePartCombos();
+		viewKit((KitConfig) cbKits.getSelectedItem());
 		
 		disableFields();
-		viewKit((KitConfig) cbKits.getSelectedItem());
 		showButtons("View");
 	}
 	
@@ -218,8 +217,8 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 				cbKits.setSelectedIndex(cbKits.getModel().getSize()-1);
 			}
 		} else if (ae.getSource() == cbKits) {
-			disableFields();
 			viewKit((KitConfig) cbKits.getSelectedItem());
+			disableFields();
 			showButtons("View");
 		} else if (ae.getSource() ==  btnClrFields) {
 			clearFields();
@@ -251,6 +250,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	}
 	
 	public void viewKit(KitConfig kit) {
+		makePartCombos();
 		tfName.setText(kit.getName());
 		ArrayList<PartType> parts = new ArrayList<PartType>(kit.getParts());
 		for (int i = 0; i < 8; i++) {
