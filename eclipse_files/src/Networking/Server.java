@@ -1,5 +1,6 @@
 package Networking;
 
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -87,7 +88,13 @@ public class Server {
 		connectAgentsWithEachOther();
 		connectAgentsWithDevices();
 
+		//add the save file method (at bottom) to the server
+		addShutdownHook();
+		
 		initStreams();
+		
+		
+		
 		// will never run anything after init Streams
 	}
 
@@ -410,12 +417,14 @@ public class Server {
 	private void sendDataToNest(Request req) {
 		factProdMngrWriter.sendData(req);
 		kitAssemblyMngrWriter.sendData(req);
+		laneMngrWriter.sendData(req);
 	}
 
 	private void sendDataToCamera(Request req) {
 		factProdMngrWriter.sendData(req);
 		partsRobotMngrWriter.sendData(req);
 		kitAssemblyMngrWriter.sendData(req);
+		laneMngrWriter.sendData(req);
 	}
 
 	private void sendDataToLane(Request req) {
@@ -429,9 +438,50 @@ public class Server {
 		laneMngrWriter.sendData(req);
 		gantryRobotMngrWriter.sendData(req);
 	}
+	
+	//TODO: make sure this works
+	private void addShutdownHook() {
+		System.out.println("shutdown hook called");
+        Thread hook = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                	try
+                	{
+                		//save kit configs to KitConfigBackup.sav
+                		FileOutputStream saveKitConfigs = new FileOutputStream("KitConfigBackup.sav");
+                		ObjectOutputStream outputKC = new ObjectOutputStream(saveKitConfigs);
+                		
+                		outputKC.writeObject(fcs.getKitConfigs());
+                		System.out.println("Hook Called On Exit");
+                		
+                		//save part types to PartTypesBackup.sav
+                		FileOutputStream savePartTypes = new FileOutputStream("PartTypesBackup.sav");
+                		ObjectOutputStream outputPT = new ObjectOutputStream(savePartTypes);
+                		
+                		outputPT.writeObject(fcs.getPartTypes());
+                		
+                		//close both output streams... also closes both files
+                		outputKC.close();
+                		outputPT.close();
+                	}
+                	
+                	catch(Exception exc)
+                	{
+                		//print error info if error occurs
+                		exc.printStackTrace();
+                	}
+                        
+                }
+        });
+        Runtime.getRuntime().addShutdownHook(hook);
+}
 
 	public static void main(String[] args) {
 		Server server = new Server();
 	}
 
+	
+	
+	
+	
 }

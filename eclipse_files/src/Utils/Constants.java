@@ -61,7 +61,7 @@ public abstract class Constants {
 	// DEVICE START LOCATIONS
 	// ==================================
 
-	public static final Location FEEDER_LOC = new Location(850, 50);
+	public static final Location FEEDER_LOC = new Location(850, 45);
 	public static final int FEEDER_Y_STEP = 150;
 
 	public static final Location KIT_ROBOT_LOC = new Location(75, 192.5);
@@ -85,8 +85,8 @@ public abstract class Constants {
 	// Feeder Images
 	public static final Image FEEDER_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "Feeder.png");
-	public static final Image FEEDER_GREEN_LED = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "LED_green.png");
+	public static final Image FEEDER_BLUE_LED = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "LED_blue.png");
 	public static final Image FEEDER_RED_LED = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "LED_red.png");
 

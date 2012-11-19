@@ -348,7 +348,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		doJob();
 		drawtheKits(c, g);
 		g.drawImage(Constants.KIT_ROBOT_IMAGE, trans, null);
-
 	}
 	/*
 	 * draws the kits in the kit robot area

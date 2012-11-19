@@ -120,7 +120,6 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		rotate();
 		checkDegrees();
 		g.drawImage(Constants.KIT_IMAGE, trans, null);
-
 	}
 
 	public void rotate() {

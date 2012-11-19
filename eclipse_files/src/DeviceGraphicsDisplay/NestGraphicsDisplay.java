@@ -75,14 +75,9 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				Location endLoc = partLocs.get(index);
 								
 				// check x-coord
-				updateXLoc(partLoc, endLoc, 3);
+				updateXLoc(partLoc, endLoc, 4);
 				// check y-coord
-				updateYLoc(partLoc, endLoc, 3);
-//				if((index % 2 == 0) && partLoc.getY() >= endLoc.getY()) { // top row
-//					partLoc.incrementY(-1);
-//				} else if((index % 2 != 0) && partLoc.getY() <= endLoc.getY()) { // bottom row
-//					partLoc.incrementY();
-//				}
+				updateYLoc(partLoc, endLoc, 1);
 				
 				// check if part in place
 				if (partLoc.equals(endLoc)) {
@@ -152,14 +147,14 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		int numRemaining = partsInNest.size() - 2;
 		if (numRemaining > 0) {
 			for(int i = 2; i < numRemaining + 2; i++) {
-				updateXLoc(partsInNest.get(i).getLocation(), partLocs.get(i - 2), 1);
+				updateXLoc(partsInNest.get(i).getLocation(), partLocs.get(i - 2), 5);
 				updateYLoc(partsInNest.get(i).getLocation(), partLocs.get(i - 2), 1);
 			}
 		}
 	}
 	
 	private void movePartToPurgeLoc(PartGraphicsDisplay pgd) {
-		updateXLoc(pgd.getLocation(), purgeLoc, 1);
+		updateXLoc(pgd.getLocation(), purgeLoc, 5);
 		updateYLoc(pgd.getLocation(), purgeLoc, 1);
 	}
 	
@@ -232,6 +227,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		partsInNest.add(pgd);		
 		receivingPart = true;
 		receivePartDoneSent = false;
+		
+		System.out.println("NEST" + nestID + " RECEIVING PART " + partsInNest.size());
 	}
 	
 	private boolean isFull() {

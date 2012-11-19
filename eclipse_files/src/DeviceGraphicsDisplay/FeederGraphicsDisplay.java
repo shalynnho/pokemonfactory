@@ -20,7 +20,7 @@ import factory.PartType;
 public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 	// feeder image dimensions
 	private static final int FEEDER_HEIGHT = 50;
-	private static final int FEEDER_WIDTH = 135;
+	private static final int FEEDER_WIDTH = 140;
 	// true if the diverter is pointing to the top lane
 	private boolean diverterTop;
 	// true if a bin has been received
@@ -56,9 +56,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(Constants.FEEDER_IMAGE, feederLocation.getX() + client.getOffset(), feederLocation.getY(), c);
 		
 		if (diverterTop) {
-			g.drawImage(Constants.FEEDER_GREEN_LED, feederLocation.getX() + 10 + client.getOffset(), feederLocation.getY() + 7, c);
-		} else {
 			g.drawImage(Constants.FEEDER_RED_LED, feederLocation.getX() + 10 + client.getOffset(), feederLocation.getY() + 7, c);
+		} else {
+			g.drawImage(Constants.FEEDER_BLUE_LED, feederLocation.getX() + 10 + client.getOffset(), feederLocation.getY() + 7, c);
 		}
 	}
 

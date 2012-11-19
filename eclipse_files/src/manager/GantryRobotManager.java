@@ -56,18 +56,17 @@ public class GantryRobotManager extends Client implements ActionListener {
 	/**
 	 * Initialize the devices
 	 */
-	public void initDevices() {
-		// TODO - add GantryRobotManager devices here
-		
-		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
-			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));
-		}
+	public void initDevices() {		
+		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
 		
 		for (int i = 0; i < Constants.LANE_COUNT; i++) {
 			addDevice(Constants.LANE_TARGET + i, new LaneGraphicsDisplay(this, i));
 		}
 		
-		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
+		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
+			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));
+		}
+	
 	}
 	
 	/**
