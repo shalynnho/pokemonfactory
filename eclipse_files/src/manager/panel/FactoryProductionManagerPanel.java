@@ -75,7 +75,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		GridBagConstraints c = new GridBagConstraints();
 	
 		// Setup KitsListPanel
-		kitsPanel = new KitsListPanel(new KitSelectHandler() {
+		kitsPanel = new KitsListPanel("Select a Kit to order... ", new KitSelectHandler() {
 			@Override
 			public void onKitSelect(KitConfig kc) {
 				selectedKit = kc;
@@ -135,7 +135,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 				selectedOrder = o;
 			}
 		};
-		ordersPanel = new OrdersListPanel(selectHandler);
+		ordersPanel = new OrdersListPanel("Current order queue:", selectHandler);
 		ordersPanel.setVisible(true);
 		ordersPanel.setBackground(new Color(0, 0, 0, 30));
 		
