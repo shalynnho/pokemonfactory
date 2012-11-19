@@ -31,6 +31,8 @@ public class PartsManager extends Client {
 		
 		initStreams();
 		initGUI();
+		
+		//pmPanel
 	}
 	
 	/**
