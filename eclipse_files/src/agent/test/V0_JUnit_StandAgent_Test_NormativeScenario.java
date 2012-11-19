@@ -90,8 +90,8 @@ public class V0_JUnit_StandAgent_Test_NormativeScenario extends TestCase {
 		stand.pickAndExecuteAnAction();
 
 		// Scheduler should have fired requestKit()
-		assertEquals("Stand should have set position 1 on the stand to 'true'",
-				true, stand.getStandPositions().get(1).booleanValue());
+		assertTrue("Stand should have set position 1 on the stand", stand
+				.getMyKits().get(1) != null);
 
 		// Simulate kit reception. The kitrobot messages the stand
 		stand.msgHereIsKit(kit, 1);
@@ -100,11 +100,6 @@ public class V0_JUnit_StandAgent_Test_NormativeScenario extends TestCase {
 				.size(), 1);
 
 		stand.pickAndExecuteAnAction();
-
-		// Scheduler should have fired placeKit()
-		assertTrue(
-				"Stand should have put the kit in spot 1 in its list of kits on the stand",
-				stand.getKitsOnStand().get(1) == kit);
 
 		// Simulate kit assembly completion. The partsrobot messages the stand
 		stand.msgKitAssembled(kit);
@@ -126,7 +121,7 @@ public class V0_JUnit_StandAgent_Test_NormativeScenario extends TestCase {
 
 		assertTrue(
 				"Stand should have set the reference to the kit in the inspection area to null",
-				stand.getKitsOnStand().get(0) == null);
+				stand.getMyKits().get(0) == null);
 
 		assertEquals(
 				"Stand should have removed the MyKit object from its list of MyKits which should now have size 0",
