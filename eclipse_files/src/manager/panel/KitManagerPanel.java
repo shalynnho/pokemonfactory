@@ -149,6 +149,24 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 //		gbl_pnlParts.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		pnlParts.setLayout(gbl_pnlParts);
 
+
+		// Array of comboBoxes is used to iteratively construct the comboboxes
+		// This is used to make sure all comboBoxes are made the same way.
+		cbPart = new JComboBox[8];
+		
+		// First construct the ComboBoxModel for the PartTypes, then iterate through to add PartTypes
+		partTypes = Utils.Constants.DEFAULT_PARTTYPES;
+		
+		makePartCombos();
+		
+		disableFields();
+		viewKit((KitConfig) cbKits.getSelectedItem());
+		showButtons("View");
+	}
+	
+	public void makePartCombos() {
+		// clear the panel
+		pnlParts.removeAll();
 		// This loop adds the 8 Part labels (Part 1, Part 2, ... Part 8) to the panel iteratively
 		for (int i = 0; i < 4; i++) {
 			GridBagConstraints gbc_lblPart = new GridBagConstraints();
@@ -165,14 +183,8 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			gbc_lblPart.gridy = i;
 			pnlParts.add(lblPart, gbc_lblPart);
 		}
-
-		// Array of comboBoxes is used to iteratively construct the comboboxes
-		// This is used to make sure all comboBoxes are made the same way.
-		cbPart = new JComboBox[8];
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		
-		// First construct the ComboBoxModel for the PartTypes, then iterate through to add PartTypes
-		partTypes = Utils.Constants.DEFAULT_PARTTYPES;
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		partTypes.add(0,noPart);
 		partModel = partTypes.toArray();
 		
@@ -190,10 +202,6 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			gbc_comboBox.gridy = i;
 			pnlParts.add(cbPart[i+4], gbc_comboBox);
 		}
-		
-		disableFields();
-		viewKit((KitConfig) cbKits.getSelectedItem());
-		showButtons("View");
 	}
 	
 	public void actionPerformed(ActionEvent ae) {
