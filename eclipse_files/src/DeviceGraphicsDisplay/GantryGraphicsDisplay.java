@@ -106,7 +106,6 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		if (isBinHeld) {
 			binLocation = new Location (currentLocation);
-			binLocation.incrementX(10);
 			heldBin.setLocation(binLocation);
 		}
 		
