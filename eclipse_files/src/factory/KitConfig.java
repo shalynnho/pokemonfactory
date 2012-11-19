@@ -2,7 +2,9 @@ package factory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import Utils.StringUtil;
 
@@ -23,7 +25,11 @@ public class KitConfig implements Serializable, FactoryData {
 	 * @param partTypes - can pass in multiple
 	 */
 	public KitConfig(String name, PartType... partTypes) {
-		this(name);
+		this(name, Arrays.asList(partTypes));
+	}
+	
+	public KitConfig(String name, List<PartType> partTypes) {
+	    this(name);
 		for(PartType pt : partTypes) {
 			if(config.get(pt) != null) { 
 				config.put(pt, config.get(pt) + 1);
@@ -31,7 +37,6 @@ public class KitConfig implements Serializable, FactoryData {
 				config.put(pt, 1);
 			}
 		}
-
 	}
 
 	/**

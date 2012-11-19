@@ -18,18 +18,12 @@ import factory.PartType;
  * 
  */
 public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGraphics {
-	// width and height of the part
-	private static final int PART_WIDTH = 20;
-	// horizontal length of the Lane image
-	private static final int LANE_LENGTH = 210;
+
 	// max number of parts that can be on a Lane
-	private static final int MAX_PARTS = LANE_LENGTH / PART_WIDTH;
-	// start and end x-coordinates of Part on the Lane
-	private static final int LANE_BEG_X = 850, LANE_END_X = 640;
+	private static final int MAX_PARTS = Constants.LANE_LENGTH / Constants.PART_WIDTH;
 
 	// start y-coord of the part
 	private int endY;
-
 	// instructions to display graphics will be sent through the server
 	private Server server;
 	// the ID of this Lane
@@ -98,7 +92,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	 */
 	public void receivePart(PartGraphics pg) {
 		partsOnLane.add(pg);
-		pg.setLocation(new Location (LANE_BEG_X, endY + (PART_WIDTH / 2)));
+		pg.setLocation(new Location (Constants.LANE_BEG_X, endY + (Constants.PART_WIDTH / 2)));
 		PartType type = pg.getPartType();
 		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND, Constants.LANE_TARGET + laneID, type));
 		
@@ -115,7 +109,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 		
 		if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND+Constants.DONE_SUFFIX)) {
 			PartGraphics p = partsOnLane.get(partsOnLane.size()-1);
-			p.setLocation(new Location(LANE_END_X, endY));
+			p.setLocation(new Location(Constants.LANE_END_X, endY));
 			laneAgent.msgReceivePartDone(p);
 			
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
