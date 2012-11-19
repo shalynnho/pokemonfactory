@@ -35,8 +35,13 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	boolean initialJob;
 	boolean finalJob;
 	boolean jobIsDone;
+	
+	Location inspectionLocation;
+	Location location1;
+	Location location2;
 
 	int degreeStep;
+	
 	public void setDegreeStep(int degreeStep) {
 		this.degreeStep = degreeStep;
 	}
@@ -75,6 +80,11 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitRobotPositionX = Constants.KIT_ROBOT_LOC.getXDouble() + kitRobotClient.getOffset();
 		kitRobotPositionY = Constants.KIT_ROBOT_LOC.getYDouble();
 
+		inspectionLocation = new Location(240, 100);
+		location1 = new Location(280, 200);
+		location2= new Location(240, 300);
+		
+		
 		currentKit= new KitGraphicsDisplay();
 		trans.translate(kitRobotPositionX, kitRobotPositionY);
 
@@ -285,6 +295,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1)) {
 
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
+				tempKit.setLocation(location1);
 				tempKit.setTranslation(kitRobotClient.getOffset());
 				setKitConfigurations(tempKit, 180, 5);
 				kits.add(currentKit);
@@ -292,6 +303,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2)) {
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
+				tempKit.setLocation(location2);
 				tempKit.setTranslation(kitRobotClient.getOffset());
 				setKitConfigurations(tempKit, 225, 6);
 				kits.add(currentKit);
@@ -309,6 +321,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 5) {
+						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
 						setKitConfigurations(kits.get(i), -45, 4);
 					}
 				}
@@ -317,6 +330,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_INSPECTION)) {
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 6) {
+						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
 						setKitConfigurations(kits.get(i), -90, 4);
 					}
 				}

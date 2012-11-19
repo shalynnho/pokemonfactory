@@ -66,7 +66,6 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(Constants.NEST_IMAGE, location.getX() + client.getOffset()
 				, location.getY(), c);
 		
-//		if (!isFull()) {
 			if(receivingPart) {	// part in motion
 				// get last part added to nest
 				int index = partsInNest.size() - 1;
@@ -85,7 +84,6 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 					msgAgentReceivePartDone();
 				}
 			}
-//		}
 		
 		if(purging) {
 			animatePurge();			
@@ -209,7 +207,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	private void givePartToPartsRobot() {
-		partsInNest.remove(0); // TODO: later might need to animate this
+		// TODO: V2: are we supporting PR removal of parts from any loc in the nest?
+		partsInNest.remove(0);
 		setPartLocations();
 		client.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND
 				+ Constants.DONE_SUFFIX, Constants.NEST_TARGET + nestID, null));
@@ -227,7 +226,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		receivingPart = true;
 		receivePartDoneSent = false;
 		
-		System.out.println("NEST" + nestID + " RECEIVING PART " + partsInNest.size());
+		System.out.println("NESTGD" + nestID + " RECEIVING PART " + partsInNest.size());
 	}
 	
 	private boolean isFull() {

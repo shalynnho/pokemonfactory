@@ -31,11 +31,11 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	Client client;
 	
-	double rotationAxisX;
-	double rotationAxisY;
+//	double rotationAxisX;
+//	double rotationAxisY;
 	
-	int currentDegree;
-	int finalDegree;
+//	int currentDegree;
+//	int finalDegree;
 
 	public GantryGraphicsDisplay (Client c) {
 		currentLocation = new Location (Constants.GANTRY_ROBOT_LOC);
@@ -44,10 +44,10 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		client = c;
 		
 		tempBin = null;
-		rotationAxisX = 0;
-		rotationAxisY = 0;
-		currentDegree = 0;
-		finalDegree = 0;
+	//	rotationAxisX = 0;
+	//	rotationAxisY = 0;
+	//	currentDegree = 0;
+	//	finalDegree = 0;
 	}
 	
 	@Override
