@@ -56,9 +56,9 @@ public class FeederGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(Constants.FEEDER_IMAGE, feederLocation.getX() + client.getOffset(), feederLocation.getY(), c);
 		
 		if (diverterTop) {
-			g.drawImage(Constants.FEEDER_GREEN_LED, feederLocation.getX() + 10 + client.getOffset(), feederLocation.getY() + 7, c);
-		} else {
 			g.drawImage(Constants.FEEDER_RED_LED, feederLocation.getX() + 10 + client.getOffset(), feederLocation.getY() + 7, c);
+		} else {
+			g.drawImage(Constants.FEEDER_BLUE_LED, feederLocation.getX() + 10 + client.getOffset(), feederLocation.getY() + 7, c);
 		}
 	}
 

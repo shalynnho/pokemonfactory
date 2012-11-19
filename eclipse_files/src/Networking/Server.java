@@ -410,6 +410,7 @@ public class Server {
 	private void sendDataToNest(Request req) {
 		factProdMngrWriter.sendData(req);
 		kitAssemblyMngrWriter.sendData(req);
+		laneMngrWriter.sendData(req);
 	}
 
 	private void sendDataToCamera(Request req) {

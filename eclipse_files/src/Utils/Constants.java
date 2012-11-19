@@ -84,8 +84,8 @@ public abstract class Constants {
 	// Feeder Images
 	public static final Image FEEDER_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "Feeder.png");
-	public static final Image FEEDER_GREEN_LED = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "LED_green.png");
+	public static final Image FEEDER_BLUE_LED = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "LED_blue.png");
 	public static final Image FEEDER_RED_LED = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "LED_red.png");
 
