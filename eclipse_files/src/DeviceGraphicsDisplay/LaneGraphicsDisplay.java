@@ -287,10 +287,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	private void vibrateParts(Location loc) {
 		// to show vibration down lane (may have to adjust values)
-		if (loc.getY() >= (partStartLoc.getY() + 2)) {
-			loc.incrementY(-2);
-		} else if (loc.getY() <= (partStartLoc.getY() - 2)){
+		if (loc.getY() <= (partStartLoc.getY() + 2)) {
 			loc.incrementY(2);
+		} else if (loc.getY() > (partStartLoc.getY() - 2)){
+			loc.incrementY(-2);
 		}
 	}
 	

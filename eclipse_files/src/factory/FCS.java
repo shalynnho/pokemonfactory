@@ -51,11 +51,16 @@ public class FCS {
 		queue = q;
 	} 
 	
-	public void newPart(PartType pt) {
+	public boolean newPart(PartType pt) {
+		for(PartType p : partTypes) {
+			if(p.getName().equals(pt.getName()))
+				return false;
+		}
+		
 		partTypes.add(pt);
 		updateParts();
-		
 		agent.msgAddNewPartType(pt);
+		return true;
 	}
 	
 	public void editPart(PartType pt) {
@@ -80,9 +85,14 @@ public class FCS {
 		//TODO: add in agent call so to stop drawing bin
 	}
 	
-	public void newKit(KitConfig kc) {
+	public boolean newKit(KitConfig kc) {
+		for(KitConfig p : kitConfigs) {
+			if(p.getName().equals(kc.getName()))
+				return false;
+		}
 		kitConfigs.add(kc);
 		updateKits();
+		return true;
 	}
 	
 	public void editKit(KitConfig kc) {
