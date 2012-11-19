@@ -235,7 +235,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						}
 					}
 				}
-			} else if (System.currentTimeMillis() - time.getTime() > 10000) {
+			} else if (System.currentTimeMillis() - time.getTime() > 3000) {
 				// Last rule is to place parts if the parts robot has been idle
 				// too long
 				time.setTime(System.currentTimeMillis());
