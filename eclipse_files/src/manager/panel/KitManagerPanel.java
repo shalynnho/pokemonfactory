@@ -238,7 +238,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 	
 	public void viewKit(KitConfig kit) {
 		tfName.setText(kit.getName());
-		ArrayList<PartType> parts = kit.getParts();
+		ArrayList<PartType> parts = new ArrayList<PartType>(kit.getParts());
 		for (int i = 0; i < 8; i++) {
 			if (i < parts.size()) {
 				cbPart[i].setSelectedItem((Object) parts.get(i));
@@ -261,6 +261,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 				} else {
 					config.put(p, (Integer) 1);
 				}
+				System.out.println(p);
 			}
 		}
 		newKit.setConfig(config);
