@@ -35,7 +35,7 @@ public class FeederAgent extends Agent implements Feeder {
 	public Semaphore animation = new Semaphore(0, true);
 
 	public enum FeederStatus {
-		IDLE, REQUESTED_PARTS, FEEDING_PARTS, PURGING, RECEIVING_BIN
+		IDLE, REQUESTED_PARTS, FEEDING_PARTS, PURGING, REMOVING_BIN, RECEIVING_BIN
 	}
 
 	public enum LaneStatus {
@@ -110,6 +110,13 @@ public class FeederAgent extends Agent implements Feeder {
 				}
 			}
 		}
+		stateChanged();
+	}
+	
+	@Override
+	public void msgRemoveBinDone(){
+		print("Gantry has removed bin from feeder");
+		state=FeederStatus.IDLE;
 		stateChanged();
 	}
 
@@ -207,7 +214,7 @@ public class FeederAgent extends Agent implements Feeder {
 
 		gantry.msgRemoveBin(bin);
 		bin = null;
-		state = FeederStatus.IDLE;
+		state = FeederStatus.REMOVING_BIN;
 		stateChanged();
 	}
 
