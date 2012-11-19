@@ -109,20 +109,24 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 						: partsOnLane.size(); // whichever is less
 				
 				for (int i = 0; i < min; i++) {
+					
 					PartGraphicsDisplay pgd = partsOnLane.get(i);
 					Location loc = pgd.getLocation();
 
 					if (i == 0) { // first part on the lane
+						
 						if (loc.getX() > LANE_END_X) { // hasn't reached end of lane
-							loc.incrementX(-amplitude);
+							updateXLoc(loc, LANE_END_X, amplitude);
 							partAtLaneEnd = false;
 						} else { // at end of lane
 							if (!purging) {
 								partAtLaneEnd = true;
 								msgAgentReceivePartDone();
 							} else {	// purging, continue till off lane
-								if (loc.getX() > LANE_END_X + PART_WIDTH) {
-									loc.incrementX(-amplitude);
+								
+								if (loc.getX() > LANE_END_X - PART_WIDTH) {
+									updateXLoc(loc, LANE_END_X - PART_WIDTH, amplitude);
+//									loc.incrementX(-amplitude);
 								} else {	// once off lane and not visible, remove
 									if (partsOnLane.size() > 0) {
 										partsOnLane.remove(0);
@@ -144,7 +148,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 						// lane, but don't overlap part in front
 						if (locInFront.getX() <= (LANE_BEG_X - (2 * PART_WIDTH))
 								&& (loc.getX() > (locInFront.getX() + PART_WIDTH))) {
-							loc.incrementX(-amplitude);
+//							loc.incrementX(-amplitude);
+							updateXLoc(loc, LANE_END_X, amplitude);
 						}
 					}
 					vibrateParts(loc);
@@ -224,7 +229,25 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
 	}
 
-
+	/**
+	 * Increments the X-coordinate
+	 * @param loc - the location being incremented
+	 * @param end - the end location toward which loc is being incremented
+	 * @param increment - a POSITIVE value representing number of pixels moved each call to draw
+	 */
+	private void updateXLoc(Location loc, int end, int increment) {		
+//		System.out.println("loc.getX(): "+loc.getX()+", end: "+end+", abs(dif): "+(Math.abs(end - loc.getX()) < increment));
+		
+		if((Math.abs(end - loc.getX())) < increment) {
+			System.out.println("	DECREASE INCREMENT");
+			loc.setX(end);
+		}
+		
+		if(loc.getX() > end) {	// moving left
+			loc.incrementX(-increment);
+		} 
+	}
+	
 	/**
 	 * Animates the lane lines
 	 */
