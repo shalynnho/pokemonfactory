@@ -185,7 +185,10 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 			gbc_comboBox.gridy = i;
 			pnlParts.add(cbPart[i+1], gbc_comboBox);
 		}
-
+		
+		disableFields();
+		viewKit((KitConfig) cbKits.getSelectedItem());
+		showButtons("View");
 	}
 	
 	public void actionPerformed(ActionEvent ae) {
@@ -200,6 +203,7 @@ public class KitManagerPanel extends JPanel implements ActionListener {
 		} else if (ae.getSource() == cbKits) {
 			disableFields();
 			viewKit((KitConfig) cbKits.getSelectedItem());
+			showButtons("View");
 		} else if (ae.getSource() ==  btnClrFields) {
 			clearFields();
 		} else if (ae.getSource() == btnEditKit) {
