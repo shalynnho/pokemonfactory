@@ -6,6 +6,7 @@ import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
+import Utils.PartData;
 import agent.Agent;
 import agent.PartsRobotAgent;
 
@@ -44,10 +45,11 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		partArray.add(pg);
 		rotateArm();
 		
+		PartData pd = new PartData(pg.getLocation(), pg.getPartType());
 		// V0 hack
 		Location tempLoc = new Location(550, 100);
-		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, tempLoc));
-		//server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, pg.getLocation()));
+		//server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, tempLoc));
+		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
 	}
 	
 	public void givePartToKit(PartGraphics part, KitGraphics kit) {
