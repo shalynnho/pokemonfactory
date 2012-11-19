@@ -52,8 +52,8 @@ public class FCS {
 	} 
 	
 	public boolean newPart(PartType pt) {
-		for(int i = 0; i < partTypes.size(); i++){
-			if(partTypes.get(i).getName().equals(pt.getName()))
+		for(PartType p : partTypes) {
+			if(p.getName().equals(pt.getName()))
 				return false;
 		}
 		
@@ -86,8 +86,8 @@ public class FCS {
 	}
 	
 	public boolean newKit(KitConfig kc) {
-		for(int i=0; i<kitConfigs.size();i++){
-			if(kitConfigs.get(i).getName().equals(kc.getName()))
+		for(KitConfig p : kitConfigs) {
+			if(p.getName().equals(kc.getName()))
 				return false;
 		}
 		kitConfigs.add(kc);
