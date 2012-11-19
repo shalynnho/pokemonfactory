@@ -27,7 +27,7 @@ public abstract class Constants {
 	// CLIENT SETTINGS
 	// ==================================
 
-	public static final int TIMER_DELAY = 25; //50
+	public static final int TIMER_DELAY = 30; //50
 
 	public static final Image CLIENT_BG_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "bg.jpg");
@@ -45,7 +45,8 @@ public abstract class Constants {
 					new PartType("2", 2, "Type2"), new PartType("3", 3, "Type3"), 
 					new PartType("4", 4, "Type4"), new PartType("5", 5, "Type5"),
 					new PartType("6", 6, "Type6"), new PartType("7", 7, "Type7"),
-					new PartType("8", 8, "Type8")));
+					new PartType("8", 8, "Type8"), new PartType("9", 9, "Type9"),
+					new PartType("10", 10, "Type10")));
 
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
 			Arrays.asList(new KitConfig("Default Kit", 
@@ -119,6 +120,8 @@ public abstract class Constants {
 	// Kit Images
 	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage(
 			IMAGE_PATH + "Kit.png");
+	public static final Image KIT_DONE_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "kit_done.png");
 
 	// Nest Images
 	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit()
