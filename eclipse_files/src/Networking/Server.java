@@ -170,7 +170,7 @@ public class Server {
 			devices.put(
 					Constants.LANE_TARGET + i,
 					new LaneGraphics(this, i, agents.get(Constants.LANE_TARGET
-							+ i), agents.get(Constants.FEEDER_TARGET + i / 2)));
+							+ i)));
 		}
 		for (int i = 0; i < Constants.NEST_COUNT; i++) {
 			devices.put(Constants.NEST_TARGET + i, new NestGraphics(this, i,
