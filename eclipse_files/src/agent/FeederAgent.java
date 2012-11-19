@@ -205,7 +205,7 @@ public class FeederAgent extends Agent implements Feeder {
 			e.printStackTrace();
 		}
 
-		gantry.msgRemoveBinDone(bin);
+		gantry.msgRemoveBin(bin);
 		bin = null;
 		state = FeederStatus.IDLE;
 		stateChanged();
