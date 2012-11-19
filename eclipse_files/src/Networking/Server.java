@@ -439,7 +439,6 @@ public class Server {
 	
 	//TODO: make sure this works
 	private void addShutdownHook() {
-		System.out.println("[Server]: Shutdown hook called.");
         Thread hook = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -449,9 +448,7 @@ public class Server {
         Runtime.getRuntime().addShutdownHook(hook);
 	}
 	
-	private void saveFCSData() {
-		System.out.println("[Server]: saveFCSData() called");
-		
+	private void saveFCSData() {		
     	try {
     		//save kit configs to KitConfigBackup.sav
     		FileOutputStream saveKitConfigs = new FileOutputStream("KitConfigBackup.sav");
@@ -468,9 +465,12 @@ public class Server {
     		//close both output streams... also closes both files
     		outputKC.close();
     		outputPT.close();
+    		
+    		System.out.println("[Server]: Shutdown and kitconfigs/parts saved successfully.");
     	} catch(Exception exc) {
     		//print error info if error occurs
     		exc.printStackTrace();
+    		System.out.println("[Server]: Error saving kitconfigs and parts to file.");
     	}
 	}
 
