@@ -78,7 +78,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgStopMakingKit(Order o) {
-		synchronized (orders) {
+		//synchronized (orders) {
 			for (Order order : orders) {
 				if (order.equals(o)) {
 					o.cancel = true;
@@ -87,7 +87,7 @@ public class FCSAgent extends Agent implements FCS {
 					}
 				}
 			}
-		}
+		//}
 		stateChanged();
 	}
 
@@ -107,7 +107,7 @@ public class FCSAgent extends Agent implements FCS {
 	public void msgOrderFinished() {
 		numOrdersFinished++;
 		System.out.print("Order " + numOrdersFinished + " Done!!!!");
-		synchronized (orders) {
+		//synchronized (orders) {
 			for (Order o : orders) {
 				if (o.state == Order.orderState.ORDERED) {
 					orders.remove(o);
@@ -117,7 +117,7 @@ public class FCSAgent extends Agent implements FCS {
 					break;
 				}
 			}
-		}
+		//}
 		state = myState.STARTED;
 		stateChanged();
 	}

@@ -76,7 +76,7 @@ public abstract class Agent {
 				|| this.getClass() == agent.FeederAgent.class
 				|| this.getClass() == agent.PartsRobotAgent.class
 				|| this.getClass() == agent.test.mock.MockGraphics.class) {
-			// System.out.print(sb.toString());
+			System.out.print(sb.toString());
 		}
 		print.release();
 	}
