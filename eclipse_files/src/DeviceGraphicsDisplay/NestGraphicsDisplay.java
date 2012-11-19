@@ -66,7 +66,6 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(Constants.NEST_IMAGE, location.getX() + client.getOffset()
 				, location.getY(), c);
 		
-//		if (!isFull()) {
 			if(receivingPart) {	// part in motion
 				// get last part added to nest
 				int index = partsInNest.size() - 1;
@@ -85,7 +84,6 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 					msgAgentReceivePartDone();
 				}
 			}
-//		}
 		
 		if(purging) {
 			animatePurge();			
@@ -228,7 +226,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		receivingPart = true;
 		receivePartDoneSent = false;
 		
-		System.out.println("NEST" + nestID + " RECEIVING PART " + partsInNest.size());
+		System.out.println("NESTGD" + nestID + " RECEIVING PART " + partsInNest.size());
 	}
 	
 	private boolean isFull() {
