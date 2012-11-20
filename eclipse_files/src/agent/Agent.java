@@ -8,7 +8,6 @@ import Utils.StringUtil;
 /** Base class for simple agents */
 public abstract class Agent {
 	Semaphore stateChange = new Semaphore(1, true);// binary semaphore, fair
-	Semaphore print = new Semaphore(1, true);
 	private AgentThread agentThread;
 
 	protected Agent() {
@@ -50,12 +49,6 @@ public abstract class Agent {
 
 	/** Print message with exception stack trace */
 	protected void print(String msg, Throwable e) {
-		try {
-			print.acquire();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		StringBuffer sb = new StringBuffer();
 		sb.append("[Agent]");
 		sb.append(getName());
@@ -65,20 +58,20 @@ public abstract class Agent {
 		if (e != null) {
 			sb.append(StringUtil.stackTraceString(e));
 		}
-		/*
-		 * if (this.getClass() == agent.FCSAgent.class || this.getClass() ==
-		 * agent.StandAgent.class || this.getClass() ==
-		 * agent.KitRobotAgent.class || this.getClass() ==
-		 * agent.ConveyorAgent.class || this.getClass() == agent.LaneAgent.class
-		 * || this.getClass() == agent.GantryAgent.class || this.getClass() ==
-		 * agent.CameraAgent.class || this.getClass() == agent.NestAgent.class
-		 * || this.getClass() == agent.FeederAgent.class || this.getClass() ==
-		 * agent.PartsRobotAgent.class || this.getClass() ==
-		 * agent.test.mock.MockGraphics.class) {
-		 */
-		System.out.print(sb.toString());
-		// }
-		print.release();
+
+		if (this.getClass() != agent.FCSAgent.class
+				// && this.getClass() != agent.StandAgent.class
+				// && this.getClass() != agent.KitRobotAgent.class
+				// && this.getClass() != agent.ConveyorAgent.class
+				&& this.getClass() != agent.LaneAgent.class
+				&& this.getClass() != agent.GantryAgent.class
+				// && this.getClass() != agent.CameraAgent.class
+				&& this.getClass() != agent.NestAgent.class
+				&& this.getClass() != agent.FeederAgent.class
+				&& this.getClass() != agent.PartsRobotAgent.class
+				&& this.getClass() != agent.test.mock.MockGraphics.class) {
+			System.out.print(sb.toString());
+		}
 	}
 
 	/**
