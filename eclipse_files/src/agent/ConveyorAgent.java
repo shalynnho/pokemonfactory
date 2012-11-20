@@ -147,7 +147,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	public void msgReceiveKitDone() {
 		print("Received msgReceiveKitDone from graphics");
 		kitsOnOutboundConveyor.remove(0);
-		animation.release();
+		// animation.release();
 		stateChanged();
 	}
 
@@ -294,6 +294,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	 * @param k the kit being delivered.
 	 */
 	private void deliverKit(MyKit mk) {
+		print("Asking graphics to deliver the kit");
 		if (mockgraphics != null) {
 			mockgraphics.msgReceiveKit(mk.kit.kitGraphics);
 		}
@@ -301,15 +302,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			conveyorGraphics.msgReceiveKit(mk.kit.kitGraphics);
 		}
 
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		print("Asking graphics to deliver the kit");
-		stateChanged();
+		// try {
+		// animation.acquire();
+		// } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// stateChanged();
 	}
 
 	/**
