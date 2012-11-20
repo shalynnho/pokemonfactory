@@ -43,7 +43,7 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	public enum PartStatus {
-		BEGINNING_LANE, IN_LANE, END_LANE
+		BEGINNING_LANE, IN_LANE, END_LANE, NEED_TO_DELIVER, DELIVERED
 	};
 
 	public enum LaneStatus {
@@ -84,6 +84,20 @@ public class LaneAgent extends Agent implements Lane {
 		}
 
 		stateChanged();
+	}
+
+	@Override
+	public void msgGiveMePart() {
+		synchronized (currentParts) {
+			for (MyPart p : currentParts) {
+				if (p.status == PartStatus.END_LANE) {
+					p.status = PartStatus.NEED_TO_DELIVER;
+					break;
+				}
+			}
+		}
+		stateChanged();
+
 	}
 
 	@Override
@@ -136,7 +150,16 @@ public class LaneAgent extends Agent implements Lane {
 		synchronized (currentParts) {
 			for (MyPart part : currentParts) {
 				if (part.status == PartStatus.END_LANE) {
-					giveToNest(part.part);
+					tellNest(part.part);
+					return true;
+				}
+			}
+		}
+
+		synchronized (currentParts) {
+			for (MyPart part : currentParts) {
+				if (part.status == PartStatus.NEED_TO_DELIVER) {
+					giveToNest(part);
 					return true;
 				}
 			}
@@ -146,7 +169,6 @@ public class LaneAgent extends Agent implements Lane {
 
 	public void purgeSelf() {
 		print("Purging self");
-		state = LaneStatus.FILLING;
 		requestList = Collections.synchronizedList(new ArrayList<PartType>());
 		currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
 		if (laneGUI != null) {
@@ -159,10 +181,10 @@ public class LaneAgent extends Agent implements Lane {
 			}
 		}
 		nest.msgLanePurgeDone();
+		state = LaneStatus.FILLING;
 		stateChanged();
 	}
 
-	@Override
 	public void getParts(final PartType requestedType) {
 		print("Telling Feeder that it needs a part");
 		requestList.remove(requestedType);
@@ -170,11 +192,15 @@ public class LaneAgent extends Agent implements Lane {
 		stateChanged();
 	}
 
-	@Override
-	public void giveToNest(Part part) {
-		print("Giving part to Nest of type " + part.type.getName());
+	public void tellNest(Part p) {
+		nest.msgPartReady();
+	}
+
+	public void giveToNest(MyPart mp) {
+		print("Giving part to Nest of type " + mp.part.type.getName());
+		mp.status = PartStatus.DELIVERED;
 		if (laneGUI != null) {
-			laneGUI.givePartToNest(part.partGraphics);
+			laneGUI.givePartToNest(mp.part.partGraphics);
 		}
 		try {
 			animation.acquire();
@@ -183,10 +209,10 @@ public class LaneAgent extends Agent implements Lane {
 			e.printStackTrace();
 		}
 
-		nest.msgHereIsPart(part);
+		nest.msgHereIsPart(mp.part);
 		synchronized (currentParts) {
 			for (MyPart currentPart : currentParts) {
-				if (currentPart.part == part) {
+				if (currentPart == mp) {
 					currentParts.remove(currentPart);
 					break;
 				}
