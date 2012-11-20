@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
 
@@ -202,28 +203,28 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 		// Checks if there is an empty arm, if there is it fills it with a
 		// good part that the kit needs
-		synchronized (Arms) {
-			if (IsAnyArmEmpty()) {
-				status = PartsRobotStatus.PICKING_UP;
-				time.setTime(System.currentTimeMillis());
-				synchronized (GoodParts) {
-					for (Nest nest : GoodParts.keySet()) {
-						// Going through all the good parts
-						for (Part part : GoodParts.get(nest)) {
-							synchronized (MyKits) {
-								// print("Size of MyKits: " +
-								// MyKits.size());
-								for (MyKit mk : MyKits) {
-									// Checking if the good part is needed by
-									// either kit
-									// print("Kit needs: " +
-									// mk.kit.partsExpected.getConfig().toString());
-									if (NumTotalPartsNeeded(part) > NumPartsInHand(part)) {
-										print("Found a part I need of type "
-												+ part.type.getName()
-												+ " for kit "
-												+ MyKits.indexOf(mk) + " "
-												+ mk.kit.PartsStillNeeded());
+
+		if (IsAnyArmEmpty()) {
+			status = PartsRobotStatus.PICKING_UP;
+			time.setTime(System.currentTimeMillis());
+			synchronized (GoodParts) {
+				for (Nest nest : GoodParts.keySet()) {
+					// Going through all the good parts
+					for (Part part : GoodParts.get(nest)) {
+						synchronized (MyKits) {
+							// print("Size of MyKits: " +
+							// MyKits.size());
+							for (MyKit mk : MyKits) {
+								// Checking if the good part is needed by
+								// either kit
+								// print("Kit needs: " +
+								// mk.kit.partsExpected.getConfig().toString());
+								if (NumTotalPartsNeeded(part) > NumPartsInHand(part)) {
+									print("Found a part I need of type "
+											+ part.type.getName() + " for kit "
+											+ MyKits.indexOf(mk) + " "
+											+ mk.kit.PartsStillNeeded());
+									synchronized (Arms) {
 										for (Arm arm : Arms) {
 											if (arm.AS == ArmStatus.EMPTY) {
 												// Find the empty arm
@@ -232,13 +233,15 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 											}
 										}
 
-									} // Why is this so awful
+									}
 								}
-							}
+							} // Why is this so awful
 						}
 					}
 				}
 			}
+		} else {
+			status = PartsRobotStatus.PLACING;
 		}
 
 		if (System.currentTimeMillis() - time.getTime() > 3000) {
@@ -249,6 +252,19 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			return true;
 		}
 
+		timer.schedule(new TimerTask() {
+			// hack to force the partsrobot to attempt to place parts
+			// sleep. Fires after 3.001 seconds.
+			@Override
+			public void run() {
+				stateChanged();
+			}
+		}, 3001);
+
+		/*
+		 * Tried all rules and found no actions to fire. Return false to the
+		 * main loop of abstract base class Agent and wait.
+		 */
 		return false;
 	}
 
@@ -259,58 +275,56 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private void PickUpPart(Arm arm, Part part, Nest nest) {
 
 		print("Picking up part" + getPartTypesInArms());
-		synchronized (Arms) {
+		// synchronized (Arms) {
 
-			arm.AS = ArmStatus.FULL;
-			arm.part = part;
-			GoodParts.remove(nest);
-			// Tells the graphics to pickup the part
-			if (partsRobotGraphics != null) {
-				partsRobotGraphics.pickUpPart(part.partGraphics);
-				try {
-					// print("Blocking");
-					animation.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				// print("Got permit");
+		GoodParts.remove(nest);
+		arm.AS = ArmStatus.FULL;
+		arm.part = part;
+		// Tells the graphics to pickup the part
+		if (partsRobotGraphics != null) {
+			partsRobotGraphics.pickUpPart(part.partGraphics);
+			try {
+				// print("Blocking");
+				animation.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-
-			// Only takes 1 part from a nest at a time
-			nest.msgTakingPart(part);
-			nest.msgDoneTakingParts();
-
-			stateChanged();
+			// print("Got permit");
 		}
+
+		// Only takes 1 part from a nest at a time
+		nest.msgTakingPart(part);
+		nest.msgDoneTakingParts();
+
+		stateChanged();
+		// }
 	}
 
 	private void PlacePart(Arm arm) {
 		print("Placing part");
-		synchronized (Arms) {
-			synchronized (MyKits) {
-				for (MyKit mk : MyKits) {
-					if (mk.kit.needPart(arm.part) > 0) {
+		synchronized (MyKits) {
+			for (MyKit mk : MyKits) {
+				if (mk.kit.needPart(arm.part) > 0) {
 
-						if (partsRobotGraphics != null) {
-							partsRobotGraphics.givePartToKit(
-									arm.part.partGraphics, mk.kit.kitGraphics);
-							try {
-								// print("Blocking");
-								animation.acquire();
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							// print("Got permit");
+					if (partsRobotGraphics != null) {
+						partsRobotGraphics.givePartToKit(arm.part.partGraphics,
+								mk.kit.kitGraphics);
+						try {
+							// print("Blocking");
+							animation.acquire();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
-						// Tells the kit it has the part now
-						mk.kit.parts.add(arm.part);
-						arm.part = null;
-						arm.AS = ArmStatus.EMPTY;
-
-						// Checks if the kit is done
-						CheckMyKit(mk);
-						break;
+						// print("Got permit");
 					}
+					// Tells the kit it has the part now
+					mk.kit.parts.add(arm.part);
+					arm.part = null;
+					arm.AS = ArmStatus.EMPTY;
+
+					// Checks if the kit is done
+					CheckMyKit(mk);
+					break;
 				}
 			}
 			stateChanged();
@@ -319,6 +333,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void CheckMyKit(MyKit mk) {
 		int size = 0;
+
 		for (PartType type : mk.kit.partsExpected.getConfig().keySet()) {
 			for (int i = 0; i < mk.kit.partsExpected.getConfig().get(type); i++) {
 				size++;
