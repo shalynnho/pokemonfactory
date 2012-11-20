@@ -1,6 +1,8 @@
 package DeviceGraphics;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Networking.Request;
 import Networking.Server;
@@ -20,10 +22,12 @@ public class CameraGraphics implements DeviceGraphics,
 
 	private final Server server;
 	private final CameraAgent agent;
+	private final Timer timer;
 
 	public CameraGraphics(Server myServer, Agent a) {
 		server = myServer;
 		agent = (CameraAgent) a;
+		timer = new Timer();
 
 		location = new Location(100, 100);
 	}
@@ -41,10 +45,17 @@ public class CameraGraphics implements DeviceGraphics,
 	}
 
 	@Override
-	public void takeKitPhoto(KitGraphics kit) {
+	public void takeKitPhoto(final KitGraphics kit) {
 		server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND,
 				Constants.CAMERA_TARGET, kit.getLocation()));
-		agent.msgTakePictureKitDone(kit, true);
+
+		timer.schedule(new TimerTask() {
+			// hack to force the camera to pretend to think about the photo
+			@Override
+			public void run() {
+				agent.msgTakePictureKitDone(kit, true);
+			}
+		}, 3000);
 	}
 
 	@Override
