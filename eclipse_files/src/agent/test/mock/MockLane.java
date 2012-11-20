@@ -38,18 +38,6 @@ public class MockLane extends MockAgent implements Lane {
 		return false;
 	}
 
-	@Override
-	public void getParts(PartType requestedType) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void giveToNest(Part part) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void setGraphicalRepresentation(DeviceGraphics lane) {
 		// TODO Auto-generated method stub
 
@@ -75,6 +63,12 @@ public class MockLane extends MockAgent implements Lane {
 
 	@Override
 	public void msgPurgeDone() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgGiveMePart() {
 		// TODO Auto-generated method stub
 
 	}
