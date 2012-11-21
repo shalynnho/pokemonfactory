@@ -34,6 +34,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	boolean initialJob;
 	boolean finalJob;
+	boolean returnJob;
 	boolean jobIsDone;
 	
 	Location inspectionLocation;
@@ -71,6 +72,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		position = Position.conveyorPosition;
 		initialJob = false;
 		finalJob = false;
+		returnJob=false;
 		jobIsDone = true;
 		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
 		trans = new AffineTransform();
@@ -151,7 +153,10 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			moveToPosition = moveToInitialPosition;
 		} else if (finalJob) {
 			moveToPosition = moveToFinalPosition;
+		} else if(returnJob) {
+			moveToPosition = Command.moveToConveyor;
 		}
+		
 
 		if (position.equals(Position.conveyorPosition)) {
 			if (moveToPosition.equals(Command.moveToInspectionStand)) {
@@ -267,9 +272,15 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				currentKit.startRotating();
 			} else if (finalJob) {
 				finalJob = false;
-				jobIsDone = true;
-				sendDoneMessages();
+				returnJob= true;
+				moveToInitialOrFinal();
 			}
+			else if(returnJob){
+				returnJob=false;
+				jobIsDone = true;
+				sendDoneMessages();	
+			}
+				
 		}
 	}
 
