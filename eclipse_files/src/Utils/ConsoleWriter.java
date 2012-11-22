@@ -17,7 +17,9 @@ public class ConsoleWriter {
 	private String name = "";
 	URLConnection connection;
 	Semaphore stateChange = new Semaphore(1, true);// binary semaphore, fair
-	private AgentThread agentThread;
+	private ConsoleWriterThread consoleWriterThread;
+
+	// The backing data structure will be blocking queue
 	private final Queue<String> messageQueue;
 
 	public ConsoleWriter(String name) {
@@ -27,7 +29,7 @@ public class ConsoleWriter {
 
 	/**
 	 * This should be called whenever state has changed that might cause the
-	 * agent to do something.
+	 * console writer to do something.
 	 */
 	protected void stateChanged() {
 		stateChange.release();
@@ -52,13 +54,13 @@ public class ConsoleWriter {
 	}
 
 	/**
-	 * Agent scheduler thread, calls respondToStateChange() whenever a state
-	 * change has been signalled.
+	 * Console writer scheduler thread, calls sendingMessage() whenever a state
+	 * change has been signaled.
 	 */
-	private class AgentThread extends Thread {
+	private class ConsoleWriterThread extends Thread {
 		private volatile boolean goOn = false;
 
-		private AgentThread(String name) {
+		private ConsoleWriterThread(String name) {
 			super(name);
 		}
 
@@ -68,56 +70,44 @@ public class ConsoleWriter {
 
 			while (goOn) {
 				try {
-					// The agent sleeps here until someone calls,
-					// stateChanged(),
-					// which causes a call to stateChange.give(), which wakes up
-					// agent.
 					stateChange.acquire();
-					// The next while clause is the key to the control flow.
-					// When the agent wakes up it will call
-					// respondToStateChange()
-					// repeatedly until it returns FALSE.
-					// You will see that pickAndExecuteAnAction() is the agent
-					// scheduler.
-					// print("In scheduler.");
-					while (pickAndExecuteAnAction()) {
+					while (sendingMessage()) {
 						;
 					}
 				} catch (InterruptedException e) {
 					// no action - expected when stopping or when deadline
 					// changed
 				} catch (Exception e) {
-					print("Unexpected exception caught in Agent thread: ", e);
+					print("Unexpected exception caught in ConsoleWriter thread: ",
+							e);
 				}
 			}
 		}
 
-		private void stopAgent() {
+		private void stopConsoleWriter() {
 			goOn = false;
 			this.interrupt();
 		}
 	}
 
-	/** Start agent scheduler thread. Should be called once at init time. */
+	/**
+	 * Start consolewriter scheduler thread. Should be called once at init time.
+	 */
 	public synchronized void startThread() {
 		print("Thread started.");
-		if (agentThread == null) {
-			agentThread = new AgentThread("ConsoleWriter");
-			agentThread.start(); // causes the run method to execute in the
-									// AgentThread below
+		if (consoleWriterThread == null) {
+			consoleWriterThread = new ConsoleWriterThread("ConsoleWriter");
 		} else {
-			agentThread.interrupt();// don't worry about this for now
+			consoleWriterThread.interrupt();
 		}
 	}
 
-	/** Stop agent scheduler thread. */
-	// In this implementation, nothing calls stopThread().
-	// When we have a user interface to agents, this can be called.
+	/** Stop consolewriter scheduler thread. */
 	public void stopThread() {
 		print("Thread stopped");
-		if (agentThread != null) {
-			agentThread.stopAgent();
-			agentThread = null;
+		if (consoleWriterThread != null) {
+			consoleWriterThread.stopConsoleWriter();
+			consoleWriterThread = null;
 		}
 	}
 
@@ -128,7 +118,15 @@ public class ConsoleWriter {
 		System.out.println("Console started: " + consoleID);
 	}
 
-	// MESSAGE RECEPTION
+	/*
+	 * Messages
+	 */
+
+	/**
+	 * Called by agents in their print methods
+	 * @param sourceName agent's name
+	 * @param message the message to be sent
+	 */
 	public void sendMessage(String sourceName, String message) {
 		message = "[" + sourceName + "] " + message;
 		if (consoleID != "") {
@@ -139,20 +137,21 @@ public class ConsoleWriter {
 		stateChanged();
 	}
 
-	// SCHEDULER
-	public boolean pickAndExecuteAnAction() {
-
+	/*
+	 * Scheduler
+	 */
+	public boolean sendingMessage() {
 		if (messageQueue.size() > 0) {
 			sendData(messageQueue.remove());
 			return true;
+		} else {
+			return false;
 		}
-		/*
-		 * Tried all rules and found no actions to fire. Return false to the
-		 * main loop of abstract base class Agent and wait.
-		 */
-		return false;
 	}
 
+	/*
+	 * Actions
+	 */
 	public String sendData(String data) {
 		try {
 			connection = new URL("http://ptz-debug.appspot.com/listen/")
