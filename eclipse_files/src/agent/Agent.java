@@ -10,6 +10,7 @@ import Utils.StringUtil;
 public abstract class Agent {
 	Semaphore stateChange = new Semaphore(1, true);// binary semaphore, fair
 	private AgentThread agentThread;
+	private ConsoleWriter console;
 
 	protected Agent() {
 	}
@@ -36,6 +37,10 @@ public abstract class Agent {
 	 */
 	protected String getName() {
 		return StringUtil.shortName(this);
+	}
+
+	public void setConsoleWriter(ConsoleWriter cw) {
+		console = cw;
 	}
 
 	/** The simulated action code */
@@ -73,9 +78,11 @@ public abstract class Agent {
 				&& this.getClass() != agent.test.mock.MockGraphics.class) {
 			System.out.print(sb.toString());
 		}
-		
-		ConsoleWriter console = new ConsoleWriter(getName());
-		console.sendMessage(msg);
+
+		// Send to cloud debug panel
+		if (console != null) {
+			console.sendMessage(getName(), msg);
+		}
 	}
 
 	/**
