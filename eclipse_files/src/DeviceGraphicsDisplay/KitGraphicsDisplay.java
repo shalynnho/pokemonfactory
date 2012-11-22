@@ -1,12 +1,13 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
-import java.awt.Image;
 
 import javax.swing.JComponent;
 
+import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
@@ -34,6 +35,8 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	Image kitImage;
 	
+	private Client kitClient;
+	
 	public Image getKitImage() {
 		return kitImage;
 	}
@@ -42,6 +45,17 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		this.kitImage = kitImage;
 	}
 
+	public KitGraphicsDisplay(Client kitClient){
+		kitLocation = Constants.KIT_LOC;
+		position = 0;
+		degreeCountDown = 0;
+		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
+		rotationAxisX = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getXDouble();
+		rotationAxisY = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getYDouble();
+		kitImage = Constants.KIT_IMAGE;
+		this.kitClient = kitClient;
+		
+	}
 	public KitGraphicsDisplay() {
 
 		kitLocation = Constants.KIT_LOC;

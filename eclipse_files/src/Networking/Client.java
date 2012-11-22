@@ -81,6 +81,10 @@ public abstract class Client extends JPanel{
 		devices.put(target, device);
 	}
 	
+	public void removeDevice(String target, DeviceGraphicsDisplay device){
+		devices.remove(target);
+	}
+	
 	public void sendData(Request req) {
 		writer.sendData(req);
 	}
