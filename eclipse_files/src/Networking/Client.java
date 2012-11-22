@@ -81,7 +81,7 @@ public abstract class Client extends JPanel{
 		devices.put(target, device);
 	}
 	
-	public void removeDevice(String target, DeviceGraphicsDisplay device){
+	public void removeDevice(String target){
 		devices.remove(target);
 	}
 	
