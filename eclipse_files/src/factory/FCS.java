@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Networking.Request;
 import Networking.Server;
+import Utils.ConsoleWriter;
 import Utils.Constants;
 import agent.Agent;
 import agent.FCSAgent;
@@ -20,10 +21,14 @@ public class FCS {
 
     private FCSAgent agent;
     private Server server;
+    private ConsoleWriter console;
 
     private boolean productionStarted = false;
 
     public FCS(Server server, Agent a) {
+	console = new ConsoleWriter("FCS");
+	console.sendMessage("Testing from FCS!");
+	
 	agent = (FCSAgent) a;
 	this.server = server;
     }

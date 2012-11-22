@@ -1,0 +1,146 @@
+html, body{
+	width:100%;
+	font-family: "Myriad Pro", Arial, serif;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	background: #fbfcfe;
+}
+a{
+	color: inherit;
+	text-decoration: none;
+}
+.clear{ clear: both; }
+#left{
+	width:30%;
+	float: left;
+	text-align: right;
+	padding-top: 10px;
+}
+#right{
+	width:69%;
+	float: right;
+	background: #edf4fa;
+	border-left: 1px solid #aac8e9;
+	padding: 20px 10px 10px;
+	box-sizing: border-box;
+}
+.padding{
+	margin: 10px;
+}
+
+#logo {
+	padding-top: 20px;
+	font-size: 50px;
+}
+#logo b {
+	color: #004097;
+}
+.button{
+	padding: 10px 20px;
+	background: #edf4fa;
+	border: 2px solid #e5eef6;
+	display: inline-block;
+	color: #28609f;
+	font-size: 20px;
+	margin-bottom: 10px;
+	font-family: 'Droid Sans', 'Myriad Pro', 'Arial', serif;
+}
+a.button:hover{
+	background: #dfeaf3;
+}
+#footer{
+	color: #aaa;
+	font-size: 13px;
+}
+
+.box{
+	width: 80%;
+	background: #fff;
+	text-align: left;
+	border: 1px solid #cbddec;
+	border-left: 7px solid;
+	margin-bottom: 10px;
+	padding: 10px 15px;
+	box-sizing: border-box;
+}
+.box h2{
+	color: inherit;
+	font-size: 26px;
+	font-weight: normal;
+	padding: 5px 0 5px 0;
+	margin: 0;
+	font-family: 'Droid Sans', 'Myriad Pro', 'Arial', serif;
+}
+.box p{
+	color: #454545;
+	font-size: 14px;
+	margin: 5px 0 5px 0;
+}
+.box .meta{
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 14px;
+	font-size: 12px;
+	line-height: 20px;
+	color: #aaa;
+	margin-right: 10px;
+	float: left;
+	margin-top: 5px;
+}
+.meta.tags{
+	height: 16px;
+	padding-left: 19px;
+	background-image: url('tags.png');
+	padding-bottom: 8px;
+	border-bottom: 1px solid #eee;
+	line-height: 17px;
+	width: 95%;
+}
+.meta.tags a{
+	padding: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin-right: 5px;
+}
+.meta.tags a:hover{
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+.tags a.inclass{ background: #c2d7ea; color: #043981; }
+.tags a.wontcheck{ background: #daedd8; color: #346c0f; }
+.meta.course{
+	padding-left: 18px;
+	background-image: url('course.png');
+}
+.meta.teacher{
+	padding-left: 16px;
+	background-image: url('teacher.png');
+}
+.meta.user{
+	padding-left: 19px;
+	background-image: url('user.png');
+}
+.due{
+	padding-left: 20px;
+	background: url('due.png') no-repeat;
+	display: block;
+	height: 18px;
+	font-size: 16px;
+	line-height: 23px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+.due span.details{
+	font-size: 13px;
+	color: #aaa;
+}
+.box .tag{
+	float: right;
+	padding: 5px;
+	display: inline-block;
+	background: #ccc;
+	font-size: 12px;
+}
+.box.blue{ border-left-color: #66b0ef; color: #004097; }

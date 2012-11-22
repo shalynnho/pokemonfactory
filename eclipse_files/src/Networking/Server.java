@@ -19,6 +19,7 @@ import DeviceGraphics.LaneGraphics;
 import DeviceGraphics.NestGraphics;
 import DeviceGraphics.PartsRobotGraphics;
 import DeviceGraphics.StandGraphics;
+import Utils.ConsoleWriter;
 import Utils.Constants;
 import agent.Agent;
 import agent.CameraAgent;
@@ -78,8 +79,14 @@ public class Server {
 
     FCS fcs;
     FCSAgent fcsAgent;
+    
+    private ConsoleWriter console;
 
     public Server() {
+	// connecting to cloud debug panel
+	console = new ConsoleWriter("Server");
+	console.startConsole();
+	
 	fcsAgent = new FCSAgent(Constants.FCS_TARGET);
 	fcs = new FCS(this, fcsAgent);
 

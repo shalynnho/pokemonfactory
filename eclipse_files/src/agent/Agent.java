@@ -3,6 +3,7 @@ package agent;
 import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.DeviceGraphics;
+import Utils.ConsoleWriter;
 import Utils.StringUtil;
 
 /** Base class for simple agents */
@@ -72,6 +73,9 @@ public abstract class Agent {
 				&& this.getClass() != agent.test.mock.MockGraphics.class) {
 			System.out.print(sb.toString());
 		}
+		
+		ConsoleWriter console = new ConsoleWriter(getName());
+		console.sendMessage(msg);
 	}
 
 	/**
