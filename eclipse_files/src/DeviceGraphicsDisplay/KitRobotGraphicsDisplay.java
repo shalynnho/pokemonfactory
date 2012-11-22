@@ -15,11 +15,16 @@ import Utils.Location;
 
 public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	
-
+	//Messages
+	
+	public enum Message {sendGoodConveyorDoneMessage, sendStandDoneMessage, sendInspectionDoneMessage		
+	};
+	Message sendMessage;
+	
 	// Positions
 	public enum Position {
-		conveyorPosition, goodConveyorPosition, inspectionPosition, location1Position, location2Position;
-	}
+		conveyorPosition, goodConveyorPosition, inspectionPosition, location1Position, location2Position
+	};
 
 	Position position;
 
@@ -27,7 +32,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public enum Command {
 		moveToConveyor, moveToGoodConveyor, moveToInspectionStand, moveToLocation1, moveToLocation2
 	};
-
+	
 	Command moveToInitialPosition;	//initial command
 	Command moveToFinalPosition;	//final command
 	Command moveToPosition; 		//current command
@@ -72,8 +77,13 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		position = Position.conveyorPosition;
 		initialJob = false;
 		finalJob = false;
+		
+		sendMessage= Message.sendStandDoneMessage;
+		
 		returnJob=false;
+		
 		jobIsDone = true;
+		
 		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
 		trans = new AffineTransform();
 
@@ -242,22 +252,33 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * sends the done messages when the degreecountdown reaches 0
 	 * the done messages are based on what position the kit robot reaches
 	 */
-	public void sendDoneMessages() {
+	public void setDoneMessage() {
 		if (position.equals(Position.location1Position)
 				|| position.equals(Position.location2Position)) {
+			this.sendMessage=Message.sendStandDoneMessage;
+		} else if (position.equals(Position.goodConveyorPosition)) {
+			this.sendMessage=Message.sendGoodConveyorDoneMessage;
+		} else if (position.equals(Position.inspectionPosition)) {
+			this.sendMessage=Message.sendInspectionDoneMessage;
+		}
+	}
+	
+	public void sendDoneMessage(){
+		if (this.sendMessage.equals(Message.sendStandDoneMessage)) {
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_STAND_DONE,
 					Constants.KIT_ROBOT_TARGET, null));
-		} else if (position.equals(Position.goodConveyorPosition)) {
+		} else if (this.sendMessage.equals(Message.sendGoodConveyorDoneMessage)) {
 			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_CONVEYOR_DONE,
 					Constants.KIT_ROBOT_TARGET, null));
-		} else if (position.equals(Position.inspectionPosition)) {
+		} else if (this.sendMessage.equals(Message.sendInspectionDoneMessage)) {
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_INSPECTION_DONE,
 					Constants.KIT_ROBOT_TARGET, null));
 		}
+		
 	}
 	/**
 	 * changes which job it's doing based on the booleans
@@ -273,12 +294,13 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			} else if (finalJob) {
 				finalJob = false;
 				returnJob= true;
+				setDoneMessage();
 				moveToInitialOrFinal();
 			}
 			else if(returnJob){
 				returnJob=false;
 				jobIsDone = true;
-				sendDoneMessages();	
+				sendDoneMessage();	
 			}
 				
 		}
