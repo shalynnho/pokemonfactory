@@ -2,8 +2,6 @@ package manager.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -20,9 +18,11 @@ import javax.swing.SpinnerNumberModel;
 import manager.FactoryProductionManager;
 import manager.panel.KitsListPanel.KitSelectHandler;
 import manager.util.ClickablePanel;
+import manager.util.ClickablePanelClickHandler;
 import manager.util.CustomButton;
 import manager.util.ListPanel;
 import manager.util.OverlayInternalFrame;
+import manager.util.WhiteLabel;
 import factory.KitConfig;
 import factory.Order;
 
@@ -47,7 +47,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	// Displays current schedule of orders
 	private SpinnerNumberModel spinnerModel; 
 	private JSpinner quantitySpinner;
-	private JButton orderButton;
+	private CustomButton orderButton;
 	private KitsListPanel kitsPanel;
 	private JScrollPane kitsScrollPane;
 	private OrdersListPanel ordersPanel;
@@ -124,15 +124,14 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		((JSpinner.DefaultEditor)quantitySpinner.getEditor()).getTextField().addMouseListener(panelListener);
 		
 		// Setup order button
-		orderButton = new CustomButton("Order Kits >");
+		orderButton = new CustomButton("Order Kits >", new OrderButtonListener());
 		orderButton.addMouseListener(panelListener);
-		orderButton.addActionListener(new OrderButtonListener());
 		
 		//add OrderButton to quantityOrderPanel adjacent to Spinner
 		quantityOrderPanel.add(orderButton);
 		
-		add(quantityOrderPanel);
 		
+		add(quantityOrderPanel);
 		
 		// Setup OrdersListPanel
 		OrdersListPanel.OrderSelectHandler selectHandler = new OrdersListPanel.OrderSelectHandler() {
@@ -195,11 +194,10 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		}
 	}
 	
-	private class OrderButtonListener implements ActionListener {
+	private class OrderButtonListener implements ClickablePanelClickHandler {
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void mouseClicked() {
 			KitConfig kitToMake;
-			
 			if(selectedKit != null) {
 				kitToMake = selectedKit;
 				
