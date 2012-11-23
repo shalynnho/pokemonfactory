@@ -63,6 +63,7 @@ a.button:hover{
 	margin-bottom: 10px;
 	padding: 10px 15px;
 	box-sizing: border-box;
+	font-size: 14px;
 }
 .box h2{
 	color: inherit;
@@ -77,70 +78,24 @@ a.button:hover{
 	font-size: 14px;
 	margin: 5px 0 5px 0;
 }
-.box .meta{
-	background-repeat: no-repeat;
-	display: inline-block;
-	height: 14px;
-	font-size: 12px;
-	line-height: 20px;
-	color: #aaa;
-	margin-right: 10px;
-	float: left;
-	margin-top: 5px;
-}
-.meta.tags{
-	height: 16px;
-	padding-left: 19px;
-	background-image: url('tags.png');
-	padding-bottom: 8px;
-	border-bottom: 1px solid #eee;
-	line-height: 17px;
-	width: 95%;
-}
-.meta.tags a{
-	padding: 3px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	margin-right: 5px;
-}
-.meta.tags a:hover{
-	opacity: 0.8;
-	filter: alpha(opacity=80);
-}
-.tags a.inclass{ background: #c2d7ea; color: #043981; }
-.tags a.wontcheck{ background: #daedd8; color: #346c0f; }
-.meta.course{
-	padding-left: 18px;
-	background-image: url('course.png');
-}
-.meta.teacher{
-	padding-left: 16px;
-	background-image: url('teacher.png');
-}
-.meta.user{
-	padding-left: 19px;
-	background-image: url('user.png');
-}
-.due{
-	padding-left: 20px;
-	background: url('due.png') no-repeat;
-	display: block;
-	height: 18px;
-	font-size: 16px;
-	line-height: 23px;
-	margin-right: 10px;
-	margin-bottom: 10px;
-}
-.due span.details{
-	font-size: 13px;
-	color: #aaa;
-}
-.box .tag{
-	float: right;
-	padding: 5px;
-	display: inline-block;
-	background: #ccc;
-	font-size: 12px;
-}
 .box.blue{ border-left-color: #66b0ef; color: #004097; }
+
+.message {
+	border-bottom: 1px solid #ddd;
+	padding: 5px 0px;
+}
+
+.source_wrapper {
+	width: 200px;
+	display: inline-block;
+	margin-right: 10px;
+	text-align: right;
+}
+.source_wrapper b {
+	text-transform: uppercase;
+	padding: 2px 4px;
+	background: #8a0000;
+	color: white;
+	display: inline-block;
+	font-size: 12px;
+}

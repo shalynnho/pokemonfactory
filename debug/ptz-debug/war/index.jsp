@@ -105,6 +105,14 @@ if(targetConsole != null) {
 				<h2>Target console: <b><%=targetConsole%></b></h2>
 				<p id="status">Sit tight while we organize your debug messages...</p>
 			</div>
+			<div id="messages" class="box blue">
+				<div class="message">
+					<div class="source_wrapper">
+						<b>[Agent] Lane</b>
+					</div> 
+					I'm doing something...
+				</div>
+			</div>
 		<% } %>
 		</div>
 </body>

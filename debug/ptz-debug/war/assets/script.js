@@ -32,5 +32,5 @@ $(document).ready(function() {
 });
 
 function displayMessage(msg) {
-	$("#right").append("<div class=\"box blue\"><p>" + msg + "</p></div>");
+	$("#messages").append("<div class=\"message\"><div class=\"source_wrapper\"><b>[Agent] Lane</b></div>" + msg + "</div>");
 }
