@@ -188,19 +188,6 @@ public class Server {
 		}
 	}
 
-	private void connectAgentsWithDevices() {
-		for (Entry<String, Agent> entry : agents.entrySet()) {
-			Agent agent = entry.getValue();
-			if (devices.containsKey(entry.getKey())) {
-				DeviceGraphics device = devices.get(entry.getKey());
-				agent.setGraphicalRepresentation(device);
-			}
-			agent.startThread();
-		}
-		fcsAgent.setFCS(fcs);
-		fcsAgent.startThread();
-	}
-
 	private void connectAgentsWithEachOther() {
 		for (Agent a : agents.values()) {
 			a.setConsoleWriter(console);
@@ -260,14 +247,6 @@ public class Server {
 		camera.setPartsRobot(partsrobot);
 		camera.setKitRobot(kitrobot);
 
-		// V0 heck
-		/*
-		 * NestAgent nest0 = (NestAgent) agents.get(Constants.NEST_TARGET + 0);
-		 * NestAgent nest1 = (NestAgent) agents.get(Constants.NEST_TARGET + 1);
-		 * //nest0.FillWithParts(); //nest1.FillWithParts(); // end V0 heck
-		 * camera.setNest(nest0); camera.setNest(nest1);
-		 */
-
 		((FCSAgent) agents.get(Constants.FCS_TARGET)).setConveyor(conveyor);
 		((FCSAgent) agents.get(Constants.FCS_TARGET))
 				.setGantry((GantryAgent) agents
@@ -280,6 +259,19 @@ public class Server {
 		((FCSAgent) agents.get(Constants.FCS_TARGET))
 				.setCamera((CameraAgent) agents.get(Constants.CAMERA_TARGET));
 
+	}
+
+	private void connectAgentsWithDevices() {
+		for (Entry<String, Agent> entry : agents.entrySet()) {
+			Agent agent = entry.getValue();
+			if (devices.containsKey(entry.getKey())) {
+				DeviceGraphics device = devices.get(entry.getKey());
+				agent.setGraphicalRepresentation(device);
+			}
+			agent.startThread();
+		}
+		fcsAgent.setFCS(fcs);
+		fcsAgent.startThread();
 	}
 
 	/**

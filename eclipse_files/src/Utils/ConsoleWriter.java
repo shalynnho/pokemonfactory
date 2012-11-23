@@ -1,11 +1,9 @@
 package Utils;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Queue;
@@ -15,7 +13,7 @@ import java.util.concurrent.Semaphore;
 public class ConsoleWriter {
 	public static String consoleID = "";
 	private String name = "";
-	URLConnection connection;
+	// URLConnection connection;
 	Semaphore stateChange = new Semaphore(1, true);// binary semaphore, fair
 	private ConsoleWriterThread consoleWriterThread;
 
@@ -96,7 +94,8 @@ public class ConsoleWriter {
 	public synchronized void startThread() {
 		print("Thread started.");
 		if (consoleWriterThread == null) {
-			consoleWriterThread = new ConsoleWriterThread("ConsoleWriter");
+			consoleWriterThread = new ConsoleWriterThread("SERVER");
+			consoleWriterThread.start();
 		} else {
 			consoleWriterThread.interrupt();
 		}
@@ -144,9 +143,9 @@ public class ConsoleWriter {
 		if (messageQueue.size() > 0) {
 			sendData(messageQueue.remove());
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/*
@@ -154,19 +153,13 @@ public class ConsoleWriter {
 	 */
 	public String sendData(String data) {
 		try {
-			connection = new URL("http://ptz-debug.appspot.com/listen/")
-					.openConnection();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			URLConnection connection = new URL(
+					"http://ptz-debug.appspot.com/listen/").openConnection();
+			connection.setDoOutput(true);
+			connection.setRequestProperty("Accept-Charset", "UTF-8");
+			connection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded;charset=UTF-8");
 
-		connection.setDoOutput(true);
-		connection.setRequestProperty("Accept-Charset", "UTF-8");
-		connection.setRequestProperty("Content-Type",
-				"application/x-www-form-urlencoded;charset=UTF-8");
-		try {
 			OutputStream output = connection.getOutputStream();
 			output.write(new String(data).getBytes("UTF-8"));
 
@@ -189,4 +182,5 @@ public class ConsoleWriter {
 			return "";
 		}
 	}
+
 }
