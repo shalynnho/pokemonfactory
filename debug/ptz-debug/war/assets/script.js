@@ -6,7 +6,7 @@ onOpened = function() {
 }
 onMessage = function(msg) {
 	console.log(msg.data);
-	$("#right").append("<div class=\"box blue\"><p>" + msg.data + "</p></div>");
+	displayMessage(msg.data);
 }
 
 onError = function(err) {
@@ -30,3 +30,7 @@ $(document).ready(function() {
 	    socket.onclose = onClose;
 	}
 });
+
+function displayMessage(msg) {
+	$("#right").append("<div class=\"box blue\"><p>" + msg + "</p></div>");
+}

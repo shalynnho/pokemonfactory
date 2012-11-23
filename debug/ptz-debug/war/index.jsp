@@ -11,6 +11,7 @@
 <%@ page import="com.google.appengine.api.datastore.Query.Filter" %>
 <%@ page import="com.google.appengine.api.datastore.Query.FilterOperator" %>
 <%@ page import="com.google.appengine.api.datastore.Query.FilterPredicate" %>
+<%@ page import="com.google.appengine.api.datastore.Query.SortDirection" %>
 <%@ page import="com.google.appengine.api.datastore.PreparedQuery" %>
 
 <%@ page import="java.util.List" %>
@@ -24,10 +25,11 @@ String targetConsole = request.getParameter("console");
 boolean channelOpened = false;
 String token = "";
 String clientID = "";
+Filter consoleIDFilter = null;
 
 if(targetConsole != null) {
  // check if console exists
-    Filter consoleIDFilter = new FilterPredicate("consoleID", FilterOperator.EQUAL, targetConsole);
+    consoleIDFilter = new FilterPredicate("consoleID", FilterOperator.EQUAL, targetConsole);
     Query q = new Query("console").setFilter(consoleIDFilter);
     PreparedQuery pq = datastore.prepare(q);
     List<Entity> entities = pq.asList(FetchOptions.Builder.withDefaults());
@@ -55,6 +57,22 @@ if(targetConsole != null) {
 	<script src="/_ah/channel/jsapi" type="text/javascript"></script>
 	<script type="text/javascript">token = "<%=token%>";</script>
 	<script src="assets/script.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			<%
+				if(targetConsole != null) {
+					Query q = new Query("message").setFilter(consoleIDFilter)/*.addSort("time", SortDirection.ASCENDING)*/;
+					PreparedQuery pq = datastore.prepare(q);
+					for(Entity result : pq.asIterable()) {
+					    %>
+					    displayMessage("<%=result.getProperty("message")%>");
+					    <%
+					}
+				}
+			
+			%>
+		});
+	</script>
 </head>
 <body>
 
