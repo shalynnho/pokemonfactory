@@ -11,176 +11,211 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 public class ConsoleWriter {
-	public static String consoleID = "";
-	private String name = "";
-	// URLConnection connection;
-	Semaphore stateChange = new Semaphore(1, true);// binary semaphore, fair
-	private ConsoleWriterThread consoleWriterThread;
+    public static String consoleID = "";
+    private String name = "";
+    Semaphore stateChange = new Semaphore(1, true);// binary semaphore, fair
+    private ConsoleWriterThread consoleWriterThread;
 
-	// The backing data structure will be blocking queue
-	private final Queue<String> messageQueue;
+    // The backing data structure will be blocking queue
+    private final Queue<String> messageQueue;
 
-	public ConsoleWriter(String name) {
-		this.name = name;
-		messageQueue = new LinkedBlockingQueue<String>();
+    public ConsoleWriter() {
+	this(null);
+    }
+    public ConsoleWriter(String name) {
+	this.name = name;
+	messageQueue = new LinkedBlockingQueue<String>();
+    }
+
+    /**
+     * This should be called whenever state has changed that might cause the console writer to do something.
+     */
+    protected void stateChanged() {
+	stateChange.release();
+    }
+
+    protected void print(String msg) {
+	print(msg, null);
+    }
+
+    /** Print message with exception stack trace */
+    protected void print(String msg, Throwable e) {
+	StringBuffer sb = new StringBuffer();
+	sb.append("[ConsoleWriter]");
+	sb.append(": ");
+	sb.append(msg);
+	sb.append("\n");
+	if (e != null) {
+	    sb.append(StringUtil.stackTraceString(e));
 	}
 
-	/**
-	 * This should be called whenever state has changed that might cause the
-	 * console writer to do something.
-	 */
-	protected void stateChanged() {
-		stateChange.release();
+	System.out.print(sb.toString());
+    }
+
+    /**
+     * Console writer scheduler thread, calls sendingMessage() whenever a state change has been signaled.
+     */
+    private class ConsoleWriterThread extends Thread {
+	private volatile boolean goOn = false;
+
+	private ConsoleWriterThread(String name) {
+	    super(name);
 	}
 
-	protected void print(String msg) {
-		print(msg, null);
-	}
+	@Override
+	public void run() {
+	    goOn = true;
 
-	/** Print message with exception stack trace */
-	protected void print(String msg, Throwable e) {
-		StringBuffer sb = new StringBuffer();
-		sb.append("[ConsoleWriter]");
-		sb.append(": ");
-		sb.append(msg);
-		sb.append("\n");
-		if (e != null) {
-			sb.append(StringUtil.stackTraceString(e));
-		}
-
-		System.out.print(sb.toString());
-	}
-
-	/**
-	 * Console writer scheduler thread, calls sendingMessage() whenever a state
-	 * change has been signaled.
-	 */
-	private class ConsoleWriterThread extends Thread {
-		private volatile boolean goOn = false;
-
-		private ConsoleWriterThread(String name) {
-			super(name);
-		}
-
-		@Override
-		public void run() {
-			goOn = true;
-
-			while (goOn) {
-				try {
-					stateChange.acquire();
-					while (sendingMessage()) {
-						;
-					}
-				} catch (InterruptedException e) {
-					// no action - expected when stopping or when deadline
-					// changed
-				} catch (Exception e) {
-					print("Unexpected exception caught in ConsoleWriter thread: ",
-							e);
-				}
-			}
-		}
-
-		private void stopConsoleWriter() {
-			goOn = false;
-			this.interrupt();
-		}
-	}
-
-	/**
-	 * Start consolewriter scheduler thread. Should be called once at init time.
-	 */
-	public synchronized void startThread() {
-		print("Thread started.");
-		if (consoleWriterThread == null) {
-			consoleWriterThread = new ConsoleWriterThread("SERVER");
-			consoleWriterThread.start();
-		} else {
-			consoleWriterThread.interrupt();
-		}
-	}
-
-	/** Stop consolewriter scheduler thread. */
-	public void stopThread() {
-		print("Thread stopped");
-		if (consoleWriterThread != null) {
-			consoleWriterThread.stopConsoleWriter();
-			consoleWriterThread = null;
-		}
-	}
-
-	public void startConsole() {
-		if (consoleID.equals("")) {
-			consoleID = sendData("start=y");
-		}
-		System.out.println("Console started: " + consoleID);
-	}
-
-	/*
-	 * Messages
-	 */
-
-	/**
-	 * Called by agents in their print methods
-	 * @param sourceName agent's name
-	 * @param message the message to be sent
-	 */
-	public void sendMessage(String sourceName, String message) {
-		message = "[" + sourceName + "] " + message;
-		if (consoleID != "") {
-			message += "&consoleID=" + consoleID;
-		}
-		System.out.println("Sending " + message);
-		messageQueue.add("message=" + message);
-		stateChanged();
-	}
-
-	/*
-	 * Scheduler
-	 */
-	public boolean sendingMessage() {
-		if (messageQueue.size() > 0) {
-			sendData(messageQueue.remove());
-			return true;
-		}
-
-		return false;
-	}
-
-	/*
-	 * Actions
-	 */
-	public String sendData(String data) {
+	    while (goOn) {
 		try {
-			URLConnection connection = new URL(
-					"http://ptz-debug.appspot.com/listen/").openConnection();
-			connection.setDoOutput(true);
-			connection.setRequestProperty("Accept-Charset", "UTF-8");
-			connection.setRequestProperty("Content-Type",
-					"application/x-www-form-urlencoded;charset=UTF-8");
-
-			OutputStream output = connection.getOutputStream();
-			output.write(new String(data).getBytes("UTF-8"));
-
-			InputStream response = connection.getInputStream();
-			return read(response);
+		    stateChange.acquire();
+		    while (sendingMessage()) {
+			;
+		    }
+		} catch (InterruptedException e) {
+		    // no action - expected when stopping or when deadline
+		    // changed
 		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
+		    print("Unexpected exception caught in ConsoleWriter thread: ", e);
 		}
-
+	    }
 	}
 
-	public String read(InputStream response) {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(
-					new InputStreamReader(response, "UTF-8"));
-			return reader.readLine();
-		} catch (Exception e) {
-			return "";
-		}
+	private void stopConsoleWriter() {
+	    goOn = false;
+	    this.interrupt();
 	}
+    }
+
+    /**
+     * Start consolewriter scheduler thread. Should be called once at init time.
+     */
+    public synchronized void startThread() {
+	print("Thread started.");
+	if (consoleWriterThread == null) {
+	    consoleWriterThread = new ConsoleWriterThread("SERVER");
+	    consoleWriterThread.start();
+	} else {
+	    consoleWriterThread.interrupt();
+	}
+    }
+
+    /** Stop consolewriter scheduler thread. */
+    public void stopThread() {
+	print("Thread stopped");
+	if (consoleWriterThread != null) {
+	    consoleWriterThread.stopConsoleWriter();
+	    consoleWriterThread = null;
+	}
+    }
+
+    /**
+     * Asks the server to identify this console. Puts the console code (generated by server) to a static
+     * variable to be used among all classes. 
+     * 
+     * A Console only needs to be started **once** per console!
+     */
+    public void startConsole() {
+	if (consoleID.equals("")) {
+	    consoleID = sendData("start=y");
+	}
+	System.out.println("===========================");
+	System.out.println("Console started: " + consoleID);
+	System.out.println("===========================");
+    }
+
+    /*
+     * Messages
+     */
+
+    /**
+     * Called by agents in their print methods. 
+     * Wraps the message around with source, and send with sendData()
+     * 
+     * @param sourceName agent's name
+     * @param message the message to be sent
+     */
+    public void sendMessage(String sourceName, String message) {
+	message = "[" + sourceName + "] " + message;
+	if (consoleID != "") {
+	    message += "&consoleID=" + consoleID;
+	}
+	System.out.println("Sending " + message);
+	messageQueue.add("message=" + message);
+	stateChanged();
+    }
+    
+    /**
+     * Alternatively, you can specify the source name by specifying in constructor, and pass only
+     * the message as param when sending message. 
+     */
+    public void sendMessage(String message) {
+	if(name != null) { 
+	    message = "[" + name + "] " + message;
+	}
+	if (consoleID != "") {
+	    message += "&consoleID=" + consoleID;
+	}
+	System.out.println("Sending " + message);
+	messageQueue.add("message=" + message);
+	stateChanged();
+    }
+
+    /*
+     * Scheduler
+     */
+    public boolean sendingMessage() {
+	if (messageQueue.size() > 0) {
+	    sendData(messageQueue.remove());
+	    return true;
+	}
+
+	return false;
+    }
+
+    /*
+     * Actions
+     */
+    
+    /**
+     * Establishes a connection to the server and sends data.
+     * 
+     * @param data params to be sent
+     * @return response from the sever
+     */
+    public String sendData(String data) {
+	try {
+	    URLConnection connection = new URL("http://ptz-debug.appspot.com/listen/").openConnection();
+	    connection.setDoOutput(true);
+	    connection.setRequestProperty("Accept-Charset", "UTF-8");
+	    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+
+	    OutputStream output = connection.getOutputStream();
+	    output.write(new String(data).getBytes("UTF-8"));
+
+	    InputStream response = connection.getInputStream();
+	    return read(response);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return "";
+	}
+
+    }
+
+    /**
+     * Only used by sendData(). Captures response from sever based on sent data and returns.
+     * 
+     * @param response InputStream from a connection
+     * @return the first line of the server's response.
+     */
+    private String read(InputStream response) {
+	BufferedReader reader = null;
+	try {
+	    reader = new BufferedReader(new InputStreamReader(response, "UTF-8"));
+	    return reader.readLine();
+	} catch (Exception e) {
+	    return "";
+	}
+    }
 
 }
