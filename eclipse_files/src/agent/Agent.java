@@ -10,7 +10,7 @@ import Utils.StringUtil;
 public abstract class Agent {
 	Semaphore stateChange = new Semaphore(1, true);// binary semaphore, fair
 	private AgentThread agentThread;
-	private ConsoleWriter console;
+	ConsoleWriter console;
 
 	protected Agent() {
 	}
@@ -37,10 +37,6 @@ public abstract class Agent {
 	 */
 	protected String getName() {
 		return StringUtil.shortName(this);
-	}
-
-	public void setConsoleWriter(ConsoleWriter cw) {
-		console = cw;
 	}
 
 	/** The simulated action code */
@@ -79,7 +75,6 @@ public abstract class Agent {
 			System.out.print(sb.toString());
 		}
 
-		// Send to cloud debug panel
 		if (console != null) {
 			console.sendMessage(getName(), msg);
 		}
@@ -90,6 +85,10 @@ public abstract class Agent {
 	 * @param dg
 	 */
 	public abstract void setGraphicalRepresentation(DeviceGraphics dg);
+
+	public void setConsoleWriter(ConsoleWriter cw) {
+		console = cw;
+	}
 
 	/** Start agent scheduler thread. Should be called once at init time. */
 	public synchronized void startThread() {
