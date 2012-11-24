@@ -6,6 +6,9 @@ html, body{
 	margin: 0;
 	background: #fbfcfe;
 }
+html {
+	overflow-y: scroll;
+}
 a{
 	color: inherit;
 	text-decoration: none;
@@ -16,6 +19,7 @@ a{
 	float: left;
 	text-align: right;
 	padding-top: 10px;
+	position: fixed;
 }
 #right{
 	width:69%;
@@ -37,13 +41,13 @@ a{
 	color: #004097;
 }
 .button{
-	padding: 10px 20px;
+	padding: 5px 10px;
 	background: #edf4fa;
 	border: 2px solid #e5eef6;
 	display: inline-block;
 	color: #28609f;
-	font-size: 20px;
-	margin-bottom: 10px;
+	font-size: 15px;
+	margin: 0px 0px 10px 10px;
 	font-family: 'Droid Sans', 'Myriad Pro', 'Arial', serif;
 }
 a.button:hover{
@@ -81,12 +85,12 @@ a.button:hover{
 .box.blue{ border-left-color: #66b0ef; color: #004097; }
 
 .message {
-	border-bottom: 1px solid #ddd;
-	padding: 5px 0px;
+	border-bottom: 1px solid #eee;
+	padding: 7px 0px;
 }
 
 .source_wrapper {
-	width: 200px;
+	width: 150px;
 	display: inline-block;
 	margin-right: 10px;
 	text-align: right;
@@ -94,8 +98,19 @@ a.button:hover{
 .source_wrapper b {
 	text-transform: uppercase;
 	padding: 2px 4px;
-	background: #8a0000;
 	color: white;
 	display: inline-block;
 	font-size: 12px;
+	border-radius: 2px;
 }
+
+.source_wrapper.lane b { background: #8a0000; }
+.source_wrapper.feeder b { background: #E00B0B; }
+.source_wrapper.camera b { background: #FF8800; }
+.source_wrapper.fcs b { background: #7A7A7A; }
+.source_wrapper.nest b { background: #804F25; }
+.source_wrapper.stand b { background: #1A8F1C; }
+.source_wrapper.conveyor b { background: #4D4D4D; }
+.source_wrapper.gantryrobot b { background: #1C7EFF; }
+.source_wrapper.kitrobot b { background: #8E1CFF; }
+.source_wrapper.partsrobot b { background: #2B44A6; }

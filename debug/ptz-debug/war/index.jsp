@@ -80,6 +80,9 @@ if(targetConsole != null) {
 			<div id="logo">
 			ptz:<b>debug</b>
 			</div>
+			<div id="buttons">
+				<a class="button" id="showall" href="javascript:void(0)"><b>show all</b></a>
+			</div>
 			<div id="footer">
 				&copy; 2012 Peter Zhang. All Rights Reserved.
 			</div>
@@ -106,12 +109,6 @@ if(targetConsole != null) {
 				<p id="status">Sit tight while we organize your debug messages...</p>
 			</div>
 			<div id="messages" class="box blue">
-				<div class="message">
-					<div class="source_wrapper">
-						<b>[Agent] Lane</b>
-					</div> 
-					I'm doing something...
-				</div>
 			</div>
 		<% } %>
 		</div>
