@@ -14,15 +14,14 @@ import factory.PartType;
 
 /**
  * Nests hold parts
+ * 
  * @author Arjun Bhargava, Michael Gendotti
  */
 public class NestAgent extends Agent implements Nest {
 
-	public List<PartType> requestList = Collections
-			.synchronizedList(new ArrayList<PartType>());
+	public List<PartType> requestList = Collections.synchronizedList(new ArrayList<PartType>());
 	PartType currentPartType;
-	public List<MyPart> currentParts = Collections
-			.synchronizedList(new ArrayList<MyPart>());
+	public List<MyPart> currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
 	public int count = 0;
 	public int countRequest = 0;
 	int full = 8;
@@ -88,9 +87,8 @@ public class NestAgent extends Agent implements Nest {
 		countRequest--;
 		// if (currentParts.size() <= full) {
 		currentParts.add(new MyPart(p));
-		print("Received a part of type " + p.type.getName() + " I have "
-				+ currentParts.size() + " parts and have requested "
-				+ countRequest + " takingParts: " + takingParts);
+		print("Received a part of type " + p.type.getName() + " I have " + currentParts.size()
+				+ " parts and have requested " + countRequest + " takingParts: " + takingParts);
 		// }
 		count++;
 		stateChanged();
@@ -160,7 +158,7 @@ public class NestAgent extends Agent implements Nest {
 			purgeSelf();
 			return true;
 		} else if (state == NestState.DONE_PURGING) {
-			print("Currently holding: " + currentParts.size());
+			// print("Currently holding: " + currentParts.size());
 			if (partReady && currentParts.size() < full) {
 				requestPart();
 				return true;
@@ -278,8 +276,7 @@ public class NestAgent extends Agent implements Nest {
 	}
 
 	public void nestFull() {
-		print("Telling camera that this nest is full with " + count
-				+ " parts or " + currentParts.size());
+		print("Telling camera that this nest is full with " + count + " parts or " + currentParts.size());
 		camera.msgIAmFull(this);
 		takingParts = true;
 	}
