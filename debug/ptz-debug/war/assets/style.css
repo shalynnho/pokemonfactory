@@ -1,0 +1,116 @@
+html, body{
+	width:100%;
+	font-family: "Myriad Pro", Arial, serif;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	background: #fbfcfe;
+}
+html {
+	overflow-y: scroll;
+}
+a{
+	color: inherit;
+	text-decoration: none;
+}
+.clear{ clear: both; }
+#left{
+	width:30%;
+	float: left;
+	text-align: right;
+	padding-top: 10px;
+	position: fixed;
+}
+#right{
+	width:69%;
+	float: right;
+	background: #edf4fa;
+	border-left: 1px solid #aac8e9;
+	padding: 20px 10px 10px;
+	box-sizing: border-box;
+}
+.padding{
+	margin: 10px;
+}
+
+#logo {
+	padding-top: 20px;
+	font-size: 50px;
+}
+#logo b {
+	color: #004097;
+}
+.button{
+	padding: 5px 10px;
+	background: #edf4fa;
+	border: 2px solid #e5eef6;
+	display: inline-block;
+	color: #28609f;
+	font-size: 15px;
+	margin: 0px 0px 10px 10px;
+	font-family: 'Droid Sans', 'Myriad Pro', 'Arial', serif;
+}
+a.button:hover{
+	background: #dfeaf3;
+}
+#footer{
+	color: #aaa;
+	font-size: 13px;
+}
+
+.box{
+	width: 80%;
+	background: #fff;
+	text-align: left;
+	border: 1px solid #cbddec;
+	border-left: 7px solid;
+	margin-bottom: 10px;
+	padding: 10px 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+}
+.box h2{
+	color: inherit;
+	font-size: 26px;
+	font-weight: normal;
+	padding: 5px 0 5px 0;
+	margin: 0;
+	font-family: 'Droid Sans', 'Myriad Pro', 'Arial', serif;
+}
+.box p{
+	color: #454545;
+	font-size: 14px;
+	margin: 5px 0 5px 0;
+}
+.box.blue{ border-left-color: #66b0ef; color: #004097; }
+
+.message {
+	border-bottom: 1px solid #eee;
+	padding: 7px 0px;
+}
+
+.source_wrapper {
+	width: 150px;
+	display: inline-block;
+	margin-right: 10px;
+	text-align: right;
+}
+.source_wrapper b {
+	text-transform: uppercase;
+	padding: 2px 4px;
+	color: white;
+	display: inline-block;
+	font-size: 12px;
+	border-radius: 2px;
+}
+
+.source_wrapper.lane b { background: #8a0000; }
+.source_wrapper.feeder b { background: #E00B0B; }
+.source_wrapper.camera b { background: #FF8800; }
+.source_wrapper.fcs b { background: #7A7A7A; }
+.source_wrapper.nest b { background: #804F25; }
+.source_wrapper.stand b { background: #1A8F1C; }
+.source_wrapper.conveyor b { background: #4D4D4D; }
+.source_wrapper.gantryrobot b { background: #1C7EFF; }
+.source_wrapper.kitrobot b { background: #8E1CFF; }
+.source_wrapper.partsrobot b { background: #2B44A6; }

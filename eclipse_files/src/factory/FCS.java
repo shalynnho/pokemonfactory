@@ -18,8 +18,9 @@ public class FCS {
     private ArrayList<KitConfig> kitConfigs = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIGS.clone();
     private ArrayList<PartType> partTypes = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES.clone();
 
-    private FCSAgent agent;
-    private Server server;
+    private final FCSAgent agent;
+    private final Server server;
+    // private ConsoleWriter console;
 
     private boolean productionStarted = false;
 
@@ -56,8 +57,9 @@ public class FCS {
 
     public boolean newPart(PartType pt) {
 	for (PartType p : partTypes) {
-	    if (p.getName().equals(pt.getName()))
+	    if (p.getName().equals(pt.getName())) {
 		return false;
+	    }
 	}
 
 	partTypes.add(pt);
@@ -90,8 +92,9 @@ public class FCS {
 
     public boolean newKit(KitConfig kc) {
 	for (KitConfig p : kitConfigs) {
-	    if (p.getName().equals(kc.getName()))
+	    if (p.getName().equals(kc.getName())) {
 		return false;
+	    }
 	}
 	kitConfigs.add(kc);
 	updateKits();
