@@ -3,12 +3,14 @@ package agent;
 import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.DeviceGraphics;
+import Utils.ConsoleWriter;
 import Utils.StringUtil;
 
 /** Base class for simple agents */
 public abstract class Agent {
 	Semaphore stateChange = new Semaphore(1, true);// binary semaphore, fair
 	private AgentThread agentThread;
+	ConsoleWriter console;
 
 	protected Agent() {
 	}
@@ -72,6 +74,10 @@ public abstract class Agent {
 				&& this.getClass() != agent.test.mock.MockGraphics.class) {
 			System.out.print(sb.toString());
 		}
+
+		if (console != null) {
+			console.sendMessage(getName(), msg);
+		}
 	}
 
 	/**
@@ -79,6 +85,10 @@ public abstract class Agent {
 	 * @param dg
 	 */
 	public abstract void setGraphicalRepresentation(DeviceGraphics dg);
+
+	public void setConsoleWriter(ConsoleWriter cw) {
+		console = cw;
+	}
 
 	/** Start agent scheduler thread. Should be called once at init time. */
 	public synchronized void startThread() {
