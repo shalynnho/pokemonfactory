@@ -110,6 +110,15 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	//begin paths
+	public void InspectionToLocation1(){
+		setCommands(Command.moveToInspectionStand,Command.moveToLocation1);
+		moveToInitialOrFinal();
+	}
+	
+	public void InspectionToLocation2(){
+		setCommands(Command.moveToInspectionStand, Command.moveToLocation2);
+		moveToInitialOrFinal();
+	}
 	public void InspectionToGoodConveyor() {
 		setCommands(Command.moveToInspectionStand, Command.moveToGoodConveyor);
 		moveToInitialOrFinal();
