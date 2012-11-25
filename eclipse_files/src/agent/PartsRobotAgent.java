@@ -502,11 +502,4 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	public List<MyKit> getMyKits() {
 		return MyKits;
 	}
-
-	// Initialize Arms
-	public void InitializeArms() {
-		for (int i = 0; i < 4; i++) {
-			Arms.add(new Arm());
-		}
-	}
 }
