@@ -162,7 +162,7 @@ public class CameraAgent extends Agent implements Camera {
 
 	} else {
 	    print("Kit Inspection failed.");
-	    mk.kit.updateParts(badKitConfig);
+	    mk.kit.updateParts(k.badKitConfig);
 	    mk.ks = KitStatus.FAILED;
 	}
 	animation.release();
