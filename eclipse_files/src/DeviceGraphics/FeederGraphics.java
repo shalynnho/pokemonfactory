@@ -1,12 +1,14 @@
 package DeviceGraphics;
 
-import factory.PartType;
+import java.util.Random;
+
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
 import agent.Agent;
 import agent.FeederAgent;
+import factory.PartType;
 
 /**
  * This class handles the logic for the feeder animation.
@@ -22,8 +24,10 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	private FeederAgent feederAgent;
 	// true if the diverter is pointing to the top lane
 	private boolean diverterTop;
-	// a bin
+	// reference to the current bin
 	private BinGraphics binGraphics;
+	// reference to PartGraphics in current bin
+	private PartGraphics partGraphics;
 	// location of the feeder
 	private Location feederLocation;
 	
@@ -49,15 +53,38 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	}
 	
 	/**
-	 * This function receives a bin.
+	 * This function receives a bin from agents.
 	 * @param bg BinGraphics passed in by the Agent
 	 */
 	public void receiveBin(BinGraphics bg) {
 		binGraphics = bg;
-		PartType type = bg.getPart().getPartType();
+		partGraphics = bg.getPart();
+		
+		PartType type = partGraphics.getPartType();
+		
 		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, type));
 		
 		System.out.println("[FEEDER]: Received a bin.");
+	}
+	
+	/**
+	 * This function passes a part to agents who pass it on to the lane.
+	 */
+	public PartGraphics givePartToLane() {
+		// TODO - need to implement this with agents and send appropriate done messages
+		
+		System.out.println("[FEEDER]: Giving part to lane.");
+		
+		Random r = new Random();
+		float randNum = r.nextFloat();
+		
+		if (randNum < partGraphics.getPartType().getBadChance() || randNum == partGraphics.getPartType().getBadChance()) {
+			PartGraphics badPartGraphics = new PartGraphics(partGraphics.getPartType());
+			badPartGraphics.setBad(true);
+			return badPartGraphics;
+		} else {
+			return partGraphics;
+		}
 	}
 	
 	/**
@@ -68,7 +95,7 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 		bg.setFull(false);
 		server.sendData(new Request(Constants.FEEDER_PURGE_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, null));
 		
-		System.out.println("[FEEDER]: Bin purged.");
+		System.out.println("[FEEDER]: Bin purging.");
 	}
 	
 	/**
