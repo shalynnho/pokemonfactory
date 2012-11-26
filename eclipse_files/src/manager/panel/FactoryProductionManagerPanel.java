@@ -62,7 +62,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	/**
 	 * Constructor
 	 * @param f a reference to the FactoryProductionManager client.
-	 * @param height of the JFram
+	 * @param height of the JFrame
 	 */
 	public FactoryProductionManagerPanel(FactoryProductionManager f, int height) {
 		super();

@@ -1,13 +1,18 @@
 package manager;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
+import manager.util.OverlayPanel;
 import DeviceGraphicsDisplay.CameraGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
 import DeviceGraphicsDisplay.FeederGraphicsDisplay;
@@ -26,6 +31,9 @@ public class LaneManager extends Client implements ActionListener{
 	// Create a new timer
 	private Timer timer;
 	
+	private OverlayPanel messagePanel;
+	private JLabel currentMessage;
+	
 	/**
 	 * Constructor
 	 */
@@ -43,6 +51,18 @@ public class LaneManager extends Client implements ActionListener{
 	 * Initialize the GUI and start the timer.
 	 */
 	public void initGUI() {
+		messagePanel = new OverlayPanel();
+		add(messagePanel, BorderLayout.SOUTH);
+		
+		currentMessage = new JLabel("Click anywhere on the lane to produce a jam at that location.");
+		currentMessage.setForeground(Color.WHITE);
+		currentMessage.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		currentMessage.setHorizontalAlignment(JLabel.CENTER);
+		currentMessage.setVisible(true);
+		messagePanel.add(currentMessage);
+		
+		messagePanel.setVisible(true);
+		
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
 	}
