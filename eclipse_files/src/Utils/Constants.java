@@ -75,7 +75,7 @@ public abstract class Constants {
 	public static final Location KIT_ROBOT_KIT_ROTATION_AXIS_LOC = new Location(
 			180, 40);
 	public static final Location CONVEYOR_LOC = new Location(0, 80); // 185
-	public static final Location KIT_LOC = new Location(150, 200);
+	public static final Location KIT_LOC = new Location(0, 200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250, 450);
 	public static final Location GANTRY_ROBOT_LOC = new Location(940, 180);
 
@@ -131,6 +131,9 @@ public abstract class Constants {
 	// Kit Images
 	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage(
 			IMAGE_PATH + "Kit.png");
+	
+	public static final Image KIT_CLOUD_IMAGE = Toolkit.getDefaultToolkit().getImage( IMAGE_PATH + "Square.jpg" );
+	
 	public static final Image KIT_DONE_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "kit_done.png");
 
@@ -273,7 +276,7 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_ON_STAND_DONE = "robot display sends to robot logic that kit to stand is done";
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE = "robot display sends to robot logic that kit to conveyor is done";
 
-	public static final double KIT_VELOCITY_DIVIDE = 20;
+	public static final int KIT_VELOCITY_DIVIDE = 20;
 	public static final int KIT_ROBOT_DEGREE_STEP = 5;
 	// end kitrobot logic
 
