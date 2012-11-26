@@ -339,7 +339,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
 				tempKit.setLocation(location1);
 				tempKit.setTranslation(kitRobotClient.getOffset());
-				setKitConfigurations(tempKit, 180, 5);
+				setKitConfigurations(tempKit, 180, 4);
 				kits.add(currentKit);
 				ConveyorToLocation1();
 			} else if (command
@@ -347,13 +347,13 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
 				tempKit.setLocation(location2);
 				tempKit.setTranslation(kitRobotClient.getOffset());
-				setKitConfigurations(tempKit, 225, 6);
+				setKitConfigurations(tempKit, 225, 3);
 				kits.add(currentKit);
 				ConveyorToLocation2();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_GOOD_CONVEYOR)) {
 				for (int i = 0; i < kits.size(); i++) {
-					if (kits.get(i).getPosition() == 4) {
+					if (kits.get(i).getPosition() == 5) {
 						setKitConfigurations(kits.get(i), -90, 2);
 					}
 				}
@@ -362,7 +362,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_INSPECTION)) {
 
 				for (int i = 0; i < kits.size(); i++) {
-					if (kits.get(i).getPosition() == 5) {
+					if (kits.get(i).getPosition() == 4) {
 						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
 						setKitConfigurations(kits.get(i), -45, 4);
 					}
@@ -371,12 +371,14 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_INSPECTION)) {
 				for (int i = 0; i < kits.size(); i++) {
-					if (kits.get(i).getPosition() == 6) {
+					if (kits.get(i).getPosition() == 3) {
 						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
-						setKitConfigurations(kits.get(i), -90, 4);
+						setKitConfigurations(kits.get(i), -90, 5);
 					}
 				}
 				Location2ToInspectionStand();
+			} else if(command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION1)){
+				
 			}
 
 		}
