@@ -27,7 +27,10 @@ public class BinGraphics implements DeviceGraphics  {
 		bin = b;
 		binNum = i;
 		this.part=part;
-		initialLocation = new Location(1005, 30 + binNum*75);
+		if (binNum < 8)
+			initialLocation = new Location(1005, 30 + binNum*75);
+		else
+			initialLocation = new Location(1045, 30 + (binNum - 8)*75);
 		binLocation= new Location (initialLocation);
 	}
 	
