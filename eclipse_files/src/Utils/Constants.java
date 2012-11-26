@@ -64,7 +64,7 @@ public abstract class Constants {
 
 	// DEVICE START LOCATIONS
 	// ==================================
-
+	
 	public static final Location FEEDER_LOC = new Location(850, 45);
 	public static final int FEEDER_Y_STEP = 150;
 
@@ -75,10 +75,16 @@ public abstract class Constants {
 	public static final Location KIT_ROBOT_KIT_ROTATION_AXIS_LOC = new Location(
 			180, 40);
 	public static final Location CONVEYOR_LOC = new Location(0, 80); // 185
-	public static final Location KIT_LOC = new Location(150, 200);
+	public static final Location KIT_LOC = new Location(0, 200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250, 450);
 	public static final Location GANTRY_ROBOT_LOC = new Location(940, 180);
 
+	public static final Location INSPECTION_LOC = new Location (280,100);
+	public static final Location STAND1_LOC = new Location (280, 200);
+	public static final Location STAND2_LOC = new Location (280, 300);
+	
+	public static final Location KIT_LEAVE_LOC = new Location (30, 100);
+	public static final Location KIT_CONVEYOR_LOC = new Location (0,200);
 	// TODO: get exact location coordinates
 	public static final Location BIN_STORAGE_LOC = new Location(800, 1000);
 
@@ -125,6 +131,9 @@ public abstract class Constants {
 	// Kit Images
 	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage(
 			IMAGE_PATH + "Kit.png");
+	
+	public static final Image KIT_CLOUD_IMAGE = Toolkit.getDefaultToolkit().getImage( IMAGE_PATH + "Square.jpg" );
+	
 	public static final Image KIT_DONE_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "kit_done.png");
 
@@ -257,10 +266,17 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_CONVEYOR = "robot logic moves loc2 to conv";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_CONVEYOR = "robot display moves kit to conv ";
 
+	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1 = "robot logic moves goodconveyor to loc1";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION1 = "robot display moves goodconveyor to loc1";
+	
+	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION2 = "robot logic moves goodconveyor to loc2";
+	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION2 = "robot disploay moves goodconveyor to loc2";
+	
 	public static final String KIT_ROBOT_ON_INSPECTION_DONE = "robot display sends to robot logic that kit to inspeciton is done";
 	public static final String KIT_ROBOT_ON_STAND_DONE = "robot display sends to robot logic that kit to stand is done";
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE = "robot display sends to robot logic that kit to conveyor is done";
 
+	public static final int KIT_VELOCITY_DIVIDE = 20;
 	public static final int KIT_ROBOT_DEGREE_STEP = 5;
 	// end kitrobot logic
 
