@@ -159,7 +159,7 @@ public class NestAgent extends Agent implements Nest {
 		if (state == NestState.PURGING || state == NestState.PRIORITY_PURGE) {
 			purgeSelf();
 			return true;
-		} else if (state == NestState.DONE_PURGING) {
+		} else if (state == NestState.DONE_PURGING && !takingParts) {
 			print("Currently holding: " + currentParts.size());
 			if (partReady && currentParts.size() < full) {
 				requestPart();
