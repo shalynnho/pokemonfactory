@@ -60,6 +60,7 @@ public class CameraAgent extends Agent implements Camera {
     public class MyNest {
 	public NestAgent nest;
 	public NestStatus state;
+	public int numFilledSnapshot = 0;
 
 	public MyNest(NestAgent nest) {
 	    this.nest = nest;
@@ -93,7 +94,7 @@ public class CameraAgent extends Agent implements Camera {
 
     }
 
-    @Override
+    // Should no longer be called in v2. Change to timer.
     public void msgIAmFull(Nest nest) {
 	synchronized (nests) {
 
@@ -131,6 +132,7 @@ public class CameraAgent extends Agent implements Camera {
 		if (n.nest.nestGraphics == nest) {
 		    // In v0 all parts are good parts
 		    print("nest " + nests.indexOf(n) + " photographed");
+		    n.numFilledSnapshot = n.nest.currentParts.size();
 		    n.state = NestStatus.PHOTOGRAPHED;
 		    if (found2) {
 			break;
@@ -140,6 +142,7 @@ public class CameraAgent extends Agent implements Camera {
 		if (n.nest.nestGraphics == nest2) {
 		    // In v0 all parts are good parts
 		    print("nest " + nests.indexOf(n) + " photographed");
+		    n.numFilledSnapshot = n.nest.currentParts.size();
 		    n.state = NestStatus.PHOTOGRAPHED;
 		    if (found1) {
 			break;
@@ -249,15 +252,37 @@ public class CameraAgent extends Agent implements Camera {
 
     private void tellPartsRobot(MyNest n) {
 	List<Part> goodParts = new ArrayList<Part>();
-	if (n.nest.currentParts.size() >= n.nest.full) {
+
+	// Parts missing - Non Norm
+	if (n.numFilledSnapshot < n.nest.full) {
+	    /**
+	     * 1) Nothing, just wait a little longer.This may be the first time parts are coming down the lane and your
+	     * estimation may be wrong. (1) Just wait a little longer and see if parts have arrived.
+	     ** 
+	     * 2) Lane is jammed. (2) hi-speed (turn up the amplitude of the lanes).
+	     ** 
+	     * 6) Your feeder algorithm for keeping parts in two lanes did not changeover fast enough. (6) adjust the
+	     * parameter of your feeder algorithm for changing parts over from one lane to another.
+	     */
+	    print("Missing Parts in Nest : non-normative");
+	}
+ else {
 	    for (MyPart part : n.nest.currentParts) {
 		if (part.part.isGood) {
 		    goodParts.add(part.part);
 		}
 	    }
-	    print("good parts count: " + goodParts.size());
-	    partRobot.msgHereAreGoodParts(n.nest, goodParts);
+	    print("Good parts count: " + goodParts.size());
+
+	    // No Good Parts found - non norm
+	    if (goodParts.size() == 0) {
+		print("No Good Parts Found : non-normative");
+
+	    } else {
+		partRobot.msgHereAreGoodParts(n.nest, goodParts);
+	    }
 	}
+
 	n.state = NestStatus.NOT_READY;
 	stateChanged();
 
