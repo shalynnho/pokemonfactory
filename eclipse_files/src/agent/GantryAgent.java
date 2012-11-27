@@ -14,14 +14,13 @@ import factory.PartType;
 
 /**
  * Gantry delivers parts to the feeder
+ * 
  * @author Michael Gendotti, Arjun Bhargava
  */
 public class GantryAgent extends Agent implements Gantry {
 
-	public List<Bin> binList = Collections
-			.synchronizedList(new ArrayList<Bin>());
-	public List<MyFeeder> feeders = Collections
-			.synchronizedList(new ArrayList<MyFeeder>());
+	public List<Bin> binList = Collections.synchronizedList(new ArrayList<Bin>());
+	public List<MyFeeder> feeders = Collections.synchronizedList(new ArrayList<MyFeeder>());
 
 	private GantryGraphics gantryGraphics;
 
@@ -99,8 +98,7 @@ public class GantryAgent extends Agent implements Gantry {
 		print("Received msgRemoveBin");
 		// synchronized(feeders){
 		for (MyFeeder currentFeeder : feeders) {
-			if (currentFeeder.state == FeederStatus.FULL
-					&& currentFeeder.requestedType.equals(bin.part.type)) {
+			if (currentFeeder.state == FeederStatus.FULL && currentFeeder.requestedType.equals(bin.part.type)) {
 				currentFeeder.state = FeederStatus.PURGING;
 				break;
 			}
@@ -120,7 +118,7 @@ public class GantryAgent extends Agent implements Gantry {
 
 	@Override
 	public void msgDropBinDone(Bin bin) {
-		print("Received msgdropBingDone from graphics");
+		print("Received msgdropBinDone from graphics");
 		bin.binState = BinStatus.EMPTY;
 		animation.release();
 		// waitForDrop = false;
@@ -149,8 +147,7 @@ public class GantryAgent extends Agent implements Gantry {
 		for (MyFeeder currentFeeder : feeders) {
 			if (currentFeeder.state == FeederStatus.REQUESTED_PARTS) {
 				for (Bin bin : binList) {
-					if (bin.part.type.equals(currentFeeder.getRequestedType())
-							&& bin.binState == BinStatus.FULL) {
+					if (bin.part.type.equals(currentFeeder.getRequestedType()) && bin.binState == BinStatus.FULL) {
 						moveToFeeder(bin, currentFeeder);
 						return true;
 					}
@@ -187,8 +184,7 @@ public class GantryAgent extends Agent implements Gantry {
 	}
 
 	public void fillFeeder(Bin bin, MyFeeder feeder) {
-		print("Placing bin in feeder and filling feeder "
-				+ feeder.feeder.toString());
+		print("Placing bin in feeder and filling feeder " + feeder.feeder.toString());
 		bin.binState = BinStatus.FILLING_FEEDER;
 		feeder.state = FeederStatus.FULL;
 		// waitForDrop = false;
@@ -220,8 +216,7 @@ public class GantryAgent extends Agent implements Gantry {
 		}
 
 		for (MyFeeder currentFeeder : feeders) {
-			if (currentFeeder.state == FeederStatus.PURGING
-					&& currentFeeder.requestedType.equals(bin.part.type)) {
+			if (currentFeeder.state == FeederStatus.PURGING && currentFeeder.requestedType.equals(bin.part.type)) {
 				currentFeeder.state = FeederStatus.PENDING;
 				currentFeeder.feeder.msgRemoveBinDone();
 			}
