@@ -40,7 +40,6 @@ public class PartType implements Serializable, FactoryData {
 		partNum = num;
 		description = desc;
 		badChance = chance;
-		System.out.println("[Part Created]: Chance = " + chance);
 		this.id = StringUtil.md5(name);
 	}
 
