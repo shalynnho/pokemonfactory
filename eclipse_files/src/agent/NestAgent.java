@@ -27,7 +27,7 @@ public class NestAgent extends Agent implements Nest {
 	int full = 8;
 	public boolean takingParts = false;
 	private boolean partReady = false;
-	private boolean partTypeNull = false;
+	private final boolean partTypeNull = false;
 
 	public NestGraphics nestGraphics;
 	private NestState state;
@@ -57,6 +57,7 @@ public class NestAgent extends Agent implements Nest {
 	public enum NestState {
 		PURGING, PRIORITY_PURGE, WAITING_FOR_LANE_PURGE, DONE_PURGING, NULL
 	};
+
 	public enum LaneState {
 		PURGING, READY
 	}
@@ -71,7 +72,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgHereIsPartType(PartType type) {
 		print("Received msgHereIsPartType");
-		if(currentPartType == null && type == null) {
+		if (currentPartType == null && type == null) {
 			currentPartType = type;
 		}
 		else if(currentPartType == null && type != null) {
@@ -89,17 +90,15 @@ public class NestAgent extends Agent implements Nest {
 				laneState = LaneState.PURGING;
 				lane.msgPurgeParts();
 			}
-		}
-		else if(currentPartType != null) {
+		} else if (currentPartType != null) {
 			currentPartType = type;
 			state = NestState.PURGING;
 			laneState = LaneState.PURGING;
 			lane.msgPurgeParts();
 		}
 
-		
 		// camera.msgResetSelf();
-		
+
 		stateChanged();
 	}
 
@@ -142,6 +141,10 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgLanePurgeDone() {
+		state = NestState.DONE_PURGING;
+		if (currentPartType == null) {
+			state = NestState.NULL;
+		}
 		laneState = LaneState.READY;
 		stateChanged();
 	}
@@ -177,11 +180,13 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgPurgingDone() {
 		print("Received msgPurgingDone from graphics");
-		state = NestState.DONE_PURGING;
-		if(currentPartType == null) {
-			state = NestState.NULL;
+		if (currentPartType == null) {
+			state = NestState.DONE_PURGING;
+			if (currentPartType == null) {
+				state = NestState.NULL;
+			}
+			animation.release();
 		}
-		animation.release();
 		stateChanged();
 	}
 
@@ -191,7 +196,8 @@ public class NestAgent extends Agent implements Nest {
 		if (state == NestState.PURGING || state == NestState.PRIORITY_PURGE) {
 			purgeSelf();
 			return true;
-		} else if (state == NestState.DONE_PURGING && laneState == LaneState.READY && !takingParts && currentPartType != null) {
+		} else if (state == NestState.DONE_PURGING && laneState == LaneState.READY && !takingParts
+				&& currentPartType != null) {
 			if (partReady && currentParts.size() < full) {
 				requestPart();
 				return true;
@@ -270,7 +276,7 @@ public class NestAgent extends Agent implements Nest {
 		// count++;
 		if (nestGraphics != null) {
 			// TODO
-			// PartGraphics pg = new PartGraphics(mp.part.partGraphics);
+			PartGraphics pg = new PartGraphics(mp.part.partGraphics);
 			nestGraphics.receivePart(mp.part.partGraphics);
 			try {
 				animation.acquire();
