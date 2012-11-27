@@ -115,6 +115,9 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgLanePurgeDone() {
 		state = NestState.DONE_PURGING;
+		if(currentPartType == null) {
+			state = NestState.NULL;
+		}
 		stateChanged();
 	}
 
@@ -149,6 +152,9 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgPurgingDone() {
 		print("Received msgPurgingDone from graphics");
+		if(currentPartType == null) {
+			state = NestState.NULL;
+		}
 		animation.release();
 		stateChanged();
 	}
@@ -217,9 +223,6 @@ public class NestAgent extends Agent implements Nest {
 		requestList.clear();
 		currentParts.clear();
 		requestList.add(currentPartType);
-		if(currentPartType == null) {
-			state = NestState.NULL;
-		}
 		stateChanged();
 	}
 
