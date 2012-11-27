@@ -44,6 +44,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private Stand stand;
 	private PartsRobotGraphics partsRobotGraphics;
 
+    private double dropChance = 0;
+
 	public class MyKit {
 		public Kit kit;
 		public MyKitStatus MKS;
@@ -101,6 +103,9 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 * Messages
 	 */
 
+    public void msgSetDropChance(double dChance) {
+	dropChance = dChance;
+    }
 	/**
 	 * Changes the configuration for the kits From FCS
 	 */
@@ -298,34 +303,54 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void PlacePart(Arm arm) {
-		print("Placing part");
+	    if(Math.random() > dropChance){
+	    	print("Placing part");
 		synchronized (MyKits) {
-			for (MyKit mk : MyKits) {
-				if (mk.kit.needPart(arm.part) > 0) {
+		for (MyKit mk : MyKits) {
+		    if (mk.kit.needPart(arm.part) > 0) {
 
-					if (partsRobotGraphics != null) {
-						partsRobotGraphics.givePartToKit(arm.part.partGraphics, mk.kit.kitGraphics);
-						try {
-							// print("Blocking");
-							animation.acquire();
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						// print("Got permit");
-					}
-					// Tells the kit it has the part now
-					mk.kit.parts.add(arm.part);
-					arm.part = null;
-					arm.AS = ArmStatus.EMPTY;
-
-					// Checks if the kit is done
-					CheckMyKit(mk);
-					break;
+			if (partsRobotGraphics != null) {
+			    partsRobotGraphics.givePartToKit(arm.part.partGraphics, mk.kit.kitGraphics);
+			    try {
+				// print("Blocking");
+				animation.acquire();
+			    } catch (InterruptedException e) {
+				e.printStackTrace();
 				}
+			    // print("Got permit");
 			}
-			stateChanged();
+			// Tells the kit it has the part now
+			mk.kit.parts.add(arm.part);
+			arm.part = null;
+			arm.AS = ArmStatus.EMPTY;
+			// Checks if the kit is done
+			CheckMyKit(mk);
+			break;
+			}
 		}
+		stateChanged();
+		}
+	} else {
+	    DropPart(arm);
 	}
+    }
+
+    private void DropPart(Arm arm) {
+	print("Dropped a part");
+	if (partsRobotGraphics != null) {
+	    partsRobotGraphics.dropPartFromArm(arm.part.partGraphics);
+	    try {
+		// print("Blocking");
+		animation.acquire();
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
+	    // print("Got permit");
+	    arm.part = null;
+	    arm.AS = ArmStatus.EMPTY;
+	}
+	stateChanged();
+    }
 
 	private void CheckMyKit(MyKit mk) {
 		int size = 0;
