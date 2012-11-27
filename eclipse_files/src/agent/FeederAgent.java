@@ -99,13 +99,13 @@ public class FeederAgent extends Agent implements Feeder {
 	public void msgHereAreParts(PartType type, Bin bin) {
 		print("Received msgHereAreParts " + type.toString());
 		this.bin = bin;
+		state = FeederStatus.RECEIVING_BIN;
 		synchronized (lanes) {
 			for (MyLane lane : lanes) {
 				if (lane.type != null) {
 					if (lane.type.equals(type)) {
 						print("lane type is " + lane.type.toString());
 						lane.state = LaneStatus.GIVING_PARTS;
-						state = FeederStatus.RECEIVING_BIN;
 					}
 				}
 			}
@@ -182,10 +182,27 @@ public class FeederAgent extends Agent implements Feeder {
 					}
 				}
 			}
+			if(!doesLaneNeedParts()) {
+				state = FeederStatus.PURGING;
+				return true;
+			}
 		}
 		// }
 		if (state == FeederStatus.PURGING) {
 			purgeBin();
+		}
+		return false;
+	}
+	
+	public boolean doesLaneNeedParts() {
+		synchronized(lanes) {
+		for(MyLane lane : lanes) {
+			if(bin != null) {
+			if(lane.type == bin.part.type) {
+				return true;
+			}
+			}
+		}
 		}
 		return false;
 	}
