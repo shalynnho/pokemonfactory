@@ -38,7 +38,9 @@ public class CameraAgent extends Agent implements Camera {
 	Semaphore animation = new Semaphore(0, true);
 
 	public enum NestStatus {
-		NOT_READY, READY, PHOTOGRAPHING, PHOTOGRAPHED
+		NOT_READY, READY, PHOTOGRAPHING, PHOTOGRAPHED, NEEDS_TO_PURGE, WAITING_TO_RE_PHOTOGRAPH, 
+		READY_TO_RE_PHOTOGRAPH, RE_PHOTOGRAPHING_ONCE, RE_PHOTOGRAPHED_ONCE, NEED_TO_RE_PHOTOGRAPH_AGAIN, 
+		WAITING_TO_RE_PHOTOGRAPH_AGAIN, READY_TO_RE_PHOTOGRAPH_AGAIN, RE_PHOTOGRAPHING_TWICE, RE_PHOTOGRAPHED_TWICE
 	};
 
 	public enum KitStatus {
@@ -97,16 +99,22 @@ public class CameraAgent extends Agent implements Camera {
 	// Should no longer be called in v2. Change to timer.
 	@Override
 	public void msgIAmFull(Nest nest) {
-		synchronized (nests) {
+		//synchronized (nests) {
 
 			print("Received msgIAmFull from nest with type " + ((NestAgent) nest).currentPartType);
 			for (MyNest n : nests) {
 				if (n.nest == nest) {
-					n.state = NestStatus.READY;
+					if(n.state == NestStatus.NOT_READY) {
+						n.state = NestStatus.READY;
+					} else if(n.state == NestStatus.WAITING_TO_RE_PHOTOGRAPH) {
+						n.state = NestStatus.READY_TO_RE_PHOTOGRAPH;
+					} else if(n.state == NestStatus.WAITING_TO_RE_PHOTOGRAPH_AGAIN) {
+						n.state = NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN;
+					}
 					break;
 				}
 			}
-		}
+		//}
 		stateChanged();
 
 	}
@@ -114,11 +122,11 @@ public class CameraAgent extends Agent implements Camera {
 	@Override
 	public void msgResetSelf() {
 		print("Reseting Self");
-		synchronized (nests) {
+		//synchronized (nests) {
 			for (MyNest n : nests) {
 				n.state = NestStatus.NOT_READY;
 			}
-		}
+		//}
 		mk = null;
 		// stateChanged();
 	}
@@ -128,13 +136,21 @@ public class CameraAgent extends Agent implements Camera {
 		print("Received msgTakePictureNestDone from graphics");
 		boolean found1 = false;
 		boolean found2 = false;
-		synchronized (nests) {
+		//synchronized (nests) {
 			for (MyNest n : nests) {
 				if (n.nest.nestGraphics == nest) {
 					// In v0 all parts are good parts
 					print("nest " + nests.indexOf(n) + " photographed");
 					n.numFilledSnapshot = n.nest.currentParts.size();
-					n.state = NestStatus.PHOTOGRAPHED;
+					
+					if (n.state == NestStatus.PHOTOGRAPHING) {
+						n.state = NestStatus.PHOTOGRAPHED;
+					} else if (n.state == NestStatus.RE_PHOTOGRAPHING_ONCE) {
+						n.state = NestStatus.RE_PHOTOGRAPHED_ONCE;
+					} else if (n.state == NestStatus.RE_PHOTOGRAPHING_TWICE) {
+						n.state = NestStatus.RE_PHOTOGRAPHED_TWICE;
+					}
+
 					if (found2) {
 						break;
 					}
@@ -144,14 +160,21 @@ public class CameraAgent extends Agent implements Camera {
 					// In v0 all parts are good parts
 					print("nest " + nests.indexOf(n) + " photographed");
 					n.numFilledSnapshot = n.nest.currentParts.size();
-					n.state = NestStatus.PHOTOGRAPHED;
+					if (n.state == NestStatus.PHOTOGRAPHING) {
+						n.state = NestStatus.PHOTOGRAPHED;
+					} else if (n.state == NestStatus.RE_PHOTOGRAPHING_ONCE) {
+						n.state = NestStatus.RE_PHOTOGRAPHED_ONCE;
+					} else if (n.state == NestStatus.RE_PHOTOGRAPHING_TWICE) {
+						n.state = NestStatus.RE_PHOTOGRAPHED_TWICE;
+					}
+
 					if (found1) {
 						break;
 					}
 					found2 = true;
 				}
 			}
-		}
+		//}
 		animation.release();
 		stateChanged();
 	}
@@ -185,7 +208,11 @@ public class CameraAgent extends Agent implements Camera {
 				if (nests.size() > i + 1) { // Quick check to make sure there
 					// is a nest paired with this
 					// one
-					if (nests.get(i).state == NestStatus.READY && nests.get(i + 1).state == NestStatus.READY) {
+					if ((nests.get(i).state == NestStatus.READY 
+							|| nests.get(i).state == NestStatus.READY_TO_RE_PHOTOGRAPH 
+							|| nests.get(i).state == NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN) && (nests.get(i + 1).state == NestStatus.READY 
+							|| nests.get(i + 1).state == NestStatus.READY_TO_RE_PHOTOGRAPH 
+							|| nests.get(i + 1).state == NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN)) {
 						print("Taking photos of nests");
 						takePictureOfNest(nests.get(i), nests.get(i + 1));
 						return true;
@@ -196,7 +223,9 @@ public class CameraAgent extends Agent implements Camera {
 
 		synchronized (nests) {
 			for (MyNest n : nests) {
-				if (n.state == NestStatus.PHOTOGRAPHED) {
+				if (n.state == NestStatus.PHOTOGRAPHED 
+						|| n.state == NestStatus.RE_PHOTOGRAPHED_ONCE 
+						|| n.state == NestStatus.RE_PHOTOGRAPHED_TWICE) {
 					tellPartsRobot(n);
 					return true;
 				}
@@ -255,7 +284,7 @@ public class CameraAgent extends Agent implements Camera {
 		List<Part> goodParts = new ArrayList<Part>();
 
 		// Parts missing - Non Norm
-		if (n.numFilledSnapshot < n.nest.full) {
+		//if (n.numFilledSnapshot < n.nest.full) {
 			/**
 			 * 1) Nothing, just wait a little longer.This may be the first time parts are coming down the lane and your
 			 * estimation may be wrong. (1) Just wait a little longer and see if parts have arrived.
@@ -265,33 +294,79 @@ public class CameraAgent extends Agent implements Camera {
 			 * 6) Your feeder algorithm for keeping parts in two lanes did not changeover fast enough. (6) adjust the
 			 * parameter of your feeder algorithm for changing parts over from one lane to another.
 			 */
-			print("Missing Parts in Nest : non-normative");
-		} else {
-			for (MyPart part : n.nest.currentParts) {
-				if (part.part.isGood) {
-					goodParts.add(part.part);
-				}
-			}
-			print("Good parts count: " + goodParts.size());
-
-			// No Good Parts found - non norm
-			if (goodParts.size() == 0) {
-				print("No Good Parts Found : non-normative");
-
+			//print("Missing Parts in Nest : non-normative");
+		//} else {
+		if(n.state == NestStatus.PHOTOGRAPHED) {
+			if(n.numFilledSnapshot<n.nest.full) {
+				print("rephotographing nest");
+				n.state = NestStatus.WAITING_TO_RE_PHOTOGRAPH;
+				//TIMER HERE TO PHOTOGRAPH
 			} else {
-				partRobot.msgHereAreGoodParts(n.nest, goodParts);
+				for (MyPart part : n.nest.currentParts) {
+					if (part.part.isGood) {
+						goodParts.add(part.part);
+					}
+				}
+				print("Good parts count: " + goodParts.size());
+	
+				// No Good Parts found - non norm
+				if (goodParts.size() == 0) {
+					//print("No Good Parts Found : non-normative");
+					n.nest.msgPurgeSelf();
+				} else {
+					partRobot.msgHereAreGoodParts(n.nest, goodParts);
+				}
+				n.state = NestStatus.NOT_READY;
 			}
+		} else if(n.state == NestStatus.RE_PHOTOGRAPHED_ONCE) {
+			if(n.numFilledSnapshot<n.nest.full){
+				print("Telling lane to increase amplitude");
+				n.state = NestStatus.WAITING_TO_RE_PHOTOGRAPH_AGAIN;
+				n.nest.msgTellLaneToIncreaseAmplitude();
+				//TIMER HERE TO PHOTOGRAPH
+			} else {
+				for (MyPart part : n.nest.currentParts) {
+					if (part.part.isGood) {
+						goodParts.add(part.part);
+					}
+				}
+				print("Good parts count: " + goodParts.size());
+	
+				// No Good Parts found - non norm
+				if (goodParts.size() == 0) {
+					//print("No Good Parts Found : non-normative");
+					n.nest.msgPurgeSelf();
+				} else {
+					partRobot.msgHereAreGoodParts(n.nest, goodParts);
+				}
+				n.state = NestStatus.NOT_READY;
+			}
+		} else if(n.state == NestStatus.RE_PHOTOGRAPHED_TWICE) {
+			print("Telling feeder to fix itself");
+			n.state = NestStatus.NOT_READY;
+			n.nest.msgTellFeederToFixThisLane();
 		}
 
-		n.state = NestStatus.NOT_READY;
 		stateChanged();
 
 	}
 
 	private void takePictureOfNest(MyNest n, MyNest n2) {
 		synchronized (nests) {
-			n.state = NestStatus.PHOTOGRAPHING;
-			n2.state = NestStatus.PHOTOGRAPHING;
+			if(n.state == NestStatus.READY){
+				n.state = NestStatus.PHOTOGRAPHING;
+			} else if(n.state == NestStatus.READY_TO_RE_PHOTOGRAPH) {
+				n.state = NestStatus.RE_PHOTOGRAPHING_ONCE;
+			} else if(n.state == NestStatus.NEED_TO_RE_PHOTOGRAPH_AGAIN) {
+				n.state = NestStatus.RE_PHOTOGRAPHING_TWICE;
+			}
+			if(n2.state == NestStatus.READY){
+				n2.state = NestStatus.PHOTOGRAPHING;
+			} else if(n2.state == NestStatus.READY_TO_RE_PHOTOGRAPH) {
+				n2.state = NestStatus.RE_PHOTOGRAPHING_ONCE;
+			} else if(n2.state == NestStatus.NEED_TO_RE_PHOTOGRAPH_AGAIN) {
+				n2.state = NestStatus.RE_PHOTOGRAPHING_TWICE;
+			}
 			if (guiCamera != null) {
 				guiCamera.takeNestPhoto(n.nest.nestGraphics, n2.nest.nestGraphics);
 				// print("Blocking");
