@@ -254,18 +254,17 @@ public class PartsManagerPanelV2 extends JPanel {
 		submitButton.setText("Edit >");
 		
 		removeAllActionListener(submitButton);
-		submitButton.addActionListener(new ActionListener() {
-			//float newChance = (float)badChanceScroller.getValue();
-			
+		submitButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				//TODO try and get rid of this hack
+				float newChance = (float)badChanceScroller.getValue();
+				
 				System.out.println("Edit name: " + nameField.getText());
 				pt.setName(nameField.getText());
 				pt.setPartNum(Integer.parseInt(numField.getText()));
 				pt.setDescription(descField.getText());
-				
-				//TODO issue editing chance with scroller
-				//pt.setBadChance(newChance);
+				pt.setBadChance(newChance/100);
 				
 				manager.editPart(pt);
 				restoreLeftPanel();
