@@ -28,16 +28,16 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int LINE_WIDTH = 3;
 
 	// stores the parts on the lane
-	private ArrayList<PartGraphicsDisplay> partsOnLane;
+	private final ArrayList<PartGraphicsDisplay> partsOnLane;
 	// start location of parts on this lane
 	private final Location partStartLoc;
 	// array list of locations of the lane lines
 	private ArrayList<Location> laneLines;
 
 	// the LaneManager (client) which talks to the Server
-	private Client client;
+	private final Client client;
 	// the ID of this Lane
-	private int laneID;
+	private final int laneID;
 	// the amplitude of this lane
 	private int amplitude = 1;
 	// true if Lane is on
@@ -52,8 +52,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	/**
 	 * LGD constructor
 	 * 
-	 * @param lm - the lane manager (client)
-	 * @param lid  - lane ID
+	 * @param lm
+	 *            - the lane manager (client)
+	 * @param lid
+	 *            - lane ID
 	 */
 	public LaneGraphicsDisplay(Client c, int lid) {
 		client = c;
@@ -62,21 +64,21 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		partsOnLane = new ArrayList<PartGraphicsDisplay>();
 		// generate lane start location
 		location = new Location(Constants.LANE_END_X, 53 + laneID * 75);
-		
+
 		// for reference only
-		partStartLoc = new Location(Constants.LANE_BEG_X, location.getY()
-				+ (Constants.PART_WIDTH / 2) - Constants.PART_OFFSET);
-		
+		partStartLoc = new Location(Constants.LANE_BEG_X, location.getY() + Constants.PART_WIDTH / 2
+				- Constants.PART_OFFSET);
 
 		resetLaneLineLocs();
 	}
 
-
 	/**
 	 * Animates lane movement and sets location of parts moving down lane
 	 * 
-	 * @param c - component on which this is drawn
-	 * @param g - the graphics component on which this draws
+	 * @param c
+	 *            - component on which this is drawn
+	 * @param g
+	 *            - the graphics component on which this draws
 	 */
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
@@ -89,24 +91,23 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 			// animate lane movements using lines
 			for (int i = 0; i < laneLines.size(); i++) {
-				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX() + client.getOffset(),
-						laneLines.get(i).getY(), c);
+				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX() + client.getOffset(), laneLines.get(i).getY(),
+						c);
 			}
 			moveLane();
 
 			// animate parts moving down lane
 			if (partsOnLane.size() > 0) {
-								
-				int min = (MAX_PARTS < partsOnLane.size()) ? MAX_PARTS
-						: partsOnLane.size(); // whichever is less
-				
+
+				int min = MAX_PARTS < partsOnLane.size() ? MAX_PARTS : partsOnLane.size(); // whichever is less
+
 				for (int i = 0; i < min; i++) {
-					
+
 					PartGraphicsDisplay pgd = partsOnLane.get(i);
 					Location loc = pgd.getLocation();
 
 					if (i == 0) { // first part on the lane
-						
+
 						if (loc.getX() > Constants.LANE_END_X) { // hasn't reached end of lane
 							updateXLoc(loc, Constants.LANE_END_X, amplitude);
 							partAtLaneEnd = false;
@@ -114,42 +115,42 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 							if (!purging) {
 								partAtLaneEnd = true;
 								msgAgentReceivePartDone();
-							} else {	// purging, continue till off lane
-								
+							} else { // purging, continue till off lane
+
 								if (loc.getX() > Constants.LANE_END_X - Constants.PART_WIDTH) {
 									updateXLoc(loc, Constants.LANE_END_X - Constants.PART_WIDTH, amplitude);
-//									loc.incrementX(-amplitude);
-								} else {	// once off lane and not visible, remove
+									// loc.incrementX(-amplitude);
+								} else { // once off lane and not visible, remove
 									if (partsOnLane.size() > 0) {
 										partsOnLane.remove(0);
-									} else {	// all parts removed, done purging
+									} else { // all parts removed, done purging
 										purging = false;
 										msgAgentPurgingDone();
 									}
 								}
 							}
 						}
-						
+
 					} else { // all other parts on lane (not first)
-						
+
 						// part in front of i
 						PartGraphicsDisplay pgdInFront = partsOnLane.get(i - 1);
 						Location locInFront = pgdInFront.getLocation();
 
 						// makes sure parts are spaced out as they appear on
 						// lane, but don't overlap part in front
-						if (locInFront.getX() <= (Constants.LANE_BEG_X - (2 * Constants.PART_WIDTH))
-								&& (loc.getX() > (locInFront.getX() + Constants.PART_WIDTH))) {
-//							loc.incrementX(-amplitude);
+						if (locInFront.getX() <= Constants.LANE_BEG_X - 2 * Constants.PART_WIDTH
+								&& loc.getX() > locInFront.getX() + Constants.PART_WIDTH) {
+							// loc.incrementX(-amplitude);
 							updateXLoc(loc, Constants.LANE_END_X, amplitude);
 						}
 					}
 					vibrateParts(loc);
 					pgd.setLocation(loc);
 					pgd.drawWithOffset(c, g, client.getOffset());
-					
+
 				} // end for loop
-				
+
 			} else if (purging) {
 				purging = false;
 				msgAgentPurgingDone();
@@ -160,11 +161,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			} else {
 				g.drawImage(Constants.LANE_IMAGE2, location.getX() + client.getOffset(), location.getY(), c);
 			}
-			
+
 			// draw lane lines
 			for (int i = 0; i < laneLines.size(); i++) {
-				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX() + client.getOffset(), laneLines.get(i)
-						.getY(), c);
+				g.drawImage(Constants.LANE_LINE, laneLines.get(i).getX() + client.getOffset(), laneLines.get(i).getY(),
+						c);
 			}
 		}
 	}
@@ -175,6 +176,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * @param r
 	 *            - the request to be parsed
 	 */
+	@Override
 	public void receiveData(Request r) {
 		String cmd = r.getCommand();
 		// parse data request here
@@ -190,11 +192,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (cmd.equals(Constants.LANE_SET_STARTLOC_COMMAND)) {
 			location = (Location) r.getData();
-			
+
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
-				PartType type = (PartType) r.getData();
-				receivePart(type);
-			
+			PartType type = (PartType) r.getData();
+			receivePart(type);
+
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 			givePartToNest();
 
@@ -217,48 +219,52 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private void givePartToNest() {
 		partsOnLane.remove(0);
 		receivePartDoneSent = false; // reset
-		client.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
-				+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
+		client.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX, Constants.LANE_TARGET
+				+ laneID, null));
 	}
 
 	/**
 	 * Increments the X-coordinate
-	 * @param loc - the location being incremented
-	 * @param end - the end location toward which loc is being incremented
-	 * @param increment - a POSITIVE value representing number of pixels moved each call to draw
+	 * 
+	 * @param loc
+	 *            - the location being incremented
+	 * @param end
+	 *            - the end location toward which loc is being incremented
+	 * @param increment
+	 *            - a POSITIVE value representing number of pixels moved each call to draw
 	 */
-	private void updateXLoc(Location loc, int end, int increment) {		
-//		System.out.println("loc.getX(): "+loc.getX()+", end: "+end+", abs(dif): "+(Math.abs(end - loc.getX()) < increment));
-		
-		if((Math.abs(end - loc.getX())) < increment) {
+	private void updateXLoc(Location loc, int end, int increment) {
+		// System.out.println("loc.getX(): "+loc.getX()+", end: "+end+", abs(dif): "+(Math.abs(end - loc.getX()) <
+		// increment));
+
+		if (Math.abs(end - loc.getX()) < increment) {
 			loc.setX(end);
 		}
-		
-		if(loc.getX() > end) {	// moving left
+
+		if (loc.getX() > end) { // moving left
 			loc.incrementX(-increment);
-		} 
+		}
 	}
-	
+
 	/**
 	 * Animates the lane lines
 	 */
 	private void moveLane() {
-			for (int i = 0; i < laneLines.size(); i++) {
-				int xCurrent = laneLines.get(i).getX();
-				if (xCurrent <= (Constants.LANE_END_X - LINE_WIDTH)) {
-					if (i == 0) {
-						int xPrev = laneLines.get(laneLines.size() - 1).getX();
-						laneLines.get(i).setX(xPrev + LINESPACE);
-					} else {
-						int xPrev = laneLines.get(i-1).getX();
-						laneLines.get(i).setX(xPrev + LINESPACE);
-					}
+		for (int i = 0; i < laneLines.size(); i++) {
+			int xCurrent = laneLines.get(i).getX();
+			if (xCurrent <= Constants.LANE_END_X - LINE_WIDTH) {
+				if (i == 0) {
+					int xPrev = laneLines.get(laneLines.size() - 1).getX();
+					laneLines.get(i).setX(xPrev + LINESPACE);
 				} else {
-					laneLines.get(i).incrementX(-amplitude);
+					int xPrev = laneLines.get(i - 1).getX();
+					laneLines.get(i).setX(xPrev + LINESPACE);
 				}
+			} else {
+				laneLines.get(i).incrementX(-amplitude);
 			}
+		}
 	}
-
 
 	/**
 	 * Purges lane of all parts
@@ -268,15 +274,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		purgeDoneSent = false;
 		purging = true;
 	}
-	
+
 	private void receivePart(PartType type) {
 		PartGraphicsDisplay pg = new PartGraphicsDisplay(type);
-		Location newLoc = new Location(location.getX() + Constants.LANE_LENGTH,
-				location.getY() + (Constants.PART_WIDTH / 2) - Constants.PART_OFFSET);
+		Location newLoc = new Location(location.getX() + Constants.LANE_LENGTH, location.getY() + Constants.PART_WIDTH
+				/ 2 - Constants.PART_OFFSET);
 		pg.setLocation(newLoc);
 		partsOnLane.add(pg);
 	}
-
 
 	/**
 	 * Creates an array list of Locations for the lane lines
@@ -301,33 +306,32 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	private void vibrateParts(Location loc) {
 		// to show vibration down lane (may have to adjust values)
-		if (loc.getY() <= (partStartLoc.getY() + 2)) {
+		if (loc.getY() <= partStartLoc.getY() + 2) {
 			loc.incrementY(2);
-		} else if (loc.getY() > (partStartLoc.getY() - 2)){
+		} else if (loc.getY() > partStartLoc.getY() - 2) {
 			loc.incrementY(-2);
 		}
 	}
-	
+
 	/**
-	 * Tells the agent that the part has reached the end of the lane.
-	 * Make sure only sends message once for each part, not on every call to draw.
+	 * Tells the agent that the part has reached the end of the lane. Make sure only sends message once for each part,
+	 * not on every call to draw.
 	 */
 	private void msgAgentReceivePartDone() {
-		if(partAtLaneEnd && (!receivePartDoneSent)) {
-			client.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
-					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
+		if (partAtLaneEnd && !receivePartDoneSent) {
+			client.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX,
+					Constants.LANE_TARGET + laneID, null));
 			receivePartDoneSent = true;
 		}
 	}
-	
+
 	/**
-	 * Tells the agent that purging is done.
-	 * Make sure only sends message once for each part, not on every call to draw.
+	 * Tells the agent that purging is done. Make sure only sends message once for each part, not on every call to draw.
 	 */
 	private void msgAgentPurgingDone() {
-		if((partsOnLane.size() == 0) && (!purgeDoneSent)) {
-			client.sendData(new Request(Constants.LANE_PURGE_COMMAND
-					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET+laneID, null));
+		if (partsOnLane.size() == 0 && !purgeDoneSent) {
+			client.sendData(new Request(Constants.LANE_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.LANE_TARGET
+					+ laneID, null));
 			purgeDoneSent = true;
 		}
 	}
