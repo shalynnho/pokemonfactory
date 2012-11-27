@@ -71,9 +71,9 @@ public abstract class Constants {
 	public static final Location PARTS_ROBOT_LOC = new Location(250, 450);
 	public static final Location GANTRY_ROBOT_LOC = new Location(940, 180);
 
-	public static final Location INSPECTION_LOC = new Location(280, 100);
-	public static final Location STAND1_LOC = new Location(280, 200);
-	public static final Location STAND2_LOC = new Location(280, 300);
+	public static final Location INSPECTION_LOC = new Location(300, 100);
+	public static final Location STAND1_LOC = new Location(300, 200);
+	public static final Location STAND2_LOC = new Location(300, 300);
 
 	public static final Location KIT_LEAVE_LOC = new Location(30, 100);
 	public static final Location KIT_CONVEYOR_LOC = new Location(0, 200);

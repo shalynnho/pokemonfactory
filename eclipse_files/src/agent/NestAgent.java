@@ -27,6 +27,7 @@ public class NestAgent extends Agent implements Nest {
 	int full = 8;
 	public boolean takingParts = false;
 	private boolean partReady = false;
+	private boolean partTypeNull = false;
 
 	public NestGraphics nestGraphics;
 	private NestState state;
@@ -157,7 +158,7 @@ public class NestAgent extends Agent implements Nest {
 		if (state == NestState.PURGING || state == NestState.PRIORITY_PURGE) {
 			purgeSelf();
 			return true;
-		} else if (state == NestState.DONE_PURGING && !takingParts) {
+		} else if (state == NestState.DONE_PURGING && !takingParts && currentPartType != null) {
 			if (partReady && currentParts.size() < full) {
 				requestPart();
 				return true;

@@ -18,7 +18,7 @@ import factory.PartType;
  */
 public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 	
-	public static final int RIGHT_X_LOC = 280;
+	public static final int RIGHT_X_LOC = 300;
 	public static final int Y_OFFSET = 100;
 	public static final int STAND_WIDTH = 80;
 	
@@ -46,7 +46,7 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		kit = new KitGraphicsDisplay();
 		// set location of kit based on standID
 		if (id % 2 == 0) {
-			location = new Location((RIGHT_X_LOC - STAND_WIDTH/2), standID*Y_OFFSET + Y_OFFSET);
+			location = new Location(RIGHT_X_LOC, standID*Y_OFFSET + Y_OFFSET);
 		} else {
 			location = new Location(RIGHT_X_LOC, standID*Y_OFFSET + Y_OFFSET);
 		}
