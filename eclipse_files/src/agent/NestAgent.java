@@ -74,6 +74,14 @@ public class NestAgent extends Agent implements Nest {
 		if(currentPartType == null && type == null) {
 			currentPartType = type;
 		}
+		else if(currentPartType == null && type != null) {
+			//if(!type.equals(currentPartType)) {
+				currentPartType = type;
+				state = NestState.PURGING;
+				laneState = LaneState.PURGING;
+				lane.msgPurgeParts();
+			//}
+		}
 		else if(currentPartType != null && type != null) {
 			if(!type.equals(currentPartType)) {
 				currentPartType = type;

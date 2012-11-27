@@ -151,7 +151,7 @@ public class LaneAgent extends Agent implements Lane {
 			}
 		}
 
-		/*if (state == LaneStatus.FILLING && currentType != null) {
+		if (state == LaneStatus.FILLING && currentType != null) {
 			if(extraRequestCount+requestList.size()+currentParts.size() < topLimit) {
 				requestList.add(currentType);
 				extraRequestCount++;
@@ -168,7 +168,7 @@ public class LaneAgent extends Agent implements Lane {
 				state = LaneStatus.FILLING;
 				return true;
 			}
-		}*/
+		}
 
 		synchronized (currentParts) {
 			for (MyPart part : currentParts) {
