@@ -70,7 +70,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	}
 
 	public enum KitStatus {
-		AWAITING_PICKUP, REQUESTED, PICKED_UP, ON_STAND, MARKED_FOR_INSPECTION, AWAITING_INSPECTION, INSPECTED, SHIPPED;
+		AWAITING_PICKUP, REQUESTED, PICKED_UP, ON_STAND, MARKED_FOR_INSPECTION, AWAITING_INSPECTION, FAILED_INSPECTION, PASSED_INSPECTION, SHIPPED;
 	};
 
 	/**
@@ -165,7 +165,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			// print("Acquiring in KPI");
 			for (MyKit mk : myKits) {
 				if (mk.KS == KitStatus.AWAITING_INSPECTION) {
-					mk.KS = KitStatus.INSPECTED;
+					mk.KS = KitStatus.PASSED_INSPECTION;
 					break;
 				}
 			}
@@ -175,8 +175,15 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 	@Override
 	public void msgKitFailedInspection() {
-		// TODO Auto-generated method stub
-
+		print("Received msgKitFailedInspection");
+		synchronized (myKits) {
+			for (MyKit mk : myKits) {
+				if (mk.KS == KitStatus.AWAITING_INSPECTION) {
+					mk.KS = KitStatus.FAILED_INSPECTION;
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -212,7 +219,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		synchronized (myKits) {
 			// print("Acquiring in scheduler");
 			for (MyKit mk : myKits) {
-				if (mk.KS == KitStatus.INSPECTED) {
+				if (mk.KS == KitStatus.PASSED_INSPECTION) {
 					mk.KS = KitStatus.SHIPPED;
 					numKitsToMake--;
 					shipKit(mk);
@@ -233,7 +240,24 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			}
 		}
 
-		// Picking up a kit from conveyor
+		// Failed kits should be placed first
+		synchronized (myKits) {
+			// print("Acquiring in scheduler");
+			for (MyKit mk : myKits) {
+				if (mk.KS == KitStatus.FAILED_INSPECTION) {
+					mk.KS = KitStatus.PICKED_UP;
+					state = KitRobotState.HOLDING_KIT;
+					// Sets the old location of the kit to false so the kitrobot can put it back there (or at another
+					// position if necessary)
+					standPositions.put(mk.location, false);
+					// TODO: This should ask the stand to place at the kit's previous location.
+					placeKitOnStand(mk);
+					return true;
+				}
+			}
+		}
+
+		// Pick up a kit from conveyor
 		// AwaitingPickup is the default state for MyKit which is
 		// created when conveyor sends hereIsKit
 		synchronized (myKits) {
