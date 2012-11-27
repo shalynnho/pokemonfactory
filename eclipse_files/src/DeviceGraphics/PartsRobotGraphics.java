@@ -56,6 +56,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	    for(PartGraphics p : partArray) {
 			if (p == part) {
 				partArray.remove(p);
+				break;
 			}
 		}
 		
