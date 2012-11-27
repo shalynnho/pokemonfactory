@@ -16,7 +16,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	// Messages
 
 	public enum Message {
-		sendGoodConveyorDoneMessage, sendStandDoneMessage, sendInspectionDoneMessage
+		sendGoodConveyorDoneMessage, sendStand1DoneMessage, sendStand2DoneMessage, sendInspectionDoneMessage
 	};
 
 	Message sendMessage;
@@ -83,7 +83,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		initialJob = false;
 		finalJob = false;
 
-		sendMessage = Message.sendStandDoneMessage;
+		sendMessage = Message.sendGoodConveyorDoneMessage;
 
 		returnJob = false;
 
@@ -264,9 +264,10 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	 * messages are based on what position the kit robot reaches
 	 */
 	public void setDoneMessage() {
-		if (position.equals(Position.location1Position)
-				|| position.equals(Position.location2Position)) {
-			this.sendMessage = Message.sendStandDoneMessage;
+		if (position.equals(Position.location1Position)){
+			this.sendMessage = Message.sendStand1DoneMessage;
+		} else if(position.equals(Position.location2Position)) {
+			this.sendMessage = Message.sendStand2DoneMessage;
 		} else if (position.equals(Position.goodConveyorPosition)) {
 			this.sendMessage = Message.sendGoodConveyorDoneMessage;
 		} else if (position.equals(Position.inspectionPosition)) {
@@ -275,10 +276,13 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void sendDoneMessage() {
-		if (this.sendMessage.equals(Message.sendStandDoneMessage)) {
+		if (this.sendMessage.equals(Message.sendStand1DoneMessage)) {
 			kitRobotClient.sendData(new Request(
-					Constants.KIT_ROBOT_ON_STAND_DONE,
-					Constants.KIT_ROBOT_TARGET, null));
+					Constants.KIT_ROBOT_ON_STAND1_DONE,
+					Constants.KIT_ROBOT_TARGET, currentKit));
+		} else if(this.sendMessage.equals(Message.sendStand2DoneMessage)){ 
+			kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_ON_STAND2_DONE,
+					Constants.KIT_ROBOT_TARGET, currentKit));
 		} else if (this.sendMessage.equals(Message.sendGoodConveyorDoneMessage)) {
 			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(

@@ -219,6 +219,7 @@ public class FCSAgent extends Agent implements FCS {
 		camera.msgResetSelf();
 		// print("NEST SIZE: " + nests.size());
 		for (int i = 0; i < 8; i++) {
+			nests.get(i).msgHereIsPartType(null);
 			nests.get(i).msgPurgeSelf();
 		}
 	}
