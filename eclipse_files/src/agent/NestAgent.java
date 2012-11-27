@@ -54,7 +54,7 @@ public class NestAgent extends Agent implements Nest {
 	};
 
 	public enum NestState {
-		PURGING, PRIORITY_PURGE, WAITING_FOR_LANE_PURGE, DONE_PURGING
+		PURGING, PRIORITY_PURGE, WAITING_FOR_LANE_PURGE, DONE_PURGING, NULL
 	};
 
 	public NestAgent(String name) {
@@ -69,6 +69,7 @@ public class NestAgent extends Agent implements Nest {
 		print("Received msgHereIsPartType");
 		state = NestState.PURGING;
 
+		
 		// camera.msgResetSelf();
 		currentPartType = type;
 		stateChanged();
@@ -216,6 +217,9 @@ public class NestAgent extends Agent implements Nest {
 		requestList.clear();
 		currentParts.clear();
 		requestList.add(currentPartType);
+		if(currentPartType == null) {
+			state = NestState.NULL;
+		}
 		stateChanged();
 	}
 
