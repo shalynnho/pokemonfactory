@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -31,23 +32,28 @@ import factory.PartType;
  * 
  * @author Peter Zhang
  */
-public class PartsManagerPanelV2 extends JPanel{
+public class PartsManagerPanelV2 extends JPanel {
 	
-	JPanel panels;
-	OverlayPanel leftPanel;
-	JScrollPane jsp;
-	PartsListPanel rightPanel;
+	private JPanel panels;
+	private OverlayPanel leftPanel;
+	private JScrollPane jsp;
+	private PartsListPanel rightPanel;
 	
-	WhiteLabel leftTitle;
-	JTextField nameField;
-	WhiteLabel numField;
-	JTextArea descField;
-	JButton submitButton;
+	private WhiteLabel leftTitle;
+	private JTextField nameField;
+	private WhiteLabel numField;
+	private JTextArea descField;
+	private JButton submitButton;
 	
-	PartsManager manager;
+	private JSlider badChanceScroller;
+	private static final int CHANCE_MIN = 0;
+	private static final int CHANCE_MAX = 100;
+	private static final int CHANCE_INIT = 0;
 	
-	boolean isEditing;
-	boolean isDeleting;
+	private PartsManager manager;
+	
+	private boolean isEditing;
+	private boolean isDeleting;
 	
 	public PartsManagerPanelV2(PartsManager mngr) {
 		manager = mngr;
@@ -156,6 +162,29 @@ public class PartsManagerPanelV2 extends JPanel{
 			descField.setPreferredSize(new Dimension(200, 100));
 			descField.setBorder(Constants.FIELD_PADDING);
 			descPanel.add(descField);
+			
+		JPanel chancePanel = new JPanel();
+		chancePanel.setBorder(Constants.TOP_PADDING);
+		chancePanel.setLayout(new BoxLayout(chancePanel, BoxLayout.LINE_AXIS));
+		chancePanel.setOpaque(false);
+		chancePanel.setVisible(true);
+		chancePanel.setAlignmentX(0);
+		leftPanel.add(chancePanel);
+			
+			WhiteLabel chanceLabel = new WhiteLabel("Chance of defect");
+			chanceLabel.setLabelSize(100, 25);
+			chancePanel.add(chanceLabel);
+			
+			badChanceScroller = new JSlider(JSlider.HORIZONTAL, CHANCE_MIN, CHANCE_MAX, CHANCE_INIT);
+			badChanceScroller.setMajorTickSpacing(50);
+			badChanceScroller.setMinorTickSpacing(10);
+			badChanceScroller.setPaintTicks(true);
+			badChanceScroller.setPaintLabels(true);
+			badChanceScroller.setFont(new Font("Arial", Font.PLAIN, 14));
+			badChanceScroller.setBackground(Color.WHITE); 
+			//badChanceScroller.setOpaque(false);
+			chancePanel.add(badChanceScroller);
+			
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBorder(Constants.TOP_PADDING); 
@@ -193,10 +222,14 @@ public class PartsManagerPanelV2 extends JPanel{
 			submitButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+					// TODO try to remove this hack
+					float chance = (float)badChanceScroller.getValue();
+					
 					manager.createPart(new PartType(
 							nameField.getText(),
 							Integer.parseInt(numField.getText()),
-							descField.getText()
+							descField.getText(),
+							chance/100
 					));
 					restoreLeftPanel();
 				}
@@ -217,16 +250,22 @@ public class PartsManagerPanelV2 extends JPanel{
 		nameField.setText(pt.getName());
 		numField.setText(String.valueOf(pt.getPartNum()));
 		descField.setText(pt.getDescription());
+		badChanceScroller.setValue((int)(pt.getBadChance()*100));
 		submitButton.setText("Edit >");
 		
 		removeAllActionListener(submitButton);
 		submitButton.addActionListener(new ActionListener() {
+			//float newChance = (float)badChanceScroller.getValue();
+			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Edit name: " + nameField.getText());
 				pt.setName(nameField.getText());
 				pt.setPartNum(Integer.parseInt(numField.getText()));
 				pt.setDescription(descField.getText());
+				
+				//TODO issue editing chance with scroller
+				//pt.setBadChance(newChance);
 				
 				manager.editPart(pt);
 				restoreLeftPanel();
@@ -280,4 +319,5 @@ public class PartsManagerPanelV2 extends JPanel{
 			button.removeActionListener(al);
 		}
 	}
+
 }
