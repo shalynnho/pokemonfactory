@@ -102,7 +102,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitEnterLocation = Constants.KIT_CONVEYOR_LOC;
 		inspectionLocation = Constants.INSPECTION_LOC;
 		location1 = Constants.STAND1_LOC;
-		location2 = Constants.STAND1_LOC;
+		location2 = Constants.STAND2_LOC;
 		
 		currentKit = new KitGraphicsDisplay();
 
