@@ -246,7 +246,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			status = PartsRobotStatus.PLACING;
 			return true;
 		} else {
-			System.out.println("Current: " + System.currentTimeMillis() + " Stored: " + time.getTime());
+			// System.out.println("Current: " + System.currentTimeMillis() + " Stored: " + time.getTime());
 		}
 
 		timer.schedule(new TimerTask() {
