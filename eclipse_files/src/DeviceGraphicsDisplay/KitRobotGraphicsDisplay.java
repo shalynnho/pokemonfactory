@@ -279,10 +279,10 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (this.sendMessage.equals(Message.sendStand1DoneMessage)) {
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_STAND1_DONE,
-					Constants.KIT_ROBOT_TARGET, currentKit));
+					Constants.KIT_ROBOT_TARGET, null));
 		} else if(this.sendMessage.equals(Message.sendStand2DoneMessage)){ 
 			kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_ON_STAND2_DONE,
-					Constants.KIT_ROBOT_TARGET, currentKit));
+					Constants.KIT_ROBOT_TARGET, null));
 		} else if (this.sendMessage.equals(Message.sendGoodConveyorDoneMessage)) {
 			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(
