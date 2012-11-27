@@ -416,7 +416,8 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		if (I > 0) {
 
 			partArrayGraphics.remove(I - 1);
-
+			//Reminder for Adrian: Add sendData to Stand
+			
 		}// else
 		 // System.out.println("No parts to remove.");
 
@@ -540,7 +541,6 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			// System.out.println("before pick up");
 		}
 	}
-
 	@Override
 	public void setLocation(Location newLocation) {
 		// TODO Auto-generated method stub

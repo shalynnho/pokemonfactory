@@ -170,7 +170,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		} else if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT_INSPECTED)) {
 			// Hack for KitRobotManager
 			kitRobotAgent.msgKitPassedInspection();
-		} else if (command.equals(Constants.KIT_ROBOT_ON_STAND_DONE)) {
+		} else if (command.equals(Constants.KIT_ROBOT_ON_STAND1_DONE)) {
+			kitRobotAgent.msgPlaceKitOnStandDone();
+		} else if (command.equals(Constants.KIT_ROBOT_ON_STAND2_DONE)) {
 			kitRobotAgent.msgPlaceKitOnStandDone();
 		} else if (command.equals(Constants.KIT_ROBOT_ON_CONVEYOR_DONE)) {
 			kitRobotAgent.msgPlaceKitOnConveyorDone();

@@ -95,8 +95,10 @@ public class StandGraphics implements DeviceGraphics {
 	 * @param r - the request
 	 */
 	public void receiveData(Request r) {
-//		String cmd = r.getCommand();
-		// TODO: double check with 201 that they don't need any done messages from stand
+		
+				String cmd = r.getCommand();
+				
+				// TODO: double check with 201 that they don't need any done messages from stand
 		
 	}
 	
