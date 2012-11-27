@@ -27,7 +27,7 @@ public class NestAgent extends Agent implements Nest {
 	int full = 8;
 	public boolean takingParts = false;
 	private boolean partReady = false;
-	private boolean partTypeNull = false;
+	private final boolean partTypeNull = false;
 
 	public NestGraphics nestGraphics;
 	private NestState state;
@@ -69,7 +69,6 @@ public class NestAgent extends Agent implements Nest {
 		print("Received msgHereIsPartType");
 		state = NestState.PURGING;
 
-		
 		// camera.msgResetSelf();
 		currentPartType = type;
 		stateChanged();
@@ -115,7 +114,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgLanePurgeDone() {
 		state = NestState.DONE_PURGING;
-		if(currentPartType == null) {
+		if (currentPartType == null) {
 			state = NestState.NULL;
 		}
 		stateChanged();
@@ -152,7 +151,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgPurgingDone() {
 		print("Received msgPurgingDone from graphics");
-		if(currentPartType == null) {
+		if (currentPartType == null) {
 			state = NestState.NULL;
 		}
 		animation.release();
@@ -245,7 +244,7 @@ public class NestAgent extends Agent implements Nest {
 		// count++;
 		if (nestGraphics != null) {
 			// TODO
-			// PartGraphics pg = new PartGraphics(mp.part.partGraphics);
+			PartGraphics pg = new PartGraphics(mp.part.partGraphics);
 			nestGraphics.receivePart(mp.part.partGraphics);
 			try {
 				animation.acquire();
