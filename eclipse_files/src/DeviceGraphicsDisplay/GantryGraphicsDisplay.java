@@ -97,11 +97,11 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 			else if(currentLocation.getX() > destinationLocation.getX()) {
 				currentLocation.incrementX(-5);
 			}
+		}
 		
-			if(currentLocation.getX() == destinationLocation.getX() && isMoving == true) {
-				client.sendData(new Request(Constants.GANTRY_ROBOT_DONE_MOVE, Constants.GANTRY_ROBOT_TARGET, null));
-				isMoving = false;
-			}
+		if(currentLocation.getY() == destinationLocation.getY() && currentLocation.getX() == destinationLocation.getX() && isMoving == true) {
+			client.sendData(new Request(Constants.GANTRY_ROBOT_DONE_MOVE, Constants.GANTRY_ROBOT_TARGET, null));
+			isMoving = false;
 		}
 		
 		if (isBinHeld) {
@@ -130,6 +130,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 			tempBin = null;
 		}
 		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_MOVE_TO_LOC_COMMAND)) {
+			System.out.println("Received moved to loc command");
 			destinationLocation = (Location) req.getData();
 			isMoving = true;
 		}
