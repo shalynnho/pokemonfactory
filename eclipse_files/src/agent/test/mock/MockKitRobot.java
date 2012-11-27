@@ -5,6 +5,7 @@ import agent.interfaces.KitRobot;
 
 /**
  * Mock kitrobot. Messages received simply add an entry to the mock agent's log.
+ * 
  * @author Daniel Paje
  */
 public class MockKitRobot extends MockAgent implements KitRobot {
@@ -78,6 +79,12 @@ public class MockKitRobot extends MockAgent implements KitRobot {
 
 	@Override
 	public void msgNoKitsLeftOnConveyor() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgKitFailedInspection() {
 		// TODO Auto-generated method stub
 
 	}

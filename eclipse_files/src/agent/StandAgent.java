@@ -10,8 +10,9 @@ import agent.interfaces.PartsRobot;
 import agent.interfaces.Stand;
 
 /**
- * Stand manages the kits that are placed on the kitting stand. Interacts with
- * the Factory Control System (FCS), the Parts Robot and the Kit Robot.
+ * Stand manages the kits that are placed on the kitting stand. Interacts with the Factory Control System (FCS), the
+ * Parts Robot and the Kit Robot.
+ * 
  * @author Daniel Paje
  */
 public class StandAgent extends Agent implements Stand {
@@ -27,6 +28,7 @@ public class StandAgent extends Agent implements Stand {
 
 	private int numKitsToMake;
 	private int numKitsMade;
+	private int oldLocForKitBeingInspected;
 	private boolean start;
 	private StandStatus status;
 
@@ -36,6 +38,7 @@ public class StandAgent extends Agent implements Stand {
 
 	/**
 	 * Inner class encapsulates kit and adds states relevant to the stand
+	 * 
 	 * @author dpaje
 	 */
 	private class MyKit {
@@ -54,7 +57,9 @@ public class StandAgent extends Agent implements Stand {
 
 	/**
 	 * Constructor for StandAgent class
-	 * @param name name of the stand
+	 * 
+	 * @param name
+	 *            name of the stand
 	 */
 	public StandAgent(String name) {
 		super();
@@ -119,7 +124,9 @@ public class StandAgent extends Agent implements Stand {
 		}
 		MyKits.set(0, MyKits.get(oldLocation));
 		print(MyKits.get(0).kit.toString() + " is now in the inspection area");
-		MyKits.set(oldLocation, null);
+
+		oldLocForKitBeingInspected = oldLocation;
+		// MyKits.set(oldLocation, null);
 
 		stateChanged();
 	}
@@ -130,12 +137,14 @@ public class StandAgent extends Agent implements Stand {
 		numKitsMade++;
 		MyKits.set(0, null);
 		// MyKits.get(0).KS = KitStatus.SHIPPED;
+		MyKits.set(oldLocForKitBeingInspected, null);
 		print(numKitsToMake - numKitsMade + " kits left to make");
 		stateChanged();
 	}
 
 	/*
 	 * Scheduler
+	 * 
 	 * @see agent.Agent#pickAndExecuteAnAction()
 	 */
 	@Override
@@ -191,8 +200,7 @@ public class StandAgent extends Agent implements Stand {
 			}
 			if (numKitsToMake > 0 && numKitsToMake > numKitsMade + 3 - count
 					&& (MyKits.get(1) == null || MyKits.get(2) == null)) {
-				print("NumKits(" + numKitsToMake
-						+ ") to make greater than numKitsMade(" + numKitsMade
+				print("NumKits(" + numKitsToMake + ") to make greater than numKitsMade(" + numKitsMade
 						+ "). Stand positions empty count: " + count);
 				if (MyKits.get(1) == null && MyKits.get(2) == null) {
 					print("Neither position full");
@@ -200,8 +208,8 @@ public class StandAgent extends Agent implements Stand {
 					requestKit(loc = 1);
 					print("I'm requesting a new kit at position 1");
 					return true;
-				} else if (MyKits.get(1) == null && MyKits.get(2) != null
-						|| MyKits.get(2) == null && MyKits.get(1) != null) {
+				} else if (MyKits.get(1) == null && MyKits.get(2) != null || MyKits.get(2) == null
+						&& MyKits.get(1) != null) {
 					print("One position full, but need to make more than 1 kit.");
 					status = StandStatus.KIT_REQUESTED;
 					requestKit(loc = MyKits.get(1) == null ? 1 : 2);
@@ -212,8 +220,8 @@ public class StandAgent extends Agent implements Stand {
 		}
 
 		/*
-		 * Tried all rules and found no actions to fire. Return false to the
-		 * main loop of abstract base class Agent and wait.
+		 * Tried all rules and found no actions to fire. Return false to the main loop of abstract base class Agent and
+		 * wait.
 		 */
 		return false;
 	}
@@ -234,8 +242,9 @@ public class StandAgent extends Agent implements Stand {
 
 	/**
 	 * Requests a kit from kit robot at the specified location.
-	 * @param index the empty location on the stand where the new kit will be
-	 * placed
+	 * 
+	 * @param index
+	 *            the empty location on the stand where the new kit will be placed
 	 */
 	private void requestKit(int index) {
 		status = StandStatus.IDLE;
@@ -251,7 +260,9 @@ public class StandAgent extends Agent implements Stand {
 
 	/**
 	 * Places a kit into the list of kits on the stand
-	 * @param k the kit being placed
+	 * 
+	 * @param k
+	 *            the kit being placed
 	 */
 	private void placeKit(MyKit mk) {
 		// kitRequested--;
@@ -266,7 +277,9 @@ public class StandAgent extends Agent implements Stand {
 
 	/**
 	 * Requests inspection of an assembled kit.
-	 * @param k the kit to be inspected.
+	 * 
+	 * @param k
+	 *            the kit to be inspected.
 	 */
 	private void requestInspection(MyKit mk) {
 		kitrobot.msgMoveKitToInspectionArea(mk.kit);
@@ -289,7 +302,9 @@ public class StandAgent extends Agent implements Stand {
 
 	/**
 	 * GUI Hack to set the reference to the partsrobot.
-	 * @param pr the partsrobot
+	 * 
+	 * @param pr
+	 *            the partsrobot
 	 */
 	public void setPartsRobot(PartsRobot pr) {
 		this.partsrobot = pr;
@@ -297,7 +312,9 @@ public class StandAgent extends Agent implements Stand {
 
 	/**
 	 * GUI Hack to set the reference to the kitrobot.
-	 * @param kr the kitrobot
+	 * 
+	 * @param kr
+	 *            the kitrobot
 	 */
 	public void setKitRobot(KitRobot kr) {
 		this.kitrobot = kr;
@@ -305,7 +322,9 @@ public class StandAgent extends Agent implements Stand {
 
 	/**
 	 * GUI Hack to set the reference to the FCS.
-	 * @param fcs the fcs
+	 * 
+	 * @param fcs
+	 *            the fcs
 	 */
 	public void setFCS(FCS fcs) {
 		this.fcs = fcs;

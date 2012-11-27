@@ -53,11 +53,12 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	}
 	
 	public void givePartToKit(PartGraphics part, KitGraphics kit) {
-		for(PartGraphics p : partArray) {
+	    for(PartGraphics p : partArray) {
 			if (p == part) {
 				partArray.remove(p);
 			}
 		}
+		
 		PartData pd = new PartData(kit.getLocation());
 		Location tempLoc = new Location(200, 400);
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));

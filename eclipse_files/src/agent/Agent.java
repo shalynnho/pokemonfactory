@@ -59,15 +59,15 @@ public abstract class Agent {
 			sb.append(StringUtil.stackTraceString(e));
 		}
 
-		if (// this.getClass() != agent.FCSAgent.class &&
-		this.getClass() != agent.StandAgent.class && this.getClass() != agent.KitRobotAgent.class
-				&& this.getClass() != agent.ConveyorAgent.class && this.getClass() != agent.LaneAgent.class
-				&& this.getClass() != agent.GantryAgent.class && this.getClass() != agent.CameraAgent.class
-				&& this.getClass() != agent.NestAgent.class && this.getClass() != agent.FeederAgent.class
-				&& this.getClass() != agent.PartsRobotAgent.class
-				&& this.getClass() != agent.test.mock.MockGraphics.class) {
+		//if (/* this.getClass() != agent.FCSAgent.class && */this.getClass() != agent.StandAgent.class
+		//		&& this.getClass() != agent.KitRobotAgent.class
+		//		&& this.getClass() != agent.ConveyorAgent.class
+		//		&& this.getClass() != agent.LaneAgent.class // && this.getClass() != agent.GantryAgent.class
+		//		&& this.getClass() != agent.CameraAgent.class && this.getClass() != agent.NestAgent.class
+		//		&& this.getClass() != agent.FeederAgent.class && this.getClass() != agent.PartsRobotAgent.class
+		//		&& this.getClass() != agent.test.mock.MockGraphics.class) {
 			System.out.print(sb.toString());
-		}
+		//}
 
 		if (console != null) {
 			console.sendMessage(getName(), msg);

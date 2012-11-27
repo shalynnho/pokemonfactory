@@ -180,6 +180,7 @@ public class LaneAgent extends Agent implements Lane {
 				e.printStackTrace();
 			}
 		}
+		feeder.msgThisLanePurged(this);
 		nest.msgLanePurgeDone();
 		state = LaneStatus.FILLING;
 		stateChanged();

@@ -17,21 +17,14 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int MAX_PARTS = 8;
 
 	private Location kitLocation;
-
+	
 	// RotationPart
-	public int degreeCountDown;
-	private int degreeStep;
-
-	private double rotationAxisX;
-	private double rotationAxisY;
 
 	private int position;
 
 	private boolean rotating;
 
 	private ArrayList<PartGraphicsDisplay> parts = new ArrayList<PartGraphicsDisplay>();
-
-	private AffineTransform trans = new AffineTransform();
 	
 	Image kitImage;
 	
@@ -48,10 +41,6 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	public KitGraphicsDisplay(Client kitClient){
 		kitLocation = Constants.KIT_LOC;
 		position = 0;
-		degreeCountDown = 0;
-		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
-		rotationAxisX = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getXDouble();
-		rotationAxisY = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getYDouble();
 		kitImage = Constants.KIT_IMAGE;
 		this.kitClient = kitClient;
 		
@@ -60,16 +49,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		kitLocation = Constants.KIT_LOC;
 		position = 0;
-		degreeCountDown = 0;
-		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
-		rotationAxisX = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getXDouble();
-		rotationAxisY = Constants.KIT_ROBOT_KIT_ROTATION_AXIS_LOC.getYDouble();
 		kitImage = Constants.KIT_IMAGE;
-	}
-	
-	public void setTranslation(int offset){
-		trans.translate(Constants.KIT_ROBOT_KIT_LOC.getXDouble() + offset,
-				Constants.KIT_ROBOT_KIT_LOC.getYDouble());
 	}
 
 	public int getPosition() {
@@ -111,7 +91,6 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 
-	// Drawing using AffineTransform part
 
 	public void receivePart(PartGraphicsDisplay pgd) {
 		parts.add(pgd);
@@ -130,43 +109,6 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 			parts.clear();
 		}
 
-	}
-
-	public void setDegreeCountDown(int degreeCountDown) {
-		this.degreeCountDown = degreeCountDown;
-
-		if (this.degreeCountDown < 0) {
-			this.degreeStep = -Constants.KIT_ROBOT_DEGREE_STEP;
-		} else {
-			this.degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
-		}
-	}
-
-	public void drawRotate(JComponent c, Graphics2D g) {
-		rotate();
-		checkDegrees();
-		g.drawImage(kitImage, trans, null);
-	}
-
-	public void rotate() {
-		if (rotating) {
-			trans.rotate(Math.toRadians(degreeStep), rotationAxisX,
-					rotationAxisY);
-			degreeCountDown -= degreeStep;
-
-		}
-	}
-
-	public void checkDegrees() {
-		if (rotating) {
-			if (degreeCountDown == 0) {
-				rotating = false;
-			}
-		}
-	}
-
-	public void startRotating() {
-		rotating = true;
 	}
 
 }

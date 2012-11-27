@@ -19,6 +19,7 @@ import factory.PartType;
 
 /**
  * Controls orders that go into the kitting cell.
+ * 
  * @author Daniel Paje, Michael Gendotti
  */
 public class FCSAgent extends Agent implements FCS {
@@ -29,8 +30,7 @@ public class FCSAgent extends Agent implements FCS {
 	private ArrayList<Nest> nests;
 	private Conveyor conveyor;
 	private myState state;
-	private List<Order> orders = Collections
-			.synchronizedList(new ArrayList<Order>());
+	private List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	private int numOrdersFinished = 0;
 	private Camera camera;
 
@@ -78,6 +78,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgStopMakingKit(Order o) {
+		print("Received msgStopMakingKit");
 		synchronized (orders) {
 			for (Order order : orders) {
 				if (order.equals(o)) {
@@ -95,20 +96,23 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgStartProduction() {
+		print("Received msgStartProduction");
 		state = myState.STARTED;
 		stateChanged();
 	}
 
 	@Override
 	public void msgAddNewPartType(PartType part) {
+		print("Received msgAddNewPartType");
 		binsToAdd.add(part);
 		stateChanged();
 	}
 
 	@Override
 	public void msgOrderFinished() {
+		print("Received msgOrderFinished");
 		numOrdersFinished++;
-		System.out.print("Order " + numOrdersFinished + " Done!!!!");
+		System.out.println("Order " + numOrdersFinished + " Done!!!!");
 		synchronized (orders) {
 			for (Order o : orders) {
 				if (o.state == Order.orderState.ORDERED) {
@@ -127,7 +131,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		print("I'm scheduling stuff");
+		// print("I'm scheduling stuff");
 		if (state == myState.STARTED) {
 			if (!binsSet && gantry != null) {
 				initializeBins();
@@ -138,6 +142,7 @@ public class FCSAgent extends Agent implements FCS {
 				return true;
 			}
 			if (!orders.isEmpty()) {
+				print("Checking orders");
 				synchronized (orders) {
 					for (Order o : orders) {
 						if (o.cancel) {
@@ -152,6 +157,7 @@ public class FCSAgent extends Agent implements FCS {
 						}
 					}
 				}
+				print("Found no orders to process");
 			}
 		}
 		return false;
@@ -166,12 +172,12 @@ public class FCSAgent extends Agent implements FCS {
 		}
 
 		int k = 0;
-		for (PartType type : o.kitConfig.getConfig().keySet()) {
-			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
+		//for (PartType type : o.kitConfig.getConfig().keySet()) {
+		//	for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
 				// ((NestAgent) nests.get(k)).stopThread();
-				k++;
-			}
-		}
+			//	k++;
+		//	}
+		//}
 		camera.msgResetSelf();
 		k = 0;
 		for (PartType type : o.kitConfig.getConfig().keySet()) {
@@ -186,13 +192,14 @@ public class FCSAgent extends Agent implements FCS {
 		stand.msgMakeKits(o.numKits);
 
 		/*
-		 * for(PartType type:o.kitConfig.getConfig().keySet()) {
-		 * gantry.msgHereIsBinConfig(new Bin(o.parts.get(i),i+1)); }
+		 * for(PartType type:o.kitConfig.getConfig().keySet()) { gantry.msgHereIsBinConfig(new Bin(o.parts.get(i),i+1));
+		 * }
 		 */
 		stateChanged();
 	}
 
 	public void cancelOrder(Order o) {
+		print("Cancelling order");
 		if (o.state == Order.orderState.ORDERED) {
 			// stand.msgStopMakingTheseKits(o.parts);
 			orders.remove(o);
@@ -208,9 +215,11 @@ public class FCSAgent extends Agent implements FCS {
 	}
 
 	public void resetCell(Order o) {
+		print("Resetting cell");
 		camera.msgResetSelf();
-		print("NEST SIZE: " + nests.size());
+		// print("NEST SIZE: " + nests.size());
 		for (int i = 0; i < 8; i++) {
+			nests.get(i).msgHereIsPartType(null);
 			nests.get(i).msgPurgeSelf();
 		}
 	}
@@ -226,8 +235,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	public void addBin() {
 		for (int i = binsToAdd.size() - 1; i >= 0; i--) {
-			gantry.msgHereIsBin(new Bin(binsToAdd.get(i),
-					Constants.DEFAULT_PARTTYPES.size() - i));
+			gantry.msgHereIsBin(new Bin(binsToAdd.get(i), Constants.DEFAULT_PARTTYPES.size() - i));
 			binsToAdd.remove(i);
 		}
 		stateChanged();

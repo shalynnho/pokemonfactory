@@ -2,11 +2,9 @@ package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 
 import Networking.Client;
 import Networking.Request;
@@ -14,13 +12,15 @@ import Utils.Constants;
 import Utils.Location;
 
 public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
-	
-	//Messages
-	
-	public enum Message {sendGoodConveyorDoneMessage, sendStandDoneMessage, sendInspectionDoneMessage		
+
+	// Messages
+
+	public enum Message {
+		sendGoodConveyorDoneMessage, sendStand1DoneMessage, sendStand2DoneMessage, sendInspectionDoneMessage
 	};
+
 	Message sendMessage;
-	
+
 	// Positions
 	public enum Position {
 		conveyorPosition, goodConveyorPosition, inspectionPosition, location1Position, location2Position
@@ -32,44 +32,49 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public enum Command {
 		moveToConveyor, moveToGoodConveyor, moveToInspectionStand, moveToLocation1, moveToLocation2
 	};
-	
-	Command moveToInitialPosition;	//initial command
-	Command moveToFinalPosition;	//final command
-	Command moveToPosition; 		//current command
-	
+
+	Command moveToInitialPosition; // initial command
+	Command moveToFinalPosition; // final command
+	Command moveToPosition; // current command
+
 	boolean initialJob;
 	boolean finalJob;
 	boolean returnJob;
 	boolean jobIsDone;
-	
+
+	Location kitLeaveLocation;
+	Location kitEnterLocation;
 	Location inspectionLocation;
 	Location location1;
 	Location location2;
-
-	int degreeStep;
+	Location kitRobotLocation;
 	
-	public void setDegreeStep(int degreeStep) {
-		this.degreeStep = degreeStep;
+	int velocityDivide;
+
+	public void setVelocityDivide(int velocityDivide) {
+		this.velocityDivide = velocityDivide;
 	}
 
-	int degreeCountDown;
+	int stepCountDown;
 
-	double rotationAxisX;
-	double rotationAxisY;
+	int kitRobotPositionX;
+	int kitRobotPositionY;
 
-	double kitRobotPositionX;
-	double kitRobotPositionY;
+	int kitMagicX;
+	int kitMagicY;
+	
+	int xStep;
+	int yStep;
 	
 	AffineTransform trans;
 
 	Client kitRobotClient;
-	Location location;
 	ArrayList<KitGraphicsDisplay> kits = new ArrayList<KitGraphicsDisplay>();
-	KitGraphicsDisplay currentKit; 
-	
+	KitGraphicsDisplay currentKit;
+
 	public KitRobotGraphicsDisplay(Client cli) {
 
-		location = Constants.KIT_ROBOT_LOC;
+		kitRobotLocation = Constants.KIT_ROBOT_LOC;
 		kitRobotClient = cli;
 
 		moveToInitialPosition = Command.moveToInspectionStand;
@@ -77,28 +82,29 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		position = Position.conveyorPosition;
 		initialJob = false;
 		finalJob = false;
-		
-		sendMessage= Message.sendStandDoneMessage;
-		
-		returnJob=false;
-		
+
+		sendMessage = Message.sendGoodConveyorDoneMessage;
+
+		returnJob = false;
+
 		jobIsDone = true;
-		
-		degreeStep = Constants.KIT_ROBOT_DEGREE_STEP;
-		trans = new AffineTransform();
 
-		rotationAxisX = Constants.KIT_ROBOT_ROTATION_AXIS_LOC.getXDouble() ;
-		rotationAxisY = Constants.KIT_ROBOT_ROTATION_AXIS_LOC.getYDouble();
-		kitRobotPositionX = Constants.KIT_ROBOT_LOC.getXDouble() + kitRobotClient.getOffset();
-		kitRobotPositionY = Constants.KIT_ROBOT_LOC.getYDouble();
+		velocityDivide = Constants.KIT_VELOCITY_DIVIDE;
 
-		inspectionLocation = new Location(240, 100);
-		location1 = new Location(280, 200);
-		location2= new Location(240, 300);
+		kitRobotPositionX = Constants.KIT_ROBOT_LOC.getX()
+				+ kitRobotClient.getOffset();
+		kitRobotPositionY = Constants.KIT_ROBOT_LOC.getY();
 		
+		kitMagicX = Constants.KIT_CONVEYOR_LOC.getX();
+		kitMagicY = Constants.KIT_CONVEYOR_LOC.getY();
 		
-		currentKit= new KitGraphicsDisplay();
-		trans.translate(kitRobotPositionX, kitRobotPositionY);
+		kitLeaveLocation = Constants.KIT_LEAVE_LOC;
+		kitEnterLocation = Constants.KIT_CONVEYOR_LOC;
+		inspectionLocation = Constants.INSPECTION_LOC;
+		location1 = Constants.STAND1_LOC;
+		location2 = Constants.STAND2_LOC;
+		
+		currentKit = new KitGraphicsDisplay();
 
 	}
 
@@ -108,17 +114,18 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		this.moveToInitialPosition = initialCommand;
 		this.moveToFinalPosition = finalCommand;
 	}
-	
-	//begin paths
-	public void InspectionToLocation1(){
-		setCommands(Command.moveToInspectionStand,Command.moveToLocation1);
+
+	// begin paths
+	public void InspectionToLocation1() {
+		setCommands(Command.moveToInspectionStand, Command.moveToLocation1);
 		moveToInitialOrFinal();
 	}
-	
-	public void InspectionToLocation2(){
+
+	public void InspectionToLocation2() {
 		setCommands(Command.moveToInspectionStand, Command.moveToLocation2);
 		moveToInitialOrFinal();
 	}
+
 	public void InspectionToGoodConveyor() {
 		setCommands(Command.moveToInspectionStand, Command.moveToGoodConveyor);
 		moveToInitialOrFinal();
@@ -153,15 +160,8 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		setCommands(Command.moveToLocation1, Command.moveToLocation2);
 		moveToInitialOrFinal();
 	}
-	
-	//end paths
-	public void setPositiveDegreeStep() {
-		setDegreeStep(Constants.KIT_ROBOT_DEGREE_STEP);
-	}
 
-	public void setNegativeDegreeStep() {
-		setDegreeStep(-Constants.KIT_ROBOT_DEGREE_STEP);
-	}
+	// end paths
 	
 	/*
 	 * sets the rotation configurations based on the commands
@@ -172,110 +172,116 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			moveToPosition = moveToInitialPosition;
 		} else if (finalJob) {
 			moveToPosition = moveToFinalPosition;
-		} else if(returnJob) {
+		} else if (returnJob) {
 			moveToPosition = Command.moveToConveyor;
 		}
-		
 
 		if (position.equals(Position.conveyorPosition)) {
 			if (moveToPosition.equals(Command.moveToInspectionStand)) {
-				setRotationConfigurations(135, Position.inspectionPosition);
+				setVectorConfigurations(inspectionLocation.getX() -kitEnterLocation.getX() , inspectionLocation.getY() -kitEnterLocation.getY() , Position.inspectionPosition);
 			} else if (moveToPosition.equals(Command.moveToLocation1)) {
-				setRotationConfigurations(180, Position.location1Position);
+				setVectorConfigurations(location1.getX() -kitEnterLocation.getX() , location1.getY() -kitEnterLocation.getY() , Position.location1Position);
 			} else if (moveToPosition.equals(Command.moveToLocation2)) {
-				setRotationConfigurations(225, Position.location2Position);
+				setVectorConfigurations(location2.getX() -kitEnterLocation.getX() , location2.getY() -kitEnterLocation.getY() , Position.location2Position);
 			} else if (moveToPosition.equals(Command.moveToGoodConveyor)) {
-				setRotationConfigurations(45, Position.goodConveyorPosition);
+				setVectorConfigurations(kitLeaveLocation.getX() -kitEnterLocation.getX()  , kitLeaveLocation.getY() -kitEnterLocation.getY()  , Position.goodConveyorPosition);
 			} else {
-				setRotationConfigurations(0, Position.conveyorPosition);
+				setVectorConfigurations(0,0, Position.conveyorPosition);
 			}
 		} else if (position.equals(Position.inspectionPosition)) {
 			if (moveToPosition.equals(Command.moveToLocation1)) {
-				setRotationConfigurations(45, Position.location1Position);
+				setVectorConfigurations(location1.getX() -inspectionLocation.getX() , location1.getY() -inspectionLocation.getY() , Position.location1Position);
 			} else if (moveToPosition.equals(Command.moveToLocation2)) {
-				setRotationConfigurations(90, Position.location2Position);
+				setVectorConfigurations(location2.getX() -inspectionLocation.getX() , location2.getY() -inspectionLocation.getY() , Position.location2Position);
 			} else if (moveToPosition.equals(Command.moveToConveyor)) {
-				setRotationConfigurations(-135, Position.conveyorPosition);
+				setVectorConfigurations(kitEnterLocation.getX() -inspectionLocation.getX() , kitEnterLocation.getY() -inspectionLocation.getY() , Position.conveyorPosition);
 			} else if (moveToPosition.equals(Command.moveToGoodConveyor)) {
-				setRotationConfigurations(-90, Position.goodConveyorPosition);
+				setVectorConfigurations(kitLeaveLocation.getX() -inspectionLocation.getX() , kitLeaveLocation.getY() -inspectionLocation.getY() , Position.goodConveyorPosition);
 			} else {
-				setRotationConfigurations(0, Position.inspectionPosition);
+				setVectorConfigurations(0,0, Position.inspectionPosition);
 			}
 		} else if (position.equals(Position.location1Position)) {
 			if (moveToPosition.equals(Command.moveToLocation2)) {
-				setRotationConfigurations(45, Position.location2Position);
+				setVectorConfigurations(location2.getX() - location1.getX() , location2.getY() -location2.getY() , Position.location2Position);
 			} else if (moveToPosition.equals(Command.moveToConveyor)) {
-				setRotationConfigurations(180, Position.conveyorPosition);
+				setVectorConfigurations(kitEnterLocation.getX() -location1.getX() , kitEnterLocation.getY() -location1.getY() , Position.conveyorPosition);
 			} else if (moveToPosition.equals(Command.moveToInspectionStand)) {
-				setRotationConfigurations(-45, Position.inspectionPosition);
+				setVectorConfigurations(inspectionLocation.getX() -location1.getX() , inspectionLocation.getY() -location1.getY() , Position.inspectionPosition);
 			} else if (moveToPosition.equals(Command.moveToGoodConveyor)) {
-				setRotationConfigurations(-135, Position.goodConveyorPosition);
+				setVectorConfigurations(kitLeaveLocation.getX() -location1.getX() , kitLeaveLocation.getY() -location1.getY() , Position.goodConveyorPosition);
 			} else {
-				setRotationConfigurations(0, Position.location1Position);
+				setVectorConfigurations(0,0, Position.location1Position);
 			}
 		} else if (position.equals(Position.location2Position)) {
 			if (moveToPosition.equals(Command.moveToConveyor)) {
-				setRotationConfigurations(135, Position.conveyorPosition);
+				setVectorConfigurations(kitEnterLocation.getX() -location2.getX() , kitEnterLocation.getY() -location2.getY() , Position.conveyorPosition);
 			} else if (moveToPosition.equals(Command.moveToInspectionStand)) {
-				setRotationConfigurations(-90, Position.inspectionPosition);
+				setVectorConfigurations(inspectionLocation.getX() -location2.getX() , inspectionLocation.getY() -location2.getY() , Position.inspectionPosition);
 			} else if (moveToPosition.equals(Command.moveToLocation1)) {
-				setRotationConfigurations(-45, Position.location1Position);
+				setVectorConfigurations(location1.getX() -location2.getX() , location1.getY() -location2.getY() , Position.location1Position);
 			} else if (moveToPosition.equals(Command.moveToGoodConveyor)) {
-				setRotationConfigurations(180, Position.goodConveyorPosition);
+				setVectorConfigurations(kitEnterLocation.getX() -location2.getX() , kitEnterLocation.getY() -location2.getY() , Position.goodConveyorPosition);
 			} else {
-				setRotationConfigurations(0, Position.location2Position);
+				setVectorConfigurations(0,0, Position.location2Position);
 			}
 		} else if (position.equals(Position.goodConveyorPosition)) {
 			if (moveToPosition.equals(Command.moveToConveyor)) {
-				setRotationConfigurations(-45, Position.conveyorPosition);
+				setVectorConfigurations(kitEnterLocation.getX() -kitLeaveLocation.getX() , kitEnterLocation.getY() -kitLeaveLocation.getY() , Position.conveyorPosition);
 			} else if (moveToPosition.equals(Command.moveToInspectionStand)) {
-				setRotationConfigurations(90, Position.inspectionPosition);
+				setVectorConfigurations(inspectionLocation.getX() -kitLeaveLocation.getX() , inspectionLocation.getY() -kitLeaveLocation.getY() , Position.inspectionPosition);
 			} else if (moveToPosition.equals(Command.moveToLocation1)) {
-				setRotationConfigurations(135, Position.location1Position);
+				setVectorConfigurations(location1.getX() -kitLeaveLocation.getX() , location1.getY() -kitLeaveLocation.getY() , Position.location1Position);
 			} else if (moveToPosition.equals(Command.moveToLocation2)) {
-				setRotationConfigurations(180, Position.location2Position);
+				setVectorConfigurations(location2.getX() -kitLeaveLocation.getX() , location2.getY() -kitLeaveLocation.getY() , Position.location2Position);
 			} else {
-				setRotationConfigurations(0, Position.goodConveyorPosition);
+				setVectorConfigurations(0,0, Position.goodConveyorPosition);
 			}
 		}
 
 	}
-	
-	/**
-	 * set the rotation configurations.
-	 * degreeCountdown-increments till it reaches 0. designates how much to rotate
-	 * position- sets the position in the statemachine logic
-	 */
-	public void setRotationConfigurations(int degreeCountDown, Position position) {
-		this.degreeCountDown = degreeCountDown;
-		if (this.degreeCountDown >= 0) {
-			setPositiveDegreeStep();
-		} else {
-			setNegativeDegreeStep();
-		}
 
+	/**
+	 * set the rotation configurations. degreeCountdown-increments till it
+	 * reaches 0. designates how much to rotate position- sets the position in
+	 * the statemachine logic
+	 */
+	public void setVectorConfigurations(int xStep, int yStep  , Position position) {
+		this.xStep = xStep/velocityDivide;
+		this.yStep = yStep/velocityDivide;
+		if(xStep==0 && yStep ==0)
+		{
+			this.stepCountDown = 0;
+		}
+		else
+		{
+			this.stepCountDown = velocityDivide;
+		}
 		this.position = position;
 	}
 
 	/**
-	 * sends the done messages when the degreecountdown reaches 0
-	 * the done messages are based on what position the kit robot reaches
+	 * sends the done messages when the degreecountdown reaches 0 the done
+	 * messages are based on what position the kit robot reaches
 	 */
 	public void setDoneMessage() {
-		if (position.equals(Position.location1Position)
-				|| position.equals(Position.location2Position)) {
-			this.sendMessage=Message.sendStandDoneMessage;
+		if (position.equals(Position.location1Position)){
+			this.sendMessage = Message.sendStand1DoneMessage;
+		} else if(position.equals(Position.location2Position)) {
+			this.sendMessage = Message.sendStand2DoneMessage;
 		} else if (position.equals(Position.goodConveyorPosition)) {
-			this.sendMessage=Message.sendGoodConveyorDoneMessage;
+			this.sendMessage = Message.sendGoodConveyorDoneMessage;
 		} else if (position.equals(Position.inspectionPosition)) {
-			this.sendMessage=Message.sendInspectionDoneMessage;
+			this.sendMessage = Message.sendInspectionDoneMessage;
 		}
 	}
-	
-	public void sendDoneMessage(){
-		if (this.sendMessage.equals(Message.sendStandDoneMessage)) {
+
+	public void sendDoneMessage() {
+		if (this.sendMessage.equals(Message.sendStand1DoneMessage)) {
 			kitRobotClient.sendData(new Request(
-					Constants.KIT_ROBOT_ON_STAND_DONE,
+					Constants.KIT_ROBOT_ON_STAND1_DONE,
+					Constants.KIT_ROBOT_TARGET, null));
+		} else if(this.sendMessage.equals(Message.sendStand2DoneMessage)){ 
+			kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_ON_STAND2_DONE,
 					Constants.KIT_ROBOT_TARGET, null));
 		} else if (this.sendMessage.equals(Message.sendGoodConveyorDoneMessage)) {
 			kits.remove(currentKit);
@@ -287,45 +293,44 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 					Constants.KIT_ROBOT_ON_INSPECTION_DONE,
 					Constants.KIT_ROBOT_TARGET, null));
 		}
-		
+
 	}
+
 	/**
 	 * changes which job it's doing based on the booleans
 	 */
 	public void checkDegrees() {
 
-		if (degreeCountDown == 0) {
+		if (stepCountDown == 0) {
 			if (initialJob) {
 				initialJob = false;
 				finalJob = true;
 				moveToInitialOrFinal();
-				currentKit.startRotating();
 			} else if (finalJob) {
 				finalJob = false;
-				returnJob= true;
+				returnJob = true;
 				setDoneMessage();
 				moveToInitialOrFinal();
-			}
-			else if(returnJob){
-				returnJob=false;
+			} else if (returnJob) {
+				returnJob = false;
 				jobIsDone = true;
-				sendDoneMessage();	
+				sendDoneMessage();
 			}
-				
+
 		}
 	}
 
-	public void setKitConfigurations(KitGraphicsDisplay kit,
-			int kitDegreeCountDown, int position) {
-		currentKit = kit;
-		currentKit.setDegreeCountDown(kitDegreeCountDown);
+	public void setKitConfigurations(KitGraphicsDisplay kit,int position) {
+		currentKit=kit;
 		currentKit.setPosition(position);
 	}
 
 	/*
-	 * receives data and does stuff based on the request command
-	 * (non-Javadoc)
-	 * @see DeviceGraphicsDisplay.DeviceGraphicsDisplay#receiveData(Networking.Request)
+	 * receives data and does stuff based on the request command (non-Javadoc)
+	 * 
+	 * @see
+	 * DeviceGraphicsDisplay.DeviceGraphicsDisplay#receiveData(Networking.Request
+	 * )
 	 */
 	public void receiveData(Request req) {
 		String command = req.getCommand();
@@ -335,26 +340,21 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (target.equals(Constants.KIT_ROBOT_TARGET)) {
 			if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1)) {
-
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
-				tempKit.setLocation(location1);
-				tempKit.setTranslation(kitRobotClient.getOffset());
-				setKitConfigurations(tempKit, 180, 4);
+				setKitConfigurations(tempKit, 4 );
 				kits.add(currentKit);
 				ConveyorToLocation1();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2)) {
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
-				tempKit.setLocation(location2);
-				tempKit.setTranslation(kitRobotClient.getOffset());
-				setKitConfigurations(tempKit, 225, 3);
+				setKitConfigurations(tempKit, 3 );
 				kits.add(currentKit);
 				ConveyorToLocation2();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_GOOD_CONVEYOR)) {
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 5) {
-						setKitConfigurations(kits.get(i), -90, 2);
+						setKitConfigurations(kits.get(i), 2 );
 					}
 				}
 				InspectionToGoodConveyor();
@@ -364,7 +364,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 4) {
 						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
-						setKitConfigurations(kits.get(i), -45, 4);
+						setKitConfigurations( kits.get(i), 4 );
 					}
 				}
 				Location1ToInspectionStand();
@@ -373,47 +373,56 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 3) {
 						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
-						setKitConfigurations(kits.get(i), -90, 5);
+						setKitConfigurations( kits.get(i), 5 );
 					}
 				}
 				Location2ToInspectionStand();
-			} else if(command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION1)){
-				
+			} else if (command
+					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION1)) {
+
 			}
 
 		}
 
 	}
+
 	/**
 	 * rotates the kit robot if you are doing a job
 	 */
 	public void doJob() {
 		if (!jobIsDone) {
-			trans.rotate(Math.toRadians(degreeStep), rotationAxisX,
-					rotationAxisY);
-			degreeCountDown -= degreeStep;
+			kitMagicX += this.xStep;
+			kitMagicY += this.yStep;
+			stepCountDown -= 1;
+			if(finalJob)
+			{
+				currentKit.setLocation(new Location(currentKit.getLocation().getX() + this.xStep, currentKit.getLocation().getY()+this.yStep));
+			}
 			// System.out.println("currentDegree: " + currentDegree);
 		}
 	}
 
 	/*
-	 * draws the kit robot and kit
-	 * (non-Javadoc)
-	 * @see DeviceGraphicsDisplay.DeviceGraphicsDisplay#draw(javax.swing.JComponent, java.awt.Graphics2D)
+	 * draws the kit robot and kit (non-Javadoc)
+	 * @see
+	 * DeviceGraphicsDisplay.DeviceGraphicsDisplay#draw(javax.swing.JComponent,
+	 * java.awt.Graphics2D)
 	 */
 	public void draw(JComponent c, Graphics2D g) {
 		checkDegrees();
 		doJob();
+		g.drawImage(Constants.KIT_CLOUD_IMAGE, kitMagicX, kitMagicY, null);
 		drawtheKits(c, g);
-		g.drawImage(Constants.KIT_ROBOT_IMAGE, trans, null);
+		g.drawImage(Constants.KIT_ROBOT_IMAGE, kitRobotLocation.getX(), kitRobotLocation.getY(), null);
 	}
+
 	/*
 	 * draws the kits in the kit robot area
 	 */
 	public void drawtheKits(JComponent c, Graphics2D g) {
 		for (int i = 0; i < kits.size(); i++) {
 
-			kits.get(i).drawRotate(c, g);
+			kits.get(i).draw(c,g);
 		}
 	}
 

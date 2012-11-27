@@ -27,6 +27,7 @@ public class NestAgent extends Agent implements Nest {
 	int full = 8;
 	public boolean takingParts = false;
 	private boolean partReady = false;
+	private boolean partTypeNull = false;
 
 	public NestGraphics nestGraphics;
 	private NestState state;
@@ -53,7 +54,7 @@ public class NestAgent extends Agent implements Nest {
 	};
 
 	public enum NestState {
-		PURGING, PRIORITY_PURGE, WAITING_FOR_LANE_PURGE, DONE_PURGING
+		PURGING, PRIORITY_PURGE, WAITING_FOR_LANE_PURGE, DONE_PURGING, NULL
 	};
 
 	public NestAgent(String name) {
@@ -68,6 +69,7 @@ public class NestAgent extends Agent implements Nest {
 		print("Received msgHereIsPartType");
 		state = NestState.PURGING;
 
+		
 		// camera.msgResetSelf();
 		currentPartType = type;
 		stateChanged();
@@ -85,12 +87,12 @@ public class NestAgent extends Agent implements Nest {
 		print("Received msgHereIsPart");
 		takingParts = false;
 		countRequest--;
+		count++;
 		// if (currentParts.size() <= full) {
 		currentParts.add(new MyPart(p));
 		print("Received a part of type " + p.type.getName() + " I have " + currentParts.size()
 				+ " parts and have requested " + countRequest + " takingParts: " + takingParts);
 		// }
-		count++;
 		stateChanged();
 	}
 
@@ -113,6 +115,9 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgLanePurgeDone() {
 		state = NestState.DONE_PURGING;
+		if(currentPartType == null) {
+			state = NestState.NULL;
+		}
 		stateChanged();
 	}
 
@@ -147,6 +152,9 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgPurgingDone() {
 		print("Received msgPurgingDone from graphics");
+		if(currentPartType == null) {
+			state = NestState.NULL;
+		}
 		animation.release();
 		stateChanged();
 	}
@@ -157,15 +165,14 @@ public class NestAgent extends Agent implements Nest {
 		if (state == NestState.PURGING || state == NestState.PRIORITY_PURGE) {
 			purgeSelf();
 			return true;
-		} else if (state == NestState.DONE_PURGING) {
-			// print("Currently holding: " + currentParts.size());
+		} else if (state == NestState.DONE_PURGING && !takingParts && currentPartType != null) {
 			if (partReady && currentParts.size() < full) {
 				requestPart();
 				return true;
 			}
 			synchronized (requestList) {
 				for (PartType requestedPart : requestList) {
-					if (currentParts.size() + countRequest < full) {
+					if (count + countRequest < full) {
 						getParts(requestedPart);
 						return true;
 					}
