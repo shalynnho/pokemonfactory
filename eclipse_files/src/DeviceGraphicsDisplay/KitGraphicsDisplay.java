@@ -43,10 +43,8 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 		position = 0;
 		kitImage = Constants.KIT_IMAGE;
 		this.kitClient = kitClient;
-		
 	}
 	public KitGraphicsDisplay() {
-
 		kitLocation = Constants.KIT_LOC;
 		position = 0;
 		kitImage = Constants.KIT_IMAGE;
