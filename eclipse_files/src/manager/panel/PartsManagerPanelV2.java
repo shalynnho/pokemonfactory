@@ -171,18 +171,18 @@ public class PartsManagerPanelV2 extends JPanel {
 		chancePanel.setAlignmentX(0);
 		leftPanel.add(chancePanel);
 			
-			WhiteLabel chanceLabel = new WhiteLabel("Chance of defect");
+			WhiteLabel chanceLabel = new WhiteLabel("Defect Chance");
 			chanceLabel.setLabelSize(100, 25);
 			chancePanel.add(chanceLabel);
 			
 			badChanceScroller = new JSlider(JSlider.HORIZONTAL, CHANCE_MIN, CHANCE_MAX, CHANCE_INIT);
 			badChanceScroller.setMajorTickSpacing(50);
-			badChanceScroller.setMinorTickSpacing(10);
+			badChanceScroller.setMinorTickSpacing(5);
 			badChanceScroller.setPaintTicks(true);
 			badChanceScroller.setPaintLabels(true);
 			badChanceScroller.setFont(new Font("Arial", Font.PLAIN, 14));
-			badChanceScroller.setBackground(Color.WHITE); 
-			//badChanceScroller.setOpaque(false);
+			badChanceScroller.setForeground(Color.WHITE); 
+			badChanceScroller.setOpaque(false);
 			chancePanel.add(badChanceScroller);
 			
 		
