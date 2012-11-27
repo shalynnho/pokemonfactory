@@ -23,8 +23,11 @@ public class LaneAgent extends Agent implements Lane {
 	public List<MyPart> currentParts = Collections
 			.synchronizedList(new ArrayList<MyPart>());
 
-	public int topLimit = 8;
+	public PartType currentType;
+	
+	public int topLimit = 5;
 	public int lowerThreshold = 3;
+	public int extraRequestCount = 0;
 
 	public LaneStatus state;
 
@@ -47,7 +50,7 @@ public class LaneAgent extends Agent implements Lane {
 	};
 
 	public enum LaneStatus {
-		FILLING, DONE_FILLING, PURGING
+		FILLING, DONE_FILLING, PURGING, WAITING
 	};
 
 	FeederAgent feeder;
@@ -65,6 +68,7 @@ public class LaneAgent extends Agent implements Lane {
 	public void msgINeedPart(PartType type) {
 		print("Received msgINeedPart");
 		requestList.add(type);
+		currentType = type;
 		stateChanged();
 	}
 
@@ -137,7 +141,7 @@ public class LaneAgent extends Agent implements Lane {
 			purgeSelf();
 			return true;
 		}
-
+		
 		if (state == LaneStatus.FILLING) {
 			synchronized (requestList) {
 				for (PartType requestedType : requestList) {
@@ -146,6 +150,25 @@ public class LaneAgent extends Agent implements Lane {
 				}
 			}
 		}
+
+		/*if (state == LaneStatus.FILLING && currentType != null) {
+			if(extraRequestCount+requestList.size()+currentParts.size() < topLimit) {
+				requestList.add(currentType);
+				extraRequestCount++;
+				return true;
+			}
+			if(extraRequestCount+requestList.size()+currentParts.size() >= topLimit && currentParts.size() != 0) {
+				state = LaneStatus.WAITING;
+				return true;
+			}
+		}
+		if (state == LaneStatus.WAITING) {
+			if(extraRequestCount+requestList.size()+currentParts.size() < lowerThreshold && currentType != null && currentParts.size() != 0) {
+				extraRequestCount = 0;
+				state = LaneStatus.FILLING;
+				return true;
+			}
+		}*/
 
 		synchronized (currentParts) {
 			for (MyPart part : currentParts) {
