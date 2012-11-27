@@ -143,6 +143,7 @@ public class FeederAgent extends Agent implements Feeder {
 		for(MyLane currentLane : lanes) {
 			if(currentLane.lane == lane) {
 				currentLane.numPartsNeeded = 0;
+				currentLane.type = null;
 				break;
 			}
 		}
