@@ -85,12 +85,12 @@ public class NestAgent extends Agent implements Nest {
 		print("Received msgHereIsPart");
 		takingParts = false;
 		countRequest--;
+		count++;
 		// if (currentParts.size() <= full) {
 		currentParts.add(new MyPart(p));
 		print("Received a part of type " + p.type.getName() + " I have " + currentParts.size()
 				+ " parts and have requested " + countRequest + " takingParts: " + takingParts);
 		// }
-		count++;
 		stateChanged();
 	}
 
@@ -165,7 +165,7 @@ public class NestAgent extends Agent implements Nest {
 			}
 			synchronized (requestList) {
 				for (PartType requestedPart : requestList) {
-					if (currentParts.size() + countRequest < full) {
+					if (count + countRequest < full) {
 						getParts(requestedPart);
 						return true;
 					}
