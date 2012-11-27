@@ -180,7 +180,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgPurgingDone() {
 		print("Received msgPurgingDone from graphics");
-		if (currentPartType == null) {
+		if (currentPartType != null) {
 			state = NestState.DONE_PURGING;
 			if (currentPartType == null) {
 				state = NestState.NULL;
