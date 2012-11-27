@@ -276,8 +276,8 @@ public class CameraAgent extends Agent implements Camera {
 
 	    // No Good Parts found - non norm
 	    if (goodParts.size() == 0) {
-		print("No Good Parts Found : non-normative");
-
+		print("No Good Parts Found Telling Nest Agent to Purge self: non-normative");
+		n.nest.msgPurgeSelf();
 	    } else {
 		partRobot.msgHereAreGoodParts(n.nest, goodParts);
 	    }
