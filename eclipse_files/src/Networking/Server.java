@@ -438,7 +438,6 @@ public class Server {
 		gantryRobotMngrWriter.sendData(req);
 	}
 
-	// TODO: make sure this works
 	private void addShutdownHook() {
 		Thread hook = new Thread(new Runnable() {
 			@Override
@@ -470,7 +469,7 @@ public class Server {
 			outputPT.close();
 
 			System.out
-					.println("[Server]: Shutdown and kitconfigs/parts saved successfully.");
+					.println("[Server]: Kitconfigs/parts saved successfully.");
 		} catch (Exception exc) {
 			// print error info if error occurs
 			exc.printStackTrace();

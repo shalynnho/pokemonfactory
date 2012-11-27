@@ -44,11 +44,15 @@ public interface KitRobot {
 	 * Camera sends this when a kit has passed inspection
 	 */
 	public abstract void msgKitPassedInspection();
+	
+    /**
+     * Camera sends this when a kit has failed inspection
+     */
+    public abstract void msgKitFailedInspection();
 
-	/**
-	 * GUI KitRobot sends this after the Kit to Conveyor animation has been
-	 * completed.
-	 */
+    /**
+     * GUI KitRobot sends this after the Kit to Conveyor animation has been completed.
+     */
 	public abstract void msgPlaceKitOnConveyorDone();
 
 	/**

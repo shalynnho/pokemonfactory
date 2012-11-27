@@ -138,6 +138,15 @@ public class FeederAgent extends Agent implements Feeder {
 		print("Received msgFlipInverterDone from graphics");
 		animation.release();
 	}
+	
+	public void msgThisLanePurged(LaneAgent lane) {
+		for(MyLane currentLane : lanes) {
+			if(currentLane.lane == lane) {
+				currentLane.numPartsNeeded = 0;
+				break;
+			}
+		}
+	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {

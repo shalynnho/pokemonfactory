@@ -14,7 +14,7 @@ import javax.swing.border.Border;
 public class OverlayPanel extends JPanel {
 	
 	private static final Color BG_COLOR = new Color(0,0,0,80);
-	private static final Border PADDING = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+	private static final Border PADDING = BorderFactory.createEmptyBorder(5, 10, 5, 10);
 	
 	public OverlayPanel() {
 		super();

@@ -9,70 +9,103 @@ import factory.PartType;
 
 public class Kit {
 
-	public KitGraphics kitGraphics;
+    public KitGraphics kitGraphics;
 
-	public String kitID;
+    public String kitID;
 
-	public KitConfig partsExpected;
+    public KitConfig partsExpected;
 
-	public ArrayList<Part> parts = new ArrayList<Part>();
+    public ArrayList<Part> parts = new ArrayList<Part>();
 
-	public Kit() {
-		kitGraphics = new KitGraphics(null);
-		partsExpected = new KitConfig("default",
-				Constants.DEFAULT_PARTTYPES.get(0));
+    public Kit() {
+	kitGraphics = new KitGraphics(null);
+	partsExpected = new KitConfig("default", Constants.DEFAULT_PARTTYPES.get(0));
+    }
+
+    public Kit(KitConfig expected) {
+	kitGraphics = new KitGraphics(null);
+	partsExpected = expected;
+    }
+
+    public Kit(String kitID) {
+	kitGraphics = new KitGraphics(null);
+	this.kitID = kitID;
+    }
+
+    public int needPart(Part part) {
+	int count = 0;
+	for (PartType type : partsExpected.getConfig().keySet()) {
+	    if (type == part.type) {
+		count += partsExpected.getConfig().get(type);
+		break;
+	    }
 	}
-
-	public Kit(KitConfig expected) {
-		kitGraphics = new KitGraphics(null);
-		partsExpected = expected;
+	for (Part tempPart : parts) {
+	    if (tempPart.type == part.type) {
+		count--;
+	    }
 	}
+	return count > 0 ? count : 0;
+    }
 
-	public Kit(String kitID) {
-		kitGraphics = new KitGraphics(null);
-		this.kitID = kitID;
-	}
-
-	public int needPart(Part part) {
-		int count = 0;
-		for (PartType type : partsExpected.getConfig().keySet()) {
-			if (type == part.type) {
-				count += partsExpected.getConfig().get(type);
-				break;
-			}
+    public String PartsStillNeeded() {
+	String temp = "Needs ";
+	for (PartType inputtype : partsExpected.getConfig().keySet()) {
+	    int count = 0;
+	    for (PartType type : partsExpected.getConfig().keySet()) {
+		if (type == inputtype) {
+		    count = partsExpected.getConfig().get(type);
+		    break;
 		}
-		for (Part tempPart : parts) {
-			if (tempPart.type == part.type) {
-				count--;
-			}
+	    }
+	    for (Part tempPart : parts) {
+		if (tempPart.type == inputtype) {
+		    count--;
 		}
-		return count > 0 ? count : 0;
+	    }
+	    if (count > 0) {
+		temp = temp.concat("" + count + ":" + inputtype + " ");
+	    }
+	}
+	return temp;
+    }
+
+    /**
+     * Changes Parts in kit to match new kitConfig. For use in KitFailingInspection Non-Normative Scenario
+     * 
+     * @param kitChange
+     */
+    public void updateParts(KitConfig kitChange) {
+	ArrayList<Part> list = new ArrayList<Part>();
+
+	for (PartType p : kitChange.getConfig().keySet()) {
+	    int numNew = kitChange.getConfig().get(p).intValue();
+	    int numOld = 0;
+	    for (Part heldPart : parts) {
+		if (heldPart.type == p) {
+		    numOld++;
+		}
+	    }
+	    if (numOld > numNew) {
+		for (int i = (numOld - numNew); i > 0; i--) {
+		    for (Part heldPart : parts) {
+			if (heldPart.type == p) {
+			    parts.remove(heldPart);
+			    break;
+			}
+		    }
+		}
+	    }
+	    if (numNew > numOld) {
+		System.out.println(this.kitID
+			+ ": SOMETHING WENT SERIOUSLY WRONG IN KitFAILING INSPECTION NON NORMATIVE SCENARIO");
+	    }
 	}
 
-	public String PartsStillNeeded() {
-		String temp = "Needs ";
-		for (PartType inputtype : partsExpected.getConfig().keySet()) {
-			int count = 0;
-			for (PartType type : partsExpected.getConfig().keySet()) {
-				if (type == inputtype) {
-					count = partsExpected.getConfig().get(type);
-					break;
-				}
-			}
-			for (Part tempPart : parts) {
-				if (tempPart.type == inputtype) {
-					count--;
-				}
-			}
-			if (count > 0) {
-				temp = temp.concat("" + count + ":" + inputtype + " ");
-			}
-		}
-		return temp;
-	}
+    }
 
-	public boolean equals(Kit k) {
-		return k.kitGraphics.toString().equals(this.kitGraphics.toString());
-	}
+    public boolean equals(Kit k) {
+	return k.kitGraphics.toString().equals(this.kitGraphics.toString());
+    }
 
 }
