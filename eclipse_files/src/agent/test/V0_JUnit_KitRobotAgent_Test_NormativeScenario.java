@@ -244,7 +244,7 @@ public class V0_JUnit_KitRobotAgent_Test_NormativeScenario extends TestCase {
 
 			assertEquals(
 					"KitRobot should have set first MyKit's KitStatus to Inspected",
-					kitrobot.getMyKits().get(0).KS, KitStatus.INSPECTED);
+					kitrobot.getMyKits().get(0).KS, KitStatus.PASSED_INSPECTION);
 
 			// Again, release a permit before invoking the scheduler
 			kitrobot.msgPlaceKitInInspectionAreaDone();
