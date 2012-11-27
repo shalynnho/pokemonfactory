@@ -20,7 +20,7 @@ import factory.PartType;
 public class NestAgent extends Agent implements Nest {
 
 	public List<PartType> requestList = Collections.synchronizedList(new ArrayList<PartType>());
-	PartType currentPartType;
+	PartType currentPartType = null;
 	public List<MyPart> currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
 	public int count = 0;
 	public int countRequest = 0;
@@ -37,6 +37,7 @@ public class NestAgent extends Agent implements Nest {
 	String name;
 
 	LaneAgent lane;
+	LaneState laneState = LaneState.READY;
 	CameraAgent camera;
 
 	public class MyPart {
@@ -56,6 +57,9 @@ public class NestAgent extends Agent implements Nest {
 	public enum NestState {
 		PURGING, PRIORITY_PURGE, WAITING_FOR_LANE_PURGE, DONE_PURGING, NULL
 	};
+	public enum LaneState {
+		PURGING, READY
+	}
 
 	public NestAgent(String name) {
 		super();
@@ -67,11 +71,27 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgHereIsPartType(PartType type) {
 		print("Received msgHereIsPartType");
-		state = NestState.PURGING;
+		if(currentPartType == null && type == null) {
+			currentPartType = type;
+		}
+		else if(currentPartType != null && type != null) {
+			if(!type.equals(currentPartType)) {
+				currentPartType = type;
+				state = NestState.PURGING;
+				laneState = LaneState.PURGING;
+				lane.msgPurgeParts();
+			}
+		}
+		else if(currentPartType != null) {
+			currentPartType = type;
+			state = NestState.PURGING;
+			laneState = LaneState.PURGING;
+			lane.msgPurgeParts();
+		}
 
 		
 		// camera.msgResetSelf();
-		currentPartType = type;
+		
 		stateChanged();
 	}
 
@@ -114,10 +134,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgLanePurgeDone() {
-		state = NestState.DONE_PURGING;
-		if(currentPartType == null) {
-			state = NestState.NULL;
-		}
+		laneState = LaneState.READY;
 		stateChanged();
 	}
 
@@ -152,6 +169,7 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgPurgingDone() {
 		print("Received msgPurgingDone from graphics");
+		state = NestState.DONE_PURGING;
 		if(currentPartType == null) {
 			state = NestState.NULL;
 		}
@@ -165,7 +183,7 @@ public class NestAgent extends Agent implements Nest {
 		if (state == NestState.PURGING || state == NestState.PRIORITY_PURGE) {
 			purgeSelf();
 			return true;
-		} else if (state == NestState.DONE_PURGING && !takingParts && currentPartType != null) {
+		} else if (state == NestState.DONE_PURGING && laneState == LaneState.READY && !takingParts && currentPartType != null) {
 			if (partReady && currentParts.size() < full) {
 				requestPart();
 				return true;
@@ -205,7 +223,6 @@ public class NestAgent extends Agent implements Nest {
 	// ACTIONS
 	public void purgeSelf() {
 		state = NestState.WAITING_FOR_LANE_PURGE;
-		lane.msgPurgeParts();
 		if (nestGraphics != null) {
 			nestGraphics.purge();
 			try {
