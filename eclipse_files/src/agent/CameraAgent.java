@@ -24,82 +24,81 @@ import agent.interfaces.Nest;
  */
 public class CameraAgent extends Agent implements Camera {
 
-	private final String name;
+    private final String name;
 
-	public List<MyNest> nests = Collections.synchronizedList(new ArrayList<MyNest>());
-	public MyKit mk;
+    public List<MyNest> nests = Collections.synchronizedList(new ArrayList<MyNest>());
+    public MyKit mk;
 
-	public CameraGraphics guiCamera;
-	private final Timer timer;
+    public CameraGraphics guiCamera;
+    private final Timer timer;
 
-	public KitRobotAgent kitRobot;
-	public PartsRobotAgent partRobot;
+    public KitRobotAgent kitRobot;
+    public PartsRobotAgent partRobot;
 
-	Semaphore animation = new Semaphore(0, true);
+    Semaphore animation = new Semaphore(0, true);
 
-	public enum NestStatus {
+    public enum NestStatus {
 		NOT_READY, READY, PHOTOGRAPHING, PHOTOGRAPHED, NEEDS_TO_PURGE, WAITING_TO_RE_PHOTOGRAPH, 
 		READY_TO_RE_PHOTOGRAPH, RE_PHOTOGRAPHING_ONCE, RE_PHOTOGRAPHED_ONCE, NEED_TO_RE_PHOTOGRAPH_AGAIN, 
 		WAITING_TO_RE_PHOTOGRAPH_AGAIN, READY_TO_RE_PHOTOGRAPH_AGAIN, RE_PHOTOGRAPHING_TWICE, RE_PHOTOGRAPHED_TWICE
 	};
 
-	public enum KitStatus {
-		NOT_READY, DONE, PICTURE_BEING_TAKEN, FAILED
-	};
+    public enum KitStatus {
+	NOT_READY, DONE, PICTURE_BEING_TAKEN, FAILED
+    };
 
-	public class MyKit {
-		public Kit kit;
-		public KitStatus ks;
-		public boolean kitDone;
+    public class MyKit {
+	public Kit kit;
+	public KitStatus ks;
+	public boolean kitDone;
 
-		public MyKit(Kit k) {
-			kit = k;
-			ks = KitStatus.NOT_READY;
-			kitDone = false;
-		}
+	public MyKit(Kit k) {
+	    kit = k;
+	    ks = KitStatus.NOT_READY;
+	    kitDone = false;
 	}
+    }
 
-	public class MyNest {
-		public NestAgent nest;
-		public NestStatus state;
-		public int numFilledSnapshot = 0;
+    public class MyNest {
+	public NestAgent nest;
+	public NestStatus state;
+	public int numFilledSnapshot = 0;
 
-		public MyNest(NestAgent nest) {
-			this.nest = nest;
-			this.state = NestStatus.NOT_READY;
-		}
+	public MyNest(NestAgent nest) {
+	    this.nest = nest;
+	    this.state = NestStatus.NOT_READY;
 	}
+    }
 
-	public CameraAgent(String name) {
-		super();
-		this.name = name;
+    public CameraAgent(String name) {
+	super();
+	this.name = name;
 
-		timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
-			// Fires every 3.001 seconds.
-			@Override
-			public void run() {
-				print("Waking up");
-				stateChanged();
-			}
-		}, System.currentTimeMillis(), 3000);
-	}
+	timer = new Timer();
+	timer.scheduleAtFixedRate(new TimerTask() {
+	    // Fires every 3.001 seconds.
+	    @Override
+	    public void run() {
+		print("Waking up");
+		stateChanged();
+	    }
+	}, System.currentTimeMillis(), 3000);
+    }
 
-	/*
-	 * Messages
-	 */
-	@Override
-	public void msgInspectKit(Kit kit) {
+    /*
+     * Messages
+     */
+    @Override
+    public void msgInspectKit(Kit kit) {
 		print("Received msgInspectKit");
 		mk = new MyKit(kit);
 		stateChanged();
-
-	}
+    }
 
 	// Should no longer be called in v2. Change to timer.
 	@Override
 	public void msgIAmFull(Nest nest) {
-		//synchronized (nests) {
+	//synchronized (nests) {
 
 			print("Received msgIAmFull from nest with type " + ((NestAgent) nest).currentPartType);
 			for (MyNest n : nests) {
@@ -116,7 +115,6 @@ public class CameraAgent extends Agent implements Camera {
 			}
 		//}
 		stateChanged();
-
 	}
 
 	@Override
@@ -348,7 +346,6 @@ public class CameraAgent extends Agent implements Camera {
 		}
 
 		stateChanged();
-
 	}
 
 	private void takePictureOfNest(MyNest n, MyNest n2) {
@@ -381,59 +378,60 @@ public class CameraAgent extends Agent implements Camera {
 			}
 			stateChanged();
 		}
-	}
-
-	public void setNest(NestAgent nest) {
-		nests.add(new MyNest(nest));
-	}
-
-	public void setPartsRobot(PartsRobotAgent parts) {
-		this.partRobot = parts;
 
 	}
 
-	public void setNests(ArrayList<NestAgent> nests) {
-		for (NestAgent nest : nests) {
-			this.nests.add(new MyNest(nest));
-		}
-	}
+    public void setNest(NestAgent nest) {
+	nests.add(new MyNest(nest));
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    public void setPartsRobot(PartsRobotAgent parts) {
+	this.partRobot = parts;
 
-	public List<MyNest> getNests() {
-		return nests;
-	}
+    }
 
-	public void setNests(List<MyNest> nests) {
-		this.nests = nests;
+    public void setNests(ArrayList<NestAgent> nests) {
+	for (NestAgent nest : nests) {
+	    this.nests.add(new MyNest(nest));
 	}
+    }
 
-	public CameraGraphics getGuiCamera() {
-		return guiCamera;
-	}
+    @Override
+    public String getName() {
+	return name;
+    }
 
-	@Override
-	public void setGraphicalRepresentation(DeviceGraphics guiCamera) {
-		this.guiCamera = (CameraGraphics) guiCamera;
-	}
+    public List<MyNest> getNests() {
+	return nests;
+    }
 
-	public KitRobotAgent getKitRobot() {
-		return kitRobot;
-	}
+    public void setNests(List<MyNest> nests) {
+	this.nests = nests;
+    }
 
-	public void setKitRobot(KitRobotAgent kitRobot) {
-		this.kitRobot = kitRobot;
-	}
+    public CameraGraphics getGuiCamera() {
+	return guiCamera;
+    }
 
-	public PartsRobotAgent getPartRobot() {
-		return partRobot;
-	}
+    @Override
+    public void setGraphicalRepresentation(DeviceGraphics guiCamera) {
+	this.guiCamera = (CameraGraphics) guiCamera;
+    }
 
-	public MyKit getKit() {
-		return mk;
-	}
+    public KitRobotAgent getKitRobot() {
+	return kitRobot;
+    }
+
+    public void setKitRobot(KitRobotAgent kitRobot) {
+	this.kitRobot = kitRobot;
+    }
+
+    public PartsRobotAgent getPartRobot() {
+	return partRobot;
+    }
+
+    public MyKit getKit() {
+	return mk;
+    }
 
 }
