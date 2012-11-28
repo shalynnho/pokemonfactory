@@ -44,7 +44,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		nestID = nid;
 		nestAgent = (NestAgent) agent;
 		
-		partsInNestQuality = new Map<PartGraphics, Boolean>;
+		partsInNestQuality = new Map<PartGraphics, Boolean>();
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
 		location = new Location(Constants.LANE_END_X - Constants.NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
 		generatePartLocations();
