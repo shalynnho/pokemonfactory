@@ -73,4 +73,16 @@ public class MockLane extends MockAgent implements Lane {
 
 	}
 
+	@Override
+	public void msgChangeAmplitude() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgFixYourself() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

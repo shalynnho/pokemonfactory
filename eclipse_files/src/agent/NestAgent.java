@@ -187,7 +187,7 @@ public class NestAgent extends Agent implements Nest {
 		animation.release();
 		stateChanged();
 	}
-
+	
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// print("In scheduler");

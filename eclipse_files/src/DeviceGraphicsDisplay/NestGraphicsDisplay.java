@@ -20,7 +20,7 @@ import factory.PartType;
 public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS = 8;
-	private static final int BOTTOM_ROW_OFFSET = 23;
+	private static final int BOTTOM_ROW_OFFSET = 30;
 	// y-coordinates of the nest0
 	private static final int NEST_Y = 45, NEST_Y_INCR = 75;
 
@@ -47,7 +47,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		location = new Location(Constants.LANE_END_X - Constants.NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
 		partsInNest = Collections.synchronizedList(new ArrayList<PartGraphicsDisplay>());
-		partStartLoc = new Location(Constants.LANE_END_X, location.getY() + Constants.PART_WIDTH / 2
+		partStartLoc = new Location(Constants.LANE_END_X - Constants.PART_PADDING, location.getY() + Constants.PART_WIDTH / 2
 				- Constants.PART_OFFSET);
 		purgeLoc = new Location(location.getX() - Constants.PART_WIDTH, partStartLoc.getY());
 		generatePartLocations();
@@ -200,10 +200,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		partLocs = new ArrayList<Location>(MAX_PARTS);
 		for (int i = 0; i < MAX_PARTS; i++) {
 			if (i % 2 == 0) { // top row
-				partLocs.add(new Location(location.getX() + i / 2 * Constants.PART_WIDTH, location.getY()
+				partLocs.add(new Location(location.getX() + i / 2 * Constants.PART_WIDTH - 2 * Constants.PART_PADDING, location.getY()
 						- Constants.PART_OFFSET));
 			} else { // bottom row
-				partLocs.add(new Location(location.getX() + i / 2 * Constants.PART_WIDTH, location.getY()
+				partLocs.add(new Location(location.getX() + i / 2 * Constants.PART_WIDTH - 2 * Constants.PART_PADDING, location.getY()
 						+ BOTTOM_ROW_OFFSET - Constants.PART_OFFSET));
 			}
 		}
@@ -255,6 +255,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (!receivePartDoneSent) {
 			client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX,
 					Constants.NEST_TARGET + nestID, null));
+			System.out.println("	NESTGD" + nestID+": receive part done sent.");
 			receivePartDoneSent = true;
 		}
 	}
@@ -266,6 +267,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (partsInNest.size() == 0 && !purgeDoneSent) {
 			client.sendData(new Request(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET
 					+ nestID, null));
+			System.out.println("	NESTGD" + nestID+": purge done sent.");
 			purgeDoneSent = true;
 		}
 	}
