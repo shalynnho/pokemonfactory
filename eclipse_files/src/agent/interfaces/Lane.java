@@ -22,4 +22,8 @@ public interface Lane {
 
 	public abstract boolean pickAndExecuteAnAction();
 
+	public abstract void msgChangeAmplitude();
+
+	public abstract void msgFixYourself();
+
 }

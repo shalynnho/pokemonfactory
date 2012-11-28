@@ -187,16 +187,6 @@ public class NestAgent extends Agent implements Nest {
 		animation.release();
 		stateChanged();
 	}
-
-	@Override
-	public void msgTellLaneToIncreaseAmplitude() {
-		
-	}
-	
-	@Override
-	public void msgTellFeederToFixThisLane() {
-		
-	}
 	
 	@Override
 	public boolean pickAndExecuteAnAction() {
