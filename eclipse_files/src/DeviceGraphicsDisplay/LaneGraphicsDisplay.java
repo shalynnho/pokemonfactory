@@ -39,7 +39,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	// the ID of this Lane
 	private final int laneID;
 	// the amplitude of this lane
-	private int amplitude = 1;
+	private int speed = 1;
+	private int amplitude = 2;
 	// true if Lane is on
 	private boolean laneOn = true;
 	// use to make sure only 1 message is sent to agent for each part that reaches end of lane
@@ -109,7 +110,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					if (i == 0) { // first part on the lane
 
 						if (loc.getX() > Constants.LANE_END_X) { // hasn't reached end of lane
-							updateXLoc(loc, Constants.LANE_END_X, amplitude);
+							updateXLoc(loc, Constants.LANE_END_X, speed);
 							partAtLaneEnd = false;
 						} else { // at end of lane
 							if (!purging) {
@@ -118,7 +119,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 							} else { // purging, continue till off lane
 
 								if (loc.getX() > Constants.LANE_END_X - Constants.PART_WIDTH) {
-									updateXLoc(loc, Constants.LANE_END_X - Constants.PART_WIDTH, amplitude);
+									updateXLoc(loc, Constants.LANE_END_X - Constants.PART_WIDTH, speed);
 									// loc.incrementX(-amplitude);
 								} else { // once off lane and not visible, remove
 									if (partsOnLane.size() > 0) {
@@ -142,7 +143,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 						if (locInFront.getX() <= Constants.LANE_BEG_X - 2 * Constants.PART_WIDTH
 								&& loc.getX() > locInFront.getX() + Constants.PART_WIDTH) {
 							// loc.incrementX(-amplitude);
-							updateXLoc(loc, Constants.LANE_END_X, amplitude);
+							updateXLoc(loc, Constants.LANE_END_X, speed);
 						}
 					}
 					vibrateParts(loc);
@@ -186,6 +187,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (cmd.equals(Constants.LANE_SET_AMPLITUDE_COMMAND)) {
 			amplitude = (Integer) r.getData();
+			speed = (int) 1.5 * amplitude;	// TODO: ADJUST THIS
 
 		} else if (cmd.equals(Constants.LANE_TOGGLE_COMMAND)) {
 			laneOn = (Boolean) r.getData();
@@ -261,7 +263,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					laneLines.get(i).setX(xPrev + LINESPACE);
 				}
 			} else {
-				laneLines.get(i).incrementX(-amplitude);
+				laneLines.get(i).incrementX(-speed);
 			}
 		}
 	}
@@ -306,9 +308,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	private void vibrateParts(Location loc) {
 		// to show vibration down lane (may have to adjust values)
-		if (loc.getY() <= partStartLoc.getY() + 2) {
+		if (loc.getY() <= partStartLoc.getY() + amplitude) {
 			loc.incrementY(2);
-		} else if (loc.getY() > partStartLoc.getY() - 2) {
+		} else if (loc.getY() > partStartLoc.getY() - amplitude) {
 			loc.incrementY(-2);
 		}
 	}
