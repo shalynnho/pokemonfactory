@@ -278,7 +278,7 @@ public class CameraAgent extends Agent implements Camera {
 		stateChanged();
 	}
 
-	private void tellPartsRobot(MyNest n) {
+	private void tellPartsRobot(final MyNest n) {
 		List<Part> goodParts = new ArrayList<Part>();
 
 		// Parts missing - Non Norm
@@ -298,7 +298,12 @@ public class CameraAgent extends Agent implements Camera {
 			if(n.numFilledSnapshot<n.nest.full) {
 				print("rephotographing nest");
 				n.state = NestStatus.WAITING_TO_RE_PHOTOGRAPH;
-				//TIMER HERE TO PHOTOGRAPH
+				timer.schedule(new TimerTask() {
+				    @Override
+				    public void run() {
+				    	n.state = NestStatus.READY_TO_RE_PHOTOGRAPH;
+				    }
+				}, 5000);
 			} else {
 				for (MyPart part : n.nest.currentParts) {
 					if (part.part.isGood) {
@@ -320,8 +325,13 @@ public class CameraAgent extends Agent implements Camera {
 			if(n.numFilledSnapshot<n.nest.full){
 				print("Telling lane to increase amplitude");
 				n.state = NestStatus.WAITING_TO_RE_PHOTOGRAPH_AGAIN;
-				n.nest.msgTellLaneToIncreaseAmplitude();
-				//TIMER HERE TO PHOTOGRAPH
+				n.nest.lane.msgChangeAmplitude();
+				timer.schedule(new TimerTask() {
+				    @Override
+				    public void run() {
+				    	n.state = NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN;
+				    }
+				}, 5000);
 			} else {
 				for (MyPart part : n.nest.currentParts) {
 					if (part.part.isGood) {
@@ -342,7 +352,7 @@ public class CameraAgent extends Agent implements Camera {
 		} else if(n.state == NestStatus.RE_PHOTOGRAPHED_TWICE) {
 			print("Telling feeder to fix itself");
 			n.state = NestStatus.NOT_READY;
-			n.nest.msgTellFeederToFixThisLane();
+			n.nest.lane.msgFixYourself();
 		}
 
 		stateChanged();

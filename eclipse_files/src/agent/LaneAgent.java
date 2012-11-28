@@ -132,6 +132,16 @@ public class LaneAgent extends Agent implements Lane {
 		animation.release();
 		stateChanged();
 	}
+	
+	@Override
+	public void msgChangeAmplitude() {
+		
+	}
+	
+	@Override
+	public void msgFixYourself() {
+		
+	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {

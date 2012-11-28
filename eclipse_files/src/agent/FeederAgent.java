@@ -221,7 +221,7 @@ public class FeederAgent extends Agent implements Feeder {
 		print("Giving lane a part");
 		lane.numPartsNeeded--;
 		//Instead of new Part, call GUI method that will initialize the part.
-		lane.lane.msgHereIsPart(new Part(lane.type));
+		lane.lane.msgHereIsPart(new Part(feederGUI.createPartGraphics()));
 		if (lane.numPartsNeeded == 0) {
 			print("shows up when lane " + lane.type.getName()
 					+ " does not need more parts");

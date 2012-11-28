@@ -6,6 +6,7 @@ import agent.Agent;
 import agent.FeederAgent;
 import DeviceGraphics.BinGraphics;
 import DeviceGraphics.DeviceGraphics;
+import DeviceGraphics.PartGraphics;
 import GraphicsInterfaces.FeederGraphics;
 
 public class MockFeederGraphics extends Agent implements DeviceGraphics, FeederGraphics {
@@ -55,6 +56,12 @@ public class MockFeederGraphics extends Agent implements DeviceGraphics, FeederG
 	}
 	public void setFeederAgent(FeederAgent feeder) {
 		this.feeder = feeder;
+	}
+
+	@Override
+	public PartGraphics createPartGraphics() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
