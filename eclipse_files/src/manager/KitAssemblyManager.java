@@ -1,13 +1,20 @@
 package manager;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JSlider;
 import javax.swing.Timer;
 
+import manager.util.OverlayPanel;
+import manager.util.WhiteLabel;
 import DeviceGraphicsDisplay.CameraGraphicsDisplay;
 import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
@@ -24,6 +31,21 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	// Window dimensions
 	private static final int WINDOW_WIDTH = 600;
 	private static final int WINDOW_HEIGHT = 700;
+	
+	//Swing Components
+	private OverlayPanel defectPanel;
+	private JSlider dropChanceSlider;
+	private JButton okButton;
+	
+	private final int CHANCE_MIN = 0;
+	private final int CHANCE_MAX = 100;
+	private final int CHANCE_INIT = 0;
+	
+	private int selectedChance;
+	
+	private final int defectPanelHeight = 70;
+	
+	
 	
 	// Create a timer
 	private Timer timer;
@@ -54,6 +76,30 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	 * Initialize the GUI and start the timer.
 	 */
 	public void initGUI() {
+		defectPanel = new OverlayPanel();
+		defectPanel.setPanelSize(WINDOW_WIDTH, defectPanelHeight);
+		add(defectPanel, BorderLayout.SOUTH);
+		
+		WhiteLabel chanceLabel = new WhiteLabel("Part Drop Percentage");
+		
+		defectPanel.add(chanceLabel);
+		
+		dropChanceSlider = new JSlider(JSlider.HORIZONTAL, CHANCE_MIN, CHANCE_MAX, CHANCE_INIT);
+		dropChanceSlider.setMajorTickSpacing(50);
+		dropChanceSlider.setMinorTickSpacing(5);
+		dropChanceSlider.setPaintTicks(true);
+		dropChanceSlider.setPaintLabels(true);
+		dropChanceSlider.setFont(new Font("Arial", Font.PLAIN, 14));
+		dropChanceSlider.setForeground(Color.WHITE); 
+		dropChanceSlider.setOpaque(false);
+		defectPanel.add(dropChanceSlider);
+		
+		okButton = new JButton("OK!");
+		okButton.addActionListener(this);
+		defectPanel.add(okButton);
+		
+		
+		
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
 	}
@@ -79,6 +125,8 @@ public class KitAssemblyManager extends Client implements ActionListener {
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 	}
+	
+
 	
 	/**
 	 * Main method sets up the JFrame
@@ -122,5 +170,12 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent ae) {
 		repaint();
+		if(ae.getSource() == okButton)
+		{
+			selectedChance = dropChanceSlider.getValue();
+			
+			//TODO: send variable "selectedChance" to FCS to change on server
+		}
+			
 	}
 }

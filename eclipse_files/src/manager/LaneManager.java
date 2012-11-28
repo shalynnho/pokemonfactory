@@ -7,9 +7,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import manager.util.OverlayPanel;
@@ -22,8 +26,10 @@ import DeviceGraphicsDisplay.NestGraphicsDisplay;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
+import Utils.Location;
 
-public class LaneManager extends Client implements ActionListener{
+public class LaneManager extends Client implements ActionListener, MouseListener{
+	
 	// JFrame dimensions
 	private static final int WINDOW_WIDTH = 400;
 	private static final int WINDOW_HEIGHT = 700;
@@ -39,6 +45,15 @@ public class LaneManager extends Client implements ActionListener{
 	private OverlayPanel messagePanel;
 	private JLabel currentMessage;
 	
+	//This arrayList holds 8 panels - one located over each lane with a mouseListener
+	private ArrayList<JPanel> lanePanels;
+	
+	//This JPanel lies over the entire window. The panels that correspond to each lane are added to
+	//this panel. This panel also has its own mouse listener - the purpose of this is so we can
+	//know when the user clicks on the lane (good click) or when the user clicks outside of the
+	//lane (bad click)
+	private JPanel windowPanel;
+	
 	/**
 	 * Constructor
 	 */
@@ -53,15 +68,39 @@ public class LaneManager extends Client implements ActionListener{
 		initStreams();
 		initGUI();
 		initDevices();
+		
 	}
 	
 	/**
 	 * Initialize the GUI and start the timer.
 	 */
 	public void initGUI() {
+		
+		//Initialize and add the windowPanel that lies over the whole window
+		windowPanel = new JPanel();
+		windowPanel.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		windowPanel.setLayout(null);
+		windowPanel.setVisible(true);
+		windowPanel.setOpaque(false);
+		windowPanel.addMouseListener(this);
+		add(windowPanel);
+		
+		//Initialize the arrayList of JPanels and add each one to the screen with a mouse listener
+		lanePanels = new ArrayList<JPanel>();
+		for(int i = 0; i<8;i++)
+		{
+			lanePanels.add(new JPanel());
+			lanePanels.get(i).setOpaque(false);
+			lanePanels.get(i).setName(""+ i +"");
+			windowPanel.add(lanePanels.get(i)); 
+			lanePanels.get(i).setBounds(Constants.LANE_END_X - 540, 53 + i * 75, 210, 50);
+			lanePanels.get(i).addMouseListener(this);
+		}
+		
 		messagePanel = new OverlayPanel();
 		messagePanel.setPanelSize(WINDOW_WIDTH, 30);
 		add(messagePanel, BorderLayout.SOUTH);
+		
 		
 		currentMessage = new JLabel("Click anywhere on the lane to produce a jam at that location.");
 		currentMessage.setForeground(Color.WHITE);
@@ -97,6 +136,46 @@ public class LaneManager extends Client implements ActionListener{
 		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
 
 	}
+	
+	/**
+	 * Implement the MouseListener to handle mouseEvents
+	 */
+	public void mouseClicked(MouseEvent e)
+	{
+		//this will represent which lane (0-7) was clicked
+		int laneNumber;
+		
+		if(e.getSource() == windowPanel) //this means the user clicked on the screen but not in lane
+			clickOutOfBounds();
+		else
+		{
+			//this just prints click information to console for testing/confirmation purposes
+			//System.out.println("Lane " + e.getComponent().getName() + " clicked at (" + e.getX()
+				//	+ ", " +e.getY() + ")");
+			
+			//this is necessary to change lane number from string to integer so that
+			//it can be multiplied by the y-coordinate for proper locations for each lane
+			laneNumber = Integer.valueOf(e.getComponent().getName());
+			
+			
+			//pass this location AND laneNumber to FCS once appropriate method is there
+			Location location = new Location(e.getX(), e.getY());
+			
+			
+		}
+	}
+	
+	public void mouseReleased(MouseEvent e)
+	{}
+	
+	public void mouseEntered(MouseEvent e)
+	{}
+	
+	public void mousePressed(MouseEvent e)
+	{}
+	
+	public void mouseExited(MouseEvent e)
+	{}
 	
 	/**
 	 * Forward network requests to devices processing
