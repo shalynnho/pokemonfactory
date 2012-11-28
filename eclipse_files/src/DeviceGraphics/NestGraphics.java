@@ -22,7 +22,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS = 8;
-	// y-coordinates of the nest0
+	// y-coordinates of nest0
 	private static final int NEST_Y = 45, NEST_Y_INCR = 75;
 	private static final int BOTTOM_ROW_OFFSET = 23;
 
@@ -38,6 +38,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	private final Location location;
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphics> partsInNest;
+	// stores the parts in the nest and their quality (good/bad)
 	private HashMap<PartGraphics, Boolean> partsInNestQuality;
 
 	public NestGraphics(Server s, int nid, Agent agent) {
@@ -147,26 +148,8 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	 * V2 ONLY
 	 * @return
 	 */
-	public boolean allPartsUnanalyzed() {
-		// TODO: IMPLEMENT THIS METHOD FOR V2
-		return false;
-	}
-
-	/**
-	 * V2 ONLY
-	 * @return
-	 */
-	public boolean allPartsGood() {
-		// TODO: IMPLEMENT THIS METHOD FOR V2
-		return false;
-	}
-
-	/**
-	 * V2 ONLY
-	 * @return
-	 */
 	public boolean allPartsBad() {
-		// TODO: IMPLEMENT THIS METHOD FOR V2
+		// TODO: IMPLEMENT THIS METHOD FOR V2, IF CAMERA NEEDS IT
 		return false;
 	}
 
@@ -187,7 +170,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 
 	/**
 	 * V2 ONLY, no bad parts in V1.
-	 * @return
+	 * @returns a map of parts and their quality (good/bad)
 	 */
 	public Map<PartGraphics, Boolean> getQualityOfParts() {
 		return partsInNestQuality;

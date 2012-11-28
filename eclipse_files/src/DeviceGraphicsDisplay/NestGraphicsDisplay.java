@@ -51,8 +51,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	partsInNest = Collections.synchronizedList(new ArrayList<PartGraphicsDisplay>());
 	partStartLoc = new Location(Constants.LANE_END_X - Constants.PART_PADDING, location.getY()
 		+ Constants.PART_WIDTH / 2 - Constants.PART_OFFSET);
-	purgeLoc = new Location(location.getX() - (Constants.PART_WIDTH + Constants.PART_PADDING),
-		partStartLoc.getY());
+	purgeLoc = new Location(location.getX() - (Constants.PART_WIDTH + Constants.PART_PADDING), partStartLoc.getY());
 	generatePartLocations();
     }
 
