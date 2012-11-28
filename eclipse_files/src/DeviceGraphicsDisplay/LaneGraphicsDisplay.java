@@ -109,8 +109,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 					if (i == 0) { // first part on the lane
 
-						if (loc.getX() > Constants.LANE_END_X) { // hasn't reached end of lane
-							updateXLoc(loc, Constants.LANE_END_X, speed);
+						if (loc.getX() > Constants.LANE_END_X - Constants.PART_PADDING) { // hasn't reached end of lane
+							updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
 							partAtLaneEnd = false;
 						} else { // at end of lane
 							if (!purging) {
@@ -118,8 +118,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 								msgAgentReceivePartDone();
 							} else { // purging, continue till off lane
 
-								if (loc.getX() > Constants.LANE_END_X - Constants.PART_WIDTH) {
-									updateXLoc(loc, Constants.LANE_END_X - Constants.PART_WIDTH, speed);
+								if (loc.getX() > Constants.LANE_END_X - Constants.PART_WIDTH - Constants.PART_PADDING) {
+									updateXLoc(loc, Constants.LANE_END_X - Constants.PART_WIDTH - Constants.PART_PADDING, speed);
 									// loc.incrementX(-amplitude);
 								} else { // once off lane and not visible, remove
 									if (partsOnLane.size() > 0) {
@@ -140,10 +140,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 						// makes sure parts are spaced out as they appear on
 						// lane, but don't overlap part in front
-						if (locInFront.getX() <= Constants.LANE_BEG_X - 2 * Constants.PART_WIDTH
-								&& loc.getX() > locInFront.getX() + Constants.PART_WIDTH) {
+						if (locInFront.getX() <= Constants.LANE_BEG_X - 2 * Constants.PART_WIDTH - Constants.PART_PADDING
+								&& loc.getX() > locInFront.getX() + Constants.PART_WIDTH + Constants.PART_PADDING/2) {
 							// loc.incrementX(-amplitude);
-							updateXLoc(loc, Constants.LANE_END_X, speed);
+							updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
 						}
 					}
 					vibrateParts(loc);
