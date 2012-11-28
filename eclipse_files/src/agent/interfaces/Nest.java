@@ -34,8 +34,5 @@ public interface Nest {
     public abstract void msgTellFeederToFixThisLane();
 	public abstract boolean pickAndExecuteAnAction();
 
-	public abstract void msgTellLaneToIncreaseAmplitude();
-
-	public abstract void msgTellFeederToFixThisLane();
 
 }
