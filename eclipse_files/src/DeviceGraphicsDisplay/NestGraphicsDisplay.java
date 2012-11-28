@@ -1,6 +1,8 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -65,8 +67,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 			int index = partsInNest.size() - 1;
 			PartGraphicsDisplay pgd = partsInNest.get(index);
 			Location partLoc = pgd.getLocation();
-			Location endLoc = partLocs.get(index);
-
+			Location endLoc = partLocs.get(index); 
+			
 			// check x-coord
 			updateXLoc(partLoc, endLoc, 3);
 			// check y-coord
@@ -82,10 +84,13 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (purging) {
 			animatePurge();
 		}
-
+			
 		synchronized (partsInNest) {
 			for (PartGraphicsDisplay part : partsInNest) {
-				part.drawWithOffset(c, g, client.getOffset());
+				part.drawTransition(client.getOffset(), part.getLocation(), c, g);
+				if (part.trans.animate == false) {
+					part.drawPokeball(client.getOffset(), part.getLocation(), c, g);
+				}
 			}
 		}
 	}

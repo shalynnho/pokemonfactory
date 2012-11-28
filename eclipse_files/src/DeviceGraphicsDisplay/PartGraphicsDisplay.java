@@ -13,12 +13,14 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
     Location partLocation;
     PartType partType;
     boolean isBad = false;
+    TransitionGraphicsDisplay trans;
 
     private Image partImage;
 
     public PartGraphicsDisplay(PartType pt) {
 	partType = pt;
 	partImage = partType.getImage();
+	trans = new TransitionGraphicsDisplay(partType);
     }
 
     public void setLocation(Location newLocation) {
@@ -35,6 +37,17 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	} else {
 	    g.drawImage(partImage, partLocation.getX() + offset, partLocation.getY(), c);
 	}
+    }
+    
+    //Neetu added this
+    
+    public void drawTransition(int offset, Location loc, JComponent jc, Graphics2D g) {
+    	trans.drawTrans(offset, loc, jc, g);
+    }
+    
+    //Neetu added this too
+    public void drawPokeball(int offset, Location loc, JComponent jc, Graphics2D g) {
+    	trans.drawPokeball(offset, loc, jc, g);
     }
 
     public Location getLocation() {

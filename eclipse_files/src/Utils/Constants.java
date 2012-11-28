@@ -128,6 +128,10 @@ public abstract class Constants {
 
 	// Part Images
 	public static final String PART_IMAGE_PATH = IMAGE_PATH + "part_";
+	public static final String BALL_IMAGE = IMAGE_PATH + "ball_";
+	
+	// Part Transition Animations
+	public static final String TRANS_IMAGE = IMAGE_PATH + "trans_";
 
 	// Bin Images
 	public static final String BIN_IMAGE_PATH = IMAGE_PATH + "bin_";
