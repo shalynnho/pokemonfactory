@@ -37,6 +37,10 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
     private int amplitude;
     // true if Lane is on
     private boolean laneOn;
+    // location of a part jam on the lane
+    private Location jamLocation;
+    // status of lane jam
+    private boolean jammed;
 
     /**
      * 
@@ -57,6 +61,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	partsOnLane = new ArrayList<PartGraphics>();
 	amplitude = 1;
 	laneOn = true;
+	jammed = false;
     }
 
     /**
@@ -124,6 +129,28 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	    partsOnLane.clear();
 	    laneAgent.msgPurgeDone();
 	}
+    }
+
+    /**
+     * Sets the jam location for a part on the lane
+     * 
+     * @param loc
+     *            - location of the lane jam
+     */
+    public void setJamLocation(Location loc) {
+	if(!jammed) {
+	    jammed = true;
+	    jamLocation = loc;
+	    server.sendData(new Request(Constants.LANE_SET_JAM_LOC_COMMAND, Constants.LANE_TARGET+laneID, jamLocation));
+	}
+    }
+    
+    /**
+     * Receives message from agent, sends to GraphicsDisplay to unjam the lane
+     */
+    public void unjam() {
+	jammed = false;
+	server.sendData(new Request(Constants.LANE_UNJAM_COMMAND, Constants.LANE_TARGET + laneID, null));
     }
 
     /**

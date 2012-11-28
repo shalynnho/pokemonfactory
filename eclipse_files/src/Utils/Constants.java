@@ -202,6 +202,10 @@ public abstract class Constants {
 	public static final String LANE_SEND_ANIMATION_COMMAND = "lane animation";
 	// sets lane amplitude
 	public static final String LANE_SET_AMPLITUDE_COMMAND = "lane set amp";
+	// sets the location of part jam on the lane
+	public static final String LANE_SET_JAM_LOC_COMMAND = "lane set jam loc";
+	// unjams the lane
+	public static final String LANE_UNJAM_COMMAND = "lane unjam";
 	// turns lane on or off
 	public static final String LANE_TOGGLE_COMMAND = "lane toggle";
 	// sets start loc for this lane
