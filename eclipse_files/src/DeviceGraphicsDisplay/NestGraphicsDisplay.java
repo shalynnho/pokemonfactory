@@ -205,10 +205,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		partLocs = new ArrayList<Location>(MAX_PARTS);
 		for (int i = 0; i < MAX_PARTS; i++) {
 			if (i % 2 == 0) { // top row
-				partLocs.add(new Location(location.getX() + i / 2 * Constants.PART_WIDTH - Constants.PART_PADDING, location.getY()
+				partLocs.add(new Location(location.getX() + i / 2 * Constants.PART_WIDTH - Constants.PART_PADDING_NEST, location.getY()
 						- Constants.PART_OFFSET));
 			} else { // bottom row
-				partLocs.add(new Location(location.getX() + i / 2 * Constants.PART_WIDTH - Constants.PART_PADDING, location.getY()
+				partLocs.add(new Location(location.getX() + i / 2 * Constants.PART_WIDTH - Constants.PART_PADDING_NEST, location.getY()
 						+ BOTTOM_ROW_OFFSET - Constants.PART_OFFSET));
 			}
 		}
