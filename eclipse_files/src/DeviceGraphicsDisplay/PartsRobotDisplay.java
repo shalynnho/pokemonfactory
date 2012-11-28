@@ -17,10 +17,7 @@ import factory.PartType;
 public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 
 	private static Image partsRobotImage;
-	private static ArrayList<Image> armImage1;
-	private static ArrayList<Image> armImage2;
-	private static ArrayList<Image> armImage3;
-	private static ArrayList<Image> armImage4;
+	private static ArrayList<Image> armImage;
 
 	private final ArrayList<PartGraphicsDisplay> partArrayGraphics;
 
@@ -45,29 +42,15 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	public PartsRobotDisplay(Client prc) {
 		client = prc;
 
-		initialLocation = Constants.PARTS_ROBOT_LOC; // new Location(250,450);
+		initialLocation = Constants.PARTS_ROBOT_LOC;
 		currentLocation = initialLocation;
 		armLocation = currentLocation;
 
 		partsRobotImage = Toolkit.getDefaultToolkit().getImage("src/images/parts_robot.png");
-		armImage1 = new ArrayList<Image>();
-		armImage2 = new ArrayList<Image>();
-		armImage3 = new ArrayList<Image>();
-		armImage4 = new ArrayList<Image>();
-		int j;
-		for (j = 0; j < 2; j++) {
-			if (j < 1) {
-				armImage1.add(Toolkit.getDefaultToolkit().getImage("src/images/parts_robot_arm.png"));
-				armImage2.add(Toolkit.getDefaultToolkit().getImage("src/images/parts_robot_arm.png"));
-				armImage3.add(Toolkit.getDefaultToolkit().getImage("src/images/parts_robot_arm.png"));
-				armImage4.add(Toolkit.getDefaultToolkit().getImage("src/images/parts_robot_arm.png"));
-			} else {
-				armImage1.add(Toolkit.getDefaultToolkit().getImage("src/images/parts_robot_arm.png"));
-				armImage2.add(Toolkit.getDefaultToolkit().getImage("src/images/parts_robot_arm.png"));
-				armImage3.add(Toolkit.getDefaultToolkit().getImage("src/images/parts_robot_arm.png"));
-				armImage4.add(Toolkit.getDefaultToolkit().getImage("src/images/parts_robot_arm.png"));
-
-			}
+		armImage = new ArrayList<Image>();
+		
+		for (int j = 0; j < 4; j++) {
+			armImage.add(Toolkit.getDefaultToolkit().getImage("src/images/parts_robot_arm.png"));
 		}
 
 		partArrayGraphics = new ArrayList<PartGraphicsDisplay>();
@@ -165,12 +148,9 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			 * g.drawImage(armImage4.get(z),armLoc.get(7).getX() + client.getOffset(), armLoc.get(7).getY(), c);
 			 * 
 			 * int k = 1;
-			 */int k;
-			for (k = 0; k < 2; k++) {
-				g.drawImage(armImage1.get(k), armLoc.get(0).getX() + client.getOffset(), armLoc.get(0).getY(), c);
-				g.drawImage(armImage2.get(k), armLoc.get(1).getX() + client.getOffset(), armLoc.get(1).getY(), c);
-				g.drawImage(armImage3.get(k), armLoc.get(2).getX() + client.getOffset(), armLoc.get(2).getY(), c);
-				g.drawImage(armImage4.get(k), armLoc.get(3).getX() + client.getOffset(), armLoc.get(3).getY(), c);
+			 */
+			for (int k = 0; k < 4; k++) {
+				g.drawImage(armImage.get(k), armLoc.get(0).getX() + client.getOffset(), armLoc.get(0).getY(), c);
 			}
 
 			g.drawImage(partsRobotImage, currentLocation.getX() + client.getOffset(), currentLocation.getY(), c);
@@ -240,12 +220,9 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			 * g.drawImage(armImage4.get(z),armLoc.get(7).getX() + client.getOffset(), armLoc.get(7).getY(), c);
 			 * 
 			 * int k = 1;
-			 */int k;
-			for (k = 0; k < 2; k++) {
-				g.drawImage(armImage1.get(k), armLoc.get(0).getX() + client.getOffset(), armLoc.get(0).getY(), c);
-				g.drawImage(armImage2.get(k), armLoc.get(1).getX() + client.getOffset(), armLoc.get(1).getY(), c);
-				g.drawImage(armImage3.get(k), armLoc.get(2).getX() + client.getOffset(), armLoc.get(2).getY(), c);
-				g.drawImage(armImage4.get(k), armLoc.get(3).getX() + client.getOffset(), armLoc.get(3).getY(), c);
+			 */
+			for (int k = 0; k < 4; k++) {
+				g.drawImage(armImage.get(k), armLoc.get(0).getX() + client.getOffset(), armLoc.get(0).getY(), c);
 			}
 			g.drawImage(partsRobotImage, currentLocation.getX() + client.getOffset(), currentLocation.getY(), c);
 
@@ -273,12 +250,9 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				 * armLoc.get(7).getY(), c);
 				 * 
 				 * int k = 1;
-				 */int k;
-				for (k = 0; k < 2; k++) {
-					g.drawImage(armImage1.get(k), armLoc.get(0).getX() + client.getOffset(), armLoc.get(0).getY(), c);
-					g.drawImage(armImage2.get(k), armLoc.get(1).getX() + client.getOffset(), armLoc.get(1).getY(), c);
-					g.drawImage(armImage3.get(k), armLoc.get(2).getX() + client.getOffset(), armLoc.get(2).getY(), c);
-					g.drawImage(armImage4.get(k), armLoc.get(3).getX() + client.getOffset(), armLoc.get(3).getY(), c);
+				 */
+				for (int k = 0; k < 4; k++) {
+					g.drawImage(armImage.get(k), armLoc.get(0).getX() + client.getOffset(), armLoc.get(0).getY(), c);
 				}
 
 				g.drawImage(partsRobotImage, currentLocation.getX() + client.getOffset(), currentLocation.getY(), c);
@@ -288,12 +262,8 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			// System.out.println("arm2");
 			g.drawImage(partsRobotImage, initialLocation.getX() + client.getOffset(), initialLocation.getY(), c);
 
-			int k;
-			for (k = 0; k < 2; k++) {
-				g.drawImage(armImage1.get(k), armLoc.get(0).getX() + client.getOffset(), armLoc.get(0).getY(), c);
-				g.drawImage(armImage2.get(k), armLoc.get(1).getX() + client.getOffset(), armLoc.get(1).getY(), c);
-				g.drawImage(armImage3.get(k), armLoc.get(2).getX() + client.getOffset(), armLoc.get(2).getY(), c);
-				g.drawImage(armImage4.get(k), armLoc.get(3).getX() + client.getOffset(), armLoc.get(3).getY(), c);
+			for (int k = 0; k < 4; k++) {
+				g.drawImage(armImage.get(k), armLoc.get(0).getX() + client.getOffset(), armLoc.get(0).getY(), c);
 			}
 		}
 
