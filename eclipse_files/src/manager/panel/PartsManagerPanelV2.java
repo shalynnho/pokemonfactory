@@ -76,12 +76,12 @@ public class PartsManagerPanelV2 extends JPanel {
 
 	rightPanel = new PartsListPanel(new PartsListPanel.PartsListPanelHandler() {
 	    @Override
-	    public void editPart(PartType pt) {
+	    public void panelClicked(PartType pt) {
 		startEditing(pt);
 	    }
 
 	    @Override
-	    public void deletePart(PartType pt) {
+	    public void buttonClicked(PartType pt) {
 		startDeleting(pt);
 	    }
 	});
