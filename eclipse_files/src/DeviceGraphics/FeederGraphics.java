@@ -26,10 +26,10 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	private boolean diverterTop;
 	// reference to the current bin
 	private BinGraphics binGraphics;
-	// reference to PartGraphics in current bin
-	private PartGraphics partGraphics;
 	// location of the feeder
 	private Location feederLocation;
+	// reference to the partType in the current bin
+	private PartType partType;
 	
 	/**
 	 * This is the constructor.
@@ -58,11 +58,9 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	 */
 	public void receiveBin(BinGraphics bg) {
 		binGraphics = bg;
-		partGraphics = bg.getPart();
-		
-		PartType type = partGraphics.getPartType();
-		
-		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, type));
+		partType = bg.getPart().getPartType();
+			
+		server.sendData(new Request(Constants.FEEDER_RECEIVED_BIN_COMMAND, Constants.FEEDER_TARGET + feederID, partType));
 		
 		System.out.println("[FEEDER]: Received a bin.");
 	}
@@ -70,7 +68,7 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 	/**
 	 * This function passes a part to agents who pass it on to the lane.
 	 */
-	public PartGraphics givePartToLane() {
+	public PartGraphics createPartGraphics() {
 		// TODO - need to implement this with agents and send appropriate done messages
 		
 		System.out.println("[FEEDER]: Giving part to lane.");
@@ -78,10 +76,11 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics, Device
 		Random r = new Random();
 		float randNum = r.nextFloat();
 		
-		if (randNum < partGraphics.getPartType().getBadChance() || randNum == partGraphics.getPartType().getBadChance()) {
-			PartGraphics badPartGraphics = new PartGraphics(partGraphics.getPartType());
-			badPartGraphics.setBad(true);
-			return badPartGraphics;
+		PartGraphics partGraphics = new PartGraphics(partType);
+		
+		if (randNum < partType.getBadChance() || randNum == partType.getBadChance()) {
+			partGraphics.setQuality(false);
+			return partGraphics;
 		} else {
 			return partGraphics;
 		}
