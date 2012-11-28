@@ -35,7 +35,7 @@ public class PartGraphics implements Serializable {
 	isBad = bad;
     }
 
-    public boolean isBad() {
+    public boolean getQuality() {
 	return isBad;
     }
 }
