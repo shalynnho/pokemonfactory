@@ -401,6 +401,8 @@ public class Server {
 		kitAssemblyMngrWriter.sendData(req);
 	}
 
+
+	
 	private void sendDataToKitRobot(Request req) {
 		factProdMngrWriter.sendData(req);
 		kitRobotMngrWriter.sendData(req);
