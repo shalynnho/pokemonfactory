@@ -368,7 +368,7 @@ public class Server {
 		} else if (target.contains(Constants.FEEDER_TARGET)) {
 			sendDataToLane(req);
 		} else if (target.contains(Constants.KIT_TARGET)) {
-			sendDataToPartsRobot(req);
+			sendDataToKits(req);
 		} else if (target.contains(Constants.ALL_TARGET)) {
 			sendDataToGUIManagers(req);
 		} else if (target.contains(Constants.GANTRY_ROBOT_TARGET)) {
@@ -413,6 +413,11 @@ public class Server {
 		kitAssemblyMngrWriter.sendData(req);
 	}
 
+	private void sendDataToKits(Request req) {
+		factProdMngrWriter.sendData(req);
+		partsRobotMngrWriter.sendData(req);
+		kitAssemblyMngrWriter.sendData(req);
+	}
 	private void sendDataToNest(Request req) {
 		factProdMngrWriter.sendData(req);
 		kitAssemblyMngrWriter.sendData(req);
