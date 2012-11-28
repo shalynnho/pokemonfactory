@@ -37,6 +37,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	private final Location location;
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphics> partsInNest;
+	private Map<PartGraphics, Boolean> partsInNestQuality;
 
 	public NestGraphics(Server s, int nid, Agent agent) {
 		server = s;
