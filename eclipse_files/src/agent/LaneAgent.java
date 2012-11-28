@@ -50,7 +50,7 @@ public class LaneAgent extends Agent implements Lane {
 	};
 
 	public enum LaneStatus {
-		FILLING, DONE_FILLING, PURGING, WAITING
+		FILLING, DONE_FILLING, PURGING, WAITING, BROKEN, BROKEN_WHILE_PURGING;
 	};
 
 	FeederAgent feeder;
@@ -135,14 +135,32 @@ public class LaneAgent extends Agent implements Lane {
 	
 	@Override
 	public void msgChangeAmplitude() {
-		
+		//laneGUI.changeAmplitude();
+		stateChanged();
 	}
 	
 	@Override
 	public void msgFixYourself() {
-		
+		if(state == LaneStatus.BROKEN_WHILE_PURGING) {
+			state = LaneStatus.PURGING;
+		}
+		else {
+			state = LaneStatus.FILLING;
+		}
+		stateChanged();
 	}
 
+	@Override
+	public void breakThis() {
+		if(state == LaneStatus.PURGING) {
+			state = LaneStatus.BROKEN_WHILE_PURGING;
+		}
+		else { 
+			state = LaneStatus.BROKEN;
+		}
+		stateChanged();
+	}
+	
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// print("In the Scheduler");
@@ -180,6 +198,7 @@ public class LaneAgent extends Agent implements Lane {
 			}
 		}
 
+		
 		synchronized (currentParts) {
 			for (MyPart part : currentParts) {
 				if (part.status == PartStatus.END_LANE) {
