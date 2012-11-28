@@ -41,7 +41,7 @@ public class KitAssemblyManager extends Client implements ActionListener, MouseL
 	private final int CHANCE_MAX = 100;
 	private final int CHANCE_INIT = 0;
 	private final int defectPanelHeight = 70;
-	private boolean visible = true;
+	
 	
 	
 	// Create a timer
@@ -79,7 +79,7 @@ public class KitAssemblyManager extends Client implements ActionListener, MouseL
 		defectPanel.addMouseListener(this);
 		
 		WhiteLabel chanceLabel = new WhiteLabel("Part Drop Percentage");
-		//chanceLabel.setLabelSize(100, 25);
+		
 		defectPanel.add(chanceLabel);
 		
 		dropChanceSlider = new JSlider(JSlider.HORIZONTAL, CHANCE_MIN, CHANCE_MAX, CHANCE_INIT);
@@ -122,34 +122,21 @@ public class KitAssemblyManager extends Client implements ActionListener, MouseL
 	}
 	
 	/**
-	 * Mouse Listener implementation to control visibility of OverlayPanel on MouseEntered/Exited
+	 * Mouse Listener implementation
 	 */
-	public void mouseEntered(MouseEvent m)
-	{
-		if(!visible)
-		{
-			//for(int i=0; i<getComponentCount();i++)
-			//	getComponent(i).setVisible(true);
-			defectPanel.setPanelSize(WINDOW_WIDTH, defectPanelHeight);
-			visible = true;
-		}
-	}
+	public void mouseEntered(MouseEvent m) {}
 	
-	public void mouseExited(MouseEvent m)
-	{
-		if(visible)
-		{
-			//for(int i=0; i<getComponentCount();i++)
-				//getComponent(i).setVisible(false);
-			defectPanel.setPanelSize(WINDOW_WIDTH, defectPanelHeight/2);
-			visible = false;
-		}
-		
-	}
+	public void mouseExited(MouseEvent m){}
 	
 	public void mouseClicked(MouseEvent m) {};
+	
 	public void mousePressed(MouseEvent m) {};
-	public void mouseReleased(MouseEvent m) {};
+	
+	public void mouseReleased(MouseEvent m) 
+	{
+		//TODO: add the FCS Message on the value of the slider when the mouse is released?
+		
+	};
 	
 	/**
 	 * Main method sets up the JFrame
