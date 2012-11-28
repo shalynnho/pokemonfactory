@@ -55,6 +55,10 @@ public abstract class Constants {
 	new KitConfig("8 Type Kit", DEFAULT_PARTTYPES.get(0), DEFAULT_PARTTYPES.get(1), DEFAULT_PARTTYPES.get(2),
 			DEFAULT_PARTTYPES.get(3), DEFAULT_PARTTYPES.get(4), DEFAULT_PARTTYPES.get(5), DEFAULT_PARTTYPES.get(6),
 			DEFAULT_PARTTYPES.get(7))));
+	
+	public static final ArrayList<String> DEFAULT_IMAGEPATHS = new ArrayList<String>(Arrays.asList(new String ("1"), new String ("2"),
+			new String ("3"), new String ("4"), new String ("5"), new String ("6"), new String ("7"), 
+			new String ("8"), new String ("9"), new String ("10")));
 
 	// DEVICE START LOCATIONS
 	// ==================================
@@ -144,7 +148,7 @@ public abstract class Constants {
 	// IMAGE SIZES
 	public static final int PART_WIDTH = 20, PART_HEIGHT = 50;
 	public static final int PART_OFFSET = 40;
-	public static final int PART_PADDING_NEST = 37;
+	public static final int PART_PADDING_NEST = 35;
 	public static final int PART_PADDING = 30;
 
 	public static final int LANE_LENGTH = 210;
@@ -341,8 +345,6 @@ public abstract class Constants {
 	public static final String FCS_UPDATE_PARTS = "updateParts";
 	public static final String FCS_UPDATE_KITS = "updateKits";
 	public static final String FCS_UPDATE_ORDERS = "updateOrders";
-	
-	public static final String FCS_SET_DROP_CHANCE = "setDropChance";
 
 	// CLIENT NAMES
 	// ==================================

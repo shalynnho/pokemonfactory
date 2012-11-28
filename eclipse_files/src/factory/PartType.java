@@ -14,6 +14,7 @@ public class PartType implements Serializable, FactoryData {
 	private int partNum;
 	private float badChance = 0;
 	private String description = "";
+	private String imagePath;
 
 	// private Image image;
 
@@ -33,6 +34,7 @@ public class PartType implements Serializable, FactoryData {
 		partNum = num;
 		description = desc;
 		this.id = StringUtil.md5(name);
+		imagePath = name;
 	}
 	
 	public PartType(String s, int num, String desc, float chance) {
@@ -85,15 +87,19 @@ public class PartType implements Serializable, FactoryData {
 
 	public Image getImage() {
 		return Toolkit.getDefaultToolkit().getImage(
-				Constants.PART_IMAGE_PATH + name + ".png");
+				Constants.PART_IMAGE_PATH + imagePath + ".png");
 	}
 
 	public Image getBinImage() {
 		return Toolkit.getDefaultToolkit().getImage(
-				Constants.BIN_IMAGE_PATH + name + ".png");
+				Constants.BIN_IMAGE_PATH + imagePath + ".png");
 	}
 
 	public boolean equals(PartType pt) {
 		return this.id.equals(pt.getID());
+	}
+	
+	public void setImagePath (String newImagePath) {
+		imagePath = newImagePath;
 	}
 }
