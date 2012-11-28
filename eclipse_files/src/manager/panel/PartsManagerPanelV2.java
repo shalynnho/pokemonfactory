@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,6 +39,8 @@ public class PartsManagerPanelV2 extends JPanel {
 	private OverlayPanel leftPanel;
 	private JScrollPane jsp;
 	private PartsListPanel rightPanel;
+	private JPanel imagePanel;
+	private WhiteLabel imageLabel;
 	
 	private WhiteLabel leftTitle;
 	private JTextField nameField;
@@ -45,10 +48,15 @@ public class PartsManagerPanelV2 extends JPanel {
 	private JTextArea descField;
 	private JButton submitButton;
 	
+	private JLabel iconLabel;
+	private ImageIcon iconImage;
+	
 	private JSlider badChanceScroller;
 	private static final int CHANCE_MIN = 0;
 	private static final int CHANCE_MAX = 100;
 	private static final int CHANCE_INIT = 0;
+	
+	private JScrollPane imageSelect;
 	
 	private PartsManager manager;
 	
@@ -157,9 +165,9 @@ public class PartsManagerPanelV2 extends JPanel {
 			descPanel.add(descLabel);
 			
 			descField = new JTextArea("Description...");
-			descField.setMinimumSize(new Dimension(200, 100));
-			descField.setMaximumSize(new Dimension(200, 100));
-			descField.setPreferredSize(new Dimension(200, 100));
+			descField.setMinimumSize(new Dimension(200, 80));
+			descField.setMaximumSize(new Dimension(200, 80));
+			descField.setPreferredSize(new Dimension(200, 80));
 			descField.setBorder(Constants.FIELD_PADDING);
 			descPanel.add(descField);
 			
@@ -185,6 +193,33 @@ public class PartsManagerPanelV2 extends JPanel {
 			badChanceScroller.setOpaque(false);
 			chancePanel.add(badChanceScroller);
 			
+		imagePanel = new JPanel();
+		imagePanel.setBorder(Constants.TOP_PADDING);
+		imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.LINE_AXIS));
+		imagePanel.setOpaque(false);
+		imagePanel.setAlignmentX(0);
+		leftPanel.add(imagePanel);
+		
+		
+		imageLabel = new WhiteLabel("Select Image: ");
+		imageLabel.setSize(100, 50);
+		imagePanel.add(imageLabel);
+			
+		imageSelect = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		imageSelect.setSize(150, 60);
+		imagePanel.add(imageSelect);
+			
+		/**
+		 * Iterate through the ArrayList of available images in constants to populate JScrollPane
+		 */
+		for(int i = 0; i<Constants.DEFAULT_IMAGEPATHS.getSize();i++)
+		{
+			iconImage = new ImageIcon(Constants.PART_IMAGE_PATH + Constants.DEFAULT_IMAGEPATHS.get(i) + ".png");
+			iconLabel = new JLabel(iconImage);
+			imageSelect.add(iconLabel);
+			//TODO: add action listener to each jlabel
+		}
+		
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBorder(Constants.TOP_PADDING); 
@@ -210,6 +245,8 @@ public class PartsManagerPanelV2 extends JPanel {
 				fakeLabel.setLabelSize(100, 25);
 				buttonPanel.add(fakeLabel);
 			}
+			
+			
 			
 			submitButton = new JButton("Submit >");
 			submitButton.setMinimumSize(new Dimension (200, 25));
