@@ -88,7 +88,10 @@ public class KitRobotManager extends Client implements ActionListener {
 		  NetworkingButtonListener
 		  (Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR,
 		  Constants.KIT_ROBOT_TARGET,writer));
-		 
+			JButton receivePart = new JButton("receivePart");
+			receivePart.addActionListener(new NetworkingButtonListener(
+					Constants.KIT_RECEIVES_PART, 
+					Constants.KIT_ROBOT_TARGET, writer));
 		JButton Kit1Done = new JButton("Kit1Done");
 		Kit1Done.addActionListener(new NetworkingButtonListener(
 				Constants.KIT_ROBOT_AGENT_RECEIVES_KIT1_DONE,
@@ -103,12 +106,14 @@ public class KitRobotManager extends Client implements ActionListener {
 		KitInspected.addActionListener(new NetworkingButtonListener(
 				Constants.KIT_ROBOT_AGENT_RECEIVES_KIT_INSPECTED,
 				Constants.KIT_ROBOT_TARGET, writer));
-
+	
+		
 		panel.add(newKit);
 		panel.add(Kit1Done);
 		panel.add(Kit2Done);
 		panel.add(KitInspected);
 		panel.add(moveKitToLocation1);
+		panel.add(receivePart);
 		panel.add(moveKitToLocation2);
 		panel.add(moveKitFromLocation1ToInspection);
 		panel.add(moveKitFromLocation2ToInspection);

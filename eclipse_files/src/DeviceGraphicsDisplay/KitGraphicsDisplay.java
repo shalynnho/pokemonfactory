@@ -14,7 +14,7 @@ import Utils.Constants;
 import Utils.Location;
 import factory.PartType;
 
-public class KitGraphicsDisplay extends DeviceGraphicsDisplay implements Serializable {
+public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 
 	private static final int MAX_PARTS = 8;
 
@@ -45,6 +45,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay implements Seriali
 		kitImage = new ImageIcon( Constants.KIT_IMAGE );
 		this.kitClient = kitClient;
 	}
+	
 	public KitGraphicsDisplay() {
 		kitLocation = Constants.KIT_LOC;
 		position = 0;
@@ -77,8 +78,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay implements Seriali
 
 		//TODO fix so that it draws the actual parts
 		for (PartGraphicsDisplay part : parts) {
-			g.drawImage(part.getPartType().getImage(), part.getLocation().getX() + offset, part
-					.getLocation().getY(), c);
+			g.drawImage(part.getPartType().getImage(), kitLocation.getX() + offset, kitLocation.getY(), c);
 		}
 
 	}

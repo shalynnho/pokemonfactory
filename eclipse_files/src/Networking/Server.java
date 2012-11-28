@@ -416,7 +416,7 @@ public class Server {
 
 	private void sendDataToKits(Request req) {
 		factProdMngrWriter.sendData(req);
-		partsRobotMngrWriter.sendData(req);
+		kitRobotMngrWriter.sendData(req);
 		kitAssemblyMngrWriter.sendData(req);
 	}
 	private void sendDataToNest(Request req) {
