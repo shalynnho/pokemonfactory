@@ -7,9 +7,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.Timer;
@@ -28,7 +27,7 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 
-public class KitAssemblyManager extends Client implements ActionListener, MouseListener {
+public class KitAssemblyManager extends Client implements ActionListener {
 	// Window dimensions
 	private static final int WINDOW_WIDTH = 600;
 	private static final int WINDOW_HEIGHT = 700;
@@ -36,10 +35,14 @@ public class KitAssemblyManager extends Client implements ActionListener, MouseL
 	//Swing Components
 	private OverlayPanel defectPanel;
 	private JSlider dropChanceSlider;
+	private JButton okButton;
 	
 	private final int CHANCE_MIN = 0;
 	private final int CHANCE_MAX = 100;
 	private final int CHANCE_INIT = 0;
+	
+	private int selectedChance;
+	
 	private final int defectPanelHeight = 70;
 	
 	
@@ -76,7 +79,6 @@ public class KitAssemblyManager extends Client implements ActionListener, MouseL
 		defectPanel = new OverlayPanel();
 		defectPanel.setPanelSize(WINDOW_WIDTH, defectPanelHeight);
 		add(defectPanel, BorderLayout.SOUTH);
-		defectPanel.addMouseListener(this);
 		
 		WhiteLabel chanceLabel = new WhiteLabel("Part Drop Percentage");
 		
@@ -92,6 +94,9 @@ public class KitAssemblyManager extends Client implements ActionListener, MouseL
 		dropChanceSlider.setOpaque(false);
 		defectPanel.add(dropChanceSlider);
 		
+		okButton = new JButton("OK!");
+		okButton.addActionListener(this);
+		defectPanel.add(okButton);
 		
 		
 		
@@ -121,22 +126,7 @@ public class KitAssemblyManager extends Client implements ActionListener, MouseL
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 	}
 	
-	/**
-	 * Mouse Listener implementation
-	 */
-	public void mouseEntered(MouseEvent m) {}
-	
-	public void mouseExited(MouseEvent m){}
-	
-	public void mouseClicked(MouseEvent m) {};
-	
-	public void mousePressed(MouseEvent m) {};
-	
-	public void mouseReleased(MouseEvent m) 
-	{
-		//TODO: add the FCS Message on the value of the slider when the mouse is released?
-		
-	};
+
 	
 	/**
 	 * Main method sets up the JFrame
@@ -180,5 +170,12 @@ public class KitAssemblyManager extends Client implements ActionListener, MouseL
 	 */
 	public void actionPerformed(ActionEvent ae) {
 		repaint();
+		if(ae.getSource() == okButton)
+		{
+			selectedChance = dropChanceSlider.getValue();
+			
+			//TODO: send variable "selectedChance" to FCS to change on server
+		}
+			
 	}
 }
