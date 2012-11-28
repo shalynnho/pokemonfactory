@@ -323,6 +323,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (partAtLaneEnd && !receivePartDoneSent) {
 			client.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX,
 					Constants.LANE_TARGET + laneID, null));
+			System.out.println("	LANEGD" +laneID+": receive part done sent.");
 			receivePartDoneSent = true;
 		}
 	}
@@ -334,6 +335,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (partsOnLane.size() == 0 && !purgeDoneSent) {
 			client.sendData(new Request(Constants.LANE_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.LANE_TARGET
 					+ laneID, null));
+			System.out.println("	LANEGD" +laneID+": purge done sent.");
 			purgeDoneSent = true;
 		}
 	}
