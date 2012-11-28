@@ -102,6 +102,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	@Override
 	public void receivePart(PartGraphics pg) {
 		partsInNest.add(pg);
+		partsInNestQuality.put(pg, pg.getQuality());
 		pg.setLocation(partLocs.get(partsInNest.size() - 1));
 		PartType type = pg.getPartType();
 		System.out.println("NEST" + nestID + " RECEIVING PART " + partsInNest.size());
@@ -120,12 +121,14 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 			
 		} else if (req.getCommand().equals(
 			Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX)) {
+			partsInNestQuality.remove(partsInNest.get(0));
 			partsInNest.remove(0);
 			setPartLocations();
 			nestAgent.msgGivePartToPartsRobotDone();
 			
 		} else if (req.getCommand().equals(
 			Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
+			partsInNestQuality.clear();
 			partsInNest.clear();
 			nestAgent.msgPurgingDone();
 		} 
@@ -185,8 +188,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	 * @return
 	 */
 	public Map<PartGraphics, Boolean> getQualityOfParts() {
-		// TODO: IMPLEMENT THIS METHOD FOR V2
-		return null;
+		return partsInNestQuality;
 	}
 
 	public int getNestID() {
