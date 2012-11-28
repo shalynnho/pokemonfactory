@@ -339,6 +339,8 @@ public abstract class Constants {
 	public static final String FCS_UPDATE_PARTS = "updateParts";
 	public static final String FCS_UPDATE_KITS = "updateKits";
 	public static final String FCS_UPDATE_ORDERS = "updateOrders";
+	
+	public static final String FCS_SET_DROP_CHANCE = "setDropChance";
 
 	// CLIENT NAMES
 	// ==================================
