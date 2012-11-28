@@ -2,6 +2,7 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
 
 import factory.PartType;
 
@@ -37,14 +38,14 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	private final Location location;
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphics> partsInNest;
-	private Map<PartGraphics, Boolean> partsInNestQuality;
+	private HashMap<PartGraphics, Boolean> partsInNestQuality;
 
 	public NestGraphics(Server s, int nid, Agent agent) {
 		server = s;
 		nestID = nid;
 		nestAgent = (NestAgent) agent;
 		
-		partsInNestQuality = new Map<PartGraphics, Boolean>();
+		partsInNestQuality = new HashMap<PartGraphics, Boolean>();
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
 		location = new Location(Constants.LANE_END_X - Constants.NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
 		generatePartLocations();
