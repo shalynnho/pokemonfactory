@@ -2,9 +2,10 @@ package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.geom.AffineTransform;
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import Networking.Client;
@@ -13,41 +14,41 @@ import Utils.Constants;
 import Utils.Location;
 import factory.PartType;
 
-public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
+public class KitGraphicsDisplay extends DeviceGraphicsDisplay implements Serializable {
+
 	private static final int MAX_PARTS = 8;
 
 	private Location kitLocation;
 	
-	// RotationPart
 
 	private int position;
 
-	private boolean rotating;
+
 
 	private ArrayList<PartGraphicsDisplay> parts = new ArrayList<PartGraphicsDisplay>();
 	
-	Image kitImage;
+	ImageIcon kitImage;
 	
 	private Client kitClient;
 	
-	public Image getKitImage() {
+	public ImageIcon getKitImage() {
 		return kitImage;
 	}
 
 	public void setKitImage(Image kitImage) {
-		this.kitImage = kitImage;
+		this.kitImage.setImage( kitImage);
 	}
 
 	public KitGraphicsDisplay(Client kitClient){
 		kitLocation = Constants.KIT_LOC;
 		position = 0;
-		kitImage = Constants.KIT_IMAGE;
+		kitImage = new ImageIcon( Constants.KIT_IMAGE );
 		this.kitClient = kitClient;
 	}
 	public KitGraphicsDisplay() {
 		kitLocation = Constants.KIT_LOC;
 		position = 0;
-		kitImage = Constants.KIT_IMAGE;
+		kitImage = new ImageIcon( Constants.KIT_IMAGE );
 	}
 
 	public int getPosition() {
@@ -71,7 +72,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void drawWithOffset(JComponent c, Graphics2D g, int offset) {
-		g.drawImage(kitImage, kitLocation.getX() + offset,
+		g.drawImage(kitImage.getImage(), kitLocation.getX() + offset,
 				kitLocation.getY(), c);
 
 		//TODO fix so that it draws the actual parts
