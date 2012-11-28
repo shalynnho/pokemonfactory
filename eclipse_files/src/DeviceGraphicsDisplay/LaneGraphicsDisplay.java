@@ -105,9 +105,12 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	    // animate parts moving down lane
 	    if (partsOnLane.size() > 0) {
 
-		int min = MAX_PARTS < partsOnLane.size() ? MAX_PARTS : partsOnLane.size(); // whichever is less
+		int min = Math.min(MAX_PARTS, partsOnLane.size());
 		for (int i = 0; i < min; i++) {
 
+		    if (i >= partsOnLane.size()) {
+			continue;
+		    }
 		    PartGraphicsDisplay pgd = partsOnLane.get(i);
 		    Location loc = pgd.getLocation();
 
