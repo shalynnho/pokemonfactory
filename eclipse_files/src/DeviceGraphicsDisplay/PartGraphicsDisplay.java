@@ -12,7 +12,7 @@ import factory.PartType;
 public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
     Location partLocation;
     PartType partType;
-    boolean isBad = false;
+    boolean quality = true;
     TransitionGraphicsDisplay trans;
 
     private Image partImage;
@@ -32,7 +32,7 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
     }
 
     public void drawWithOffset(JComponent c, Graphics2D g, int offset) {
-	if(isBad) {
+	if (!quality) {
 	    // draw bad image
 	} else {
 	    g.drawImage(partImage, partLocation.getX() + offset, partLocation.getY(), c);
@@ -58,8 +58,8 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	return partType;
     }
     
-    public void setBad(boolean bad) {
-	isBad = bad;
+    public void setQuality(boolean quality) {
+	this.quality = quality;
     }
 
     public void receiveData(Request req) {
