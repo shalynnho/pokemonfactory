@@ -189,6 +189,16 @@ public class NestAgent extends Agent implements Nest {
 	}
 
 	@Override
+	public void msgTellLaneToIncreaseAmplitude() {
+		
+	}
+	
+	@Override
+	public void msgTellFeederToFixThisLane() {
+		
+	}
+	
+	@Override
 	public boolean pickAndExecuteAnAction() {
 		// print("In scheduler");
 		if (state == NestState.PURGING || state == NestState.PRIORITY_PURGE) {
