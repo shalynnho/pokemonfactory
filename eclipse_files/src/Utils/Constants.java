@@ -144,7 +144,7 @@ public abstract class Constants {
 	// IMAGE SIZES
 	public static final int PART_WIDTH = 20, PART_HEIGHT = 50;
 	public static final int PART_OFFSET = 40;
-	public static final int PART_PADDING_NEST = 35;
+	public static final int PART_PADDING_NEST = 37;
 	public static final int PART_PADDING = 30;
 
 	public static final int LANE_LENGTH = 210;
