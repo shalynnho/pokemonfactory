@@ -31,8 +31,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
     private final ArrayList<PartGraphicsDisplay> partsOnLane;
     // start location of parts on this lane
     private final Location partStartLoc;
-    // location of a lane jam
-    private final Location jamLoc;
+    // location of a part jam on the lane
+    private Location jamLoc;
     // array list of locations of the lane lines
     private ArrayList<Location> laneLines;
 
@@ -45,9 +45,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
     private int amplitude = 2;
     // true if Lane is on
     private boolean laneOn = true;
+    
     // use to make sure only 1 message is sent to agent for each part that reaches end of lane
     private boolean receivePartDoneSent = false;
     private boolean purgeDoneSent = false;
+    
     // state of the parts on lane
     private boolean partAtLaneEnd = false;
     private boolean purging = false;
@@ -211,6 +213,13 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 	    givePartToNest();
 
+	} else if (cmd.equals(Constants.LANE_SET_JAM_LOC_COMMAND)) {
+	    jammed = true;
+	    jamLoc = (Location) r.getData();
+	    
+	} else if (cmd.equals(Constants.LANE_UNJAM_COMMAND)) {
+	    jammed = false;
+	    
 	} else {
 	    System.out.println("LANE_GD: command not recognized.");
 	}
