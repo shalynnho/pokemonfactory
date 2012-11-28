@@ -90,4 +90,16 @@ public class MockNest extends MockAgent implements Nest {
 
 	}
 
+	@Override
+	public void msgTellLaneToIncreaseAmplitude() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgTellFeederToFixThisLane() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

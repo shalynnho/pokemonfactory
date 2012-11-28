@@ -37,12 +37,14 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	private final Location location;
 	// dynamically stores the parts currently in the Nest
 	private ArrayList<PartGraphics> partsInNest;
+	private Map<PartGraphics, Boolean> partsInNestQuality;
 
 	public NestGraphics(Server s, int nid, Agent agent) {
 		server = s;
 		nestID = nid;
 		nestAgent = (NestAgent) agent;
 		
+		partsInNestQuality = new Map<PartGraphics, Boolean>;
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
 		location = new Location(Constants.LANE_END_X - Constants.NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
 		generatePartLocations();
@@ -101,6 +103,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	@Override
 	public void receivePart(PartGraphics pg) {
 		partsInNest.add(pg);
+		partsInNestQuality.put(pg, pg.getQuality());
 		pg.setLocation(partLocs.get(partsInNest.size() - 1));
 		PartType type = pg.getPartType();
 		System.out.println("NEST" + nestID + " RECEIVING PART " + partsInNest.size());
@@ -119,12 +122,14 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 			
 		} else if (req.getCommand().equals(
 			Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX)) {
+			partsInNestQuality.remove(partsInNest.get(0));
 			partsInNest.remove(0);
 			setPartLocations();
 			nestAgent.msgGivePartToPartsRobotDone();
 			
 		} else if (req.getCommand().equals(
 			Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
+			partsInNestQuality.clear();
 			partsInNest.clear();
 			nestAgent.msgPurgingDone();
 		} 
@@ -184,8 +189,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	 * @return
 	 */
 	public Map<PartGraphics, Boolean> getQualityOfParts() {
-		// TODO: IMPLEMENT THIS METHOD FOR V2
-		return null;
+		return partsInNestQuality;
 	}
 
 	public int getNestID() {

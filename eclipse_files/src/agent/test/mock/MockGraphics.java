@@ -339,4 +339,10 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	}
 
+	@Override
+	public void dropPartFromArm(PartGraphics part) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
