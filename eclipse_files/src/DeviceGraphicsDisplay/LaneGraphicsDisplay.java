@@ -31,6 +31,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
     private final ArrayList<PartGraphicsDisplay> partsOnLane;
     // start location of parts on this lane
     private final Location partStartLoc;
+    // location of a lane jam
+    private final Location jamLoc;
     // array list of locations of the lane lines
     private ArrayList<Location> laneLines;
 
@@ -46,9 +48,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
     // use to make sure only 1 message is sent to agent for each part that reaches end of lane
     private boolean receivePartDoneSent = false;
     private boolean purgeDoneSent = false;
-    // V0 only, stops parts from going down lane without bin
+    // state of the parts on lane
     private boolean partAtLaneEnd = false;
     private boolean purging = false;
+    private boolean jammed = false;
 
     /**
      * LGD constructor
@@ -65,6 +68,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	partsOnLane = new ArrayList<PartGraphicsDisplay>();
 	// generate lane start location
 	location = new Location(Constants.LANE_END_X, 53 + laneID * 75);
+
+	jamLoc = new Location(Constants.LANE_END_X + (Constants.LANE_LENGTH / 2), location.getY());
 
 	// for reference only
 	partStartLoc = new Location(Constants.LANE_BEG_X, location.getY() + Constants.PART_WIDTH / 2
@@ -144,7 +149,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			if (locInFront.getX() <= Constants.LANE_BEG_X - 2 * Constants.PART_WIDTH
 				- Constants.PART_PADDING
 				&& loc.getX() > locInFront.getX() + Constants.PART_WIDTH + Constants.PART_PADDING / 2) {
-			    // loc.incrementX(-amplitude);
 			    updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
 			}
 		    }
@@ -285,6 +289,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		/ 2 - Constants.PART_OFFSET);
 	pg.setLocation(newLoc);
 	partsOnLane.add(pg);
+	System.out.println("LANEGD" + laneID + " RECEIVING PART " + partsOnLane.size());
     }
 
     /**
@@ -315,6 +320,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	} else if (loc.getY() > partStartLoc.getY() - amplitude) {
 	    loc.incrementY(-2);
 	}
+    }
+
+    private void animateJam() {
+	// TODO
     }
 
     /**
