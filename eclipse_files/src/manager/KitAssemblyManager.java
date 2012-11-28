@@ -1,13 +1,21 @@
 package manager;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
+import javax.swing.JSlider;
 import javax.swing.Timer;
 
+import manager.util.OverlayPanel;
+import manager.util.WhiteLabel;
 import DeviceGraphicsDisplay.CameraGraphicsDisplay;
 import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
@@ -20,10 +28,21 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 
-public class KitAssemblyManager extends Client implements ActionListener {
+public class KitAssemblyManager extends Client implements ActionListener, MouseListener {
 	// Window dimensions
 	private static final int WINDOW_WIDTH = 600;
 	private static final int WINDOW_HEIGHT = 700;
+	
+	//Swing Components
+	private OverlayPanel defectPanel;
+	private JSlider dropChanceSlider;
+	
+	private final int CHANCE_MIN = 0;
+	private final int CHANCE_MAX = 100;
+	private final int CHANCE_INIT = 0;
+	private final int defectPanelHeight = 70;
+	private boolean visible = true;
+	
 	
 	// Create a timer
 	private Timer timer;
@@ -54,6 +73,28 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	 * Initialize the GUI and start the timer.
 	 */
 	public void initGUI() {
+		defectPanel = new OverlayPanel();
+		defectPanel.setPanelSize(WINDOW_WIDTH, defectPanelHeight);
+		add(defectPanel, BorderLayout.SOUTH);
+		defectPanel.addMouseListener(this);
+		
+		WhiteLabel chanceLabel = new WhiteLabel("Part Drop Percentage");
+		//chanceLabel.setLabelSize(100, 25);
+		defectPanel.add(chanceLabel);
+		
+		dropChanceSlider = new JSlider(JSlider.HORIZONTAL, CHANCE_MIN, CHANCE_MAX, CHANCE_INIT);
+		dropChanceSlider.setMajorTickSpacing(50);
+		dropChanceSlider.setMinorTickSpacing(5);
+		dropChanceSlider.setPaintTicks(true);
+		dropChanceSlider.setPaintLabels(true);
+		dropChanceSlider.setFont(new Font("Arial", Font.PLAIN, 14));
+		dropChanceSlider.setForeground(Color.WHITE); 
+		dropChanceSlider.setOpaque(false);
+		defectPanel.add(dropChanceSlider);
+		
+		
+		
+		
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
 	}
@@ -79,6 +120,36 @@ public class KitAssemblyManager extends Client implements ActionListener {
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 	}
+	
+	/**
+	 * Mouse Listener implementation to control visibility of OverlayPanel on MouseEntered/Exited
+	 */
+	public void mouseEntered(MouseEvent m)
+	{
+		if(!visible)
+		{
+			//for(int i=0; i<getComponentCount();i++)
+			//	getComponent(i).setVisible(true);
+			defectPanel.setPanelSize(WINDOW_WIDTH, defectPanelHeight);
+			visible = true;
+		}
+	}
+	
+	public void mouseExited(MouseEvent m)
+	{
+		if(visible)
+		{
+			//for(int i=0; i<getComponentCount();i++)
+				//getComponent(i).setVisible(false);
+			defectPanel.setPanelSize(WINDOW_WIDTH, defectPanelHeight/2);
+			visible = false;
+		}
+		
+	}
+	
+	public void mouseClicked(MouseEvent m) {};
+	public void mousePressed(MouseEvent m) {};
+	public void mouseReleased(MouseEvent m) {};
 	
 	/**
 	 * Main method sets up the JFrame
