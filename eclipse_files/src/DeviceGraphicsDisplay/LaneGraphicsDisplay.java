@@ -118,9 +118,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		    if (i == 0) { // first part on the lane
 
-			if (loc.getX() > Constants.LANE_END_X - Constants.PART_PADDING) { // hasn't reached end of lane
+			if ((loc.getX() > Constants.LANE_END_X - Constants.PART_PADDING) && !jammed) { // hasn't reached end of lane
 			    updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
 			    partAtLaneEnd = false;
+			    
+			} else if((loc.getX() > jamLoc.getX() - Constants.PART_PADDING) && jammed) {
+			    updateXLoc(loc, jamLoc.getX() - Constants.PART_PADDING, speed);
+			    partAtLaneEnd = false;
+			    
 			} else { // at end of lane
 			    if (!purging) {
 				partAtLaneEnd = true;
@@ -360,6 +365,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		    + laneID, null));
 	    System.out.println("	LANEGD" + laneID + ": purge done sent.");
 	    purgeDoneSent = true;
+	    receivePartDoneSent = false;
 	}
     }
 
