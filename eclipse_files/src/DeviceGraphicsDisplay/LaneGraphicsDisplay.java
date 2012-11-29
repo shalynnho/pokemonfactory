@@ -41,7 +41,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
     // the ID of this Lane
     private final int laneID;
     // the amplitude of this lane
-    private int speed = 1;
+    private int speed = 2;
     private int amplitude = 2;
     // true if Lane is on
     private boolean laneOn = true;
