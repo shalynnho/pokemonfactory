@@ -44,7 +44,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		partArray.add(pg);
 		rotateArm();
 
-		PartData pd = new PartData(pg.getLocation(), pg.getPartType());
+		PartData pd = new PartData(pg.getLocation(), pg.getPartType(), arm);
 		// V0 hack
 		Location tempLoc = new Location(550, 100);
 		// server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, tempLoc));
@@ -60,8 +60,8 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 			}
 		}
 
-		PartData pd = new PartData(kit.getLocation());
-		Location tempLoc = new Location(200, 400);
+		PartData pd = new PartData(kit.getLocation(), arm);
+		
 		kitPosition = kit.getPosition();
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
 
