@@ -93,16 +93,17 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 
 		//TODO fix so that it draws the actual parts
 		for(int i =0; i<parts.size();  i++) {
-			if(i%2 ==0)
-			{	
-				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i/2*23, kitLocation.getY()-48 + i/2*25));
-			}
-			else
+			int gap =0;
+			if(i==2 || i ==3 ||i ==6  || i==7)
 			{
-				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%2*23 , kitLocation.getY()-48));
+				gap = 20;
 			}
-		
+			if(i<4)
+				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 + gap, kitLocation.getY()-48) );
+			else
+				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 +gap, kitLocation.getY() -48 + 25));
 			
+				
 			
 			parts.get(i).drawPokeball(0,parts.get(i).getLocation(),c, g);
 		}
@@ -120,21 +121,13 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 
 
 	public void receivePart(PartGraphicsDisplay pgd) {
-		parts.add(pgd);
+		if (parts.size() < MAX_PARTS) {
+			parts.add(pgd);
+		}
 
 		// set location of the part
-		if ((parts.size() % 2) == 1) {
-			pgd.setLocation(new Location(kitLocation.getX() + 5, kitLocation
-					.getY() + (20 * (parts.size() - 1) / 2)));
 
-		} else {
-			pgd.setLocation(new Location(kitLocation.getX() + 34, kitLocation
-					.getY() + (20 * (parts.size() - 2) / 2)));
-		}
-
-		if (parts.size() == MAX_PARTS) {
-			parts.clear();
-		}
+		
 
 	}
 	
