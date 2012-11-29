@@ -126,16 +126,16 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				   //System.out.println("		LANE"+laneID+" NOT JAMMED");
 			   } else {	// jammed
 				   // already passed jam loc
-				   int jamX = jamLoc.getX()-Constants.PART_PADDING;
+				   //int jamX = jamLoc.getX()-Constants.PART_PADDING;
 				   //System.out.println("locX: "+loc.getX()+", jamLocX: "+jamX);
-				   if (loc.getX() < jamLoc.getX() - Constants.PART_PADDING - speed/2) {
-				       updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING - speed/2, speed);
+				   if (loc.getX() < jamLoc.getX() - Constants.PART_PADDING) {
+				       updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
 				       partAtLaneEnd = false;
 					   //System.out.println("		LANE"+laneID+" FIRST PART PASSED JAM");
 
 				   // part is before jamLoc
-				   } else if (loc.getX() > jamLoc.getX() - Constants.PART_PADDING + speed/2) {
-					   updateXLoc(loc, jamLoc.getX() - Constants.PART_PADDING+ speed/2, speed);
+				   } else if (loc.getX() > jamLoc.getX() - Constants.PART_PADDING) {
+					   updateXLoc(loc, jamLoc.getX() - Constants.PART_PADDING, speed);
 					   partAtLaneEnd = false;
 					   //System.out.println("		LANE"+laneID+" FIRST PART BEFORE JAM");
 				   }
@@ -179,12 +179,12 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				       partAtLaneEnd = false;
 				   } else {	// jammed
 					   // already passed jam loc
-					   if (loc.getX() < jamLoc.getX() - Constants.PART_PADDING - speed/2) {
-					       updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING - speed/2, speed);
+					   if (loc.getX() < jamLoc.getX() - Constants.PART_PADDING) {
+					       updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
 					       partAtLaneEnd = false;
 					   // part is before jamLoc
-					   } else if (loc.getX() > jamLoc.getX() - Constants.PART_PADDING + speed/2) {
-						   updateXLoc(loc, jamLoc.getX() - Constants.PART_PADDING + speed/2, speed);
+					   } else if (loc.getX() > jamLoc.getX() - Constants.PART_PADDING) {
+						   updateXLoc(loc, jamLoc.getX() - Constants.PART_PADDING, speed);
 						   partAtLaneEnd = false;
 					   }
 				   }
