@@ -28,7 +28,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 	private ArrayList<PartGraphicsDisplay> parts = new ArrayList<PartGraphicsDisplay>();
 	
 	ImageIcon kitImage;
-	
+	int velocity ;
 	private Client kitClient;
 	
 	public ImageIcon getKitImage() {
@@ -44,12 +44,15 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 		position = 0;
 		kitImage = new ImageIcon( Constants.KIT_IMAGE );
 		this.kitClient = kitClient;
+		velocity = 0;
 	}
 	
 	public KitGraphicsDisplay() {
 		kitLocation = Constants.KIT_LOC;
 		position = 0;
+		velocity =0;
 		kitImage = new ImageIcon( Constants.KIT_IMAGE );
+	
 	}
 
 	public int getPosition() {
@@ -74,6 +77,14 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 	
 	public void drawKit(JComponent c, Graphics2D g) {
 		drawWithOffset(c, g, 0);
+		setLocation(new Location(kitLocation.getX()+velocity, kitLocation.getY()));
+		if(kitLocation.getX() == -40)
+		{
+			kitClient.sendData(new Request(
+						Constants.CONVEYOR_RECEIVE_KIT_COMMAND
+								+ Constants.DONE_SUFFIX,
+						Constants.CONVEYOR_TARGET, null));
+		}
 	}
 
 	public void drawWithOffset(JComponent c, Graphics2D g, int offset) {
@@ -91,6 +102,8 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 		if (req.getCommand().equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND)) {
 			PartType type = (PartType) req.getData();
 			receivePart(new PartGraphicsDisplay(type));
+		} else if(req.getCommand().equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)){
+			moveAway();
 		}
 	}
 
@@ -112,6 +125,10 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 			parts.clear();
 		}
 
+	}
+	
+	public void moveAway(){
+		velocity = -5;
 	}
 
 }

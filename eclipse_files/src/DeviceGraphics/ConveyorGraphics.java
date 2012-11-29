@@ -57,7 +57,7 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 	public void receiveKit(KitGraphics kg) {
 		kitsToLeave.add(kg);
 		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
-				Constants.CONVEYOR_TARGET, null));
+				Constants.KIT_TARGET+2 , null));
 	}
 
 	@Override
