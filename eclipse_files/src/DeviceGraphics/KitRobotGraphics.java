@@ -70,12 +70,17 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 				System.out.println(this.toString() + kitGraphicsKey);
 			}
 			if (tempKitGraphics == kit) {
+				
 				kitPositions.put(kitGraphicsKey, null);
 				if (kitGraphicsKey.equals(Constants.KIT_LOCATION1)) {
+					tempKitGraphics.setPosition(5);
+					kitPositions.put(Constants.KIT_INSPECTION_AREA, tempKitGraphics);
 					server.sendData(new Request(
 							Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_INSPECTION,
 							Constants.KIT_ROBOT_TARGET, null));
 				} else {
+					tempKitGraphics.setPosition(5);
+					kitPositions.put(Constants.KIT_INSPECTION_AREA, tempKitGraphics);
 					server.sendData(new Request(
 							Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_INSPECTION,
 							Constants.KIT_ROBOT_TARGET, null));
@@ -94,6 +99,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	 * @see GraphicsInterfaces.KitRobotGraphics#msgPlaceKitOnConveyor()
 	 */
 	public void msgPlaceKitOnConveyor() {
+		kitPositions.get(Constants.KIT_INSPECTION_AREA).setPosition(5);
 		kitPositions.put(Constants.KIT_INSPECTION_AREA, null);
 		server.sendData(new Request(
 				Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_GOOD_CONVEYOR,
@@ -102,6 +108,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	public void msgPlaceKitOnStand1(KitGraphics kit) {
 		kit.setLocation(location1);
+		kit.setPosition(4);
 		kitPositions.put(Constants.KIT_LOCATION1, kit);
 		server.sendData(new Request(
 				Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1,
@@ -111,6 +118,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 
 	public void msgPlaceKitOnStand2(KitGraphics kit) {
 		kit.setLocation(location2);
+		kit.setPosition(3);
 		kitPositions.put(Constants.KIT_LOCATION2, kit);
 		server.sendData(new Request(
 				Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2,
@@ -178,6 +186,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			kitRobotAgent.msgPlaceKitOnConveyorDone();
 		} else if (command.equals(Constants.KIT_ROBOT_ON_INSPECTION_DONE)) {
 			kitRobotAgent.msgPlaceKitInInspectionAreaDone();
+		} else if (command.equals(Constants.KIT_RECEIVES_PART)) {
+			
+			PartGraphics testPart = new PartGraphics(Constants.DEFAULT_PARTTYPES.get(1));
+			kitPositions.get(Constants.KIT_LOCATION1).receivePart(testPart);
 		}
 	}
 

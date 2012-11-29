@@ -41,9 +41,9 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	private final int CHANCE_MAX = 100;
 	private final int CHANCE_INIT = 0;
 	
-	private int selectedChance;
+	private Float selectedChance;
 	
-	private final int defectPanelHeight = 70;
+	private final int DEFECT_PANEL_HEIGHT = 70;
 	
 	
 	
@@ -77,7 +77,7 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	 */
 	public void initGUI() {
 		defectPanel = new OverlayPanel();
-		defectPanel.setPanelSize(WINDOW_WIDTH, defectPanelHeight);
+		defectPanel.setPanelSize(WINDOW_WIDTH, DEFECT_PANEL_HEIGHT);
 		add(defectPanel, BorderLayout.SOUTH);
 		
 		WhiteLabel chanceLabel = new WhiteLabel("Part Drop Percentage");
@@ -94,7 +94,7 @@ public class KitAssemblyManager extends Client implements ActionListener {
 		dropChanceSlider.setOpaque(false);
 		defectPanel.add(dropChanceSlider);
 		
-		okButton = new JButton("OK!");
+		okButton = new JButton("OK >");
 		okButton.addActionListener(this);
 		defectPanel.add(okButton);
 		
@@ -170,12 +170,11 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent ae) {
 		repaint();
-		if(ae.getSource() == okButton)
-		{
-			selectedChance = dropChanceSlider.getValue();
-			
-			//TODO: send variable "selectedChance" to FCS to change on server
+		
+		if(ae.getSource() == okButton) {
+			selectedChance = Float.valueOf(dropChanceSlider.getValue()/100);
+						
+			this.sendData(new Request(Constants.FCS_SET_DROP_CHANCE, Constants.FCS_TARGET, selectedChance));
 		}
-			
 	}
 }

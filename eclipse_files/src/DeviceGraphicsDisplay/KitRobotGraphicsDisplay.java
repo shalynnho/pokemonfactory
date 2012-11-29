@@ -104,7 +104,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		location1 = Constants.STAND1_LOC;
 		location2 = Constants.STAND2_LOC;
 		
-		currentKit = new KitGraphicsDisplay();
+		currentKit = new KitGraphicsDisplay(cli);
 
 	}
 
@@ -340,14 +340,16 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (target.equals(Constants.KIT_ROBOT_TARGET)) {
 			if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1)) {
-				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay(kitRobotClient);
 				setKitConfigurations(tempKit, 4 );
+				kitRobotClient.addDevice(Constants.KIT_TARGET + 4, currentKit);
 				kits.add(currentKit);
 				ConveyorToLocation1();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2)) {
-				KitGraphicsDisplay tempKit = new KitGraphicsDisplay();
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay(kitRobotClient);
 				setKitConfigurations(tempKit, 3 );
+				kitRobotClient.addDevice(Constants.KIT_TARGET+ 3, currentKit);
 				kits.add(currentKit);
 				ConveyorToLocation2();
 			} else if (command
@@ -355,6 +357,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 5) {
 						setKitConfigurations(kits.get(i), 2 );
+						kitRobotClient.addDevice(Constants.KIT_TARGET+2, currentKit);
 					}
 				}
 				InspectionToGoodConveyor();
@@ -365,6 +368,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 					if (kits.get(i).getPosition() == 4) {
 						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
 						setKitConfigurations( kits.get(i), 4 );
+						kitRobotClient.addDevice(Constants.KIT_TARGET+ 5, currentKit);
 					}
 				}
 				Location1ToInspectionStand();
@@ -374,13 +378,14 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 					if (kits.get(i).getPosition() == 3) {
 						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
 						setKitConfigurations( kits.get(i), 5 );
+						kitRobotClient.addDevice(Constants.KIT_TARGET + 5, currentKit);
 					}
 				}
 				Location2ToInspectionStand();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION1)) {
 
-			}
+			} 
 
 		}
 
