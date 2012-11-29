@@ -46,7 +46,7 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	public enum PartStatus {
-		BEGINNING_LANE, IN_LANE, END_LANE, NEED_TO_DELIVER, DELIVERED
+		BEGINNING_LANE, IN_LANE, END_LANE, TOLD_NEST, NEED_TO_DELIVER, DELIVERED
 	};
 
 	public enum LaneStatus {
@@ -92,9 +92,10 @@ public class LaneAgent extends Agent implements Lane {
 
 	@Override
 	public void msgGiveMePart() {
+		print("Received message give me part from nest");
 		synchronized (currentParts) {
 			for (MyPart p : currentParts) {
-				if (p.status == PartStatus.END_LANE) {
+				if (p.status == PartStatus.TOLD_NEST) {
 					p.status = PartStatus.NEED_TO_DELIVER;
 					break;
 				}
@@ -151,7 +152,7 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	@Override
-	public void breakThis() {
+	public void msgBreakThis() {
 		if(state == LaneStatus.PURGING) {
 			state = LaneStatus.BROKEN_WHILE_PURGING;
 		}
@@ -202,7 +203,7 @@ public class LaneAgent extends Agent implements Lane {
 		synchronized (currentParts) {
 			for (MyPart part : currentParts) {
 				if (part.status == PartStatus.END_LANE) {
-					tellNest(part.part);
+					tellNest(part);
 					return true;
 				}
 			}
@@ -245,8 +246,10 @@ public class LaneAgent extends Agent implements Lane {
 		stateChanged();
 	}
 
-	public void tellNest(Part p) {
+	public void tellNest(MyPart p) {
+		p.status = PartStatus.TOLD_NEST;
 		nest.msgPartReady();
+		stateChanged();
 	}
 
 	public void giveToNest(MyPart mp) {
