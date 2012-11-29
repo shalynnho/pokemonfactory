@@ -351,4 +351,10 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		return null;
 	}
 
+	@Override
+	public void unjam() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -136,8 +136,7 @@ public class LaneAgent extends Agent implements Lane {
 	
 	@Override
 	public void msgChangeAmplitude() {
-		//laneGUI.changeAmplitude();
-		stateChanged();
+		laneGUI.unjam();
 	}
 	
 	@Override
