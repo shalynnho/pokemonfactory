@@ -76,6 +76,10 @@ public class FCSAgent extends Agent implements FCS {
 		stateChanged();
 	}
 
+    public void msgSetPartsRobotDropChance(Float c) {
+	partsRobot.msgSetDropChance(c);
+	stateChanged();
+    }
 	@Override
 	public void msgStopMakingKit(Order o) {
 		print("Received msgStopMakingKit");
@@ -316,5 +320,6 @@ public class FCSAgent extends Agent implements FCS {
 	public void setCamera(Camera camera) {
 		this.camera = camera;
 	}
+
 
 }
