@@ -103,10 +103,12 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 * Messages
 	 */
 
-    public void msgSetDropChance(float dChance) {
-	print("Chance to drop is now set to: " + dChance);
-	dropChance = dChance;
-    }
+	@Override
+	public void msgSetDropChance(float dChance) {
+		print("Chance to drop is now set to: " + dChance);
+		dropChance = dChance;
+	}
+
 	/**
 	 * Changes the configuration for the kits From FCS
 	 */
@@ -285,7 +287,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		arm.part = part;
 		// Tells the graphics to pickup the part
 		if (partsRobotGraphics != null) {
-			partsRobotGraphics.pickUpPart(part.partGraphics);
+			partsRobotGraphics.pickUpPart(part.partGraphics, Arms.indexOf(arm));
 			try {
 				// print("Blocking");
 				animation.acquire();
@@ -304,54 +306,55 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void PlacePart(Arm arm) {
-	    if(Math.random() > dropChance){
-	    	print("Placing part");
-		synchronized (MyKits) {
-		for (MyKit mk : MyKits) {
-		    if (mk.kit.needPart(arm.part) > 0) {
+		if (Math.random() > dropChance) {
+			print("Placing part");
+			synchronized (MyKits) {
+				for (MyKit mk : MyKits) {
+					if (mk.kit.needPart(arm.part) > 0) {
 
-			if (partsRobotGraphics != null) {
-			    partsRobotGraphics.givePartToKit(arm.part.partGraphics, mk.kit.kitGraphics);
-			    try {
+						if (partsRobotGraphics != null) {
+							partsRobotGraphics.givePartToKit(arm.part.partGraphics, mk.kit.kitGraphics,
+									Arms.indexOf(arm));
+							try {
+								// print("Blocking");
+								animation.acquire();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							// print("Got permit");
+						}
+						// Tells the kit it has the part now
+						mk.kit.parts.add(arm.part);
+						arm.part = null;
+						arm.AS = ArmStatus.EMPTY;
+						// Checks if the kit is done
+						CheckMyKit(mk);
+						break;
+					}
+				}
+				stateChanged();
+			}
+		} else {
+			DropPart(arm);
+		}
+	}
+
+	private void DropPart(Arm arm) {
+		print("Dropped a part");
+		if (partsRobotGraphics != null) {
+			partsRobotGraphics.dropPartFromArm(arm.part.partGraphics);
+			try {
 				// print("Blocking");
 				animation.acquire();
-			    } catch (InterruptedException e) {
+			} catch (InterruptedException e) {
 				e.printStackTrace();
-				}
-			    // print("Got permit");
 			}
-			// Tells the kit it has the part now
-			mk.kit.parts.add(arm.part);
+			// print("Got permit");
 			arm.part = null;
 			arm.AS = ArmStatus.EMPTY;
-			// Checks if the kit is done
-			CheckMyKit(mk);
-			break;
-			}
 		}
 		stateChanged();
-		}
-	} else {
-	    DropPart(arm);
 	}
-    }
-
-    private void DropPart(Arm arm) {
-	print("Dropped a part");
-	if (partsRobotGraphics != null) {
-	    partsRobotGraphics.dropPartFromArm(arm.part.partGraphics);
-	    try {
-		// print("Blocking");
-		animation.acquire();
-	    } catch (InterruptedException e) {
-		e.printStackTrace();
-	    }
-	    // print("Got permit");
-	    arm.part = null;
-	    arm.AS = ArmStatus.EMPTY;
-	}
-	stateChanged();
-    }
 
 	private void CheckMyKit(MyKit mk) {
 		int size = 0;
