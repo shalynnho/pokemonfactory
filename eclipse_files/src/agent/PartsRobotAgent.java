@@ -44,7 +44,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private Stand stand;
 	private PartsRobotGraphics partsRobotGraphics;
 
-    private double dropChance = 0;
+    private float dropChance = 0;
 
 	public class MyKit {
 		public Kit kit;
@@ -103,7 +103,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 * Messages
 	 */
 
-    public void msgSetDropChance(double dChance) {
+    public void msgSetDropChance(float dChance) {
 	dropChance = dChance;
     }
 	/**

@@ -55,6 +55,10 @@ public abstract class Constants {
 	new KitConfig("8 Type Kit", DEFAULT_PARTTYPES.get(0), DEFAULT_PARTTYPES.get(1), DEFAULT_PARTTYPES.get(2),
 			DEFAULT_PARTTYPES.get(3), DEFAULT_PARTTYPES.get(4), DEFAULT_PARTTYPES.get(5), DEFAULT_PARTTYPES.get(6),
 			DEFAULT_PARTTYPES.get(7))));
+	
+	public static final ArrayList<String> DEFAULT_IMAGEPATHS = new ArrayList<String>(Arrays.asList(new String ("1"), new String ("2"),
+			new String ("3"), new String ("4"), new String ("5"), new String ("6"), new String ("7"), 
+			new String ("8"), new String ("9"), new String ("10")));
 
 	// DEVICE START LOCATIONS
 	// ==================================
@@ -261,6 +265,8 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_ON_STAND2_DONE = "robot display sends to robot logic that kit to stand2 is done";
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE = "robot display sends to robot logic that kit to conveyor is done";
 
+	public static final String KIT_RECEIVES_PART = "kit receives from stand1 receives part";
+	
 	public static final int KIT_VELOCITY_DIVIDE = 20;
 	public static final int KIT_ROBOT_DEGREE_STEP = 5;
 	// end kitrobot logic
@@ -339,9 +345,9 @@ public abstract class Constants {
 	public static final String FCS_UPDATE_PARTS = "updateParts";
 	public static final String FCS_UPDATE_KITS = "updateKits";
 	public static final String FCS_UPDATE_ORDERS = "updateOrders";
-	
-	public static final String FCS_SET_DROP_CHANCE = "setDropChance";
 
+	public static final String FCS_SET_DROP_CHANCE = "setDropChance";
+	
 	// CLIENT NAMES
 	// ==================================
 	// Used to identify clients.

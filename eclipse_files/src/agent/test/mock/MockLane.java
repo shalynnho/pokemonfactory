@@ -85,4 +85,10 @@ public class MockLane extends MockAgent implements Lane {
 		
 	}
 
+	@Override
+	public void breakThis() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

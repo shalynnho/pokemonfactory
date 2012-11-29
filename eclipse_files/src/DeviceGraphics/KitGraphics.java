@@ -16,6 +16,16 @@ public class KitGraphics implements DeviceGraphics {
 	// part types required to make kit
 	private KitConfig kitConfig;
 	private Location kitLocation;
+	private int position;
+	
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
 
 	private boolean isFull; // Says whether or not the kit is full
 	private final Server server;
@@ -24,6 +34,7 @@ public class KitGraphics implements DeviceGraphics {
 		this.server = server;
 		isFull = false;
 		kitLocation = new Location(0, 0);
+		position = 0;
 	}
 
 	/*
@@ -84,7 +95,7 @@ public class KitGraphics implements DeviceGraphics {
 		addPart(part);
 		PartType type = part.getPartType();
 		server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND,
-				Constants.KIT_TARGET, type));
+				Constants.KIT_TARGET + position, type));
 	}
 
 	@Override

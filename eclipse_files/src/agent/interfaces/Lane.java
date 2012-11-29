@@ -26,4 +26,6 @@ public interface Lane {
 
 	public abstract void msgFixYourself();
 
+	public abstract void breakThis();
+
 }

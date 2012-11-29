@@ -194,7 +194,7 @@ public class LaneManager extends Client implements ActionListener {
 
 	// If user clicked a bad location, remove error message after 5 seconds
 	if (messageDisplayed) {
-	    if (timeElapsed == 750) {
+	    if (timeElapsed == 75) {
 		currentMessage.setText("Click anywhere on the lane to produce a jam at that location.");
 		timeElapsed = 0;
 		messageDisplayed = false;

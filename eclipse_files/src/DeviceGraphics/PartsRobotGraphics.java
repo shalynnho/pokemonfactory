@@ -55,6 +55,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	public void givePartToKit(PartGraphics part, KitGraphics kit) {
 	    for(PartGraphics p : partArray) {
 			if (p == part) {
+				kit.receivePart(p);
 				partArray.remove(p);
 				break;
 			}
@@ -63,6 +64,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		PartData pd = new PartData(kit.getLocation());
 		Location tempLoc = new Location(200, 400);
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
+		
 	}	
 	
 	//rotates the arm
@@ -122,6 +124,13 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX)) {
 		    partsRobotAgent.msgGivePartToKitDone();
 		}
+	}
+
+
+	@Override
+	public void dropPartFromArm(PartGraphics part) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -141,7 +141,7 @@ public class FCS {
 	}
 	
 	public void setDropChance(Float c) {
-		
+		// TODO fill out this function
 	}
 
 	public void receiveData(Request req) {

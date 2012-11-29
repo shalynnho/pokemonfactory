@@ -32,20 +32,20 @@ public class KitAssemblyManager extends Client implements ActionListener {
 	private static final int WINDOW_WIDTH = 600;
 	private static final int WINDOW_HEIGHT = 700;
 	
-	//Swing Components
-	private OverlayPanel defectPanel;
-	private JSlider dropChanceSlider;
-	private JButton okButton;
-	
+	// JSlider parameters
 	private final int CHANCE_MIN = 0;
 	private final int CHANCE_MAX = 100;
 	private final int CHANCE_INIT = 0;
 	
-	private Float selectedChance;
-	
+	// Swing Components
 	private final int DEFECT_PANEL_HEIGHT = 70;
 	
+	private OverlayPanel defectPanel;
+	private JSlider dropChanceSlider;
+	private JButton okButton;
 	
+	// Stores chance of part robot dropping a kit selected by user
+	private Float selectedChance;
 	
 	// Create a timer
 	private Timer timer;
@@ -98,8 +98,6 @@ public class KitAssemblyManager extends Client implements ActionListener {
 		okButton.addActionListener(this);
 		defectPanel.add(okButton);
 		
-		
-		
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
 	}
@@ -125,8 +123,6 @@ public class KitAssemblyManager extends Client implements ActionListener {
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
 	}
-	
-
 	
 	/**
 	 * Main method sets up the JFrame
