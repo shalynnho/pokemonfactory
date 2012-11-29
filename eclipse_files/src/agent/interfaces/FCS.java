@@ -13,6 +13,8 @@ public interface FCS {
 	
 	public abstract void msgStartProduction();
 	
+	public abstract void msgBreakLane(int laneNum);
+	
 	public abstract void msgAddNewPartType(PartType part);
 	
 	public abstract void msgOrderFinished(); //Agents message

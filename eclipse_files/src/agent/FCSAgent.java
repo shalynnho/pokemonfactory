@@ -128,6 +128,11 @@ public class FCSAgent extends Agent implements FCS {
 		state = myState.STARTED;
 		stateChanged();
 	}
+	
+	@Override
+	public void msgBreakLane(int laneNumber) {
+		((NestAgent) nests.get(laneNumber-1)).lane.msgBreakThis();
+	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {

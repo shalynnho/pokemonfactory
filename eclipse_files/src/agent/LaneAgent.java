@@ -151,7 +151,7 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	@Override
-	public void breakThis() {
+	public void msgBreakThis() {
 		if(state == LaneStatus.PURGING) {
 			state = LaneStatus.BROKEN_WHILE_PURGING;
 		}
