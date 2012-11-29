@@ -57,6 +57,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 
 		partArrayGraphics = new ArrayList<PartGraphicsDisplay>(4);
 		
+		
 
 		rotate = false;
 		home = true;
@@ -68,7 +69,14 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		partStartLoc.add(new Location(currentLocation.getX() + 30, currentLocation.getY()));
 		partStartLoc.add(new Location(currentLocation.getX(), currentLocation.getY() + 30));
 		partStartLoc.add(new Location(currentLocation.getX() + 30, currentLocation.getY() + 30));
-
+		
+		PartType pt = new PartType(null);
+		PartGraphicsDisplay pgd = new PartGraphicsDisplay(pt);
+		for (int i = 0; i<4;i++){
+		pgd.setLocation(partStartLoc.get(i));
+		partArrayGraphics.add(pgd);
+		}
+		
 		armLoc = new ArrayList<Location>();
 		armLoc.add(new Location(armLocation.getX(), armLocation.getY()));
 		armLoc.add(new Location(armLocation.getX(), armLocation.getY() + 30));
@@ -191,9 +199,11 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 					if (armLoc.get(arm).getX() != kitloc.getX() - 60 ) {
 						System.out.println("retract arm from kit");
 						PartType tempPartType = givePart();
+						System.out.println("Size:" +partArrayGraphics.size());
 						PartType partType = new PartType(null);
 						PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
 						partArrayGraphics.add(arm,pgd);
+						System.out.println("SIZE:" +partArrayGraphics.size());
 						for (int i = 0; i < 5; i++) {
 							retractArmFromKit();
 						}
@@ -249,7 +259,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			}
 		}
 
-		for (int i = 0; i < partArrayGraphics.size(); i++) {
+		for (int i = 0; i < 4; i++) {
 			PartGraphicsDisplay pgd = partArrayGraphics.get(i);
 			//pgd.drawWithOffset(c, g, client.getOffset());
 			
@@ -283,10 +293,13 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
 	public void updatePartLoc(ArrayList<Location> loc){
 		
-		for (int j = 0; j < partArrayGraphics.size(); j++) {
+		for (int j = 0; j < 4; j++) {
+			System.out.println("J: " +j);
+			if (j<4){
 			partStartLoc.get(j).setX(loc.get(j).getX() + 20);
 			partStartLoc.get(j).setY(loc.get(j).getY()-50);
 			partArrayGraphics.get(j).setLocation(partStartLoc.get(j));
+			}
 		}
 		
 	}
@@ -297,8 +310,12 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
 
 		//if (I < 4) {
+		//if(partArrayGraphics.size()>=4)
+		//	partArrayGraphics.clear();
+		
 			pgd.setLocation(partStartLoc.get(I));
 			partArrayGraphics.add(arm,pgd);
+			
 		//}
 		
 	}
