@@ -69,6 +69,10 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 	}
 	
 	public void draw(JComponent c, Graphics2D g) {
+		
+	}
+	
+	public void drawKit(JComponent c, Graphics2D g) {
 		drawWithOffset(c, g, 0);
 	}
 
