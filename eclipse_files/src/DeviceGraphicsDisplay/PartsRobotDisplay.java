@@ -122,12 +122,12 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 				else {
 					// System.out.println("got to part loc");
 
-					if (armLoc.get(I).getX() != loc.getX() - 30) {
+					if (armLoc.get(I).getX() != loc.getX() -60) {
 						// System.out.println("retract arm");
 						for (int i = 0; i < 5; i++) {
 							retractArm();
 						}
-						if (armLoc.get(I).getX() == loc.getX() - 30) {
+						if (armLoc.get(I).getX() == loc.getX() - 60) {
 							pickup = false;
 							I++;
 							client.sendData(new Request(Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND
@@ -182,13 +182,13 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 								Constants.PARTS_ROBOT_TARGET, tempPartType));
 					}
 				} else {
-					if (armLoc.get(I - 1).getX() != kitloc.getX() - 30) {
+					if (armLoc.get(I - 1).getX() != kitloc.getX() - 60) {
 						// System.out.println("retract arm from kit");
 						for (int i = 0; i < 5; i++) {
 							retractArmFromKit();
 						}
 						// System.out.println("value of I: " + I);
-						if (armLoc.get(I - 1).getX() == kitloc.getX() - 30) {
+						if (armLoc.get(I - 1).getX() == kitloc.getX() - 60) {
 							// System.out.println("done giving to kit");
 							I--;
 							gavepart = false;
