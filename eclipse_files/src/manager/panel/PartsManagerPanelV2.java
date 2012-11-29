@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -164,9 +165,9 @@ public class PartsManagerPanelV2 extends JPanel {
 	descPanel.add(descLabel);
 
 	descField = new JTextArea("Description...");
-	descField.setMinimumSize(new Dimension(200, 100));
-	descField.setMaximumSize(new Dimension(200, 100));
-	descField.setPreferredSize(new Dimension(200, 100));
+	descField.setMinimumSize(new Dimension(200, 70));
+	descField.setMaximumSize(new Dimension(200, 70));
+	descField.setPreferredSize(new Dimension(200, 70));
 	descField.setBorder(Constants.FIELD_PADDING);
 	descPanel.add(descField);
 
@@ -201,16 +202,17 @@ public class PartsManagerPanelV2 extends JPanel {
 	
 	
 	imageLabel = new WhiteLabel("Select Image: ");
-	imageLabel.setSize(100, 50);
+	imageLabel.setSize(100, 60);
 	imagePanel.add(imageLabel);
 		
-	imageSelect = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+	imageSelect = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	imageSelect.setSize(150, 60);
-	imagePanel.add(imageSelect);
+	imageSelect.setOpaque(false);
+	
 		
 	/**
 	 * Iterate through the ArrayList of available images in constants to populate JScrollPane
-	 */
+	 
 	for(int i = 0; i<Constants.DEFAULT_IMAGEPATHS.size();i++)
 	{
 		iconImage = new ImageIcon(Constants.PART_IMAGE_PATH + Constants.DEFAULT_IMAGEPATHS.get(i) + ".png");
@@ -218,7 +220,13 @@ public class PartsManagerPanelV2 extends JPanel {
 		imageSelect.add(iconLabel);
 		//TODO: add action listener to each jlabel
 	}
+	*/
+	iconImage = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Constants.PART_IMAGE_PATH + Constants.DEFAULT_IMAGEPATHS.get(1) + ".png"));
+	iconLabel = new JLabel(iconImage);
+	iconLabel.setVisible(true);
+	imageSelect.add(iconLabel);
 	
+	imagePanel.add(imageSelect);
 	
 	JPanel buttonPanel = new JPanel();
 	buttonPanel.setBorder(Constants.TOP_PADDING);
