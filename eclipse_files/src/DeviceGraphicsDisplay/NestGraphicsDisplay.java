@@ -260,7 +260,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	if (!receivePartDoneSent) {
 	    client.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX,
 		    Constants.NEST_TARGET + nestID, null));
-	    System.out.println("	NESTGD" + nestID + ": receive part done sent.");
+	    //System.out.println("	NESTGD" + nestID + ": receive part done sent.");
 	    receivePartDoneSent = true;
 	}
     }
@@ -272,7 +272,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	if (partsInNest.size() == 0 && !purgeDoneSent) {
 	    client.sendData(new Request(Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX, Constants.NEST_TARGET
 		    + nestID, null));
-	    System.out.println("	NESTGD" + nestID + ": purge done sent.");
+	    //System.out.println("	NESTGD" + nestID + ": purge done sent.");
 	    purgeDoneSent = true;
 	}
     }
