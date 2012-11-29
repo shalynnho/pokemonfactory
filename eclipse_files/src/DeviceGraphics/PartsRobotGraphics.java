@@ -10,10 +10,7 @@ import Utils.PartData;
 import agent.Agent;
 import agent.PartsRobotAgent;
 
-
 //import factory.data.Kit;
-
-
 
 public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics, DeviceGraphics {
 
@@ -24,12 +21,12 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	KitGraphics kit;
 	int kitPosition;
 	int i;
-	private Server server;
-	private PartsRobotAgent partsRobotAgent;
-	
-	public PartsRobotGraphics(Server s, Agent a ) {
-		partsRobotAgent = (PartsRobotAgent)a;
-		initialLocation = new Location(250,450);
+	private final Server server;
+	private final PartsRobotAgent partsRobotAgent;
+
+	public PartsRobotGraphics(Server s, Agent a) {
+		partsRobotAgent = (PartsRobotAgent) a;
+		initialLocation = new Location(250, 450);
 		currentLocation = initialLocation;
 		kitPosition = 0;
 		arm1 = false;
@@ -40,103 +37,103 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		i = 0;
 		server = s;
 	}
-	
-	
-	public void pickUpPart(PartGraphics pg) {
+
+	@Override
+	public void pickUpPart(PartGraphics pg, int arm) {
 		// TODO Auto-generated method stub
 		partArray.add(pg);
 		rotateArm();
-		
+
 		PartData pd = new PartData(pg.getLocation(), pg.getPartType());
 		// V0 hack
 		Location tempLoc = new Location(550, 100);
-		//server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, tempLoc));
+		// server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, tempLoc));
 		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
 	}
-	
-	public void givePartToKit(PartGraphics part, KitGraphics kit) {
-	    for(PartGraphics p : partArray) {
+
+	@Override
+	public void givePartToKit(PartGraphics part, KitGraphics kit, int arm) {
+		for (PartGraphics p : partArray) {
 			if (p == part) {
 				partArray.remove(p);
 				break;
 			}
 		}
-		
+
 		PartData pd = new PartData(kit.getLocation());
 		Location tempLoc = new Location(200, 400);
 		kitPosition = kit.getPosition();
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
-		
-	}	
-	
-	//rotates the arm
-	public void rotateArm(){
-		if (!isFullArm1())
-			arm1 = true;
-		else if (!isFullArm2())
-			arm2 = true;
-		else if (!isFullArm3())
-			arm3 = true;
-		else if (!isFullArm4())
-			arm4 = true;
-		i++;	
+
 	}
-	
-	public void derotateArm(){
-		if (isFullArm4())
+
+	// rotates the arm
+	public void rotateArm() {
+		if (!isFullArm1()) {
+			arm1 = true;
+		} else if (!isFullArm2()) {
+			arm2 = true;
+		} else if (!isFullArm3()) {
+			arm3 = true;
+		} else if (!isFullArm4()) {
+			arm4 = true;
+		}
+		i++;
+	}
+
+	public void derotateArm() {
+		if (isFullArm4()) {
 			arm4 = false;
-		else if (isFullArm3())
+		} else if (isFullArm3()) {
 			arm3 = false;
-		else if (isFullArm2())
+		} else if (isFullArm2()) {
 			arm2 = false;
-		else if (isFullArm1())
+		} else if (isFullArm1()) {
 			arm1 = false;
+		}
 		i--;
 	}
-	
 
-	//returns true if arm1 is full
-	public boolean isFullArm1(){
+	// returns true if arm1 is full
+	public boolean isFullArm1() {
 		return arm1;
 	}
-	
-	//returns true if arm2 is full
-	public boolean isFullArm2(){
+
+	// returns true if arm2 is full
+	public boolean isFullArm2() {
 		return arm2;
 	}
-	
-	//returns true if arm3 is full
-	public boolean isFullArm3(){
+
+	// returns true if arm3 is full
+	public boolean isFullArm3() {
 		return arm3;
 	}
-	
-	//returns true if arm4 is full
-	public boolean isFullArm4(){
+
+	// returns true if arm4 is full
+	public boolean isFullArm4() {
 		return arm4;
 	}
-	
-	//returns the current Location
-	public Location getLocation(){
+
+	// returns the current Location
+	public Location getLocation() {
 		return currentLocation;
 	}
-	
+
+	@Override
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
-		    partsRobotAgent.msgPickUpPartDone();
+			partsRobotAgent.msgPickUpPartDone();
 		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX)) {
-		    server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND,
-					Constants.KIT_TARGET + kitPosition, req.getData()));
+			server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND, Constants.KIT_TARGET + kitPosition,
+					req.getData()));
 			partsRobotAgent.msgGivePartToKitDone();
 		}
 	}
 
-
 	@Override
 	public void dropPartFromArm(PartGraphics part) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-
-	
 }
