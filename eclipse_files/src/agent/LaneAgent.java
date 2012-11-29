@@ -224,6 +224,7 @@ public class LaneAgent extends Agent implements Lane {
 		requestList = Collections.synchronizedList(new ArrayList<PartType>());
 		currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
 		extraRequestCount = 0;
+		currentType = null;
 		if (laneGUI != null) {
 			laneGUI.purge();
 			try {
