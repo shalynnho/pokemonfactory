@@ -427,7 +427,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void drawtheKits(JComponent c, Graphics2D g) {
 		for (int i = 0; i < kits.size(); i++) {
 
-			kits.get(i).draw(c,g);
+			kits.get(i).drawKit(c,g);
 		}
 	}
 
