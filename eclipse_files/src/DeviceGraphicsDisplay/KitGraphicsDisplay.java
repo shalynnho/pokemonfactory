@@ -92,8 +92,19 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 				kitLocation.getY(), c);
 
 		//TODO fix so that it draws the actual parts
-		for (PartGraphicsDisplay part : parts) {
-			g.drawImage(part.getPartType().getImage(), kitLocation.getX() + offset, kitLocation.getY(), c);
+		for(int i =0; i<parts.size();  i++) {
+			if(i%2 ==0)
+			{	
+				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i/2*23, kitLocation.getY()-48 + i/2*25));
+			}
+			else
+			{
+				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%2*23 , kitLocation.getY()-48));
+			}
+		
+			
+			
+			parts.get(i).drawPokeball(0,parts.get(i).getLocation(),c, g);
 		}
 
 	}
