@@ -135,8 +135,6 @@ public class LaneManager extends Client implements ActionListener {
 
     }
 
-
-
     /**
      * Main method sets up the JFrame
      * 
@@ -235,8 +233,8 @@ public class LaneManager extends Client implements ActionListener {
 	    // pass this location AND laneNumber to FCS once appropriate method is there
 	    Location location = new Location(e.getX(), e.getY());
 	    displayMessage("Jam at lane " + laneNumber);
+
 	    sendData(new Request(Constants.LANE_SET_JAM_LOC_COMMAND, Constants.LANE_TARGET + laneNumber, location));
-	    
 	}
 
 	public void mouseReleased(MouseEvent e) {

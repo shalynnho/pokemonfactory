@@ -130,7 +130,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	    laneAgent.msgPurgeDone();
 	}
 	
-	// TODO: REMOVE HACK (TESTING JAM PURPOSES ONLY)
+	//  HACK (TESTING JAM PURPOSES ONLY)
 	else if (cmd.equals(Constants.LANE_SET_JAM_LOC_COMMAND)) {
 	    //System.out.println("LANE" + laneID + " SETTING JAM LOCATION");
 	    Location l = (Location) r.getData();

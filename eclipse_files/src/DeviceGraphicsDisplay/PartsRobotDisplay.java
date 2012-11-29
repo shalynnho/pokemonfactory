@@ -192,7 +192,8 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 					}
 					if (armLoc.get(arm).getX() == kitloc.getX()) {
 						System.out.println("giving part to kit");
-						
+						PartType tempPartType = partArrayGraphics.get(arm).getPartType();
+						client.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND, Constants.PARTS_ROBOT_TARGET, tempPartType));
 						gavepart = true;
 					}
 				} else {
