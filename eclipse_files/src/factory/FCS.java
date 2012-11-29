@@ -141,7 +141,9 @@ public class FCS {
 	}
 	
 	public void setDropChance(Float c) {
-		// TODO fill out this function
+	// TODO Make a slider/button for this
+	agent.msgSetPartsRobotDropChance(c);
+
 	}
 
 	public void receiveData(Request req) {
