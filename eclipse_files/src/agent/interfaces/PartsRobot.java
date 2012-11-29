@@ -20,6 +20,8 @@ public interface PartsRobot {
 
 	public abstract void msgGivePartToKitDone();
 
+    public abstract void msgSetDropChance(float dChance);
+
 	public abstract boolean pickAndExecuteAnAction();
 
 }
