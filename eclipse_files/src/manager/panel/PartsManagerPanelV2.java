@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,12 +33,15 @@ import factory.PartType;
  * @author Peter Zhang
  */
 public class PartsManagerPanelV2 extends JPanel {
-
-    private JPanel panels;
-    private OverlayPanel leftPanel;
-    private JScrollPane jsp;
-    private PartsListPanel rightPanel;
-
+	
+	private JPanel panels;
+	private OverlayPanel leftPanel;
+	private JScrollPane jsp;
+	private PartsListPanel rightPanel;
+	private JPanel imagePanel;
+	private WhiteLabel imageLabel;
+	
+	
     private WhiteLabel leftTitle;
     private JTextField nameField;
     private WhiteLabel numField;
