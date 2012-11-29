@@ -89,6 +89,11 @@ public class PartType implements Serializable, FactoryData {
 		return Toolkit.getDefaultToolkit().getImage(
 				Constants.PART_IMAGE_PATH + imagePath + ".png");
 	}
+	
+	//Added this for testing --Neetu
+	public Image getPokeballImage() {
+		return Toolkit.getDefaultToolkit().getImage(Constants.BALL_IMAGE + imagePath + ".png");
+	}
 
 	public Image getBinImage() {
 		return Toolkit.getDefaultToolkit().getImage(
