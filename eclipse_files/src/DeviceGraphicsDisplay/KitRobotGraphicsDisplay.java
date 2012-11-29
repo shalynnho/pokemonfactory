@@ -284,7 +284,8 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 			kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_ON_STAND2_DONE,
 					Constants.KIT_ROBOT_TARGET, null));
 		} else if (this.sendMessage.equals(Message.sendGoodConveyorDoneMessage)) {
-			kits.remove(currentKit);
+			currentKit.setPosition(2);
+			kitRobotClient.addDevice(Constants.KIT_TARGET + currentKit.getPosition(), currentKit);
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_CONVEYOR_DONE,
 					Constants.KIT_ROBOT_TARGET, null));
@@ -366,7 +367,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 				for (int i = 0; i < kits.size(); i++) {
 					if (kits.get(i).getPosition() == 4) {
-						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
 						setKitConfigurations( kits.get(i), 4 );
 						kitRobotClient.addDevice(Constants.KIT_TARGET+ 5, currentKit);
 					}
@@ -427,7 +427,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void drawtheKits(JComponent c, Graphics2D g) {
 		for (int i = 0; i < kits.size(); i++) {
 
-			kits.get(i).draw(c,g);
+			kits.get(i).drawKit(c,g);
 		}
 	}
 

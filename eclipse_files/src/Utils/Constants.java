@@ -153,6 +153,7 @@ public abstract class Constants {
 
 	public static final int LANE_LENGTH = 210;
 	public static final int LANE_BEG_X = 850, LANE_END_X = 640; //850, 640
+	public static final int LANE_END_X_LM = 100; // left x-coord of lane in LM
 
 	public static final int NEST_WIDTH = 75, NEST_HEIGHT = 70;
 

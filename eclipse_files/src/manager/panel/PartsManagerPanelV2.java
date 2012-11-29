@@ -7,11 +7,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -53,6 +55,12 @@ public class PartsManagerPanelV2 extends JPanel {
 
     private boolean isEditing;
     private boolean isDeleting;
+    
+    private JPanel imagePanel;
+    private JLabel iconLabel;
+    private JLabel imageLabel;
+    private ImageIcon iconImage;
+    private JScrollPane imageSelect;
 
     public PartsManagerPanelV2(PartsManager mngr) {
 	manager = mngr;
@@ -157,9 +165,9 @@ public class PartsManagerPanelV2 extends JPanel {
 	descPanel.add(descLabel);
 
 	descField = new JTextArea("Description...");
-	descField.setMinimumSize(new Dimension(200, 100));
-	descField.setMaximumSize(new Dimension(200, 100));
-	descField.setPreferredSize(new Dimension(200, 100));
+	descField.setMinimumSize(new Dimension(200, 70));
+	descField.setMaximumSize(new Dimension(200, 70));
+	descField.setPreferredSize(new Dimension(200, 70));
 	descField.setBorder(Constants.FIELD_PADDING);
 	descPanel.add(descField);
 
@@ -185,6 +193,41 @@ public class PartsManagerPanelV2 extends JPanel {
 	badChanceScroller.setOpaque(false);
 	chancePanel.add(badChanceScroller);
 
+	imagePanel = new JPanel();
+	imagePanel.setBorder(Constants.TOP_PADDING);
+	imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.LINE_AXIS));
+	imagePanel.setOpaque(false);
+	imagePanel.setAlignmentX(0);
+	leftPanel.add(imagePanel);
+	
+	
+	imageLabel = new WhiteLabel("Select Image: ");
+	imageLabel.setSize(100, 60);
+	imagePanel.add(imageLabel);
+		
+	imageSelect = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	imageSelect.setSize(150, 60);
+	imageSelect.setOpaque(false);
+	
+		
+	/**
+	 * Iterate through the ArrayList of available images in constants to populate JScrollPane
+	 
+	for(int i = 0; i<Constants.DEFAULT_IMAGEPATHS.size();i++)
+	{
+		iconImage = new ImageIcon(Constants.PART_IMAGE_PATH + Constants.DEFAULT_IMAGEPATHS.get(i) + ".png");
+		iconLabel = new JLabel(iconImage);
+		imageSelect.add(iconLabel);
+		//TODO: add action listener to each jlabel
+	}
+	*/
+	iconImage = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Constants.PART_IMAGE_PATH + Constants.DEFAULT_IMAGEPATHS.get(1) + ".png"));
+	iconLabel = new JLabel(iconImage);
+	iconLabel.setVisible(true);
+	imageSelect.add(iconLabel);
+	
+	imagePanel.add(imageSelect);
+	
 	JPanel buttonPanel = new JPanel();
 	buttonPanel.setBorder(Constants.TOP_PADDING);
 	buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));

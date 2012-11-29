@@ -108,7 +108,7 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		partsInNestQuality.put(pg, pg.getQuality());
 		pg.setLocation(partLocs.get(partsInNest.size() - 1));
 		PartType type = pg.getPartType();
-		System.out.println("NEST" + nestID + " RECEIVING PART " + partsInNest.size());
+		//System.out.println("NEST" + nestID + " RECEIVING PART " + partsInNest.size());
 		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND,
 				Constants.NEST_TARGET + nestID, type));
 	}

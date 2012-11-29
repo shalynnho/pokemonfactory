@@ -123,12 +123,19 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST + Constants.DONE_SUFFIX)) {
 	    laneAgent.msgGivePartToNestDone(partsOnLane.get(0));
 	    partsOnLane.remove(0);
-	    // System.out.println("	lane"+laneID+" GivePartToNest DONE, partsOnLane.size(): " + partsOnLane.size());
+	     System.out.println("	LANE"+laneID+" GAVE PART TO NEST DONE, partsOnLane.size(): " + partsOnLane.size());
 
 	} else if (cmd.equals(Constants.LANE_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
 	    partsOnLane.clear();
 	    laneAgent.msgPurgeDone();
 	}
+	
+	// TODO: REMOVE HACK (TESTING JAM PURPOSES ONLY)
+	else if (cmd.equals(Constants.LANE_SET_JAM_LOC_COMMAND)) {
+	    //System.out.println("LANE" + laneID + " SETTING JAM LOCATION");
+	    Location l = (Location) r.getData();
+	    setJamLocation(l);
+	} 
     }
 
     /**
@@ -142,6 +149,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics, DeviceGrap
 	    jammed = true;
 	    jamLocation = loc;
 	    server.sendData(new Request(Constants.LANE_SET_JAM_LOC_COMMAND, Constants.LANE_TARGET+laneID, jamLocation));
+	    //System.out.println("LANE" + laneID + " JAM LOC SET x: " + jamLocation.getX());
 	}
     }
     
