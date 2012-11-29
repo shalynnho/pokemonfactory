@@ -22,6 +22,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	boolean arm1, arm2, arm3, arm4; // whether the arm is full, initialized empty
 	ArrayList<PartGraphics> partArray; // an array of parts that allocates memory for 4 parts
 	KitGraphics kit;
+	int kitPosition;
 	int i;
 	private Server server;
 	private PartsRobotAgent partsRobotAgent;
@@ -30,6 +31,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		partsRobotAgent = (PartsRobotAgent)a;
 		initialLocation = new Location(250,450);
 		currentLocation = initialLocation;
+		kitPosition = 0;
 		arm1 = false;
 		arm2 = false;
 		arm3 = false;
@@ -55,7 +57,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	public void givePartToKit(PartGraphics part, KitGraphics kit) {
 	    for(PartGraphics p : partArray) {
 			if (p == part) {
-				kit.receivePart(p);
 				partArray.remove(p);
 				break;
 			}
@@ -63,6 +64,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		
 		PartData pd = new PartData(kit.getLocation());
 		Location tempLoc = new Location(200, 400);
+		kitPosition = kit.getPosition();
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
 		
 	}	
@@ -122,7 +124,9 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		if (req.getCommand().equals(Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
 		    partsRobotAgent.msgPickUpPartDone();
 		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX)) {
-		    partsRobotAgent.msgGivePartToKitDone();
+		    server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND,
+					Constants.KIT_TARGET + kitPosition, req.getData()));
+			partsRobotAgent.msgGivePartToKitDone();
 		}
 	}
 

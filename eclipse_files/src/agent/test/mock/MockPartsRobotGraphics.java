@@ -35,6 +35,12 @@ public class MockPartsRobotGraphics extends MockAgent implements PartsRobotGraph
 		
 	}
 
+	@Override
+	public void dropPartFromArm(PartGraphics part) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

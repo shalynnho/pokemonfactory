@@ -42,4 +42,10 @@ public class MockFCS extends MockAgent implements FCS {
 		
 	}
 
+	@Override
+	public void msgBreakLane(int laneNum) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

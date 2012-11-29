@@ -24,7 +24,7 @@ public class Part {
     public Part(PartGraphics pg) {
 	partGraphics = pg;
 	this.type = pg.getPartType();
-	isGood = !pg.getQuality();
+	isGood = pg.getQuality();
 	up = true;
     }
 

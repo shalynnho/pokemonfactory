@@ -142,6 +142,7 @@ public class NestAgent extends Agent implements Nest {
 
 	@Override
 	public void msgLanePurgeDone() {
+		print("Received msgLanePurgeDone");
 		state = NestState.DONE_PURGING;
 		if (currentPartType == null) {
 			state = NestState.NULL;

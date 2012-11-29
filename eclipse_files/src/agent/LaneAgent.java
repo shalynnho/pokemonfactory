@@ -136,8 +136,7 @@ public class LaneAgent extends Agent implements Lane {
 	
 	@Override
 	public void msgChangeAmplitude() {
-		//laneGUI.changeAmplitude();
-		stateChanged();
+		laneGUI.unjam();
 	}
 	
 	@Override
@@ -224,6 +223,7 @@ public class LaneAgent extends Agent implements Lane {
 		print("Purging self");
 		requestList = Collections.synchronizedList(new ArrayList<PartType>());
 		currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
+		extraRequestCount = 0;
 		if (laneGUI != null) {
 			laneGUI.purge();
 			try {

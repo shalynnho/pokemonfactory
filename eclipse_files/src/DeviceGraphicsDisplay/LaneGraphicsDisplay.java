@@ -41,7 +41,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
     // the ID of this Lane
     private final int laneID;
     // the amplitude of this lane
-    private int speed = 1;
+    private int speed = 2;
     private int amplitude = 2;
     // true if Lane is on
     private boolean laneOn = true;
@@ -118,9 +118,14 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		    if (i == 0) { // first part on the lane
 
-			if (loc.getX() > Constants.LANE_END_X - Constants.PART_PADDING) { // hasn't reached end of lane
+			if ((loc.getX() > Constants.LANE_END_X - Constants.PART_PADDING) && !jammed) { // hasn't reached end of lane
 			    updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
 			    partAtLaneEnd = false;
+			    
+			} else if((loc.getX() > jamLoc.getX() - Constants.PART_PADDING) && jammed) {
+			    updateXLoc(loc, jamLoc.getX() - Constants.PART_PADDING, speed);
+			    partAtLaneEnd = false;
+			    
 			} else { // at end of lane
 			    if (!purging) {
 				partAtLaneEnd = true;
@@ -360,6 +365,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		    + laneID, null));
 	    System.out.println("	LANEGD" + laneID + ": purge done sent.");
 	    purgeDoneSent = true;
+	    receivePartDoneSent = false;
 	}
     }
 

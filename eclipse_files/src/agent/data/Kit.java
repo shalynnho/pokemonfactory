@@ -35,7 +35,7 @@ public class Kit {
     public int needPart(Part part) {
 	int count = 0;
 	for (PartType type : partsExpected.getConfig().keySet()) {
-	    if (type == part.type) {
+	    if (type.equals(part.type)) {
 		count += partsExpected.getConfig().get(type);
 		break;
 	    }

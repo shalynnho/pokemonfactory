@@ -176,10 +176,10 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 					}
 					if (armLoc.get(I - 1).getX() == kitloc.getX()) {
 						// System.out.println("giving part to kit");
-						givePart();
+						PartType tempPartType = givePart();
 						gavepart = true;
 						client.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX,
-								Constants.PARTS_ROBOT_TARGET, null));
+								Constants.PARTS_ROBOT_TARGET, tempPartType));
 					}
 				} else {
 					if (armLoc.get(I - 1).getX() != kitloc.getX() - 30) {
@@ -286,13 +286,13 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		
 	}
 
-	public void givePart() {
+	public PartType givePart() {
 
 		if (I > 0) {
-			partArrayGraphics.remove(I - 1);
+			return partArrayGraphics.remove(I - 1).getPartType();
 			//Reminder for Adrian: Add sendData to Stand
 		}
-
+		return null;
 	}
 
 	public void extendArm() {

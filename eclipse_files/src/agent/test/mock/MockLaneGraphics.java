@@ -51,4 +51,10 @@ public class MockLaneGraphics extends Agent implements DeviceGraphics, LaneGraph
 		this.lane = lane;
 	}
 
+	@Override
+	public void unjam() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -60,4 +60,10 @@ public class MockPartsRobot extends MockAgent implements PartsRobot {
 
 	}
 
+	@Override
+	public void msgSetDropChance(float dChance) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
