@@ -24,7 +24,7 @@ public class TransitionGraphicsDisplay {
 	animCount = 12;
 	animate = true;
 	// TODO: change 1 to parttypenum later
-	pokeball = Toolkit.getDefaultToolkit().getImage(Constants.BALL_IMAGE + 1 + ".png");
+	pokeball = Toolkit.getDefaultToolkit().getImage(Constants.BALL_IMAGE + seq + ".png");
     }
 
     public void drawTrans(int offset, Location loc, JComponent jc, Graphics2D g) {
@@ -43,7 +43,7 @@ public class TransitionGraphicsDisplay {
 	}
     }
 
-    public void drawPokeball(int offset, Location loc, JComponent jc, Graphics2D g) {
+    public void drawPokeball(int offset, Location loc, JComponent jc, Graphics2D g, Image pokeball) {
 	g.drawImage(pokeball, loc.getX() + offset, loc.getY(), jc);
     }
 
