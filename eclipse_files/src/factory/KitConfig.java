@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import Utils.StringUtil;
@@ -15,7 +16,7 @@ public class KitConfig implements Serializable, FactoryData {
 	private String name;
 
 	public KitConfig(String name) {
-		config = new HashMap<PartType, Integer>();
+		config = new LinkedHashMap<PartType, Integer>();
 		this.name = name;
 		this.id = StringUtil.md5(name);
 	}
