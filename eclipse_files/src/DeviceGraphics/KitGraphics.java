@@ -17,7 +17,6 @@ public class KitGraphics implements DeviceGraphics {
 	private KitConfig kitConfig;
 	private Location kitLocation;
 	private int position;
-	
 
 	public int getPosition() {
 		return position;
@@ -38,14 +37,15 @@ public class KitGraphics implements DeviceGraphics {
 	}
 
 	/*
-	 * public KitGraphics(KitGraphics kg) { this.parts = kg.parts;
-	 * this.kitConfig = kg.kitConfig; this.kitLocation = kg.kitLocation;
-	 * this.isFull = kg.isFull; this.server = kg.server; }
+	 * public KitGraphics(KitGraphics kg) { this.parts = kg.parts; this.kitConfig = kg.kitConfig; this.kitLocation =
+	 * kg.kitLocation; this.isFull = kg.isFull; this.server = kg.server; }
 	 */
 
 	/**
 	 * set the part types required to build kit
-	 * @param kitConfig - parts required to build the kit
+	 * 
+	 * @param kitConfig
+	 *            - parts required to build the kit
 	 */
 	public void setPartTypes(KitConfig config) {
 		kitConfig = config;
@@ -58,11 +58,9 @@ public class KitGraphics implements DeviceGraphics {
 		parts.add(newPart);
 
 		if (parts.size() % 2 == 1) {
-			newPart.setLocation(new Location(kitLocation.getX() + 5,
-					kitLocation.getY() + 20 * (parts.size() - 1) / 2));
+			newPart.setLocation(new Location(kitLocation.getX() + 5, kitLocation.getY() + 20 * (parts.size() - 1) / 2));
 		} else {
-			newPart.setLocation(new Location(kitLocation.getX() + 34,
-					kitLocation.getY() + 20 * (parts.size() - 2) / 2));
+			newPart.setLocation(new Location(kitLocation.getX() + 34, kitLocation.getY() + 20 * (parts.size() - 2) / 2));
 		}
 
 		if (parts.size() == 8) {
@@ -94,8 +92,9 @@ public class KitGraphics implements DeviceGraphics {
 	public void receivePart(PartGraphics part) {
 		addPart(part);
 		PartType type = part.getPartType();
-		server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND,
-				Constants.KIT_TARGET + position, type));
+		if (server != null) {
+			server.sendData(new Request(Constants.KIT_UPDATE_PARTS_LIST_COMMAND, Constants.KIT_TARGET + position, type));
+		}
 	}
 
 	@Override

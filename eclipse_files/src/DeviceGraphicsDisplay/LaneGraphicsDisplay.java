@@ -41,15 +41,15 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
     // the ID of this Lane
     private final int laneID;
     // the amplitude of this lane
-    private int speed = 1;
+    private int speed = 2;
     private int amplitude = 2;
     // true if Lane is on
     private boolean laneOn = true;
-    
+
     // use to make sure only 1 message is sent to agent for each part that reaches end of lane
     private boolean receivePartDoneSent = false;
     private boolean purgeDoneSent = false;
-    
+
     // state of the parts on lane
     private boolean partAtLaneEnd = false;
     private boolean purging = false;
@@ -117,10 +117,18 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		    Location loc = pgd.getLocation();
 
 		    if (i == 0) { // first part on the lane
-
-			if (loc.getX() > Constants.LANE_END_X - Constants.PART_PADDING) { // hasn't reached end of lane
+			
+			// not at lane end && (not jammed || jammed and already passed jamLoc)
+			if ((loc.getX() > Constants.LANE_END_X - Constants.PART_PADDING)
+				&& (!jammed || (jammed && loc.getX() < jamLoc.getX() - Constants.PART_PADDING))) {
 			    updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
 			    partAtLaneEnd = false;
+			    
+			// jammed and part is before jamLoc
+			} else if (jammed && (loc.getX() > jamLoc.getX() - Constants.PART_PADDING)) {
+			    updateXLoc(loc, jamLoc.getX() - Constants.PART_PADDING, speed);
+			    partAtLaneEnd = false;
+
 			} else { // at end of lane
 			    if (!purging) {
 				partAtLaneEnd = true;
@@ -154,7 +162,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			if (locInFront.getX() <= Constants.LANE_BEG_X - 2 * Constants.PART_WIDTH
 				- Constants.PART_PADDING
 				&& loc.getX() > locInFront.getX() + Constants.PART_WIDTH + Constants.PART_PADDING / 2) {
-			    updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
+			    if (!jammed) {
+				updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
+			    } else {
+				updateXLoc(loc, jamLoc.getX() - Constants.PART_PADDING, speed);
+			    }
 			}
 		    }
 		    vibrateParts(loc);
@@ -216,10 +228,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	} else if (cmd.equals(Constants.LANE_SET_JAM_LOC_COMMAND)) {
 	    jammed = true;
 	    jamLoc = (Location) r.getData();
-	    
+
 	} else if (cmd.equals(Constants.LANE_UNJAM_COMMAND)) {
 	    jammed = false;
-	    
+
 	} else {
 	    System.out.println("LANE_GD: command not recognized.");
 	}
@@ -360,6 +372,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		    + laneID, null));
 	    System.out.println("	LANEGD" + laneID + ": purge done sent.");
 	    purgeDoneSent = true;
+	    receivePartDoneSent = false;
 	}
     }
 

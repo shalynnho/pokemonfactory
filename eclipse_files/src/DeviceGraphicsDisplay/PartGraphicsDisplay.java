@@ -16,10 +16,12 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
     TransitionGraphicsDisplay trans;
 
     private Image partImage;
+    Image pokeballImage;
 
     public PartGraphicsDisplay(PartType pt) {
 	partType = pt;
 	partImage = partType.getImage();
+	pokeballImage = partType.getPokeballImage();
 	trans = new TransitionGraphicsDisplay(partType);
     }
 
@@ -47,7 +49,7 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
     
     //Neetu added this too
     public void drawPokeball(int offset, Location loc, JComponent jc, Graphics2D g) {
-    	trans.drawPokeball(offset, loc, jc, g);
+    	trans.drawPokeball(offset, loc, jc, g, pokeballImage);
     }
 
     public Location getLocation() {

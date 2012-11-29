@@ -46,11 +46,11 @@ public class LaneAgent extends Agent implements Lane {
 	}
 
 	public enum PartStatus {
-		BEGINNING_LANE, IN_LANE, END_LANE, NEED_TO_DELIVER, DELIVERED
+		BEGINNING_LANE, IN_LANE, END_LANE, TOLD_NEST, NEED_TO_DELIVER, DELIVERED
 	};
 
 	public enum LaneStatus {
-		FILLING, DONE_FILLING, PURGING, WAITING
+		FILLING, DONE_FILLING, PURGING, WAITING, BROKEN, BROKEN_WHILE_PURGING;
 	};
 
 	FeederAgent feeder;
@@ -92,9 +92,10 @@ public class LaneAgent extends Agent implements Lane {
 
 	@Override
 	public void msgGiveMePart() {
+		print("Received message give me part from nest");
 		synchronized (currentParts) {
 			for (MyPart p : currentParts) {
-				if (p.status == PartStatus.END_LANE) {
+				if (p.status == PartStatus.TOLD_NEST) {
 					p.status = PartStatus.NEED_TO_DELIVER;
 					break;
 				}
@@ -135,14 +136,31 @@ public class LaneAgent extends Agent implements Lane {
 	
 	@Override
 	public void msgChangeAmplitude() {
-		
+		laneGUI.unjam();
 	}
 	
 	@Override
 	public void msgFixYourself() {
-		
+		if(state == LaneStatus.BROKEN_WHILE_PURGING) {
+			state = LaneStatus.PURGING;
+		}
+		else {
+			state = LaneStatus.FILLING;
+		}
+		stateChanged();
 	}
 
+	@Override
+	public void msgBreakThis() {
+		if(state == LaneStatus.PURGING) {
+			state = LaneStatus.BROKEN_WHILE_PURGING;
+		}
+		else { 
+			state = LaneStatus.BROKEN;
+		}
+		stateChanged();
+	}
+	
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// print("In the Scheduler");
@@ -180,10 +198,11 @@ public class LaneAgent extends Agent implements Lane {
 			}
 		}
 
+		
 		synchronized (currentParts) {
 			for (MyPart part : currentParts) {
 				if (part.status == PartStatus.END_LANE) {
-					tellNest(part.part);
+					tellNest(part);
 					return true;
 				}
 			}
@@ -204,6 +223,7 @@ public class LaneAgent extends Agent implements Lane {
 		print("Purging self");
 		requestList = Collections.synchronizedList(new ArrayList<PartType>());
 		currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
+		extraRequestCount = 0;
 		if (laneGUI != null) {
 			laneGUI.purge();
 			try {
@@ -226,8 +246,10 @@ public class LaneAgent extends Agent implements Lane {
 		stateChanged();
 	}
 
-	public void tellNest(Part p) {
+	public void tellNest(MyPart p) {
+		p.status = PartStatus.TOLD_NEST;
 		nest.msgPartReady();
+		stateChanged();
 	}
 
 	public void giveToNest(MyPart mp) {
