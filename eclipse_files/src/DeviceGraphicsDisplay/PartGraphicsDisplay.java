@@ -37,19 +37,19 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	if (!quality) {
 	    // draw bad image
 	} else {
-	    g.drawImage(partImage, partLocation.getX() + offset, partLocation.getY(), c);
+	    drawTransition(c, g, offset);
+	    if (trans.animate == false) {
+		drawPokeball(c, g, offset);
+	    }
 	}
     }
     
-    //Neetu added this
-    
-    public void drawTransition(int offset, Location loc, JComponent jc, Graphics2D g) {
-    	trans.drawTrans(offset, loc, jc, g);
+    public void drawTransition(JComponent c, Graphics2D g, int offset) {
+	trans.drawTrans(offset, partLocation, c, g);
     }
     
-    //Neetu added this too
-    public void drawPokeball(int offset, Location loc, JComponent jc, Graphics2D g) {
-    	trans.drawPokeball(offset, loc, jc, g, pokeballImage);
+    public void drawPokeball(JComponent c, Graphics2D g, int offset) {
+	trans.drawPokeball(offset, partLocation, c, g, pokeballImage);
     }
 
     public Location getLocation() {

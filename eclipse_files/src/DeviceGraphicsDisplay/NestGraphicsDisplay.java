@@ -1,8 +1,6 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -87,10 +85,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	synchronized (partsInNest) {
 	    for (PartGraphicsDisplay part : partsInNest) {
-		part.drawTransition(client.getOffset(), part.getLocation(), c, g);
-		if (part.trans.animate == false) {
-		    part.drawPokeball(client.getOffset(), part.getLocation(), c, g);
-		}
+		part.drawWithOffset(c, g, client.getOffset());
 	    }
 	}
     }
