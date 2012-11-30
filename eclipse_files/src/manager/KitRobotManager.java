@@ -60,38 +60,37 @@ public class KitRobotManager extends Client implements ActionListener {
 				Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND,
 				Constants.CONVEYOR_TARGET, writer));
 
-		
-		  JButton moveKitToLocation1 =new JButton("ToLocation1");
-		  moveKitToLocation1.addActionListener(new
-		  NetworkingButtonListener(Constants
-		  .KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION1,
-		  Constants.KIT_ROBOT_TARGET,writer)); JButton moveKitToLocation2= new
-		  JButton("ToLocation2"); moveKitToLocation2.addActionListener(new
-		  NetworkingButtonListener
-		  (Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION2,
-		  Constants.KIT_ROBOT_TARGET,writer)); JButton
-		  moveKitFromLocation1ToInspection = new
-		  JButton("Location1ToInspection");
-		  moveKitFromLocation1ToInspection.addActionListener(new
-		  NetworkingButtonListener
-		  (Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_INSPECTION,
-		  Constants.KIT_ROBOT_TARGET,writer)); JButton
-		  moveKitFromLocation2ToInspection = new
-		  JButton("Location2ToInspection");
-		  moveKitFromLocation2ToInspection.addActionListener(new
-		  NetworkingButtonListener
-		  (Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_INSPECTION,
-		  Constants.KIT_ROBOT_TARGET,writer)); JButton
-		  moveKitFromInspectionToGoodConveyor = new JButton
-		  ("InspectionToGoodConveyor");
-		  moveKitFromInspectionToGoodConveyor.addActionListener(new
-		  NetworkingButtonListener
-		  (Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR,
-		  Constants.KIT_ROBOT_TARGET,writer));
-			JButton receivePart = new JButton("receivePart");
-			receivePart.addActionListener(new NetworkingButtonListener(
-					Constants.KIT_RECEIVES_PART, 
-					Constants.KIT_ROBOT_TARGET, writer));
+		JButton moveKitToLocation1 = new JButton("ToLocation1");
+		moveKitToLocation1.addActionListener(new NetworkingButtonListener(
+				Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION1,
+				Constants.KIT_ROBOT_TARGET, writer));
+		JButton moveKitToLocation2 = new JButton("ToLocation2");
+		moveKitToLocation2.addActionListener(new NetworkingButtonListener(
+				Constants.KIT_ROBOT_LOGIC_PICKS_CONVEYOR_TO_LOCATION2,
+				Constants.KIT_ROBOT_TARGET, writer));
+		JButton moveKitFromLocation1ToInspection = new JButton(
+				"Location1ToInspection");
+		moveKitFromLocation1ToInspection
+				.addActionListener(new NetworkingButtonListener(
+						Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION1_TO_INSPECTION,
+						Constants.KIT_ROBOT_TARGET, writer));
+		JButton moveKitFromLocation2ToInspection = new JButton(
+				"Location2ToInspection");
+		moveKitFromLocation2ToInspection
+				.addActionListener(new NetworkingButtonListener(
+						Constants.KIT_ROBOT_LOGIC_PICKS_LOCATION2_TO_INSPECTION,
+						Constants.KIT_ROBOT_TARGET, writer));
+		JButton moveKitFromInspectionToGoodConveyor = new JButton(
+				"InspectionToGoodConveyor");
+		moveKitFromInspectionToGoodConveyor
+				.addActionListener(new NetworkingButtonListener(
+						Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR,
+						Constants.KIT_ROBOT_TARGET, writer));
+		JButton receivePart = new JButton("receivePart");
+		receivePart
+				.addActionListener(new NetworkingButtonListener(
+						Constants.KIT_RECEIVES_PART,
+						Constants.KIT_ROBOT_TARGET, writer));
 		JButton Kit1Done = new JButton("Kit1Done");
 		Kit1Done.addActionListener(new NetworkingButtonListener(
 				Constants.KIT_ROBOT_AGENT_RECEIVES_KIT1_DONE,
@@ -106,8 +105,7 @@ public class KitRobotManager extends Client implements ActionListener {
 		KitInspected.addActionListener(new NetworkingButtonListener(
 				Constants.KIT_ROBOT_AGENT_RECEIVES_KIT_INSPECTED,
 				Constants.KIT_ROBOT_TARGET, writer));
-	
-		
+
 		panel.add(newKit);
 		panel.add(Kit1Done);
 		panel.add(Kit2Done);
@@ -153,9 +151,11 @@ public class KitRobotManager extends Client implements ActionListener {
 
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
 
-		for (DeviceGraphicsDisplay device : devices.values()) {
-			device.draw(this, g);
+		synchronized (devices) {
+			for (DeviceGraphicsDisplay device : devices.values()) {
+				device.draw(this, g);
 
+			}
 		}
 	}
 

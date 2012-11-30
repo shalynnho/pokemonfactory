@@ -23,7 +23,7 @@ public class GantryRobotManager extends Client implements ActionListener {
 
 	// Create a new timer
 	private Timer timer;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -31,7 +31,7 @@ public class GantryRobotManager extends Client implements ActionListener {
 		super();
 		clientName = Constants.GANTRY_ROBOT_MNGR_CLIENT;
 		offset = -800;
-		
+
 		initStreams();
 		initGUI();
 		initDevices();
@@ -39,12 +39,15 @@ public class GantryRobotManager extends Client implements ActionListener {
 
 	/**
 	 * Forward network requests to devices processing
-	 * @param req incoming request
+	 * 
+	 * @param req
+	 *            incoming request
 	 */
+	@Override
 	public void receiveData(Request req) {
 		devices.get(req.getTarget()).receiveData(req);
 	}
-	
+
 	/**
 	 * Initialize the GUI and start the timer.
 	 */
@@ -52,39 +55,46 @@ public class GantryRobotManager extends Client implements ActionListener {
 		timer = new Timer(Constants.TIMER_DELAY, this);
 		timer.start();
 	}
-	
+
 	/**
 	 * Initialize the devices
 	 */
-	public void initDevices() {		
-		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
-		
+	public void initDevices() {
+		addDevice(Constants.GANTRY_ROBOT_TARGET,
+				new GantryGraphicsDisplay(this));
+
 		for (int i = 0; i < Constants.LANE_COUNT; i++) {
-			addDevice(Constants.LANE_TARGET + i, new LaneGraphicsDisplay(this, i));
+			addDevice(Constants.LANE_TARGET + i, new LaneGraphicsDisplay(this,
+					i));
 		}
-		
+
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
-			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));
+			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(
+					this, i));
 		}
-	
+
 	}
-	
+
 	/**
 	 * Main method sets up the JFrame
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT, "Gantry Robot Manager");
-		
+		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT,
+				"Gantry Robot Manager");
+
 		GantryRobotManager mngr = new GantryRobotManager();
 		frame.add(mngr);
 		mngr.setVisible(true);
 		frame.validate();
 	}
-	
+
 	/**
-	 * This function intercepts requests and calls client's sendData if the request is a DONE request.
+	 * This function intercepts requests and calls client's sendData if the
+	 * request is a DONE request.
+	 * 
 	 * @req Request to be sent.
 	 */
 	@Override
@@ -93,22 +103,26 @@ public class GantryRobotManager extends Client implements ActionListener {
 			super.sendData(req);
 		}
 	}
-	
+
 	/**
 	 * This function handles painting of graphics
 	 */
+	@Override
 	public void paintComponent(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
-		
-		for(DeviceGraphicsDisplay device : devices.values()) {
-			device.draw(this, g);
+
+		synchronized (devices) {
+			for (DeviceGraphicsDisplay device : devices.values()) {
+				device.draw(this, g);
+			}
 		}
 	}
 
 	/**
 	 * This function handles action events.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent ae) {
 		repaint();
 	}
