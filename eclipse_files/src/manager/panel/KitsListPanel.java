@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.border.Border;
 
 import manager.util.ClickablePanel;
 import manager.util.ClickablePanelClickHandler;
@@ -54,7 +53,7 @@ public class KitsListPanel extends ListPanel<KitConfig> {
 			
 			add(panel);
 			
-			WhiteLabel nameLabel = new WhiteLabel("Kit: " + kc.getName());
+			WhiteLabel nameLabel = new WhiteLabel(kc.getName());
 			nameLabel.setLabelSize(itemWidth, itemHeight);
 			panel.add(nameLabel);
 			
