@@ -54,7 +54,8 @@ public abstract class Constants {
 			Arrays.asList(
 
 			new KitConfig("Starter Pokemon", DEFAULT_PARTTYPES.get(0),
-					DEFAULT_PARTTYPES.get(1), DEFAULT_PARTTYPES.get(2)),
+					DEFAULT_PARTTYPES.get(1), DEFAULT_PARTTYPES.get(2),
+					DEFAULT_PARTTYPES.get(3)),
 
 			new KitConfig("Half Belt", DEFAULT_PARTTYPES.get(6),
 					DEFAULT_PARTTYPES.get(7), DEFAULT_PARTTYPES.get(8),
