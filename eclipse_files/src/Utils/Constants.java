@@ -245,7 +245,7 @@ public abstract class Constants {
 	// sets lane amplitude
 	public static final String LANE_SET_AMPLITUDE_COMMAND = "lane set amp";
 	// sets the location of part jam on the lane
-	public static final String LANE_SET_JAM_LOC_COMMAND = "lane set jam loc";
+	public static final String LANE_SET_JAM_COMMAND = "lane set jam";
 	// unjams the lane
 	public static final String LANE_UNJAM_COMMAND = "lane unjam";
 	// turns lane on or off
