@@ -30,7 +30,8 @@ public class FCSAgent extends Agent implements FCS {
 	private ArrayList<Nest> nests;
 	private Conveyor conveyor;
 	private myState state;
-	private List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
+	private List<Order> orders = Collections
+			.synchronizedList(new ArrayList<Order>());
 	private int numOrdersFinished = 0;
 	private Camera camera;
 
@@ -76,10 +77,11 @@ public class FCSAgent extends Agent implements FCS {
 		stateChanged();
 	}
 
-    public void msgSetPartsRobotDropChance(Float c) {
-	partsRobot.msgSetDropChance(c);
-	stateChanged();
-    }
+	public void msgSetPartsRobotDropChance(Float c) {
+		partsRobot.msgSetDropChance(c);
+		stateChanged();
+	}
+
 	@Override
 	public void msgStopMakingKit(Order o) {
 		print("Received msgStopMakingKit");
@@ -113,6 +115,11 @@ public class FCSAgent extends Agent implements FCS {
 	}
 
 	@Override
+	public void msgShippedKit() {
+		fcs.finishedKit();
+	}
+
+	@Override
 	public void msgOrderFinished() {
 		print("Received msgOrderFinished");
 		numOrdersFinished++;
@@ -132,10 +139,10 @@ public class FCSAgent extends Agent implements FCS {
 		state = myState.STARTED;
 		stateChanged();
 	}
-	
+
 	@Override
 	public void msgBreakLane(int laneNumber) {
-		((NestAgent) nests.get(laneNumber-1)).lane.msgBreakThis();
+		((NestAgent) nests.get(laneNumber - 1)).lane.msgBreakThis();
 	}
 
 	@Override
@@ -181,12 +188,12 @@ public class FCSAgent extends Agent implements FCS {
 		}
 
 		int k = 0;
-		//for (PartType type : o.kitConfig.getConfig().keySet()) {
-		//	for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
-				// ((NestAgent) nests.get(k)).stopThread();
-			//	k++;
-		//	}
-		//}
+		// for (PartType type : o.kitConfig.getConfig().keySet()) {
+		// for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
+		// ((NestAgent) nests.get(k)).stopThread();
+		// k++;
+		// }
+		// }
 		camera.msgResetSelf();
 		k = 0;
 		for (PartType type : o.kitConfig.getConfig().keySet()) {
@@ -201,8 +208,8 @@ public class FCSAgent extends Agent implements FCS {
 		stand.msgMakeKits(o.numKits);
 
 		/*
-		 * for(PartType type:o.kitConfig.getConfig().keySet()) { gantry.msgHereIsBinConfig(new Bin(o.parts.get(i),i+1));
-		 * }
+		 * for(PartType type:o.kitConfig.getConfig().keySet()) {
+		 * gantry.msgHereIsBinConfig(new Bin(o.parts.get(i),i+1)); }
 		 */
 		stateChanged();
 	}
@@ -244,7 +251,8 @@ public class FCSAgent extends Agent implements FCS {
 
 	public void addBin() {
 		for (int i = binsToAdd.size() - 1; i >= 0; i--) {
-			gantry.msgHereIsBin(new Bin(binsToAdd.get(i), Constants.DEFAULT_PARTTYPES.size() - i));
+			gantry.msgHereIsBin(new Bin(binsToAdd.get(i),
+					Constants.DEFAULT_PARTTYPES.size() - i));
 			binsToAdd.remove(i);
 		}
 		stateChanged();
@@ -320,6 +328,5 @@ public class FCSAgent extends Agent implements FCS {
 	public void setCamera(Camera camera) {
 		this.camera = camera;
 	}
-
 
 }

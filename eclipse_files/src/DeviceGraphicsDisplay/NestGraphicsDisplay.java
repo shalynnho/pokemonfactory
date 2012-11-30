@@ -247,8 +247,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		receivingPart = true;
 		receivePartDoneSent = false;
 
-		System.out.println("NESTGD" + nestID + " RECEIVING PART "
-				+ partsInNest.size());
+		//System.out.println("NESTGD" + nestID + " RECEIVING PART " + partsInNest.size());
 	}
 
 	private boolean isFull() {

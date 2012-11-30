@@ -258,7 +258,7 @@ public class LaneManager extends Client implements ActionListener {
 			Location location = new Location(e.getX(), e.getY());
 			displayMessage("Jam at lane " + laneNumber);
 
-			sendData(new Request(Constants.LANE_SET_JAM_LOC_COMMAND,
+			sendData(new Request(Constants.LANE_SET_JAM_COMMAND,
 					Constants.LANE_TARGET + laneNumber, location));
 		}
 

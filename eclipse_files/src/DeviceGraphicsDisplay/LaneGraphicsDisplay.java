@@ -277,7 +277,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			jammed = true;
 			jamLoc = (Location) r.getData();
 			jamLocX = location.getX() + jamLoc.getX();
-			System.out.println("	LANEGD" + laneID + " JAM LOC SET");
+			//System.out.println("	LANEGD" + laneID + " JAM LOC SET");
 
 		} else if (cmd.equals(Constants.LANE_UNJAM_COMMAND)) {
 			unjamming = true;
@@ -437,8 +437,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			client.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
 					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID,
 					null));
-			System.out
-					.println("	LANEGD" + laneID + ": receive part done sent.");
+			//System.out.println("	LANEGD" + laneID + ": receive part done sent.");
 			receivePartDoneSent = true;
 		}
 	}

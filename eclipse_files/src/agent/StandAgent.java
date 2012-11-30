@@ -10,8 +10,8 @@ import agent.interfaces.PartsRobot;
 import agent.interfaces.Stand;
 
 /**
- * Stand manages the kits that are placed on the kitting stand. Interacts with the Factory Control System (FCS), the
- * Parts Robot and the Kit Robot.
+ * Stand manages the kits that are placed on the kitting stand. Interacts with
+ * the Factory Control System (FCS), the Parts Robot and the Kit Robot.
  * 
  * @author Daniel Paje
  */
@@ -139,6 +139,7 @@ public class StandAgent extends Agent implements Stand {
 		// MyKits.get(0).KS = KitStatus.SHIPPED;
 		MyKits.set(oldLocForKitBeingInspected, null);
 		print(numKitsToMake - numKitsMade + " kits left to make");
+		fcs.msgShippedKit();
 		stateChanged();
 	}
 
@@ -200,7 +201,8 @@ public class StandAgent extends Agent implements Stand {
 			}
 			if (numKitsToMake > 0 && numKitsToMake > numKitsMade + 3 - count
 					&& (MyKits.get(1) == null || MyKits.get(2) == null)) {
-				print("NumKits(" + numKitsToMake + ") to make greater than numKitsMade(" + numKitsMade
+				print("NumKits(" + numKitsToMake
+						+ ") to make greater than numKitsMade(" + numKitsMade
 						+ "). Stand positions empty count: " + count);
 				if (MyKits.get(1) == null && MyKits.get(2) == null) {
 					print("Neither position full");
@@ -208,8 +210,8 @@ public class StandAgent extends Agent implements Stand {
 					requestKit(loc = 1);
 					print("I'm requesting a new kit at position 1");
 					return true;
-				} else if (MyKits.get(1) == null && MyKits.get(2) != null || MyKits.get(2) == null
-						&& MyKits.get(1) != null) {
+				} else if (MyKits.get(1) == null && MyKits.get(2) != null
+						|| MyKits.get(2) == null && MyKits.get(1) != null) {
 					print("One position full, but need to make more than 1 kit.");
 					status = StandStatus.KIT_REQUESTED;
 					requestKit(loc = MyKits.get(1) == null ? 1 : 2);
@@ -220,8 +222,8 @@ public class StandAgent extends Agent implements Stand {
 		}
 
 		/*
-		 * Tried all rules and found no actions to fire. Return false to the main loop of abstract base class Agent and
-		 * wait.
+		 * Tried all rules and found no actions to fire. Return false to the
+		 * main loop of abstract base class Agent and wait.
 		 */
 		return false;
 	}
@@ -244,7 +246,8 @@ public class StandAgent extends Agent implements Stand {
 	 * Requests a kit from kit robot at the specified location.
 	 * 
 	 * @param index
-	 *            the empty location on the stand where the new kit will be placed
+	 *            the empty location on the stand where the new kit will be
+	 *            placed
 	 */
 	private void requestKit(int index) {
 		status = StandStatus.IDLE;
