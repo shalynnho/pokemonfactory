@@ -89,7 +89,13 @@ public abstract class Client extends JPanel {
 	}
 
 	public void addDevice(String target, DeviceGraphicsDisplay device) {
+		//target.clone();
+		synchronized(devices){
+		//Map<String, DeviceGraphicsDisplay> ClonedMap = new LinkedHashMap<String,DeviceGraphicsDisplay>(devices);
+		//ClonedMap.put(target, device);
 		devices.put(target, device);
+		}
+		
 	}
 
 	public void removeDevice(String target) {

@@ -13,7 +13,7 @@ import Utils.StringUtil;
  * An abstract class that every DeviceGraphicsDisplay extends from.
  * @author Peter Zhang
  */
-public abstract class DeviceGraphicsDisplay {
+public abstract class DeviceGraphicsDisplay implements Cloneable {
 
 	Client client;
 	Location location;

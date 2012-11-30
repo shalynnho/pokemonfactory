@@ -2,6 +2,7 @@ package agent;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -9,6 +10,7 @@ import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.KitGraphics;
+import DeviceGraphicsDisplay.PartGraphicsDisplay;
 import GraphicsInterfaces.CameraGraphics;
 import GraphicsInterfaces.NestGraphics;
 import agent.NestAgent.MyPart;
@@ -303,7 +305,7 @@ public class CameraAgent extends Agent implements Camera {
 				    public void run() {
 				    	n.state = NestStatus.READY_TO_RE_PHOTOGRAPH;
 				    }
-				}, 5000);
+				}, CalculateTimerTime(n));
 			} else {
 				for (MyPart part : n.nest.currentParts) {
 					if (part.part.isGood) {
@@ -331,7 +333,7 @@ public class CameraAgent extends Agent implements Camera {
 				    public void run() {
 				    	n.state = NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN;
 				    }
-				}, 5000);
+				}, CalculateTimerTime(n));
 			} else {
 				for (MyPart part : n.nest.currentParts) {
 					if (part.part.isGood) {
@@ -356,6 +358,20 @@ public class CameraAgent extends Agent implements Camera {
 		}
 
 		stateChanged();
+	}
+
+	private int CalculateTimerTime(MyNest nest) {
+		synchronized (nests) {
+			int determinedTime = 3000; // Default 3 seconds?
+			if (nest.state == NestStatus.WAITING_TO_RE_PHOTOGRAPH) {
+				determinedTime = (nest.nest.full - nest.numFilledSnapshot) * 4000 + 1;
+			} else if (nest.state == NestStatus.WAITING_TO_RE_PHOTOGRAPH_AGAIN) {
+				determinedTime = (nest.nest.full - nest.numFilledSnapshot) * 2000 + 1;
+			}
+			print("Taking " + determinedTime
+					+ " milliseconds until next snapshot.");
+			return determinedTime;
+		}
 	}
 
 	private void takePictureOfNest(MyNest n, MyNest n2) {
