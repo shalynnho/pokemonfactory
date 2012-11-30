@@ -5,7 +5,10 @@ import java.awt.Color;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,57 +21,65 @@ import Utils.Constants;
  * 
  * @author Peter Zhang
  */
-public abstract class Client extends JPanel{
-	
+public abstract class Client extends JPanel {
+
 	private Socket socket;
 	protected ServerReader reader;
 	protected StreamWriter writer;
-	
+
 	protected int offset;
-	
+
 	/**
-	 * To identify client with server. 
+	 * To identify client with server.
 	 */
 	protected String clientName;
-	
+
 	/**
 	 * To store devices based on device target.
 	 */
-	protected LinkedHashMap<String, DeviceGraphicsDisplay> devices = new LinkedHashMap<String, DeviceGraphicsDisplay>();
-	
+	protected Map<String, DeviceGraphicsDisplay> devices = Collections
+			.synchronizedMap(new LinkedHashMap<String, DeviceGraphicsDisplay>(
+					100, .75f, false));
+
 	protected Client() {
 		setLayout(new BorderLayout());
 	}
-	
+
 	/**
-	 * This is called by ServerReaders' receiveData(Object), taking in a Request variable casted from ObjectInput.
-	 * Must be implemented by the Manager subclasses so to parse the Request variable accordingly.
+	 * This is called by ServerReaders' receiveData(Object), taking in a Request
+	 * variable casted from ObjectInput. Must be implemented by the Manager
+	 * subclasses so to parse the Request variable accordingly.
 	 */
 	public abstract void receiveData(Request req);
-	
+
 	public void initStreams() {
 		try {
-		    socket = new Socket("localhost", Constants.SERVER_PORT);
-		    System.out.println("Client: connected to the server");
-		    
-		    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-		    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-		    
-		    writer = new StreamWriter(oos);
-		    reader = new ServerReader(ois, this);
-		    new Thread(reader).start();
-		    System.out.println("Client: streams ready");
+			socket = new Socket("localhost", Constants.SERVER_PORT);
+			System.out.println("Client: connected to the server");
+
+			ObjectOutputStream oos = new ObjectOutputStream(
+					socket.getOutputStream());
+			ObjectInputStream ois = new ObjectInputStream(
+					socket.getInputStream());
+
+			writer = new StreamWriter(oos);
+			reader = new ServerReader(ois, this);
+			new Thread(reader).start();
+			System.out.println("Client: streams ready");
 		} catch (Exception e) {
-		    System.out.println("Client: got an exception initing streams" + e.getMessage() );
-		    e.printStackTrace();
-		    System.exit(1);
+			System.out.println("Client: got an exception initing streams"
+					+ e.getMessage());
+			e.printStackTrace();
+			System.exit(1);
 		}
-		
+
 		// establish client identity with server
-		writer.sendData(new Request(Constants.IDENTIFY_COMMAND, Constants.SERVER_TARGET, clientName));
+		writer.sendData(new Request(Constants.IDENTIFY_COMMAND,
+				Constants.SERVER_TARGET, clientName));
 	}
-	
-	public static void setUpJFrame(JFrame frame, int width, int height, String name) {
+
+	public static void setUpJFrame(JFrame frame, int width, int height,
+			String name) {
 		frame.setBackground(Color.BLACK);
 		frame.setTitle(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,19 +87,27 @@ public abstract class Client extends JPanel{
 		frame.setVisible(true);
 		frame.setResizable(false);
 	}
-	
+
 	public void addDevice(String target, DeviceGraphicsDisplay device) {
 		devices.put(target, device);
 	}
-	
-	public void removeDevice(String target){
-		devices.remove(target);
+
+	public void removeDevice(String target) {
+		synchronized (devices) {
+			for (Iterator<String> iter = devices.keySet().iterator(); iter
+					.hasNext();) {
+				String s = iter.next();
+				if (s.equals(target)) {
+					iter.remove();
+				}
+			}
+		}
 	}
-	
+
 	public void sendData(Request req) {
 		writer.sendData(req);
 	}
-	
+
 	public int getOffset() {
 		return offset;
 	}
