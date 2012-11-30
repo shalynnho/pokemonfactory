@@ -81,6 +81,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		fpmClient = f;
 		
 		this.height = height;
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		addMouseListener(panelListener);
 		
 		fullPanel.setLayout(new BoxLayout(fullPanel, BoxLayout.PAGE_AXIS));
