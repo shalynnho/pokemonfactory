@@ -41,6 +41,10 @@ public class FCS {
 				Constants.ALL_TARGET, kitConfigs));
 	}
 
+	public void finishedKit() {
+		// TODO: DO THIS PETER
+	}
+
 	/**
 	 * Called to send clients the updated queue.
 	 */
@@ -139,10 +143,10 @@ public class FCS {
 	public void startProduction() {
 		agent.msgStartProduction();
 	}
-	
+
 	public void setDropChance(Float c) {
-	// TODO Make a slider/button for this
-	agent.msgSetPartsRobotDropChance(c);
+		// TODO Make a slider/button for this
+		agent.msgSetPartsRobotDropChance(c);
 
 	}
 
