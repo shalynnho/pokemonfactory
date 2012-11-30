@@ -222,7 +222,12 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	 * @param o ArrayList of orders
 	 */
 	public void updateOrders(ArrayList<Order> o) {
-		updateSimplePanelCount(o.size(), o.get(0).getNumKits());
+		if (o.size() > 0) {
+			updateSimplePanelCount(o.size(), o.get(0).getNumKits());
+		} else {
+			// order is 0
+			updateSimplePanelCount(0, 0);
+		}
 		ordersPanel.updateList(o);
 		addMouseListeners(ordersPanel);
 	}
