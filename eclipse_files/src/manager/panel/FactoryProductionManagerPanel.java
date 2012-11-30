@@ -36,6 +36,9 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	// Width of the JPanel
 	private static final int PANEL_WIDTH = 300;
 	
+	private static final String FULL_PANEL = "full";
+	private static final String SIMPLE_PANEL = "simple";
+
 	// A reference to the FactoryProductionManager client
 	private FactoryProductionManager fpmClient;
 	
@@ -76,9 +79,6 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	public FactoryProductionManagerPanel(FactoryProductionManager f, int height) {
 		super();
 		fpmClient = f;
-		setPreferredSize(new Dimension(PANEL_WIDTH, height));
-		setMinimumSize(new Dimension(PANEL_WIDTH, height));
-		setMaximumSize(new Dimension(PANEL_WIDTH, height));
 		
 		this.height = height;
 		addMouseListener(panelListener);
@@ -92,15 +92,14 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		simplePanel.setVisible(true);
 
 		wrapperPanel.setLayout(cl);
-		wrapperPanel.add(fullPanel, "FULL");
-		wrapperPanel.add(simplePanel, "SIMPLE");
+		wrapperPanel.add(fullPanel, FULL_PANEL);
+		wrapperPanel.add(simplePanel, SIMPLE_PANEL);
 		wrapperPanel.setOpaque(false);
 		wrapperPanel.setVisible(true);
 		add(wrapperPanel);
 
-		cl.show(wrapperPanel, "FULL");
-	
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		// default to show simple Panel on start up
+		panelListener.mouseExited(null);
 
 		// Setup KitsListPanel
 		kitsPanel = new KitsListPanel("Select a Kit to order... ", new KitSelectHandler() {
@@ -190,7 +189,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		currentKitCount = new WhiteLabel("0");
 		currentKitCount.setFont(new Font("Arial", Font.PLAIN, 40));
 		WhiteLabel currentKitText = new WhiteLabel(
-				"<html>kits<br />remaining</html>");
+				"<html>kits<br />remaining<br />in the order</html>");
 
 		currentOrderCount = new WhiteLabel("0");
 		currentOrderCount.setFont(new Font("Arial", Font.PLAIN, 40));
@@ -198,7 +197,8 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 				"<html>orders<br />remaining</html>");
 
 		WhiteLabel rollOverText = new WhiteLabel(
-				"<html><br /><br />&lt;&lt;&lt;<br />mouseover<br />for more<br />info</html>");
+				"<html><br /><br /><br />&lt;&lt;&lt;<br />mouseover<br />for more<br />info</html>");
+		rollOverText.setForeground(new Color(220, 220, 220));
 
 		simplePanel.add(currentKitCount);
 		simplePanel.add(currentKitText);
@@ -228,7 +228,9 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	
 	public void updateSimplePanelCount(int orderCount, int kitCount) {
 		currentOrderCount.setText(String.valueOf(orderCount));
-		currentKitCount.setText(String.valueOf(kitCount));
+		if (Integer.valueOf(currentKitCount.getText()) == 0) {
+			currentKitCount.setText(String.valueOf(kitCount));
+		}
 	}
 
 	public void decreaseCurrentKitCount() {
@@ -270,13 +272,13 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	private class PanelMouseListener implements MouseListener {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			cl.show(wrapperPanel, "FULL");
+			cl.show(wrapperPanel, FULL_PANEL);
 			setPanelSize(PANEL_WIDTH, height);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			cl.show(wrapperPanel, "SIMPLE");
+			cl.show(wrapperPanel, SIMPLE_PANEL);
 			setPanelSize(PANEL_WIDTH / 3, height);
 		}
 

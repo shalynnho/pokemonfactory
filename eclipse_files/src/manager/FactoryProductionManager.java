@@ -121,6 +121,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 				fpmPanel.updateKitConfigs((ArrayList<KitConfig>) req.getData());
 			} else if (req.getCommand().equals(Constants.FCS_UPDATE_ORDERS)) {
 				fpmPanel.updateOrders((ArrayList<Order>) req.getData());
+			} else if (req.getCommand().equals(Constants.FCS_SHIPPED_KIT)) {
+				fpmPanel.decreaseCurrentKitCount();
 			}
 		} else {
 			synchronized (devices) {

@@ -41,8 +41,9 @@ public class FCS {
 				Constants.ALL_TARGET, kitConfigs));
 	}
 
-	public void finishedKit() {
-		// TODO: DO THIS PETER
+	public void shippedKit() {
+		server.sendData(new Request(Constants.FCS_SHIPPED_KIT,
+				Constants.ALL_TARGET, null));
 	}
 
 	/**

@@ -116,7 +116,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgShippedKit() {
-		fcs.finishedKit();
+		fcs.shippedKit();
 	}
 
 	@Override

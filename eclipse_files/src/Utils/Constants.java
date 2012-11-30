@@ -376,6 +376,7 @@ public abstract class Constants {
 	public static final String FCS_DELETE_KIT = "deleteKit";
 	public static final String FCS_ADD_ORDER = "addOrder";
 	public static final String FCS_STOP_KIT = "stopKit";
+	public static final String FCS_SHIPPED_KIT = "shippedKIt";
 
 	public static final String FCS_STOP_PRODUCTION = "stopProduction";
 	public static final String FCS_START_PRODUCTION = "startProduction";
