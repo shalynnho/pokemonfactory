@@ -127,9 +127,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics,
 				+ Constants.DONE_SUFFIX)) {
 			laneAgent.msgGivePartToNestDone(partsOnLane.get(0));
 			partsOnLane.remove(0);
-			System.out.println("	LANE" + laneID
-					+ " GAVE PART TO NEST DONE, partsOnLane.size(): "
-					+ partsOnLane.size());
+			// System.out.println("	LANE" + laneID + " GAVE PART TO NEST DONE, partsOnLane.size(): " + partsOnLane.size());
 
 		} else if (cmd.equals(Constants.LANE_PURGE_COMMAND
 				+ Constants.DONE_SUFFIX)) {
