@@ -406,9 +406,9 @@ public class CameraAgent extends Agent implements Camera {
 		synchronized (nests) {
 			int determinedTime = 3000; // Default 3 seconds?
 			if (nest.state == NestStatus.WAITING_TO_RE_PHOTOGRAPH) {
-				determinedTime = (nest.nest.full - nest.numFilledSnapshot) * 4000 + 1;
+				determinedTime = (nest.nest.full - nest.numFilledSnapshot) * 100 + 1;
 			} else if (nest.state == NestStatus.WAITING_TO_RE_PHOTOGRAPH_AGAIN) {
-				determinedTime = (nest.nest.full - nest.numFilledSnapshot) * 2000 + 1;
+				determinedTime = (nest.nest.full - nest.numFilledSnapshot) * 100 + 1;
 			}
 			print("Taking "  + determinedTime + " milliseconds until next snapshot.");
 			return determinedTime;
