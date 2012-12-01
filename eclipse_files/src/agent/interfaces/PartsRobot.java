@@ -2,11 +2,9 @@ package agent.interfaces;
 
 import java.util.List;
 
-import factory.KitConfig;
-
 import agent.data.Kit;
 import agent.data.Part;
-
+import factory.KitConfig;
 
 public interface PartsRobot {
 
@@ -20,7 +18,9 @@ public interface PartsRobot {
 
 	public abstract void msgGivePartToKitDone();
 
-    public abstract void msgSetDropChance(float dChance);
+	public abstract void msgSetDropChance(float dChance);
+
+	public abstract void msgDropPartFromArmDone();
 
 	public abstract boolean pickAndExecuteAnAction();
 
