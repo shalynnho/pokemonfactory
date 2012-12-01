@@ -242,6 +242,7 @@ public class CameraAgent extends Agent implements Camera {
 							    	msgIAmFull(tempNest);
 							    }
 							}, 1000);
+							return true;
 						}
 					} else if(nests.get(i + 1).state == NestStatus.READY 
 								|| nests.get(i + 1).state == NestStatus.READY_TO_RE_PHOTOGRAPH 
@@ -256,6 +257,7 @@ public class CameraAgent extends Agent implements Camera {
 							    	msgIAmFull(tempNest);
 							    }
 							}, 1000);
+							return true;
 						}
 					}
 					//}
@@ -265,6 +267,7 @@ public class CameraAgent extends Agent implements Camera {
 
 		synchronized (nests) {
 			for (MyNest n : nests) {
+				print("nest "+n.nest.currentPartType+ " state is "+n.state);
 				if (n.state == NestStatus.PHOTOGRAPHED 
 						|| n.state == NestStatus.RE_PHOTOGRAPHED_ONCE 
 						|| n.state == NestStatus.RE_PHOTOGRAPHED_TWICE) {
@@ -338,6 +341,7 @@ public class CameraAgent extends Agent implements Camera {
 			 */
 			//print("Missing Parts in Nest : non-normative");
 		//} else {
+		print("nest "+n.nest.currentPartType+ " state is "+n.state);
 		if(n.state == NestStatus.PHOTOGRAPHED) {
 			if(n.numFilledSnapshot<n.nest.full) {
 				print("rephotographing nest");
@@ -394,16 +398,41 @@ public class CameraAgent extends Agent implements Camera {
 				n.state = NestStatus.NOT_READY;
 			}
 		} else if(n.state == NestStatus.RE_PHOTOGRAPHED_TWICE) {
-			print("Telling feeder to fix itself");
-			n.state = NestStatus.NOT_READY;
-			n.nest.lane.msgFixYourself();
+			if(n.numFilledSnapshot<n.nest.full){
+				print("Telling feeder to fix itself");
+				n.state = NestStatus.NOT_READY;
+				n.nest.lane.msgFixYourself();
+				final Nest tempNest = n.nest;
+				timer.schedule(new TimerTask() {
+				    @Override
+				    public void run() {
+				    	msgIAmFull(tempNest);
+				    }
+				}, CalculateTimerTime(n));
+			} else {
+				for (MyPart part : n.nest.currentParts) {
+					if (part.part.isGood) {
+						goodParts.add(part.part);
+					}
+				}
+				print("Good parts count: " + goodParts.size());
+	
+				// No Good Parts found - non norm
+				if (goodParts.size() == 0) {
+					//print("No Good Parts Found : non-normative");
+					n.nest.msgPurgeSelf();
+				} else {
+					partRobot.msgHereAreGoodParts(n.nest, goodParts);
+				}
+				n.state = NestStatus.NOT_READY;
+			}
 		}
 
 		stateChanged();
 	}
 
 	private int CalculateTimerTime(MyNest nest) {
-		synchronized (nests) {
+		/*synchronized (nests) {
 			int determinedTime = 3000; // Default 3 seconds?
 			if (nest.state == NestStatus.WAITING_TO_RE_PHOTOGRAPH) {
 				determinedTime = (nest.nest.full - nest.numFilledSnapshot) * 100 + 1;
@@ -412,7 +441,8 @@ public class CameraAgent extends Agent implements Camera {
 			}
 			print("Taking "  + determinedTime + " milliseconds until next snapshot.");
 			return determinedTime;
-		}
+		}*/
+		return 300;
 	}
 
 	private void takePictureOfNest(MyNest n, MyNest n2) {
@@ -421,14 +451,14 @@ public class CameraAgent extends Agent implements Camera {
 				n.state = NestStatus.PHOTOGRAPHING;
 			} else if(n.state == NestStatus.READY_TO_RE_PHOTOGRAPH) {
 				n.state = NestStatus.RE_PHOTOGRAPHING_ONCE;
-			} else if(n.state == NestStatus.NEED_TO_RE_PHOTOGRAPH_AGAIN) {
+			} else if(n.state == NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN) {
 				n.state = NestStatus.RE_PHOTOGRAPHING_TWICE;
 			}
 			if(n2.state == NestStatus.READY){
 				n2.state = NestStatus.PHOTOGRAPHING;
 			} else if(n2.state == NestStatus.READY_TO_RE_PHOTOGRAPH) {
 				n2.state = NestStatus.RE_PHOTOGRAPHING_ONCE;
-			} else if(n2.state == NestStatus.NEED_TO_RE_PHOTOGRAPH_AGAIN) {
+			} else if(n2.state == NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN) {
 				n2.state = NestStatus.RE_PHOTOGRAPHING_TWICE;
 			}
 			if (guiCamera != null) {
