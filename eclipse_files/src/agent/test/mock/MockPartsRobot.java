@@ -66,4 +66,10 @@ public class MockPartsRobot extends MockAgent implements PartsRobot {
 		
 	}
 
+	@Override
+	public void msgDropPartFromArmDone() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
