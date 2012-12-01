@@ -193,15 +193,20 @@ public class CameraAgent extends Agent implements Camera {
 	public void msgTakePictureKitDone(KitGraphics k, boolean done) {
 		print("Received msgTakePictureKitDone from graphics");
 		mk.kitDone = done;
-		// if (k.badKitConfig != null) {
-		print("Kit Inspection passed.");
-		mk.ks = KitStatus.DONE;
+		boolean passed = true;
+		for(Part p:mk.kit.parts){
+			if(p.partGraphics==null){
+				passed=false;
+			}
+		}
+		if (passed) {
+			print("Kit Inspection passed.");
+			mk.ks = KitStatus.DONE;
 
-		// } else {
-		// print("Kit Inspection failed.");
-		// mk.kit.updateParts(k.badKitConfig);
-		// mk.ks = KitStatus.FAILED;
-		// }
+		} else {
+			print("Kit Inspection failed.");
+			mk.ks = KitStatus.FAILED;
+		}
 		animation.release();
 		stateChanged();
 	}
