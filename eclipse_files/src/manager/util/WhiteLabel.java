@@ -2,15 +2,16 @@ package manager.util;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 
 import javax.swing.JLabel;
+
+import Networking.Client;
 
 public class WhiteLabel extends JLabel {
 	public WhiteLabel(String text) {
 		super(text);
 		setForeground(Color.WHITE);
-		setFont(new Font("Arial", Font.PLAIN, 14));
+		setFont(Client.font);
 	}
 	
 	public void setLabelSize(Dimension d) {

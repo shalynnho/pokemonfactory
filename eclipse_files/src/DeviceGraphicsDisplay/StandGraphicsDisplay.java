@@ -29,6 +29,7 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 	protected KitGraphicsDisplay kit;
 	// the location of this stand
 	protected Location location;
+	protected Location kitLocation;
 	// false if there is a kit on the stand
 	protected boolean isEmpty;
 	// the configuration of the current kit on the stand
@@ -50,24 +51,32 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else {
 			location = new Location(RIGHT_X_LOC, standID*Y_OFFSET + Y_OFFSET);
 		}
+		kitLocation = location;
 	}
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
 		g.drawImage(Constants.STAND_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
 		if (!isEmpty) {
-			kit.drawWithOffset(c,g, client.getOffset());
+			kit.drawKit(c,g);
 		}	
 	}
 
 	public void giveKit() {
 		isEmpty = true;
+		client.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM + standID, Constants.KIT_ROBOT_TARGET, kitConfig));
 		kitConfig = null;
+		
 	}
 	
 	public void receiveKit(KitConfig config) {
 		isEmpty = false;
 		kitConfig = config;
+		kit = new KitGraphicsDisplay(kitConfig);
+		kitLocation.setX(location.getX() +client.getOffset());
+		kit.setLocation(kitLocation);
+		kitConfig.setLocation(kitLocation);
+		kit.setKitConfig(kitConfig);
 	}
 	
 	public void receivePart(PartGraphicsDisplay pgd) {
@@ -85,7 +94,6 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		
 		if (cmd.equals(Constants.STAND_GIVE_KIT_COMMAND)) {
 			giveKit();
-			
 		} else if (cmd.equals(Constants.STAND_RECEIVE_KIT_COMMAND)) {
 			KitConfig config = (KitConfig) r.getData();
 			receiveKit(config);

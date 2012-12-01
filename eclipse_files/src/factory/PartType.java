@@ -107,4 +107,8 @@ public class PartType implements Serializable, FactoryData {
 	public void setImagePath (String newImagePath) {
 		imagePath = newImagePath;
 	}
+	
+	public String getImagePath () {
+		return imagePath;
+	}
 }

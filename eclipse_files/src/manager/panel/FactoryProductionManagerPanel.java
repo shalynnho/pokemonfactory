@@ -1,7 +1,9 @@
 package manager.panel;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -9,7 +11,6 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -23,6 +24,7 @@ import manager.util.CustomButton;
 import manager.util.ListPanel;
 import manager.util.OverlayInternalFrame;
 import manager.util.WhiteLabel;
+import Utils.Constants;
 import factory.KitConfig;
 import factory.Order;
 
@@ -35,6 +37,9 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	// Width of the JPanel
 	private static final int PANEL_WIDTH = 300;
 	
+	private static final String FULL_PANEL = "full";
+	private static final String SIMPLE_PANEL = "simple";
+
 	// A reference to the FactoryProductionManager client
 	private FactoryProductionManager fpmClient;
 	
@@ -54,6 +59,14 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	private JScrollPane ordersScrollPane;
 	private JPanel quantityOrderPanel;
 	
+	private WhiteLabel currentKitCount;
+	private WhiteLabel currentOrderCount;
+
+	private JPanel fullPanel = new JPanel();
+	private JPanel simplePanel = new JPanel();
+	private JPanel wrapperPanel = new JPanel();
+	private CardLayout cl = new CardLayout();
+
 	private PanelMouseListener panelListener = new PanelMouseListener();
 	
 	private boolean visible = true;
@@ -67,16 +80,29 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	public FactoryProductionManagerPanel(FactoryProductionManager f, int height) {
 		super();
 		fpmClient = f;
-		setPreferredSize(new Dimension(PANEL_WIDTH, height));
-		setMinimumSize(new Dimension(PANEL_WIDTH, height));
-		setMaximumSize(new Dimension(PANEL_WIDTH, height));
 		
 		this.height = height;
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		addMouseListener(panelListener);
 		
-	
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	
+		fullPanel.setLayout(new BoxLayout(fullPanel, BoxLayout.PAGE_AXIS));
+		fullPanel.setOpaque(false);
+		fullPanel.setVisible(true);
+
+		simplePanel.setLayout(new BoxLayout(simplePanel, BoxLayout.PAGE_AXIS));
+		simplePanel.setOpaque(false);
+		simplePanel.setVisible(true);
+
+		wrapperPanel.setLayout(cl);
+		wrapperPanel.add(fullPanel, FULL_PANEL);
+		wrapperPanel.add(simplePanel, SIMPLE_PANEL);
+		wrapperPanel.setOpaque(false);
+		wrapperPanel.setVisible(true);
+		add(wrapperPanel);
+
+		// default to show simple Panel on start up
+		panelListener.mouseExited(null);
+
 		// Setup KitsListPanel
 		kitsPanel = new KitsListPanel("Select a Kit to order... ", new KitSelectHandler() {
 			@Override
@@ -98,7 +124,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		kitsScrollPane.setPreferredSize(new Dimension(PANEL_WIDTH,height/2));
 		
 		
-		add(kitsScrollPane);
+		fullPanel.add(kitsScrollPane);
 		
 		//Setup new panel to hold the Spinner and the OrderButton
 		quantityOrderPanel = new JPanel();
@@ -131,7 +157,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		quantityOrderPanel.add(orderButton);
 		
 		
-		add(quantityOrderPanel);
+		fullPanel.add(quantityOrderPanel);
 		
 		// Setup OrdersListPanel
 		OrdersListPanel.OrderSelectHandler selectHandler = new OrdersListPanel.OrderSelectHandler() {
@@ -155,14 +181,34 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		ordersScrollPane.setPreferredSize(new Dimension(PANEL_WIDTH, height/2));
 		
 		
-		add(ordersScrollPane);
+		fullPanel.add(ordersScrollPane);
 		
 		// Add mouseListener to second-level components
 		for (int i = 0; i < getComponentCount(); i++) {
-			getComponents()[i].addMouseListener(panelListener);
+			fullPanel.getComponents()[i].addMouseListener(panelListener);
 		}
 		
-		
+		currentKitCount = new WhiteLabel("0");
+		currentKitCount.setFont(new Font("Arial", Font.PLAIN, 40));
+		currentKitCount.setBorder(Constants.TOP_PADDING);
+		WhiteLabel currentKitText = new WhiteLabel(
+				"<html>kits<br />remaining<br />in the order</html>");
+
+		currentOrderCount = new WhiteLabel("0");
+		currentOrderCount.setFont(new Font("Arial", Font.PLAIN, 40));
+		currentOrderCount.setBorder(Constants.TOP_PADDING);
+		WhiteLabel currentOrderText = new WhiteLabel(
+				"<html>orders<br />remaining</html>");
+
+		WhiteLabel rollOverText = new WhiteLabel(
+				"<html><br /><br /><br />&lt;&lt;&lt;<br />mouseover<br />for more<br />info</html>");
+		rollOverText.setForeground(new Color(220, 220, 220));
+
+		simplePanel.add(currentKitCount);
+		simplePanel.add(currentKitText);
+		simplePanel.add(currentOrderCount);
+		simplePanel.add(currentOrderText);
+		simplePanel.add(rollOverText);
 	}
 	
 	/**
@@ -179,10 +225,29 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	 * @param o ArrayList of orders
 	 */
 	public void updateOrders(ArrayList<Order> o) {
+		if (o.size() > 0) {
+			updateSimplePanelCount(o.size(), o.get(0).getNumKits());
+		} else {
+			// order is 0
+			updateSimplePanelCount(0, 0);
+		}
 		ordersPanel.updateList(o);
 		addMouseListeners(ordersPanel);
 	}
 	
+	public void updateSimplePanelCount(int orderCount, int kitCount) {
+		currentOrderCount.setText(String.valueOf(orderCount));
+		if (Integer.valueOf(currentKitCount.getText()) == 0) {
+			currentKitCount.setText(String.valueOf(kitCount));
+		}
+	}
+
+	public void decreaseCurrentKitCount() {
+		int kitCount = Integer.valueOf(currentKitCount.getText());
+		kitCount--;
+		currentKitCount.setText(String.valueOf(kitCount));
+	}
+
 	/**
 	 * Adds this FPMPanel as the mouseListener for the components of the ListPanel
 	 * @param panel - KitsListPanel or OrdersListPanel
@@ -216,24 +281,14 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	private class PanelMouseListener implements MouseListener {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			if(!visible) {
-				for (int i = 0; i < getComponentCount(); i++) {
-					getComponent(i).setVisible(true);
-				}
-				setPanelSize(PANEL_WIDTH, height);
-				visible = true;
-			}
+			cl.show(wrapperPanel, FULL_PANEL);
+			setPanelSize(PANEL_WIDTH, height);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			if(visible) {
-				for (int i = 0; i < getComponentCount(); i++) {
-					getComponent(i).setVisible(false);
-				}
-				setPanelSize(PANEL_WIDTH/4, height);
-				visible = false;
-			}
+			cl.show(wrapperPanel, SIMPLE_PANEL);
+			setPanelSize(PANEL_WIDTH / 3, height);
 		}
 
 		@Override

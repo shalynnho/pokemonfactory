@@ -182,7 +182,8 @@ public class KitAssemblyManager extends Client implements ActionListener {
 		repaint();
 
 		if (ae.getSource() == okButton) {
-			selectedChance = Float.valueOf(dropChanceSlider.getValue() / 100);
+			selectedChance = Float
+					.valueOf((float) (dropChanceSlider.getValue() / 100.0));
 
 			this.sendData(new Request(Constants.FCS_SET_DROP_CHANCE,
 					Constants.FCS_TARGET, selectedChance));

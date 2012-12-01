@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import Utils.Location;
 import Utils.StringUtil;
 
 public class KitConfig implements Serializable, FactoryData {
@@ -14,13 +15,23 @@ public class KitConfig implements Serializable, FactoryData {
 	private HashMap<PartType, Integer> config;
 	private final String id;
 	private String name;
+	private Location location;
 
 	public KitConfig(String name) {
 		config = new LinkedHashMap<PartType, Integer>();
 		this.name = name;
 		this.id = StringUtil.md5(name);
+		location = new Location(0,0);
 	}
 	
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
 	/**
 	 * Pass in multiple PartTypes as the last params in constructor to setup a KitConfig without setConfig();
 	 * @param partTypes - can pass in multiple
@@ -90,9 +101,8 @@ public class KitConfig implements Serializable, FactoryData {
 	public ArrayList<PartType> getParts() {
 		ArrayList<PartType> parts = new ArrayList<PartType>(8);
 		for (PartType p : config.keySet()) {
-			for (int i = config.get(p).intValue(); i > 0; i--) {
 				parts.add(p);
-			}
+			
 		}
 		return parts;
 	}

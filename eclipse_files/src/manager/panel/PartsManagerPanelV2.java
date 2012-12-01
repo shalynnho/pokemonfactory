@@ -7,11 +7,12 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +24,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import manager.PartsManager;
+import manager.util.ClickablePanel;
+import manager.util.ClickablePanelClickHandler;
 import manager.util.OverlayPanel;
 import manager.util.WhiteLabel;
 import Utils.Constants;
@@ -61,6 +64,9 @@ public class PartsManagerPanelV2 extends JPanel {
     private JLabel imageLabel;
     private ImageIcon iconImage;
     private JScrollPane imageSelect;
+    private JPanel imageSelectPanel;
+    private ClickablePanel imageClickPanel;
+    private String imagePath = new String ("1");
 
     public PartsManagerPanelV2(PartsManager mngr) {
 	manager = mngr;
@@ -201,31 +207,38 @@ public class PartsManagerPanelV2 extends JPanel {
 	leftPanel.add(imagePanel);
 	
 	
-	imageLabel = new WhiteLabel("Select Image: ");
+	imageLabel = new WhiteLabel("Select Image ");
 	imageLabel.setSize(100, 60);
 	imagePanel.add(imageLabel);
 		
-	imageSelect = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	imageSelect.setSize(150, 60);
-	imageSelect.setOpaque(false);
-	
+	imageSelectPanel = new JPanel();	
 		
-	/**
-	 * Iterate through the ArrayList of available images in constants to populate JScrollPane
+	 // Iterate through the ArrayList of available images in constants to populate JScrollPane
 	 
-	for(int i = 0; i<Constants.DEFAULT_IMAGEPATHS.size();i++)
+	for(int i = 0; i < Constants.DEFAULT_IMAGEPATHS.size(); i++)
 	{
-		iconImage = new ImageIcon(Constants.PART_IMAGE_PATH + Constants.DEFAULT_IMAGEPATHS.get(i) + ".png");
-		iconLabel = new JLabel(iconImage);
-		imageSelect.add(iconLabel);
-		//TODO: add action listener to each jlabel
+	    ClickablePanel imageSelectClickable = new ClickablePanel(new ImageClickHandler(i));
+		JLabel imageSelectLabel = new JLabel(new ImageIcon(Constants.PART_IMAGE_PATH + Constants.DEFAULT_IMAGEPATHS.get(i) + ".png"));
+		imageSelectLabel.setMinimumSize(new Dimension(50, 30));
+		imageSelectLabel.setPreferredSize(new Dimension(50, 30));
+		imageSelectLabel.setMaximumSize(new Dimension(50, 30));
+		
+		imageSelectClickable.add(imageSelectLabel);
+	    imageSelectClickable.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		imageSelectClickable.setMinimumSize(new Dimension(50, 30));
+		imageSelectClickable.setPreferredSize(new Dimension(50, 30));
+		imageSelectClickable.setMaximumSize(new Dimension(50, 30));
+		
+	    imageSelectPanel.add(imageSelectClickable);
+	    imageSelectPanel.add(Box.createVerticalStrut(10));
 	}
-	*/
-	iconImage = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Constants.PART_IMAGE_PATH + Constants.DEFAULT_IMAGEPATHS.get(1) + ".png"));
-	iconLabel = new JLabel(iconImage);
-	iconLabel.setVisible(true);
-	imageSelect.add(iconLabel);
+		
 	
+	//imageSelect.add(imageSelectPanel);
+	imageSelect = new JScrollPane(imageSelectPanel);
+	imageSelect.setMinimumSize(new Dimension(200, 60));
+	imageSelect.setPreferredSize(new Dimension(200, 60));
+	imageSelect.setMaximumSize(new Dimension(200, 60));
 	imagePanel.add(imageSelect);
 	
 	JPanel buttonPanel = new JPanel();
@@ -266,9 +279,11 @@ public class PartsManagerPanelV2 extends JPanel {
 	    public void actionPerformed(ActionEvent arg0) {
 		// TODO try to remove this hack
 		float chance = (float) badChanceScroller.getValue();
-
-		manager.createPart(new PartType(nameField.getText(), Integer.parseInt(numField.getText()), descField
-			.getText(), chance / 100));
+		
+		PartType newPart = new PartType(nameField.getText(), Integer.parseInt(numField.getText()), descField
+				.getText(), chance / 100);
+		newPart.setImagePath(imagePath);
+		manager.createPart(newPart);
 		restoreLeftPanel();
 	    }
 	});
@@ -285,6 +300,8 @@ public class PartsManagerPanelV2 extends JPanel {
 	isEditing = true;
 	isDeleting = false;
 	setUpLeftPanel();
+	
+	imagePath = new String (pt.getImagePath());
 
 	leftTitle.setText("Editing a Part");
 	nameField.setText(pt.getName());
@@ -305,6 +322,7 @@ public class PartsManagerPanelV2 extends JPanel {
 		pt.setPartNum(Integer.parseInt(numField.getText()));
 		pt.setDescription(descField.getText());
 		pt.setBadChance(newChance / 100);
+		pt.setImagePath(imagePath);
 
 		manager.editPart(pt);
 		restoreLeftPanel();
@@ -358,4 +376,17 @@ public class PartsManagerPanelV2 extends JPanel {
 	}
     }
 
+    
+    private class ImageClickHandler implements ClickablePanelClickHandler {
+    	int i;
+
+    	public ImageClickHandler(int i) {
+    	    this.i = i;
+    	}
+
+    	@Override
+    	public void mouseClicked() {
+    	    imagePath = new String(Constants.DEFAULT_IMAGEPATHS.get(i));
+    	}
+        }
 }

@@ -28,7 +28,7 @@ public abstract class Constants {
 	// CLIENT SETTINGS
 	// ==================================
 
-	public static final int TIMER_DELAY = 35; // 50
+	public static final int TIMER_DELAY = 16; // 50
 
 	public static final Image CLIENT_BG_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "bg.jpg");
@@ -52,6 +52,9 @@ public abstract class Constants {
 
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
 			Arrays.asList(
+
+			new KitConfig("2 Type Belt", DEFAULT_PARTTYPES.get(4),
+					DEFAULT_PARTTYPES.get(9)),
 
 			new KitConfig("Starter Pokemon", DEFAULT_PARTTYPES.get(0),
 					DEFAULT_PARTTYPES.get(1), DEFAULT_PARTTYPES.get(2),
@@ -77,7 +80,7 @@ public abstract class Constants {
 			Arrays.asList(new String("1"), new String("2"), new String("3"),
 					new String("4"), new String("5"), new String("6"),
 					new String("7"), new String("8"), new String("9"),
-					new String("10"), new String("11"), new String("12")));
+					new String("10")));
 
 	// DEVICE START LOCATIONS
 	// ==================================
@@ -245,7 +248,7 @@ public abstract class Constants {
 	// sets lane amplitude
 	public static final String LANE_SET_AMPLITUDE_COMMAND = "lane set amp";
 	// sets the location of part jam on the lane
-	public static final String LANE_SET_JAM_LOC_COMMAND = "lane set jam loc";
+	public static final String LANE_SET_JAM_COMMAND = "lane set jam";
 	// unjams the lane
 	public static final String LANE_UNJAM_COMMAND = "lane unjam";
 	// turns lane on or off
@@ -302,6 +305,9 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_ON_STAND1_DONE = "robot display sends to robot logic that kit to stand1 is done";
 	public static final String KIT_ROBOT_ON_STAND2_DONE = "robot display sends to robot logic that kit to stand2 is done";
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE = "robot display sends to robot logic that kit to conveyor is done";
+
+	public static final String KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM = "kit receives from";
+	public static final String KIT_ROBOT_PASSES_KIT_COMMAND = "exit kit is now passed to conveyor";
 
 	public static final String KIT_RECEIVES_PART = "kit receives from stand1 receives part";
 
@@ -376,6 +382,8 @@ public abstract class Constants {
 	public static final String FCS_DELETE_KIT = "deleteKit";
 	public static final String FCS_ADD_ORDER = "addOrder";
 	public static final String FCS_STOP_KIT = "stopKit";
+	public static final String FCS_SHIPPED_KIT = "shippedKIt";
+	public static final String FCS_STOP_LANE = "stopLane";
 
 	public static final String FCS_STOP_PRODUCTION = "stopProduction";
 	public static final String FCS_START_PRODUCTION = "startProduction";

@@ -2,7 +2,6 @@ package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -12,24 +11,26 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import factory.KitConfig;
 import factory.PartType;
 
 public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 
 	private static final int MAX_PARTS = 8;
-
+	private int currentI;
 	private Location kitLocation;
 	
 
 	private int position;
 
-
-
-	private ArrayList<PartGraphicsDisplay> parts = new ArrayList<PartGraphicsDisplay>();
-	
+	private ArrayList<PartType> partTypes = new ArrayList<PartType>();
+	private ArrayList<PartGraphicsDisplay> parts = new ArrayList<PartGraphicsDisplay>(8);
 	ImageIcon kitImage;
 	int velocity ;
+	
 	private Client kitClient;
+	
+	private KitConfig kitConfig;
 	
 	public ImageIcon getKitImage() {
 		return kitImage;
@@ -52,7 +53,14 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 		position = 0;
 		velocity =0;
 		kitImage = new ImageIcon( Constants.KIT_IMAGE );
-	
+		currentI = 0;
+		kitConfig = new KitConfig("DummyqwerKit");
+	}
+	public KitGraphicsDisplay(KitConfig kitConfig)
+	{
+		this();
+		this.kitConfig= kitConfig;
+		currentI = kitConfig.getParts().size(); 
 	}
 
 	public int getPosition() {
@@ -78,19 +86,13 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 	public void drawKit(JComponent c, Graphics2D g) {
 		drawWithOffset(c, g, 0);
 		setLocation(new Location(kitLocation.getX()+velocity, kitLocation.getY()));
-		if(kitLocation.getX() == -40)
-		{
-			kitClient.sendData(new Request(
-						Constants.CONVEYOR_RECEIVE_KIT_COMMAND
-								+ Constants.DONE_SUFFIX,
-						Constants.CONVEYOR_TARGET, null));
-		}
 	}
 
 	public void drawWithOffset(JComponent c, Graphics2D g, int offset) {
 		g.drawImage(kitImage.getImage(), kitLocation.getX() + offset,
 				kitLocation.getY(), c);
 
+		convertPartTypesToDisplay();
 		//TODO fix so that it draws the actual parts
 		for(int i =0; i<parts.size();  i++) {
 			int gap =0;
@@ -103,11 +105,19 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 			else
 				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 +gap, kitLocation.getY() -48 + 25));
 			
-				
-			
 			parts.get(i).drawPokeball(0,parts.get(i).getLocation(),c, g);
 		}
 
+	}
+	
+	public void convertPartTypesToDisplay(){
+		partTypes = kitConfig.getParts();
+		parts = new ArrayList<PartGraphicsDisplay>(8);
+		for(int i =0; i<currentI; i++)
+		{
+			PartGraphicsDisplay tempPartDisplay = new PartGraphicsDisplay(partTypes.get(i));
+			parts.add(i,tempPartDisplay);
+		}
 	}
 
 	public void receiveData(Request req) {
@@ -118,21 +128,31 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 			moveAway();
 		}
 	}
+	
+	public int getPartsSize(){
+		return parts.size();
+	}
 
-
-	public void receivePart(PartGraphicsDisplay pgd) {
-		if (parts.size() < MAX_PARTS) {
-			parts.add(pgd);
-		}
-
-		// set location of the part
-
+	public void receivePart(PartGraphicsDisplay pgd) { 
 		
-
+		if(currentI<MAX_PARTS)
+		{
+			kitConfig.addItem(pgd.partType,currentI);
+			currentI++;
+		}	
+		
 	}
 	
 	public void moveAway(){
 		velocity = -5;
+	}
+
+	public KitConfig getKitConfig() {
+		return kitConfig;
+	}
+
+	public void setKitConfig(KitConfig kitConfig) {
+		this.kitConfig = kitConfig;
 	}
 
 }

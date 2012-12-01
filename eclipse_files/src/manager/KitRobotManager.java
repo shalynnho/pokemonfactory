@@ -17,7 +17,9 @@ import manager.util.NetworkingButtonListener;
 import manager.util.OverlayPanel;
 import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
+import DeviceGraphicsDisplay.InspectionStandGraphicsDisplay;
 import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
+import DeviceGraphicsDisplay.StandGraphicsDisplay;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -119,9 +121,16 @@ public class KitRobotManager extends Client implements ActionListener {
 	}
 
 	public void initDevices() {
+		addDevice(Constants.STAND_TARGET + 0,
+				new InspectionStandGraphicsDisplay(this));
+
+		for (int i = 1; i < Constants.STAND_COUNT; i++) {
+			addDevice(Constants.STAND_TARGET + i, new StandGraphicsDisplay(
+					this, i));
+		}
+
 		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this));
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
-
 	}
 
 	@Override

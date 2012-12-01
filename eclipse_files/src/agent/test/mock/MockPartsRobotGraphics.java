@@ -21,7 +21,7 @@ public class MockPartsRobotGraphics extends MockAgent implements PartsRobotGraph
 		
 	}
 
-	@Override
+	/*@Override
 	public void pickUpPart(PartGraphics part) {
 
 		log.add(new LoggedEvent("Received message msgpickUpPart"));
@@ -33,10 +33,22 @@ public class MockPartsRobotGraphics extends MockAgent implements PartsRobotGraph
 
 		log.add(new LoggedEvent("Received message msgPartToKit"));
 		
-	}
+	}*/
 
 	@Override
 	public void dropPartFromArm(PartGraphics part) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pickUpPart(PartGraphics part, int arm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void givePartToKit(PartGraphics part, KitGraphics kit, int arm) {
 		// TODO Auto-generated method stub
 		
 	}

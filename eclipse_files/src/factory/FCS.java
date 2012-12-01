@@ -41,6 +41,11 @@ public class FCS {
 				Constants.ALL_TARGET, kitConfigs));
 	}
 
+	public void shippedKit() {
+		server.sendData(new Request(Constants.FCS_SHIPPED_KIT,
+				Constants.ALL_TARGET, null));
+	}
+
 	/**
 	 * Called to send clients the updated queue.
 	 */
@@ -139,10 +144,10 @@ public class FCS {
 	public void startProduction() {
 		agent.msgStartProduction();
 	}
-	
+
 	public void setDropChance(Float c) {
-	// TODO Make a slider/button for this
-	agent.msgSetPartsRobotDropChance(c);
+		// TODO Make a slider/button for this
+		agent.msgSetPartsRobotDropChance(c);
 
 	}
 
@@ -177,6 +182,9 @@ public class FCS {
 		} else if (req.getCommand().equals(Constants.FCS_SET_DROP_CHANCE)) {
 			Float chance = (Float) req.getData();
 			setDropChance(chance);
+		} else if (req.getCommand().equals(Constants.FCS_STOP_LANE)) {
+			System.out.println("============================boo");
+			agent.msgBreakLane(0);
 		}
 	}
 

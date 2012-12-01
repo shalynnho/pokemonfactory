@@ -48,4 +48,10 @@ public class MockFCS extends MockAgent implements FCS {
 		
 	}
 
+	@Override
+	public void msgShippedKit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
