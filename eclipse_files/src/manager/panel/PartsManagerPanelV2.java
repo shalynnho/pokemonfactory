@@ -237,14 +237,17 @@ public class PartsManagerPanelV2 extends JPanel {
 
 			imageSelectPanel.add(imageSelectClickable);
 			imageClickablePanels.put(imagePath, imageSelectClickable);
+			imageSelectPanel.setOpaque(false);
 		}
 
 		imageSelect = new JScrollPane(imageSelectPanel);
 		imageSelect.setMinimumSize(new Dimension(250, 60));
 		imageSelect.setPreferredSize(new Dimension(250, 60));
 		imageSelect.setMaximumSize(new Dimension(250, 60));
-		imageSelect.setOpaque(false);
+		//imageSelect.setOpaque(false);
 		imageSelect.setBorder(null);
+		imageSelect.setOpaque(false);
+		imageSelect.getViewport().setOpaque(false);
 		imagePanel.add(imageSelect);
 
 		JPanel buttonPanel = new JPanel();
