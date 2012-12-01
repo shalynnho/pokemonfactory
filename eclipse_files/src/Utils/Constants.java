@@ -28,7 +28,7 @@ public abstract class Constants {
 	// CLIENT SETTINGS
 	// ==================================
 
-	public static final int TIMER_DELAY = 35; // 50
+	public static final int TIMER_DELAY = 16; // 50
 
 	public static final Image CLIENT_BG_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "bg.jpg");
