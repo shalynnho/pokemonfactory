@@ -125,7 +125,9 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 			partsRobotAgent.msgPickUpPartDone();
 		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX)) {
 			partsRobotAgent.msgGivePartToKitDone();
-		} else if(req.getCommand().equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND)) {
+		} else if (req.getCommand()
+				.equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND
+						+ Constants.DONE_SUFFIX)) {
 			server.sendData(new Request(Constants.STAND_RECEIVE_PART_COMMAND, Constants.STAND_TARGET + kitPosition,
 					req.getData()));
 		}
