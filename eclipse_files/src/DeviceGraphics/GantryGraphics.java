@@ -106,7 +106,7 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 	
 	public void editBin(PartType pt) {
 		for (int i = 0; i < binList.size(); i ++) {
-			if (binList.get(i).getPart().getPartType().getID().equals(pt.getID()) {
+			if (binList.get(i).getPart().getPartType().equals(pt)) {
 				binList.get(i).getBin().part.type = pt;
 			}
 		}
