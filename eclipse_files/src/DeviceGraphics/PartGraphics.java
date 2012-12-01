@@ -6,7 +6,7 @@ import Utils.Location;
 import factory.PartType;
 
 public class PartGraphics implements Serializable {
-	private PartType partType;
+	private final PartType partType;
 	private Location partLocation;
 	private boolean quality;
 
@@ -32,11 +32,11 @@ public class PartGraphics implements Serializable {
 		return partType;
 	}
 
-	public void setQuality(boolean qual, PartType type) {
+	public void setQuality(boolean qual) {
 		quality = qual;
-		if (quality == false) {
-			partType = type;
-		}
+		// if (quality == false) {
+		// partType = type;
+		// }
 	}
 
 	public boolean getQuality() {

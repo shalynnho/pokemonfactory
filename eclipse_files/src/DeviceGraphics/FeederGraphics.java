@@ -93,7 +93,7 @@ public class FeederGraphics implements GraphicsInterfaces.FeederGraphics,
 
 		if (randNum < partType.getBadChance()
 				|| randNum == partType.getBadChance()) {
-			partGraphics.setQuality(false, Constants.DEFAULT_PARTTYPES.get(10));
+			partGraphics.setQuality(false);
 			return partGraphics;
 		} else {
 			return partGraphics;
