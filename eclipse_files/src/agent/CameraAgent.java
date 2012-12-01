@@ -379,10 +379,11 @@ public class CameraAgent extends Agent implements Camera {
 				print("Telling lane to increase amplitude");
 				n.state = NestStatus.WAITING_TO_RE_PHOTOGRAPH_AGAIN;
 				n.nest.lane.msgChangeAmplitude();
+				final Nest tempNest = n.nest;
 				timer.schedule(new TimerTask() {
 				    @Override
 				    public void run() {
-				    	n.state = NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN;
+				    	msgIAmFull(tempNest);
 				    }
 				}, CalculateTimerTime(n));
 			} else {

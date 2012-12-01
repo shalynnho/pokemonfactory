@@ -75,7 +75,11 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public void msgPurgeParts() {
 		print("Received msgPurgeParts");
-		state = LaneStatus.PURGING;
+		if(state == LaneStatus.BROKEN_WHILE_PURGING || state == LaneStatus.BROKEN) {
+			state = LaneStatus.BROKEN_WHILE_PURGING;
+		} else {
+			state = LaneStatus.PURGING;
+		}
 		stateChanged();
 	}
 
@@ -153,6 +157,7 @@ public class LaneAgent extends Agent implements Lane {
 
 	@Override
 	public void msgBreakThis() {
+		print("Received message msgBreakThis");
 		if(state == LaneStatus.PURGING) {
 			state = LaneStatus.BROKEN_WHILE_PURGING;
 		}
@@ -165,8 +170,12 @@ public class LaneAgent extends Agent implements Lane {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// print("In the Scheduler");
+		
+		if(name.equals("Lane0")){
+			print("state is "+state);
+		}
 
-		if (state == LaneStatus.PURGING) {
+		if (state == LaneStatus.PURGING || state == LaneStatus.BROKEN_WHILE_PURGING) {
 			purgeSelf();
 			return true;
 		}
@@ -237,7 +246,11 @@ public class LaneAgent extends Agent implements Lane {
 		}
 		feeder.msgThisLanePurged(this);
 		nest.msgLanePurgeDone();
-		state = LaneStatus.FILLING;
+		if(state == LaneStatus.BROKEN_WHILE_PURGING) {
+			state = LaneStatus.BROKEN;
+		} else {
+			state = LaneStatus.FILLING;
+		}
 		stateChanged();
 	}
 

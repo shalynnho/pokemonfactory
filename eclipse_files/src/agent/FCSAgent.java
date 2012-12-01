@@ -142,7 +142,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgBreakLane(int laneNumber) {
-		((NestAgent) nests.get(laneNumber - 1)).lane.msgBreakThis();
+		((NestAgent) nests.get(laneNumber)).lane.msgBreakThis();
 	}
 
 	@Override
