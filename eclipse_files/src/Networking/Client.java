@@ -2,6 +2,7 @@ package Networking;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -29,6 +30,8 @@ public abstract class Client extends JPanel {
 
 	protected int offset;
 
+	public static Font font;
+
 	/**
 	 * To identify client with server.
 	 */
@@ -43,6 +46,7 @@ public abstract class Client extends JPanel {
 
 	protected Client() {
 		setLayout(new BorderLayout());
+		font = new Font("Arial", font.PLAIN, 14);
 	}
 
 	/**
