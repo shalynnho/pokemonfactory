@@ -28,7 +28,7 @@ public abstract class Constants {
 	// CLIENT SETTINGS
 	// ==================================
 
-	public static final int TIMER_DELAY = 35; // 50
+	public static final int TIMER_DELAY = 16; // 50
 
 	public static final Image CLIENT_BG_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "bg.jpg");
@@ -52,6 +52,9 @@ public abstract class Constants {
 
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
 			Arrays.asList(
+
+			new KitConfig("2 Type Belt", DEFAULT_PARTTYPES.get(4),
+					DEFAULT_PARTTYPES.get(9)),
 
 			new KitConfig("Starter Pokemon", DEFAULT_PARTTYPES.get(0),
 					DEFAULT_PARTTYPES.get(1), DEFAULT_PARTTYPES.get(2),
@@ -302,6 +305,9 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_ON_STAND1_DONE = "robot display sends to robot logic that kit to stand1 is done";
 	public static final String KIT_ROBOT_ON_STAND2_DONE = "robot display sends to robot logic that kit to stand2 is done";
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE = "robot display sends to robot logic that kit to conveyor is done";
+
+	public static final String KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM = "kit receives from";
+	public static final String KIT_ROBOT_PASSES_KIT_COMMAND = "exit kit is now passed to conveyor";
 
 	public static final String KIT_RECEIVES_PART = "kit receives from stand1 receives part";
 

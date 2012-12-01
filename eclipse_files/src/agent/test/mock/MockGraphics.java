@@ -83,7 +83,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	}
 
-	@Override
+	/*@Override
 	public void pickUpPart(PartGraphics part) {
 
 		print("PartsRobotGraphics received message msgpickupPart");
@@ -91,7 +91,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		print("PartsRobotGraphics sending message msgPickUpPartDone() to partsrobot");
 		partsrobot.msgPickUpPartDone();
 
-	}
+	}*/
 
 	@Override
 	public void givePartToPartsRobot(PartGraphics part) {
@@ -287,7 +287,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		return name;
 	}
 
-	@Override
+	/*@Override
 	public void givePartToKit(PartGraphics part, KitGraphics kit) {
 
 		print("PartsRobotGraphics received message msggivePartToKit");
@@ -295,7 +295,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		print("PartsrobotGraphics sending message msgGivePartToKitDone() to partsrobot");
 		partsrobot.msgGivePartToKitDone();
 
-	}
+	}*/
 
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics dg) {
@@ -353,6 +353,18 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	@Override
 	public void unjam() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pickUpPart(PartGraphics part, int arm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void givePartToKit(PartGraphics part, KitGraphics kit, int arm) {
 		// TODO Auto-generated method stub
 		
 	}

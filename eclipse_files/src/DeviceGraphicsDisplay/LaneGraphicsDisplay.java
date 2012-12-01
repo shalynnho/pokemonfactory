@@ -140,9 +140,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 									// System.out.println("		LANE"+laneID+" FIRST PART PASSED JAM");
 
 								// first part is before jamLoc
-								} else if (loc.getX() > jamLocX - Constants.PART_PADDING) {
+								} else if (!unjamming && (loc.getX() > jamLocX - Constants.PART_PADDING)) {
 									updateXLoc(loc, jamLocX - Constants.PART_PADDING, speed);
 									// System.out.println("		LANE"+laneID+" FIRST PART BEFORE JAM");
+								} else if (unjamming) {
+									animateUnjam(loc);
 								}
 							}
 							
@@ -274,13 +276,17 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			givePartToNest();
 
 		} else if (cmd.equals(Constants.LANE_SET_JAM_COMMAND)) {
+			unjamming = false;
 			jammed = true;
 			jamLoc = (Location) r.getData();
 			jamLocX = location.getX() + jamLoc.getX();
-			//System.out.println("	LANEGD" + laneID + " JAM LOC SET");
+			System.out.println("	LANEGD" + laneID + " JAM LOC SET");
 
 		} else if (cmd.equals(Constants.LANE_UNJAM_COMMAND)) {
 			unjamming = true;
+			System.out.println("	LANEGD" + laneID + "RECEIVED UNJAM COMMAND");
+			//System.out.println("UNJAM LANEGD" + laneID+ "jammed: "+jammed+", unjamming: "+unjamming);
+
 			
 		} else {
 			System.out.println("LANE_GD: command not recognized.");
@@ -317,20 +323,19 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	 *            call to draw
 	 */
 	private void updateXLoc(Location loc, int end, int increment) {
-		// System.out.println("loc.getX(): "+loc.getX()+", end: "+end+", abs(dif): "+(Math.abs(end
-		// - loc.getX()) <
-		// increment));
+//		 System.out.println("loc.getX(): "+loc.getX()+", end: "+end+", abs(dif): "+(Math.abs(end
+//		 - loc.getX()) <
+//		 increment));
 
 		if (Math.abs(end - loc.getX()) < increment) {
 			loc.setX(end);
-			
-			if(jammed && unjamming) {
-				animateUnjam(loc);
-			}
 		}
 
 		if (loc.getX() > end) { // moving left
 			loc.incrementX(-increment);
+//			if(jammed && unjamming) {
+//				animateUnjam(loc);
+//			}
 		}
 	}
 
@@ -407,15 +412,17 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	private void animateUnjam(Location loc) {
+		//System.out.println("	LANEGD" + laneID + "ANIMATING UNJAM, SEQ: "+ jamSeq);
+
 		// TODO
 		// 8-step sequence
 		if(jamSeq % 2 == 0) { // even
 			loc.setY(partStartLoc.getY());			
 		} else { // odd
 			if((jamSeq - 1) % 4 == 0) {	// 1 or 5
-				loc.incrementY(-4);
+				loc.incrementY(-6);
 			} else { // 3 or 7
-				loc.incrementY(4);
+				loc.incrementY(6);
 			}
 		}
 		
