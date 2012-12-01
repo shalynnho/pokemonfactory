@@ -26,7 +26,7 @@ public class LaneAgent extends Agent implements Lane {
 	public PartType currentType;
 	
 	public int topLimit = 5;
-	public int lowerThreshold = 4;
+	public int lowerThreshold = 3;
 	public int extraRequestCount = 0;
 
 	public LaneStatus state;
@@ -197,7 +197,7 @@ public class LaneAgent extends Agent implements Lane {
 		}
 		
 		if (state == LaneStatus.WAITING) {
-			if(extraRequestCount + requestList.size()+currentParts.size() > lowerThreshold && currentType != null && currentParts.size() != 0) {
+			if(requestList.size() > lowerThreshold && currentType != null && currentParts.size() != 0) {
 				//extraRequestCount = 0;
 				state = LaneStatus.FILLING;
 				return true;
@@ -214,13 +214,13 @@ public class LaneAgent extends Agent implements Lane {
 		}
 		
 		if (state == LaneStatus.FILLING && currentType != null) {
-			if(extraRequestCount+requestList.size()+currentParts.size() < topLimit) {
+			if(extraRequestCount < topLimit) {
 				requestList.add(currentType);
 				extraRequestCount++;
 				return true;
 			}
-			if(extraRequestCount+requestList.size()+currentParts.size() >= topLimit && currentParts.size() != 0) {
-				extraRequestCount = 0;
+			if(requestList.size() == 0) {
+				//extraRequestCount = 0;
 				state = LaneStatus.WAITING;
 				return true;
 			}
