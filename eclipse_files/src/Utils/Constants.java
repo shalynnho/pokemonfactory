@@ -48,8 +48,7 @@ public abstract class Constants {
 							"Sandshrew"), new PartType("6", 6, "Eevee"),
 					new PartType("7", 7, "Dratini"), new PartType("8", 8,
 							"Ghastly"), new PartType("9", 9, "Caterpie"),
-					new PartType("10", 10, "Mew"), new PartType("ditto", 11,
-							"Ditto")));
+					new PartType("10", 10, "Mew")));
 
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
 			Arrays.asList(
