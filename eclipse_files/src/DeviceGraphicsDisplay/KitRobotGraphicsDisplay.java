@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
+import factory.KitConfig;
+
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -277,22 +279,25 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void sendDoneMessage() {
 		if (this.sendMessage.equals(Message.sendStand1DoneMessage)) {
+			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_STAND1_DONE,
-					Constants.KIT_ROBOT_TARGET, null));
+					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		} else if(this.sendMessage.equals(Message.sendStand2DoneMessage)){ 
+			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_ON_STAND2_DONE,
-					Constants.KIT_ROBOT_TARGET, null));
+					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		} else if (this.sendMessage.equals(Message.sendGoodConveyorDoneMessage)) {
+			kits.remove(currentKit);
 			currentKit.setPosition(2);
-			kitRobotClient.addDevice(Constants.KIT_TARGET + currentKit.getPosition(), currentKit);
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_CONVEYOR_DONE,
-					Constants.KIT_ROBOT_TARGET, null));
+					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		} else if (this.sendMessage.equals(Message.sendInspectionDoneMessage)) {
+			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_INSPECTION_DONE,
-					Constants.KIT_ROBOT_TARGET, null));
+					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		}
 
 	}
@@ -341,46 +346,40 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (target.equals(Constants.KIT_ROBOT_TARGET)) {
 			if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION1)) {
-				KitGraphicsDisplay tempKit = new KitGraphicsDisplay(kitRobotClient);
-				setKitConfigurations(tempKit, 4 );
-				kitRobotClient.addDevice(Constants.KIT_TARGET + 4, currentKit);
+				
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay(new KitConfig("DummyKit"));
+				tempKit.setLocation(kitEnterLocation);
+				setKitConfigurations(tempKit, 1 );
 				kits.add(currentKit);
 				ConveyorToLocation1();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_CONVEYOR_TO_LOCATION2)) {
-				KitGraphicsDisplay tempKit = new KitGraphicsDisplay(kitRobotClient);
-				setKitConfigurations(tempKit, 3 );
-				kitRobotClient.addDevice(Constants.KIT_TARGET+ 3, currentKit);
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay(new KitConfig("DummyKit"));
+				tempKit.setLocation(kitEnterLocation);
+				setKitConfigurations(tempKit, 2 );
 				kits.add(currentKit);
 				ConveyorToLocation2();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_GOOD_CONVEYOR)) {
-				for (int i = 0; i < kits.size(); i++) {
-					if (kits.get(i).getPosition() == 5) {
-						setKitConfigurations(kits.get(i), 2 );
-						kitRobotClient.addDevice(Constants.KIT_TARGET+2, currentKit);
-					}
-				}
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay((KitConfig)obj);
+				tempKit.setLocation(inspectionLocation);
+				setKitConfigurations(tempKit, 3 );
+				kits.add(currentKit);
 				InspectionToGoodConveyor();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_INSPECTION)) {
-
-				for (int i = 0; i < kits.size(); i++) {
-					if (kits.get(i).getPosition() == 4) {
-						setKitConfigurations( kits.get(i), 4 );
-						kitRobotClient.addDevice(Constants.KIT_TARGET+ 5, currentKit);
-					}
-				}
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay((KitConfig)obj);
+				KitConfig kitConfig=(KitConfig)obj;
+				tempKit.setLocation(kitConfig.getLocation());
+				setKitConfigurations(tempKit, 0);
+				kits.add(currentKit);
 				Location1ToInspectionStand();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_INSPECTION)) {
-				for (int i = 0; i < kits.size(); i++) {
-					if (kits.get(i).getPosition() == 3) {
-						kits.get(i).setKitImage(Constants.KIT_DONE_IMAGE);
-						setKitConfigurations( kits.get(i), 5 );
-						kitRobotClient.addDevice(Constants.KIT_TARGET + 5, currentKit);
-					}
-				}
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay((KitConfig)obj);
+				tempKit.setLocation(location2);
+				setKitConfigurations(tempKit, 0 );
+				kits.add(currentKit);
 				Location2ToInspectionStand();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION1)) {
@@ -426,7 +425,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	public void drawtheKits(JComponent c, Graphics2D g) {
 		for (int i = 0; i < kits.size(); i++) {
-
 			kits.get(i).drawKit(c,g);
 		}
 	}
