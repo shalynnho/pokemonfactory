@@ -6,37 +6,40 @@ import Utils.Location;
 import factory.PartType;
 
 public class PartGraphics implements Serializable {
-    private PartType partType;
-    private Location partLocation;
-    private boolean quality;
+	private PartType partType;
+	private Location partLocation;
+	private boolean quality;
 
-    public PartGraphics(PartType type) {
-    	partType = type;
-    	quality = true;
-    }
+	public PartGraphics(PartType type) {
+		partType = type;
+		quality = true;
+	}
 
-    public PartGraphics(PartGraphics partGraphics) {
-    	this.partLocation = partGraphics.partLocation;
-    	this.partType = partGraphics.partType;
-    }
+	public PartGraphics(PartGraphics partGraphics) {
+		this.partLocation = partGraphics.partLocation;
+		this.partType = partGraphics.partType;
+	}
 
-    public void setLocation(Location newLocation) {
-    	partLocation = newLocation;
-    }
+	public void setLocation(Location newLocation) {
+		partLocation = newLocation;
+	}
 
-    public Location getLocation() {
-    	return partLocation;
-    }
+	public Location getLocation() {
+		return partLocation;
+	}
 
-    public PartType getPartType() {
-    	return partType;
-    }
+	public PartType getPartType() {
+		return partType;
+	}
 
-    public void setQuality(boolean qual) {
-    	quality = qual;
-    }
+	public void setQuality(boolean qual, PartType type) {
+		quality = qual;
+		if (quality == false) {
+			partType = type;
+		}
+	}
 
-    public boolean getQuality() {
-    	return quality;
-    }
+	public boolean getQuality() {
+		return quality;
+	}
 }
