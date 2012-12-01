@@ -246,7 +246,7 @@ public class CameraAgent extends Agent implements Camera {
 					} else if(nests.get(i + 1).state == NestStatus.READY 
 								|| nests.get(i + 1).state == NestStatus.READY_TO_RE_PHOTOGRAPH 
 								|| nests.get(i + 1).state == NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN) {
-						if(nests.get(i).state == NestStatus.STARTED_TIMER) {
+						if(nests.get(i).state == NestStatus.NOT_READY) {
 							print("Started a timer for nest "+i);
 							nests.get(i).state = NestStatus.STARTED_TIMER;
 							final Nest tempNest = nests.get(i).nest;
