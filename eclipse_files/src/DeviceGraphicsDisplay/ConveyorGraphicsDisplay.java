@@ -11,9 +11,11 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import factory.KitConfig;
 
 /**
  * Contains display components of ConveyorGraphics object
+ * 
  * @author neetugeo
  */
 
@@ -25,6 +27,9 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	ArrayList<Location> conveyorLinesBad;
 	ArrayList<KitGraphicsDisplay> kitsOnConveyor;
 	ArrayList<KitGraphicsDisplay> kitsToLeave;
+
+	KitGraphicsDisplay exitKit;
+
 	int velocity;
 	Client client;
 	boolean kitComingIn;
@@ -36,7 +41,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public ConveyorGraphicsDisplay(Client cli) {
 		locationGood = Constants.CONVEYOR_LOC; // location for exit lane, based
-												// off of input lane
+		exitKit = new KitGraphicsDisplay(); // off of input lane
 		client = cli;
 		conveyorLines = new ArrayList<Location>();
 		conveyorLinesGood = new ArrayList<Location>();
@@ -91,9 +96,9 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	public void newExitKit() {
-		KitGraphicsDisplay temp = new KitGraphicsDisplay();
-		temp.setLocation(new Location(30, 100));
-		kitsToLeave.add(temp);
+		// KitGraphicsDisplay temp = new KitGraphicsDisplay();
+		// temp.setLocation(new Location(30, 100));
+		kitsToLeave.add(exitKit);
 	}
 
 	public void animationDone(Request r) {
@@ -104,25 +109,25 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g2) {
 		g2.drawImage(Constants.CONVEYOR_IMAGE, -90 + client.getOffset(), 200, c);
 		for (int i = 0; i < conveyorLines.size(); i++) {
-			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE,
-					conveyorLines.get(i).getX() + client.getOffset(),
-					conveyorLines.get(i).getY(), c);
+			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i)
+					.getX() + client.getOffset(), conveyorLines.get(i).getY(),
+					c);
 			moveIn(i);
 		}
 
 		g2.drawImage(Constants.CONVEYOR_IMAGE, 0 + client.getOffset(), 100, c);
 		for (int i = 0; i < conveyorLinesGood.size(); i++) {
 			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE,
-					conveyorLinesGood.get(i).getX() + client.getOffset(), 
+					conveyorLinesGood.get(i).getX() + client.getOffset(),
 					conveyorLinesGood.get(i).getY(), c);
 			moveOut(i, conveyorLinesGood);
 		}
 
 		g2.drawImage(Constants.CONVEYOR_IMAGE, 0 + client.getOffset(), 320, c);
 		for (int i = 0; i < conveyorLinesBad.size(); i++) {
-			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE,
-					conveyorLinesBad.get(i).getX() + client.getOffset(),
-					conveyorLinesBad.get(i).getY(), c);
+			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLinesBad
+					.get(i).getX() + client.getOffset(), conveyorLinesBad
+					.get(i).getY(), c);
 			moveOut(i, conveyorLinesBad);
 		}
 
@@ -131,7 +136,8 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.drawWithOffset(c, g2, client.getOffset());
 				Location tempLoc = tempKit.getLocation();
-				tempKit.setLocation(new Location(tempLoc.getX() + velocity, tempLoc.getY()));
+				tempKit.setLocation(new Location(tempLoc.getX() + velocity,
+						tempLoc.getY()));
 			} else if (kitsOnConveyor.get(j).getLocation().getX() >= 10 - j * 100) {
 				kitsOnConveyor.get(j).draw(c, g2);
 				if (kitComingIn == true) {
@@ -162,6 +168,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	/**
 	 * Moves conveyor lines into the factory
+	 * 
 	 * @param i
 	 */
 
@@ -180,6 +187,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	/**
 	 * Move conveyor lines out of the factory.
+	 * 
 	 * @param i
 	 */
 
@@ -194,6 +202,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	/**
 	 * Function created to change the velocity of the conveyor
+	 * 
 	 * @param i
 	 */
 	public void setVelocity(int i) {
@@ -215,6 +224,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			// must take in int somehow
 		} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
 			newExitKit();
+		} else if (command.equals(Constants.KIT_ROBOT_PASSES_KIT_COMMAND)) {
+			KitConfig tempKitConfig = (KitConfig) object;
+			exitKit = new KitGraphicsDisplay((KitConfig) object);
+			exitKit.setLocation(tempKitConfig.getLocation());
 		}
 	}
 
