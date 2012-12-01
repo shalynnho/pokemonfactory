@@ -129,6 +129,8 @@ public abstract class Constants {
 			.getImage(IMAGE_PATH + "lane_2.png");
 	public static final Image LANE_LINE = Toolkit.getDefaultToolkit().getImage(
 			IMAGE_PATH + "lane_belt.png");
+	public static final Image SNORLAX = Toolkit.getDefaultToolkit().getImage(
+			IMAGE_PATH + "snorlax.png");
 
 	// Conveyor Images
 	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit()
