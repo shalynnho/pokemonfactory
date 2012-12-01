@@ -12,6 +12,7 @@ import agent.StandAgent;
 
 /**
  * Contains the logic for the Conveyor object
+ * 
  * @author neetugeo
  */
 
@@ -52,12 +53,14 @@ public class ConveyorGraphics implements GraphicsInterfaces.ConveyorGraphics,
 
 	/**
 	 * send a completed kit off-screen
-	 * @param kit - a kit must be received from KitRobot before sending it away
+	 * 
+	 * @param kit
+	 *            - a kit must be received from KitRobot before sending it away
 	 */
 	public void receiveKit(KitGraphics kg) {
 		kitsToLeave.add(kg);
 		server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
-				Constants.KIT_TARGET+2 , null));
+				Constants.CONVEYOR_TARGET, null));
 	}
 
 	@Override
