@@ -420,9 +420,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			loc.setY(partStartLoc.getY());			
 		} else { // odd
 			if((jamSeq - 1) % 4 == 0) {	// 1 or 5
-				loc.incrementY(-4);
+				loc.incrementY(-6);
 			} else { // 3 or 7
-				loc.incrementY(4);
+				loc.incrementY(6);
 			}
 		}
 		

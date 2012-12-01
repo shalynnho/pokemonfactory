@@ -153,7 +153,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		for (int i = 0; i < kitsToLeave.size(); i++) {
 			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
-			tempKit.drawWithOffset(c, g2, client.getOffset());
+			tempKit.drawKit(c, g2);
 			if (tempKit.getLocation().getX() == -80) {
 				animationDone(new Request(
 						Constants.CONVEYOR_RECEIVE_KIT_COMMAND
@@ -225,9 +225,8 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (command.equals(Constants.CONVEYOR_RECEIVE_KIT_COMMAND)) {
 			newExitKit();
 		} else if (command.equals(Constants.KIT_ROBOT_PASSES_KIT_COMMAND)) {
-			KitConfig tempKitConfig = (KitConfig) object;
 			exitKit = new KitGraphicsDisplay((KitConfig) object);
-			exitKit.setLocation(tempKitConfig.getLocation());
+			exitKit.setLocation(new Location(0,80));
 		}
 	}
 

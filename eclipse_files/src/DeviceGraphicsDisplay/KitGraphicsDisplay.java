@@ -86,13 +86,6 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 	public void drawKit(JComponent c, Graphics2D g) {
 		drawWithOffset(c, g, 0);
 		setLocation(new Location(kitLocation.getX()+velocity, kitLocation.getY()));
-		if(kitLocation.getX() == -40)
-		{
-			kitClient.sendData(new Request(
-						Constants.CONVEYOR_RECEIVE_KIT_COMMAND
-								+ Constants.DONE_SUFFIX,
-						Constants.CONVEYOR_TARGET, null));
-		}
 	}
 
 	public void drawWithOffset(JComponent c, Graphics2D g, int offset) {
