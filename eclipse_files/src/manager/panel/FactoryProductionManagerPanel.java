@@ -24,6 +24,7 @@ import manager.util.CustomButton;
 import manager.util.ListPanel;
 import manager.util.OverlayInternalFrame;
 import manager.util.WhiteLabel;
+import Utils.Constants;
 import factory.KitConfig;
 import factory.Order;
 
@@ -189,11 +190,13 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		
 		currentKitCount = new WhiteLabel("0");
 		currentKitCount.setFont(new Font("Arial", Font.PLAIN, 40));
+		currentKitCount.setBorder(Constants.TOP_PADDING);
 		WhiteLabel currentKitText = new WhiteLabel(
 				"<html>kits<br />remaining<br />in the order</html>");
 
 		currentOrderCount = new WhiteLabel("0");
 		currentOrderCount.setFont(new Font("Arial", Font.PLAIN, 40));
+		currentOrderCount.setBorder(Constants.TOP_PADDING);
 		WhiteLabel currentOrderText = new WhiteLabel(
 				"<html>orders<br />remaining</html>");
 
