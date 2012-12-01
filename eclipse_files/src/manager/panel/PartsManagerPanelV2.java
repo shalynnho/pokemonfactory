@@ -300,6 +300,8 @@ public class PartsManagerPanelV2 extends JPanel {
 	isEditing = true;
 	isDeleting = false;
 	setUpLeftPanel();
+	
+	imagePath = new String (pt.getImagePath());
 
 	leftTitle.setText("Editing a Part");
 	nameField.setText(pt.getName());
@@ -320,6 +322,7 @@ public class PartsManagerPanelV2 extends JPanel {
 		pt.setPartNum(Integer.parseInt(numField.getText()));
 		pt.setDescription(descField.getText());
 		pt.setBadChance(newChance / 100);
+		pt.setImagePath(imagePath);
 
 		manager.editPart(pt);
 		restoreLeftPanel();

@@ -50,7 +50,7 @@ public class LaneAgent extends Agent implements Lane {
 	};
 
 	public enum LaneStatus {
-		FILLING, DONE_FILLING, PURGING, WAITING, BROKEN, BROKEN_WHILE_PURGING;
+		FILLING, PURGING, WAITING, BROKEN, BROKEN_WHILE_PURGING;
 	};
 
 	FeederAgent feeder;
@@ -171,43 +171,12 @@ public class LaneAgent extends Agent implements Lane {
 	public boolean pickAndExecuteAnAction() {
 		// print("In the Scheduler");
 		
-		if(name.equals("Lane0")){
-			print("state is "+state);
-		}
-
 		if (state == LaneStatus.PURGING || state == LaneStatus.BROKEN_WHILE_PURGING) {
 			purgeSelf();
 			return true;
 		}
-		
-		if (state == LaneStatus.FILLING) {
-			synchronized (requestList) {
-				for (PartType requestedType : requestList) {
-					getParts(requestedType);
-					return true;
-				}
-			}
-		}
-
-		if (state == LaneStatus.FILLING && currentType != null) {
-			if(extraRequestCount+requestList.size()+currentParts.size() < topLimit) {
-				requestList.add(currentType);
-				extraRequestCount++;
-				return true;
-			}
-			if(extraRequestCount+requestList.size()+currentParts.size() >= topLimit && currentParts.size() != 0) {
-				state = LaneStatus.WAITING;
-				return true;
-			}
-		}
-		if (state == LaneStatus.WAITING) {
-			if(extraRequestCount+requestList.size()+currentParts.size() < lowerThreshold && currentType != null && currentParts.size() != 0) {
-				extraRequestCount = 0;
-				state = LaneStatus.FILLING;
-				return true;
-			}
-		}
-
+		/*print("state is "+state+" and i have "+requestList.size()+" extra request "+extraRequestCount+" and currently "
+		+currentParts.size());*/
 		
 		synchronized (currentParts) {
 			for (MyPart part : currentParts) {
@@ -226,6 +195,38 @@ public class LaneAgent extends Agent implements Lane {
 				}
 			}
 		}
+		
+		if (state == LaneStatus.WAITING) {
+			if(requestList.size() > lowerThreshold && currentType != null && currentParts.size() != 0) {
+				//extraRequestCount = 0;
+				state = LaneStatus.FILLING;
+				return true;
+			}
+		}
+		
+		if (state == LaneStatus.FILLING) {
+			synchronized (requestList) {
+				for (PartType requestedType : requestList) {
+					getParts(requestedType);
+					return true;
+				}
+			}
+		}
+		
+		if (state == LaneStatus.FILLING && currentType != null) {
+			if(extraRequestCount < topLimit) {
+				requestList.add(currentType);
+				extraRequestCount++;
+				return true;
+			}
+			if(requestList.size() == 0) {
+				//extraRequestCount = 0;
+				state = LaneStatus.WAITING;
+				return true;
+			}
+		}
+		
+		
 		return false;
 	}
 

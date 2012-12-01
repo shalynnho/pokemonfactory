@@ -102,7 +102,7 @@ public class CameraAgent extends Agent implements Camera {
 	public void msgIAmFull(Nest nest) {
 	//synchronized (nests) {
 
-			print("Received msgIAmFull from nest with type " + ((NestAgent) nest).currentPartType);
+			//print("Received msgIAmFull from nest with type " + ((NestAgent) nest).currentPartType);
 			for (MyNest n : nests) {
 				if (n.nest == nest) {
 					if(n.state == NestStatus.NOT_READY || n.state == NestStatus.STARTED_TIMER) {
@@ -272,7 +272,7 @@ public class CameraAgent extends Agent implements Camera {
 
 		synchronized (nests) {
 			for (MyNest n : nests) {
-				print("nest "+n.nest.currentPartType+ " state is "+n.state);
+				//print("nest "+n.nest.currentPartType+ " state is "+n.state);
 				if (n.state == NestStatus.PHOTOGRAPHED 
 						|| n.state == NestStatus.RE_PHOTOGRAPHED_ONCE 
 						|| n.state == NestStatus.RE_PHOTOGRAPHED_TWICE) {
