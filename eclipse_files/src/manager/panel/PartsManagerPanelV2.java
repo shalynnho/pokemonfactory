@@ -318,6 +318,7 @@ public class PartsManagerPanelV2 extends JPanel {
 		numField.setText(String.valueOf(pt.getPartNum()));
 		descField.setText(pt.getDescription());
 		badChanceScroller.setValue((int) (pt.getBadChance() * 100));
+		imageClickablePanels.get(pt.getImagePath()).getHandler().mouseClicked();
 		submitButton.setText("Edit >");
 
 		removeAllActionListener(submitButton);

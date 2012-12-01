@@ -53,4 +53,7 @@ public class ClickablePanel extends OverlayPanel {
 		setBackground(new Color(color.getRed(), color.getGreen(), color.getBlue(), 40));
 	}
 
+	public ClickablePanelClickHandler getHandler() {
+		return handler;
+	}
 }
