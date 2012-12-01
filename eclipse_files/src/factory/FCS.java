@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
+import Utils.ReadSaveData;
 import agent.Agent;
 import agent.FCSAgent;
 
@@ -29,6 +30,17 @@ public class FCS {
 	public FCS(Server server, Agent a) {
 		agent = (FCSAgent) a;
 		this.server = server;
+		
+		// read from save file
+		ArrayList<PartType> updatedPartTypes = ReadSaveData.readPartType();
+		if(updatedPartTypes != null) {
+			partTypes = updatedPartTypes;
+		}
+		
+		ArrayList<KitConfig> updatedKitConfigs = ReadSaveData.readKitConfig();
+		if(updatedKitConfigs != null) {
+			kitConfigs = updatedKitConfigs;
+		}
 	}
 
 	public void updateParts() {
