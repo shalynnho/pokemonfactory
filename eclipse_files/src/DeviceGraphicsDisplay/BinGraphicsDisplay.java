@@ -53,6 +53,10 @@ public class BinGraphicsDisplay extends DeviceGraphicsDisplay {
 		return partType;
 	}
 	
+	public void setPartType(PartType pt) {
+		partType = pt;
+	}
+	
 	/**
 	 * Handles drawing of the bin components
 	 */

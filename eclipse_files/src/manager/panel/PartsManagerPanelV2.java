@@ -318,6 +318,7 @@ public class PartsManagerPanelV2 extends JPanel {
 		numField.setText(String.valueOf(pt.getPartNum()));
 		descField.setText(pt.getDescription());
 		badChanceScroller.setValue((int) (pt.getBadChance() * 100));
+		imageClickablePanels.get(pt.getImagePath()).getHandler().mouseClicked();
 		submitButton.setText("Edit >");
 
 		removeAllActionListener(submitButton);
@@ -348,6 +349,7 @@ public class PartsManagerPanelV2 extends JPanel {
 		nameField.setEnabled(false);
 		numField.setEnabled(false);
 		descField.setEnabled(false);
+		imageClickablePanels.get(pt.getImagePath()).getHandler().mouseClicked();
 		submitButton.setText("Confirm Delete >");
 
 		removeAllActionListener(submitButton);
