@@ -130,6 +130,14 @@ public class CameraAgent extends Agent implements Camera {
 		mk = null;
 		timer.cancel();
 		timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+		    // Fires every 3.001 seconds.
+		    @Override
+		    public void run() {
+			print("Waking up");
+			stateChanged();
+		    }
+		}, System.currentTimeMillis(), 3000);
 		// stateChanged();
 	}
 
@@ -233,7 +241,7 @@ public class CameraAgent extends Agent implements Camera {
 							    public void run() {
 							    	msgIAmFull(tempNest);
 							    }
-							}, 10000);
+							}, 1000);
 						}
 					} else if(nests.get(i + 1).state == NestStatus.READY 
 								|| nests.get(i + 1).state == NestStatus.READY_TO_RE_PHOTOGRAPH 
@@ -247,7 +255,7 @@ public class CameraAgent extends Agent implements Camera {
 							    public void run() {
 							    	msgIAmFull(tempNest);
 							    }
-							}, 10000);
+							}, 1000);
 						}
 					}
 					//}
