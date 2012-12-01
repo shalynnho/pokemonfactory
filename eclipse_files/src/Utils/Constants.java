@@ -77,7 +77,7 @@ public abstract class Constants {
 			Arrays.asList(new String("1"), new String("2"), new String("3"),
 					new String("4"), new String("5"), new String("6"),
 					new String("7"), new String("8"), new String("9"),
-					new String("10"), new String("11"), new String("12")));
+					new String("10")));
 
 	// DEVICE START LOCATIONS
 	// ==================================
