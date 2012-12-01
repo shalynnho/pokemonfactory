@@ -48,7 +48,8 @@ public abstract class Constants {
 							"Sandshrew"), new PartType("6", 6, "Eevee"),
 					new PartType("7", 7, "Dratini"), new PartType("8", 8,
 							"Ghastly"), new PartType("9", 9, "Caterpie"),
-					new PartType("10", 10, "Mew")));
+					new PartType("10", 10, "Mew"), new PartType("ditto", 11,
+							"Ditto")));
 
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
 			Arrays.asList(
@@ -80,7 +81,7 @@ public abstract class Constants {
 			Arrays.asList(new String("1"), new String("2"), new String("3"),
 					new String("4"), new String("5"), new String("6"),
 					new String("7"), new String("8"), new String("9"),
-					new String("10")));
+					new String("10"), new String("ditto")));
 
 	// DEVICE START LOCATIONS
 	// ==================================
