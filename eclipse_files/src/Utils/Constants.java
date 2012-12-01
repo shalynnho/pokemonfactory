@@ -307,6 +307,7 @@ public abstract class Constants {
 	public static final String KIT_ROBOT_ON_CONVEYOR_DONE = "robot display sends to robot logic that kit to conveyor is done";
 
 	public static final String KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM = "kit receives from";
+	public static final String KIT_ROBOT_PASSES_KIT_COMMAND = "exit kit is now passed to conveyor";
 
 	public static final String KIT_RECEIVES_PART = "kit receives from stand1 receives part";
 
