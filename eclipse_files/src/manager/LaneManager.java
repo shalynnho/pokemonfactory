@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -107,6 +108,17 @@ public class LaneManager extends Client implements ActionListener {
 		messagePanel = new OverlayPanel();
 		messagePanel.setPanelSize(WINDOW_WIDTH, 30);
 		add(messagePanel, BorderLayout.SOUTH);
+
+		JButton button = new JButton("ugly button");
+		messagePanel.add(button);
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				sendData(new Request(Constants.FCS_STOP_LANE,
+						Constants.FCS_TARGET, null));
+			}
+		});
 
 		currentMessage = new JLabel(
 				"Click anywhere on the lane to produce a jam at that location.");

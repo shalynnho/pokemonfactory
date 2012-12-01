@@ -182,6 +182,9 @@ public class FCS {
 		} else if (req.getCommand().equals(Constants.FCS_SET_DROP_CHANCE)) {
 			Float chance = (Float) req.getData();
 			setDropChance(chance);
+		} else if (req.getCommand().equals(Constants.FCS_STOP_LANE)) {
+			System.out.println("============================boo");
+			agent.msgBreakLane(0);
 		}
 	}
 
