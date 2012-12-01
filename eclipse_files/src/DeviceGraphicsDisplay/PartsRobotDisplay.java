@@ -329,6 +329,15 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			return partArrayGraphics.remove(arm).getPartType();
 			//Reminder for Adrian: Add sendData to Stand
 	}
+	
+	public void dropPart() {
+		partArrayGraphics.remove(arm);
+		PartType tempPartType = givePart();
+		PartType partType = new PartType(null);
+		PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
+		partArrayGraphics.add(arm,pgd);
+		
+	}
 
 	public void extendArm() {
 		
