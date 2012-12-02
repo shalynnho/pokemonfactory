@@ -42,6 +42,7 @@ public class PartType implements Serializable, FactoryData {
 		partNum = num;
 		description = desc;
 		badChance = chance;
+		imagePath = name;
 		this.id = StringUtil.md5(name);
 	}
 

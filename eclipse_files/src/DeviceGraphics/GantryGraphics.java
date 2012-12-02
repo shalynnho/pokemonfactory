@@ -2,7 +2,6 @@ package DeviceGraphics;
 
 import java.util.ArrayList;
 
-import GraphicsInterfaces.FeederGraphics;
 import Networking.Request;
 import Networking.Server;
 import Utils.BinData;
@@ -12,6 +11,7 @@ import agent.Agent;
 import agent.FeederAgent;
 import agent.GantryAgent;
 import agent.data.Bin;
+import factory.PartType;
 
 public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.GantryGraphics  {
 	
@@ -103,6 +103,15 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 		binList.add(bin.binGraphics);
 		server.sendData(new Request(Constants.GANTRY_ROBOT_ADD_NEW_BIN, Constants.GANTRY_ROBOT_TARGET, new BinData(bin.binGraphics.getInitialLocation(), bin.part.type)));
 	}
+	
+	public void editBin(PartType pt) {
+		for (BinGraphics bin : binList) {
+			if (bin.getPart().getPartType().equals(pt)) {
+				bin.getPart().setPartType(pt);
+				server.sendData(new Request(Constants.GANTRY_ROBOT_EDIT_BIN, Constants.GANTRY_ROBOT_TARGET, new BinData (null, pt)));
+			}
+		}
 
+	}
 
 }

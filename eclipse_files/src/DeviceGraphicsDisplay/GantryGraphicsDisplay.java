@@ -30,12 +30,6 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	BinData tempBin;
 	
 	Client client;
-	
-//	double rotationAxisX;
-//	double rotationAxisY;
-	
-//	int currentDegree;
-//	int finalDegree;
 
 	public GantryGraphicsDisplay (Client c) {
 		currentLocation = new Location (Constants.GANTRY_ROBOT_LOC);
@@ -44,10 +38,6 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 		client = c;
 		
 		tempBin = null;
-	//	rotationAxisX = 0;
-	//	rotationAxisY = 0;
-	//	currentDegree = 0;
-	//	finalDegree = 0;
 	}
 	
 	@Override
@@ -71,24 +61,6 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 				currentLocation.incrementY(-5);
 			}
 		}
-		// For v2
-	/*	//If robot is at correct Y, rotate
-		if (currentLocation.getY() == destinationLocation.getY()) {
-			if (finalDegree == 0 || finalDegree == 180) {
-				if (currentLocation.getX() < destinationLocation.getX()){
-					finalDegree = 90;
-				}
-				else
-					finalDegree = -90;
-			}
-			
-			if (currentDegree != finalDegree){
-				rotationAxisX = 
-			}
-		}*/
-		
-		
-		
 		//If robot is at correct Y and correct rotation, move to correct X
 		if (currentLocation.getY() == destinationLocation.getY() && currentLocation.getX() != destinationLocation.getX()) { //&& currentDegree == finalDegree) {
 			if(currentLocation.getX() < destinationLocation.getX()) {
@@ -142,6 +114,13 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 			tempBin = (BinData) req.getData();
 			binList.add(new BinGraphicsDisplay(new Location(tempBin.getBinLocation()), tempBin.getBinPartType()));
 			tempBin = null;
+		}
+		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_EDIT_BIN)) {
+			for (int i = 0; i < binList.size(); i ++) {
+				tempBin = (BinData) req.getData();
+				if (binList.get(i).getPartType().equals(tempBin.getBinPartType()))
+						binList.get(i).setPartType(tempBin.getBinPartType());
+			}
 		}
 	}
 
