@@ -332,10 +332,12 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	
 	public void dropPart() {
 		partArrayGraphics.remove(arm);
-		PartType tempPartType = givePart();
 		PartType partType = new PartType(null);
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
 		partArrayGraphics.add(arm,pgd);
+		client.sendData(new Request(Constants.PARTS_ROBOT_DROP_PART_COMMAND + Constants.DONE_SUFFIX,
+				Constants.PARTS_ROBOT_TARGET, null));
+		
 		
 	}
 
@@ -387,12 +389,16 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			arm = ((PartData) r.getData()).getArm();
 			
 			pickUp();
+		} else if (r.getCommand().equals(Constants.PARTS_ROBOT_DROP_COMMAND)) {
+			arm = ((PartData) r.getData()).getArm();
+			
+			dropPart();
 		}
 	}
 	@Override
 	public void setLocation(Location newLocation) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

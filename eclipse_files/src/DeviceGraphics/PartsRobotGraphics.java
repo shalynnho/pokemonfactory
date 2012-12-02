@@ -66,6 +66,13 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
 
 	}
+	
+	@Override
+	public void dropPartFromArm(PartGraphics part, int arm) {
+		PartData a = new PartData(arm);
+		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, a));
+
+	}
 
 	// rotates the arm
 	public void rotateArm() {
@@ -125,18 +132,15 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 			partsRobotAgent.msgPickUpPartDone();
 		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX)) {
 			partsRobotAgent.msgGivePartToKitDone();
-		} else if (req.getCommand()
-				.equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND
+		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_DROP_PART_COMMAND + Constants.DONE_SUFFIX)) {
+			partsRobotAgent.msgDropPartFromArmDone();
+		} else if (req.getCommand().equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND
 						+ Constants.DONE_SUFFIX)) {
 			server.sendData(new Request(Constants.STAND_RECEIVE_PART_COMMAND, Constants.STAND_TARGET + kitPosition,
 					req.getData()));
 		}
 	}
 
-	@Override
-	public void dropPartFromArm(PartGraphics part) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 }
