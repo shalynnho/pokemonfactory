@@ -6,6 +6,7 @@ import java.util.concurrent.Semaphore;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.Timer;
 
 import DeviceGraphics.DeviceGraphics;
@@ -50,6 +51,8 @@ public class FPMMusicAgent extends Agent {
 			music = AudioSystem.getClip();
 			music.open(audioIn);
 
+		} catch (LineUnavailableException e) {
+			print("Sorry, I can't load the music in Java 1.6 :(");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
