@@ -2,6 +2,7 @@ package factory;
 
 import java.util.ArrayList;
 
+import DeviceGraphics.GantryGraphics;
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
@@ -96,6 +97,8 @@ public class FCS {
 			if (partTypes.get(i).equals(pt)) {
 				partTypes.set(i, pt);
 				updateParts();
+				GantryGraphics gantry = (GantryGraphics)(server.devices.get(Constants.GANTRY_ROBOT_TARGET));
+				gantry.editBin(pt);
 			}
 		}
 	}

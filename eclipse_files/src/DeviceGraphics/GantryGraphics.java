@@ -105,12 +105,13 @@ public class GantryGraphics implements DeviceGraphics, GraphicsInterfaces.Gantry
 	}
 	
 	public void editBin(PartType pt) {
-		for (int i = 0; i < binList.size(); i ++) {
-			if (binList.get(i).getPart().getPartType().equals(pt)) {
-				binList.get(i).getBin().part.type = pt;
+		for (BinGraphics bin : binList) {
+			if (bin.getPart().getPartType().equals(pt)) {
+				bin.getPart().setPartType(pt);
 				server.sendData(new Request(Constants.GANTRY_ROBOT_EDIT_BIN, Constants.GANTRY_ROBOT_TARGET, new BinData (null, pt)));
 			}
 		}
+
 	}
 
 }
