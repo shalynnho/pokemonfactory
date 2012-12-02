@@ -331,7 +331,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			jamSeq = 0;
 			unjamming = false;
 			jammed = false;
-			client.startMusic();
 			client.sendData(new Request(Constants.LANE_SET_JAM_COMMAND + Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID, null));
 		} else {
 			jamSeq++;

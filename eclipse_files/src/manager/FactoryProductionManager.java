@@ -170,7 +170,14 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	public void startPokeflute() {
 		if (pokeflute != null) {
-			pokeflute.start();
+			System.out.println("plays flute"); // !!! EXTREMELY IMPORTANT
+			pokeflute.loop(Clip.LOOP_CONTINUOUSLY);
+			musicTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					startMusic();
+				}
+			}, 4220);
 		}
 	}
 
