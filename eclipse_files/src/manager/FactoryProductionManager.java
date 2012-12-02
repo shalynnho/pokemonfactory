@@ -138,7 +138,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	@Override
 	public void startPokeflute() {
-		musicAgent.startPokeflute();
+		musicAgent.msgStartPokeflute();
 	}
 
 	@Override
@@ -188,7 +188,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			} else if (req.getCommand().equals(Constants.FCS_UPDATE_ORDERS)) {
 				ArrayList<Order> o = (ArrayList<Order>) req.getData();
 				fpmPanel.updateOrders(o);
-				if(o.size() == 0) {
+				if (o.size() == 0) {
 					startCompleted();
 				}
 			} else if (req.getCommand().equals(Constants.FCS_SHIPPED_KIT)) {
