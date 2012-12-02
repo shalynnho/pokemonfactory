@@ -40,7 +40,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		testKit2 = new KitGraphics(server);
 		inspectionLocation = new Location(240, 100);
 		location1 = new Location(280, 200);
-		location2 = new Location(240, 300);
+		location2 = new Location(280, 300);
 	}
 
 	/*
