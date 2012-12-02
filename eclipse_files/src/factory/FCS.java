@@ -88,7 +88,7 @@ public class FCS {
 		updateParts();
 		agent.msgAddNewPartType(pt);
 
-		displayMessage("Professor Oak: Part added: " + pt.getName());
+		displayMessage("Professor Oak: Part added - " + pt.getName());
 		return true;
 	}
 
@@ -103,7 +103,7 @@ public class FCS {
 			}
 		}
 
-		displayMessage("Professor Oak: Part edited: " + pt.getName());
+		displayMessage("Professor Oak: Part edited - " + pt.getName());
 	}
 
 	public void deletePart(PartType pt) {
@@ -115,7 +115,7 @@ public class FCS {
 			}
 		}
 
-		displayMessage("Professor Oak: Part deleted: " + pt.getName());
+		displayMessage("Professor Oak: Part deleted - " + pt.getName());
 		// TODO: add in agent call so to stop drawing bin
 	}
 
@@ -128,7 +128,7 @@ public class FCS {
 		kitConfigs.add(kc);
 		updateKits();
 
-		displayMessage("Professor Oak: Kit added: " + kc.getName());
+		displayMessage("Professor Oak: Kit added - " + kc.getName());
 		return true;
 	}
 
@@ -139,7 +139,7 @@ public class FCS {
 				kitConfigs.set(i, kc);
 			}
 		}
-		displayMessage("Professor Oak: Kit edited " + kc.getName());
+		displayMessage("Professor Oak: Kit edited - " + kc.getName());
 	}
 
 	public void deleteKit(KitConfig kc) {
@@ -149,7 +149,7 @@ public class FCS {
 				kitConfigs.remove(i);
 			}
 		}
-		displayMessage("Professor Oak: Kit deleted: " + kc.getName());
+		displayMessage("Professor Oak: Kit deleted - " + kc.getName());
 	}
 
 	public void addOrder(Order o) {
@@ -162,7 +162,7 @@ public class FCS {
 				productionStarted = true;
 			}
 		}
-		displayMessage("Professor Oak: Order added: " + (o.getNumKits() == 1 ? " kit" : " kits") + " of "
+		displayMessage("Professor Oak: Ordered " + o.getNumKits() + (o.getNumKits() == 1 ? " kit" : " kits") + " of "
 				+ o.getConfig().getName());
 	}
 
@@ -173,7 +173,7 @@ public class FCS {
 	public void setDropChance(Float c) {
 		// TODO Make a slider/button for this
 		agent.msgSetPartsRobotDropChance(c);
-		displayMessage("Professor Oak: Parts Robot Drop Chance set to: " + c * 100 + "%");
+		displayMessage("Professor Oak: Parts Robot drop rate set to " + c * 100 + "%");
 	}
 
 	public void receiveData(Request req) {
