@@ -338,7 +338,8 @@ public abstract class Constants {
 	public static final String STAND_RECEIVE_KIT_COMMAND = "stand receive kit";
 	public static final String STAND_GIVE_KIT_COMMAND = "stand give kit";
 	public static final String STAND_RECEIVE_PART_COMMAND = "stand receive part";
-
+	public static final String STAND_GIVES_BACK_TO_ANOTHER_STAND = "inspection stand gives back to";
+	
 	// gantry logic to display commands
 
 	public static final String GANTRY_ROBOT_MOVE_TO_LOC_COMMAND = "move";

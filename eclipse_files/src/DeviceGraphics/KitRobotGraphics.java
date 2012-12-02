@@ -10,6 +10,7 @@ import agent.Agent;
 import agent.KitRobotAgent;
 import agent.StandAgent;
 import factory.PartType;
+import java.lang.Integer;
 
 public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		DeviceGraphics {
@@ -48,13 +49,13 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	 */
 	public void initKitPositions() {
 
-		KitGraphics tempKitGraphics = new KitGraphics(server);
+		KitGraphics tempKitGraphics = null;
 		kitPositions.put(Constants.KIT_INITIAL, tempKitGraphics);
-		tempKitGraphics = new KitGraphics(server);
+		tempKitGraphics = null;
 		kitPositions.put(Constants.KIT_INSPECTION_AREA, tempKitGraphics);
-		tempKitGraphics = new KitGraphics(server);
+		tempKitGraphics = null;
 		kitPositions.put(Constants.KIT_LOCATION1, tempKitGraphics);
-		tempKitGraphics = new KitGraphics(server);
+		tempKitGraphics = null;
 		kitPositions.put(Constants.KIT_LOCATION2, tempKitGraphics);
 
 	}
@@ -143,11 +144,23 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	 */
 	@Override
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
-		if (location == 1) {
-			msgPlaceKitOnStand1(kit);
-		} else if (location == 2) {
-			msgPlaceKitOnStand2(kit);
+		if(kitPositions.get(Constants.KIT_INSPECTION_AREA)==null ){
+			if ( location == 1) {
+				msgPlaceKitOnStand1(kit);
+			} else if ( location == 2) {
+				msgPlaceKitOnStand2(kit);
+			}
+		} else {
+			if ( location == 1 ){
+				kitPositions.put(Constants.KIT_LOCATION1, kit);
+			} else if( location == 2){
+				kitPositions.put(Constants.KIT_LOCATION2, kit);
+			}
+			
+			server.sendData(new Request(Constants.STAND_GIVES_BACK_TO_ANOTHER_STAND, Constants.STAND_TARGET + 0 , location) );	
+			kitPositions.put(Constants.KIT_INSPECTION_AREA, null);
 		}
+		
 
 	}
 
@@ -180,7 +193,11 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			msgPlaceKitInInspectionArea(testKit2);
 		} else if (command
 				.equals(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR)) {
-			msgPlaceKitOnConveyor();
+			msgPlaceKitOnConveyor();		
+		} else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1)){
+			server.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION1, Constants.KIT_ROBOT_TARGET, object));
+		} else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION2)){
+			server.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION2, Constants.KIT_ROBOT_TARGET, object));
 		} else if (command
 				.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
 			server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
@@ -233,7 +250,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			server.sendData(new Request(
 					Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_INSPECTION,
 					Constants.KIT_ROBOT_TARGET, object));
-		}
+		} 
 	}
 
 }

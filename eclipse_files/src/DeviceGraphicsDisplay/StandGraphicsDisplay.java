@@ -78,6 +78,11 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitConfig.setLocation(kitLocation);
 		kit.setKitConfig(kitConfig);
 	}
+	public void giveKitToStand(){
+		isEmpty = true;
+		client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1, Constants.KIT_ROBOT_TARGET, kitConfig));
+		kitConfig =null;
+	}
 	
 	public void receivePart(PartGraphicsDisplay pgd) {
 		kit.receivePart(pgd);
@@ -101,6 +106,16 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (cmd.equals(Constants.STAND_RECEIVE_PART_COMMAND)) {
 			PartType type = (PartType) r.getData();
 			receivePart(new PartGraphicsDisplay(type));
+		} else if(cmd.equals(Constants.STAND_GIVES_BACK_TO_ANOTHER_STAND)){
+			isEmpty=true;;
+			if((Integer)r.getData()==1 ){
+				client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1, Constants.KIT_ROBOT_TARGET, kitConfig));
+			}
+			else {
+				client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION2, Constants.KIT_ROBOT_TARGET, kitConfig));
+			}
+			
+			kitConfig= null;
 		}
 		
 		
