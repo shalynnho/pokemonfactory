@@ -69,7 +69,7 @@ public class KitConfig implements Serializable, FactoryData {
 		config.put(pt, n);
 	}
 	
-	public void clearDummies(){
+	public void clearDummies() {
 		ArrayList<PartType> dummies = new ArrayList<PartType>();
 		for(PartType pt: config.keySet() )
 		{
@@ -84,6 +84,7 @@ public class KitConfig implements Serializable, FactoryData {
 				config.keySet().remove(dummies.get(i));
 			}
 		}
+		
 	}
 
 	/**
@@ -127,8 +128,19 @@ public class KitConfig implements Serializable, FactoryData {
 	public ArrayList<PartType> getParts() {
 		ArrayList<PartType> parts = new ArrayList<PartType>(8);
 		for (PartType p : config.keySet()) {
+			parts.add(p);
+		}
+		return parts;
+	}
+	
+	// Adds duplicate parts if necessary
+	public ArrayList<PartType> getAllParts() {
+		ArrayList<PartType> parts = new ArrayList<PartType>(8);
+		for (PartType p : config.keySet()) {
+			int num = config.get(p).intValue();
+			for (int i = 0; i < num; i++) {
 				parts.add(p);
-			
+			}
 		}
 		return parts;
 	}

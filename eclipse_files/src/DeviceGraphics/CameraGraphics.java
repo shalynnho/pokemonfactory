@@ -37,7 +37,6 @@ public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.Camera
 				Constants.NEST_TARGET + nest1.getNestID(), null));
 		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND,
 				Constants.NEST_TARGET + nest2.getNestID(), null));
-
 		agent.msgTakePictureNestDone(nest1, true, nest2, true);
 	}
 
