@@ -131,18 +131,29 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			music = AudioSystem.getClip();
 			music.open(audioIn);
 			
-			AudioInputStream pokeAudioIn = AudioSystem.getAudioInputStream(fluteURL);
-			pokeflute = AudioSystem.getClip();
-			pokeflute.open(pokeAudioIn);
-			
-			AudioInputStream recoverAudioIn = AudioSystem.getAudioInputStream(recoveryURL);
-			recovery = AudioSystem.getClip();
-			recovery.open(recoverAudioIn);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		music.loop(Clip.LOOP_CONTINUOUSLY);
+		
+		try {
+			AudioInputStream pokeAudioIn = AudioSystem.getAudioInputStream(fluteURL);
+			pokeflute = AudioSystem.getClip();
+			pokeflute.open(pokeAudioIn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			AudioInputStream recoverAudioIn = AudioSystem.getAudioInputStream(recoveryURL);
+			recovery = AudioSystem.getClip();
+			recovery.open(recoverAudioIn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if (music != null) {
+			music.loop(Clip.LOOP_CONTINUOUSLY);
+		}
 	}
 	
 	public void stopMusic() {
@@ -152,13 +163,22 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	}
 	
 	public void startMusic() {
-		pokeflute.stop();
-		recovery.stop();
-		music.loop(Clip.LOOP_CONTINUOUSLY);
+		if (pokeflute.isRunning()) {
+			pokeflute.stop();
+		}
+		if (recovery.isRunning()) {
+			recovery.stop();
+		}
+		
+		if (music != null) {
+			music.loop(Clip.LOOP_CONTINUOUSLY);
+		}
 	}
 	
 	public void startPokeflute() {
-		pokeflute.start();
+		if (pokeflute != null) {
+			pokeflute.start();
+		}
 	}
 	
 	public void stopPokeflute() {
@@ -168,14 +188,14 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	}
 	
 	public void startRecovery() {
-		recovery.loop(Clip.LOOP_CONTINUOUSLY);
+		if (recovery != null) {
+			recovery.loop(Clip.LOOP_CONTINUOUSLY);
+		}
 	}
 	
 	public void stopRecovery() {
-		System.out.println("BLEHHHHHHHH");
 		if(recovery.isRunning()) {
 			recovery.stop();
-			System.out.println("BLEHHHHHHHH2");
 		}
 	}
 
