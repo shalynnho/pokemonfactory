@@ -50,7 +50,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	private Timer timer;
 	
 	// Background music - Goldenrod City
-	private Clip music;
+	private Clip music, pokeflute, recovery;
 	
 	/**
 	 * Constructor
@@ -122,16 +122,57 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	}
 	
 	private void initMusic() {
-		URL url = this.getClass().getClassLoader().getResource("audio/goldenrod.wav");		
+		URL url = this.getClass().getClassLoader().getResource("audio/goldenrod.wav");
+		URL fluteURL = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");
+		URL recoveryURL = this.getClass().getClassLoader().getResource("audio/recovery.wav");		
+
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
 			music = AudioSystem.getClip();
 			music.open(audioIn);
+			
+			AudioInputStream pokeAudioIn = AudioSystem.getAudioInputStream(fluteURL);
+			pokeflute = AudioSystem.getClip();
+			pokeflute.open(pokeAudioIn);
+			
+			AudioInputStream recoverAudioIn = AudioSystem.getAudioInputStream(recoveryURL);
+			recovery = AudioSystem.getClip();
+			recovery.open(recoverAudioIn);
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		music.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+	
+	public void stopMusic() {
+		if (music.isRunning()) {
+			music.stop();
+		}
+	}
+	
+	public void startMusic() {
+		music.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+	
+	public void startPokeflute() {
+		pokeflute.start();
+	}
+	
+	public void stopPokeflute() {
+		if (pokeflute.isRunning()) {
+			pokeflute.stop();
+		}
+	}
+	
+	public void startRecovery() {
+		recovery.start();
+	}
+	
+	public void stopRecovery() {
+		if(recovery.isRunning()) {
+			recovery.stop();
+		}
 	}
 
 	/**
