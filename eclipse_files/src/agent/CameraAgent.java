@@ -195,7 +195,7 @@ public class CameraAgent extends Agent implements Camera {
 		mk.kitDone = done;
 		boolean passed = true;
 		for (Part p : mk.kit.parts) {
-			if (p.partGraphics == null) {
+			if (p.type.getName().equals("Dummy")) {
 				passed = false;
 			}
 		}
