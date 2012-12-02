@@ -201,11 +201,14 @@ public class CameraAgent extends Agent implements Camera {
 					count++;
 				}
 				if (p.type.getName() == "Dummy") {
-					print("Removing dummy part");
 					DummyParts.add(p);
 				}
 			}
-			mk.kit.parts.removeAll(DummyParts);
+
+			for (int i = 0; i < DummyParts.size(); i++) {
+				print("Removing dummy part");
+				mk.kit.parts.remove(DummyParts.get(i));
+			}
 
 			if (count != mk.kit.partsExpected.getConfig().get(type)) {
 				passed = false;
