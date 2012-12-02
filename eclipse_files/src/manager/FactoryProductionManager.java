@@ -177,7 +177,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 				public void run() {
 					startMusic();
 				}
-			}, 4220);
+			}, 4224);
 		}
 	}
 
