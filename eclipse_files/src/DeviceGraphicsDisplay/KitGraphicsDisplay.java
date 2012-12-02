@@ -16,13 +16,23 @@ import factory.PartType;
 
 public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 
+	public int getRemoveTimer() {
+		return removeTimer;
+	}
+
+	public void setRemoveTimer(int removeTimer) {
+		this.removeTimer = removeTimer;
+	}
+
 	private static final int MAX_PARTS = 8;
 	private int currentI;
 	private Location kitLocation;
 	
 
 	private int position;
-
+	private int removeTimer;
+	private boolean  startRemove;
+	
 	private ArrayList<PartType> partTypes = new ArrayList<PartType>();
 	private ArrayList<PartGraphicsDisplay> parts = new ArrayList<PartGraphicsDisplay>(8);
 	ImageIcon kitImage;
@@ -47,6 +57,8 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 		kitImage = new ImageIcon( Constants.KIT_IMAGE );
 		this.kitClient = kitClient;
 		velocity = 0;
+		startRemove = false;
+		removeTimer = 0;
 	}
 	
 	public KitGraphicsDisplay() {
@@ -57,6 +69,8 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 		currentI = 0;
 		kitConfig = new KitConfig("DummyqwerKit");
 		yOffset = 10;
+		startRemove = false;
+		removeTimer = 0;
 	}
 	public KitGraphicsDisplay(KitConfig kitConfig)
 	{
@@ -86,6 +100,10 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 	}
 	
 	public void drawKit(JComponent c, Graphics2D g) {
+		if(startRemove)
+		{
+			removeTimer--;
+		}
 		drawWithOffset(c, g, 0);
 		setLocation(new Location(kitLocation.getX()+velocity, kitLocation.getY()));
 	}
@@ -106,7 +124,8 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 + gap, kitLocation.getY()-48 +yOffset) );
 			else
 				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 +gap, kitLocation.getY() -48 + 25+yOffset));
-			if(!parts.get(i).getInvisible())
+			
+			if(!parts.get(i).getPartType().isInvisible())
 			{	
 				parts.get(i).drawPokeball(0,parts.get(i).getLocation(),c, g);
 			}
@@ -115,6 +134,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 	}
 	
 	public void convertPartTypesToDisplay(){
+	
 		partTypes = kitConfig.getParts();
 		parts = new ArrayList<PartGraphicsDisplay>(8);
 		for(int i =0; i<currentI; i++)
@@ -157,6 +177,10 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 
 	public void setKitConfig(KitConfig kitConfig) {
 		this.kitConfig = kitConfig;
+	}
+	
+	public void beginRemoval(){
+		startRemove = true;
 	}
 
 }

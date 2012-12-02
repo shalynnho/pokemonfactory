@@ -142,6 +142,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics,
 			setJamLocation(l);
 		
 		} else if (cmd.equals(Constants.LANE_SET_JAM_COMMAND + Constants.DONE_SUFFIX)) {
+			jammed = false;
 			server.displayMessage("Professor Oak: Snorlax woke up!");
 		}
 	}
@@ -168,7 +169,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics,
 	 * Receives message from agent, sends to GraphicsDisplay to unjam the lane
 	 */
 	public void unjam() {
-		jammed = false;
+		//jammed = false;
 		server.sendData(new Request(Constants.LANE_UNJAM_COMMAND,
 				Constants.LANE_TARGET + laneID, null));
 	}

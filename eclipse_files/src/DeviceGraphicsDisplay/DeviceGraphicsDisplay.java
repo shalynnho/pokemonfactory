@@ -62,4 +62,9 @@ public abstract class DeviceGraphicsDisplay implements Cloneable {
 	public String getName() {
 		return this.toString();
 	}
+
+	public void setExit(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
 }

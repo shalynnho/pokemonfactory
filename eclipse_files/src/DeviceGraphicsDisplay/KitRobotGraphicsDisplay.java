@@ -18,6 +18,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	int animCount;
 	boolean reverse;
+	boolean invisibleCloud;
 	int seq;
 	Image img;
 	// Messages
@@ -81,6 +82,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public KitRobotGraphicsDisplay(Client cli) {
 
+		invisibleCloud = true;
 		kitRobotLocation = Constants.KIT_ROBOT_LOC;
 		kitRobotClient = cli;
 
@@ -288,26 +290,25 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void sendDoneMessage() {
 		if (this.sendMessage.equals(Message.sendStand1DoneMessage)) {
-			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_STAND1_DONE,
 					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		} else if(this.sendMessage.equals(Message.sendStand2DoneMessage)){ 
-			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_ON_STAND2_DONE,
 					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		} else if (this.sendMessage.equals(Message.sendGoodConveyorDoneMessage)) {
-			kits.remove(currentKit);
 			currentKit.setPosition(2);
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_CONVEYOR_DONE,
 					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		} else if (this.sendMessage.equals(Message.sendInspectionDoneMessage)) {
-			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_INSPECTION_DONE,
 					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		}
+		currentKit.setRemoveTimer(10);
+		currentKit.beginRemoval();
+		invisibleCloud = true;
 
 	}
 
@@ -332,6 +333,14 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				sendDoneMessage();
 			}
 
+		}
+		
+		for(int i =0; i<kits.size(); i++)
+		{
+			if(kits.get(i).getRemoveTimer()<0)
+			{
+				kits.remove(i);
+			}
 		}
 	}
 
@@ -404,6 +413,8 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				kits.add(currentKit);
 				InspectionToLocation2();
 			}
+			
+			invisibleCloud = false;
 
 		}
 
@@ -434,9 +445,13 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		checkDegrees();
 		doJob();
-		g.drawImage(Constants.KIT_CLOUD_IMAGE, kitMagicX, kitMagicY, null);
+		if(!invisibleCloud)
+		{
+			g.drawImage(Constants.KIT_CLOUD_IMAGE, kitMagicX, kitMagicY, null);
+		}
+		
 		drawtheKits(c, g);
-		g.drawImage(Constants.KIT_ROBOT_IMAGE_FLICKER, kitRobotPositionX, kitRobotPositionY, c);
+		//g.drawImage(Constants.KIT_ROBOT_IMAGE_FLICKER, kitRobotPositionX, kitRobotPositionY, c);
 		animateRobot(g,c);
 	}
 
@@ -450,16 +465,15 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void animateRobot(Graphics2D g, JComponent c) {
-			if (animCount % 7 == 0) {
-				// TODO: change 1 to parttypenum later;
-				img = Toolkit.getDefaultToolkit().getImage(Constants.KIT_ROBOT_IMAGE + seq + ".png");
+		img = Toolkit.getDefaultToolkit().getImage(Constants.KIT_ROBOT_IMAGE + seq + ".png");	
+		if (animCount % 7 == 0) {
+				//// TODO: change 1 to parttypenum later;
 				sequenceIncrease();
 			} else if (animCount < 1) {
 				animCount = 76;
-				return;
 			}
+			
 			animCount--;
-			System.out.println(seq);
 			g.drawImage(img, kitRobotPositionX, kitRobotPositionY, c);
 	}
 	
@@ -496,7 +510,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	    	seq = 4;
 	    	reverse = false;
 	    }
-	    else {}
 	}
 
 	@Override

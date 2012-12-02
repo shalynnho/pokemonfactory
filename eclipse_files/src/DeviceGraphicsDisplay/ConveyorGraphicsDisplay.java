@@ -31,7 +31,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	int velocity;
 	Client client;
-	boolean kitComingIn;
+	boolean kitComingIn, exit;
 	private IncomingStatus incomingState;
 
 	private enum IncomingStatus {
@@ -42,21 +42,22 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		locationGood = Constants.CONVEYOR_LOC; // location for exit lane, based
 		exitKit = new KitGraphicsDisplay(); // off of input lane
 		client = cli;
+		exit = false;
 		conveyorLines = new ArrayList<Location>();
 		conveyorLinesGood = new ArrayList<Location>();
 
 		// Filling Arrays with locations
 		for (int i = 0; i < 4; i++) {
-			conveyorLines.add(new Location(locationGood.getX() + i * 40,
-					locationGood.getY() + 120)); // creating an array list of
-													// conveyor line locations
-													// for painting
+			conveyorLines.add(new Location(locationGood.getX() + i * 40, locationGood.getY() + 120)); // creating an
+																									  // array list of
+																									  // conveyor line
+																									  // locations
+																									  // for painting
 		}
 
 		// Filling Arrays with locations
 		for (int i = 0; i < 4; i++) {
-			conveyorLinesGood.add(new Location(locationGood.getX() + i * 40,
-					locationGood.getY() + 20));
+			conveyorLinesGood.add(new Location(locationGood.getX() + i * 40, locationGood.getY() + 20));
 		}
 
 		velocity = 1;
@@ -101,36 +102,30 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g2) {
 		g2.drawImage(Constants.CONVEYOR_IMAGE, 0 + client.getOffset(), 200, c);
 		for (int i = 0; i < conveyorLines.size(); i++) {
-			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i)
-					.getX() + client.getOffset(), conveyorLines.get(i).getY(),
-					c);
+			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i).getX() + client.getOffset(),
+					conveyorLines.get(i).getY(), c);
 			moveIn(i);
 		}
 
 		g2.drawImage(Constants.CONVEYOR_IMAGE, 0 + client.getOffset(), 100, c);
 		for (int i = 0; i < conveyorLinesGood.size(); i++) {
-			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE,
-					conveyorLinesGood.get(i).getX() + client.getOffset(),
+			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLinesGood.get(i).getX() + client.getOffset(),
 					conveyorLinesGood.get(i).getY(), c);
 			moveOut(i, conveyorLinesGood);
 		}
 
-
 		for (int j = 0; j < kitsOnConveyor.size(); j++) {
-			if (kitsOnConveyor.get(j).getLocation().getX() < 10 - j * 100) {
+			if (kitsOnConveyor.get(j).getLocation().getX() < 10 - j * 138) {
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.drawWithOffset(c, g2, client.getOffset());
 				Location tempLoc = tempKit.getLocation();
-				tempKit.setLocation(new Location(tempLoc.getX() + velocity,
-						tempLoc.getY()));
-			} else if (kitsOnConveyor.get(j).getLocation().getX() >= 10 - j * 100) {
-				kitsOnConveyor.get(j).draw(c, g2);
+				tempKit.setLocation(new Location(tempLoc.getX() + velocity, tempLoc.getY()));
+			} else if (kitsOnConveyor.get(j).getLocation().getX() >= 10 - j * 138) {
+				kitsOnConveyor.get(j).drawWithOffset(c, g2, client.getOffset());
 				if (kitComingIn == true) {
 					kitComingIn = false;
 					incomingState = IncomingStatus.KIT_WAITING;
-					animationDone(new Request(
-							Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND
-									+ Constants.DONE_SUFFIX,
+					animationDone(new Request(Constants.CONVEYOR_MAKE_NEW_KIT_COMMAND + Constants.DONE_SUFFIX,
 							Constants.CONVEYOR_TARGET, null));
 				}
 			}
@@ -138,16 +133,17 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		for (int i = 0; i < kitsToLeave.size(); i++) {
 			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
+			Location tempLoc = tempKit.getLocation();
+			tempKit.setLocation(new Location(tempLoc.getX(), 100));
 			tempKit.drawKit(c, g2);
 			if (tempKit.getLocation().getX() == -80) {
-				animationDone(new Request(
-						Constants.CONVEYOR_RECEIVE_KIT_COMMAND
-								+ Constants.DONE_SUFFIX,
+				animationDone(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND + Constants.DONE_SUFFIX,
 						Constants.CONVEYOR_TARGET, null));
 				sendOut();
 			}
-			Location tempLoc = tempKit.getLocation();
-			tempKit.setLocation(new Location(tempLoc.getX() - 5, 100));
+			if (exit == true){
+				tempKit.setLocation(new Location(tempLoc.getX() - 5, 100));
+			}
 		}
 	}
 
@@ -169,6 +165,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			conveyorLines.get(i).setX(-10);
 		}
 	}
+	
+	public void setExit(boolean e){
+		exit = e;
+	}
 
 	/**
 	 * Move conveyor lines out of the factory.
@@ -177,7 +177,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 
 	public void moveOut(int i, ArrayList<Location> a) {
-		if (a.get(i).getX() > 0) {
+		if (a.get(i).getX() > 0 && exit == true) {
 			a.get(i).setX(a.get(i).getX() - 5);
 			// ConveyorLines move backward this time.
 		} else if (a.get(i).getX() <= 0) {
@@ -211,7 +211,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			newExitKit();
 		} else if (command.equals(Constants.KIT_ROBOT_PASSES_KIT_COMMAND)) {
 			exitKit = new KitGraphicsDisplay((KitConfig) object);
-			exitKit.setLocation(new Location(0,80));
+			exitKit.setLocation(new Location(0, 80));
 		}
 	}
 

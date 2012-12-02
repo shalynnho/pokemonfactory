@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -15,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import manager.panel.FactoryProductionManagerPanel;
-import DeviceGraphicsDisplay.CameraGraphicsDisplay;
 import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
 import DeviceGraphicsDisplay.FeederGraphicsDisplay;
@@ -48,10 +48,11 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	// Create a new timer
 	private Timer timer;
-	
+	private final java.util.Timer musicTimer = new java.util.Timer();
+
 	// Background music - Goldenrod City
-	private Clip music, pokeflute, healing;
-	
+	private Clip music, pokeflute, recovery, completed;
+
 	/**
 	 * Constructor
 	 */
@@ -64,7 +65,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		initGUI();
 		initDevices();
 		initMusic();
-		
+
 	}
 
 	/**
@@ -85,78 +86,170 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 */
 	public void initDevices() {
 
-		addDevice(Constants.STAND_TARGET + 0,
-				new InspectionStandGraphicsDisplay(this));
+		addDevice(Constants.STAND_TARGET + 0, new InspectionStandGraphicsDisplay(this));
 
 		for (int i = 1; i < Constants.STAND_COUNT; i++) {
-			addDevice(Constants.STAND_TARGET + i, new StandGraphicsDisplay(
-					this, i));
+			addDevice(Constants.STAND_TARGET + i, new StandGraphicsDisplay(this, i));
 		}
 
 		addDevice(Constants.CONVEYOR_TARGET, new ConveyorGraphicsDisplay(this));
 		addDevice(Constants.KIT_ROBOT_TARGET, new KitRobotGraphicsDisplay(this));
-		addDevice(Constants.GANTRY_ROBOT_TARGET,
-				new GantryGraphicsDisplay(this));
+		addDevice(Constants.GANTRY_ROBOT_TARGET, new GantryGraphicsDisplay(this));
 
 		for (int i = 0; i < Constants.LANE_COUNT; i++) {
-			addDevice(Constants.LANE_TARGET + i, new LaneGraphicsDisplay(this,
-					i));
+			addDevice(Constants.LANE_TARGET + i, new LaneGraphicsDisplay(this, i));
 		}
 
 		for (int i = 0; i < Constants.NEST_COUNT; i++) {
-			addDevice(Constants.NEST_TARGET + i, new NestGraphicsDisplay(this,
-					i));
+			addDevice(Constants.NEST_TARGET + i, new NestGraphicsDisplay(this, i));
 		}
 
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
-		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
-			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(
-					this, i));
+			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));
 		}
 
-		addDevice(Constants.MESSAGING_BOX_TARGET,
-				new MessagingBoxGraphicsDisplay(this));
+		addDevice(Constants.MESSAGING_BOX_TARGET, new MessagingBoxGraphicsDisplay(this));
 
 	}
-	
+
 	private void initMusic() {
 		URL url = this.getClass().getClassLoader().getResource("audio/goldenrod.wav");
-		URL fluteURL = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");		
+		URL fluteURL = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");
+		URL recoveryURL = this.getClass().getClassLoader().getResource("audio/recovery.wav");
+		URL completedURL = this.getClass().getClassLoader().getResource("audio/item_get.wav");
 
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
 			music = AudioSystem.getClip();
 			music.open(audioIn);
-			
-			AudioInputStream pokeAudioIn = AudioSystem.getAudioInputStream(fluteURL);
-			pokeflute = AudioSystem.getClip();
-			pokeflute.open(pokeAudioIn);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		music.loop(Clip.LOOP_CONTINUOUSLY);
+
+		try {
+			AudioInputStream pokeAudioIn = AudioSystem.getAudioInputStream(fluteURL);
+			pokeflute = AudioSystem.getClip();
+			pokeflute.open(pokeAudioIn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			AudioInputStream recoverAudioIn = AudioSystem.getAudioInputStream(recoveryURL);
+			recovery = AudioSystem.getClip();
+			recovery.open(recoverAudioIn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(completedURL);
+			completed = AudioSystem.getClip();
+			completed.open(audioIn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if (music != null) {
+			music.loop(Clip.LOOP_CONTINUOUSLY);
+		}
 	}
-	
+
+	@Override
 	public void stopMusic() {
 		if (music.isRunning()) {
 			music.stop();
 		}
 	}
-	
+
+	@Override
 	public void startMusic() {
-		music.loop(Clip.LOOP_CONTINUOUSLY);
+		stopCompleted();
+		stopPokeflute();
+		stopRecovery();
+
+		if (music != null) {
+			music.loop(Clip.LOOP_CONTINUOUSLY);
+		}
 	}
-	
+
+	@Override
 	public void startPokeflute() {
-		pokeflute.start();
+		if (pokeflute != null) {
+			stopMusic();
+			stopCompleted();
+			stopRecovery();
+
+			System.out.println("plays flute"); // !!! EXTREMELY IMPORTANT
+			pokeflute.setFramePosition(0);
+			pokeflute.start();
+			musicTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					startMusic();
+				}
+			}, 4224);
+		}
 	}
-	
+
+	@Override
 	public void stopPokeflute() {
 		if (pokeflute.isRunning()) {
 			pokeflute.stop();
+		}
+	}
+
+	@Override
+	public void startRecovery() {
+		if (recovery != null) {
+			stopMusic();
+			stopPokeflute();
+			stopCompleted();
+
+			System.out.println("plays recovery"); // !!! EXTREMELY IMPORTANT
+			recovery.setFramePosition(0);
+			recovery.start();
+			musicTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					startMusic();
+				}
+			}, 2000);
+		}
+	}
+
+	@Override
+	public void stopRecovery() {
+		if (recovery.isRunning()) {
+			recovery.stop();
+		}
+	}
+
+	public void startCompleted() {
+		if (completed != null) {
+			stopMusic();
+			stopPokeflute();
+			stopRecovery();
+
+			System.out.println("plays completed"); // !!! EXTREMELY IMPORTANT
+			completed.setFramePosition(0);
+			completed.start();
+			musicTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					startMusic();
+					((ConveyorGraphicsDisplay) devices.get(Constants.CONVEYOR_TARGET)).setExit(true);
+				}
+			}, 2000);
+		}
+	}
+
+	public void stopCompleted() {
+		if (completed.isRunning()) {
+			completed.stop();
 		}
 	}
 
@@ -172,9 +265,14 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			if (req.getCommand().equals(Constants.FCS_UPDATE_KITS)) {
 				fpmPanel.updateKitConfigs((ArrayList<KitConfig>) req.getData());
 			} else if (req.getCommand().equals(Constants.FCS_UPDATE_ORDERS)) {
-				fpmPanel.updateOrders((ArrayList<Order>) req.getData());
+				ArrayList<Order> o = (ArrayList<Order>) req.getData();
+				fpmPanel.updateOrders(o);
+				if(o.size() == 0) {
+					startCompleted();
+				}
 			} else if (req.getCommand().equals(Constants.FCS_SHIPPED_KIT)) {
 				fpmPanel.decreaseCurrentKitCount();
+				((ConveyorGraphicsDisplay) devices.get(Constants.CONVEYOR_TARGET)).setExit(true);
 			}
 		} else {
 			synchronized (devices) {
@@ -190,8 +288,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 *            order
 	 */
 	public void createOrder(Order o) {
-		this.sendData(new Request(Constants.FCS_ADD_ORDER,
-				Constants.FCS_TARGET, o));
+		this.sendData(new Request(Constants.FCS_ADD_ORDER, Constants.FCS_TARGET, o));
 	}
 
 	/**
@@ -201,8 +298,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT,
-				"Factory Production Manager");
+		Client.setUpJFrame(frame, WINDOW_WIDTH, WINDOW_HEIGHT, "Factory Production Manager");
 
 		FactoryProductionManager mngr = new FactoryProductionManager();
 		frame.add(mngr);

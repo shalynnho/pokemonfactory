@@ -42,6 +42,9 @@ public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
 		super.receiveData(r);
 		if (r.getCommand().equals(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND)) {
 			cameraTimer = 100;
+//			client.stopMusic();
+//			client.stopPokeflute();
+			client.startRecovery();
 		}
 	}
 

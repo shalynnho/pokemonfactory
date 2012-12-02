@@ -79,7 +79,7 @@ public class KitConfig implements Serializable, FactoryData {
 		}
 		for(int i =0; i <dummies.size(); i++)
 		{
-			if(dummies.get(i).getName().equals("Dummy"))
+			if(dummies.get(i).isInvisible())
 			{
 				config.keySet().remove(dummies.get(i));
 			}
@@ -115,6 +115,17 @@ public class KitConfig implements Serializable, FactoryData {
 
 	public void setConfig(HashMap<PartType, Integer> config) {
 		this.config = config;
+	}
+	
+	public void setConfig(List<PartType> parts) {
+		config.clear();
+		for(PartType pt : parts) {
+			if(config.get(pt) != null) { 
+				config.put(pt, config.get(pt) + 1);
+			} else {
+				config.put(pt, 1);
+			}
+		}
 	}
 	
 	public String getID() {
