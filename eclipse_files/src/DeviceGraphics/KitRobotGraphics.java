@@ -144,7 +144,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	 */
 	@Override
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
-		if(kitPositions.get(Constants.KIT_INSPECTION_AREA)==null ){
+		Boolean placeFromInspection = false;
+		if(kitPositions.get(Constants.KIT_INSPECTION_AREA)==kit)
+		placeFromInspection=true;	
+		if ( !placeFromInspection ){
 			if ( location == 1) {
 				msgPlaceKitOnStand1(kit);
 			} else if ( location == 2) {

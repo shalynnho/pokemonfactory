@@ -7,6 +7,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import factory.PartType;
+
 import DeviceGraphics.DeviceGraphics;
 import DeviceGraphics.KitGraphics;
 import GraphicsInterfaces.CameraGraphics;
@@ -194,9 +196,16 @@ public class CameraAgent extends Agent implements Camera {
 		print("Received msgTakePictureKitDone from graphics");
 		mk.kitDone = done;
 		boolean passed = true;
-		for (Part p : mk.kit.parts) {
-			if (p.type.getName().equals("Dummy")) {
+		for (PartType type: mk.kit.partsExpected.getConfig().keySet()) {
+			int count = 0;
+			for (Part p : mk.kit.parts) {
+				if (p.type.equals(type)) {
+					count++;
+				}
+			}
+			if(count != mk.kit.partsExpected.getConfig().get(type)) {
 				passed = false;
+				break;
 			}
 		}
 		if (passed) {
