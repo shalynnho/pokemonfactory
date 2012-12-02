@@ -460,14 +460,14 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void animateRobot(Graphics2D g, JComponent c) {
-			if (animCount % 7 == 0) {
+		img = Toolkit.getDefaultToolkit().getImage(Constants.KIT_ROBOT_IMAGE + seq + ".png");	
+		if (animCount % 7 == 0) {
 				//// TODO: change 1 to parttypenum later;
 				sequenceIncrease();
 			} else if (animCount < 1) {
 				animCount = 76;
 			}
 			
-			img = Toolkit.getDefaultToolkit().getImage(Constants.KIT_ROBOT_IMAGE + seq + ".png");
 			animCount--;
 			g.drawImage(img, kitRobotPositionX, kitRobotPositionY, c);
 	}
