@@ -153,12 +153,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 											- Constants.PART_PADDING, speed);
 									// System.out.println("		LANE"+laneID+" FIRST PART BEFORE JAM");
 								} else if (unjamming) {
-									g.drawImage(Constants.POKEFLUTE,
-											jamLocX - Constants.PART_PADDING
-													+ client.getOffset(),
+									g.drawImage(Constants.POKEFLUTE, jamLocX
+											- 65 + client.getOffset(),
 											location.getY()
 													- Constants.PART_PADDING
-													- 24 + client.getOffset(),
+													+ 10 + client.getOffset(),
 											c);
 									animateUnjam(loc);
 								}
