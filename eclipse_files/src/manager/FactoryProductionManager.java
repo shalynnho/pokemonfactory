@@ -186,10 +186,14 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			if (req.getCommand().equals(Constants.FCS_UPDATE_KITS)) {
 				fpmPanel.updateKitConfigs((ArrayList<KitConfig>) req.getData());
 			} else if (req.getCommand().equals(Constants.FCS_UPDATE_ORDERS)) {
-				fpmPanel.updateOrders((ArrayList<Order>) req.getData());
+				ArrayList<Order> o = (ArrayList<Order>) req.getData();
+				fpmPanel.updateOrders(o);
+				if(o.size() == 0) {
+					startCompleted();
+				}
 			} else if (req.getCommand().equals(Constants.FCS_SHIPPED_KIT)) {
 				fpmPanel.decreaseCurrentKitCount();
-				startCompleted();
+				((ConveyorGraphicsDisplay) devices.get(Constants.CONVEYOR_TARGET)).setExit(true);
 			}
 		} else {
 			synchronized (devices) {
