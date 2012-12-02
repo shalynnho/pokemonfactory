@@ -229,18 +229,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			}
 		}
 
-		// Kit needs to be inspected
-		synchronized (myKits) {
-			// print("Acquiring in scheduler");
-			for (MyKit mk : myKits) {
-				if (mk.KS == KitStatus.MARKED_FOR_INSPECTION && standPositions.get(0)) {
-					mk.KS = KitStatus.AWAITING_INSPECTION;
-					placeKitInInspectionArea(mk);
-					return true;
-				}
-			}
-		}
-
 		// Failed kits should be placed first
 		synchronized (myKits) {
 			// print("Acquiring in scheduler");
@@ -252,9 +240,22 @@ public class KitRobotAgent extends Agent implements KitRobot {
 					// can put it back there (or at another
 					// position if necessary)
 					standPositions.put(mk.location, true);
+					standPositions.put(0, true);
 					// TODO: This should ask the stand to place at the kit's
 					// previous location.
 					placeKitOnStand(mk);
+					return true;
+				}
+			}
+		}
+
+		// Kit needs to be inspected
+		synchronized (myKits) {
+			// print("Acquiring in scheduler");
+			for (MyKit mk : myKits) {
+				if (mk.KS == KitStatus.MARKED_FOR_INSPECTION && standPositions.get(0)) {
+					mk.KS = KitStatus.AWAITING_INSPECTION;
+					placeKitInInspectionArea(mk);
 					return true;
 				}
 			}
