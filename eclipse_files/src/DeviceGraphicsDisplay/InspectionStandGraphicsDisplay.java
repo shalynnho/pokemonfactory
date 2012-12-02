@@ -41,18 +41,10 @@ public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
 	public void receiveData(Request r) {
 		super.receiveData(r);
 		if (r.getCommand().equals(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND)) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-			cameraTimer = 15;
+			cameraTimer = 100;
 			client.stopMusic();
 			client.stopPokeflute();
 			client.startRecovery();
-=======
-			cameraTimer = 100;
->>>>>>> branch 'master' of https://github.com/usc-csci200-fall2012/team09.git
-=======
-			cameraTimer = 100;
->>>>>>> 2bec3e00a62a9eeb70d6ea29e93c2ab1ebce1b97
 		}
 	}
 
