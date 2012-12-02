@@ -139,4 +139,8 @@ public abstract class Client extends JPanel {
 	public void stopMusic() { }
 
 	public void startMusic() { }
+	
+	public void stopPokeflute() { }
+	
+	public void startPokeflute() { }
 }
