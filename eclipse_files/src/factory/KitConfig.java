@@ -68,6 +68,16 @@ public class KitConfig implements Serializable, FactoryData {
 	public void addItem(PartType pt, int n) {
 		config.put(pt, n);
 	}
+	
+	public void clearDummies(){
+		for(PartType pt: config.keySet() )
+		{
+			if(pt.getName()=="Dummy")
+			{
+				config.remove(pt);
+			}
+		}
+	}
 
 	/**
 	 * Removes the part type from the kit configuration
