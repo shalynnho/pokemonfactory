@@ -31,7 +31,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	int velocity;
 	Client client;
-	boolean kitComingIn;
+	boolean kitComingIn, exit;
 	private IncomingStatus incomingState;
 
 	private enum IncomingStatus {
@@ -42,6 +42,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		locationGood = Constants.CONVEYOR_LOC; // location for exit lane, based
 		exitKit = new KitGraphicsDisplay(); // off of input lane
 		client = cli;
+		exit = false;
 		conveyorLines = new ArrayList<Location>();
 		conveyorLinesGood = new ArrayList<Location>();
 
@@ -132,14 +133,17 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		for (int i = 0; i < kitsToLeave.size(); i++) {
 			KitGraphicsDisplay tempKit = kitsToLeave.get(i);
+			Location tempLoc = tempKit.getLocation();
+			tempKit.setLocation(new Location(tempLoc.getX(), 100));
 			tempKit.drawKit(c, g2);
 			if (tempKit.getLocation().getX() == -80) {
 				animationDone(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND + Constants.DONE_SUFFIX,
 						Constants.CONVEYOR_TARGET, null));
 				sendOut();
 			}
-			Location tempLoc = tempKit.getLocation();
-			tempKit.setLocation(new Location(tempLoc.getX() - 5, 100));
+			if (exit == true){
+				tempKit.setLocation(new Location(tempLoc.getX() - 5, 100));
+			}
 		}
 	}
 
@@ -161,6 +165,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			conveyorLines.get(i).setX(-10);
 		}
 	}
+	
+	public void setExit(boolean e){
+		exit = e;
+	}
 
 	/**
 	 * Move conveyor lines out of the factory.
@@ -169,7 +177,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 
 	public void moveOut(int i, ArrayList<Location> a) {
-		if (a.get(i).getX() > 0) {
+		if (a.get(i).getX() > 0 && exit == true) {
 			a.get(i).setX(a.get(i).getX() - 5);
 			// ConveyorLines move backward this time.
 		} else if (a.get(i).getX() <= 0) {
