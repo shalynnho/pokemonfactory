@@ -15,8 +15,16 @@ public class PartType implements Serializable, FactoryData {
 	private float badChance = 0;
 	private String description = "";
 	private String imagePath;
-
+	private boolean invisible;
 	// private Image image;
+
+	public boolean isInvisible() {
+		return invisible;
+	}
+
+	public void setInvisible(boolean invisible) {
+		this.invisible = invisible;
+	}
 
 	/**
 	 * 
@@ -26,6 +34,7 @@ public class PartType implements Serializable, FactoryData {
 	public PartType(String s) {
 		name = s;
 		this.id = StringUtil.md5(name);
+		invisible = false;
 		// setImage();
 	}
 
@@ -35,6 +44,7 @@ public class PartType implements Serializable, FactoryData {
 		description = desc;
 		this.id = StringUtil.md5(name);
 		imagePath = name;
+		invisible = false;
 	}
 	
 	public PartType(String s, int num, String desc, float chance) {
@@ -44,6 +54,7 @@ public class PartType implements Serializable, FactoryData {
 		badChance = chance;
 		imagePath = name;
 		this.id = StringUtil.md5(name);
+		invisible = false;
 	}
 
 	public String toString() {

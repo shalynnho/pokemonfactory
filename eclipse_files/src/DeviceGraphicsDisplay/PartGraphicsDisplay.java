@@ -9,7 +9,7 @@ import Networking.Request;
 import Utils.Location;
 import factory.PartType;
 
-public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
+public class PartGraphicsDisplay extends DeviceGraphicsDisplay  {
 	Location partLocation;
 	PartType partType;
 	boolean invisible;
