@@ -257,7 +257,7 @@ public class FCSAgent extends Agent implements FCS {
 				binsToAdd.remove(i);
 			}
 		} else {
-			gantry.msgHereIsBin(new Bin(binsToAdd.get(0),Constants.DEFAULT_PARTTYPES.size()-1));
+			gantry.msgHereIsBin(new Bin(binsToAdd.get(0),Constants.DEFAULT_PARTTYPES.size()));
 			binsToAdd.remove(0);
 		}
 		stateChanged();
