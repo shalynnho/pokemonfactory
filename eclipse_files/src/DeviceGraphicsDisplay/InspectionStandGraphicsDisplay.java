@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import javax.swing.JComponent;
 
 import Networking.Client;
+import Networking.Request;
 import Utils.Constants;
 
 /**
@@ -35,5 +36,6 @@ public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }

@@ -383,8 +383,18 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				Location2ToInspectionStand();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION1)) {
-
-			} 
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay((KitConfig)obj);
+				tempKit.setLocation(inspectionLocation);
+				setKitConfigurations(tempKit,1);
+				kits.add(currentKit);
+				InspectionToLocation1();
+			}  else if(command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION2)){
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay((KitConfig)obj);
+				tempKit.setLocation(inspectionLocation);
+				setKitConfigurations(tempKit,2);
+				kits.add(currentKit);
+				InspectionToLocation2();
+			}
 
 		}
 
