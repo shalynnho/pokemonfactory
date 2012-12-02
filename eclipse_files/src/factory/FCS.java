@@ -2,6 +2,8 @@ package factory;
 
 import java.util.ArrayList;
 
+import javax.sound.sampled.Clip;
+
 import DeviceGraphics.GantryGraphics;
 import Networking.Request;
 import Networking.Server;
@@ -25,6 +27,8 @@ public class FCS {
 	// private ConsoleWriter console;
 
 	private boolean productionStarted = false;
+	
+	private Clip completed;
 
 	public FCS(Server server, Agent a) {
 		agent = (FCSAgent) a;
@@ -40,6 +44,8 @@ public class FCS {
 		if (updatedKitConfigs != null) {
 			kitConfigs = updatedKitConfigs;
 		}
+		
+//		initMusic();
 	}
 
 	public void updateParts() {
@@ -51,8 +57,17 @@ public class FCS {
 	}
 
 	public void shippedKit() {
+<<<<<<< HEAD
+		displayMessage("Kit Completed");
+		server.sendData(new Request(Constants.FCS_SHIPPED_KIT,
+				Constants.ALL_TARGET, null));
+//		if (completed != null) {
+//			completed.loop(Clip.LOOP_CONTINUOUSLY);
+//		}
+=======
 		displayMessage("Professor Oak: Kit Completed!");
 		server.sendData(new Request(Constants.FCS_SHIPPED_KIT, Constants.ALL_TARGET, null));
+>>>>>>> branch 'master' of https://github.com/usc-csci200-fall2012/team09.git
 	}
 
 	public void displayMessage(String s) {
@@ -227,5 +242,17 @@ public class FCS {
 	public void setPartTypes(ArrayList<PartType> partTypes) {
 		this.partTypes = partTypes;
 	}
-
+	
+//	private void initMusic() {
+//		URL completedURL = this.getClass().getClassLoader().getResource("audio/item_get.wav");
+//
+//		try {
+//			AudioInputStream audioIn = AudioSystem.getAudioInputStream(completedURL);
+//			completed = AudioSystem.getClip();
+//			completed.open(audioIn);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
 }
