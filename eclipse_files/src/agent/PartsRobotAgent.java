@@ -206,8 +206,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				for (Arm arm : Arms) {
 					if (arm.AS == ArmStatus.FULL) {
 						print("Arm holding: " + arm.part.type.toString());
-						PlacePart(arm);
-						return true;
+						if (arm.part.type.getName() != "Dummy") {
+							PlacePart(arm);
+							return true;
+						}
 					}
 				}
 			}
@@ -317,44 +319,40 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void PlacePart(Arm arm) {
-		if (Math.random() > dropChance) {
-			print("Placing part");
-			synchronized (MyKits) {
-				for (MyKit mk : MyKits) {
-					if (mk.kit.needPart(arm.part) > 0
-							|| arm.part.type.getName() == "Dummy") {
-						if (partsRobotGraphics != null) {
-							partsRobotGraphics.givePartToKit(
-									arm.part.partGraphics, mk.kit.kitGraphics,
-									Arms.indexOf(arm));
-							try {
-								// print("Blocking");
-								animation.acquire();
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							// print("Got permit");
-						}
-						// Tells the kit it has the part now
-						mk.kit.parts.add(arm.part);
-						arm.part = null;
-						arm.AS = ArmStatus.EMPTY;
-						// Checks if the kit is done
-						CheckMyKit(mk);
-						break;
+
+		print("Placing part");
+		synchronized (MyKits) {
+			for (MyKit mk : MyKits) {
+				if (mk.kit.needPart(arm.part) > 0) {
+					if (Math.random() <= dropChance) {
+						DropPart(arm);
 					}
+					if (partsRobotGraphics != null) {
+						partsRobotGraphics.givePartToKit(arm.part.partGraphics,
+								mk.kit.kitGraphics, Arms.indexOf(arm));
+						try {
+							// print("Blocking");
+							animation.acquire();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						// print("Got permit");
+					}
+					// Tells the kit it has the part now
+					mk.kit.parts.add(arm.part);
+					arm.part = null;
+					arm.AS = ArmStatus.EMPTY;
+					// Checks if the kit is done
+					CheckMyKit(mk);
+					break;
 				}
-				stateChanged();
 			}
-		} else {
-			if (arm.part.type.getName() != "Dummy") {
-				DropPart(arm);
-			}
+			stateChanged();
 		}
 	}
 
 	private void DropPart(Arm arm) {
-		print("Dropped a part");
+		print("Dropped a part from arm " + Arms.indexOf(arm));
 		arm.part = new Part(new PartType("Dummy"));
 		arm.part.type.setImagePath("invisible");
 		if (partsRobotGraphics != null) {
@@ -369,7 +367,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			// print("Got permit");
 			// arm.AS = ArmStatus.EMPTY;
 		}
-		stateChanged();
+		// stateChanged();
 	}
 
 	private void CheckMyKit(MyKit mk) {
