@@ -1,17 +1,17 @@
 package DeviceGraphics;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
-
-import factory.PartType;
+import java.util.Map;
 
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
+import Utils.PartData;
 import agent.Agent;
 import agent.NestAgent;
+import factory.PartType;
 
 /**
  * This class represents the graphics logic for a nest.
@@ -110,7 +110,8 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		PartType type = pg.getPartType();
 		//System.out.println("NEST" + nestID + " RECEIVING PART " + partsInNest.size());
 		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND,
-				Constants.NEST_TARGET + nestID, type));
+				Constants.NEST_TARGET + nestID, new PartData(pg.getPartType(),
+						pg.getQuality())));
 	}
 
 	/**

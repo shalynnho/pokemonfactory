@@ -27,6 +27,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 	private ArrayList<PartGraphicsDisplay> parts = new ArrayList<PartGraphicsDisplay>(8);
 	ImageIcon kitImage;
 	int velocity ;
+	int yOffset;
 	
 	private Client kitClient;
 	
@@ -55,6 +56,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 		kitImage = new ImageIcon( Constants.KIT_IMAGE );
 		currentI = 0;
 		kitConfig = new KitConfig("DummyqwerKit");
+		yOffset = 10;
 	}
 	public KitGraphicsDisplay(KitConfig kitConfig)
 	{
@@ -90,7 +92,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 
 	public void drawWithOffset(JComponent c, Graphics2D g, int offset) {
 		g.drawImage(kitImage.getImage(), kitLocation.getX() + offset,
-				kitLocation.getY(), c);
+				kitLocation.getY()+yOffset, c);
 
 		convertPartTypesToDisplay();
 		//TODO fix so that it draws the actual parts
@@ -101,9 +103,9 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 				gap = 20;
 			}
 			if(i<4)
-				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 + gap, kitLocation.getY()-48) );
+				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 + gap, kitLocation.getY()-48 +yOffset) );
 			else
-				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 +gap, kitLocation.getY() -48 + 25));
+				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 +gap, kitLocation.getY() -48 + 25+yOffset));
 			
 			parts.get(i).drawPokeball(0,parts.get(i).getLocation(),c, g);
 		}
