@@ -79,7 +79,7 @@ public class KitConfig implements Serializable, FactoryData {
 		}
 		for(int i =0; i <dummies.size(); i++)
 		{
-			if(dummies.get(i).getName().equals("Dummy"))
+			if(dummies.get(i).isInvisible())
 			{
 				config.keySet().remove(dummies.get(i));
 			}
