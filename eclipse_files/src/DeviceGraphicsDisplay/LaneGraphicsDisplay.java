@@ -395,6 +395,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		// lane should continue as is, parts fall off the lane
 		purgeDoneSent = false;
 		purging = true;
+		if(jammed) {
+			unjamming = true;
+		}
 	}
 
 	private void receivePart(PartType type) {
