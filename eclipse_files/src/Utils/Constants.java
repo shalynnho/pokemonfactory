@@ -196,9 +196,11 @@ public abstract class Constants {
 	public static final Image BIN_EMPTY_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage("");
 
-	// Kit & Inspection Stand Images // TODO: add actual images
+	// Kit & Inspection Stand Images
 	public static final Image STAND_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "stand.png");
+	public static final Image ORANGE_STAND_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "orange_stand.png");
 
 	// IMAGE SIZES
 	public static final int PART_WIDTH = 20, PART_HEIGHT = 50;
