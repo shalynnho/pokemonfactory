@@ -338,6 +338,10 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
+	
+	public void displayMessage(String s) {
+		fcs.displayMessage(s);
+	}
 
 	public void receiveData(Request req) {
 		String target = req.getTarget();

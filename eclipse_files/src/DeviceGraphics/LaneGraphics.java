@@ -155,6 +155,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics,
 			jamLocation = loc;
 			server.sendData(new Request(Constants.LANE_SET_JAM_COMMAND,
 					Constants.LANE_TARGET + laneID, jamLocation));
+			server.displayMessage("Professor Oak: The lane is jammed!");
 			// System.out.println("LANE" + laneID + " JAM LOC SET x: " +
 			// jamLocation.getX());
 		}

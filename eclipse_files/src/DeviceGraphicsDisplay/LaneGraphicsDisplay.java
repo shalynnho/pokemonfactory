@@ -36,6 +36,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private final Location partStartLoc;
 	// location of a part jam on the lane
 	private Location jamLoc;
+	private Location pusherLoc;
 	private int jamLocX = 0;
 	// array list of locations of the lane lines
 	private ArrayList<Location> laneLines;
@@ -82,6 +83,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		// for reference only
 		partStartLoc = new Location(Constants.LANE_BEG_X, location.getY()
 				+ Constants.PART_WIDTH / 2 - Constants.PART_OFFSET);
+		// init to start loc under feeder
+		pusherLoc = new Location(Constants.LANE_BEG_X, location.getY()
+				+ 90 - Constants.PART_OFFSET);
 
 		resetLaneLineLocs();
 	}
@@ -207,6 +211,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					vibrateParts(loc);
 					pgd.setLocation(loc);
 					pgd.drawWithOffset(c, g, client.getOffset());
+					g.drawImage(Constants.PART_PUSHER,
+							pusherLoc.getX() + client.getOffset(), pusherLoc.getY(), c);
 
 				} // end for loop
 
@@ -332,13 +338,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (Math.abs(end - loc.getX()) < increment) {
 			loc.setX(end);
 		}
-
+		
 		if (loc.getX() > end) { // moving left
 			loc.incrementX(-increment);
-			// if(jammed && unjamming) {
-			// animateUnjam(loc);
-			// }
 		}
+		
 	}
 
 	/**
