@@ -159,8 +159,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			}
 		} else {
 			if ( location == 1 ){
+				kit.setPosition(1);
 				kitPositions.put(Constants.KIT_LOCATION1, kit);
 			} else if( location == 2){
+				kit.setPosition(2);
 				kitPositions.put(Constants.KIT_LOCATION2, kit);
 			}
 			
