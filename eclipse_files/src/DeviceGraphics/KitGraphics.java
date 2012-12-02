@@ -104,5 +104,9 @@ public class KitGraphics implements DeviceGraphics {
 			addPart(new PartGraphics(Constants.DEFAULT_PARTTYPES.get(0)));
 		}
 	}
+	
+	public int partsSize(){
+		return parts.size();
+	}
 
 }

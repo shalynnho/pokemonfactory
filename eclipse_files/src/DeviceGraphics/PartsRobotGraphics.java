@@ -55,8 +55,35 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	@Override
 	public void givePartToKit(PartGraphics part, KitGraphics kit, int arm) {
 
-		PartData pd = new PartData(kit.getLocation(), arm);
+		kit.addPart(part);
+		int index = kit.partsSize()-1;
+		Location partLocation;
+		if(index !=2 || index !=3 ||index !=6  || index!=7 )
+		{
+			if(i<4)
+			{
+				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23, kit.getLocation().getY()-48 );
+			}
+			else
+			{
+				partLocation = new Location(kit.getLocation().getX() +-29 + index%4*23, kit.getLocation().getY() -48 + 25);
+			}
+		}
+		else 
+		{
+			if(i<4)
+			{
+				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23 + 20, kit.getLocation().getY()-48 );
+			}
+			else
+			{
+				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23 + 20, kit.getLocation().getY()-48 );
+			}
+		}
 		
+		
+		PartData pd = new PartData(partLocation, arm);
+
 		kitPosition = kit.getPosition();
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
 
