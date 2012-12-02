@@ -106,8 +106,10 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 + gap, kitLocation.getY()-48 +yOffset) );
 			else
 				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 +gap, kitLocation.getY() -48 + 25+yOffset));
-			
-			parts.get(i).drawPokeball(0,parts.get(i).getLocation(),c, g);
+			if(!parts.get(i).getInvisible())
+			{	
+				parts.get(i).drawPokeball(0,parts.get(i).getLocation(),c, g);
+			}
 		}
 
 	}

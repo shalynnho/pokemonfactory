@@ -287,12 +287,13 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			jammed = true;
 			jamLoc = (Location) r.getData();
 			jamLocX = location.getX() + jamLoc.getX();
-			System.out.println("	LANEGD" + laneID + " JAM LOC SET");
+			//System.out.println("	LANEGD" + laneID + " JAM LOC SET");
 
 		} else if (cmd.equals(Constants.LANE_UNJAM_COMMAND)) {
 			unjamming = true;
 			if (jammed) {
 				client.stopMusic();
+				client.stopRecovery();
 				client.startPokeflute();
 			}
 			//System.out.println("	LANEGD" + laneID + "RECEIVED UNJAM COMMAND");

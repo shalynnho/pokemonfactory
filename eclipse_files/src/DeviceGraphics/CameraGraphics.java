@@ -52,7 +52,7 @@ public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.Camera
 			public void run() {
 				agent.msgTakePictureKitDone(kit, true);
 			}
-		}, 250);
+		}, 2000);
 	}
 
 	@Override

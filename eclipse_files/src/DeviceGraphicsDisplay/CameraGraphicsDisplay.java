@@ -11,10 +11,13 @@ import Utils.Constants;
 import Utils.Location;
 
 /**
- * Client-side Camera object
+ * Client-side Camera object.
+ * 
+ * @deprecated This is not used anymore, since camera flashes are handled purely by nest and stand.
  * 
  * @author Peter Zhang
  */
+@Deprecated
 public class CameraGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	private int flashOn = -1;
