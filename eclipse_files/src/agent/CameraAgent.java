@@ -197,15 +197,18 @@ public class CameraAgent extends Agent implements Camera {
 		for (PartType type : mk.kit.partsExpected.getConfig().keySet()) {
 			int count = 0;
 			for (Part p : mk.kit.parts) {
-				if (p.type.equals(type)) {
+				if (p.type.equals(type) && !p.partGraphics.isInvisible()) {
 					count++;
 				}
-				if (p.type.getName() == "Dummy") {
-					print("Removing dummy part");
+				if (p.partGraphics.isInvisible()) {
 					DummyParts.add(p);
 				}
 			}
-			mk.kit.parts.removeAll(DummyParts);
+
+			for (int i = 0; i < DummyParts.size(); i++) {
+				print("Removing dummy part");
+				mk.kit.parts.remove(DummyParts.get(i));
+			}
 
 			if (count != mk.kit.partsExpected.getConfig().get(type)) {
 				passed = false;

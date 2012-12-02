@@ -61,12 +61,12 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		}
 
 		PartData pd = new PartData(kit.getLocation(), arm);
-		
+
 		kitPosition = kit.getPosition();
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
 
 	}
-	
+
 	@Override
 	public void dropPartFromArm(PartGraphics part, int arm) {
 		PartData a = new PartData(part.getPartType(), arm);
@@ -135,13 +135,10 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_DROP_PART_COMMAND + Constants.DONE_SUFFIX)) {
 			partsRobotAgent.msgDropPartFromArmDone();
 			server.displayMessage("Professor Oak: Oops! A part was dropped!");
-		} else if (req.getCommand().equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND
-						+ Constants.DONE_SUFFIX)) {
-			server.sendData(new Request(Constants.STAND_RECEIVE_PART_COMMAND, Constants.STAND_TARGET + kitPosition,
-					req.getData()));
+		} else if (req.getCommand().equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND + Constants.DONE_SUFFIX)) {
+			server.sendData(new Request(Constants.STAND_RECEIVE_PART_COMMAND, Constants.STAND_TARGET + kitPosition, req
+					.getData()));
 		}
 	}
-
-	
 
 }

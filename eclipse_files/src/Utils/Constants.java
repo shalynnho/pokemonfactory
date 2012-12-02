@@ -88,7 +88,7 @@ public abstract class Constants {
 	public static final Location FEEDER_LOC = new Location(850, 45);
 	public static final int FEEDER_Y_STEP = 150;
 
-	public static final Location KIT_ROBOT_LOC = new Location(75, 192.5);
+	public static final Location KIT_ROBOT_LOC = new Location(180, 192.5);
 	public static final Location KIT_ROBOT_ROTATION_AXIS_LOC = new Location(
 			112.5, 37.5);
 	public static final Location KIT_ROBOT_KIT_LOC = new Location(0, 200);
@@ -147,8 +147,9 @@ public abstract class Constants {
 			.getDefaultToolkit().getImage(IMAGE_PATH + "TestConveyorLine.png");
 
 	// Kit Robot Images
-	public static final Image KIT_ROBOT_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "kit_robot.png");
+	public static final String KIT_ROBOT_IMAGE = IMAGE_PATH + "kit_robot_";
+	//changed this "kit_robot.png"
+	public static final Image KIT_ROBOT_IMAGE_FLICKER = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "kit_robot_flicker.png");
 
 	// Gantry Robot Image
 	public static final Image GANTRY_ROBOT_IMAGE = Toolkit.getDefaultToolkit()
