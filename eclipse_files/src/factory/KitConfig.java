@@ -117,6 +117,17 @@ public class KitConfig implements Serializable, FactoryData {
 		this.config = config;
 	}
 	
+	public void setConfig(List<PartType> parts) {
+		config.clear();
+		for(PartType pt : parts) {
+			if(config.get(pt) != null) { 
+				config.put(pt, config.get(pt) + 1);
+			} else {
+				config.put(pt, 1);
+			}
+		}
+	}
+	
 	public String getID() {
 		return id;
 	}
