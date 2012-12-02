@@ -164,6 +164,8 @@ public abstract class Constants {
 			.getImage(IMAGE_PATH + "cloud.png");
 
 	// Nest Images
+	public static final Image ORANGE_NEST_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "orange_nest.png");
 	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "Nest.png");
 
@@ -195,9 +197,11 @@ public abstract class Constants {
 	public static final Image BIN_EMPTY_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage("");
 
-	// Kit & Inspection Stand Images // TODO: add actual images
+	// Kit & Inspection Stand Images
 	public static final Image STAND_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "stand.png");
+	public static final Image ORANGE_STAND_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "orange_stand.png");
 
 	// IMAGE SIZES
 	public static final int PART_WIDTH = 20, PART_HEIGHT = 50;
@@ -314,7 +318,9 @@ public abstract class Constants {
 
 	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION2 = "robot logic moves goodconveyor to loc2";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION2 = "robot disploay moves goodconveyor to loc2";
-
+	
+	
+	
 	public static final String KIT_ROBOT_ON_INSPECTION_DONE = "robot display sends to robot logic that kit to inspeciton is done";
 	public static final String KIT_ROBOT_ON_STAND1_DONE = "robot display sends to robot logic that kit to stand1 is done";
 	public static final String KIT_ROBOT_ON_STAND2_DONE = "robot display sends to robot logic that kit to stand2 is done";

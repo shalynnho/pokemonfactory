@@ -12,6 +12,7 @@ import factory.PartType;
 public class KitGraphics implements DeviceGraphics {
 
 	private final ArrayList<PartGraphics> parts = new ArrayList<PartGraphics>();
+	
 	// private ArrayList<PartType> partTypes = new ArrayList<PartType>();
 	// part types required to make kit
 	private KitConfig kitConfig;

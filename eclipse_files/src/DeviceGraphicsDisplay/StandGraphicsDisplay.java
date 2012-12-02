@@ -79,6 +79,7 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitConfig.setLocation(kitLocation);
 		kit.setKitConfig(kitConfig);
 	}
+	
 	public void giveKitToStand(){
 		isEmpty = true;
 		client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1, Constants.KIT_ROBOT_TARGET, kitConfig));
@@ -108,14 +109,15 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 			PartType type = (PartType) r.getData();
 			receivePart(new PartGraphicsDisplay(type));
 		} else if(cmd.equals(Constants.STAND_GIVES_BACK_TO_ANOTHER_STAND)){
-			isEmpty=true;;
+			isEmpty=true;
+			kitConfig.clearDummies();
+			
 			if((Integer)r.getData()==1 ){
-				client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1, Constants.KIT_ROBOT_TARGET, kitConfig));
+				client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1 + Constants.DONE_SUFFIX, Constants.KIT_ROBOT_TARGET, kitConfig));
 			}
 			else {
-				client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION2, Constants.KIT_ROBOT_TARGET, kitConfig));
+				client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION2 + Constants.DONE_SUFFIX, Constants.KIT_ROBOT_TARGET, kitConfig));
 			}
-			
 			kitConfig= null;
 		}
 		
