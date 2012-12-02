@@ -24,7 +24,7 @@ public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
 		if (cameraTimer >= 0) {
-			g.drawImage(Constants.STAND_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
+			g.drawImage(Constants.ORANGE_STAND_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
 			cameraTimer--;
 		} else {
 			g.drawImage(Constants.STAND_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
@@ -32,13 +32,6 @@ public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
 		if (!isEmpty) {
 			kit.drawKit(c,g);
 		}	
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 	}
 
 	public void receiveData(Request r) {
