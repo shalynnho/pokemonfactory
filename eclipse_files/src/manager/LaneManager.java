@@ -50,6 +50,7 @@ public class LaneManager extends Client implements ActionListener {
 	// This arrayList holds 8 panels - one located over each lane with a
 	// mouseListener
 	private ArrayList<JPanel> lanePanels;
+	private ArrayList<JButton> breakLaneButtons;
 
 	// This JPanel lies over the entire window. The panels that correspond to
 	// each lane are added to
@@ -109,16 +110,15 @@ public class LaneManager extends Client implements ActionListener {
 		messagePanel.setPanelSize(WINDOW_WIDTH, 30);
 		add(messagePanel, BorderLayout.SOUTH);
 
-		JButton button = new JButton("ugly button");
-		messagePanel.add(button);
-		button.addActionListener(new ActionListener() {
+		breakLaneButtons = new ArrayList<JButton>();
+		for (int i = 0; i < 8; i++) {
+			JButton button = new JButton("break");
+			button.setBounds(Constants.LANE_END_X - 540, 33 + i * 75, 50, 20);
+			button.addActionListener(new BreakLaneButtonListener(i));
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				sendData(new Request(Constants.FCS_STOP_LANE,
-						Constants.FCS_TARGET, null));
-			}
-		});
+			breakLaneButtons.add(button);
+			windowPanel.add(button);
+		}
 
 		currentMessage = new JLabel(
 				"Click anywhere on the lane to produce a jam at that location.");
@@ -291,6 +291,22 @@ public class LaneManager extends Client implements ActionListener {
 		@Override
 		public void mouseExited(MouseEvent e) {
 			panel.setOpaque(false);
+		}
+	}
+
+	private class BreakLaneButtonListener implements ActionListener {
+		int laneNumber;
+
+		public BreakLaneButtonListener(int i) {
+			laneNumber = i;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			displayMessage("Lane " + laneNumber + " breaks.");
+
+			sendData(new Request(Constants.FCS_STOP_LANE, Constants.FCS_TARGET,
+					Integer.valueOf(laneNumber)));
 		}
 	}
 
