@@ -24,7 +24,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location locationGood;
 	ArrayList<Location> conveyorLines;
 	ArrayList<Location> conveyorLinesGood;
-	ArrayList<Location> conveyorLinesBad;
 	ArrayList<KitGraphicsDisplay> kitsOnConveyor;
 	ArrayList<KitGraphicsDisplay> kitsToLeave;
 
@@ -45,11 +44,10 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		client = cli;
 		conveyorLines = new ArrayList<Location>();
 		conveyorLinesGood = new ArrayList<Location>();
-		conveyorLinesBad = new ArrayList<Location>();
 
 		// Filling Arrays with locations
-		for (int i = 0; i < 5; i++) {
-			conveyorLines.add(new Location(locationGood.getX() + i * 12,
+		for (int i = 0; i < 4; i++) {
+			conveyorLines.add(new Location(locationGood.getX() + i * 40,
 					locationGood.getY() + 120)); // creating an array list of
 													// conveyor line locations
 													// for painting
@@ -59,12 +57,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		for (int i = 0; i < 4; i++) {
 			conveyorLinesGood.add(new Location(locationGood.getX() + i * 40,
 					locationGood.getY() + 20));
-		}
-
-		// Filling Arrays with locations
-		for (int i = 0; i < 4; i++) {
-			conveyorLinesBad.add(new Location(locationGood.getX() + i * 40,
-					locationGood.getY() + 240));
 		}
 
 		velocity = 1;
@@ -107,7 +99,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	@Override
 	public void draw(JComponent c, Graphics2D g2) {
-		g2.drawImage(Constants.CONVEYOR_IMAGE, -90 + client.getOffset(), 200, c);
+		g2.drawImage(Constants.CONVEYOR_IMAGE, 0 + client.getOffset(), 200, c);
 		for (int i = 0; i < conveyorLines.size(); i++) {
 			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLines.get(i)
 					.getX() + client.getOffset(), conveyorLines.get(i).getY(),
@@ -123,13 +115,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			moveOut(i, conveyorLinesGood);
 		}
 
-		g2.drawImage(Constants.CONVEYOR_IMAGE, 0 + client.getOffset(), 320, c);
-		for (int i = 0; i < conveyorLinesBad.size(); i++) {
-			g2.drawImage(Constants.CONVEYOR_LINES_IMAGE, conveyorLinesBad
-					.get(i).getX() + client.getOffset(), conveyorLinesBad
-					.get(i).getY(), c);
-			moveOut(i, conveyorLinesBad);
-		}
 
 		for (int j = 0; j < kitsOnConveyor.size(); j++) {
 			if (kitsOnConveyor.get(j).getLocation().getX() < 10 - j * 100) {
@@ -174,11 +159,11 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void moveIn(int i) {
 		// if bottom of black conveyor line is less than this y position
-		if (conveyorLines.get(i).getX() < 45) {
+		if (conveyorLines.get(i).getX() < 145) {
 			// when a conveyor is done being painted, move the location for next
 			// repaint
 			conveyorLines.get(i).setX(conveyorLines.get(i).getX() + velocity);
-		} else if (conveyorLines.get(i).getX() >= 45) {
+		} else if (conveyorLines.get(i).getX() >= 145) {
 			// if bottom of black conveyor line is greater than or equal to this
 			// y position
 			conveyorLines.get(i).setX(-10);
