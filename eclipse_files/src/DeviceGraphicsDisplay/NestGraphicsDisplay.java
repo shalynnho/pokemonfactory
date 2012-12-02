@@ -92,11 +92,9 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		synchronized (partsInNest) {
 			for (PartGraphicsDisplay part : partsInNest) {
-				part.drawTransition(client.getOffset(), part.getLocation(), c,
-						g);
+				part.drawTransition(client.getOffset(), part.getLocation(), c, g);
 				if (part.trans.animate == false) {
-					part.drawPokeball(client.getOffset(), part.getLocation(),
-							c, g);
+					part.drawPokeball(client.getOffset(), part.getLocation(), c, g);
 				}
 			}
 		}
@@ -116,7 +114,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				System.out.println("Nest is full");
 			} else {
 				PartData pd = (PartData) req.getData();
-				receivePart(pd.getPartType(), pd.getBad());
+				receivePart(pd.getPartType(), pd.getQuality());
 			}
 
 		} else if (req.getCommand().equals(
@@ -251,8 +249,7 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		receivingPart = true;
 		receivePartDoneSent = false;
 
-		// System.out.println("NESTGD" + nestID + " RECEIVING PART " +
-		// partsInNest.size());
+		//System.out.println("NESTGD" + nestID + " RECEIVING PART " + partsInNest.size());
 	}
 
 	private boolean isFull() {

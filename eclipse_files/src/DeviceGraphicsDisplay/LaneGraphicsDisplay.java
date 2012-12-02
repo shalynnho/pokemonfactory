@@ -300,7 +300,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
 			PartData pd = (PartData) r.getData();
-			receivePart(pd.getPartType(), pd.getBad());
+			receivePart(pd.getPartType(), pd.getQuality());
 
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 			givePartToNest();
@@ -396,7 +396,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		// lane should continue as is, parts fall off the lane
 		purgeDoneSent = false;
 		purging = true;
-		if (jammed) {
+		if(jammed) {
 			unjamming = true;
 		}
 	}
