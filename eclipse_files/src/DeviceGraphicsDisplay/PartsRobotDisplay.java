@@ -28,6 +28,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 
 	private PartType pt;
 	private int arm;
+	private int droparm;
 	
 	private int II;
 	private boolean move;
@@ -274,7 +275,8 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 
 		for (int i = 0; i < 4; i++) {
 			PartGraphicsDisplay pgd = partArrayGraphics.get(i);
-			pgd.drawPokeball(client.getOffset(),partStartLoc.get(i),c,g);
+			if (pgd != null)
+				pgd.drawPokeball(client.getOffset(),partStartLoc.get(i),c,g);
 		}
 
 	}
@@ -320,7 +322,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		PartType partType = pt;
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
 		
-		pgd.setLocation(partStartLoc.get(I));
+		pgd.setLocation(partStartLoc.get(arm));
 		partArrayGraphics.add(arm,pgd);
 			
 	}
@@ -331,10 +333,10 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void dropPart() {
-		partArrayGraphics.remove(arm);
-		PartType partType = new PartType(null);
-		PartGraphicsDisplay pgd = new PartGraphicsDisplay(partType);
-		partArrayGraphics.add(arm,pgd);
+		partArrayGraphics.remove(droparm);
+		
+		PartGraphicsDisplay pgd = new PartGraphicsDisplay(pt);
+		partArrayGraphics.add(droparm,pgd);
 		client.sendData(new Request(Constants.PARTS_ROBOT_DROP_PART_COMMAND + Constants.DONE_SUFFIX,
 				Constants.PARTS_ROBOT_TARGET, null));
 		
@@ -390,8 +392,8 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			
 			pickUp();
 		} else if (r.getCommand().equals(Constants.PARTS_ROBOT_DROP_COMMAND)) {
-			arm = ((PartData) r.getData()).getArm();
-			
+			droparm = ((PartData) r.getData()).getArm();
+			pt = ((PartData) r.getData()).getPartType();
 			dropPart();
 		}
 	}
