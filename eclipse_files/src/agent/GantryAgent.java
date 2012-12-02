@@ -137,11 +137,12 @@ public class GantryAgent extends Agent implements Gantry {
 	// SCHEDULER
 	@Override
 	public boolean pickAndExecuteAnAction() {
-
-		for (Bin bin : binList) {
-			if (bin.binState == BinStatus.PENDING) {
-				addBinToGraphics(bin);
-				return true;
+		synchronized(binList){
+			for (Bin bin : binList) {
+				if (bin.binState == BinStatus.PENDING) {
+					addBinToGraphics(bin);
+					return true;
+				}
 			}
 		}
 		for (MyFeeder currentFeeder : feeders) {

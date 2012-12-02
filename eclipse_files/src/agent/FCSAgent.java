@@ -250,10 +250,15 @@ public class FCSAgent extends Agent implements FCS {
 	}
 
 	public void addBin() {
-		for (int i = binsToAdd.size() - 1; i >= 0; i--) {
-			gantry.msgHereIsBin(new Bin(binsToAdd.get(i),
-					Constants.DEFAULT_PARTTYPES.size() - i));
-			binsToAdd.remove(i);
+		if(binsToAdd.size()>1) {
+			for (int i = binsToAdd.size() - 1; i >= 0; i--) {
+				gantry.msgHereIsBin(new Bin(binsToAdd.get(i),
+						Constants.DEFAULT_PARTTYPES.size() - i));
+				binsToAdd.remove(i);
+			}
+		} else {
+			gantry.msgHereIsBin(new Bin(binsToAdd.get(0),Constants.DEFAULT_PARTTYPES.size()-1));
+			binsToAdd.remove(0);
 		}
 		stateChanged();
 	}
