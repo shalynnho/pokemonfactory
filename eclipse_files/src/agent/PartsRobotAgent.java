@@ -347,7 +347,9 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				stateChanged();
 			}
 		} else {
-			DropPart(arm);
+			if (arm.part.type.getName() != "Dummy") {
+				DropPart(arm);
+			}
 		}
 	}
 
