@@ -133,6 +133,8 @@ public abstract class Constants {
 			IMAGE_PATH + "snorlax.png");
 	public static final Image POKEFLUTE = Toolkit.getDefaultToolkit().getImage(
 			IMAGE_PATH + "pokeflute.png");
+	public static final Image PART_PUSHER = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "Square.jpg");	// TODO change this
 
 	// Conveyor Images
 	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit()
