@@ -99,7 +99,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				+ Constants.PART_WIDTH / 2 - Constants.PART_OFFSET);
 
 		resetLaneLineLocs();
-		//initMusic();
+		initMusic();
 	}
 
 	/**
@@ -302,6 +302,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (cmd.equals(Constants.LANE_UNJAM_COMMAND)) {
 			unjamming = true;
+			if (jammed) {
+				client.stopMusic();
+				pokeflute.start();
+			}
 			//System.out.println("	LANEGD" + laneID + "RECEIVED UNJAM COMMAND");
 
 		} else {
@@ -333,10 +337,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 		}
 	
-		if (jamSeq == 64) { // reset sequence
+		if (jamSeq == 264) { // reset sequence
 			jamSeq = 0;
 			unjamming = false;
 			jammed = false;
+			client.startMusic();
 			client.sendData(new Request(Constants.LANE_SET_JAM_COMMAND + Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID, null));
 		} else {
 			jamSeq++;
@@ -358,12 +363,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
 			pokeflute = AudioSystem.getClip();
-			//pokeflute.open(audioIn);
+			pokeflute.open(audioIn);
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//pokeflute.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 
 	/**

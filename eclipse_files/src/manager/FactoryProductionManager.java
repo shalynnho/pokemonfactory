@@ -133,6 +133,14 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		}
 		music.loop(Clip.LOOP_CONTINUOUSLY);
 	}
+	
+	public void stopMusic() {
+		music.stop();
+	}
+	
+	public void startMusic() {
+		music.loop(Clip.LOOP_CONTINUOUSLY);
+	}
 
 	/**
 	 * Forward network requests to devices or panel for processing
