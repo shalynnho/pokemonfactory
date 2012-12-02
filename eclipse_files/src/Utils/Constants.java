@@ -172,6 +172,7 @@ public abstract class Constants {
 			.getImage(IMAGE_PATH + "samplepart.png");
 
 	// Part Images
+	public static final String BAD_PART_IMAGE_PATH = IMAGE_PATH + "bad_part_";
 	public static final String PART_IMAGE_PATH = IMAGE_PATH + "part_";
 	public static final String BALL_IMAGE = IMAGE_PATH + "ball_";
 
