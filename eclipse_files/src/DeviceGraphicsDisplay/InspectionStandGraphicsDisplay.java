@@ -33,8 +33,9 @@ public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
 			kit.drawKit(c,g);
 		}	
 	}
-
+	
 	public void receiveData(Request r) {
+		super.receiveData(r);
 		if (r.getCommand().equals(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND)) {
 			cameraTimer = 15;
 		}
