@@ -354,7 +354,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private void DropPart(Arm arm) {
 		print("Dropped a part");
 		if (partsRobotGraphics != null) {
-			partsRobotGraphics.dropPartFromArm(arm.part.partGraphics);
+			partsRobotGraphics.dropPartFromArm(arm.part.partGraphics,
+					Arms.indexOf(arm));
 			try {
 				// print("Blocking");
 				animation.acquire();

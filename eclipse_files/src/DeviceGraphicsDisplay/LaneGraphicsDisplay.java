@@ -154,6 +154,12 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 											- Constants.PART_PADDING, speed);
 									// System.out.println("		LANE"+laneID+" FIRST PART BEFORE JAM");
 								} else if (unjamming) {
+									g.drawImage(Constants.POKEFLUTE, jamLocX
+											- 65 + client.getOffset(),
+											location.getY()
+													- Constants.PART_PADDING
+													+ 10 + client.getOffset(),
+											c);
 									animateUnjam(loc);
 								}
 							}
@@ -390,6 +396,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		// lane should continue as is, parts fall off the lane
 		purgeDoneSent = false;
 		purging = true;
+		if(jammed) {
+			unjamming = true;
+		}
 	}
 
 	private void receivePart(PartType type, boolean quality) {
@@ -452,7 +461,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 		}
 
-		if (jamSeq == 8) { // reset sequence
+		if (jamSeq == 64) { // reset sequence
 			jamSeq = 0;
 			unjamming = false;
 			jammed = false;

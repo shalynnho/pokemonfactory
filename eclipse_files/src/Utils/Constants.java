@@ -131,6 +131,8 @@ public abstract class Constants {
 			IMAGE_PATH + "lane_belt.png");
 	public static final Image SNORLAX = Toolkit.getDefaultToolkit().getImage(
 			IMAGE_PATH + "snorlax.png");
+	public static final Image POKEFLUTE = Toolkit.getDefaultToolkit().getImage(
+			IMAGE_PATH + "pokeflute.png");
 
 	// Conveyor Images
 	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit()
@@ -355,12 +357,17 @@ public abstract class Constants {
 	// give part to kit
 	public static final String PARTS_ROBOT_GIVE_COMMAND = "give";
 	// parts robot go to kit
+	public static final String PARTS_ROBOT_DROP_COMMAND = "drop";
+	//drop part
 	public static final String PARTS_ROBOT_GO_KIT_COMMAND = "gokit";
 	// end partsrobot logic to display commands
 	public static final String PARTS_ROBOT_RECEIVE_PART_COMMAND = "receivepart";
 	// receive parts from nest
 	public static final String PARTS_ROBOT_GIVE_PART_COMMAND = "givepart";
 	// give part to kit
+	public static final String PARTS_ROBOT_DROP_PART_COMMAND = "droppart";
+	//drop part from arm
+	
 
 	// nest logic to display commands
 	public static final String NEST_RECEIVE_PART_COMMAND = "nestrecpart";
