@@ -45,8 +45,6 @@ public class FCS {
 	}
 
 	public void updateParts() {
-		server.sendData(new Request(Constants.MSGBOX_DISPLAY_MSG, Constants.MESSAGING_BOX_TARGET,
-				"Testing message Testing message Testing message Testing message Testing message"));
 		server.sendData(new Request(Constants.FCS_UPDATE_PARTS,
 				Constants.ALL_TARGET, partTypes));
 	}
@@ -59,6 +57,10 @@ public class FCS {
 	public void shippedKit() {
 		server.sendData(new Request(Constants.FCS_SHIPPED_KIT,
 				Constants.ALL_TARGET, null));
+	}
+
+	public void displayMessage(String s) {
+		server.sendData(new Request(Constants.MSGBOX_DISPLAY_MSG, Constants.MESSAGING_BOX_TARGET, s));
 	}
 
 	/**
