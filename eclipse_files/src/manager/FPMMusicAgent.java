@@ -178,6 +178,7 @@ public class FPMMusicAgent extends Agent {
 				e.printStackTrace();
 			}
 			music.stop();
+			music.flush();
 			// stopCompleted();
 			// stopRecovery();
 
@@ -208,6 +209,7 @@ public class FPMMusicAgent extends Agent {
 			}
 
 			music.stop();
+			music.flush();
 			// stopPokeflute();
 			// stopCompleted();
 
@@ -238,6 +240,7 @@ public class FPMMusicAgent extends Agent {
 			}
 
 			music.stop();
+			music.flush();
 			// stopPokeflute();
 			// stopRecovery();
 
