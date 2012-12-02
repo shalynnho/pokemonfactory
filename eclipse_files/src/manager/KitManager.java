@@ -4,8 +4,7 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-
-import manager.panel.KitManagerPanel;
+import manager.panel.KitManagerPanelV2;
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
@@ -21,10 +20,10 @@ import factory.PartType;
  */
 public class KitManager extends Client {
 	// Window dimensions
-	private static final int WINDOW_WIDTH = 400;
-	private static final int WINDOW_HEIGHT = 300;
+	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_HEIGHT = 600;
 	
-	private KitManagerPanel kmPanel;
+	private KitManagerPanelV2 kmPanel;
 	
 	/**
 	 * Constructor
@@ -85,7 +84,7 @@ public class KitManager extends Client {
 	 * This function creates the GUI panel and adds it to the frame.
 	 */
 	public void initGUI() {
-		kmPanel = new KitManagerPanel(this);
+		kmPanel = new KitManagerPanelV2(this);
 		
 		add(kmPanel, BorderLayout.CENTER);
 		kmPanel.setVisible(true);
