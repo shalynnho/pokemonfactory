@@ -11,6 +11,7 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import Utils.PartData;
 import factory.PartType;
 
 /**
@@ -112,8 +113,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 				// anyway
 				System.out.println("Nest is full");
 			} else {
-				PartType type = (PartType) req.getData();
-				receivePart(type);
+				PartData pd = (PartData) req.getData();
+				receivePart(pd.getPartType(), pd.getQuality());
 			}
 
 		} else if (req.getCommand().equals(
@@ -240,9 +241,10 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 		purgeDoneSent = false;
 	}
 
-	private void receivePart(PartType type) {
+	private void receivePart(PartType type, boolean quality) {
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(type);
 		pgd.setLocation(partStartLoc);
+		pgd.setQuality(quality);
 		partsInNest.add(pgd);
 		receivingPart = true;
 		receivePartDoneSent = false;
