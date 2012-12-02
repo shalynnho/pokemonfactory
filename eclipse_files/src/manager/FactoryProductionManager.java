@@ -5,12 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.TimerTask;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -46,6 +42,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	// Create a new control panel for the FPM
 	private FactoryProductionManagerPanel fpmPanel;
 
+	private final FPMMusicAgent musicAgent;
+
 	// Create a new timer
 	private Timer timer;
 	private final java.util.Timer musicTimer = new java.util.Timer();
@@ -60,6 +58,9 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		super();
 		clientName = Constants.FACTORY_PROD_MNGR_CLIENT;
 		offset = 0;
+
+		musicAgent = new FPMMusicAgent(this);
+		musicAgent.startThread();
 
 		initStreams();
 		initGUI();
@@ -115,47 +116,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	}
 
 	private void initMusic() {
-		URL url = this.getClass().getClassLoader().getResource("audio/goldenrod.wav");
-		URL fluteURL = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");
-		URL recoveryURL = this.getClass().getClassLoader().getResource("audio/recovery.wav");
-		URL completedURL = this.getClass().getClassLoader().getResource("audio/item_get.wav");
-
-		try {
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-			music = AudioSystem.getClip();
-			music.open(audioIn);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			AudioInputStream pokeAudioIn = AudioSystem.getAudioInputStream(fluteURL);
-			pokeflute = AudioSystem.getClip();
-			pokeflute.open(pokeAudioIn);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			AudioInputStream recoverAudioIn = AudioSystem.getAudioInputStream(recoveryURL);
-			recovery = AudioSystem.getClip();
-			recovery.open(recoverAudioIn);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(completedURL);
-			completed = AudioSystem.getClip();
-			completed.open(audioIn);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		if (music != null) {
-			music.loop(Clip.LOOP_CONTINUOUSLY);
-		}
 	}
 
 	@Override
@@ -167,9 +127,9 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	@Override
 	public void startMusic() {
-		stopCompleted();
-		stopPokeflute();
-		stopRecovery();
+		// stopCompleted();
+		// stopPokeflute();
+		// stopRecovery();
 
 		if (music != null) {
 			music.loop(Clip.LOOP_CONTINUOUSLY);
@@ -178,21 +138,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	@Override
 	public void startPokeflute() {
-		if (pokeflute != null) {
-			stopMusic();
-			stopCompleted();
-			stopRecovery();
-
-			System.out.println("plays flute"); // !!! EXTREMELY IMPORTANT
-			pokeflute.setFramePosition(0);
-			pokeflute.start();
-			musicTimer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					startMusic();
-				}
-			}, 4224);
-		}
+		musicAgent.startPokeflute();
 	}
 
 	@Override
@@ -204,21 +150,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	@Override
 	public void startRecovery() {
-		if (recovery != null) {
-			stopMusic();
-			stopPokeflute();
-			stopCompleted();
-
-			System.out.println("plays recovery"); // !!! EXTREMELY IMPORTANT
-			recovery.setFramePosition(0);
-			recovery.start();
-			musicTimer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					startMusic();
-				}
-			}, 2000);
-		}
+		musicAgent.msgStartRecovery();
 	}
 
 	@Override
@@ -228,23 +160,12 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		}
 	}
 
-	public void startCompleted() {
-		if (completed != null) {
-			stopMusic();
-			stopPokeflute();
-			stopRecovery();
+	public void setConveyorExitTrue() {
+		((ConveyorGraphicsDisplay) devices.get(Constants.CONVEYOR_TARGET)).setExit(true);
+	}
 
-			System.out.println("plays completed"); // !!! EXTREMELY IMPORTANT
-			completed.setFramePosition(0);
-			completed.start();
-			musicTimer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					startMusic();
-					((ConveyorGraphicsDisplay) devices.get(Constants.CONVEYOR_TARGET)).setExit(true);
-				}
-			}, 2000);
-		}
+	public void startCompleted() {
+		musicAgent.msgStartCompleted();
 	}
 
 	public void stopCompleted() {
