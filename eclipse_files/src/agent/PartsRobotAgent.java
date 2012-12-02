@@ -319,10 +319,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			for (MyKit mk : MyKits) {
 				if (mk.kit.needPart(arm.part) > 0) {
 					if (Math.random() <= dropChance) {
-						// DropPart(arm);
+						DropPart(arm);
 					}
 					if (partsRobotGraphics != null) {
-						DropPart(arm);
+						// DropPart(arm);
 						partsRobotGraphics.givePartToKit(arm.part.partGraphics, mk.kit.kitGraphics, Arms.indexOf(arm));
 						try {
 							// print("Blocking");
@@ -346,8 +346,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void DropPart(Arm arm) {
 		print("Dropped a part from arm " + Arms.indexOf(arm));
-		arm.part = new Part(new PartType("Dummy"));
-		arm.part.type.setImagePath("invisible");
+		arm.part.partGraphics.setInvisible(true);
 		if (partsRobotGraphics != null) {
 			partsRobotGraphics.dropPartFromArm(arm.part.partGraphics, Arms.indexOf(arm));
 			try {
