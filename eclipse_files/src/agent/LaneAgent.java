@@ -204,15 +204,6 @@ public class LaneAgent extends Agent implements Lane {
 			}
 		}
 		
-		if (state == LaneStatus.FILLING) {
-			synchronized (requestList) {
-				for (PartType requestedType : requestList) {
-					getParts(requestedType);
-					return true;
-				}
-			}
-		}
-		
 		if (state == LaneStatus.FILLING && currentType != null) {
 			if(extraRequestCount < topLimit) {
 				requestList.add(currentType);
@@ -225,6 +216,17 @@ public class LaneAgent extends Agent implements Lane {
 				return true;
 			}
 		}
+		
+		if (state == LaneStatus.FILLING) {
+			synchronized (requestList) {
+				for (PartType requestedType : requestList) {
+					getParts(requestedType);
+					return true;
+				}
+			}
+		}
+		
+		
 		
 		
 		return false;

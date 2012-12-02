@@ -99,12 +99,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (laneOn) {
 			if (laneID % 2 == 0) {
 				g.drawImage(Constants.LANE_IMAGE1,
-						location.getX() + client.getOffset(), location.getY(),
-						c);
+						location.getX() + client.getOffset(), location.getY(), c);
 			} else {
 				g.drawImage(Constants.LANE_IMAGE2,
-						location.getX() + client.getOffset(), location.getY(),
-						c);
+						location.getX() + client.getOffset(), location.getY(), c);
 			}
 
 			// animate lane movements using lines
@@ -129,37 +127,25 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					if (i == 0) { // first part on the lane
 
 						// first part not at lane end
-						if (loc.getX() > Constants.LANE_END_X
-								- Constants.PART_PADDING) {
+						if (loc.getX() > Constants.LANE_END_X - Constants.PART_PADDING) {
 							if (!jammed) { // carry on as usual
-								updateXLoc(loc, Constants.LANE_END_X
-										- Constants.PART_PADDING, speed);
+								updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
 								// System.out.println("		LANE"+laneID+" NOT JAMMED");
 
 							} else { // jammed
 								// first part already passed jam loc
 								// int jamX = jamLocX-Constants.PART_PADDING;
 								// System.out.println("locX: "+loc.getX()+", jamLocX: "+jamX);
-								if (loc.getX() < jamLocX
-										- Constants.PART_PADDING) {
-									updateXLoc(loc, Constants.LANE_END_X
-											- Constants.PART_PADDING, speed);
+								if (loc.getX() < jamLocX - Constants.PART_PADDING) {
+									updateXLoc(loc, Constants.LANE_END_X - Constants.PART_PADDING, speed);
 									// System.out.println("		LANE"+laneID+" FIRST PART PASSED JAM");
 
 									// first part is before jamLoc
-								} else if (!unjamming
-										&& loc.getX() > jamLocX
-												- Constants.PART_PADDING) {
-									updateXLoc(loc, jamLocX
-											- Constants.PART_PADDING, speed);
+								} else if (!unjamming && loc.getX() > jamLocX - Constants.PART_PADDING) {
+									updateXLoc(loc, jamLocX - Constants.PART_PADDING, speed);
 									// System.out.println("		LANE"+laneID+" FIRST PART BEFORE JAM");
 								} else if (unjamming) {
-									g.drawImage(Constants.POKEFLUTE, jamLocX
-											- 65 + client.getOffset(),
-											location.getY()
-													- Constants.PART_PADDING
-													+ 10 + client.getOffset(),
-											c);
+									g.drawImage(Constants.POKEFLUTE, jamLocX - 65 + client.getOffset(), location.getY() - Constants.PART_PADDING + 10, c);
 									animateUnjam(loc);
 								}
 							}
@@ -174,12 +160,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 							} else { // purging, continue till off lane
 
-								if (loc.getX() > Constants.LANE_END_X
-										- Constants.PART_WIDTH
-										- Constants.PART_PADDING) {
-									updateXLoc(loc, Constants.LANE_END_X
-											- Constants.PART_WIDTH
-											- Constants.PART_PADDING, speed);
+								if (loc.getX() > Constants.LANE_END_X - Constants.PART_WIDTH - Constants.PART_PADDING) {
+									updateXLoc(loc, Constants.LANE_END_X - Constants.PART_WIDTH - Constants.PART_PADDING, speed);
 								} else { // once off lane and not visible,
 											// remove
 									if (partsOnLane.size() > 0) {
@@ -265,9 +247,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 
 		if (jammed) {
-			g.drawImage(Constants.SNORLAX, jamLocX - Constants.PART_PADDING
-					- 48 + client.getOffset(), location.getY()
-					- Constants.PART_PADDING + client.getOffset(), c);
+//			g.drawImage(Constants.SNORLAX, jamLocX - Constants.PART_PADDING - 48 + client.getOffset(), location.getY()
+//					- Constants.PART_PADDING + client.getOffset(), c);
+			g.drawImage(Constants.SNORLAX, jamLocX - Constants.PART_PADDING - 48 + client.getOffset(), location.getY()
+					- Constants.PART_PADDING, c);
 		}
 	}
 
