@@ -111,8 +111,6 @@ public class FCSAgent extends Agent implements FCS {
 	public void msgAddNewPartType(PartType part) {
 		print("Received msgAddNewPartType");
 		binsToAdd.add(part);
-		//THIS PART IS ADDED BY ARJUN, IF IT BREAKS REMOVE THIS*************************************
-		state = myState.STARTED;
 		stateChanged();
 	}
 
