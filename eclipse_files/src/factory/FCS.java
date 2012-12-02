@@ -19,10 +19,8 @@ import agent.FCSAgent;
  */
 public class FCS {
 	private ArrayList<Order> queue = new ArrayList<Order>();
-	private ArrayList<KitConfig> kitConfigs = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIGS
-			.clone();
-	private ArrayList<PartType> partTypes = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES
-			.clone();
+	private ArrayList<KitConfig> kitConfigs = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIGS.clone();
+	private ArrayList<PartType> partTypes = (ArrayList<PartType>) Constants.DEFAULT_PARTTYPES.clone();
 
 	private final FCSAgent agent;
 	private final Server server;
@@ -35,15 +33,15 @@ public class FCS {
 	public FCS(Server server, Agent a) {
 		agent = (FCSAgent) a;
 		this.server = server;
-		
+
 		// read from save file
 		ArrayList<PartType> updatedPartTypes = ReadSaveData.readPartType();
-		if(updatedPartTypes != null) {
+		if (updatedPartTypes != null) {
 			partTypes = updatedPartTypes;
 		}
-		
+
 		ArrayList<KitConfig> updatedKitConfigs = ReadSaveData.readKitConfig();
-		if(updatedKitConfigs != null) {
+		if (updatedKitConfigs != null) {
 			kitConfigs = updatedKitConfigs;
 		}
 		
@@ -51,22 +49,25 @@ public class FCS {
 	}
 
 	public void updateParts() {
-		server.sendData(new Request(Constants.FCS_UPDATE_PARTS,
-				Constants.ALL_TARGET, partTypes));
+		server.sendData(new Request(Constants.FCS_UPDATE_PARTS, Constants.ALL_TARGET, partTypes));
 	}
 
 	public void updateKits() {
-		server.sendData(new Request(Constants.FCS_UPDATE_KITS,
-				Constants.ALL_TARGET, kitConfigs));
+		server.sendData(new Request(Constants.FCS_UPDATE_KITS, Constants.ALL_TARGET, kitConfigs));
 	}
 
 	public void shippedKit() {
+<<<<<<< HEAD
 		displayMessage("Kit Completed");
 		server.sendData(new Request(Constants.FCS_SHIPPED_KIT,
 				Constants.ALL_TARGET, null));
 //		if (completed != null) {
 //			completed.loop(Clip.LOOP_CONTINUOUSLY);
 //		}
+=======
+		displayMessage("Professor Oak: Kit Completed!");
+		server.sendData(new Request(Constants.FCS_SHIPPED_KIT, Constants.ALL_TARGET, null));
+>>>>>>> branch 'master' of https://github.com/usc-csci200-fall2012/team09.git
 	}
 
 	public void displayMessage(String s) {
@@ -77,8 +78,7 @@ public class FCS {
 	 * Called to send clients the updated queue.
 	 */
 	public void updateQueue() {
-		server.sendData(new Request(Constants.FCS_UPDATE_ORDERS,
-				Constants.ALL_TARGET, queue));
+		server.sendData(new Request(Constants.FCS_UPDATE_ORDERS, Constants.ALL_TARGET, queue));
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class FCS {
 		updateParts();
 		agent.msgAddNewPartType(pt);
 
-		displayMessage("Part added: " + pt.getName());
+		displayMessage("Professor Oak: Part added - " + pt.getName());
 		return true;
 	}
 
@@ -113,12 +113,12 @@ public class FCS {
 			if (partTypes.get(i).equals(pt)) {
 				partTypes.set(i, pt);
 				updateParts();
-				GantryGraphics gantry = (GantryGraphics)(server.devices.get(Constants.GANTRY_ROBOT_TARGET));
+				GantryGraphics gantry = (GantryGraphics) server.devices.get(Constants.GANTRY_ROBOT_TARGET);
 				gantry.editBin(pt);
 			}
 		}
 
-		displayMessage("Part edited: " + pt.getName());
+		displayMessage("Professor Oak: Part edited - " + pt.getName());
 	}
 
 	public void deletePart(PartType pt) {
@@ -130,7 +130,7 @@ public class FCS {
 			}
 		}
 
-		displayMessage("Part deleted: " + pt.getName());
+		displayMessage("Professor Oak: Part deleted - " + pt.getName());
 		// TODO: add in agent call so to stop drawing bin
 	}
 
@@ -143,7 +143,7 @@ public class FCS {
 		kitConfigs.add(kc);
 		updateKits();
 
-		displayMessage("Kit added: " + kc.getName());
+		displayMessage("Professor Oak: Kit added - " + kc.getName());
 		return true;
 	}
 
@@ -154,7 +154,7 @@ public class FCS {
 				kitConfigs.set(i, kc);
 			}
 		}
-		displayMessage("Kit edited " + kc.getName());
+		displayMessage("Professor Oak: Kit edited - " + kc.getName());
 	}
 
 	public void deleteKit(KitConfig kc) {
@@ -164,7 +164,7 @@ public class FCS {
 				kitConfigs.remove(i);
 			}
 		}
-		displayMessage("Kit deleted: " + kc.getName());
+		displayMessage("Professor Oak: Kit deleted - " + kc.getName());
 	}
 
 	public void addOrder(Order o) {
@@ -177,7 +177,8 @@ public class FCS {
 				productionStarted = true;
 			}
 		}
-		displayMessage("Order added: " + o.getNumKits() + " kits of " + o.getConfig().getName());
+		displayMessage("Professor Oak: Ordered " + o.getNumKits() + (o.getNumKits() == 1 ? " kit" : " kits") + " of "
+				+ o.getConfig().getName());
 	}
 
 	public void startProduction() {
@@ -187,7 +188,7 @@ public class FCS {
 	public void setDropChance(Float c) {
 		// TODO Make a slider/button for this
 		agent.msgSetPartsRobotDropChance(c);
-		displayMessage("Parts Robot Drop Chance set to: " + c);
+		displayMessage("Professor Oak: Parts Robot drop rate set to " + c * 100 + "%");
 	}
 
 	public void receiveData(Request req) {
