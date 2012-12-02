@@ -3,10 +3,13 @@ package Networking;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.font.TextAttribute;
+import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -31,6 +34,7 @@ public abstract class Client extends JPanel {
 	protected int offset;
 
 	public static Font font;
+	public static Font pokeFont;
 
 	/**
 	 * To identify client with server.
@@ -47,6 +51,16 @@ public abstract class Client extends JPanel {
 	protected Client() {
 		setLayout(new BorderLayout());
 		font = new Font("Arial", font.PLAIN, 14);
+		try {
+			pokeFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/pkmndp.ttf"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		pokeFont = pokeFont.deriveFont(19f);
+		Map<TextAttribute, Object> fontAttributes = new HashMap<TextAttribute, Object>();
+		fontAttributes.put(TextAttribute.KERNING, Integer.valueOf(5));
+		
+		pokeFont = pokeFont.deriveFont(fontAttributes);
 	}
 
 	/**

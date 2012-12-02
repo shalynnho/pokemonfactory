@@ -45,6 +45,8 @@ public class FCS {
 	}
 
 	public void updateParts() {
+		server.sendData(new Request(Constants.MSGBOX_DISPLAY_MSG, Constants.MESSAGING_BOX_TARGET,
+				"Testing message Testing message Testing message Testing message Testing message"));
 		server.sendData(new Request(Constants.FCS_UPDATE_PARTS,
 				Constants.ALL_TARGET, partTypes));
 	}
