@@ -201,9 +201,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		} else if (command
 				.equals(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_GOOD_CONVEYOR)) {
 			msgPlaceKitOnConveyor();		
-		} else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1)){
+		} else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1 + Constants.DONE_SUFFIX)){
 			server.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION1, Constants.KIT_ROBOT_TARGET, object));
-		} else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION2)){
+		} else if(command.equals(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION2 + Constants.DONE_SUFFIX)){
 			server.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION2, Constants.KIT_ROBOT_TARGET, object));
 		} else if (command
 				.equals(Constants.CONVEYOR_GIVE_KIT_TO_KIT_ROBOT_COMMAND)) {
