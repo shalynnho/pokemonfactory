@@ -58,7 +58,7 @@ public class FCS {
 	public void shippedKit() {
 		displayMessage("Kit Completed");
 		server.sendData(new Request(Constants.FCS_SHIPPED_KIT, Constants.ALL_TARGET, null));
-		
+
 		if (queue.get(0) != null) {
 			if (queue.get(0).getNumKits() > 0) {
 				displayMessage("Professor Oak: Kit Completed!");
@@ -66,8 +66,6 @@ public class FCS {
 				displayMessage("Professor Oak: Order Completed!");
 			}
 		}
-
-		server.sendData(new Request(Constants.FCS_SHIPPED_KIT, Constants.ALL_TARGET, null));
 	}
 
 	public void displayMessage(String s) {

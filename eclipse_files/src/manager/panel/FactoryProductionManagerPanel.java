@@ -110,26 +110,23 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		panelListener.mouseExited(null);
 
 		// Setup KitsListPanel
-		kitsPanel = new KitsListPanel("Select a Kit to order... ",
-				new KitSelectHandler() {
-					@Override
-					public void onKitSelect(KitConfig kc) {
-						selectedKit = kc;
-					}
-				});
+		kitsPanel = new KitsListPanel("Select a Kit to order... ", new KitSelectHandler() {
+			@Override
+			public void onKitSelect(KitConfig kc) {
+				selectedKit = kc;
+			}
+		});
 
 		kitsPanel.setVisible(true);
 		kitsPanel.setBackground(new Color(0, 0, 0, 30));
 		addMouseListeners(kitsPanel);
 
-		kitsScrollPane = new JScrollPane(kitsPanel,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		kitsScrollPane = new JScrollPane(kitsPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		kitsScrollPane.setOpaque(false);
 		kitsScrollPane.getViewport().setOpaque(false);
 		for (int i = 0; i < kitsScrollPane.getComponentCount(); i++) {
-			kitsScrollPane.getComponents()[i]
-					.addMouseListener(new PanelMouseListener());
+			kitsScrollPane.getComponents()[i].addMouseListener(new PanelMouseListener());
 		}
 		kitsScrollPane.setPreferredSize(new Dimension(PANEL_WIDTH, height / 2));
 
@@ -137,8 +134,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 
 		// Setup new panel to hold the Spinner and the OrderButton
 		quantityOrderPanel = new JPanel();
-		quantityOrderPanel.setLayout(new BoxLayout(quantityOrderPanel,
-				BoxLayout.X_AXIS));
+		quantityOrderPanel.setLayout(new BoxLayout(quantityOrderPanel, BoxLayout.X_AXIS));
 
 		// Setup JSpinner
 		spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
@@ -155,12 +151,10 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		for (int i = 0; i < quantitySpinner.getComponentCount(); i++) {
 			quantitySpinner.getComponents()[i].addMouseListener(panelListener);
 		}
-		((JSpinner.DefaultEditor) quantitySpinner.getEditor()).getTextField()
-				.addMouseListener(panelListener);
+		((JSpinner.DefaultEditor) quantitySpinner.getEditor()).getTextField().addMouseListener(panelListener);
 
 		// Setup order button
-		orderButton = new CustomButton("Order Kits >",
-				new OrderButtonListener());
+		orderButton = new CustomButton("Order Kits >", new OrderButtonListener());
 		orderButton.addMouseListener(panelListener);
 
 		// add OrderButton to quantityOrderPanel adjacent to Spinner
@@ -179,18 +173,15 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		ordersPanel.setVisible(true);
 		ordersPanel.setBackground(new Color(0, 0, 0, 30));
 
-		ordersScrollPane = new JScrollPane(ordersPanel,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		ordersScrollPane = new JScrollPane(ordersPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		ordersScrollPane.setOpaque(false);
 		ordersScrollPane.getViewport().setOpaque(false);
 		for (int i = 0; i < ordersScrollPane.getComponentCount(); i++) {
-			ordersScrollPane.getComponents()[i]
-					.addMouseListener(new PanelMouseListener());
+			ordersScrollPane.getComponents()[i].addMouseListener(new PanelMouseListener());
 		}
 
-		ordersScrollPane
-				.setPreferredSize(new Dimension(PANEL_WIDTH, height / 2));
+		ordersScrollPane.setPreferredSize(new Dimension(PANEL_WIDTH, height / 2));
 
 		fullPanel.add(ordersScrollPane);
 
@@ -202,16 +193,14 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		currentKitCount = new WhiteLabel("0");
 		currentKitCount.setFont(new Font("Arial", Font.PLAIN, 40));
 		currentKitCount.setBorder(Constants.TOP_PADDING);
-		currentKitText = new WhiteLabel("<html>"
-				+ (Integer.valueOf(currentKitCount.getText()) == 1 ? "kit"
-						: "kits") + "<br />remaining<br />in the order</html>");
+		currentKitText = new WhiteLabel("<html>" + (Integer.valueOf(currentKitCount.getText()) == 1 ? "kit" : "kits")
+				+ "<br />remaining<br />in the order</html>");
 
 		currentOrderCount = new WhiteLabel("0");
 		currentOrderCount.setFont(new Font("Arial", Font.PLAIN, 40));
 		currentOrderCount.setBorder(Constants.TOP_PADDING);
 		currentOrderText = new WhiteLabel("<html>"
-				+ (Integer.valueOf(currentOrderCount.getText()) == 1 ? "order"
-						: "orders") + "<br />remaining</html>");
+				+ (Integer.valueOf(currentOrderCount.getText()) == 1 ? "order" : "orders") + "<br />remaining</html>");
 
 		WhiteLabel rollOverText = new WhiteLabel(
 				"<html><br /><br /><br />&lt;&lt;&lt;<br />mouseover<br />for more<br />info</html>");
@@ -225,8 +214,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	}
 
 	/**
-	 * This function is called by FactoryProductionManager whenever KitConfigs
-	 * are updated.
+	 * This function is called by FactoryProductionManager whenever KitConfigs are updated.
 	 * 
 	 * @param kc
 	 *            ArrayList of current KitConfigs
@@ -237,8 +225,7 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 	}
 
 	/**
-	 * This function is called by FactoryProductionManager whenever orders are
-	 * updated.
+	 * This function is called by FactoryProductionManager whenever orders are updated.
 	 * 
 	 * @param o
 	 *            ArrayList of orders
@@ -259,23 +246,20 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 		if (Integer.valueOf(currentKitCount.getText()) == 0) {
 			currentKitCount.setText(String.valueOf(kitCount));
 		}
-		currentOrderText.setText("<html>"
-				+ (Integer.valueOf(currentOrderCount.getText()) == 1 ? "order"
-						: "orders") + "<br />remaining</html>");
+		currentOrderText.setText("<html>" + (Integer.valueOf(currentOrderCount.getText()) == 1 ? "order" : "orders")
+				+ "<br />remaining</html>");
 	}
 
 	public void decreaseCurrentKitCount() {
 		int kitCount = Integer.valueOf(currentKitCount.getText());
 		kitCount--;
 		currentKitCount.setText(String.valueOf(kitCount));
-		currentKitText.setText("<html>"
-				+ (Integer.valueOf(currentKitCount.getText()) == 1 ? "kit"
-						: "kits") + "<br />remaining<br />in the order</html>");
+		currentKitText.setText("<html>" + (Integer.valueOf(currentKitCount.getText()) == 1 ? "kit" : "kits")
+				+ "<br />remaining<br />in the order</html>");
 	}
 
 	/**
-	 * Adds this FPMPanel as the mouseListener for the components of the
-	 * ListPanel
+	 * Adds this FPMPanel as the mouseListener for the components of the ListPanel
 	 * 
 	 * @param panel
 	 *            - KitsListPanel or OrdersListPanel
