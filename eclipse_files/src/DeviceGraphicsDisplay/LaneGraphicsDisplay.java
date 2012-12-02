@@ -406,6 +406,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		purging = true;
 		if(jammed) {
 			unjamming = true;
+			client.stopMusic();
+			client.stopRecovery();
+			client.startPokeflute();
 		}
 	}
 
