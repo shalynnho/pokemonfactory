@@ -84,12 +84,16 @@ public class KitManagerPanelV2 extends JPanel {
 		
 		// Setup KitsListPanel
 		kitsPanel = new KitsListPanel("Choose Kit to edit",
-			new KitSelectHandler() {
-				@Override
-				public void onKitSelect(KitConfig kc) {
-					startEditing(kc);
-				}
-			});
+				new KitSelectHandler() {
+					@Override
+					public void onKitSelect(KitConfig kc) {
+						startEditing(kc);
+					}
+					
+					public void onKitButton(KitConfig kc) {
+						startDeleting(kc);
+					}
+				}, "Delete");
 
 		kitsPanel.setVisible(true);
 		kitsPanel.setBackground(new Color(0, 0, 0, 30));

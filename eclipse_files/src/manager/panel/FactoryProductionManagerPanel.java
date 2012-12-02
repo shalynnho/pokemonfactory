@@ -115,6 +115,11 @@ public class FactoryProductionManagerPanel extends OverlayInternalFrame {
 			public void onKitSelect(KitConfig kc) {
 				selectedKit = kc;
 			}
+			
+			@Override
+			public void onKitButton(KitConfig kc) {
+				// do nothing
+			}
 		});
 
 		kitsPanel.setVisible(true);
