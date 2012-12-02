@@ -153,6 +153,13 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 											- Constants.PART_PADDING, speed);
 									// System.out.println("		LANE"+laneID+" FIRST PART BEFORE JAM");
 								} else if (unjamming) {
+									g.drawImage(Constants.POKEFLUTE,
+											jamLocX - Constants.PART_PADDING
+													+ client.getOffset(),
+											location.getY()
+													- Constants.PART_PADDING
+													- 24 + client.getOffset(),
+											c);
 									animateUnjam(loc);
 								}
 							}
@@ -450,7 +457,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 		}
 
-		if (jamSeq == 8) { // reset sequence
+		if (jamSeq == 64) { // reset sequence
 			jamSeq = 0;
 			unjamming = false;
 			jammed = false;
