@@ -203,6 +203,7 @@ public class KitManagerPanelV2 extends JPanel {
 		
 		// Clear out the parts in the list of a Kit's parts
 		kitPartsPanel.updateList(new ArrayList<PartType>());
+		validateSubmit();
 	}
 	
 	public void updateKitConfig(ArrayList<KitConfig> kc) {
@@ -225,6 +226,7 @@ public class KitManagerPanelV2 extends JPanel {
 				kitjsp.validate();
 
 			}
+			validateSubmit();
 		}
 	}
 	
@@ -234,6 +236,15 @@ public class KitManagerPanelV2 extends JPanel {
 			kitPt.remove(pt);
 			kitPartsPanel.updateList(kitPt);
 			kitjsp.validate();
+			validateSubmit();
+		}
+	}
+	
+	public void validateSubmit() {
+		if (kitPartsPanel.getItemList().size() < 4) {
+			submitButton.setEnabled(false);
+		} else if (kitPartsPanel.getItemList().size() >= 4) {
+			submitButton.setEnabled(true);
 		}
 	}
 

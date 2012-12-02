@@ -159,8 +159,10 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			}
 		} else {
 			if ( location == 1 ){
+				kit.setPosition(1);
 				kitPositions.put(Constants.KIT_LOCATION1, kit);
 			} else if( location == 2){
+				kit.setPosition(2);
 				kitPositions.put(Constants.KIT_LOCATION2, kit);
 			}
 			
@@ -229,9 +231,9 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 					Constants.CONVEYOR_TARGET, object));
 			kitRobotAgent.msgPlaceKitOnConveyorDone();
 		} else if (command.equals(Constants.KIT_ROBOT_ON_INSPECTION_DONE)) {
-			kitRobotAgent.msgPlaceKitInInspectionAreaDone();
 			server.sendData(new Request(Constants.STAND_RECEIVE_KIT_COMMAND,
 					Constants.STAND_TARGET + 0, object));
+			kitRobotAgent.msgPlaceKitInInspectionAreaDone();
 		} else if (command.equals(Constants.KIT_RECEIVES_PART)) {
 
 			// PartGraphics testPart = new

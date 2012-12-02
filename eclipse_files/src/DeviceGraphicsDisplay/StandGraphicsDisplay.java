@@ -79,6 +79,7 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		kitConfig.setLocation(kitLocation);
 		kit.setKitConfig(kitConfig);
 	}
+	
 	public void giveKitToStand(){
 		isEmpty = true;
 		client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1, Constants.KIT_ROBOT_TARGET, kitConfig));
