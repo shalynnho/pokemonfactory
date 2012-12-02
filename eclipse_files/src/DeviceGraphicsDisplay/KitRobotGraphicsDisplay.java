@@ -446,7 +446,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		
 		drawtheKits(c, g);
-		g.drawImage(Constants.KIT_ROBOT_IMAGE_FLICKER, kitRobotPositionX, kitRobotPositionY, c);
+		//g.drawImage(Constants.KIT_ROBOT_IMAGE_FLICKER, kitRobotPositionX, kitRobotPositionY, c);
 		animateRobot(g,c);
 	}
 
@@ -461,13 +461,13 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	
 	public void animateRobot(Graphics2D g, JComponent c) {
 			if (animCount % 7 == 0) {
-				// TODO: change 1 to parttypenum later;
-				img = Toolkit.getDefaultToolkit().getImage(Constants.KIT_ROBOT_IMAGE + seq + ".png");
+				//// TODO: change 1 to parttypenum later;
 				sequenceIncrease();
 			} else if (animCount < 1) {
 				animCount = 76;
-				return;
 			}
+			
+			img = Toolkit.getDefaultToolkit().getImage(Constants.KIT_ROBOT_IMAGE + seq + ".png");
 			animCount--;
 			g.drawImage(img, kitRobotPositionX, kitRobotPositionY, c);
 	}
@@ -505,7 +505,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	    	seq = 4;
 	    	reverse = false;
 	    }
-	    else {}
 	}
 
 	@Override
