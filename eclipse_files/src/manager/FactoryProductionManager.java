@@ -152,6 +152,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	}
 	
 	public void startMusic() {
+		pokeflute.stop();
+		recovery.stop();
 		music.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 	
@@ -166,12 +168,14 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	}
 	
 	public void startRecovery() {
-		recovery.start();
+		recovery.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 	
 	public void stopRecovery() {
+		System.out.println("BLEHHHHHHHH");
 		if(recovery.isRunning()) {
 			recovery.stop();
+			System.out.println("BLEHHHHHHHH2");
 		}
 	}
 
