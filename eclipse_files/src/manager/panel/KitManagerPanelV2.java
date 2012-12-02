@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,8 +22,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import manager.KitManager;
-import manager.util.ClickablePanel;
-import manager.util.ClickablePanelClickHandler;
 import manager.util.OverlayPanel;
 import manager.util.WhiteLabel;
 import Utils.Constants;
@@ -220,17 +217,23 @@ public class KitManagerPanelV2 extends JPanel {
 	}
 	
 	public void addPart(PartType pt) {
-		ArrayList<PartType> kitPt = kitPartsPanel.getItemList();
-		if (kitPt.size() < 8) {
-			kitPt.add(pt);
-			kitPartsPanel.updateList(kitPt);
+		if (pt != null) {
+			ArrayList<PartType> kitPt = kitPartsPanel.getItemList();
+			if (kitPt.size() < 8) {
+				kitPt.add(pt);
+				kitPartsPanel.updateList(kitPt);
+				partsjsp.validate();
+			}
 		}
 	}
 	
 	public void removePart(PartType pt) {
-		ArrayList<PartType> kitPt = kitPartsPanel.getItemList();
-		kitPt.remove(pt);
-		kitPartsPanel.updateList(kitPt);
+		if (pt != null) {
+			ArrayList<PartType> kitPt = kitPartsPanel.getItemList();
+			kitPt.remove(pt);
+			kitPartsPanel.updateList(kitPt);
+			partsjsp.validate();
+		}
 	}
 
 	public void startEditing(final KitConfig kc) {
