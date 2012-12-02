@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -15,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import manager.panel.FactoryProductionManagerPanel;
-import DeviceGraphicsDisplay.CameraGraphicsDisplay;
 import DeviceGraphicsDisplay.ConveyorGraphicsDisplay;
 import DeviceGraphicsDisplay.DeviceGraphicsDisplay;
 import DeviceGraphicsDisplay.FeederGraphicsDisplay;
@@ -48,6 +48,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	// Create a new timer
 	private Timer timer;
+	private java.util.Timer musicTimer = new java.util.Timer();
 
 	// Background music - Goldenrod City
 	private Clip music, pokeflute, recovery;
@@ -104,7 +105,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		}
 
 		addDevice(Constants.PARTS_ROBOT_TARGET, new PartsRobotDisplay(this));
-		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(this, i));
@@ -182,7 +182,14 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	public void startRecovery() {
 		if (recovery != null) {
+			System.out.println("plays recovery"); // !!! EXTREMELY IMPORTANT
 			recovery.loop(Clip.LOOP_CONTINUOUSLY);
+			musicTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					startMusic();
+				}
+			}, 2000);
 		}
 	}
 

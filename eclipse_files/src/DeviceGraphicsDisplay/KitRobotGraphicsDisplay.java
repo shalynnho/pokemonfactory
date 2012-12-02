@@ -379,7 +379,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				setKitConfigurations(tempKit, 3 );
 				kits.add(currentKit);
 				InspectionToGoodConveyor();
-				kitRobotClient.startMusic();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_INSPECTION)) {
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay((KitConfig)obj);
@@ -402,14 +401,12 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				setKitConfigurations(tempKit,1);
 				kits.add(currentKit);
 				InspectionToLocation1();
-				kitRobotClient.startMusic();
 			}  else if(command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION2)){
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay((KitConfig)obj);
 				tempKit.setLocation(inspectionLocation);
 				setKitConfigurations(tempKit,2);
 				kits.add(currentKit);
 				InspectionToLocation2();
-				kitRobotClient.startMusic();
 			}
 			
 			invisibleCloud = false;
