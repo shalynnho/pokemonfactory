@@ -11,6 +11,7 @@ import Utils.Constants;
 import Utils.Location;
 
 public class MessagingBoxGraphicsDisplay extends DeviceGraphicsDisplay {
+	private static final int LINE_LENGTH = 53;
 
 	private Image image = Constants.MESSAGE_BOX_IMAGE.getScaledInstance(480, 80, Image.SCALE_DEFAULT);
 	private Image arrowImage = Constants.MESSAGE_BOX_ARROW_IMAGE.getScaledInstance(12, 8, Image.SCALE_DEFAULT);
@@ -22,7 +23,7 @@ public class MessagingBoxGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public MessagingBoxGraphicsDisplay(Client c) {
 		client = c;
-		location = new Location(20, 580);
+		location = new Location(30, 580);
 	}
 
 	@Override
@@ -31,13 +32,13 @@ public class MessagingBoxGraphicsDisplay extends DeviceGraphicsDisplay {
 		g.drawImage(image,
 				location.getX() + client.getOffset(), location.getY(), c);
 
-		if (charsDisplayed < Math.min(62, msgToDisplay.length())) {
+		if (charsDisplayed < Math.min(LINE_LENGTH * 2, msgToDisplay.length())) {
 			drawMessage(msgToDisplay.substring(0, charsDisplayed), c, g);
 			charsDisplayed++;
 		} else {
 			drawMessage(msgToDisplay, c, g);
 			if (flashCounter % 30 < 15) {
-				g.drawImage(arrowImage, location.getX() + 265, location.getY() + 60, c);
+				g.drawImage(arrowImage, location.getX() + 445, location.getY() + 60, c);
 			}
 		}
 
@@ -54,9 +55,9 @@ public class MessagingBoxGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void drawMessage(String s, JComponent c, Graphics2D g) {
 		s = s.trim();
-		if (s.length() > 31) {
-			g.drawString(s.substring(0, 31), location.getX() + 23, location.getY() + 35);
-			s = s.substring(31, Math.min(s.length(), 62));
+		if (s.length() > LINE_LENGTH) {
+			g.drawString(s.substring(0, LINE_LENGTH), location.getX() + 23, location.getY() + 35);
+			s = s.substring(LINE_LENGTH, Math.min(s.length(), LINE_LENGTH * 2));
 			s = s.trim();
 			g.drawString(s, location.getX() + 23, location.getY() + 57);
 		} else {
