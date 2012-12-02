@@ -322,7 +322,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			synchronized (MyKits) {
 				for (MyKit mk : MyKits) {
 					if (mk.kit.needPart(arm.part) > 0) {
-
 						if (partsRobotGraphics != null) {
 							partsRobotGraphics.givePartToKit(
 									arm.part.partGraphics, mk.kit.kitGraphics,
@@ -353,6 +352,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 	private void DropPart(Arm arm) {
 		print("Dropped a part");
+		arm.part = new Part(new PartType("Dummy"));
+		arm.part.partGraphics = null;
 		if (partsRobotGraphics != null) {
 			partsRobotGraphics.dropPartFromArm(arm.part.partGraphics,
 					Arms.indexOf(arm));
@@ -363,9 +364,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				e.printStackTrace();
 			}
 			// print("Got permit");
-			arm.part = new Part(new PartType("Dummy"));
-			arm.part.partGraphics = null;
-			arm.AS = ArmStatus.EMPTY;
+			// arm.AS = ArmStatus.EMPTY;
 		}
 		stateChanged();
 	}
