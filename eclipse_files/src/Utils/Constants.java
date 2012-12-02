@@ -351,12 +351,16 @@ public abstract class Constants {
 	// give part to kit
 	public static final String PARTS_ROBOT_GIVE_COMMAND = "give";
 	// parts robot go to kit
+	public static final String PARTS_ROBOT_DROP_COMMAND = "drop";
+	// parts robot drop part
 	public static final String PARTS_ROBOT_GO_KIT_COMMAND = "gokit";
 	// end partsrobot logic to display commands
 	public static final String PARTS_ROBOT_RECEIVE_PART_COMMAND = "receivepart";
 	// receive parts from nest
 	public static final String PARTS_ROBOT_GIVE_PART_COMMAND = "givepart";
 	// give part to kit
+	public static final String PARTS_ROBOT_DROP_PART_COMMAND = "droppart";
+	// drops part from arm
 
 	// nest logic to display commands
 	public static final String NEST_RECEIVE_PART_COMMAND = "nestrecpart";
