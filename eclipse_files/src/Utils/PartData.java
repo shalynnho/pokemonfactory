@@ -22,6 +22,11 @@ public class PartData implements Serializable {
 	Arm = arm; 
     }
     
+    public PartData(PartType p, boolean isBad) {
+    	pt = p;
+    	this.isBad=isBad;
+    }
+    
     public PartData(PartType parttype, int arm) {
     	pt = parttype;
     	Arm = arm;
