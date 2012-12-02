@@ -333,6 +333,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void dropPart() {
+		System.out.println("Drop Arm:" +droparm);
 		partArrayGraphics.remove(droparm);
 		
 		PartGraphicsDisplay pgd = new PartGraphicsDisplay(pt);
