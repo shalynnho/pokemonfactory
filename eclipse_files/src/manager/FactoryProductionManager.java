@@ -5,15 +5,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -53,7 +50,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	private Timer timer;
 	
 	// Background music - Goldenrod City
-	private Clip clip;
+	private Clip music;
 	
 	/**
 	 * Constructor
@@ -128,13 +125,13 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		URL url = this.getClass().getClassLoader().getResource("audio/goldenrod.wav");		
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-			clip = AudioSystem.getClip();
-			clip.open(audioIn);
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			music = AudioSystem.getClip();
+			music.open(audioIn);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		music.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 
 	/**

@@ -1,8 +1,15 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JComponent;
 
 import Networking.Client;
@@ -32,19 +39,24 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	// stores the parts on the lane
 	private final ArrayList<PartGraphicsDisplay> partsOnLane;
+	
 	// start location of parts on this lane
 	private final Location partStartLoc;
+	
 	// location of a part jam on the lane
 	private Location jamLoc;
 	private int jamLocX = 0;
+	
 	// array list of locations of the lane lines
 	private ArrayList<Location> laneLines;
 
 	// the ID of this Lane
 	private final int laneID;
+	
 	// the amplitude of this lane
 	private int speed = 2;
 	private int amplitude = 2;
+	
 	// true if Lane is on
 	private boolean laneOn = true;
 
@@ -59,6 +71,9 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private boolean jammed = false;
 	private boolean unjamming = false;
 	private int jamSeq = 0;
+	
+	// pokeflute music
+	private Clip pokeflute;
 
 	/**
 	 * LGD constructor
@@ -84,6 +99,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				+ Constants.PART_WIDTH / 2 - Constants.PART_OFFSET);
 
 		resetLaneLineLocs();
+		//initMusic();
 	}
 
 	/**
@@ -301,6 +317,32 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		location = newLocation;
 	}
 
+	private void animateUnjam(Location loc) {
+		// System.out.println("	LANEGD" + laneID + "ANIMATING UNJAM, SEQ: "+
+		// jamSeq);
+	
+		// TODO
+		// 8-step sequence
+		if (jamSeq % 2 == 0) { // even
+			loc.setY(partStartLoc.getY());
+		} else { // odd
+			if ((jamSeq - 1) % 4 == 0) { // 1 or 5
+				loc.incrementY(-6);
+			} else { // 3 or 7
+				loc.incrementY(6);
+			}
+		}
+	
+		if (jamSeq == 64) { // reset sequence
+			jamSeq = 0;
+			unjamming = false;
+			jammed = false;
+			client.sendData(new Request(Constants.LANE_SET_JAM_COMMAND + Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID, null));
+		} else {
+			jamSeq++;
+		}
+	}
+
 	/**
 	 * Give part to nest, removes from this lane
 	 */
@@ -309,6 +351,106 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		receivePartDoneSent = false; // reset
 		client.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
 				+ Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID, null));
+	}
+	
+	private void initMusic() {
+		URL url = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");		
+		try {
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+			pokeflute = AudioSystem.getClip();
+			//pokeflute.open(audioIn);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//pokeflute.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+
+	/**
+	 * Animates the lane lines
+	 */
+	private void moveLane() {
+		for (int i = 0; i < laneLines.size(); i++) {
+			int xCurrent = laneLines.get(i).getX();
+			if (xCurrent <= Constants.LANE_END_X - LINE_WIDTH) {
+				if (i == 0) {
+					int xPrev = laneLines.get(laneLines.size() - 1).getX();
+					laneLines.get(i).setX(xPrev + LINESPACE);
+				} else {
+					int xPrev = laneLines.get(i - 1).getX();
+					laneLines.get(i).setX(xPrev + LINESPACE);
+				}
+			} else {
+				laneLines.get(i).incrementX(-speed);
+			}
+		}
+	}
+
+	/**
+	 * Tells the agent that purging is done. Make sure only sends message once
+	 * for each part, not on every call to draw.
+	 */
+	private void msgAgentPurgingDone() {
+		if (partsOnLane.size() == 0 && !purgeDoneSent) {
+			client.sendData(new Request(Constants.LANE_PURGE_COMMAND
+					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID,
+					null));
+			// System.out.println("	LANEGD" + laneID + ": purge done sent.");
+			purgeDoneSent = true;
+			receivePartDoneSent = false;
+		}
+	}
+
+	/**
+	 * Tells the agent that the part has reached the end of the lane. Make sure
+	 * only sends message once for each part, not on every call to draw.
+	 */
+	private void msgAgentReceivePartDone() {
+		if (partAtLaneEnd && !receivePartDoneSent) {
+			client.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
+					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID,
+					null));
+			// System.out.println("	LANEGD" + laneID +
+			// ": receive part done sent.");
+			receivePartDoneSent = true;
+		}
+	}
+
+	/**
+	 * Purges lane of all parts
+	 */
+	private void purge() {
+		// lane should continue as is, parts fall off the lane
+		purgeDoneSent = false;
+		purging = true;
+		if(jammed) {
+			unjamming = true;
+		}
+	}
+
+	/**
+	 * Creates an array list of Locations for the lane lines
+	 */
+	private void resetLaneLineLocs() {
+		// create array list of location for lane lines
+		laneLines = new ArrayList<Location>(NUMLINES);
+		int startLineX = Constants.LANE_END_X + LINE_WIDTH;
+		for (int i = 0; i < NUMLINES; i++) {
+			laneLines.add(new Location(startLineX, location.getY()));
+			startLineX += LINESPACE;
+		}
+	}
+
+	private void receivePart(PartType type, boolean quality) {
+		PartGraphicsDisplay pg = new PartGraphicsDisplay(type);
+		Location newLoc = new Location(location.getX() + Constants.LANE_LENGTH,
+				location.getY() + Constants.PART_WIDTH / 2
+						- Constants.PART_OFFSET);
+		pg.setLocation(newLoc);
+		pg.setQuality(quality);
+		partsOnLane.add(pg);
+		// System.out.println("LANEGD" + laneID + " RECEIVING PART " +
+		// partsOnLane.size());
 	}
 
 	/**
@@ -338,63 +480,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 
 	/**
-	 * Animates the lane lines
-	 */
-	private void moveLane() {
-		for (int i = 0; i < laneLines.size(); i++) {
-			int xCurrent = laneLines.get(i).getX();
-			if (xCurrent <= Constants.LANE_END_X - LINE_WIDTH) {
-				if (i == 0) {
-					int xPrev = laneLines.get(laneLines.size() - 1).getX();
-					laneLines.get(i).setX(xPrev + LINESPACE);
-				} else {
-					int xPrev = laneLines.get(i - 1).getX();
-					laneLines.get(i).setX(xPrev + LINESPACE);
-				}
-			} else {
-				laneLines.get(i).incrementX(-speed);
-			}
-		}
-	}
-
-	/**
-	 * Purges lane of all parts
-	 */
-	private void purge() {
-		// lane should continue as is, parts fall off the lane
-		purgeDoneSent = false;
-		purging = true;
-		if(jammed) {
-			unjamming = true;
-		}
-	}
-
-	private void receivePart(PartType type, boolean quality) {
-		PartGraphicsDisplay pg = new PartGraphicsDisplay(type);
-		Location newLoc = new Location(location.getX() + Constants.LANE_LENGTH,
-				location.getY() + Constants.PART_WIDTH / 2
-						- Constants.PART_OFFSET);
-		pg.setLocation(newLoc);
-		pg.setQuality(quality);
-		partsOnLane.add(pg);
-		// System.out.println("LANEGD" + laneID + " RECEIVING PART " +
-		// partsOnLane.size());
-	}
-
-	/**
-	 * Creates an array list of Locations for the lane lines
-	 */
-	private void resetLaneLineLocs() {
-		// create array list of location for lane lines
-		laneLines = new ArrayList<Location>(NUMLINES);
-		int startLineX = Constants.LANE_END_X + LINE_WIDTH;
-		for (int i = 0; i < NUMLINES; i++) {
-			laneLines.add(new Location(startLineX, location.getY()));
-			startLineX += LINESPACE;
-		}
-	}
-
-	/**
 	 * Changes y-coords to show vibration down lane (may have to adjust values)
 	 * 
 	 * @param i
@@ -410,62 +495,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (loc.getY() > partStartLoc.getY() - amplitude) {
 			loc.incrementY(-2);
-		}
-	}
-
-	private void animateUnjam(Location loc) {
-		// System.out.println("	LANEGD" + laneID + "ANIMATING UNJAM, SEQ: "+
-		// jamSeq);
-
-		// TODO
-		// 8-step sequence
-		if (jamSeq % 2 == 0) { // even
-			loc.setY(partStartLoc.getY());
-		} else { // odd
-			if ((jamSeq - 1) % 4 == 0) { // 1 or 5
-				loc.incrementY(-6);
-			} else { // 3 or 7
-				loc.incrementY(6);
-			}
-		}
-
-		if (jamSeq == 64) { // reset sequence
-			jamSeq = 0;
-			unjamming = false;
-			jammed = false;
-			client.sendData(new Request(Constants.LANE_SET_JAM_COMMAND + Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID, null));
-		} else {
-			jamSeq++;
-		}
-	}
-
-	/**
-	 * Tells the agent that the part has reached the end of the lane. Make sure
-	 * only sends message once for each part, not on every call to draw.
-	 */
-	private void msgAgentReceivePartDone() {
-		if (partAtLaneEnd && !receivePartDoneSent) {
-			client.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND
-					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID,
-					null));
-			// System.out.println("	LANEGD" + laneID +
-			// ": receive part done sent.");
-			receivePartDoneSent = true;
-		}
-	}
-
-	/**
-	 * Tells the agent that purging is done. Make sure only sends message once
-	 * for each part, not on every call to draw.
-	 */
-	private void msgAgentPurgingDone() {
-		if (partsOnLane.size() == 0 && !purgeDoneSent) {
-			client.sendData(new Request(Constants.LANE_PURGE_COMMAND
-					+ Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID,
-					null));
-			// System.out.println("	LANEGD" + laneID + ": purge done sent.");
-			purgeDoneSent = true;
-			receivePartDoneSent = false;
 		}
 	}
 
