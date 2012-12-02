@@ -201,7 +201,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 						client.sendData(new Request(
 								Constants.KIT_UPDATE_PARTS_LIST_COMMAND
 										+ Constants.DONE_SUFFIX,
-								Constants.PARTS_ROBOT_TARGET, arm-1));
+								Constants.PARTS_ROBOT_TARGET, tempPartType));
 						gavepart = true;
 					}
 				} else {
