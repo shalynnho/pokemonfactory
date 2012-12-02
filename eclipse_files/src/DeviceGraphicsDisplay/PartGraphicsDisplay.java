@@ -12,6 +12,15 @@ import factory.PartType;
 public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	Location partLocation;
 	PartType partType;
+	boolean invisible;
+	
+	public void setInvisible(boolean invisible){
+		this.invisible = invisible;
+	}
+	
+	public boolean getInvisible(){
+		return this.invisible;
+	}
 	boolean quality = true;
 	TransitionGraphicsDisplay trans;
 
@@ -21,6 +30,7 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	private final Image badPokeballImage;
 
 	public PartGraphicsDisplay(PartType pt) {
+		invisible = false;
 		partType = pt;
 		partImage = partType.getImage();
 		badImage = partType.getBadImage();
