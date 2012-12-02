@@ -16,11 +16,20 @@ public class KitConfig implements Serializable, FactoryData {
 	private final String id;
 	private String name;
 	private Location location;
+	private int standId;
+
+	public int getStandId() {
+		return standId;
+	}
+	public void setStandId(int value){
+		standId= value;
+	}
 
 	public KitConfig(String name) {
 		config = new LinkedHashMap<PartType, Integer>();
 		this.name = name;
 		this.id = StringUtil.md5(name);
+		standId = -1;
 		location = new Location(0,0);
 	}
 	
@@ -58,6 +67,24 @@ public class KitConfig implements Serializable, FactoryData {
 	 */
 	public void addItem(PartType pt, int n) {
 		config.put(pt, n);
+	}
+	
+	public void clearDummies() {
+		ArrayList<PartType> dummies = new ArrayList<PartType>();
+		for(PartType pt: config.keySet() )
+		{
+			dummies.add(pt);
+				
+			
+		}
+		for(int i =0; i <dummies.size(); i++)
+		{
+			if(dummies.get(i).getName().equals("Dummy"))
+			{
+				config.keySet().remove(dummies.get(i));
+			}
+		}
+		
 	}
 
 	/**
@@ -101,8 +128,19 @@ public class KitConfig implements Serializable, FactoryData {
 	public ArrayList<PartType> getParts() {
 		ArrayList<PartType> parts = new ArrayList<PartType>(8);
 		for (PartType p : config.keySet()) {
+			parts.add(p);
+		}
+		return parts;
+	}
+	
+	// Adds duplicate parts if necessary
+	public ArrayList<PartType> getAllParts() {
+		ArrayList<PartType> parts = new ArrayList<PartType>(8);
+		for (PartType p : config.keySet()) {
+			int num = config.get(p).intValue();
+			for (int i = 0; i < num; i++) {
 				parts.add(p);
-			
+			}
 		}
 		return parts;
 	}

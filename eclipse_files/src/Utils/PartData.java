@@ -47,6 +47,14 @@ public class PartData implements Serializable {
 	public boolean getQuality() {
 		return quality;
 	}
+	
+	/**
+	 * GIGANTIC HACK. Use with PartType.isInvisible() only!
+	 * @return
+	 */
+	public boolean getInvisible() {
+		return quality;
+	}
 
 	public int getArm() {
 		return Arm;

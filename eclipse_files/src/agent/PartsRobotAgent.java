@@ -30,8 +30,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private String name;
 
 	private KitConfig Kitconfig;
-	private final List<MyKit> MyKits = Collections
-			.synchronizedList(new ArrayList<MyKit>());
+	private final List<MyKit> MyKits = Collections.synchronizedList(new ArrayList<MyKit>());
 	private Map<Nest, List<Part>> GoodParts = new ConcurrentHashMap<Nest, List<Part>>();
 	private List<Arm> Arms = Collections.synchronizedList(new ArrayList<Arm>());
 
@@ -127,11 +126,9 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	 */
 	@Override
 	public void msgHereAreGoodParts(Nest n, List<Part> goodParts) {
-		print("Received msgHereAreGoodParts of type "
-				+ goodParts.get(0).type.getName());
+		print("Received msgHereAreGoodParts of type " + goodParts.get(0).type.getName());
 		GoodParts.put(n, goodParts);
-		print("I have " + MyKits.size() + " kits and " + GoodParts.size()
-				+ " nests");
+		print("I have " + MyKits.size() + " kits and " + GoodParts.size() + " nests");
 		stateChanged();
 	}
 
@@ -144,15 +141,14 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 
 		MyKit mk = new MyKit(k);
 		MyKits.add(mk);
-		print("I have " + MyKits.size() + " kits and " + GoodParts.size()
-				+ " nests");
+		print("I have " + MyKits.size() + " kits and " + GoodParts.size() + " nests");
 		stateChanged();
 
 	}
 
 	/**
-	 * Releases animation semaphore after a part is picked up, so that a new
-	 * animation may be run by graphics. From graphics
+	 * Releases animation semaphore after a part is picked up, so that a new animation may be run by graphics. From
+	 * graphics
 	 */
 	@Override
 	public void msgPickUpPartDone() {
@@ -162,8 +158,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	/**
-	 * Releases animation semaphore after a part is given to kit, so that a new
-	 * animation may be run by graphics. From graphics
+	 * Releases animation semaphore after a part is given to kit, so that a new animation may be run by graphics. From
+	 * graphics
 	 */
 	@Override
 	public void msgGivePartToKitDone() {
@@ -206,8 +202,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				for (Arm arm : Arms) {
 					if (arm.AS == ArmStatus.FULL) {
 						print("Arm holding: " + arm.part.type.toString());
-						PlacePart(arm);
-						return true;
+						if (arm.part.type.getName() != "Dummy") {
+							PlacePart(arm);
+							return true;
+						}
 					}
 				}
 			}
@@ -237,10 +235,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						// print("Kit needs: " +
 						// mk.kit.partsExpected.getConfig().toString());
 						if (NumTotalPartsNeeded(part) > NumPartsInHand(part)) {
-							print("Found a part I need of type "
-									+ part.type.getName() + " for kit "
-									+ MyKits.indexOf(mk) + " "
-									+ mk.kit.PartsStillNeeded());
+							print("Found a part I need of type " + part.type.getName() + " for kit "
+									+ MyKits.indexOf(mk) + " " + mk.kit.PartsStillNeeded());
 							synchronized (Arms) {
 								for (Arm arm : Arms) {
 									if (arm.AS == ArmStatus.EMPTY) {
@@ -278,8 +274,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}, 5001);
 
 		/*
-		 * Tried all rules and found no actions to fire. Return false to the
-		 * main loop of abstract base class Agent and wait.
+		 * Tried all rules and found no actions to fire. Return false to the main loop of abstract base class Agent and
+		 * wait.
 		 */
 		return false;
 	}
@@ -317,49 +313,42 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	private void PlacePart(Arm arm) {
-		if (Math.random() > dropChance) {
-			print("Placing part");
-			synchronized (MyKits) {
-				for (MyKit mk : MyKits) {
-					if (mk.kit.needPart(arm.part) > 0
-							|| arm.part.type.getName() == "Dummy") {
-						if (partsRobotGraphics != null) {
-							partsRobotGraphics.givePartToKit(
-									arm.part.partGraphics, mk.kit.kitGraphics,
-									Arms.indexOf(arm));
-							try {
-								// print("Blocking");
-								animation.acquire();
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							// print("Got permit");
-						}
-						// Tells the kit it has the part now
-						mk.kit.parts.add(arm.part);
-						arm.part = null;
-						arm.AS = ArmStatus.EMPTY;
-						// Checks if the kit is done
-						CheckMyKit(mk);
-						break;
+
+		print("Placing part");
+		synchronized (MyKits) {
+			for (MyKit mk : MyKits) {
+				if (mk.kit.needPart(arm.part) > 0) {
+					if (Math.random() <= dropChance) {
+						DropPart(arm);
 					}
+					if (partsRobotGraphics != null) {
+						// DropPart(arm);
+						partsRobotGraphics.givePartToKit(arm.part.partGraphics, mk.kit.kitGraphics, Arms.indexOf(arm));
+						try {
+							// print("Blocking");
+							animation.acquire();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						// print("Got permit");
+					}
+					mk.kit.parts.add(arm.part);
+					arm.part = null;
+					arm.AS = ArmStatus.EMPTY;
+					// Checks if the kit is done
+					CheckMyKit(mk);
+					break;
 				}
-				stateChanged();
 			}
-		} else {
-			if (arm.part.type.getName() != "Dummy") {
-				DropPart(arm);
-			}
+			stateChanged();
 		}
 	}
 
 	private void DropPart(Arm arm) {
-		print("Dropped a part");
-		arm.part = new Part(new PartType("Dummy"));
-		arm.part.type.setImagePath("invisible");
+		print("Dropped a part from arm " + Arms.indexOf(arm));
+		arm.part.partGraphics.setInvisible(true);
 		if (partsRobotGraphics != null) {
-			partsRobotGraphics.dropPartFromArm(arm.part.partGraphics,
-					Arms.indexOf(arm));
+			partsRobotGraphics.dropPartFromArm(arm.part.partGraphics, Arms.indexOf(arm));
 			try {
 				// print("Blocking");
 				animation.acquire();
@@ -369,7 +358,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			// print("Got permit");
 			// arm.AS = ArmStatus.EMPTY;
 		}
-		stateChanged();
+		// stateChanged();
 	}
 
 	private void CheckMyKit(MyKit mk) {
@@ -381,8 +370,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			}
 		}
 
-		print("Need " + (size - mk.kit.parts.size())
-				+ " more part(s) to finish kit (kit: " + mk.toString());
+		print("Need " + (size - mk.kit.parts.size()) + " more part(s) to finish kit (kit: " + mk.kit.toString());
 		if (size - mk.kit.parts.size() == 0) {
 			mk.MKS = MyKitStatus.DONE;
 		}
@@ -394,10 +382,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		MyKits.remove(mk);
 		stand.msgKitAssembled(mk.kit);
 		kitsNum++;
-		print("I have " + MyKits.size() + " kits and " + GoodParts.size()
-				+ " nests");
-		print("I have " + MyKits.size() + " kits on the stand and I have made "
-				+ kitsNum + " kits");
+		print("I have " + MyKits.size() + " kits and " + GoodParts.size() + " nests");
+		print("I have " + MyKits.size() + " kits on the stand and I have made " + kitsNum + " kits");
 		stateChanged();
 	}
 
@@ -512,8 +498,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	}
 
 	/*
-	 * public List<Nest> getNests() { return nests; } public void
-	 * setNests(List<Nest> nests) { this.nests = nests; }
+	 * public List<Nest> getNests() { return nests; } public void setNests(List<Nest> nests) { this.nests = nests; }
 	 */
 
 	public Stand getStand() {

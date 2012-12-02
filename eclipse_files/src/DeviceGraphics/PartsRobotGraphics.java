@@ -9,6 +9,7 @@ import Utils.Location;
 import Utils.PartData;
 import agent.Agent;
 import agent.PartsRobotAgent;
+import factory.PartType;
 
 //import factory.data.Kit;
 
@@ -53,12 +54,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 
 	@Override
 	public void givePartToKit(PartGraphics part, KitGraphics kit, int arm) {
-		for (PartGraphics p : partArray) {
-			if (p == part) {
-				partArray.remove(p);
-				break;
-			}
-		}
 
 		PartData pd = new PartData(kit.getLocation(), arm);
 		
@@ -66,7 +61,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
 
 	}
-	
+
 	@Override
 	public void dropPartFromArm(PartGraphics part, int arm) {
 		PartData a = new PartData(part.getPartType(), arm);
@@ -134,13 +129,19 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 			partsRobotAgent.msgGivePartToKitDone();
 		} else if (req.getCommand().equals(Constants.PARTS_ROBOT_DROP_PART_COMMAND + Constants.DONE_SUFFIX)) {
 			partsRobotAgent.msgDropPartFromArmDone();
-		} else if (req.getCommand().equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND
-						+ Constants.DONE_SUFFIX)) {
-			server.sendData(new Request(Constants.STAND_RECEIVE_PART_COMMAND, Constants.STAND_TARGET + kitPosition,
-					req.getData()));
+			server.displayMessage("Professor Oak: Oops! A part was dropped!");
+		} else if (req.getCommand().equals(Constants.KIT_UPDATE_PARTS_LIST_COMMAND + Constants.DONE_SUFFIX)) {
+			PartData pd = null;
+			PartType pT = (PartType) req.getData();
+			for (PartGraphics p : partArray) {
+				if (p.getPartType().equals(pT)) {
+					partArray.remove(p);
+					pd = new PartData(p.getPartType(), p.isInvisible());
+					break;
+				}
+			}
+			server.sendData(new Request(Constants.STAND_RECEIVE_PART_COMMAND, Constants.STAND_TARGET + kitPosition, pd));
 		}
 	}
-
-	
 
 }

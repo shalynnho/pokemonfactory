@@ -8,8 +8,8 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import Utils.PartData;
 import factory.KitConfig;
-import factory.PartType;
 
 /**
  * Graphics side of the kitting stand, and parent class to inspection stand
@@ -64,7 +64,8 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void giveKit() {
 		isEmpty = true;
-		client.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM + standID, Constants.KIT_ROBOT_TARGET, kitConfig));
+		kitConfig.setStandId(standID);
+		client.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM +Constants.DONE_SUFFIX, Constants.KIT_ROBOT_TARGET, kitConfig));
 		kitConfig = null;
 		
 	}
@@ -77,6 +78,12 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 		kit.setLocation(kitLocation);
 		kitConfig.setLocation(kitLocation);
 		kit.setKitConfig(kitConfig);
+	}
+	
+	public void giveKitToStand(){
+		isEmpty = true;
+		client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1, Constants.KIT_ROBOT_TARGET, kitConfig));
+		kitConfig =null;
 	}
 	
 	public void receivePart(PartGraphicsDisplay pgd) {
@@ -99,8 +106,21 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 			receiveKit(config);
 			
 		} else if (cmd.equals(Constants.STAND_RECEIVE_PART_COMMAND)) {
-			PartType type = (PartType) r.getData();
-			receivePart(new PartGraphicsDisplay(type));
+			PartData partData = (PartData) r.getData();
+			PartGraphicsDisplay pgd = new PartGraphicsDisplay(partData.getPartType());
+			pgd.setInvisible(partData.getInvisible());
+			receivePart(pgd);
+		} else if(cmd.equals(Constants.STAND_GIVES_BACK_TO_ANOTHER_STAND)){
+			isEmpty=true;
+			kitConfig.clearDummies();
+			
+			if((Integer)r.getData()==1 ){
+				client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION1 + Constants.DONE_SUFFIX, Constants.KIT_ROBOT_TARGET, kitConfig));
+			}
+			else {
+				client.sendData(new Request(Constants.KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION2 + Constants.DONE_SUFFIX, Constants.KIT_ROBOT_TARGET, kitConfig));
+			}
+			kitConfig= null;
 		}
 		
 		

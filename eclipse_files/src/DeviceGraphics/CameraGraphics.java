@@ -1,6 +1,5 @@
 package DeviceGraphics;
 
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,18 +32,19 @@ public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.Camera
 	}
 
 	@Override
-	public void takeNestPhoto(GraphicsInterfaces.NestGraphics nest1, GraphicsInterfaces.NestGraphics nest2) {
-		ArrayList<Location> nests = new ArrayList<Location>();
-		nests.add(nest1.getLocation());
-		nests.add(nest2.getLocation());
-
-		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND, Constants.CAMERA_TARGET, nests));
+	public void takeNestPhoto(final GraphicsInterfaces.NestGraphics nest1, final GraphicsInterfaces.NestGraphics nest2) {
+		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND,
+				Constants.NEST_TARGET + nest1.getNestID(), null));
+		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND,
+				Constants.NEST_TARGET + nest2.getNestID(), null));
 		agent.msgTakePictureNestDone(nest1, true, nest2, true);
 	}
 
 	@Override
 	public void takeKitPhoto(final KitGraphics kit) {
-		server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND, Constants.CAMERA_TARGET, kit.getLocation()));
+		// server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND, Constants.CAMERA_TARGET,
+		// kit.getLocation()));
+		server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND, Constants.STAND_TARGET + 0, null));
 
 		timer.schedule(new TimerTask() {
 			// hack to force the camera to pretend to think about the photo
@@ -52,7 +52,7 @@ public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.Camera
 			public void run() {
 				agent.msgTakePictureKitDone(kit, true);
 			}
-		}, 250);
+		}, 2000);
 	}
 
 	@Override

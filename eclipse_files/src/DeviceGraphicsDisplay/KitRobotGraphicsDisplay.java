@@ -1,20 +1,25 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import factory.KitConfig;
-
 import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import factory.KitConfig;
 
 public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
+	int animCount;
+	boolean reverse;
+	int seq;
+	Image img;
 	// Messages
 
 	public enum Message {
@@ -90,6 +95,10 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		returnJob = false;
 
 		jobIsDone = true;
+		
+		animCount = 70;
+		reverse = false;
+		seq = 1;
 
 		velocityDivide = Constants.KIT_VELOCITY_DIVIDE;
 
@@ -383,8 +392,18 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				Location2ToInspectionStand();
 			} else if (command
 					.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION1)) {
-
-			} 
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay((KitConfig)obj);
+				tempKit.setLocation(inspectionLocation);
+				setKitConfigurations(tempKit,1);
+				kits.add(currentKit);
+				InspectionToLocation1();
+			}  else if(command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION2)){
+				KitGraphicsDisplay tempKit = new KitGraphicsDisplay((KitConfig)obj);
+				tempKit.setLocation(inspectionLocation);
+				setKitConfigurations(tempKit,2);
+				kits.add(currentKit);
+				InspectionToLocation2();
+			}
 
 		}
 
@@ -417,7 +436,8 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		doJob();
 		g.drawImage(Constants.KIT_CLOUD_IMAGE, kitMagicX, kitMagicY, null);
 		drawtheKits(c, g);
-		g.drawImage(Constants.KIT_ROBOT_IMAGE, kitRobotLocation.getX(), kitRobotLocation.getY(), null);
+		g.drawImage(Constants.KIT_ROBOT_IMAGE_FLICKER, kitRobotPositionX, kitRobotPositionY, c);
+		animateRobot(g,c);
 	}
 
 	/*
@@ -427,6 +447,56 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		for (int i = 0; i < kits.size(); i++) {
 			kits.get(i).drawKit(c,g);
 		}
+	}
+	
+	public void animateRobot(Graphics2D g, JComponent c) {
+			if (animCount % 7 == 0) {
+				// TODO: change 1 to parttypenum later;
+				img = Toolkit.getDefaultToolkit().getImage(Constants.KIT_ROBOT_IMAGE + seq + ".png");
+				sequenceIncrease();
+			} else if (animCount < 1) {
+				animCount = 76;
+				return;
+			}
+			animCount--;
+			System.out.println(seq);
+			g.drawImage(img, kitRobotPositionX, kitRobotPositionY, c);
+	}
+	
+	public void sequenceIncrease() {
+	    if (reverse == false && seq == 1) {
+	    	seq = 2;
+	    }
+	    else if (reverse == false && seq == 2){
+	    	seq = 3;
+	    }
+	    else if (reverse == false && seq == 3) {
+	    	seq = 2;
+	    	reverse = true;
+	    }
+	    else if (reverse == false && seq == 4) {
+	    	seq = 1;
+	    }
+	    else if (reverse == false && seq == 5) {
+	    	seq = 4;
+	    }
+	    else if (reverse == true && seq == 1) {
+		    seq = 4;
+	    }
+	    else if (reverse == true && seq == 2){
+		    seq = 1;
+	    }
+	    else if (reverse == true && seq == 3){
+	    	seq = 2;
+	    }
+	    else if (reverse == true && seq == 4){
+	    	seq = 5;
+	    }
+	    else if (reverse == true && seq == 5){
+	    	seq = 4;
+	    	reverse = false;
+	    }
+	    else {}
 	}
 
 	@Override

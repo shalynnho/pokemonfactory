@@ -16,6 +16,7 @@ import agent.data.Kit;
 import agent.data.Part;
 import agent.interfaces.Camera;
 import agent.interfaces.Nest;
+import factory.PartType;
 
 /**
  * Camera is responsible for inspecting full nests and assembled kits.
@@ -26,8 +27,7 @@ public class CameraAgent extends Agent implements Camera {
 
 	private final String name;
 
-	public List<MyNest> nests = Collections
-			.synchronizedList(new ArrayList<MyNest>());
+	public List<MyNest> nests = Collections.synchronizedList(new ArrayList<MyNest>());
 	public MyKit mk;
 
 	public CameraGraphics guiCamera;
@@ -103,8 +103,7 @@ public class CameraAgent extends Agent implements Camera {
 		// nest).currentPartType);
 		for (MyNest n : nests) {
 			if (n.nest == nest) {
-				if (n.state == NestStatus.NOT_READY
-						|| n.state == NestStatus.STARTED_TIMER) {
+				if (n.state == NestStatus.NOT_READY || n.state == NestStatus.STARTED_TIMER) {
 					n.state = NestStatus.READY;
 				} else if (n.state == NestStatus.WAITING_TO_RE_PHOTOGRAPH) {
 					n.state = NestStatus.READY_TO_RE_PHOTOGRAPH;
@@ -141,8 +140,7 @@ public class CameraAgent extends Agent implements Camera {
 	}
 
 	@Override
-	public void msgTakePictureNestDone(NestGraphics nest, boolean done,
-			NestGraphics nest2, boolean done2) {
+	public void msgTakePictureNestDone(NestGraphics nest, boolean done, NestGraphics nest2, boolean done2) {
 		print("Received msgTakePictureNestDone from graphics");
 		boolean found1 = false;
 		boolean found2 = false;
@@ -194,9 +192,27 @@ public class CameraAgent extends Agent implements Camera {
 		print("Received msgTakePictureKitDone from graphics");
 		mk.kitDone = done;
 		boolean passed = true;
-		for (Part p : mk.kit.parts) {
-			if (p.type.getName().equals("Dummy")) {
+		ArrayList<Part> DummyParts = new ArrayList<Part>();
+
+		for (PartType type : mk.kit.partsExpected.getConfig().keySet()) {
+			int count = 0;
+			for (Part p : mk.kit.parts) {
+				if (p.type.equals(type) && !p.partGraphics.isInvisible()) {
+					count++;
+				}
+				if (p.partGraphics.isInvisible()) {
+					DummyParts.add(p);
+				}
+			}
+
+			for (int i = 0; i < DummyParts.size(); i++) {
+				print("Removing dummy part");
+				mk.kit.parts.remove(DummyParts.get(i));
+			}
+
+			if (count != mk.kit.partsExpected.getConfig().get(type)) {
 				passed = false;
+				break;
 			}
 		}
 		if (passed) {
@@ -224,13 +240,11 @@ public class CameraAgent extends Agent implements Camera {
 					// is a nest paired with this
 					// one
 					/*
-					 * if ((nests.get(i).state == NestStatus.READY ||
-					 * nests.get(i).state == NestStatus.READY_TO_RE_PHOTOGRAPH
-					 * || nests.get(i).state ==
-					 * NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN) && (nests.get(i
-					 * + 1).state == NestStatus.READY || nests.get(i + 1).state
-					 * == NestStatus.READY_TO_RE_PHOTOGRAPH || nests.get(i +
-					 * 1).state == NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN)) {
+					 * if ((nests.get(i).state == NestStatus.READY || nests.get(i).state ==
+					 * NestStatus.READY_TO_RE_PHOTOGRAPH || nests.get(i).state ==
+					 * NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN) && (nests.get(i + 1).state == NestStatus.READY ||
+					 * nests.get(i + 1).state == NestStatus.READY_TO_RE_PHOTOGRAPH || nests.get(i + 1).state ==
+					 * NestStatus.READY_TO_RE_PHOTOGRAPH_AGAIN)) {
 					 */
 					if (nests.get(i).state == NestStatus.READY
 							|| nests.get(i).state == NestStatus.READY_TO_RE_PHOTOGRAPH
@@ -277,8 +291,7 @@ public class CameraAgent extends Agent implements Camera {
 		synchronized (nests) {
 			for (MyNest n : nests) {
 				// print("nest "+n.nest.currentPartType+ " state is "+n.state);
-				if (n.state == NestStatus.PHOTOGRAPHED
-						|| n.state == NestStatus.RE_PHOTOGRAPHED_ONCE
+				if (n.state == NestStatus.PHOTOGRAPHED || n.state == NestStatus.RE_PHOTOGRAPHED_ONCE
 						|| n.state == NestStatus.RE_PHOTOGRAPHED_TWICE) {
 					tellPartsRobot(n);
 					return true;
@@ -340,15 +353,13 @@ public class CameraAgent extends Agent implements Camera {
 		// Parts missing - Non Norm
 		// if (n.numFilledSnapshot < n.nest.full) {
 		/**
-		 * 1) Nothing, just wait a little longer.This may be the first time
-		 * parts are coming down the lane and your estimation may be wrong. (1)
-		 * Just wait a little longer and see if parts have arrived.
+		 * 1) Nothing, just wait a little longer.This may be the first time parts are coming down the lane and your
+		 * estimation may be wrong. (1) Just wait a little longer and see if parts have arrived.
 		 ** 
 		 * 2) Lane is jammed. (2) hi-speed (turn up the amplitude of the lanes).
 		 ** 
-		 * 6) Your feeder algorithm for keeping parts in two lanes did not
-		 * changeover fast enough. (6) adjust the parameter of your feeder
-		 * algorithm for changing parts over from one lane to another.
+		 * 6) Your feeder algorithm for keeping parts in two lanes did not changeover fast enough. (6) adjust the
+		 * parameter of your feeder algorithm for changing parts over from one lane to another.
 		 */
 		// print("Missing Parts in Nest : non-normative");
 		// } else {
@@ -445,12 +456,10 @@ public class CameraAgent extends Agent implements Camera {
 
 	private int CalculateTimerTime(MyNest nest) {
 		/*
-		 * synchronized (nests) { int determinedTime = 3000; // Default 3
-		 * seconds? if (nest.state == NestStatus.WAITING_TO_RE_PHOTOGRAPH) {
-		 * determinedTime = (nest.nest.full - nest.numFilledSnapshot) * 100 + 1;
-		 * } else if (nest.state == NestStatus.WAITING_TO_RE_PHOTOGRAPH_AGAIN) {
-		 * determinedTime = (nest.nest.full - nest.numFilledSnapshot) * 100 + 1;
-		 * } print("Taking " + determinedTime +
+		 * synchronized (nests) { int determinedTime = 3000; // Default 3 seconds? if (nest.state ==
+		 * NestStatus.WAITING_TO_RE_PHOTOGRAPH) { determinedTime = (nest.nest.full - nest.numFilledSnapshot) * 100 + 1;
+		 * } else if (nest.state == NestStatus.WAITING_TO_RE_PHOTOGRAPH_AGAIN) { determinedTime = (nest.nest.full -
+		 * nest.numFilledSnapshot) * 100 + 1; } print("Taking " + determinedTime +
 		 * " milliseconds until next snapshot."); return determinedTime; }
 		 */
 		return 300;
@@ -473,8 +482,7 @@ public class CameraAgent extends Agent implements Camera {
 				n2.state = NestStatus.RE_PHOTOGRAPHING_TWICE;
 			}
 			if (guiCamera != null) {
-				guiCamera.takeNestPhoto(n.nest.nestGraphics,
-						n2.nest.nestGraphics);
+				guiCamera.takeNestPhoto(n.nest.nestGraphics, n2.nest.nestGraphics);
 				// print("Blocking");
 				try {
 					animation.acquire();

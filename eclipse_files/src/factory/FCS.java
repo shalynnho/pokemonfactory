@@ -55,8 +55,13 @@ public class FCS {
 	}
 
 	public void shippedKit() {
+		displayMessage("Kit Completed");
 		server.sendData(new Request(Constants.FCS_SHIPPED_KIT,
 				Constants.ALL_TARGET, null));
+	}
+
+	public void displayMessage(String s) {
+		server.sendData(new Request(Constants.MSGBOX_DISPLAY_MSG, Constants.MESSAGING_BOX_TARGET, s));
 	}
 
 	/**
@@ -88,6 +93,8 @@ public class FCS {
 		partTypes.add(pt);
 		updateParts();
 		agent.msgAddNewPartType(pt);
+
+		displayMessage("Part added: " + pt.getName());
 		return true;
 	}
 
@@ -101,6 +108,8 @@ public class FCS {
 				gantry.editBin(pt);
 			}
 		}
+
+		displayMessage("Part edited: " + pt.getName());
 	}
 
 	public void deletePart(PartType pt) {
@@ -112,6 +121,7 @@ public class FCS {
 			}
 		}
 
+		displayMessage("Part deleted: " + pt.getName());
 		// TODO: add in agent call so to stop drawing bin
 	}
 
@@ -123,6 +133,8 @@ public class FCS {
 		}
 		kitConfigs.add(kc);
 		updateKits();
+
+		displayMessage("Kit added: " + kc.getName());
 		return true;
 	}
 
@@ -133,6 +145,7 @@ public class FCS {
 				kitConfigs.set(i, kc);
 			}
 		}
+		displayMessage("Kit edited " + kc.getName());
 	}
 
 	public void deleteKit(KitConfig kc) {
@@ -142,6 +155,7 @@ public class FCS {
 				kitConfigs.remove(i);
 			}
 		}
+		displayMessage("Kit deleted: " + kc.getName());
 	}
 
 	public void addOrder(Order o) {
@@ -154,6 +168,7 @@ public class FCS {
 				productionStarted = true;
 			}
 		}
+		displayMessage("Order added: " + o.getNumKits() + " kits of " + o.getConfig().getName());
 	}
 
 	public void startProduction() {
@@ -163,7 +178,7 @@ public class FCS {
 	public void setDropChance(Float c) {
 		// TODO Make a slider/button for this
 		agent.msgSetPartsRobotDropChance(c);
-
+		displayMessage("Parts Robot Drop Chance set to: " + c);
 	}
 
 	public void receiveData(Request req) {
@@ -198,8 +213,7 @@ public class FCS {
 			Float chance = (Float) req.getData();
 			setDropChance(chance);
 		} else if (req.getCommand().equals(Constants.FCS_STOP_LANE)) {
-			System.out.println("============================boo");
-			agent.msgBreakLane(0);
+			agent.msgBreakLane((Integer) req.getData());
 		}
 	}
 

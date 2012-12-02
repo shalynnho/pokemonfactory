@@ -29,6 +29,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	private PartType pt;
 	private int arm;
 	private int droparm;
+	private PartType ptdrop;
 	
 	private int II;
 	private boolean move;
@@ -336,7 +337,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		System.out.println("Drop Arm:" +droparm);
 		partArrayGraphics.remove(droparm);
 		
-		PartGraphicsDisplay pgd = new PartGraphicsDisplay(pt);
+		PartGraphicsDisplay pgd = new PartGraphicsDisplay(ptdrop);
 		partArrayGraphics.add(droparm,pgd);
 		client.sendData(new Request(Constants.PARTS_ROBOT_DROP_PART_COMMAND + Constants.DONE_SUFFIX,
 				Constants.PARTS_ROBOT_TARGET, null));
@@ -394,7 +395,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 			pickUp();
 		} else if (r.getCommand().equals(Constants.PARTS_ROBOT_DROP_COMMAND)) {
 			droparm = ((PartData) r.getData()).getArm();
-			pt = ((PartData) r.getData()).getPartType();
+			ptdrop = ((PartData) r.getData()).getPartType();
 			dropPart();
 		}
 	}

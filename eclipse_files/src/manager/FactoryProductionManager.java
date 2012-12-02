@@ -5,8 +5,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -19,6 +23,7 @@ import DeviceGraphicsDisplay.GantryGraphicsDisplay;
 import DeviceGraphicsDisplay.InspectionStandGraphicsDisplay;
 import DeviceGraphicsDisplay.KitRobotGraphicsDisplay;
 import DeviceGraphicsDisplay.LaneGraphicsDisplay;
+import DeviceGraphicsDisplay.MessagingBoxGraphicsDisplay;
 import DeviceGraphicsDisplay.NestGraphicsDisplay;
 import DeviceGraphicsDisplay.PartsRobotDisplay;
 import DeviceGraphicsDisplay.StandGraphicsDisplay;
@@ -43,7 +48,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	// Create a new timer
 	private Timer timer;
-
+	
+	// Background music - Goldenrod City
+	private Clip music, pokeflute, healing;
+	
 	/**
 	 * Constructor
 	 */
@@ -55,6 +63,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		initStreams();
 		initGUI();
 		initDevices();
+		initMusic();
+		
 	}
 
 	/**
@@ -106,6 +116,48 @@ public class FactoryProductionManager extends Client implements ActionListener {
 					this, i));
 		}
 
+		addDevice(Constants.MESSAGING_BOX_TARGET,
+				new MessagingBoxGraphicsDisplay(this));
+
+	}
+	
+	private void initMusic() {
+		URL url = this.getClass().getClassLoader().getResource("audio/goldenrod.wav");
+		URL fluteURL = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");		
+
+		try {
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+			music = AudioSystem.getClip();
+			music.open(audioIn);
+			
+			AudioInputStream pokeAudioIn = AudioSystem.getAudioInputStream(fluteURL);
+			pokeflute = AudioSystem.getClip();
+			pokeflute.open(pokeAudioIn);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		music.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+	
+	public void stopMusic() {
+		if (music.isRunning()) {
+			music.stop();
+		}
+	}
+	
+	public void startMusic() {
+		music.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+	
+	public void startPokeflute() {
+		pokeflute.start();
+	}
+	
+	public void stopPokeflute() {
+		if (pokeflute.isRunning()) {
+			pokeflute.stop();
+		}
 	}
 
 	/**

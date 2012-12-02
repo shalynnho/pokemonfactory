@@ -88,7 +88,7 @@ public abstract class Constants {
 	public static final Location FEEDER_LOC = new Location(850, 45);
 	public static final int FEEDER_Y_STEP = 150;
 
-	public static final Location KIT_ROBOT_LOC = new Location(75, 192.5);
+	public static final Location KIT_ROBOT_LOC = new Location(180, 192.5);
 	public static final Location KIT_ROBOT_ROTATION_AXIS_LOC = new Location(
 			112.5, 37.5);
 	public static final Location KIT_ROBOT_KIT_LOC = new Location(0, 200);
@@ -133,6 +133,8 @@ public abstract class Constants {
 			IMAGE_PATH + "snorlax.png");
 	public static final Image POKEFLUTE = Toolkit.getDefaultToolkit().getImage(
 			IMAGE_PATH + "pokeflute.png");
+	public static final Image PART_PUSHER = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "Square.jpg");	// TODO change this
 
 	// Conveyor Images
 	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit()
@@ -145,8 +147,9 @@ public abstract class Constants {
 			.getDefaultToolkit().getImage(IMAGE_PATH + "TestConveyorLine.png");
 
 	// Kit Robot Images
-	public static final Image KIT_ROBOT_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "kit_robot.png");
+	public static final String KIT_ROBOT_IMAGE = IMAGE_PATH + "kit_robot_";
+	//changed this "kit_robot.png"
+	public static final Image KIT_ROBOT_IMAGE_FLICKER = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "kit_robot_flicker.png");
 
 	// Gantry Robot Image
 	public static final Image GANTRY_ROBOT_IMAGE = Toolkit.getDefaultToolkit()
@@ -158,15 +161,22 @@ public abstract class Constants {
 	public static final Image KIT_DONE_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "kit_done.png");
 	public static final Image KIT_CLOUD_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "Square.jpg");
+			.getImage(IMAGE_PATH + "cloud.png");
 
 	// Nest Images
+	public static final Image ORANGE_NEST_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "orange_nest.png");
 	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "Nest.png");
 
 	// Camera Images
 	public static final Image CAMERA_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "Camera.png");
+
+	public static final Image MESSAGE_BOX_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "message_box.png");
+	public static final Image MESSAGE_BOX_ARROW_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "message_box_arrow.png");
 
 	// Part Images
 	@Deprecated
@@ -187,9 +197,11 @@ public abstract class Constants {
 	public static final Image BIN_EMPTY_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage("");
 
-	// Kit & Inspection Stand Images // TODO: add actual images
+	// Kit & Inspection Stand Images
 	public static final Image STAND_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "stand.png");
+	public static final Image ORANGE_STAND_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "orange_stand.png");
 
 	// IMAGE SIZES
 	public static final int PART_WIDTH = 20, PART_HEIGHT = 50;
@@ -225,6 +237,7 @@ public abstract class Constants {
 
 	public static final String SERVER_TARGET = "Server";
 	public static final String FCS_TARGET = "FCS";
+	public static final String MESSAGING_BOX_TARGET = "msgBox";
 	public static final String ALL_TARGET = "all";
 
 	// COMMAND NAMES
@@ -305,7 +318,9 @@ public abstract class Constants {
 
 	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION2 = "robot logic moves goodconveyor to loc2";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION2 = "robot disploay moves goodconveyor to loc2";
-
+	
+	
+	
 	public static final String KIT_ROBOT_ON_INSPECTION_DONE = "robot display sends to robot logic that kit to inspeciton is done";
 	public static final String KIT_ROBOT_ON_STAND1_DONE = "robot display sends to robot logic that kit to stand1 is done";
 	public static final String KIT_ROBOT_ON_STAND2_DONE = "robot display sends to robot logic that kit to stand2 is done";
@@ -338,7 +353,8 @@ public abstract class Constants {
 	public static final String STAND_RECEIVE_KIT_COMMAND = "stand receive kit";
 	public static final String STAND_GIVE_KIT_COMMAND = "stand give kit";
 	public static final String STAND_RECEIVE_PART_COMMAND = "stand receive part";
-
+	public static final String STAND_GIVES_BACK_TO_ANOTHER_STAND = "inspection stand gives back to";
+	
 	// gantry logic to display commands
 
 	public static final String GANTRY_ROBOT_MOVE_TO_LOC_COMMAND = "move";
@@ -404,6 +420,8 @@ public abstract class Constants {
 	public static final String FCS_UPDATE_ORDERS = "updateOrders";
 
 	public static final String FCS_SET_DROP_CHANCE = "setDropChance";
+
+	public static final String MSGBOX_DISPLAY_MSG = "dispMsg";
 
 	// CLIENT NAMES
 	// ==================================
