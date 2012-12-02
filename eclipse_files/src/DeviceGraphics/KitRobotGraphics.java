@@ -9,8 +9,8 @@ import Utils.Location;
 import agent.Agent;
 import agent.KitRobotAgent;
 import agent.StandAgent;
+import factory.KitConfig;
 import factory.PartType;
-import java.lang.Integer;
 
 public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 		DeviceGraphics {
@@ -203,9 +203,7 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			server.sendData(new Request(Constants.CONVEYOR_RECEIVE_KIT_COMMAND,
 					Constants.CONVEYOR_TARGET, null));
 		} else if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT1_DONE)) {
-			// standAgent.fakeKitCompletion(kitPositions.get(Constants.KIT_LOCATION1));
 		} else if (command.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT2_DONE)) {
-			// standAgent.fakeKitCompletion(kitPositions.get(Constants.KIT_LOCATION2));
 		} else if (command
 				.equals(Constants.KIT_ROBOT_AGENT_RECEIVES_KIT_INSPECTED)) {
 			// Hack for KitRobotManager
@@ -236,20 +234,26 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 			server.sendData(new Request(Constants.STAND_RECEIVE_PART_COMMAND,
 					Constants.STAND_TARGET + 1, testPartType));
 		} else if (command
-				.equals(Constants.KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM + 0)) {
-			server.sendData(new Request(
+				.equals(Constants.KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM +Constants.DONE_SUFFIX)) {
+			KitConfig kitConfig = (KitConfig)object;
+			if (kitConfig.getStandId()== 0 )
+			{
+				server.sendData(new Request(
 					Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_GOOD_CONVEYOR,
 					Constants.KIT_ROBOT_TARGET, object));
-		} else if (command
-				.equals(Constants.KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM + 1)) {
-			server.sendData(new Request(
+			}
+			else if (kitConfig.getStandId() == 1 )
+			{
+				server.sendData(new Request(
 					Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION1_TO_INSPECTION,
 					Constants.KIT_ROBOT_TARGET, object));
-		} else if (command
-				.equals(Constants.KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM + 2)) {
-			server.sendData(new Request(
+			}
+			else if (kitConfig.getStandId() ==2 )
+			{
+				server.sendData(new Request(
 					Constants.KIT_ROBOT_DISPLAY_PICKS_LOCATION2_TO_INSPECTION,
 					Constants.KIT_ROBOT_TARGET, object));
+			}
 		} 
 	}
 
