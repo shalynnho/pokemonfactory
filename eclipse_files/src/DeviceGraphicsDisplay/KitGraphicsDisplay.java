@@ -106,7 +106,8 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 + gap, kitLocation.getY()-48 +yOffset) );
 			else
 				parts.get(i).setLocation(new Location(kitLocation.getX() + offset-29 + i%4*23 +gap, kitLocation.getY() -48 + 25+yOffset));
-			if(!parts.get(i).getInvisible())
+			
+			if(!parts.get(i).getPartType().isInvisible())
 			{	
 				parts.get(i).drawPokeball(0,parts.get(i).getLocation(),c, g);
 			}
@@ -115,6 +116,7 @@ public class KitGraphicsDisplay extends DeviceGraphicsDisplay  {
 	}
 	
 	public void convertPartTypesToDisplay(){
+	
 		partTypes = kitConfig.getParts();
 		parts = new ArrayList<PartGraphicsDisplay>(8);
 		for(int i =0; i<currentI; i++)
