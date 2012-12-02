@@ -51,7 +51,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	private java.util.Timer musicTimer = new java.util.Timer();
 
 	// Background music - Goldenrod City
-	private Clip music, pokeflute, recovery;
+	private Clip music, pokeflute, recovery, completed;
 
 	/**
 	 * Constructor
@@ -118,6 +118,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		URL url = this.getClass().getClassLoader().getResource("audio/goldenrod.wav");
 		URL fluteURL = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");
 		URL recoveryURL = this.getClass().getClassLoader().getResource("audio/recovery.wav");
+		URL completedURL = this.getClass().getClassLoader().getResource("audio/item_get.wav");
 
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
@@ -143,6 +144,14 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+					
+		 try {
+			 AudioInputStream audioIn = AudioSystem.getAudioInputStream(completedURL);
+			 completed = AudioSystem.getClip();
+			 completed.open(audioIn);
+		 } catch (Exception e) {
+			 e.printStackTrace();
+		 }
 
 		if (music != null) {
 			music.loop(Clip.LOOP_CONTINUOUSLY);
@@ -156,12 +165,9 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	}
 
 	public void startMusic() {
-		if (pokeflute.isRunning()) {
-			pokeflute.stop();
-		}
-		if (recovery.isRunning()) {
-			recovery.stop();
-		}
+		stopCompleted();
+		stopPokeflute();
+		stopRecovery();
 
 		if (music != null) {
 			music.loop(Clip.LOOP_CONTINUOUSLY);
@@ -170,6 +176,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	public void startPokeflute() {
 		if (pokeflute != null) {
+			stopMusic();
+			stopCompleted();
+			stopRecovery();
+			
 			System.out.println("plays flute"); // !!! EXTREMELY IMPORTANT
 			pokeflute.loop(Clip.LOOP_CONTINUOUSLY);
 			musicTimer.schedule(new TimerTask() {
@@ -189,6 +199,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	public void startRecovery() {
 		if (recovery != null) {
+			stopMusic();
+			stopPokeflute();
+			stopCompleted();
+			
 			System.out.println("plays recovery"); // !!! EXTREMELY IMPORTANT
 			recovery.loop(Clip.LOOP_CONTINUOUSLY);
 			musicTimer.schedule(new TimerTask() {
@@ -203,6 +217,30 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	public void stopRecovery() {
 		if (recovery.isRunning()) {
 			recovery.stop();
+		}
+	}
+	
+	public void startCompleted() {
+		if (completed != null) {
+			stopMusic();
+			stopPokeflute();
+			stopRecovery();
+			
+			System.out.println("plays completed"); // !!! EXTREMELY IMPORTANT
+			completed.loop(Clip.LOOP_CONTINUOUSLY);
+			musicTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					startMusic();
+					devices.get(Constants.CONVEYOR_TARGET).setExit(true);
+				}
+			}, 2000);
+		}
+	}
+
+	public void stopCompleted() {
+		if (completed.isRunning()) {
+			completed.stop();
 		}
 	}
 
@@ -221,6 +259,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 				fpmPanel.updateOrders((ArrayList<Order>) req.getData());
 			} else if (req.getCommand().equals(Constants.FCS_SHIPPED_KIT)) {
 				fpmPanel.decreaseCurrentKitCount();
+				startCompleted();
 			}
 		} else {
 			synchronized (devices) {

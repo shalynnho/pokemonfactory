@@ -292,8 +292,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		} else if (cmd.equals(Constants.LANE_UNJAM_COMMAND)) {
 			unjamming = true;
 			if (jammed) {
-				client.stopMusic();
-				client.stopRecovery();
 				client.startPokeflute();
 			}
 			//System.out.println("	LANEGD" + laneID + "RECEIVED UNJAM COMMAND");
@@ -406,8 +404,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		purging = true;
 		if(jammed) {
 			unjamming = true;
-			client.stopMusic();
-			client.stopRecovery();
 			client.startPokeflute();
 		}
 	}
