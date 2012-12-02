@@ -9,6 +9,7 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import Utils.PartData;
 import factory.PartType;
 
 /**
@@ -298,8 +299,8 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			location = (Location) r.getData();
 
 		} else if (cmd.equals(Constants.LANE_RECEIVE_PART_COMMAND)) {
-			PartType type = (PartType) r.getData();
-			receivePart(type);
+			PartData pd = (PartData) r.getData();
+			receivePart(pd.getPartType(), pd.getQuality());
 
 		} else if (cmd.equals(Constants.LANE_GIVE_PART_TO_NEST)) {
 			givePartToNest();
@@ -400,12 +401,13 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 	}
 
-	private void receivePart(PartType type) {
+	private void receivePart(PartType type, boolean quality) {
 		PartGraphicsDisplay pg = new PartGraphicsDisplay(type);
 		Location newLoc = new Location(location.getX() + Constants.LANE_LENGTH,
 				location.getY() + Constants.PART_WIDTH / 2
 						- Constants.PART_OFFSET);
 		pg.setLocation(newLoc);
+		pg.setQuality(quality);
 		partsOnLane.add(pg);
 		// System.out.println("LANEGD" + laneID + " RECEIVING PART " +
 		// partsOnLane.size());

@@ -6,6 +6,7 @@ import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
+import Utils.PartData;
 import agent.Agent;
 import agent.LaneAgent;
 import factory.PartType;
@@ -104,7 +105,8 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics,
 				+ (Constants.PART_WIDTH / 2)));
 		PartType type = pg.getPartType();
 		server.sendData(new Request(Constants.LANE_RECEIVE_PART_COMMAND,
-				Constants.LANE_TARGET + laneID, type));
+				Constants.LANE_TARGET + laneID, new PartData(type, pg
+						.getQuality())));
 	}
 
 	/**

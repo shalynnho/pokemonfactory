@@ -69,8 +69,8 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	
 	@Override
 	public void dropPartFromArm(PartGraphics part, int arm) {
-		PartData a = new PartData(arm);
-		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, a));
+		PartData a = new PartData(part.getPartType(), arm);
+		server.sendData(new Request(Constants.PARTS_ROBOT_DROP_COMMAND, Constants.PARTS_ROBOT_TARGET, a));
 
 	}
 

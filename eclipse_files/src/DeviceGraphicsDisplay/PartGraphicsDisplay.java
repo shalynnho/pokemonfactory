@@ -3,7 +3,6 @@ package DeviceGraphicsDisplay;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import Networking.Request;
@@ -17,12 +16,16 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	TransitionGraphicsDisplay trans;
 
 	private final Image partImage;
-	ImageIcon pokeballImage;
+	private final Image badImage;
+	private final Image pokeballImage;
+	private final Image badPokeballImage;
 
 	public PartGraphicsDisplay(PartType pt) {
 		partType = pt;
 		partImage = partType.getImage();
-		pokeballImage = new ImageIcon(partType.getPokeballImage());
+		badImage = partType.getBadImage();
+		pokeballImage = partType.getPokeballImage();
+		badPokeballImage = partType.getBadPokeballImage();
 		trans = new TransitionGraphicsDisplay(partType);
 	}
 
@@ -38,7 +41,8 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void drawWithOffset(JComponent c, Graphics2D g, int offset) {
 		if (!quality) {
-			// draw bad image
+			g.drawImage(badImage, partLocation.getX() + offset,
+					partLocation.getY(), c);
 		} else {
 			g.drawImage(partImage, partLocation.getX() + offset,
 					partLocation.getY(), c);
@@ -55,7 +59,11 @@ public class PartGraphicsDisplay extends DeviceGraphicsDisplay {
 	// Neetu added this too
 	public void drawPokeball(int offset, Location loc, JComponent jc,
 			Graphics2D g) {
-		trans.drawPokeball(offset, loc, jc, g, pokeballImage.getImage());
+		if (!quality) {
+			g.drawImage(badPokeballImage, loc.getX() + offset, loc.getY(), jc);
+		} else {
+			trans.drawPokeball(offset, loc, jc, g, pokeballImage);
+		}
 	}
 
 	public Location getLocation() {
