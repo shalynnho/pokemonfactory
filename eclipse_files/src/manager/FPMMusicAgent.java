@@ -45,6 +45,7 @@ public class FPMMusicAgent extends Agent {
 		init();
 	}
 
+	// Load music
 	public void init() {
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
@@ -86,6 +87,9 @@ public class FPMMusicAgent extends Agent {
 		}
 	}
 
+	/*
+	 * Message reception
+	 */
 	public void msgStartCompleted() {
 		startCompleted = true;
 		stateChanged();
@@ -104,6 +108,37 @@ public class FPMMusicAgent extends Agent {
 
 	}
 
+	/*
+	 * Scheduler (non-Javadoc)
+	 * 
+	 * @see agent.Agent#pickAndExecuteAnAction()
+	 */
+	@Override
+	public boolean pickAndExecuteAnAction() {
+		print("In my scheduler");
+		if (startFlute && !sfxRunning()) {
+			startFlute = false;
+			startPokeflute();
+			return true;
+		}
+
+		if (startCompleted && !sfxRunning()) {
+			startCompleted = false;
+			startCompleted();
+			return true;
+		}
+
+		if (startRecovery && !sfxRunning()) {
+			startRecovery = false;
+			startRecovery();
+			return true;
+		}
+		return false;
+	}
+
+	/*
+	 * Actions
+	 */
 	public void startMusic() {
 		print("Playing music");
 		// stopCompleted();
@@ -122,6 +157,10 @@ public class FPMMusicAgent extends Agent {
 		pokeflute.stop();
 		completed.stop();
 		recovery.stop();
+	}
+
+	public boolean sfxRunning() {
+		return pokeflute.isRunning() || completed.isRunning() || recovery.isRunning();
 	}
 
 	public void startPokeflute() {
@@ -162,6 +201,7 @@ public class FPMMusicAgent extends Agent {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 			music.stop();
 			// stopPokeflute();
 			// stopCompleted();
@@ -211,28 +251,6 @@ public class FPMMusicAgent extends Agent {
 			fpm.setConveyorExitTrue();
 		}
 		stateChanged();
-	}
-
-	@Override
-	public boolean pickAndExecuteAnAction() {
-		print("In my scheduler");
-		if (startFlute) {
-			startFlute = false;
-			startPokeflute();
-			return true;
-		}
-		if (startCompleted) {
-			startCompleted = false;
-			startCompleted();
-			return true;
-		}
-
-		if (startRecovery) {
-			startRecovery = false;
-			startRecovery();
-			return true;
-		}
-		return false;
 	}
 
 	@Override
