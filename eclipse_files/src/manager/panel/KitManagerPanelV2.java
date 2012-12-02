@@ -223,6 +223,7 @@ public class KitManagerPanelV2 extends JPanel {
 				kitPt.add(pt);
 				kitPartsPanel.updateList(kitPt);
 				kitjsp.validate();
+
 			}
 		}
 	}
