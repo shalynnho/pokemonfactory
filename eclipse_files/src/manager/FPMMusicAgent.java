@@ -12,6 +12,11 @@ import javax.swing.Timer;
 import DeviceGraphics.DeviceGraphics;
 import agent.Agent;
 
+/**
+ * Handles the music and sound effects for the Factory Production Manager.
+ * 
+ * @author Daniel Paje
+ */
 public class FPMMusicAgent extends Agent {
 
 	// Background music - Goldenrod City
