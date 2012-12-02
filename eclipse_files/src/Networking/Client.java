@@ -45,8 +45,7 @@ public abstract class Client extends JPanel {
 	 * To store devices based on device target.
 	 */
 	protected Map<String, DeviceGraphicsDisplay> devices = Collections
-			.synchronizedMap(new LinkedHashMap<String, DeviceGraphicsDisplay>(
-					100, .75f, false));
+			.synchronizedMap(new LinkedHashMap<String, DeviceGraphicsDisplay>(100, .75f, false));
 
 	protected Client() {
 		setLayout(new BorderLayout());
@@ -59,14 +58,13 @@ public abstract class Client extends JPanel {
 		pokeFont = pokeFont.deriveFont(19f);
 		Map<TextAttribute, Object> fontAttributes = new HashMap<TextAttribute, Object>();
 		fontAttributes.put(TextAttribute.KERNING, Integer.valueOf(5));
-		
+
 		pokeFont = pokeFont.deriveFont(fontAttributes);
 	}
 
 	/**
-	 * This is called by ServerReaders' receiveData(Object), taking in a Request
-	 * variable casted from ObjectInput. Must be implemented by the Manager
-	 * subclasses so to parse the Request variable accordingly.
+	 * This is called by ServerReaders' receiveData(Object), taking in a Request variable casted from ObjectInput. Must
+	 * be implemented by the Manager subclasses so to parse the Request variable accordingly.
 	 */
 	public abstract void receiveData(Request req);
 
@@ -75,29 +73,24 @@ public abstract class Client extends JPanel {
 			socket = new Socket("localhost", Constants.SERVER_PORT);
 			System.out.println("Client: connected to the server");
 
-			ObjectOutputStream oos = new ObjectOutputStream(
-					socket.getOutputStream());
-			ObjectInputStream ois = new ObjectInputStream(
-					socket.getInputStream());
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
 			writer = new StreamWriter(oos);
 			reader = new ServerReader(ois, this);
 			new Thread(reader).start();
 			System.out.println("Client: streams ready");
 		} catch (Exception e) {
-			System.out.println("Client: got an exception initing streams"
-					+ e.getMessage());
+			System.out.println("Client: got an exception initing streams" + e.getMessage());
 			e.printStackTrace();
 			System.exit(1);
 		}
 
 		// establish client identity with server
-		writer.sendData(new Request(Constants.IDENTIFY_COMMAND,
-				Constants.SERVER_TARGET, clientName));
+		writer.sendData(new Request(Constants.IDENTIFY_COMMAND, Constants.SERVER_TARGET, clientName));
 	}
 
-	public static void setUpJFrame(JFrame frame, int width, int height,
-			String name) {
+	public static void setUpJFrame(JFrame frame, int width, int height, String name) {
 		frame.setBackground(Color.BLACK);
 		frame.setTitle(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,19 +100,18 @@ public abstract class Client extends JPanel {
 	}
 
 	public void addDevice(String target, DeviceGraphicsDisplay device) {
-		//target.clone();
-		synchronized(devices){
-		//Map<String, DeviceGraphicsDisplay> ClonedMap = new LinkedHashMap<String,DeviceGraphicsDisplay>(devices);
-		//ClonedMap.put(target, device);
-		devices.put(target, device);
+		// target.clone();
+		synchronized (devices) {
+			// Map<String, DeviceGraphicsDisplay> ClonedMap = new LinkedHashMap<String,DeviceGraphicsDisplay>(devices);
+			// ClonedMap.put(target, device);
+			devices.put(target, device);
 		}
-		
+
 	}
 
 	public void removeDevice(String target) {
 		synchronized (devices) {
-			for (Iterator<String> iter = devices.keySet().iterator(); iter
-					.hasNext();) {
+			for (Iterator<String> iter = devices.keySet().iterator(); iter.hasNext();) {
 				String s = iter.next();
 				if (s.equals(target)) {
 					iter.remove();
@@ -135,16 +127,22 @@ public abstract class Client extends JPanel {
 	public int getOffset() {
 		return offset;
 	}
-	
-	public void stopMusic() { }
 
-	public void startMusic() { }
-	
-	public void stopPokeflute() { }
-	
-	public void startPokeflute() { }
-	
-	public void stopRecovery() { }
-	
-	public void startRecovery() { }
+	public void stopMusic() {
+	}
+
+	public void startMusic() {
+	}
+
+	public void stopPokeflute() {
+	}
+
+	public void startPokeflute() {
+	}
+
+	public void stopRecovery() {
+	}
+
+	public void startRecovery() {
+	}
 }
