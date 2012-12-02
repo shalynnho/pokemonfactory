@@ -22,7 +22,8 @@ public class PartData implements Serializable {
 	Arm = arm; 
     }
     
-    public PartData(int arm) {
+    public PartData(PartType parttype, int arm) {
+    	pt = parttype;
     	Arm = arm;
     }
 
