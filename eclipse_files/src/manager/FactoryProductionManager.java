@@ -50,7 +50,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	private Timer timer;
 	
 	// Background music - Goldenrod City
-	private Clip music, pokeflute, healing;
+	private Clip music, pokeflute, recovery;
 	
 	/**
 	 * Constructor
@@ -123,7 +123,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	
 	private void initMusic() {
 		URL url = this.getClass().getClassLoader().getResource("audio/goldenrod.wav");
-		URL fluteURL = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");		
+		URL fluteURL = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");
+		URL recoveryURL = this.getClass().getClassLoader().getResource("audio/recovery.wav");		
 
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
@@ -133,6 +134,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			AudioInputStream pokeAudioIn = AudioSystem.getAudioInputStream(fluteURL);
 			pokeflute = AudioSystem.getClip();
 			pokeflute.open(pokeAudioIn);
+			
+			AudioInputStream recoverAudioIn = AudioSystem.getAudioInputStream(recoveryURL);
+			recovery = AudioSystem.getClip();
+			recovery.open(recoverAudioIn);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -157,6 +162,16 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	public void stopPokeflute() {
 		if (pokeflute.isRunning()) {
 			pokeflute.stop();
+		}
+	}
+	
+	public void startRecovery() {
+		recovery.start();
+	}
+	
+	public void stopRecovery() {
+		if(recovery.isRunning()) {
+			recovery.stop();
 		}
 	}
 
