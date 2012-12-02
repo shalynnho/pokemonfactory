@@ -459,7 +459,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				return;
 			}
 			animCount--;
-			System.out.println(seq);
 			g.drawImage(img, kitRobotPositionX, kitRobotPositionY, c);
 	}
 	
