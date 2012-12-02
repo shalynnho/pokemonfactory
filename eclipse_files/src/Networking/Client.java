@@ -135,5 +135,12 @@ public abstract class Client extends JPanel {
 	public int getOffset() {
 		return offset;
 	}
+	
+	public void stopMusic() { }
 
+	public void startMusic() { }
+	
+	public void stopPokeflute() { }
+	
+	public void startPokeflute() { }
 }
