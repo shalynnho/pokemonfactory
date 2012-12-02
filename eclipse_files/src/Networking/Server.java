@@ -353,6 +353,7 @@ public class Server {
 
 	public void sendData(Request req) {
 		String target = req.getTarget();
+		System.out.println(req);
 
 		if (target.contains(Constants.CONVEYOR_TARGET)) {
 			sendDataToConveyor(req);
@@ -374,6 +375,9 @@ public class Server {
 			sendDataToGUIManagers(req);
 		} else if (target.contains(Constants.GANTRY_ROBOT_TARGET)) {
 			sendDataToGantry(req);
+		} else if (target.contains(Constants.MESSAGING_BOX_TARGET)) {
+			System.out.println("hello");
+			sendDataToMessage(req);
 		}
 	}
 
@@ -442,6 +446,10 @@ public class Server {
 		factProdMngrWriter.sendData(req);
 		laneMngrWriter.sendData(req);
 		gantryRobotMngrWriter.sendData(req);
+	}
+
+	public void sendDataToMessage(Request req) {
+		factProdMngrWriter.sendData(req);
 	}
 
 	private void addShutdownHook() {

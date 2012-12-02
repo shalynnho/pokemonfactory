@@ -17,21 +17,18 @@ import agent.interfaces.Stand;
 import agent.test.mock.MockGraphics;
 
 /**
- * Kit Robot brings moves kits to and from the conveyor and arranges kits on the
- * kitting stand. It is responsible for moving the assembled kits on the stand
- * into the inspection area for the Camera. Interacts with the stand, Conveyor
+ * Kit Robot brings moves kits to and from the conveyor and arranges kits on the kitting stand. It is responsible for
+ * moving the assembled kits on the stand into the inspection area for the Camera. Interacts with the stand, Conveyor
  * and Camera.
  * 
  * @author Daniel Paje
  */
 public class KitRobotAgent extends Agent implements KitRobot {
 
-	private final List<MyKit> myKits = Collections
-			.synchronizedList(new ArrayList<MyKit>());
+	private final List<MyKit> myKits = Collections.synchronizedList(new ArrayList<MyKit>());
 
 	// Tracks stand positions and whether or not they are open
-	Map<Integer, Boolean> standPositions = Collections
-			.synchronizedMap(new TreeMap<Integer, Boolean>());
+	Map<Integer, Boolean> standPositions = Collections.synchronizedMap(new TreeMap<Integer, Boolean>());
 
 	private boolean kitWaitingOnConveyor;
 	private boolean kitRequested;
@@ -236,8 +233,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		synchronized (myKits) {
 			// print("Acquiring in scheduler");
 			for (MyKit mk : myKits) {
-				if (mk.KS == KitStatus.MARKED_FOR_INSPECTION
-						&& standPositions.get(0)) {
+				if (mk.KS == KitStatus.MARKED_FOR_INSPECTION && standPositions.get(0)) {
 					mk.KS = KitStatus.AWAITING_INSPECTION;
 					placeKitInInspectionArea(mk);
 					return true;
@@ -255,7 +251,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 					// Sets the old location of the kit to false so the kitrobot
 					// can put it back there (or at another
 					// position if necessary)
-					standPositions.put(mk.location, false);
+					standPositions.put(mk.location, true);
 					// TODO: This should ask the stand to place at the kit's
 					// previous location.
 					placeKitOnStand(mk);
@@ -270,8 +266,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		synchronized (myKits) {
 			// print("Acquiring in scheduler");
 			for (MyKit mk : myKits) {
-				if (mk.KS == KitStatus.AWAITING_PICKUP
-						&& (standPositions.get(1) || standPositions.get(2))) {
+				if (mk.KS == KitStatus.AWAITING_PICKUP && (standPositions.get(1) || standPositions.get(2))) {
 					mk.KS = KitStatus.PICKED_UP;
 					state = KitRobotState.HOLDING_KIT;
 					placeKitOnStand(mk);
@@ -283,8 +278,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		// We will always attempt to fill the stand, in case a kit fails
 		// inspection. If the last kit is unneeded, we'll just put it on the
 		// "bad" conveyor.
-		if (kitWaitingOnConveyor && !kitRequested
-				&& state != KitRobotState.HOLDING_KIT
+		if (kitWaitingOnConveyor && !kitRequested && state != KitRobotState.HOLDING_KIT
 				&& (standPositions.get(1) || standPositions.get(2))) {
 			kitRequested = true;
 			conveyor.msgGiveMeKit();
@@ -292,8 +286,8 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		}
 
 		/*
-		 * Tried all rules and found no actions to fire. Return false to the
-		 * main loop of abstract base class Agent and wait.
+		 * Tried all rules and found no actions to fire. Return false to the main loop of abstract base class Agent and
+		 * wait.
 		 */
 		return false;
 	}
@@ -310,6 +304,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		// Only need to check 1 and 2
 		for (int loc = 1; loc < 3; loc++) {
 			if (standPositions.get(loc) == true) {
+				print("Found location.");
 				standPositions.put(loc, false);
 				mk.location = loc;
 				mk.KS = KitStatus.ON_STAND;
@@ -317,8 +312,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 					mockgraphics.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
 				}
 				if (kitrobotGraphics != null) {
-					kitrobotGraphics
-							.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
+					kitrobotGraphics.msgPlaceKitOnStand(mk.kit.kitGraphics, loc);
 				}
 				try {
 					animation.acquire();
@@ -337,8 +331,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	}
 
 	/**
-	 * Places an assembled kit on the stand into the inspection area (also on
-	 * the stand).
+	 * Places an assembled kit on the stand into the inspection area (also on the stand).
 	 * 
 	 * @param k
 	 *            the kit being placed.

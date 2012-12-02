@@ -170,6 +170,11 @@ public abstract class Constants {
 	public static final Image CAMERA_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "Camera.png");
 
+	public static final Image MESSAGE_BOX_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "message_box.png");
+	public static final Image MESSAGE_BOX_ARROW_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "message_box_arrow.png");
+
 	// Part Images
 	@Deprecated
 	public static final Image PART_IMAGE = Toolkit.getDefaultToolkit()
@@ -227,6 +232,7 @@ public abstract class Constants {
 
 	public static final String SERVER_TARGET = "Server";
 	public static final String FCS_TARGET = "FCS";
+	public static final String MESSAGING_BOX_TARGET = "msgBox";
 	public static final String ALL_TARGET = "all";
 
 	// COMMAND NAMES
@@ -407,6 +413,8 @@ public abstract class Constants {
 	public static final String FCS_UPDATE_ORDERS = "updateOrders";
 
 	public static final String FCS_SET_DROP_CHANCE = "setDropChance";
+
+	public static final String MSGBOX_DISPLAY_MSG = "dispMsg";
 
 	// CLIENT NAMES
 	// ==================================

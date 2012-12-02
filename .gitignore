@@ -43,3 +43,6 @@ Desktop.ini
 *.sav
 
 source
+eclipse_files/.settings/org.eclipse.jdt.ui.prefs
+
+eclipse_files/.settings/org.eclipse.jdt.core.prefs

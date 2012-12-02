@@ -146,7 +146,11 @@ public class KitRobotGraphics implements GraphicsInterfaces.KitRobotGraphics,
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
 		Boolean placeFromInspection = false;
 		if(kitPositions.get(Constants.KIT_INSPECTION_AREA)==kit)
-		placeFromInspection=true;	
+		{
+			placeFromInspection=true;	
+		}
+		
+		System.out.println("dfjklqhwetjhqweiponqwerihadfjkghuiafghuioqhejtoiqwewqehtuijklllllllllllllllllllllllllllllllllllllllllqwetiohqweuithqweuiothj");
 		if ( !placeFromInspection ){
 			if ( location == 1) {
 				msgPlaceKitOnStand1(kit);

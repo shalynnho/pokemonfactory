@@ -59,6 +59,10 @@ public class FCS {
 				Constants.ALL_TARGET, null));
 	}
 
+	public void displayMessage(String s) {
+		server.sendData(new Request(Constants.MSGBOX_DISPLAY_MSG, Constants.MESSAGING_BOX_TARGET, s));
+	}
+
 	/**
 	 * Called to send clients the updated queue.
 	 */
