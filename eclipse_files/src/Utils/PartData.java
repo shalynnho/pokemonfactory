@@ -21,6 +21,10 @@ public class PartData implements Serializable {
 	kitloc = l;
 	Arm = arm; 
     }
+    
+    public PartData(int arm) {
+    	Arm = arm;
+    }
 
     public Location getKitLocation() {
 	return kitloc;
