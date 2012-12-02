@@ -64,7 +64,8 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void giveKit() {
 		isEmpty = true;
-		client.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM + standID, Constants.KIT_ROBOT_TARGET, kitConfig));
+		kitConfig.setStandId(standID);
+		client.sendData(new Request(Constants.KIT_ROBOT_DISPLAY_STAND_NOW_MOVES_FROM +Constants.DONE_SUFFIX, Constants.KIT_ROBOT_TARGET, kitConfig));
 		kitConfig = null;
 		
 	}

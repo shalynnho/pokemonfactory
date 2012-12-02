@@ -16,11 +16,20 @@ public class KitConfig implements Serializable, FactoryData {
 	private final String id;
 	private String name;
 	private Location location;
+	private int standId;
+
+	public int getStandId() {
+		return standId;
+	}
+	public void setStandId(int value){
+		standId= value;
+	}
 
 	public KitConfig(String name) {
 		config = new LinkedHashMap<PartType, Integer>();
 		this.name = name;
 		this.id = StringUtil.md5(name);
+		standId = -1;
 		location = new Location(0,0);
 	}
 	
