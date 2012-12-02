@@ -27,7 +27,7 @@ public class FCS {
 	// private ConsoleWriter console;
 
 	private boolean productionStarted = false;
-	
+
 	private Clip completed;
 
 	public FCS(Server server, Agent a) {
@@ -44,8 +44,8 @@ public class FCS {
 		if (updatedKitConfigs != null) {
 			kitConfigs = updatedKitConfigs;
 		}
-		
-//		initMusic();
+
+		// initMusic();
 	}
 
 	public void updateParts() {
@@ -58,12 +58,18 @@ public class FCS {
 
 	public void shippedKit() {
 		displayMessage("Kit Completed");
-		server.sendData(new Request(Constants.FCS_SHIPPED_KIT,
-				Constants.ALL_TARGET, null));
-//		if (completed != null) {
-//			completed.loop(Clip.LOOP_CONTINUOUSLY);
-//		}
-		displayMessage("Professor Oak: Kit Completed!");
+		server.sendData(new Request(Constants.FCS_SHIPPED_KIT, Constants.ALL_TARGET, null));
+		// if (completed != null) {
+		// completed.loop(Clip.LOOP_CONTINUOUSLY);
+		// }
+		if (queue.get(0) != null) {
+			if (queue.get(0).getNumKits() > 0) {
+				displayMessage("Professor Oak: Kit Completed!");
+			} else {
+				displayMessage("Professor Oak: Order Completed!");
+			}
+		}
+
 		server.sendData(new Request(Constants.FCS_SHIPPED_KIT, Constants.ALL_TARGET, null));
 	}
 
@@ -239,17 +245,17 @@ public class FCS {
 	public void setPartTypes(ArrayList<PartType> partTypes) {
 		this.partTypes = partTypes;
 	}
-	
-//	private void initMusic() {
-//		URL completedURL = this.getClass().getClassLoader().getResource("audio/item_get.wav");
-//
-//		try {
-//			AudioInputStream audioIn = AudioSystem.getAudioInputStream(completedURL);
-//			completed = AudioSystem.getClip();
-//			completed.open(audioIn);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
+
+	// private void initMusic() {
+	// URL completedURL = this.getClass().getClassLoader().getResource("audio/item_get.wav");
+	//
+	// try {
+	// AudioInputStream audioIn = AudioSystem.getAudioInputStream(completedURL);
+	// completed = AudioSystem.getClip();
+	// completed.open(audioIn);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+
 }
