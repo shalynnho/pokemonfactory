@@ -340,7 +340,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	}
 
 	@Override
-	public void dropPartFromArm(PartGraphics part) {
+	public void dropPartFromArm(PartGraphics part, int arm) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -367,6 +367,11 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public void givePartToKit(PartGraphics part, KitGraphics kit, int arm) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getNestID() {
+		return 0;
 	}
 
 }

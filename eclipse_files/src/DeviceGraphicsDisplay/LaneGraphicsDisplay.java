@@ -286,9 +286,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (cmd.equals(Constants.LANE_UNJAM_COMMAND)) {
 			unjamming = true;
-			System.out.println("	LANEGD" + laneID + "RECEIVED UNJAM COMMAND");
-			// System.out.println("UNJAM LANEGD" + laneID+
-			// "jammed: "+jammed+", unjamming: "+unjamming);
+			//System.out.println("	LANEGD" + laneID + "RECEIVED UNJAM COMMAND");
 
 		} else {
 			System.out.println("LANE_GD: command not recognized.");
@@ -332,13 +330,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		if (Math.abs(end - loc.getX()) < increment) {
 			loc.setX(end);
 		}
-
+		
 		if (loc.getX() > end) { // moving left
 			loc.incrementX(-increment);
-			// if(jammed && unjamming) {
-			// animateUnjam(loc);
-			// }
 		}
+		
 	}
 
 	/**
@@ -437,6 +433,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			jamSeq = 0;
 			unjamming = false;
 			jammed = false;
+			client.sendData(new Request(Constants.LANE_SET_JAM_COMMAND + Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID, null));
 		} else {
 			jamSeq++;
 		}

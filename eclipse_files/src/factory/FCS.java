@@ -159,7 +159,7 @@ public class FCS {
 				productionStarted = true;
 			}
 		}
-		displayMessage("Order added: " + o.getNumKits() + " " + o.getConfig().getName());
+		displayMessage("Order added: " + o.getNumKits() + " kits of " + o.getConfig().getName());
 	}
 
 	public void startProduction() {

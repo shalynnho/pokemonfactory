@@ -338,6 +338,10 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
+	
+	public void displayMessage(String s) {
+		fcs.displayMessage(s);
+	}
 
 	public void receiveData(Request req) {
 		String target = req.getTarget();
@@ -353,7 +357,7 @@ public class Server {
 
 	public void sendData(Request req) {
 		String target = req.getTarget();
-		System.out.println(req);
+		System.out.println("Received: " + req);
 
 		if (target.contains(Constants.CONVEYOR_TARGET)) {
 			sendDataToConveyor(req);
@@ -376,7 +380,6 @@ public class Server {
 		} else if (target.contains(Constants.GANTRY_ROBOT_TARGET)) {
 			sendDataToGantry(req);
 		} else if (target.contains(Constants.MESSAGING_BOX_TARGET)) {
-			System.out.println("hello");
 			sendDataToMessage(req);
 		}
 	}

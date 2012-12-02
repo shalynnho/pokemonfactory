@@ -16,20 +16,17 @@ public abstract class Agent {
 	}
 
 	/**
-	 * This should be called whenever state has changed that might cause the
-	 * agent to do something.
+	 * This should be called whenever state has changed that might cause the agent to do something.
 	 */
 	protected void stateChanged() {
 		stateChange.release();
 	}
 
 	/**
-	 * Agents must implement this scheduler to perform any actions appropriate
-	 * for the current state. Will be called whenever a state change has
-	 * occurred, and will be called repeated as long as it returns true.
+	 * Agents must implement this scheduler to perform any actions appropriate for the current state. Will be called
+	 * whenever a state change has occurred, and will be called repeated as long as it returns true.
 	 * 
-	 * @return true iff some action was executed that might have changed the
-	 *         state.
+	 * @return true iff some action was executed that might have changed the state.
 	 */
 	public abstract boolean pickAndExecuteAnAction();
 
@@ -62,19 +59,14 @@ public abstract class Agent {
 			sb.append(StringUtil.stackTraceString(e));
 		}
 
-		// if (/* this.getClass() != agent.FCSAgent.class && */this.getClass()
-		// != agent.StandAgent.class
-		// && this.getClass() != agent.KitRobotAgent.class
-		// && this.getClass() != agent.ConveyorAgent.class
-		// && this.getClass() != agent.LaneAgent.class // && this.getClass() !=
-		// agent.GantryAgent.class
-		// && this.getClass() != agent.CameraAgent.class && this.getClass() !=
-		// agent.NestAgent.class
-		// && this.getClass() != agent.FeederAgent.class && this.getClass() !=
-		// agent.PartsRobotAgent.class
-		// && this.getClass() != agent.test.mock.MockGraphics.class) {
-		System.out.print(sb.toString());
-		// }
+		if (this.getClass() != agent.FCSAgent.class // && this.getClass() != agent.StandAgent.class
+				// && this.getClass() != agent.KitRobotAgent.class && this.getClass() != agent.ConveyorAgent.class
+				&& this.getClass() != agent.LaneAgent.class && this.getClass() != agent.GantryAgent.class
+				/* && this.getClass() != agent.CameraAgent.class */&& this.getClass() != agent.NestAgent.class
+				&& this.getClass() != agent.FeederAgent.class // && this.getClass() != agent.PartsRobotAgent.class
+				&& this.getClass() != agent.test.mock.MockGraphics.class) {
+			System.out.print(sb.toString());
+		}
 
 		if (console != null) {
 			// console.sendMessage(getName(), msg);
@@ -98,7 +90,7 @@ public abstract class Agent {
 		if (agentThread == null) {
 			agentThread = new AgentThread(getName());
 			agentThread.start(); // causes the run method to execute in the
-									// AgentThread below
+								 // AgentThread below
 		} else {
 			agentThread.interrupt();// don't worry about this for now
 		}
@@ -116,8 +108,7 @@ public abstract class Agent {
 	}
 
 	/**
-	 * Agent scheduler thread, calls respondToStateChange() whenever a state
-	 * change has been signalled.
+	 * Agent scheduler thread, calls respondToStateChange() whenever a state change has been signalled.
 	 */
 	private class AgentThread extends Thread {
 		private volatile boolean goOn = false;

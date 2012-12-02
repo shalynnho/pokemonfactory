@@ -57,4 +57,9 @@ public class MockNestGraphics extends Agent implements DeviceGraphics, NestGraph
 	public void setNestAgent(NestAgent nest) {
 		this.nest = nest;
 	}
+
+	@Override
+	public int getNestID() {
+		return 0;
+	}
 }
