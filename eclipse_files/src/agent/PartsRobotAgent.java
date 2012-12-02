@@ -321,7 +321,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 			print("Placing part");
 			synchronized (MyKits) {
 				for (MyKit mk : MyKits) {
-					if (mk.kit.needPart(arm.part) > 0) {
+					if (mk.kit.needPart(arm.part) > 0
+							|| arm.part.type.getName() == "Dummy") {
 						if (partsRobotGraphics != null) {
 							partsRobotGraphics.givePartToKit(
 									arm.part.partGraphics, mk.kit.kitGraphics,
