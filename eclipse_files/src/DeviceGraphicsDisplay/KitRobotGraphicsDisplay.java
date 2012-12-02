@@ -18,6 +18,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	int animCount;
 	boolean reverse;
+	boolean invisibleCloud;
 	int seq;
 	Image img;
 	// Messages
@@ -81,6 +82,7 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public KitRobotGraphicsDisplay(Client cli) {
 
+		invisibleCloud = true;
 		kitRobotLocation = Constants.KIT_ROBOT_LOC;
 		kitRobotClient = cli;
 
@@ -308,6 +310,8 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 					Constants.KIT_ROBOT_ON_INSPECTION_DONE,
 					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		}
+		
+		invisibleCloud = true;
 
 	}
 
@@ -399,7 +403,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				kits.add(currentKit);
 				InspectionToLocation1();
 				kitRobotClient.startMusic();
-
 			}  else if(command.equals(Constants.KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION2)){
 				KitGraphicsDisplay tempKit = new KitGraphicsDisplay((KitConfig)obj);
 				tempKit.setLocation(inspectionLocation);
@@ -407,8 +410,9 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				kits.add(currentKit);
 				InspectionToLocation2();
 				kitRobotClient.startMusic();
-
 			}
+			
+			invisibleCloud = false;
 
 		}
 
@@ -439,7 +443,11 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 	public void draw(JComponent c, Graphics2D g) {
 		checkDegrees();
 		doJob();
-		g.drawImage(Constants.KIT_CLOUD_IMAGE, kitMagicX, kitMagicY, null);
+		if(!invisibleCloud)
+		{
+			g.drawImage(Constants.KIT_CLOUD_IMAGE, kitMagicX, kitMagicY, null);
+		}
+		
 		drawtheKits(c, g);
 		g.drawImage(Constants.KIT_ROBOT_IMAGE_FLICKER, kitRobotPositionX, kitRobotPositionY, c);
 		animateRobot(g,c);
