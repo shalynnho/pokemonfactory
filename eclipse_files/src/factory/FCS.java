@@ -55,6 +55,7 @@ public class FCS {
 	}
 
 	public void shippedKit() {
+		displayMessage("Kit Completed");
 		server.sendData(new Request(Constants.FCS_SHIPPED_KIT,
 				Constants.ALL_TARGET, null));
 	}
@@ -158,6 +159,7 @@ public class FCS {
 				productionStarted = true;
 			}
 		}
+		displayMessage("Order added: " + o.getNumKits() + " " + o.getConfig().getName());
 	}
 
 	public void startProduction() {
@@ -167,7 +169,7 @@ public class FCS {
 	public void setDropChance(Float c) {
 		// TODO Make a slider/button for this
 		agent.msgSetPartsRobotDropChance(c);
-
+		displayMessage("Parts Robot Drop Chance set to: " + c);
 	}
 
 	public void receiveData(Request req) {
