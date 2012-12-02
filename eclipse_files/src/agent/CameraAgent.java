@@ -200,7 +200,7 @@ public class CameraAgent extends Agent implements Camera {
 				if (p.type.equals(type)) {
 					count++;
 				}
-				if (p.type.getName() == "Dummy") {
+				if (p.partGraphics.isInvisible()) {
 					DummyParts.add(p);
 				}
 			}
