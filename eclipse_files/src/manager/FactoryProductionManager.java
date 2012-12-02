@@ -232,6 +232,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 				@Override
 				public void run() {
 					startMusic();
+					devices.get(Constants.CONVEYOR_TARGET).setExit(true);
 				}
 			}, 2000);
 		}
