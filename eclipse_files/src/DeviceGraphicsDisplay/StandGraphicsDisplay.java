@@ -8,8 +8,8 @@ import Networking.Client;
 import Networking.Request;
 import Utils.Constants;
 import Utils.Location;
+import Utils.PartData;
 import factory.KitConfig;
-import factory.PartType;
 
 /**
  * Graphics side of the kitting stand, and parent class to inspection stand
@@ -106,8 +106,10 @@ public class StandGraphicsDisplay extends DeviceGraphicsDisplay {
 			receiveKit(config);
 			
 		} else if (cmd.equals(Constants.STAND_RECEIVE_PART_COMMAND)) {
-			PartType type = (PartType) r.getData();
-			receivePart(new PartGraphicsDisplay(type));
+			PartData partData = (PartData) r.getData();
+			PartGraphicsDisplay pgd = new PartGraphicsDisplay(partData.getPartType());
+			pgd.setInvisible(partData.getInvisible());
+			receivePart(pgd);
 		} else if(cmd.equals(Constants.STAND_GIVES_BACK_TO_ANOTHER_STAND)){
 			isEmpty=true;
 			kitConfig.clearDummies();

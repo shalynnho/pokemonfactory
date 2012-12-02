@@ -1,15 +1,8 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JComponent;
 
 import Networking.Client;
@@ -72,9 +65,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private boolean unjamming = false;
 	private int jamSeq = 0;
 	
-	// pokeflute music
-	private Clip pokeflute;
-
 	/**
 	 * LGD constructor
 	 * 
@@ -99,7 +89,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 				+ Constants.PART_WIDTH / 2 - Constants.PART_OFFSET);
 
 		resetLaneLineLocs();
-		//initMusic();
 	}
 
 	/**
@@ -302,6 +291,10 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (cmd.equals(Constants.LANE_UNJAM_COMMAND)) {
 			unjamming = true;
+			if (jammed) {
+				client.stopMusic();
+				client.startPokeflute();
+			}
 			//System.out.println("	LANEGD" + laneID + "RECEIVED UNJAM COMMAND");
 
 		} else {
@@ -333,10 +326,11 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			}
 		}
 	
-		if (jamSeq == 64) { // reset sequence
+		if (jamSeq == 264) { // reset sequence
 			jamSeq = 0;
 			unjamming = false;
 			jammed = false;
+			client.startMusic();
 			client.sendData(new Request(Constants.LANE_SET_JAM_COMMAND + Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID, null));
 		} else {
 			jamSeq++;
@@ -351,19 +345,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		receivePartDoneSent = false; // reset
 		client.sendData(new Request(Constants.LANE_GIVE_PART_TO_NEST
 				+ Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID, null));
-	}
-	
-	private void initMusic() {
-		URL url = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");		
-		try {
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-			pokeflute = AudioSystem.getClip();
-			//pokeflute.open(audioIn);
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//pokeflute.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 
 	/**
