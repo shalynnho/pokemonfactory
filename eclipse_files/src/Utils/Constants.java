@@ -163,6 +163,8 @@ public abstract class Constants {
 			.getImage(IMAGE_PATH + "cloud.png");
 
 	// Nest Images
+	public static final Image ORANGE_NEST_IMAGE = Toolkit.getDefaultToolkit()
+			.getImage(IMAGE_PATH + "orange_nest.png");
 	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "Nest.png");
 

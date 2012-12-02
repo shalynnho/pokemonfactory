@@ -1,7 +1,5 @@
 package DeviceGraphicsDisplay;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
@@ -16,6 +14,8 @@ import Utils.Constants;
  *
  */
 public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
+
+	private int cameraTimer = -1;
 		
 	public InspectionStandGraphicsDisplay(Client kam) {
 		super(kam, 0);
@@ -23,7 +23,12 @@ public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
 	
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		g.drawImage(Constants.STAND_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
+		if (cameraTimer >= 0) {
+			g.drawImage(Constants.STAND_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
+			cameraTimer--;
+		} else {
+			g.drawImage(Constants.STAND_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
+		}
 		if (!isEmpty) {
 			kit.drawKit(c,g);
 		}	
@@ -34,7 +39,12 @@ public class InspectionStandGraphicsDisplay extends StandGraphicsDisplay {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+	}
 
+	public void receiveData(Request r) {
+		if (r.getCommand().equals(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND)) {
+			cameraTimer = 15;
+		}
 	}
 
 
