@@ -93,6 +93,8 @@ public class FCS {
 		partTypes.add(pt);
 		updateParts();
 		agent.msgAddNewPartType(pt);
+
+		displayMessage("Part added: " + pt.getName());
 		return true;
 	}
 
@@ -106,6 +108,8 @@ public class FCS {
 				gantry.editBin(pt);
 			}
 		}
+
+		displayMessage("Part edited: " + pt.getName());
 	}
 
 	public void deletePart(PartType pt) {
@@ -117,6 +121,7 @@ public class FCS {
 			}
 		}
 
+		displayMessage("Part deleted: " + pt.getName());
 		// TODO: add in agent call so to stop drawing bin
 	}
 
@@ -128,6 +133,8 @@ public class FCS {
 		}
 		kitConfigs.add(kc);
 		updateKits();
+
+		displayMessage("Kit added: " + kc.getName());
 		return true;
 	}
 
@@ -138,6 +145,7 @@ public class FCS {
 				kitConfigs.set(i, kc);
 			}
 		}
+		displayMessage("Kit edited " + kc.getName());
 	}
 
 	public void deleteKit(KitConfig kc) {
@@ -147,6 +155,7 @@ public class FCS {
 				kitConfigs.remove(i);
 			}
 		}
+		displayMessage("Kit deleted: " + kc.getName());
 	}
 
 	public void addOrder(Order o) {
