@@ -290,27 +290,24 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 
 	public void sendDoneMessage() {
 		if (this.sendMessage.equals(Message.sendStand1DoneMessage)) {
-			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_STAND1_DONE,
 					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		} else if(this.sendMessage.equals(Message.sendStand2DoneMessage)){ 
-			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(Constants.KIT_ROBOT_ON_STAND2_DONE,
 					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		} else if (this.sendMessage.equals(Message.sendGoodConveyorDoneMessage)) {
-			kits.remove(currentKit);
 			currentKit.setPosition(2);
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_CONVEYOR_DONE,
 					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		} else if (this.sendMessage.equals(Message.sendInspectionDoneMessage)) {
-			kits.remove(currentKit);
 			kitRobotClient.sendData(new Request(
 					Constants.KIT_ROBOT_ON_INSPECTION_DONE,
 					Constants.KIT_ROBOT_TARGET, currentKit.getKitConfig()));
 		}
-		
+		currentKit.setRemoveTimer(10);
+		currentKit.beginRemoval();
 		invisibleCloud = true;
 
 	}
@@ -336,6 +333,14 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				sendDoneMessage();
 			}
 
+		}
+		
+		for(int i =0; i<kits.size(); i++)
+		{
+			if(kits.get(i).getRemoveTimer()<0)
+			{
+				kits.remove(i);
+			}
 		}
 	}
 

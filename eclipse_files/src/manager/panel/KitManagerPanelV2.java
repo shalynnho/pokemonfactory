@@ -256,8 +256,9 @@ public class KitManagerPanelV2 extends JPanel {
 	 *            ArrayList of current KitConfigs
 	 */
 	public void updateKitConfig(ArrayList<KitConfig> kc) {
-		//kitsPanel.updateList(kc);
-		//kitsjsp.validate();
+		// TODO: Why does this prevent KitManager from displaying?
+		// kitsPanel.updateList(kc);
+		kitsjsp.validate();
 	}
 
 	public void updatePartTypes(ArrayList<PartType> pt) {
@@ -296,6 +297,9 @@ public class KitManagerPanelV2 extends JPanel {
 		} else if (kitPartsPanel.getItemList().size() >= 4) {
 			submitButton.setEnabled(true);
 		}
+		if (isDeleting) {
+			submitButton.setEnabled(true);
+		}
 	}
 
 	public void startEditing(final KitConfig kc) {
@@ -332,6 +336,7 @@ public class KitManagerPanelV2 extends JPanel {
 		rightTitle.setText("Deleting Kit " + kc.getName());
 		nameField.setEnabled(false);
 		submitButton.setText("Confirm Delete >");
+		submitButton.setEnabled(true);
 
 		removeAllActionListener(submitButton);
 		submitButton.addActionListener(new ActionListener() {
@@ -341,6 +346,9 @@ public class KitManagerPanelV2 extends JPanel {
 				restoreRightPanel();
 			}
 		});
+		
+		kitPartsPanel.updateList(kc.getAllParts());
+		kitPartsJsp.validate();
 	}
 
 	public void restoreRightPanel() {
