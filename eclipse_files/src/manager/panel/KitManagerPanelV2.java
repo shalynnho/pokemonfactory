@@ -84,15 +84,19 @@ public class KitManagerPanelV2 extends JPanel {
 		
 		// Setup KitsListPanel
 		kitsPanel = new KitsListPanel("Choose Kit to edit",
-			new KitSelectHandler() {
-				@Override
-				public void onKitSelect(KitConfig kc) {
-					startEditing(kc);
-				}
-			});
+				new KitSelectHandler() {
+					@Override
+					public void onKitSelect(KitConfig kc) {
+						startEditing(kc);
+					}
+					
+					public void onKitButton(KitConfig kc) {
+						startDeleting(kc);
+					}
+				}, "Delete");
 
 		kitsPanel.setVisible(true);
-		kitsPanel.setBackground(new Color(0, 0, 0, 0));
+		kitsPanel.setBackground(new Color(0, 0, 0, 30));
 
 		kitsjsp = new JScrollPane(kitsPanel,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -173,23 +177,25 @@ public class KitManagerPanelV2 extends JPanel {
 		rightTitle.setAlignmentX(0);
 		rightTitlePanel.add(rightTitle);
 
-		JPanel namePanel = new JPanel();
-		namePanel.setBorder(Constants.TOP_PADDING);
-		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.LINE_AXIS));
-		namePanel.setOpaque(false);
-		namePanel.setVisible(true);
-		namePanel.setAlignmentX(0);
-		rightTitlePanel.add(namePanel);
-
-		WhiteLabel nameLabel = new WhiteLabel("Name");
-		nameLabel.setLabelSize(100, 25);
-		namePanel.add(nameLabel);
-
-		nameField = new JTextField("name");
-
-		nameField.setMaximumSize(new Dimension(200, 25));
-		nameField.setBorder(Constants.FIELD_PADDING);
-		namePanel.add(nameField);
+		//if (!isEditing && !isDeleting) {
+			JPanel namePanel = new JPanel();
+			namePanel.setBorder(Constants.TOP_PADDING);
+			namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.LINE_AXIS));
+			namePanel.setOpaque(false);
+			namePanel.setVisible(true);
+			namePanel.setAlignmentX(0);
+			rightTitlePanel.add(namePanel);
+	
+			WhiteLabel nameLabel = new WhiteLabel("Name");
+			nameLabel.setLabelSize(100, 25);
+			namePanel.add(nameLabel);
+	
+			nameField = new JTextField("name");
+	
+			nameField.setMaximumSize(new Dimension(200, 25));
+			nameField.setBorder(Constants.FIELD_PADDING);
+			namePanel.add(nameField);
+		//}
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBorder(Constants.TOP_PADDING);
@@ -200,6 +206,8 @@ public class KitManagerPanelV2 extends JPanel {
 		rightTitlePanel.add(buttonPanel);
 
 		if (isEditing || isDeleting) {
+			namePanel.setVisible(false);
+			
 			JButton cancelButton = new JButton("Cancel");
 			cancelButton.setMinimumSize(new Dimension(100, 25));
 			cancelButton.setMaximumSize(new Dimension(100, 25));
@@ -240,8 +248,17 @@ public class KitManagerPanelV2 extends JPanel {
 		validateSubmit();
 	}
 	
+	/**
+	 * This function is called by KitManager whenever KitConfigs
+	 * are updated.
+	 * 
+	 * @param kc
+	 *            ArrayList of current KitConfigs
+	 */
 	public void updateKitConfig(ArrayList<KitConfig> kc) {
-		// set this guy to the comboBOxmodel
+		// TODO: Why does this prevent KitManager from displaying?
+		// kitsPanel.updateList(kc);
+		kitsjsp.validate();
 	}
 
 	public void updatePartTypes(ArrayList<PartType> pt) {
@@ -280,6 +297,9 @@ public class KitManagerPanelV2 extends JPanel {
 		} else if (kitPartsPanel.getItemList().size() >= 4) {
 			submitButton.setEnabled(true);
 		}
+		if (isDeleting) {
+			submitButton.setEnabled(true);
+		}
 	}
 
 	public void startEditing(final KitConfig kc) {
@@ -296,6 +316,7 @@ public class KitManagerPanelV2 extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				kc.setName(nameField.getText());
+				kc.setConfig(kitPartsPanel.getItemList());
 
 				manager.editKit(kc);
 				restoreRightPanel();
@@ -315,6 +336,7 @@ public class KitManagerPanelV2 extends JPanel {
 		rightTitle.setText("Deleting Kit " + kc.getName());
 		nameField.setEnabled(false);
 		submitButton.setText("Confirm Delete >");
+		submitButton.setEnabled(true);
 
 		removeAllActionListener(submitButton);
 		submitButton.addActionListener(new ActionListener() {
@@ -324,6 +346,9 @@ public class KitManagerPanelV2 extends JPanel {
 				restoreRightPanel();
 			}
 		});
+		
+		kitPartsPanel.updateList(kc.getAllParts());
+		kitPartsJsp.validate();
 	}
 
 	public void restoreRightPanel() {

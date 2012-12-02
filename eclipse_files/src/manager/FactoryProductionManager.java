@@ -184,7 +184,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			stopRecovery();
 
 			System.out.println("plays flute"); // !!! EXTREMELY IMPORTANT
-			pokeflute.loop(Clip.LOOP_CONTINUOUSLY);
+			pokeflute.setFramePosition(0);
+			pokeflute.start();
 			musicTimer.schedule(new TimerTask() {
 				@Override
 				public void run() {
@@ -209,7 +210,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			stopCompleted();
 
 			System.out.println("plays recovery"); // !!! EXTREMELY IMPORTANT
-			recovery.loop(Clip.LOOP_CONTINUOUSLY);
+			recovery.setFramePosition(0);
+			recovery.start();
 			musicTimer.schedule(new TimerTask() {
 				@Override
 				public void run() {
@@ -233,7 +235,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			stopRecovery();
 
 			System.out.println("plays completed"); // !!! EXTREMELY IMPORTANT
-			completed.loop(Clip.LOOP_CONTINUOUSLY);
+			completed.setFramePosition(0);
+			completed.start();
 			musicTimer.schedule(new TimerTask() {
 				@Override
 				public void run() {
