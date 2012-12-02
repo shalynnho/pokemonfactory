@@ -120,7 +120,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	 */
 	@Override
 	public void receiveData(Request req) {
-		System.out.println(req);
 		if (req.getTarget().equals(Constants.ALL_TARGET)) {
 			if (req.getCommand().equals(Constants.FCS_UPDATE_KITS)) {
 				fpmPanel.updateKitConfigs((ArrayList<KitConfig>) req.getData());
