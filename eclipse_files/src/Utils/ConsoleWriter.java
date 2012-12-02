@@ -3,9 +3,6 @@ package Utils;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
@@ -187,6 +184,7 @@ public class ConsoleWriter {
 	 * @return response from the sever
 	 */
 	public String sendData(String data) {
+		/*
 		try {
 			URLConnection connection = new URL("http://ptz-debug.appspot.com/listen/").openConnection();
 			connection.setDoOutput(true);
@@ -202,6 +200,8 @@ public class ConsoleWriter {
 			e.printStackTrace();
 			return "";
 		}
+		*/
+		return "";
 
 	}
 
