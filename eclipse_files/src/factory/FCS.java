@@ -57,17 +57,14 @@ public class FCS {
 	}
 
 	public void shippedKit() {
-<<<<<<< HEAD
 		displayMessage("Kit Completed");
 		server.sendData(new Request(Constants.FCS_SHIPPED_KIT,
 				Constants.ALL_TARGET, null));
 //		if (completed != null) {
 //			completed.loop(Clip.LOOP_CONTINUOUSLY);
 //		}
-=======
 		displayMessage("Professor Oak: Kit Completed!");
 		server.sendData(new Request(Constants.FCS_SHIPPED_KIT, Constants.ALL_TARGET, null));
->>>>>>> branch 'master' of https://github.com/usc-csci200-fall2012/team09.git
 	}
 
 	public void displayMessage(String s) {
