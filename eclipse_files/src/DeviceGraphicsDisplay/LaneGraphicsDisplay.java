@@ -36,7 +36,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 	private final Location partStartLoc;
 	// location of a part jam on the lane
 	private Location jamLoc;
-	private Location pusherLoc;
 	private int jamLocX = 0;
 	// array list of locations of the lane lines
 	private ArrayList<Location> laneLines;
@@ -83,9 +82,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 		// for reference only
 		partStartLoc = new Location(Constants.LANE_BEG_X, location.getY()
 				+ Constants.PART_WIDTH / 2 - Constants.PART_OFFSET);
-		// init to start loc under feeder
-		pusherLoc = new Location(Constants.LANE_BEG_X, location.getY()
-				+ 90 - Constants.PART_OFFSET);
 
 		resetLaneLineLocs();
 	}
@@ -211,8 +207,6 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 					vibrateParts(loc);
 					pgd.setLocation(loc);
 					pgd.drawWithOffset(c, g, client.getOffset());
-					g.drawImage(Constants.PART_PUSHER,
-							pusherLoc.getX() + client.getOffset(), pusherLoc.getY(), c);
 
 				} // end for loop
 
@@ -292,9 +286,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (cmd.equals(Constants.LANE_UNJAM_COMMAND)) {
 			unjamming = true;
-			System.out.println("	LANEGD" + laneID + "RECEIVED UNJAM COMMAND");
-			// System.out.println("UNJAM LANEGD" + laneID+
-			// "jammed: "+jammed+", unjamming: "+unjamming);
+			//System.out.println("	LANEGD" + laneID + "RECEIVED UNJAM COMMAND");
 
 		} else {
 			System.out.println("LANE_GD: command not recognized.");
@@ -441,6 +433,7 @@ public class LaneGraphicsDisplay extends DeviceGraphicsDisplay {
 			jamSeq = 0;
 			unjamming = false;
 			jammed = false;
+			client.sendData(new Request(Constants.LANE_SET_JAM_COMMAND + Constants.DONE_SUFFIX, Constants.LANE_TARGET + laneID, null));
 		} else {
 			jamSeq++;
 		}

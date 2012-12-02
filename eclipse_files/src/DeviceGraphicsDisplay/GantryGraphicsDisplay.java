@@ -1,18 +1,15 @@
 package DeviceGraphicsDisplay;
 
 import java.awt.Graphics2D;
-
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import DeviceGraphics.BinGraphics;
 import Networking.Client;
 import Networking.Request;
 import Utils.BinData;
 import Utils.Constants;
 import Utils.Location;
-import agent.data.Bin;
 
 public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 	
@@ -102,7 +99,7 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 			tempBin = null;
 		}
 		else if (req.getCommand().equals(Constants.GANTRY_ROBOT_MOVE_TO_LOC_COMMAND)) {
-			System.out.println("Received moved to loc command");
+			//System.out.println("Received moved to loc command");
 			destinationLocation = (Location) req.getData();
 			isMoving = true;
 		}

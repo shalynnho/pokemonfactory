@@ -140,6 +140,9 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics,
 			// System.out.println("LANE" + laneID + " SETTING JAM LOCATION");
 			Location l = (Location) r.getData();
 			setJamLocation(l);
+		
+		} else if (cmd.equals(Constants.LANE_SET_JAM_COMMAND + Constants.DONE_SUFFIX)) {
+			server.displayMessage("Professor Oak: Snorlax woke up!");
 		}
 	}
 
@@ -155,7 +158,7 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics,
 			jamLocation = loc;
 			server.sendData(new Request(Constants.LANE_SET_JAM_COMMAND,
 					Constants.LANE_TARGET + laneID, jamLocation));
-			server.displayMessage("Professor Oak: The lane is jammed!");
+			server.displayMessage("Professor Oak: A wild Snorlax appeared! Play the Pokeflute!");
 			// System.out.println("LANE" + laneID + " JAM LOC SET x: " +
 			// jamLocation.getX());
 		}
