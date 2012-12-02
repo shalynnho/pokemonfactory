@@ -354,7 +354,7 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 	private void DropPart(Arm arm) {
 		print("Dropped a part");
 		arm.part = new Part(new PartType("Dummy"));
-		arm.part.partGraphics = null;
+		arm.part.type.setImagePath("invisible");
 		if (partsRobotGraphics != null) {
 			partsRobotGraphics.dropPartFromArm(arm.part.partGraphics,
 					Arms.indexOf(arm));
