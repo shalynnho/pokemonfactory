@@ -111,8 +111,9 @@ public class GantryGraphicsDisplay extends DeviceGraphicsDisplay {
 			isBinHeld = false;
 		} else if (req.getCommand().equals(Constants.GANTRY_ROBOT_ADD_NEW_BIN)) {
 			tempBin = (BinData) req.getData();
+			System.out.println("new bin: " + tempBin.getBinPartType());
 			binList.add(new BinGraphicsDisplay(new Location(tempBin.getBinLocation()), tempBin.getBinPartType()));
-			tempBin = null;
+			// tempBin = null;
 		} else if (req.getCommand().equals(Constants.GANTRY_ROBOT_EDIT_BIN)) {
 			for (int i = 0; i < binList.size(); i++) {
 				tempBin = (BinData) req.getData();

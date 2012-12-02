@@ -10,11 +10,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,8 +23,8 @@ import manager.panel.KitsListPanel.KitSelectHandler;
 import manager.util.OverlayPanel;
 import manager.util.WhiteLabel;
 import Utils.Constants;
-import factory.PartType;
 import factory.KitConfig;
+import factory.PartType;
 
 /**
  * Prettified KitManagerPanel, powers KitManager. Uses PartsListPanel to
@@ -257,7 +254,7 @@ public class KitManagerPanelV2 extends JPanel {
 	 */
 	public void updateKitConfig(ArrayList<KitConfig> kc) {
 		// TODO: Why does this prevent KitManager from displaying?
-		// kitsPanel.updateList(kc);
+		kitsPanel.updateList(kc);
 		kitsjsp.validate();
 	}
 

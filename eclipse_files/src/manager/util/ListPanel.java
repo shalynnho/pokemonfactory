@@ -47,9 +47,11 @@ public abstract class ListPanel<T extends FactoryData> extends OverlayPanel {
 	public abstract void parseList();
 	
 	public void updateList(ArrayList<T> newList) {
-		itemList = newList;
-		parseList();
-		restoreColors();
+		if (newList != null) {
+			itemList = newList;
+			parseList();
+			restoreColors();
+		}
 	}
 	
 	public void restoreColors() {
