@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import manager.KitManager;
+import manager.panel.KitsListPanel.KitSelectHandler;
 import manager.util.OverlayPanel;
 import manager.util.WhiteLabel;
 import Utils.Constants;
@@ -37,12 +38,16 @@ import factory.KitConfig;
 public class KitManagerPanelV2 extends JPanel {
 
 	private JPanel panels;
+	private JPanel leftPanel;
+	private KitsListPanel kitsPanel;
+	private JScrollPane kitsjsp;
+	private PartsListPanel partsPanel;
 	private JScrollPane jsp;
-	private JScrollPane kitjsp;
-	private PartsListPanel leftPanel;
+	
+	private JScrollPane kitPartsJsp;
 	private OverlayPanel rightPanel;
-	private PartsListPanel kitPartsPanel;
 	private JPanel rightTitlePanel;
+	private PartsListPanel kitPartsPanel;
 	
 	private WhiteLabel rightTitle;
 	private JTextField nameField;
@@ -52,6 +57,8 @@ public class KitManagerPanelV2 extends JPanel {
 
 	private boolean isEditing;
 	private boolean isDeleting;
+	// Stores the selected kitConfig
+	private KitConfig selectedKit;
 
 	public KitManagerPanelV2(KitManager mngr) {
 		manager = mngr;
@@ -68,8 +75,34 @@ public class KitManagerPanelV2 extends JPanel {
 		panels.setOpaque(false);
 		panels.setVisible(true);
 		add(panels);
+		
+		leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
+		leftPanel.setOpaque(false);
+		leftPanel.setVisible(true);
+		panels.add(leftPanel);
+		
+		// Setup KitsListPanel
+		kitsPanel = new KitsListPanel("Choose Kit to edit",
+			new KitSelectHandler() {
+				@Override
+				public void onKitSelect(KitConfig kc) {
+					startEditing(kc);
+				}
+			});
 
-		leftPanel = new PartsListPanel(
+		kitsPanel.setVisible(true);
+		kitsPanel.setBackground(new Color(0, 0, 0, 0));
+
+		kitsjsp = new JScrollPane(kitsPanel,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		kitsjsp.setOpaque(false);
+		kitsjsp.getViewport().setOpaque(false);
+		kitsjsp.setPreferredSize(new Dimension(379, 477 / 3));
+		leftPanel.add(kitsjsp);
+
+		partsPanel = new PartsListPanel(
 				new PartsListPanel.PartsListPanelHandler() {
 					@Override
 					public void panelClicked(PartType pt) {
@@ -81,15 +114,15 @@ public class KitManagerPanelV2 extends JPanel {
 						addPart(pt);
 					}
 				}, "Add to Kit");
-		leftPanel.setVisible(true);
-		leftPanel.setBackground(new Color(0, 0, 0, 30));
+		partsPanel.setVisible(true);
+		partsPanel.setBackground(new Color(0, 0, 0, 30));
 
-		jsp = new JScrollPane(leftPanel,
+		jsp = new JScrollPane(partsPanel,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		jsp.setOpaque(false);
 		jsp.getViewport().setOpaque(false);
-		panels.add(jsp);
+		leftPanel.add(jsp, BorderLayout.CENTER);
 		
 		rightPanel = new OverlayPanel();
 		rightPanel.setLayout(new BorderLayout());
@@ -115,14 +148,14 @@ public class KitManagerPanelV2 extends JPanel {
 					}
 				}, "Remove");
 		kitPartsPanel.setVisible(true);
-		kitPartsPanel.setBackground(new Color(0, 0, 0, 0));
+		kitPartsPanel.setBackground(new Color(0, 0, 0, 30));
 
-		kitjsp = new JScrollPane(kitPartsPanel,
+		kitPartsJsp = new JScrollPane(kitPartsPanel,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		kitjsp.setOpaque(false);
-		kitjsp.getViewport().setOpaque(false);
-		rightPanel.add(kitjsp, BorderLayout.CENTER);
+		kitPartsJsp.setOpaque(false);
+		kitPartsJsp.getViewport().setOpaque(false);
+		rightPanel.add(kitPartsJsp, BorderLayout.CENTER);
 
 		setUpRightPanel();
 	}
@@ -203,6 +236,7 @@ public class KitManagerPanelV2 extends JPanel {
 		
 		// Clear out the parts in the list of a Kit's parts
 		kitPartsPanel.updateList(new ArrayList<PartType>());
+		kitPartsJsp.validate();
 		validateSubmit();
 	}
 	
@@ -212,7 +246,7 @@ public class KitManagerPanelV2 extends JPanel {
 
 	public void updatePartTypes(ArrayList<PartType> pt) {
 		if (pt != null) {
-			leftPanel.updateList(pt);
+			partsPanel.updateList(pt);
 			jsp.validate();
 		}
 	}
@@ -223,7 +257,7 @@ public class KitManagerPanelV2 extends JPanel {
 			if (kitPt.size() < 8) {
 				kitPt.add(pt);
 				kitPartsPanel.updateList(kitPt);
-				kitjsp.validate();
+				kitPartsJsp.validate();
 
 			}
 			validateSubmit();
@@ -235,7 +269,7 @@ public class KitManagerPanelV2 extends JPanel {
 			ArrayList<PartType> kitPt = kitPartsPanel.getItemList();
 			kitPt.remove(pt);
 			kitPartsPanel.updateList(kitPt);
-			kitjsp.validate();
+			kitPartsJsp.validate();
 			validateSubmit();
 		}
 	}
@@ -267,6 +301,10 @@ public class KitManagerPanelV2 extends JPanel {
 				restoreRightPanel();
 			}
 		});
+		
+		kitPartsPanel.updateList(kc.getAllParts());
+		kitPartsJsp.validate();
+		validateSubmit();
 	}
 
 	public void startDeleting(final KitConfig kc) {
