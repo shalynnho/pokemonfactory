@@ -70,11 +70,18 @@ public class KitConfig implements Serializable, FactoryData {
 	}
 	
 	public void clearDummies(){
+		ArrayList<PartType> dummies = new ArrayList<PartType>();
 		for(PartType pt: config.keySet() )
 		{
-			if(pt.getName()=="Dummy")
+			dummies.add(pt);
+				
+			
+		}
+		for(int i =0; i <dummies.size(); i++)
+		{
+			if(dummies.get(i).getName().equals("Dummy"))
 			{
-				config.remove(pt);
+				config.keySet().remove(dummies.get(i));
 			}
 		}
 	}
