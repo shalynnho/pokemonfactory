@@ -16,7 +16,8 @@ import agent.CameraAgent;
  * 
  * @author Peter Zhang
  */
-public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.CameraGraphics {
+public class CameraGraphics implements DeviceGraphics,
+		GraphicsInterfaces.CameraGraphics {
 
 	private final Location location;
 
@@ -33,18 +34,21 @@ public class CameraGraphics implements DeviceGraphics, GraphicsInterfaces.Camera
 	}
 
 	@Override
-	public void takeNestPhoto(GraphicsInterfaces.NestGraphics nest1, GraphicsInterfaces.NestGraphics nest2) {
+	public void takeNestPhoto(GraphicsInterfaces.NestGraphics nest1,
+			GraphicsInterfaces.NestGraphics nest2) {
 		ArrayList<Location> nests = new ArrayList<Location>();
 		nests.add(nest1.getLocation());
 		nests.add(nest2.getLocation());
 
-		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND, Constants.CAMERA_TARGET, nests));
+		server.sendData(new Request(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND,
+				Constants.CAMERA_TARGET, nests));
 		agent.msgTakePictureNestDone(nest1, true, nest2, true);
 	}
 
 	@Override
 	public void takeKitPhoto(final KitGraphics kit) {
-		server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND, Constants.CAMERA_TARGET, kit.getLocation()));
+		server.sendData(new Request(Constants.CAMERA_TAKE_KIT_PHOTO_COMMAND,
+				Constants.CAMERA_TARGET, kit.getLocation()));
 
 		timer.schedule(new TimerTask() {
 			// hack to force the camera to pretend to think about the photo
