@@ -39,6 +39,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	// purge location
 	private final Location purgeLoc;
 
+	private int cameraTimer = -1;
+
 	/**
 	 * Default constructor
 	 */
@@ -64,8 +66,12 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
-		g.drawImage(Constants.NEST_IMAGE, location.getX() + client.getOffset(),
-				location.getY(), c);
+		if (cameraTimer >= 0) {
+			g.drawImage(Constants.ORANGE_NEST_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
+			cameraTimer--;
+		} else {
+			g.drawImage(Constants.NEST_IMAGE, location.getX() + client.getOffset(), location.getY(), c);
+		}
 
 		if (receivingPart) { // part in motion
 			// get last part added to nest
@@ -123,6 +129,8 @@ public class NestGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		} else if (req.getCommand().equals(Constants.NEST_PURGE_COMMAND)) {
 			purge();
+		} else if (req.getCommand().equals(Constants.CAMERA_TAKE_NEST_PHOTO_COMMAND)) {
+			cameraTimer = 15;
 		}
 	}
 
