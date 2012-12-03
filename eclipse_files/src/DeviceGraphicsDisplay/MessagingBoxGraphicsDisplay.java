@@ -24,13 +24,13 @@ public class MessagingBoxGraphicsDisplay extends DeviceGraphicsDisplay {
 	public MessagingBoxGraphicsDisplay(Client c) {
 		client = c;
 		location = new Location(30, 580);
+		msgToDisplay = "Professor Oak: Welcome to Neetu's Pokemon Factory!";
 	}
 
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
 		g.setFont(Client.pokeFont);
-		g.drawImage(image,
-				location.getX() + client.getOffset(), location.getY(), c);
+		g.drawImage(image, location.getX() + client.getOffset(), location.getY(), c);
 
 		if (charsDisplayed < Math.min(LINE_LENGTH * 2, msgToDisplay.length())) {
 			drawMessage(msgToDisplay.substring(0, charsDisplayed), c, g);
