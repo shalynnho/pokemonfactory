@@ -97,7 +97,7 @@ public class FCSAgent extends Agent implements FCS {
 			}
 		}
 
-		resetCell(o);
+		//resetCell(o);
 		stateChanged();
 	}
 
@@ -132,7 +132,7 @@ public class FCSAgent extends Agent implements FCS {
 					if (fcs != null) {
 						fcs.updateQueue((ArrayList<Order>) orders);
 					}
-					resetCell(o);
+					//resetCell(o);
 					break;
 				}
 			}
@@ -195,17 +195,58 @@ public class FCSAgent extends Agent implements FCS {
 		// k++;
 		// }
 		// }
-		camera.msgResetSelf();
-		k = 0;
-		for (PartType type : o.kitConfig.getConfig().keySet()) {
-			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
-				nests.get(k).msgHereIsPartType(type);
-				// ((NestAgent) nests.get(k)).startThread();
-				k++;
-			}
-		}
 		partsRobot.msgHereIsKitConfiguration(o.kitConfig);
 		conveyor.msgHereIsKitConfiguration(o.kitConfig);
+		camera.msgResetSelf();
+		
+	
+		ArrayList<Nest> nestsUsed = new ArrayList<Nest>();
+		for (PartType type : o.kitConfig.getConfig().keySet()) {
+			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
+				for(int j = 0; j < nests.size(); j++){
+					if(((NestAgent)nests.get(j)).currentPartType != null){
+						if(((NestAgent)nests.get(j)).currentPartType.equals(type)){
+							nests.get(j).msgHereIsPartType(type);
+							nestsUsed.add(nests.get(j));
+							i++;
+							if(i>=o.kitConfig.getConfig().get(type)){
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		for (PartType type : o.kitConfig.getConfig().keySet()) {
+			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
+				for(Nest n: nestsUsed) {
+					if(((NestAgent) n).currentPartType.equals(type)){
+						i++;
+					}
+				}
+				if(i >= o.kitConfig.getConfig().get(type)){
+					break;
+				}
+				for(int j=0;j<nests.size();j++) {
+					if(!nestsUsed.contains(nests.get(j))){
+						print("Messaging nest "+j);
+						nests.get(j).msgHereIsPartType(type);
+						nestsUsed.add(nests.get(j));
+						i++;
+						if(i >= o.kitConfig.getConfig().get(type)){
+							break;
+						}
+					}
+				}
+			}
+		}
+		for(Nest n:nests){
+			if(!nestsUsed.contains(n)){
+				n.msgPurgeSelf();
+				n.msgHereIsPartType(null);
+			}
+		}
+		
 		stand.msgMakeKits(o.numKits);
 
 		/*

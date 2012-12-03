@@ -81,7 +81,7 @@ public class NestAgent extends Agent implements Nest {
 				state = NestState.PURGING;
 				laneState = LaneState.PURGING;
 				lane.msgPurgeParts();
-			//}
+			//} 
 		}
 		else if(currentPartType != null && type != null) {
 			if(!type.equals(currentPartType)) {
@@ -89,6 +89,9 @@ public class NestAgent extends Agent implements Nest {
 				state = NestState.PURGING;
 				laneState = LaneState.PURGING;
 				lane.msgPurgeParts();
+			} else {
+				state = NestState.DONE_PURGING;
+				takingParts=false;
 			}
 		} else if (currentPartType != null) {
 			currentPartType = type;
