@@ -60,7 +60,7 @@ public class FCS {
 
 		if (queue.get(0) != null) {
 			if (queue.get(0).getNumKits() > 0) {
-				// displayMessage("Professor Oak: Kit Completed!");
+				displayMessage("Professor Oak: Kit Completed!");
 			} else {
 				displayMessage("Professor Oak: You've completed an order!");
 			}
