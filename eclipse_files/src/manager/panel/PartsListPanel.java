@@ -112,7 +112,9 @@ public class PartsListPanel extends ListPanel<PartType> {
 		public void actionPerformed(ActionEvent e) {
 			restoreColors();
 			handler.buttonClicked(pt);
-			if (pt != null && panels != null) panels.get(pt).setColor(new Color(150, 6, 6));
+			if(panels.get(pt) != null) {
+				panels.get(pt).setColor(new Color(150, 6, 6));
+			}
 		}
 	}
 }

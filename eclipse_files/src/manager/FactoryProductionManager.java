@@ -119,13 +119,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	}
 
 	@Override
-	public void stopMusic() {
-		if (music.isRunning()) {
-			music.stop();
-		}
-	}
-
-	@Override
 	public void startMusic() {
 		// stopCompleted();
 		// stopPokeflute();
@@ -142,22 +135,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	}
 
 	@Override
-	public void stopPokeflute() {
-		if (pokeflute.isRunning()) {
-			pokeflute.stop();
-		}
-	}
-
-	@Override
 	public void startRecovery() {
 		musicAgent.msgStartRecovery();
-	}
-
-	@Override
-	public void stopRecovery() {
-		if (recovery.isRunning()) {
-			recovery.stop();
-		}
 	}
 
 	public void setConveyorExitTrue() {
@@ -168,10 +147,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		musicAgent.msgStartCompleted();
 	}
 
-	public void stopCompleted() {
-		if (completed.isRunning()) {
-			completed.stop();
-		}
+	public void startMessageTone() {
+		musicAgent.msgStartMessageTone();
 	}
 
 	/**
