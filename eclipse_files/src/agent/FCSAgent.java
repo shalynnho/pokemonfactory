@@ -30,8 +30,7 @@ public class FCSAgent extends Agent implements FCS {
 	private ArrayList<Nest> nests;
 	private Conveyor conveyor;
 	private myState state;
-	private List<Order> orders = Collections
-			.synchronizedList(new ArrayList<Order>());
+	private List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	private int numOrdersFinished = 0;
 	private Camera camera;
 	private int partTypeCount = 0;
@@ -41,7 +40,7 @@ public class FCSAgent extends Agent implements FCS {
 	private final String name;
 
 	private boolean binsSet;
-	private ArrayList<PartType> binsToAdd;
+	private final ArrayList<PartType> binsToAdd;
 
 	public enum myState {
 		PENDING, STARTED, LOADED
@@ -97,7 +96,7 @@ public class FCSAgent extends Agent implements FCS {
 			}
 		}
 
-		//resetCell(o);
+		// resetCell(o);
 		stateChanged();
 	}
 
@@ -132,7 +131,7 @@ public class FCSAgent extends Agent implements FCS {
 					if (fcs != null) {
 						fcs.updateQueue((ArrayList<Order>) orders);
 					}
-					//resetCell(o);
+					// resetCell(o);
 					break;
 				}
 			}
@@ -150,6 +149,9 @@ public class FCSAgent extends Agent implements FCS {
 	public boolean pickAndExecuteAnAction() {
 		// print("I'm scheduling stuff");
 		if (state == myState.STARTED) {
+			if (orders.size() == 0) {
+				resetCell();
+			}
 			if (!binsSet && gantry != null) {
 				initializeBins();
 				return true;
@@ -198,18 +200,17 @@ public class FCSAgent extends Agent implements FCS {
 		partsRobot.msgHereIsKitConfiguration(o.kitConfig);
 		conveyor.msgHereIsKitConfiguration(o.kitConfig);
 		camera.msgResetSelf();
-		
-	
+
 		ArrayList<Nest> nestsUsed = new ArrayList<Nest>();
 		for (PartType type : o.kitConfig.getConfig().keySet()) {
 			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
-				for(int j = 0; j < nests.size(); j++){
-					if(((NestAgent)nests.get(j)).currentPartType != null){
-						if(((NestAgent)nests.get(j)).currentPartType.equals(type)){
+				for (int j = 0; j < nests.size(); j++) {
+					if (((NestAgent) nests.get(j)).currentPartType != null) {
+						if (((NestAgent) nests.get(j)).currentPartType.equals(type)) {
 							nests.get(j).msgHereIsPartType(type);
 							nestsUsed.add(nests.get(j));
 							i++;
-							if(i>=o.kitConfig.getConfig().get(type)){
+							if (i >= o.kitConfig.getConfig().get(type)) {
 								break;
 							}
 						}
@@ -219,39 +220,39 @@ public class FCSAgent extends Agent implements FCS {
 		}
 		for (PartType type : o.kitConfig.getConfig().keySet()) {
 			for (int i = 0; i < o.kitConfig.getConfig().get(type); i++) {
-				for(Nest n: nestsUsed) {
-					if(((NestAgent) n).currentPartType.equals(type)){
+				for (Nest n : nestsUsed) {
+					if (((NestAgent) n).currentPartType.equals(type)) {
 						i++;
 					}
 				}
-				if(i >= o.kitConfig.getConfig().get(type)){
+				if (i >= o.kitConfig.getConfig().get(type)) {
 					break;
 				}
-				for(int j=0;j<nests.size();j++) {
-					if(!nestsUsed.contains(nests.get(j))){
-						print("Messaging nest "+j);
+				for (int j = 0; j < nests.size(); j++) {
+					if (!nestsUsed.contains(nests.get(j))) {
+						print("Messaging nest " + j);
 						nests.get(j).msgHereIsPartType(type);
 						nestsUsed.add(nests.get(j));
 						i++;
-						if(i >= o.kitConfig.getConfig().get(type)){
+						if (i >= o.kitConfig.getConfig().get(type)) {
 							break;
 						}
 					}
 				}
 			}
 		}
-		for(Nest n:nests){
-			if(!nestsUsed.contains(n)){
+		for (Nest n : nests) {
+			if (!nestsUsed.contains(n)) {
 				n.msgPurgeSelf();
 				n.msgHereIsPartType(null);
 			}
 		}
-		
+
 		stand.msgMakeKits(o.numKits);
 
 		/*
-		 * for(PartType type:o.kitConfig.getConfig().keySet()) {
-		 * gantry.msgHereIsBinConfig(new Bin(o.parts.get(i),i+1)); }
+		 * for(PartType type:o.kitConfig.getConfig().keySet()) { gantry.msgHereIsBinConfig(new Bin(o.parts.get(i),i+1));
+		 * }
 		 */
 		stateChanged();
 	}
@@ -268,11 +269,11 @@ public class FCSAgent extends Agent implements FCS {
 			fcs.updateQueue((ArrayList<Order>) orders);
 		}
 
-		resetCell(o);
+		resetCell();
 		stateChanged();
 	}
 
-	public void resetCell(Order o) {
+	public void resetCell() {
 		print("Resetting cell");
 		camera.msgResetSelf();
 		// print("NEST SIZE: " + nests.size());
@@ -292,9 +293,9 @@ public class FCSAgent extends Agent implements FCS {
 	}
 
 	public void addBin() {
-		gantry.msgHereIsBin(new Bin(binsToAdd.get(partTypeCount), partTypeCount+Constants.DEFAULT_PARTTYPES.size()));
-		partTypeCount= partTypeCount + 1;
-		//binsToAdd.remove(0);
+		gantry.msgHereIsBin(new Bin(binsToAdd.get(partTypeCount), partTypeCount + Constants.DEFAULT_PARTTYPES.size()));
+		partTypeCount = partTypeCount + 1;
+		// binsToAdd.remove(0);
 		stateChanged();
 	}
 
