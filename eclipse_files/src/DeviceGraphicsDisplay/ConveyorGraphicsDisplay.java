@@ -42,6 +42,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		locationGood = Constants.CONVEYOR_LOC; // location for exit lane, based
 		exitKit = new KitGraphicsDisplay(); // off of input lane
 		client = cli;
+		exit = false;
 		conveyorLines = new ArrayList<Location>();
 		conveyorLinesGood = new ArrayList<Location>();
 
@@ -142,7 +143,9 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 						Constants.CONVEYOR_TARGET, null));
 				sendOut();
 			}
+			if (exit == true) {
 				tempKit.setLocation(new Location(tempLoc.getX() - 5, 100));
+			}
 		}
 	}
 
@@ -166,7 +169,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void setExit(boolean e){
-		//exit = e;
+		exit = e;
 	}
 
 	/**
@@ -176,7 +179,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 
 	public void moveOut(int i, ArrayList<Location> a) {
-		if (a.get(i).getX() > 0) {
+		if (a.get(i).getX() > 0 && exit == true) {
 			a.get(i).setX(a.get(i).getX() - 5);
 			// ConveyorLines move backward this time.
 		} else if (a.get(i).getX() <= 0) {

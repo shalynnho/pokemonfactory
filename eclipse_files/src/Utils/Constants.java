@@ -213,6 +213,11 @@ public abstract class Constants {
 	public static final int LANE_BEG_X = 850, LANE_END_X = 640; // 850, 640
 
 	public static final int NEST_WIDTH = 75, NEST_HEIGHT = 70;
+	
+	//Trainers
+	public static final Image OAK_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "oak.png");
+	public static final Image JOY_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "nursejoy.png");
+	public static final Image GARY_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "gary.png");
 
 	// TARGET NAMES
 	// ==================================

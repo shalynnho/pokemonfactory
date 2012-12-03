@@ -1,6 +1,7 @@
 package manager;
 
 import java.net.URL;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import javax.sound.sampled.AudioInputStream;
@@ -51,6 +52,7 @@ public class FPMMusicAgent extends Agent {
 		startRecovery = false;
 		startMessageTone = false;
 		init();
+		this.startMusic();
 	}
 
 	// Load music
@@ -97,10 +99,6 @@ public class FPMMusicAgent extends Agent {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		if (music != null) {
-			music.loop(Clip.LOOP_CONTINUOUSLY);
-		}
 	}
 
 	/*
@@ -109,7 +107,6 @@ public class FPMMusicAgent extends Agent {
 	public void msgStartCompleted() {
 		startCompleted = true;
 		stateChanged();
-
 	}
 
 	public void msgStartPokeflute() {
@@ -136,18 +133,23 @@ public class FPMMusicAgent extends Agent {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		print("In my scheduler");
-		if (startFlute) {
+		if (!sfxActive()) {
+			stopSFX();
+			music.start();
+		}
+		if (startFlute && !sfxActive()) {
 			startFlute = false;
 			startPokeflute();
 			return true;
 		}
-		if (startCompleted) {
+
+		if (startCompleted && !sfxActive()) {
 			startCompleted = false;
 			startCompleted();
 			return true;
 		}
 
-		if (startRecovery) {
+		if (startRecovery && !sfxActive()) {
 			startRecovery = false;
 			startRecovery();
 			return true;
@@ -171,21 +173,25 @@ public class FPMMusicAgent extends Agent {
 		// stopRecovery();
 
 		if (music != null) {
-			if (!music.isRunning()) {
+			//if (!music.isActive() && !sfxActive()) {
 				music.loop(Clip.LOOP_CONTINUOUSLY);
-			}
+				//music.start);
+			//}
 		}
 		stateChanged();
 	}
 
 	public void stopSFX() {
 		pokeflute.stop();
+		pokeflute.flush();
 		completed.stop();
+		completed.flush();
 		recovery.stop();
+		recovery.flush();
 	}
 
-	public boolean sfxRunning() {
-		return pokeflute.isRunning() || completed.isRunning() || recovery.isRunning();
+	public boolean sfxActive() {
+		return pokeflute.isActive() || completed.isActive() || recovery.isActive();
 	}
 
 	public void startPokeflute() {
@@ -208,12 +214,18 @@ public class FPMMusicAgent extends Agent {
 			// pokeflute.stop();
 			pokeflute.setFramePosition(0);
 			pokeflute.start();
+			musicTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					startMusic();
+				}
+			}, 4224);
 
 			// while (pokeflute.isRunning()) {
 			// ;
 			// }
 			musicSem.release();
-			startMusic();
+			//startMusic();
 		}
 		stateChanged();
 	}
@@ -232,19 +244,21 @@ public class FPMMusicAgent extends Agent {
 			music.flush();
 			// stopPokeflute();
 			// stopCompleted();
-
 			System.out.println("plays recovery"); // !!! EXTREMELY IMPORTANT
 
 			stopSFX();
 			// recovery.stop();
 			recovery.setFramePosition(0);
 			recovery.start();
+			musicTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					startMusic();
+				}
+			}, 2000);
 
-			// while (recovery.isRunning()) {
-			// ;
-			// }
 			musicSem.release();
-			startMusic();
+			//startMusic();
 		}
 		stateChanged();
 	}
@@ -270,13 +284,15 @@ public class FPMMusicAgent extends Agent {
 			// completed.stop();
 			completed.setFramePosition(0);
 			completed.start();
-
-			// while (completed.isRunning()) {
-			// ;
-			// }
+			musicTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					startMusic();
+				}
+			}, 2000);
 			musicSem.release();
-			startMusic();
 			fpm.setConveyorExitTrue();
+			//startMusic();
 		}
 		stateChanged();
 	}

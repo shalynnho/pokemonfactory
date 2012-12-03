@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -46,10 +45,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	// Create a new timer
 	private Timer timer;
-	private final java.util.Timer musicTimer = new java.util.Timer();
-
-	// Background music - Goldenrod City
-	private Clip music, pokeflute, recovery, completed;
 
 	/**
 	 * Constructor
@@ -65,7 +60,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		initStreams();
 		initGUI();
 		initDevices();
-		initMusic();
 
 	}
 
@@ -118,15 +112,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	private void initMusic() {
 	}
 
-	@Override
 	public void startMusic() {
-		// stopCompleted();
-		// stopPokeflute();
-		// stopRecovery();
-
-		if (music != null) {
-			music.loop(Clip.LOOP_CONTINUOUSLY);
-		}
 	}
 
 	@Override
@@ -211,6 +197,9 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	public void paintComponent(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
+		g.drawImage(Constants.OAK_IMAGE, 20, 475, this);
+		g.drawImage(Constants.JOY_IMAGE, 300, 10, this);
+		g.drawImage(Constants.GARY_IMAGE, 1125, 550, this);
 
 		synchronized (devices) {
 			for (DeviceGraphicsDisplay device : devices.values()) {
