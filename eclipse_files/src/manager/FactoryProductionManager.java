@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -46,10 +45,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	// Create a new timer
 	private Timer timer;
-	private final java.util.Timer musicTimer = new java.util.Timer();
-
-	// Background music - Goldenrod City
-	private Clip music, pokeflute, recovery, completed;
 
 	/**
 	 * Constructor
@@ -65,7 +60,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		initStreams();
 		initGUI();
 		initDevices();
-		initMusic();
 
 	}
 
@@ -115,49 +109,14 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	}
 
-	private void initMusic() {
-	}
-
-	@Override
-	public void stopMusic() {
-		if (music.isRunning()) {
-			music.stop();
-		}
-	}
-
-	@Override
-	public void startMusic() {
-		// stopCompleted();
-		// stopPokeflute();
-		// stopRecovery();
-
-		if (music != null) {
-			music.loop(Clip.LOOP_CONTINUOUSLY);
-		}
-	}
-
 	@Override
 	public void startPokeflute() {
 		musicAgent.msgStartPokeflute();
 	}
 
 	@Override
-	public void stopPokeflute() {
-		if (pokeflute.isRunning()) {
-			pokeflute.stop();
-		}
-	}
-
-	@Override
 	public void startRecovery() {
 		musicAgent.msgStartRecovery();
-	}
-
-	@Override
-	public void stopRecovery() {
-		if (recovery.isRunning()) {
-			recovery.stop();
-		}
 	}
 
 	public void setConveyorExitTrue() {
@@ -166,12 +125,6 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	public void startCompleted() {
 		musicAgent.msgStartCompleted();
-	}
-
-	public void stopCompleted() {
-		if (completed.isRunning()) {
-			completed.stop();
-		}
 	}
 
 	/**
