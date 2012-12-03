@@ -21,7 +21,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	ArrayList<PartGraphics> partArray; // an array of parts that allocates memory for 4 parts
 	KitGraphics kit;
 	int kitPosition;
-	int i;
 	private final Server server;
 	private final PartsRobotAgent partsRobotAgent;
 
@@ -35,7 +34,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		arm3 = false;
 		arm4 = false;
 		partArray = new ArrayList<PartGraphics>();
-		i = 0;
 		server = s;
 	}
 
@@ -109,7 +107,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		} else if (!isFullArm4()) {
 			arm4 = true;
 		}
-		i++;
 	}
 
 	public void derotateArm() {
@@ -122,7 +119,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		} else if (isFullArm1()) {
 			arm1 = false;
 		}
-		i--;
 	}
 
 	// returns true if arm1 is full
