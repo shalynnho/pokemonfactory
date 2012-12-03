@@ -225,6 +225,10 @@ public class FCS {
 			setDropChance(chance);
 		} else if (req.getCommand().equals(Constants.FCS_STOP_LANE)) {
 			agent.msgBreakLane((Integer) req.getData());
+			displayMessage("Professor Oak: The lane broke!");
+		} else if(req.getClass().equals(Constants.MSGBOX_DISPLAY_MSG)) {
+			String s = (String) req.getData();
+			displayMessage(s);
 		}
 	}
 

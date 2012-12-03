@@ -147,6 +147,9 @@ public class LaneManager extends Client implements ActionListener {
 			addDevice(Constants.NEST_TARGET + i, new NestGraphicsDisplay(this,
 					i));
 		}
+		
+		addDevice(Constants.GANTRY_ROBOT_TARGET,
+				new GantryGraphicsDisplay(this));
 
 		for (int i = 0; i < Constants.FEEDER_COUNT; i++) {
 			addDevice(Constants.FEEDER_TARGET + i, new FeederGraphicsDisplay(
@@ -155,8 +158,6 @@ public class LaneManager extends Client implements ActionListener {
 
 		addDevice(Constants.CAMERA_TARGET, new CameraGraphicsDisplay(this));
 
-		addDevice(Constants.GANTRY_ROBOT_TARGET,
-				new GantryGraphicsDisplay(this));
 
 	}
 

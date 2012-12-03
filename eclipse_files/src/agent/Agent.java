@@ -69,7 +69,7 @@ public abstract class Agent {
 		// }
 
 		if (console != null) {
-			// console.sendMessage(getName(), msg);
+			console.sendMessage(getName(), msg);
 		}
 	}
 

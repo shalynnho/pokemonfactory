@@ -144,6 +144,9 @@ public class LaneGraphics implements GraphicsInterfaces.LaneGraphics,
 		} else if (cmd.equals(Constants.LANE_SET_JAM_COMMAND + Constants.DONE_SUFFIX)) {
 			jammed = false;
 			server.displayMessage("Professor Oak: Snorlax woke up!");
+		} else if (cmd.equals(Constants.MSGBOX_DISPLAY_MSG)) {
+			String s = (String) r.getData();
+			server.displayMessage(s);
 		}
 	}
 

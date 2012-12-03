@@ -48,7 +48,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	//private final FPMMusicAgent musicAgent;
 	// Background music - Goldenrod City
-	private Clip music, pokeflute, recovery, completed;
+	private Clip music, pokeflute, recovery, completed, messageTone;
 
 	// Create a new timer
 	private Timer timer;
@@ -120,6 +120,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		URL fluteURL = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");
 		URL recoveryURL = this.getClass().getClassLoader().getResource("audio/recovery.wav");
 		URL completedURL = this.getClass().getClassLoader().getResource("audio/item_get.wav");
+		URL messageToneURL = this.getClass().getClassLoader().getResource("audio/ping.wav");
 
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
@@ -150,6 +151,14 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(completedURL);
 			completed = AudioSystem.getClip();
 			completed.open(audioIn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(messageToneURL);
+			messageTone = AudioSystem.getClip();
+			messageTone.open(audioIn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -247,6 +256,11 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		if (completed.isRunning()) {
 			completed.stop();
 		}
+	}
+	
+	public void startMessageTone() {
+		messageTone.setFramePosition(0);
+		messageTone.start();
 	}
 
 
