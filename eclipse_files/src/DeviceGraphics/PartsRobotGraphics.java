@@ -58,26 +58,27 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		kit.addPart(part);
 		int index = kit.partsSize()-1;
 		Location partLocation;
+		int yOffset = 10;
 		if(index !=2 || index !=3 ||index !=6  || index!=7 )
 		{
 			if(i<4)
 			{
-				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23, kit.getLocation().getY()-48 );
+				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23, kit.getLocation().getY()-48 +yOffset);
 			}
 			else
 			{
-				partLocation = new Location(kit.getLocation().getX() +-29 + index%4*23, kit.getLocation().getY() -48 + 25);
+				partLocation = new Location(kit.getLocation().getX() +-29 + index%4*23, kit.getLocation().getY() -48 + 25+yOffset);
 			}
 		}
 		else 
 		{
 			if(i<4)
 			{
-				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23 + 20, kit.getLocation().getY()-48 );
+				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23 + 20, kit.getLocation().getY()-48 +yOffset);
 			}
 			else
 			{
-				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23 + 20, kit.getLocation().getY()-48 );
+				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23 + 20, kit.getLocation().getY()-48 +25 +yOffset);
 			}
 		}
 		
