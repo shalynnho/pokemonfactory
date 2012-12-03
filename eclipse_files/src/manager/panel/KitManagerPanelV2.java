@@ -51,11 +51,8 @@ public class KitManagerPanelV2 extends JPanel {
 	private JButton submitButton;
 
 	private KitManager manager;
-
 	private boolean isEditing;
 	private boolean isDeleting;
-	// Stores the selected kitConfig
-	private KitConfig selectedKit;
 
 	public KitManagerPanelV2(KitManager mngr) {
 		manager = mngr;
