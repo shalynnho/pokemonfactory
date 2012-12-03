@@ -15,7 +15,7 @@ import agent.Agent;
 public class FPMMusicAgent extends Agent {
 
 	// Background music - Goldenrod City
-	private Clip music, pokeflute, recovery, completed;
+	private Clip music, pokeflute, recovery, completed, messageTone;
 
 	private final Semaphore musicSem = new Semaphore(1, true);
 
@@ -27,10 +27,12 @@ public class FPMMusicAgent extends Agent {
 	URL fluteURL = this.getClass().getClassLoader().getResource("audio/pokeflute.wav");
 	URL recoveryURL = this.getClass().getClassLoader().getResource("audio/recovery.wav");
 	URL completedURL = this.getClass().getClassLoader().getResource("audio/item_get.wav");
+	URL messageToneURL = this.getClass().getClassLoader().getResource("audio/ping.wav");
 
 	private boolean startCompleted;
 	private boolean startFlute;
 	private boolean startRecovery;
+	private boolean startMessageTone;
 	// Create a new timer
 	private Timer timer;
 	private final java.util.Timer musicTimer = new java.util.Timer();
@@ -42,6 +44,7 @@ public class FPMMusicAgent extends Agent {
 		startCompleted = false;
 		startFlute = false;
 		startRecovery = false;
+		startMessageTone = false;
 		init();
 	}
 
@@ -81,6 +84,14 @@ public class FPMMusicAgent extends Agent {
 			e.printStackTrace();
 		}
 
+		try {
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(messageToneURL);
+			messageTone = AudioSystem.getClip();
+			messageTone.open(audioIn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		if (music != null) {
 			music.loop(Clip.LOOP_CONTINUOUSLY);
 		}
@@ -101,7 +112,11 @@ public class FPMMusicAgent extends Agent {
 	public void msgStartRecovery() {
 		startRecovery = true;
 		stateChanged();
+	}
 
+	public void msgStartMessageTone() {
+		startMessageTone = true;
+		stateChanged();
 	}
 
 	public void startMusic() {
@@ -213,6 +228,28 @@ public class FPMMusicAgent extends Agent {
 		stateChanged();
 	}
 
+	public void startMessageTone() {
+		print("Playing message tone");
+		if (messageTone != null) {
+			try {
+				musicSem.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("plays message tone"); // !!! EXTREMELY IMPORTANT
+
+			messageTone.setFramePosition(0);
+			messageTone.start();
+
+			// while (completed.isRunning()) {
+			// ;
+			// }
+			musicSem.release();
+		}
+		stateChanged();
+	}
+
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		print("In my scheduler");
@@ -230,6 +267,12 @@ public class FPMMusicAgent extends Agent {
 		if (startRecovery) {
 			startRecovery = false;
 			startRecovery();
+			return true;
+		}
+
+		if (startMessageTone) {
+			startMessageTone = false;
+			startMessageTone();
 			return true;
 		}
 		return false;
