@@ -152,6 +152,7 @@ public class FCS {
 				kitConfigs.set(i, kc);
 			}
 		}
+		updateKits();
 		displayMessage("Professor Oak: Kit edited - " + kc.getName());
 	}
 
@@ -162,6 +163,7 @@ public class FCS {
 				kitConfigs.remove(i);
 			}
 		}
+		updateKits();
 		displayMessage("Professor Oak: Kit deleted - " + kc.getName());
 	}
 
