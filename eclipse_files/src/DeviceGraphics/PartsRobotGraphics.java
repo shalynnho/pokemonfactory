@@ -21,7 +21,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	ArrayList<PartGraphics> partArray; // an array of parts that allocates memory for 4 parts
 	KitGraphics kit;
 	int kitPosition;
-	int i;
 	private final Server server;
 	private final PartsRobotAgent partsRobotAgent;
 
@@ -35,7 +34,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		arm3 = false;
 		arm4 = false;
 		partArray = new ArrayList<PartGraphics>();
-		i = 0;
 		server = s;
 	}
 
@@ -46,7 +44,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		rotateArm();
 
 		PartData pd = new PartData(pg.getLocation(), pg.getPartType(), arm);
-		// V0 hack
+		
 		Location tempLoc = new Location(550, 100);
 		// server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, tempLoc));
 		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
@@ -55,8 +53,37 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 	@Override
 	public void givePartToKit(PartGraphics part, KitGraphics kit, int arm) {
 
-		PartData pd = new PartData(kit.getLocation(), arm);
+		kit.addPart(part);
+		int index = kit.partsSize()-1;
+		Location partLocation;
+		int yOffset = 20;
+		int loweryOffset = 20;
+		if(index !=2 || index !=3 ||index !=6  || index!=7 )
+		{
+			if(index<4)
+			{
+				partLocation = new Location (kit.getLocation().getX() - 29 + index%4*23, kit.getLocation().getY()-48 +yOffset);
+			}
+			else
+			{
+				partLocation = new Location (kit.getLocation().getX() - 29 + index%4*23, kit.getLocation().getY() -48 + 25+loweryOffset);
+			}
+		}
+		else 
+		{
+			if(index<4)
+			{
+				partLocation = new Location (kit.getLocation().getX() - 29 + index%4*23 + 35, kit.getLocation().getY()-48 +yOffset);
+			}
+			else
+			{
+				partLocation = new Location (kit.getLocation().getX() - 29 + index%4*23 + 35, kit.getLocation().getY()-48 +25 +loweryOffset);
+			}
+		}
 		
+		
+		PartData pd = new PartData(partLocation, arm);
+
 		kitPosition = kit.getPosition();
 		server.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
 
@@ -80,7 +107,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		} else if (!isFullArm4()) {
 			arm4 = true;
 		}
-		i++;
 	}
 
 	public void derotateArm() {
@@ -93,7 +119,6 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		} else if (isFullArm1()) {
 			arm1 = false;
 		}
-		i--;
 	}
 
 	// returns true if arm1 is full

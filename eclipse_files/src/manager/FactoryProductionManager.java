@@ -109,6 +109,12 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	}
 
+	private void initMusic() {
+	}
+
+	public void startMusic() {
+	}
+
 	@Override
 	public void startPokeflute() {
 		musicAgent.msgStartPokeflute();
@@ -125,6 +131,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	public void startCompleted() {
 		musicAgent.msgStartCompleted();
+	}
+
+	public void startMessageTone() {
+		musicAgent.msgStartMessageTone();
 	}
 
 	/**

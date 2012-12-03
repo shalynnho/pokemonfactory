@@ -346,9 +346,14 @@ public class PartsManagerPanelV2 extends JPanel {
 		setUpLeftPanel();
 
 		leftTitle.setText("Deleting Part " + pt.getName());
+		nameField.setText(pt.getName());
 		nameField.setEnabled(false);
+		numField.setText(String.valueOf(pt.getPartNum()));
 		numField.setEnabled(false);
+		descField.setText(pt.getDescription());
 		descField.setEnabled(false);
+		badChanceScroller.setValue((int) (pt.getBadChance() * 100));
+		badChanceScroller.setEnabled(false);
 		imageClickablePanels.get(pt.getImagePath()).getHandler().mouseClicked();
 		submitButton.setText("Confirm Delete >");
 

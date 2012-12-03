@@ -12,9 +12,9 @@ import Utils.Location;
 
 public class MessagingBoxGraphicsDisplay extends DeviceGraphicsDisplay {
 	private static final int LINE_LENGTH = 53;
-
-	private Image image = Constants.MESSAGE_BOX_IMAGE.getScaledInstance(480, 80, Image.SCALE_DEFAULT);
-	private Image arrowImage = Constants.MESSAGE_BOX_ARROW_IMAGE.getScaledInstance(12, 8, Image.SCALE_DEFAULT);
+	private static final Image image = Constants.MESSAGE_BOX_IMAGE.getScaledInstance(480, 80, Image.SCALE_DEFAULT);
+	private static final Image arrowImage = Constants.MESSAGE_BOX_ARROW_IMAGE.getScaledInstance(12, 8,
+			Image.SCALE_DEFAULT);
 
 	private String msgToDisplay = "";
 	private int charsDisplayed = 0;
@@ -24,13 +24,13 @@ public class MessagingBoxGraphicsDisplay extends DeviceGraphicsDisplay {
 	public MessagingBoxGraphicsDisplay(Client c) {
 		client = c;
 		location = new Location(30, 580);
+		msgToDisplay = "Professor Oak: Welcome to Neetu's Pokemon Factory!";
 	}
 
 	@Override
 	public void draw(JComponent c, Graphics2D g) {
 		g.setFont(Client.pokeFont);
-		g.drawImage(image,
-				location.getX() + client.getOffset(), location.getY(), c);
+		g.drawImage(image, location.getX() + client.getOffset(), location.getY(), c);
 
 		if (charsDisplayed < Math.min(LINE_LENGTH * 2, msgToDisplay.length())) {
 			drawMessage(msgToDisplay.substring(0, charsDisplayed), c, g);
@@ -48,6 +48,7 @@ public class MessagingBoxGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.MSGBOX_DISPLAY_MSG)) {
+			client.startMessageTone();
 			msgToDisplay = (String) req.getData();
 			charsDisplayed = 0;
 		}
