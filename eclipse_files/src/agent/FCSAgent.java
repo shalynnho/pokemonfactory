@@ -34,13 +34,14 @@ public class FCSAgent extends Agent implements FCS {
 			.synchronizedList(new ArrayList<Order>());
 	private int numOrdersFinished = 0;
 	private Camera camera;
+	private int partTypeCount = 0;
 
 	private factory.FCS fcs;
 
 	private final String name;
 
 	private boolean binsSet;
-	private final ArrayList<PartType> binsToAdd;
+	private ArrayList<PartType> binsToAdd;
 
 	public enum myState {
 		PENDING, STARTED, LOADED
@@ -153,7 +154,7 @@ public class FCSAgent extends Agent implements FCS {
 				initializeBins();
 				return true;
 			}
-			if (binsToAdd.size() > 0 && gantry != null) {
+			if (binsToAdd.size() > partTypeCount && gantry != null) {
 				addBin();
 				return true;
 			}
@@ -250,16 +251,9 @@ public class FCSAgent extends Agent implements FCS {
 	}
 
 	public void addBin() {
-		if(binsToAdd.size()>1) {
-			for (int i = binsToAdd.size() - 1; i >= 0; i--) {
-				gantry.msgHereIsBin(new Bin(binsToAdd.get(i),
-						Constants.DEFAULT_PARTTYPES.size() - i));
-				binsToAdd.remove(i);
-			}
-		} else {
-			gantry.msgHereIsBin(new Bin(binsToAdd.get(0),Constants.DEFAULT_PARTTYPES.size()));
-			binsToAdd.remove(0);
-		}
+		gantry.msgHereIsBin(new Bin(binsToAdd.get(partTypeCount), partTypeCount+Constants.DEFAULT_PARTTYPES.size()));
+		partTypeCount= partTypeCount + 1;
+		//binsToAdd.remove(0);
 		stateChanged();
 	}
 
