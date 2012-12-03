@@ -1,6 +1,7 @@
 package manager.panel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,7 +65,7 @@ public class KitsListPanel extends ListPanel<KitConfig> {
 			add(panel);
 			
 			WhiteLabel nameLabel = new WhiteLabel(kc.getName());
-			nameLabel.setLabelSize(itemWidth, itemHeight);
+			nameLabel.setLabelSize(itemWidth-80, itemHeight);
 			panel.add(nameLabel);
 			
 			if (buttonText != null) {
