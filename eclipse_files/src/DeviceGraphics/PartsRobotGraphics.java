@@ -58,8 +58,8 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		kit.addPart(part);
 		int index = kit.partsSize()-1;
 		Location partLocation;
-		int yOffset = 60;
-		int loweryOffset = 60;
+		int yOffset = 20;
+		int loweryOffset = 20;
 		if(index !=2 || index !=3 ||index !=6  || index!=7 )
 		{
 			if(index<4)
