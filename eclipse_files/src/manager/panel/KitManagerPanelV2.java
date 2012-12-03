@@ -51,11 +51,8 @@ public class KitManagerPanelV2 extends JPanel {
 	private JButton submitButton;
 
 	private KitManager manager;
-
 	private boolean isEditing;
 	private boolean isDeleting;
-	// Stores the selected kitConfig
-	private KitConfig selectedKit;
 
 	public KitManagerPanelV2(KitManager mngr) {
 		manager = mngr;
@@ -253,7 +250,6 @@ public class KitManagerPanelV2 extends JPanel {
 	 *            ArrayList of current KitConfigs
 	 */
 	public void updateKitConfig(ArrayList<KitConfig> kc) {
-		// TODO: Why does this prevent KitManager from displaying?
 		kitsPanel.updateList(kc);
 		kitsjsp.validate();
 	}
@@ -365,8 +361,7 @@ public class KitManagerPanelV2 extends JPanel {
 	}
 
 	/**
-	 * Removes all action listeners from a button. TODO consider moving this
-	 * out, or starting own JButton subclass.
+	 * Removes all action listeners from a button. 
 	 */
 	public void removeAllActionListener(JButton button) {
 		for (ActionListener al : button.getActionListeners()) {

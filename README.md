@@ -28,4 +28,6 @@ To run our application, **start Networking/Server** first, and then run our mana
 * manager.LaneManager
 * manager.GantryRobotManager
 
-**Read the V1 Submission Notes**
+** Make sure all managers are started before starting operations**
+
+**Read the V2 Submission Notes**
