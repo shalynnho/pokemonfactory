@@ -187,8 +187,10 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		animateKitRobot = true;
 		if (initialJob) {
 			moveToPosition = moveToInitialPosition;
+			invisibleCloud = false;
 		} else if (finalJob) {
 			moveToPosition = moveToFinalPosition;
+			invisibleCloud = true;
 		} else if (returnJob) {
 			moveToPosition = Command.moveToConveyor;
 		}
@@ -364,7 +366,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 		}
 		currentKit.setRemoveTimer(10);
 		currentKit.beginRemoval();
-		invisibleCloud = true;
 		animateKitRobot = false;
 
 	}
@@ -476,8 +477,6 @@ public class KitRobotGraphicsDisplay extends DeviceGraphicsDisplay {
 				kits.add(currentKit);
 				InspectionToLocation2();
 			}
-
-			invisibleCloud = false;
 
 		}
 

@@ -229,6 +229,10 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 					currentLocation.incrementY(1);
 					updateArmLoc(currentLocation);
 					updatePartLoc(armLoc);
+				} else if (currentLocation.getY() > 450) {
+					currentLocation.incrementY(-1);
+					updateArmLoc(currentLocation);
+					updatePartLoc(armLoc);
 				} else if (currentLocation.getX() > 250) {
 					currentLocation.incrementX(-1);
 					updateArmLoc(currentLocation);
