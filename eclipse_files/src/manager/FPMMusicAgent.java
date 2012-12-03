@@ -12,6 +12,11 @@ import javax.swing.Timer;
 import DeviceGraphics.DeviceGraphics;
 import agent.Agent;
 
+/**
+ * Handles the music and sound effects for the Factory Production Manager.
+ * 
+ * @author Daniel Paje
+ */
 public class FPMMusicAgent extends Agent {
 
 	// Background music - Goldenrod City
@@ -48,6 +53,7 @@ public class FPMMusicAgent extends Agent {
 		init();
 	}
 
+	// Load music
 	public void init() {
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
@@ -97,6 +103,9 @@ public class FPMMusicAgent extends Agent {
 		}
 	}
 
+	/*
+	 * Message reception
+	 */
 	public void msgStartCompleted() {
 		startCompleted = true;
 		stateChanged();
@@ -119,6 +128,42 @@ public class FPMMusicAgent extends Agent {
 		stateChanged();
 	}
 
+	/*
+	 * Scheduler (non-Javadoc)
+	 * 
+	 * @see agent.Agent#pickAndExecuteAnAction()
+	 */
+	@Override
+	public boolean pickAndExecuteAnAction() {
+		print("In my scheduler");
+		if (startFlute) {
+			startFlute = false;
+			startPokeflute();
+			return true;
+		}
+		if (startCompleted) {
+			startCompleted = false;
+			startCompleted();
+			return true;
+		}
+
+		if (startRecovery) {
+			startRecovery = false;
+			startRecovery();
+			return true;
+		}
+
+		if (startMessageTone) {
+			startMessageTone = false;
+			startMessageTone();
+			return true;
+		}
+		return false;
+	}
+
+	/*
+	 * Actions
+	 */
 	public void startMusic() {
 		print("Playing music");
 		// stopCompleted();
@@ -139,6 +184,10 @@ public class FPMMusicAgent extends Agent {
 		recovery.stop();
 	}
 
+	public boolean sfxRunning() {
+		return pokeflute.isRunning() || completed.isRunning() || recovery.isRunning();
+	}
+
 	public void startPokeflute() {
 		print("Playing pokeflute");
 		if (pokeflute != null) {
@@ -149,6 +198,7 @@ public class FPMMusicAgent extends Agent {
 				e.printStackTrace();
 			}
 			music.stop();
+			music.flush();
 			// stopCompleted();
 			// stopRecovery();
 
@@ -177,7 +227,9 @@ public class FPMMusicAgent extends Agent {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 			music.stop();
+			music.flush();
 			// stopPokeflute();
 			// stopCompleted();
 
@@ -208,6 +260,7 @@ public class FPMMusicAgent extends Agent {
 			}
 
 			music.stop();
+			music.flush();
 			// stopPokeflute();
 			// stopRecovery();
 
@@ -248,34 +301,6 @@ public class FPMMusicAgent extends Agent {
 			musicSem.release();
 		}
 		stateChanged();
-	}
-
-	@Override
-	public boolean pickAndExecuteAnAction() {
-		print("In my scheduler");
-		if (startFlute) {
-			startFlute = false;
-			startPokeflute();
-			return true;
-		}
-		if (startCompleted) {
-			startCompleted = false;
-			startCompleted();
-			return true;
-		}
-
-		if (startRecovery) {
-			startRecovery = false;
-			startRecovery();
-			return true;
-		}
-
-		if (startMessageTone) {
-			startMessageTone = false;
-			startMessageTone();
-			return true;
-		}
-		return false;
 	}
 
 	@Override
