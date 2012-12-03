@@ -42,7 +42,6 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 		locationGood = Constants.CONVEYOR_LOC; // location for exit lane, based
 		exitKit = new KitGraphicsDisplay(); // off of input lane
 		client = cli;
-		exit = false;
 		conveyorLines = new ArrayList<Location>();
 		conveyorLinesGood = new ArrayList<Location>();
 
@@ -116,12 +115,14 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 
 		for (int j = 0; j < kitsOnConveyor.size(); j++) {
 			if (kitsOnConveyor.get(j).getLocation().getX() < 10 - j * 138) {
+				velocity = 1;
 				KitGraphicsDisplay tempKit = kitsOnConveyor.get(j);
 				tempKit.drawWithOffset(c, g2, client.getOffset());
 				Location tempLoc = tempKit.getLocation();
 				tempKit.setLocation(new Location(tempLoc.getX() + velocity, tempLoc.getY()));
 			} else if (kitsOnConveyor.get(j).getLocation().getX() >= 10 - j * 138) {
 				kitsOnConveyor.get(j).drawWithOffset(c, g2, client.getOffset());
+				velocity = 0;
 				if (kitComingIn == true) {
 					kitComingIn = false;
 					incomingState = IncomingStatus.KIT_WAITING;
@@ -141,9 +142,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 						Constants.CONVEYOR_TARGET, null));
 				sendOut();
 			}
-			if (exit == true){
 				tempKit.setLocation(new Location(tempLoc.getX() - 5, 100));
-			}
 		}
 	}
 
@@ -167,7 +166,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	}
 	
 	public void setExit(boolean e){
-		exit = e;
+		//exit = e;
 	}
 
 	/**
@@ -177,7 +176,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 	 */
 
 	public void moveOut(int i, ArrayList<Location> a) {
-		if (a.get(i).getX() > 0 && exit == true) {
+		if (a.get(i).getX() > 0) {
 			a.get(i).setX(a.get(i).getX() - 5);
 			// ConveyorLines move backward this time.
 		} else if (a.get(i).getX() <= 0) {
