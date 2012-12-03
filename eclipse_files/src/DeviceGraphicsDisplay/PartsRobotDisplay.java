@@ -170,18 +170,18 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 						currentLocation.incrementX(1);
 						updateArmLoc(currentLocation);
 						updatePartLoc(armLoc);
-				} else if (currentLocation.getY()+arm*30-20 > kitloc.getY()) {
+				} else if (currentLocation.getY()+arm*30 > kitloc.getY()) {
 					currentLocation.incrementY(-1);
 					updateArmLoc(currentLocation);
 					updatePartLoc(armLoc);
-				} else if (currentLocation.getY()+arm*30-20 < kitloc.getY()) {
+				} else if (currentLocation.getY()+arm*30 < kitloc.getY()) {
 					currentLocation.incrementY(1);
 					updateArmLoc(currentLocation);
 					updatePartLoc(armLoc);
 				}
 			}
 		
-			if (currentLocation.getX() == kitloc.getX() - 60 && currentLocation.getY()+arm*30-20 == kitloc.getY()) {
+			if (currentLocation.getX() == kitloc.getX() - 60 && currentLocation.getY()+arm*30 == kitloc.getY()) {
 				
 				/*if (partArrayGraphics.isEmpty() && !gavepart) {
 					for (int i = 0; i < 5; i++) {
