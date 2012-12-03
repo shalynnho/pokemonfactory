@@ -374,7 +374,7 @@ public class PartsManagerPanelV2 extends JPanel {
 
 		rightPanel.restoreColors();
 
-		validate();
+		revalidate();
 	}
 
 	@Override
