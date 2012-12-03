@@ -31,19 +31,13 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 	private int droparm;
 	private PartType ptdrop;
 	
-	private int II;
-	private boolean move;
-	
-	private boolean rotate;
 	private boolean home;
 	private boolean pickup, givekit;
 	private boolean gotpart;
-	private final boolean sendmsg;
 	private boolean gavepart;
 
 	private final ArrayList<Location> partStartLoc;
 	private final ArrayList<Location> armLoc;
-	private int I;
 
 	public PartsRobotDisplay(Client prc) {
 		client = prc;
@@ -63,7 +57,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		
 		
 
-		rotate = false;
+		
 		home = true;
 		pickup = false;
 		givekit = false;
@@ -87,12 +81,7 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		armLoc.add(new Location(armLocation.getX(), armLocation.getY() + 60));
 		armLoc.add(new Location(armLocation.getX(), armLocation.getY() + 90));
 		
-
-		I = 0;
-		II = 0;
-		move = false;
 		gotpart = false;
-		sendmsg = false;
 		gavepart = false;
 	}
 
@@ -143,7 +132,6 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 						}
 						if (armLoc.get(arm).getX() == loc.getX() - 60) {
 							pickup = false;
-							I++;
 							client.sendData(new Request(Constants.PARTS_ROBOT_RECEIVE_PART_COMMAND
 									+ Constants.DONE_SUFFIX, Constants.PARTS_ROBOT_TARGET, null));
 						}
@@ -219,13 +207,6 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 						
 						if (armLoc.get(arm).getX() == kitloc.getX() - 60) {
 						
-							I--;
-							if (arm == 3)
-								move = !move;
-							if (move)
-								II = 1;
-							if (!move)
-								II = 0;
 							client.sendData(new Request(Constants.PARTS_ROBOT_GIVE_COMMAND + Constants.DONE_SUFFIX,
 									Constants.PARTS_ROBOT_TARGET, tempPartType));
 							gavepart = false;
@@ -371,14 +352,6 @@ public class PartsRobotDisplay extends DeviceGraphicsDisplay {
 		armLoc.get(arm).incrementX(-1);
 		partStartLoc.get(arm).setX(armLoc.get(arm).getX() + 20);
 
-	}
-
-	public void rotateArm() {
-		rotate = true;
-	}
-
-	public boolean getRotate() {
-		return rotate;
 	}
 
 	@Override
