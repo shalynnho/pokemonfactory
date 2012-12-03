@@ -88,7 +88,7 @@ public abstract class Constants {
 	public static final Location FEEDER_LOC = new Location(850, 45);
 	public static final int FEEDER_Y_STEP = 150;
 
-	public static final Location KIT_ROBOT_LOC = new Location(180, 192.5);
+	public static final Location KIT_ROBOT_LOC = new Location(25, 300);
 	public static final Location KIT_ROBOT_ROTATION_AXIS_LOC = new Location(
 			112.5, 37.5);
 	public static final Location KIT_ROBOT_KIT_LOC = new Location(0, 200);

@@ -213,7 +213,7 @@ public class ConveyorGraphicsDisplay extends DeviceGraphicsDisplay {
 			newExitKit();
 		} else if (command.equals(Constants.KIT_ROBOT_PASSES_KIT_COMMAND)) {
 			exitKit = new KitGraphicsDisplay((KitConfig) object);
-			exitKit.setLocation(new Location(0, 80));
+			exitKit.setLocation(new Location(0, 100));
 		}
 	}
 

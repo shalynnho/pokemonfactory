@@ -192,7 +192,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	/**
 	 * This function handles painting of graphics
-	 */
+	 */ 
 	@Override
 	public void paintComponent(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
