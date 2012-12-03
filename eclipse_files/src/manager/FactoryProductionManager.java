@@ -211,6 +211,9 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	public void paintComponent(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
 		g.drawImage(Constants.CLIENT_BG_IMAGE, 0, 0, this);
+		g.drawImage(Constants.OAK_IMAGE, 20, 475, this);
+		g.drawImage(Constants.JOY_IMAGE, 300, 10, this);
+		g.drawImage(Constants.GARY_IMAGE, 1125, 550, this);
 
 		synchronized (devices) {
 			for (DeviceGraphicsDisplay device : devices.values()) {
