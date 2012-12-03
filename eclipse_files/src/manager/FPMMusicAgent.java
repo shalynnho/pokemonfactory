@@ -291,7 +291,7 @@ public class FPMMusicAgent extends Agent {
 				}
 			}, 2000);
 			musicSem.release();
-			fpm.setConveyorExitTrue();
+//			fpm.setConveyorExitTrue();
 			//startMusic();
 		}
 		stateChanged();
