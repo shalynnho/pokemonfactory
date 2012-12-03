@@ -55,18 +55,17 @@ public class KitGraphics implements DeviceGraphics {
 	public void addPart(PartGraphics newPart) {
 		// TODO: add logic to determine status of kitConfig based on part added
 		// or will this be handled somewhere else?
+		if(parts.size()<8)
+		{
+			parts.add(newPart);
 
-		parts.add(newPart);
-
-		if (parts.size() % 2 == 1) {
-			newPart.setLocation(new Location(kitLocation.getX() + 5, kitLocation.getY() + 20 * (parts.size() - 1) / 2));
-		} else {
-			newPart.setLocation(new Location(kitLocation.getX() + 34, kitLocation.getY() + 20 * (parts.size() - 2) / 2));
+			if (parts.size() % 2 == 1) {
+				newPart.setLocation(new Location(kitLocation.getX() + 5, kitLocation.getY() + 20 * (parts.size() - 1) / 2));
+			} else {
+				newPart.setLocation(new Location(kitLocation.getX() + 34, kitLocation.getY() + 20 * (parts.size() - 2) / 2));
+			}
 		}
 
-		if (parts.size() == 8) {
-			parts.clear();
-		}
 	}
 
 	public void setLocation(Location newLocation) {
