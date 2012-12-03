@@ -46,7 +46,7 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		rotateArm();
 
 		PartData pd = new PartData(pg.getLocation(), pg.getPartType(), arm);
-		// V0 hack
+		
 		Location tempLoc = new Location(550, 100);
 		// server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, tempLoc));
 		server.sendData(new Request(Constants.PARTS_ROBOT_PICKUP_COMMAND, Constants.PARTS_ROBOT_TARGET, pd));
@@ -58,27 +58,28 @@ public class PartsRobotGraphics implements GraphicsInterfaces.PartsRobotGraphics
 		kit.addPart(part);
 		int index = kit.partsSize()-1;
 		Location partLocation;
-		int yOffset = 10;
+		int yOffset = 0;
+		int loweryOffset = 20;
 		if(index !=2 || index !=3 ||index !=6  || index!=7 )
 		{
-			if(i<4)
+			if(index<4)
 			{
 				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23, kit.getLocation().getY()-48 +yOffset);
 			}
 			else
 			{
-				partLocation = new Location(kit.getLocation().getX() +-29 + index%4*23, kit.getLocation().getY() -48 + 25+yOffset);
+				partLocation = new Location (kit.getLocation().getX() +-29 + index%4*23, kit.getLocation().getY() -48 + 25+loweryOffset);
 			}
 		}
 		else 
 		{
-			if(i<4)
+			if(index<4)
 			{
 				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23 + 20, kit.getLocation().getY()-48 +yOffset);
 			}
 			else
 			{
-				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23 + 20, kit.getLocation().getY()-48 +25 +yOffset);
+				partLocation = new Location (kit.getLocation().getX() + 29 + index%4*23 + 20, kit.getLocation().getY()-48 +25 +loweryOffset);
 			}
 		}
 		
