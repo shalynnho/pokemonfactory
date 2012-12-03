@@ -56,18 +56,15 @@ public class FCS {
 	}
 
 	public void shippedKit() {
-		displayMessage("Kit Completed");
 		server.sendData(new Request(Constants.FCS_SHIPPED_KIT, Constants.ALL_TARGET, null));
-		
+
 		if (queue.get(0) != null) {
 			if (queue.get(0).getNumKits() > 0) {
-				displayMessage("Professor Oak: Kit Completed!");
+				// displayMessage("Professor Oak: Kit Completed!");
 			} else {
-				displayMessage("Professor Oak: Order Completed!");
+				displayMessage("Professor Oak: You've completed an order!");
 			}
 		}
-
-		server.sendData(new Request(Constants.FCS_SHIPPED_KIT, Constants.ALL_TARGET, null));
 	}
 
 	public void displayMessage(String s) {
@@ -95,6 +92,7 @@ public class FCS {
 	public boolean newPart(PartType pt) {
 		for (PartType p : partTypes) {
 			if (p.getName().equals(pt.getName())) {
+				displayMessage("Professor Oak: Professor Oak: Part \"" + pt.getName() + "\" already exists!");
 				return false;
 			}
 		}
@@ -137,6 +135,7 @@ public class FCS {
 	public boolean newKit(KitConfig kc) {
 		for (KitConfig p : kitConfigs) {
 			if (p.getName().equals(kc.getName())) {
+				displayMessage("Professor Oak: Professor Oak: Kit \"" + kc.getName() + "\" already exists!");
 				return false;
 			}
 		}
@@ -154,6 +153,7 @@ public class FCS {
 				kitConfigs.set(i, kc);
 			}
 		}
+		updateKits();
 		displayMessage("Professor Oak: Kit edited - " + kc.getName());
 	}
 
@@ -164,6 +164,7 @@ public class FCS {
 				kitConfigs.remove(i);
 			}
 		}
+		updateKits();
 		displayMessage("Professor Oak: Kit deleted - " + kc.getName());
 	}
 
@@ -188,7 +189,7 @@ public class FCS {
 	public void setDropChance(Float c) {
 		// TODO Make a slider/button for this
 		agent.msgSetPartsRobotDropChance(c);
-		displayMessage("Professor Oak: Parts Robot drop rate set to " + c * 100 + "%");
+		displayMessage("Professor Oak: Parts Robot's drop rate set to " + c * 100 + "%");
 	}
 
 	public void receiveData(Request req) {

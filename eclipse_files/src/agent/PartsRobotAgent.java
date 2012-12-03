@@ -23,7 +23,7 @@ import factory.PartType;
 /**
  * Parts robot picks parts from nests and places them in kits
  * 
- * @author Ross Newman, Michael Gendotti, Daniel Paje
+ * @author Michael Gendotti, Daniel Paje, Ross Newman
  */
 public class PartsRobotAgent extends Agent implements PartsRobot {
 
@@ -322,7 +322,6 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 						DropPart(arm);
 					}
 					if (partsRobotGraphics != null) {
-						// DropPart(arm);
 						partsRobotGraphics.givePartToKit(arm.part.partGraphics, mk.kit.kitGraphics, Arms.indexOf(arm));
 						try {
 							// print("Blocking");
