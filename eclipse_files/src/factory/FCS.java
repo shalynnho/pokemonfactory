@@ -92,6 +92,7 @@ public class FCS {
 	public boolean newPart(PartType pt) {
 		for (PartType p : partTypes) {
 			if (p.getName().equals(pt.getName())) {
+				displayMessage("Professor Oak: Professor Oak: Part \"" + pt.getName() + "\" already exists!");
 				return false;
 			}
 		}
@@ -134,6 +135,7 @@ public class FCS {
 	public boolean newKit(KitConfig kc) {
 		for (KitConfig p : kitConfigs) {
 			if (p.getName().equals(kc.getName())) {
+				displayMessage("Professor Oak: Professor Oak: Kit \"" + kc.getName() + "\" already exists!");
 				return false;
 			}
 		}
