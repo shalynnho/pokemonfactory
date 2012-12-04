@@ -30,8 +30,7 @@ public abstract class Constants {
 
 	public static final int TIMER_DELAY = 16; // 50
 
-	public static final Image CLIENT_BG_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "bg.jpg");
+	public static final Image CLIENT_BG_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "bg.jpg");
 
 	// DEVICE SETTINGS
 	// ==================================
@@ -41,46 +40,33 @@ public abstract class Constants {
 	public static final int NEST_COUNT = 8;
 	public static final int STAND_COUNT = 3;
 
-	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(
-			Arrays.asList(new PartType("1", 1, "Charmander"), new PartType("2",
-					2, "Bulbasaur"), new PartType("3", 3, "Squirtle"),
-					new PartType("4", 4, "Pikachu"), new PartType("5", 5,
-							"Sandshrew"), new PartType("6", 6, "Eevee"),
-					new PartType("7", 7, "Dratini"), new PartType("8", 8,
-							"Ghastly"), new PartType("9", 9, "Caterpie"),
-					new PartType("10", 10, "Mew")));
+	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(Arrays.asList(new PartType("1",
+			1, "Charmander"), new PartType("2", 2, "Bulbasaur"), new PartType("3", 3, "Squirtle"), new PartType("4", 4,
+			"Pikachu"), new PartType("5", 5, "Sandshrew"), new PartType("6", 6, "Eevee"), new PartType("7", 7,
+			"Dratini"), new PartType("8", 8, "Ghastly"), new PartType("9", 9, "Caterpie"),
+			new PartType("10", 10, "Mew")));
 
-	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
-			Arrays.asList(
+	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(Arrays.asList(
 
-			new KitConfig("2 Type Belt", DEFAULT_PARTTYPES.get(4),
-					DEFAULT_PARTTYPES.get(9)),
+	new KitConfig("2-TYPE BELT", DEFAULT_PARTTYPES.get(4), DEFAULT_PARTTYPES.get(9)),
 
-			new KitConfig("Starter Pokemon", DEFAULT_PARTTYPES.get(0),
-					DEFAULT_PARTTYPES.get(1), DEFAULT_PARTTYPES.get(2),
-					DEFAULT_PARTTYPES.get(3)),
+	new KitConfig("STARTER BELT", DEFAULT_PARTTYPES.get(0), DEFAULT_PARTTYPES.get(1), DEFAULT_PARTTYPES.get(2),
+			DEFAULT_PARTTYPES.get(3)),
 
-			new KitConfig("Half Belt", DEFAULT_PARTTYPES.get(6),
-					DEFAULT_PARTTYPES.get(7), DEFAULT_PARTTYPES.get(8),
-					DEFAULT_PARTTYPES.get(5)),
+	new KitConfig("HALF BELT", DEFAULT_PARTTYPES.get(6), DEFAULT_PARTTYPES.get(7), DEFAULT_PARTTYPES.get(8),
+			DEFAULT_PARTTYPES.get(5)),
 
-			new KitConfig("Full Belt", DEFAULT_PARTTYPES.get(0),
-					DEFAULT_PARTTYPES.get(2), DEFAULT_PARTTYPES.get(4),
-					DEFAULT_PARTTYPES.get(6), DEFAULT_PARTTYPES.get(8),
-					DEFAULT_PARTTYPES.get(7), DEFAULT_PARTTYPES.get(3),
-					DEFAULT_PARTTYPES.get(5)),
+	new KitConfig("FULL BELT A", DEFAULT_PARTTYPES.get(0), DEFAULT_PARTTYPES.get(2), DEFAULT_PARTTYPES.get(4),
+			DEFAULT_PARTTYPES.get(6), DEFAULT_PARTTYPES.get(8), DEFAULT_PARTTYPES.get(7), DEFAULT_PARTTYPES.get(3),
+			DEFAULT_PARTTYPES.get(5)),
 
-			new KitConfig("Full Belt 2", DEFAULT_PARTTYPES.get(1),
-					DEFAULT_PARTTYPES.get(3), DEFAULT_PARTTYPES.get(5),
-					DEFAULT_PARTTYPES.get(7), DEFAULT_PARTTYPES.get(9),
-					DEFAULT_PARTTYPES.get(8), DEFAULT_PARTTYPES.get(2),
-					DEFAULT_PARTTYPES.get(4))));
+	new KitConfig("FULL BELT B", DEFAULT_PARTTYPES.get(1), DEFAULT_PARTTYPES.get(3), DEFAULT_PARTTYPES.get(5),
+			DEFAULT_PARTTYPES.get(7), DEFAULT_PARTTYPES.get(9), DEFAULT_PARTTYPES.get(8), DEFAULT_PARTTYPES.get(2),
+			DEFAULT_PARTTYPES.get(4))));
 
-	public static final ArrayList<String> DEFAULT_IMAGEPATHS = new ArrayList<String>(
-			Arrays.asList(new String("1"), new String("2"), new String("3"),
-					new String("4"), new String("5"), new String("6"),
-					new String("7"), new String("8"), new String("9"),
-					new String("10"), new String("ditto")));
+	public static final ArrayList<String> DEFAULT_IMAGEPATHS = new ArrayList<String>(Arrays.asList(new String("1"),
+			new String("2"), new String("3"), new String("4"), new String("5"), new String("6"), new String("7"),
+			new String("8"), new String("9"), new String("10"), new String("ditto")));
 
 	// DEVICE START LOCATIONS
 	// ==================================
@@ -89,11 +75,9 @@ public abstract class Constants {
 	public static final int FEEDER_Y_STEP = 150;
 
 	public static final Location KIT_ROBOT_LOC = new Location(25, 300);
-	public static final Location KIT_ROBOT_ROTATION_AXIS_LOC = new Location(
-			112.5, 37.5);
+	public static final Location KIT_ROBOT_ROTATION_AXIS_LOC = new Location(112.5, 37.5);
 	public static final Location KIT_ROBOT_KIT_LOC = new Location(0, 200);
-	public static final Location KIT_ROBOT_KIT_ROTATION_AXIS_LOC = new Location(
-			180, 40);
+	public static final Location KIT_ROBOT_KIT_ROTATION_AXIS_LOC = new Location(180, 40);
 	public static final Location CONVEYOR_LOC = new Location(0, 80); // 185
 	public static final Location KIT_LOC = new Location(0, 200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250, 450);
@@ -115,73 +99,57 @@ public abstract class Constants {
 	// ==================================
 
 	// Feeder Images
-	public static final Image FEEDER_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "Feeder.png");
-	public static final Image FEEDER_BLUE_LED = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "LED_blue.png");
-	public static final Image FEEDER_RED_LED = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "LED_red.png");
+	public static final Image FEEDER_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Feeder.png");
+	public static final Image FEEDER_BLUE_LED = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "LED_blue.png");
+	public static final Image FEEDER_RED_LED = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "LED_red.png");
 
 	// Lane Images
-	public static final Image LANE_IMAGE1 = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "lane_1.png");
-	public static final Image LANE_IMAGE2 = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "lane_2.png");
-	public static final Image LANE_LINE = Toolkit.getDefaultToolkit().getImage(
-			IMAGE_PATH + "lane_belt.png");
-	public static final Image SNORLAX = Toolkit.getDefaultToolkit().getImage(
-			IMAGE_PATH + "snorlax.png");
-	public static final Image POKEFLUTE = Toolkit.getDefaultToolkit().getImage(
-			IMAGE_PATH + "pokeflute.png");
-	public static final Image PART_PUSHER = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "Square.jpg");	// TODO change this
+	public static final Image LANE_IMAGE1 = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "lane_1.png");
+	public static final Image LANE_IMAGE2 = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "lane_2.png");
+	public static final Image LANE_LINE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "lane_belt.png");
+	public static final Image SNORLAX = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "snorlax.png");
+	public static final Image POKEFLUTE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "pokeflute.png");
+	public static final Image PART_PUSHER = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Square.jpg"); // TODO
+																											 // change
+																											 // this
 
 	// Conveyor Images
-	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "conveyor_1.png");
-	public static final Image CONVEYOR_LINES_IMAGE = Toolkit
-			.getDefaultToolkit().getImage(IMAGE_PATH + "conveyor_belt.png");
-	public static final Image TEST_CONVEYOR_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "TestConveyor.png");
-	public static final Image TEST_CONVEYOR_LINE_IMAGE = Toolkit
-			.getDefaultToolkit().getImage(IMAGE_PATH + "TestConveyorLine.png");
+	public static final Image CONVEYOR_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "conveyor_1.png");
+	public static final Image CONVEYOR_LINES_IMAGE = Toolkit.getDefaultToolkit().getImage(
+			IMAGE_PATH + "conveyor_belt.png");
+	public static final Image TEST_CONVEYOR_IMAGE = Toolkit.getDefaultToolkit().getImage(
+			IMAGE_PATH + "TestConveyor.png");
+	public static final Image TEST_CONVEYOR_LINE_IMAGE = Toolkit.getDefaultToolkit().getImage(
+			IMAGE_PATH + "TestConveyorLine.png");
 
 	// Kit Robot Images
 	public static final String KIT_ROBOT_IMAGE = IMAGE_PATH + "kit_robot_";
-	//changed this "kit_robot.png"
-	public static final Image KIT_ROBOT_IMAGE_FLICKER = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "kit_robot_flicker.png");
+	// changed this "kit_robot.png"
+	public static final Image KIT_ROBOT_IMAGE_FLICKER = Toolkit.getDefaultToolkit().getImage(
+			IMAGE_PATH + "kit_robot_flicker.png");
 
 	// Gantry Robot Image
-	public static final Image GANTRY_ROBOT_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "gantry_temp.png");
+	public static final Image GANTRY_ROBOT_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "gantry_temp.png");
 
 	// Kit Images
-	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage(
-			IMAGE_PATH + "Kit.png");
-	public static final Image KIT_DONE_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "kit_done.png");
-	public static final Image KIT_CLOUD_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "cloud.png");
+	public static final Image KIT_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Kit.png");
+	public static final Image KIT_DONE_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "kit_done.png");
+	public static final Image KIT_CLOUD_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "cloud.png");
 
 	// Nest Images
-	public static final Image ORANGE_NEST_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "orange_nest.png");
-	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "Nest.png");
+	public static final Image ORANGE_NEST_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "orange_nest.png");
+	public static final Image NEST_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Nest.png");
 
 	// Camera Images
-	public static final Image CAMERA_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "Camera.png");
+	public static final Image CAMERA_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "Camera.png");
 
-	public static final Image MESSAGE_BOX_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "message_box.png");
-	public static final Image MESSAGE_BOX_ARROW_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "message_box_arrow.png");
+	public static final Image MESSAGE_BOX_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "message_box.png");
+	public static final Image MESSAGE_BOX_ARROW_IMAGE = Toolkit.getDefaultToolkit().getImage(
+			IMAGE_PATH + "message_box_arrow.png");
 
 	// Part Images
 	@Deprecated
-	public static final Image PART_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "samplepart.png");
+	public static final Image PART_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "samplepart.png");
 
 	// Part Images
 	public static final String BAD_PART_IMAGE_PATH = IMAGE_PATH + "bad_part_";
@@ -194,12 +162,10 @@ public abstract class Constants {
 	// Bin Images
 	public static final String BIN_IMAGE_PATH = IMAGE_PATH + "bin_";
 
-	public static final Image BIN_EMPTY_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage("");
+	public static final Image BIN_EMPTY_IMAGE = Toolkit.getDefaultToolkit().getImage("");
 
 	// Kit & Inspection Stand Images
-	public static final Image STAND_IMAGE = Toolkit.getDefaultToolkit()
-			.getImage(IMAGE_PATH + "stand.png");
+	public static final Image STAND_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "stand.png");
 	public static final Image ORANGE_STAND_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "orange_stand.png");
 
@@ -213,8 +179,8 @@ public abstract class Constants {
 	public static final int LANE_BEG_X = 850, LANE_END_X = 640; // 850, 640
 
 	public static final int NEST_WIDTH = 75, NEST_HEIGHT = 70;
-	
-	//Trainers
+
+	// Trainers
 	public static final Image OAK_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "oak.png");
 	public static final Image JOY_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "nursejoy.png");
 	public static final Image GARY_IMAGE = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH + "gary.png");
@@ -323,9 +289,7 @@ public abstract class Constants {
 
 	public static final String KIT_ROBOT_LOGIC_PICKS_INSPECTION_TO_LOCATION2 = "robot logic moves goodconveyor to loc2";
 	public static final String KIT_ROBOT_DISPLAY_PICKS_INSPECTION_TO_LOCATION2 = "robot disploay moves goodconveyor to loc2";
-	
-	
-	
+
 	public static final String KIT_ROBOT_ON_INSPECTION_DONE = "robot display sends to robot logic that kit to inspeciton is done";
 	public static final String KIT_ROBOT_ON_STAND1_DONE = "robot display sends to robot logic that kit to stand1 is done";
 	public static final String KIT_ROBOT_ON_STAND2_DONE = "robot display sends to robot logic that kit to stand2 is done";
@@ -359,7 +323,7 @@ public abstract class Constants {
 	public static final String STAND_GIVE_KIT_COMMAND = "stand give kit";
 	public static final String STAND_RECEIVE_PART_COMMAND = "stand receive part";
 	public static final String STAND_GIVES_BACK_TO_ANOTHER_STAND = "inspection stand gives back to";
-	
+
 	// gantry logic to display commands
 
 	public static final String GANTRY_ROBOT_MOVE_TO_LOC_COMMAND = "move";
@@ -379,7 +343,7 @@ public abstract class Constants {
 	public static final String PARTS_ROBOT_GIVE_COMMAND = "give";
 	// parts robot go to kit
 	public static final String PARTS_ROBOT_DROP_COMMAND = "drop";
-	//drop part
+	// drop part
 	public static final String PARTS_ROBOT_GO_KIT_COMMAND = "gokit";
 	// end partsrobot logic to display commands
 	public static final String PARTS_ROBOT_RECEIVE_PART_COMMAND = "receivepart";
@@ -387,8 +351,7 @@ public abstract class Constants {
 	public static final String PARTS_ROBOT_GIVE_PART_COMMAND = "givepart";
 	// give part to kit
 	public static final String PARTS_ROBOT_DROP_PART_COMMAND = "droppart";
-	//drop part from arm
-	
+	// drop part from arm
 
 	// nest logic to display commands
 	public static final String NEST_RECEIVE_PART_COMMAND = "nestrecpart";
@@ -448,20 +411,13 @@ public abstract class Constants {
 	// UI TOOLS
 	// ==================================
 
-	public static final Border PADDING = BorderFactory.createEmptyBorder(20,
-			20, 20, 20);
-	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(
-			5, 5, 5, 5);
-	public static final Border MEDIUM_PADDING = BorderFactory
-			.createEmptyBorder(10, 10, 10, 10);
-	public static final Border LIGHT_BOTTOM_PADDING = BorderFactory
-			.createEmptyBorder(0, 0, 5, 0);
-	public static final Border BOTTOM_PADDING = BorderFactory
-			.createEmptyBorder(0, 0, 20, 0);
-	public static final Border TOP_PADDING = BorderFactory.createEmptyBorder(
-			20, 0, 5, 0);
-	public static final Border VERTICAL_PADDING = BorderFactory
-			.createEmptyBorder(10, 0, 10, 0);
+	public static final Border PADDING = BorderFactory.createEmptyBorder(20, 20, 20, 20);
+	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+	public static final Border MEDIUM_PADDING = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+	public static final Border LIGHT_BOTTOM_PADDING = BorderFactory.createEmptyBorder(0, 0, 5, 0);
+	public static final Border BOTTOM_PADDING = BorderFactory.createEmptyBorder(0, 0, 20, 0);
+	public static final Border TOP_PADDING = BorderFactory.createEmptyBorder(20, 0, 5, 0);
+	public static final Border VERTICAL_PADDING = BorderFactory.createEmptyBorder(10, 0, 10, 0);
 
 	// Agent constants for StringUtil
 	/** The number of milliseconds in a second */
