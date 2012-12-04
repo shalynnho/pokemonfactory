@@ -16,6 +16,7 @@ public class PartType implements Serializable, FactoryData {
 	private String description = "";
 	private String imagePath;
 	private boolean invisible;
+
 	// private Image image;
 
 	public boolean isInvisible() {
@@ -46,7 +47,7 @@ public class PartType implements Serializable, FactoryData {
 		imagePath = name;
 		invisible = false;
 	}
-	
+
 	public PartType(String s, int num, String desc, float chance) {
 		name = s;
 		partNum = num;
@@ -57,14 +58,17 @@ public class PartType implements Serializable, FactoryData {
 		invisible = false;
 	}
 
+	@Override
 	public String toString() {
 		return getName();
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -93,45 +97,45 @@ public class PartType implements Serializable, FactoryData {
 		this.badChance = badChance;
 	}
 
+	@Override
 	public String getID() {
 		return id;
 	}
 
 	public Image getImage() {
-		return Toolkit.getDefaultToolkit().getImage(
-				Constants.PART_IMAGE_PATH + imagePath + ".png");
+		return Toolkit.getDefaultToolkit().getImage(Constants.PART_IMAGE_PATH + imagePath + ".png");
 	}
-	
-	//Added this for testing --Neetu
+
+	// Added this for testing --Neetu
 	public Image getPokeballImage() {
-		return Toolkit.getDefaultToolkit().getImage(
-				Constants.BALL_IMAGE + imagePath + ".png");
+		return Toolkit.getDefaultToolkit().getImage(Constants.BALL_IMAGE + imagePath + ".png");
 	}
 
 	public Image getBinImage() {
-		return Toolkit.getDefaultToolkit().getImage(
-				Constants.BIN_IMAGE_PATH + imagePath + ".png");
+		return Toolkit.getDefaultToolkit().getImage(Constants.BIN_IMAGE_PATH + imagePath + ".png");
 	}
 
 	public Image getBadImage() {
-		return Toolkit.getDefaultToolkit().getImage(
-				Constants.BAD_PART_IMAGE_PATH + imagePath + ".png");
+		return Toolkit.getDefaultToolkit().getImage(Constants.BAD_PART_IMAGE_PATH + imagePath + ".png");
 	}
 
 	public Image getBadPokeballImage() {
-		return Toolkit.getDefaultToolkit().getImage(
-				Constants.BALL_IMAGE + "bad" + ".png");
+		return Toolkit.getDefaultToolkit().getImage(Constants.BALL_IMAGE + "bad" + ".png");
 	}
 
 	public boolean equals(PartType pt) {
-		return this.id.equals(pt.getID());
+		if (pt != null) {
+			return this.id.equals(pt.getID());
+		} else {
+			return false;
+		}
 	}
-	
-	public void setImagePath (String newImagePath) {
+
+	public void setImagePath(String newImagePath) {
 		imagePath = newImagePath;
 	}
-	
-	public String getImagePath () {
+
+	public String getImagePath() {
 		return imagePath;
 	}
 }
