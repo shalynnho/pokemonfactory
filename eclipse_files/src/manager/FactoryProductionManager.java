@@ -46,7 +46,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 	// Create a new control panel for the FPM
 	private FactoryProductionManagerPanel fpmPanel;
 
-	//private final FPMMusicAgent musicAgent;
+	// private final FPMMusicAgent musicAgent;
 	// Background music - Goldenrod City
 	private Clip music, pokeflute, recovery, completed, messageTone;
 
@@ -154,7 +154,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(messageToneURL);
 			messageTone = AudioSystem.getClip();
@@ -166,15 +166,16 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		if (music != null) {
 			music.loop(Clip.LOOP_CONTINUOUSLY);
 		}
-		
+
 	}
-	
+
 	public void stopMusic() {
 		if (music.isRunning()) {
 			music.stop();
 		}
 	}
 
+	@Override
 	public void startMusic() {
 		stopCompleted();
 		stopPokeflute();
@@ -185,6 +186,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		}
 	}
 
+	@Override
 	public void startPokeflute() {
 		if (pokeflute != null) {
 			stopMusic();
@@ -209,6 +211,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 		}
 	}
 
+	@Override
 	public void startRecovery() {
 		if (recovery != null) {
 			stopMusic();
@@ -257,34 +260,34 @@ public class FactoryProductionManager extends Client implements ActionListener {
 			completed.stop();
 		}
 	}
-	
+
+	@Override
 	public void startMessageTone() {
 		messageTone.setFramePosition(0);
 		messageTone.start();
 	}
 
-
-//	@Override
-//	public void startPokeflute() {
-//		musicAgent.msgStartPokeflute();
-//	}
-//
-//	@Override
-//	public void startRecovery() {
-//		musicAgent.msgStartRecovery();
-//	}
-//
-//	public void setConveyorExitTrue() {
-//		((ConveyorGraphicsDisplay) devices.get(Constants.CONVEYOR_TARGET)).setExit(true);
-//	}
-//
-//	public void startCompleted() {
-//		musicAgent.msgStartCompleted();
-//	}
-//
-//	public void startMessageTone() {
-//		musicAgent.msgStartMessageTone();
-//	}
+	// @Override
+	// public void startPokeflute() {
+	// musicAgent.msgStartPokeflute();
+	// }
+	//
+	// @Override
+	// public void startRecovery() {
+	// musicAgent.msgStartRecovery();
+	// }
+	//
+	// public void setConveyorExitTrue() {
+	// ((ConveyorGraphicsDisplay) devices.get(Constants.CONVEYOR_TARGET)).setExit(true);
+	// }
+	//
+	// public void startCompleted() {
+	// musicAgent.msgStartCompleted();
+	// }
+	//
+	// public void startMessageTone() {
+	// musicAgent.msgStartMessageTone();
+	// }
 
 	/**
 	 * Forward network requests to devices or panel for processing
@@ -302,6 +305,8 @@ public class FactoryProductionManager extends Client implements ActionListener {
 				fpmPanel.updateOrders(o);
 				if (o.size() == 0) {
 					startCompleted();
+					((MessagingBoxGraphicsDisplay) devices.get(Constants.MESSAGING_BOX_TARGET))
+							.updateDisplayMessage("Professor Oak: Order Completed!");
 				}
 			} else if (req.getCommand().equals(Constants.FCS_SHIPPED_KIT)) {
 				fpmPanel.decreaseCurrentKitCount();
@@ -341,7 +346,7 @@ public class FactoryProductionManager extends Client implements ActionListener {
 
 	/**
 	 * This function handles painting of graphics
-	 */ 
+	 */
 	@Override
 	public void paintComponent(Graphics gg) {
 		Graphics2D g = (Graphics2D) gg;
