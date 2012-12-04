@@ -306,7 +306,10 @@ public class FactoryProductionManager extends Client implements ActionListener {
 				if (o.size() == 0) {
 					startCompleted();
 					((MessagingBoxGraphicsDisplay) devices.get(Constants.MESSAGING_BOX_TARGET))
-							.updateDisplayMessage("Professor Oak: Order Completed!");
+							.updateDisplayMessage("Professor Oak: All orders completed!");
+				} else {
+					((MessagingBoxGraphicsDisplay) devices.get(Constants.MESSAGING_BOX_TARGET))
+							.updateDisplayMessage("Professor Oak: Order completed!");
 				}
 			} else if (req.getCommand().equals(Constants.FCS_SHIPPED_KIT)) {
 				fpmPanel.decreaseCurrentKitCount();
