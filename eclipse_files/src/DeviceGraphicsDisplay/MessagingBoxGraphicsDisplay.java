@@ -48,10 +48,15 @@ public class MessagingBoxGraphicsDisplay extends DeviceGraphicsDisplay {
 	@Override
 	public void receiveData(Request req) {
 		if (req.getCommand().equals(Constants.MSGBOX_DISPLAY_MSG)) {
-			client.startMessageTone();
-			msgToDisplay = (String) req.getData();
-			charsDisplayed = 0;
+			updateDisplayMessage((String) req.getData());
+
 		}
+	}
+
+	public void updateDisplayMessage(String message) {
+		client.startMessageTone();
+		msgToDisplay = message;
+		charsDisplayed = 0;
 	}
 
 	public void drawMessage(String s, JComponent c, Graphics2D g) {
