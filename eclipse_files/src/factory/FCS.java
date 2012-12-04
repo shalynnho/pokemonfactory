@@ -61,8 +61,6 @@ public class FCS {
 		if (queue.get(0) != null) {
 			if (queue.get(0).getNumKits() > 0) {
 				displayMessage("Professor Oak: Kit Completed!");
-			} else {
-				displayMessage("Professor Oak: You've completed an order!");
 			}
 		}
 	}
@@ -178,8 +176,7 @@ public class FCS {
 				productionStarted = true;
 			}
 		}
-		displayMessage("Professor Oak: Ordered " + o.getNumKits() + (o.getNumKits() == 1 ? " kit" : " kits") + " of "
-				+ o.getConfig().getName());
+		displayMessage("Professor Oak: Ordered " + o.getConfig().getName() + " x" + o.getNumKits());
 	}
 
 	public void startProduction() {
@@ -226,7 +223,7 @@ public class FCS {
 		} else if (req.getCommand().equals(Constants.FCS_STOP_LANE)) {
 			agent.msgBreakLane((Integer) req.getData());
 			displayMessage("Professor Oak: The lane broke!");
-		} else if(req.getClass().equals(Constants.MSGBOX_DISPLAY_MSG)) {
+		} else if (req.getClass().equals(Constants.MSGBOX_DISPLAY_MSG)) {
 			String s = (String) req.getData();
 			displayMessage(s);
 		}
